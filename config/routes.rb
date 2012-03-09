@@ -1,4 +1,8 @@
 Ver01::Application.routes.draw do
+  get "contactus/intro"
+
+  get "contactus/hire"
+
   get "admin" =>'admin#index'
   
   controller :sessions do
