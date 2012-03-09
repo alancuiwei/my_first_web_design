@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <th>策略名称</th>
+    <th>策略描述</th>
+  </tr>
+
+<% @strategywebs.each do |strategyweb| %>
+  <tr>
+    <td><%= link_to strategyweb.name,strategyweb %></td>
+    <td><%= link_to strategyweb.description,strategyweb %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to '新建策略', new_strategyweb_path %>

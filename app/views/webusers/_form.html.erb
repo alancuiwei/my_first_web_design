@@ -1,0 +1,41 @@
+<%= form_for(@webuser) do |f| %>
+  <% if @webuser.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@webuser.errors.count, "error") %> prohibited this webuser from being saved:</h2>
+
+      <ul>
+      <% @webuser.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+  <legend>Enter User Details </legend>
+  
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :size=>40 %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :password, 'Password' %><br />
+    <%= f.password_field :password, :size=>40 %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :passowrd_confirmation, 'Confirm' %><br />
+    <%= f.password_field :password_confirmation, :size=>40 %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  </fieldset>
+<% end %>

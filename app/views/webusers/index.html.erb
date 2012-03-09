@@ -1,0 +1,25 @@
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @webusers.each do |webuser| %>
+  <tr>
+    <td><%= webuser.name %></td>
+    <td><%= webuser.email %></td>
+    <td><%= link_to 'Show', webuser %></td>
+    <td><%= link_to 'Edit', edit_webuser_path(webuser) %></td>
+    <td><%= button_to 'Destroy', webuser, :method=> :delete %></td>
+	</tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Webuser', new_webuser_path %>
+

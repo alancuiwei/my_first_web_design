@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>通天顺主页</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag	 "screen",:media =>"all" %>
+  <%= stylesheet_link_tag	 "myown",:media =>"all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<div class="container">
+	<div class ="navbar span-24">
+	<ul>
+		<li><%= link_to "首页",:controller =>"home",:action=>"index" %></li>
+		<li><%= link_to "策略性能",strategywebs_path %></li>
+		<li><a href="#">策略配置</a></li>
+	</ul>
+	</div>
+	<hr/>
+<body>
+
+<%= yield %>
+
+</body>
+</div>
+</html>

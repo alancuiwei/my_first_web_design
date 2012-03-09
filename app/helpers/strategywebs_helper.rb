@@ -1,0 +1,2 @@
+module StrategywebsHelper
+end

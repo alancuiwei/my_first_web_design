@@ -1,0 +1,60 @@
+
+<!-- <META HTTP-EQUIV="Refresh" content="10"> -->
+	<script language="Javascript">
+		function loadpricetable(){
+		new Ajax.Updater('rtpricetable','/strategywebs/rtprice',{asynchronous:true, evalScripts:true})
+		}
+	</script>
+
+<div class = "slider2">
+<div class = "slice12">
+	<h2>Strategy Performance </h2>
+</div>
+</div>
+<div class ="clr"></div>
+<div class = "body">
+	<div class = "body_resize">
+		<div class="News">
+			<h2>策略池</h2>
+			<ul>
+			<li><a href="#">羽根英树策略</a></li>
+			<li><a href="#">跨期成本套利策略</a></li>
+			<li><a href="#">Repair</a></li>
+			<li><a href="#">Support</a></li>
+			<li><a href="#">We really do care</a></li>
+			</ul>
+			<p></p>
+		</div>
+
+		<p>
+		  <b>Name:</b>
+		  <%= @strategyweb.name %>
+		</p>
+
+		<p>
+		  <b>Id:</b>
+		  <%= @strategyweb.id %>
+		</p>
+
+		<p>
+		  <b>StrategyId:</b>
+		  <%= @strategyweb.strategyid %>
+		</p>
+
+		<p>
+		  <b>Description:</b>
+		  <%= @strategyweb.description %>
+		</p>
+
+		<p>
+		  <b>Image url:</b>
+		  <%= @strategyweb.image_url %>
+		</p>
+
+
+		<%= link_to 'Edit', edit_strategyweb_path(@strategyweb) %> |
+		<%= link_to 'Back', strategywebs_path %>
+
+		</div>
+		<div class="clr"></div>
+	</div>

@@ -1,0 +1,22 @@
+<%= form_tag do %>
+		<fieldset>
+			<legend>请对下面参数进行配置</legend>
+			
+			<div>
+				<lable for="period">时间周期</lable>
+				<%= text_field_tag :period, params[:period] %>
+			</div>
+			<div>
+				<lable for="losses">ֹ止损点</lable>
+				<%= text_field_tag :losses, params[:losses] %>
+			</div>
+			<div>
+				<lable for="wins">ֹ止赢点</lable>
+				<%= text_field_tag :wins, params[:wins] %>
+			</div>
+
+			<div>
+				<%= submit_tag "配置" %>
+			</div>
+		</fieldset>
+<% end %>
