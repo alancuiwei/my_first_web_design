@@ -1,0 +1,26 @@
+	<table>
+	  <tr>
+		<th>合约号</th>
+		<th>近月合约价格</th>
+		<th>远月合约价格</th>
+		<th>最新价差</th>
+		<th>持仓成本</th>
+		<th>年化收益率</th>
+	  </tr>
+	<% rtxmlvalue = XmlSimple::xml_in('public/norisktradepair/SpreadCost/CSpreadCostStrRunOnTime.xml') %>
+	<% rtvalue = rtxmlvalue['pair'] %>
+	<% rtvalue.each do |rt| %>
+		<tr>
+		<td><%= rt["name"][0] %> </td>
+		<td><%= rt["firstprice"][0] %></td>
+		<td><%= rt["secondprice"][0] %></td>
+		<td><%= rt["diffprice"][0] %></td>
+		<td><%= rt["computearbfee"][0] %></td>
+		<td><%= rt["computerateofreturn"][0] %></td>
+		<td><%= rt["time"][0] %></td>
+		<td><%= Time.now.to_s %></td>
+
+		</tr>
+	<% end %>
+
+	</table>
