@@ -1,6 +1,6 @@
 class WebusersController < ApplicationController
   before_filter :authenticate
-  layout "admin"
+#  layout "admin"
   # GET /webusers
   # GET /webusers.json
   def index

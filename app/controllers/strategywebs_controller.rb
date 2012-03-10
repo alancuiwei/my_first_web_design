@@ -35,7 +35,7 @@ class StrategywebsController < ApplicationController
     @strategywebs = Strategyweb.all
 
     respond_to do |format|
-      format.html {render:layout=>'admin'}
+      format.html
       format.json { render json: @strategywebs }
     end
   end
@@ -47,7 +47,7 @@ class StrategywebsController < ApplicationController
     @strategyweb = Strategyweb.find(params[:id])
 
     respond_to do |format|
-      format.html {render:layout=>'admin'}
+      format.html
 #      format.json { render json: @strategyweb }
     end
   end
@@ -86,7 +86,7 @@ class StrategywebsController < ApplicationController
     @strategyweb = Strategyweb.new
 
     respond_to do |format|
-      format.html { render:layout => 'admin'}
+      format.html
       format.json { render json: @strategyweb }
     end
   end
@@ -94,7 +94,7 @@ class StrategywebsController < ApplicationController
   # GET /strategywebs/1/edit
   def edit
     @strategyweb = Strategyweb.find(params[:id])
-	render:layout => 'admin'
+#	render:layout => 'admin'
   end
 
   # POST /strategywebs
