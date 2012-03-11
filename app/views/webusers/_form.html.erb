@@ -13,28 +13,28 @@
   <% end %>
 
   <fieldset>
-  <legend>Enter User Details </legend>
+  <legend>用户注册</legend>
   
   <div class="field">
-    <%= f.label :name %><br />
+    <%= f.label :用户名 %><br />
     <%= f.text_field :name, :size=>40 %>
   </div>
   
   <div class="field">
-    <%= f.label :password, 'Password' %><br />
+    <%= f.label :password, '请设置密码' %><br />
     <%= f.password_field :password, :size=>40 %>
   </div>
   
   <div class="field">
-    <%= f.label :passowrd_confirmation, 'Confirm' %><br />
+    <%= f.label :passowrd_confirmation, '请确认密码' %><br />
     <%= f.password_field :password_confirmation, :size=>40 %>
   </div>
-  
+
   <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
+    <%= f.label :电子邮件 %><br />
+    <%= f.email_field :email %>
   </div>
-  
+
   <div class="actions">
     <%= f.submit %>
   </div>
