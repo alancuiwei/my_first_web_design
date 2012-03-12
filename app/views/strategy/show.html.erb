@@ -10,7 +10,7 @@
 
 <div class="slider2">
 <div class="slice12">
-  <h2>策略库</h2>
+  <h2>策略性能</h2>
 </div>
 </div>
 <div class="clr"></div>
@@ -24,6 +24,26 @@
   </ul>
 <p></p>
   </div>
+<div>
+<br><br>
+<a href="index.html" onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'"
+class="btnBb" >
+<span><span><span>Subscribe</span></span></span>
+ </a>
+
+<a href="index.html" onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'" 
+class="btnBb" id="button_addToMy">
+<span><span><span>Add to...</span></span></span>
+</a>
+
+<a href="index.html"onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'" 
+class="btnBb">
+<span><span><span>AutoTrade</span></span></span>
+</a>
+</div>
 <div class="frame">
 
 <% if (params[:id]=="2") then %>
@@ -120,6 +140,7 @@
 	  </tr>
 
 	  
+	  
 	  <% @streference.each do |sf| %>
 			  <tr class="nthtr">
 				<td>最低保证金需要金额</td>
@@ -195,6 +216,14 @@
 <% end %>
 
 <% if(params[:id]=="1") %>
+     <div class="ironbars">
+        <div class= irontxt>
+        <p> <%= @strategyweb.name %></p>
+        </div>
+        <%= link_to(image_tag("my_analyst.jpg",:class=>"my_analyst_image"),:controller=>"webuserstrategies",:action=>"index") %>
+
+      </div>
+
 	<script type="text/javascript">
 	var a = new PeriodicalExecuter(loadpricetable,1.0);
 //	loadpricetable();
@@ -203,6 +232,7 @@
 	<div id="rtpricetable">
 	</div>
 <% end %>
+
 
 </div>
 

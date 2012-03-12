@@ -1,4 +1,6 @@
 Ver01::Application.routes.draw do
+  resources :webuserstrategies
+
   get "strategy/index"
 
   get "strategy/performance"

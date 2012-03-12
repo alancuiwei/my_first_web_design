@@ -5,7 +5,9 @@ class SessionsController < ApplicationController
   def create
 	if webuser = Webuser.authenticate(params[:name], params[:password])
 		session[:webuser_name] = webuser.name
-		redirect_to admin_url
+    uri = session[:original_uri]
+    session[:original_uri] = nil
+		redirect_to{uri||home_url}
 	else
 		redirect_to login_url, :alert =>"Invalid user/password combination"
 	end

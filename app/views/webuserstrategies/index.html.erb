@@ -1,0 +1,29 @@
+<h1>Listing webuserstrategies</h1>
+
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Strategyid</th>
+    <th>Paraname</th>
+    <th>Paravalue</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @webuserstrategies.each do |webuserstrategy| %>
+  <tr>
+    <td><%= webuserstrategy.username %></td>
+    <td><%= webuserstrategy.strategyid %></td>
+    <td><%= webuserstrategy.paraname %></td>
+    <td><%= webuserstrategy.paravalue %></td>
+    <td><%= link_to 'Show', webuserstrategy %></td>
+    <td><%= link_to 'Edit', edit_webuserstrategy_path(webuserstrategy) %></td>
+    <td><%= link_to 'Destroy', webuserstrategy, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Webuserstrategy', new_webuserstrategy_path %>

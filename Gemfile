@@ -11,6 +11,8 @@ gem 'mysql2','0.3.11'
 
 gem 'xml-simple','1.1.1'
 
+gem 'magic_encoding','0.0.2'
+
 gem 'rufus-scheduler','2.0.16'
 
 # Gems used only for assets and not required
