@@ -4,7 +4,7 @@ require 'xmlsimple'
 require 'builder'
 
 class StrategyController < ApplicationController
-  layout "rttabletemplate",:only=>:rtprice
+#  layout "rttabletemplate",:only=>:rtprice
 
   def index
     @strategywebs = Strategyweb.find(:all)
@@ -17,6 +17,7 @@ class StrategyController < ApplicationController
   end
 
   def rtprice
+      render:layout=>'rttabletemplate'
   end
 
   def show
