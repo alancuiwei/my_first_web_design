@@ -7,7 +7,13 @@ class SessionsController < ApplicationController
 		session[:webuser_name] = webuser.name
     uri = session[:original_uri]
     session[:original_uri] = nil
-		redirect_to{uri||home_url}
+    if uri then
+      redirect_to uri
+    else
+      redirect_to webuserstrategies_url
+    end
+#		redirect_to {uri||webuserstrategies_url}
+#		redirect_to webuserstrategies_url
 	else
 		redirect_to login_url, :alert =>"Invalid user/password combination"
 	end

@@ -17,11 +17,18 @@ class WebuserstrategiesController < ApplicationController
   # GET /webuserstrategies/1
   # GET /webuserstrategies/1.json
   def show
-    @webuserstrategy = Webuserstrategy.find(params[:id])
-
+    strategyinstance = Strategyweb.find(params[:id])
+    mystrategyid = strategyinstance.strategyid
+    myusername = session[:webuser_name]
+    @webuserstrategy = Webuserstrategy.find_by_username_and_strategyid(myusername,mystrategyid)
+    if !@webuserstrategy then
+       @webuserstrategy = Webuserstrategy.new
+       render action: "new"
+    else
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @webuserstrategy }
+    end
     end
   end
 
@@ -87,9 +94,9 @@ class WebuserstrategiesController < ApplicationController
 
 protected
   def authorize
-    unless Webuser.find_by_id(session[:id])
-      session[:original_uri] = request.request_uri
-      flash[:notice] = " 如果需要使用该功能，请先登录 "
+    unless Webuser.find_by_name(session[:webuser_name])
+      session[:original_uri] = request.fullpath
+#      flash[:notice] = " 如果需要使用该功能，请先登录 "
       redirect_to :controller => 'sessions', :action =>'new'
     end
   end
