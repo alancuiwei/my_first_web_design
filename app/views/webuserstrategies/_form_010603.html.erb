@@ -13,18 +13,14 @@
 
   <div class="field">
     <%= f.label :username %><br />
-    <%= f.text_field :username %>
+    <%= f.text_field :username,:value=>session[:webuser_name],:readonly=>true; %>
   </div>
   <div class="field">
-    <%= f.label :strategyid %><br />
-    <%= f.text_field :strategyid %>
+      <%= f.label :strategyid %><br />
+      <%= f.text_field :strategyid,:value=>'010603',:readonly=>true; %>
   </div>
   <div class="field">
-    <%= f.label :paraname %><br />
-    <%= f.text_field :paraname %>
-  </div>
-  <div class="field">
-    <%= f.label :paravalue %><br />
+    <%= f.label :paravalue,'年化收益率' %><br />
     <%= f.text_field :paravalue %>
   </div>
   <div class="actions">
