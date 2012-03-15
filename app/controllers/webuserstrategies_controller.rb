@@ -6,6 +6,7 @@ class WebuserstrategiesController < ApplicationController
   # GET /webuserstrategies
   # GET /webuserstrategies.json
   def index
+#    @webuserstrategies = Webuserstrategy.find_all_by_username(session[:webuser_name])
     @webuserstrategies = Webuserstrategy.all
 
     respond_to do |format|

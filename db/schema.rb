@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120314021358) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "strategyweb_id"
+    t.integer  "webuser_id"
   end
 
 end
