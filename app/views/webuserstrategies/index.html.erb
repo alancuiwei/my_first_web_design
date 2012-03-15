@@ -22,15 +22,14 @@
   <tr>
     <th>策略名</th>
     <th>年化收益率</th>
+    <th>策略配置</th>
   </tr>
 
 <% @webuserstrategies.each do |webuserstrategy| %>
   <tr>
     <td><%= webuserstrategy.strategyid %></td>
     <td><%= webuserstrategy.paravalue %></td>
-    <td><%= link_to 'Show', webuserstrategy %></td>
     <td><%= link_to 'Edit', edit_webuserstrategy_path(webuserstrategy) %></td>
-    <td><%= link_to 'Destroy', webuserstrategy, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

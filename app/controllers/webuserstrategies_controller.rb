@@ -6,8 +6,8 @@ class WebuserstrategiesController < ApplicationController
   # GET /webuserstrategies
   # GET /webuserstrategies.json
   def index
-#    @webuserstrategies = Webuserstrategy.find_all_by_username(session[:webuser_name])
-    @webuserstrategies = Webuserstrategy.all
+    @webuserstrategies = Webuserstrategy.find_all_by_username(session[:webuser_name])
+#    @webuserstrategies = Webuserstrategy.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -56,7 +56,7 @@ class WebuserstrategiesController < ApplicationController
 
     respond_to do |format|
       if @webuserstrategy.save
-        format.html { redirect_to @webuserstrategy, notice: 'Webuserstrategy was successfully created.' }
+        format.html { redirect_to @webuserstrategy, notice: '策略已成功创建。' }
         format.json { render json: @webuserstrategy, status: :created, location: @webuserstrategy }
       else
         format.html { render action: "new" }
@@ -72,7 +72,7 @@ class WebuserstrategiesController < ApplicationController
 
     respond_to do |format|
       if @webuserstrategy.update_attributes(params[:webuserstrategy])
-        format.html { redirect_to @webuserstrategy, notice: 'Webuserstrategy was successfully updated.' }
+        format.html { redirect_to @webuserstrategy, notice: '策略已成功配置' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

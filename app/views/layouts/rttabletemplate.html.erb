@@ -1,4 +1,11 @@
 <table class="rttableformat">
+  <%  mysid = '010001' %>
+  <%  myuname = session[:webuser_name] %>
+  <%  @webuserstrategy = Webuserstrategy.find_by_username_and_strategyid(myuname,mysid) %>
+  <%  if !@webuserstrategy then%>
+    <p>您没有对该策略进行个性化配置，如果你想配置的话，请点击右边配置图标</p>
+  <% end %>
+
 	  <tr>
 		<th>合约号</th>
 		<th>近月合约价格</th>
@@ -26,7 +33,7 @@
 		</td>
 		<td>
 		<% if rt["diffprice"][0].to_i >0 %>
-		<%= number_to_percentage(100*(rt["computerateofreturn"][0].to_f),:precision=>1) %></td>
+		<%= number_to_percentage(100*(rt["computerateofreturn"][0].to_f),:precision=>1) %>
 		<% else %>
 		<%= "--" %>
 		<% end %>
@@ -35,6 +42,14 @@
 		<td><%= rt["time"][0] %></td>
 		<td><%= Time.now %></td>
 		</tr>
+
+          <%  if @webuserstrategy then%>
+            <% if rt["computerateofreturn"][0].to_f > 0.1%>
+                  <p>成交记录打印</p>
+                  <% else %>
+                  <p>无成交记录</p>
+            <% end %>
+          <% end %>
 	<% end %>
 
 	</table>

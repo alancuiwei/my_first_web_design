@@ -1,3 +1,4 @@
+
 <%= form_for(@webuserstrategy) do |f| %>
   <% if @webuserstrategy.errors.any? %>
     <div id="error_explanation">
@@ -12,11 +13,11 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :username %><br />
+    <%= f.label :用户名 %><br />
     <%= f.text_field :username,:value=>session[:webuser_name],:readonly=>true; %>
   </div>
   <div class="field">
-      <%= f.label :strategyid %><br />
+      <%= f.label :策略号 %><br />
       <%= f.text_field :strategyid,:value=>'010603',:readonly=>true; %>
   </div>
   <div class="field">
@@ -24,6 +25,6 @@
     <%= f.text_field :paravalue %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '策略配置' %>
   </div>
 <% end %>
