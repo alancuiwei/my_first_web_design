@@ -16,7 +16,7 @@
 		<th>更新时间</th>
 		<th>测试时间</th>
 	  </tr>
-	<% rtxmlvalue = XmlSimple::xml_in('public/norisktradepair/SpreadCost/CSpreadCostStrRunOnTime.xml') %>
+	<% rtxmlvalue = XmlSimple::xml_in('public/MyLib/SpreadCost/CSpreadCostStrRunOnTime.xml') %>
 	<% rtvalue = rtxmlvalue['pair'] %>
 	<% rtvalue.each do |rt| %>
 		<tr>
@@ -44,7 +44,7 @@
 		</tr>
 
           <%  if @webuserstrategy then%>
-            <% if rt["computerateofreturn"][0].to_f > 0.1%>
+            <% if rt["computerateofreturn"][0].to_f > 0%>
                   <p>成交记录打印</p>
                   <% else %>
                   <p>无成交记录</p>
