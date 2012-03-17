@@ -38,6 +38,40 @@ class StrategyController < ApplicationController
 
 		@traderecord = StrategypositionrecordT.find(:all,:conditions =>"closeposdate>'2011-12-15'")
 
+  #xml
+    mytime=Time.now
+    hour=mytime.strftime("%H")
+    min=mytime.strftime("%M")
+    sec=mytime.strftime("%S")
+    if hour=="23" && min=="59"&& min=="59"
+    @dwtest = XmlSimple::xml_in('public/test.xml')
+
+    str1="<graph caption='s Unit Sales' xAxisyear='s' yAxisyear='Units' showyears='1' decimalPrecision='0' formatNumberScale='0'> "
+    p=0
+    for k  in 2002..2011 do
+    for i  in 1..12 do
+      istr=i.to_s
+      kstr=k.to_s
+      str2="public/" +kstr+"/"+istr +".xml"
+      file = File.new(str2,'w')
+      file.puts str1
+      strxml = ''
+      doc = Builder::XmlMarkup.new(:target=>strxml,:indent=>2)
+    for j  in 1..31 do
+      if @dwtest['set'][p]["year"].to_f==k && @dwtest['set'][p]["month"].to_f==i
+      doc.set(:date=>j,:value=>@dwtest['set'][p]["value"])
+      p+=1
+      end
+    end
+      file.puts strxml
+      file.puts "</graph>"
+      file.close
+      end
+   end
+   end #time end
+
+  #xml
+
 	end
 
     if(params[:id]=="1") then

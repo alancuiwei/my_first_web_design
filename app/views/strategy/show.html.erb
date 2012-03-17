@@ -48,8 +48,95 @@ class="btnBb">
 
 <% if (params[:id]=="2") then %>
 
-	<p id="notice"><%= notice %></p>
+    <div id="chartdiv3" align="center"></div>
 
+	<script type="text/javascript">
+    myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChart", 600, 300, 0, 0);
+	myChart3.setDataURL("http://localhost:3000/assets/yearsData.xml");
+	myChart3.render("chartdiv3");
+    function y_2002()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2002.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2003()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2003.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2004()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2004.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2005()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2005.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2006()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2006.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2007()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2007.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2008()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2008.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2009()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2009.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2010()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2010.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2011()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2011.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2002_Jan()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/2002/1.xml");
+	myChart3.render("chartdiv3");
+	}
+	</script>
+
+      <select name="my" onchange="javascript:location.href=this.value;">
+        <option  selected="selected" >选择年份</option>
+        <option value="2002.html">2002</option>
+        <option value="2003.html">2003</option>
+        <option value="2004.html">2004</option>
+        <option value="2005.html">2005</option>
+        <option value="2006.html">2006</option>
+        <option value="2007.html">2007</option>
+        <option value="2008.html">2008</option>
+        <option value="2009.html">2009</option>
+        <option value="2010.html">2010</option>
+        <option value="2011.html">2011</option>
+    </select>
+
+	<p id="notice"><%= notice %></p>
 	<div class="anreturntable">
 		<h3><%= @strategyweb.name %></h3>
 			
