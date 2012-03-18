@@ -44,34 +44,60 @@ class StrategyController < ApplicationController
     min=mytime.strftime("%M")
     sec=mytime.strftime("%S")
     if hour=="23" && min=="59"&& min=="59"
-    @dwtest = XmlSimple::xml_in('public/test.xml')
-
-    str1="<graph caption='s Unit Sales' xAxisyear='s' yAxisyear='Units' showyears='1' decimalPrecision='0' formatNumberScale='0'> "
+    @dwtest = XmlSimple::xml_in('app/assets/javascripts/test.xml')
+    str1="<graph caption='Month' xAxisName='Days' yAxisName='Units' showvalues='0' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
+    str11="<graph caption='Year' xAxisName='Months' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
     p=0
     for k  in 2002..2011 do
     for i  in 1..12 do
       istr=i.to_s
       kstr=k.to_s
-      str2="public/" +kstr+"/"+istr +".xml"
+      str2="app/assets/javascripts/" +kstr+"/"+istr +".xml"
       file = File.new(str2,'w')
       file.puts str1
-      strxml = ''
-      doc = Builder::XmlMarkup.new(:target=>strxml,:indent=>2)
+      strxml1 = ''
+      doc = Builder::XmlMarkup.new(:target=>strxml1,:indent=>2)
     for j  in 1..31 do
       if @dwtest['set'][p]["year"].to_f==k && @dwtest['set'][p]["month"].to_f==i
-      doc.set(:date=>j,:value=>@dwtest['set'][p]["value"])
+      doc.set(:name=>j,:value=>@dwtest['set'][p]["value"])
       p+=1
       end
     end
-      file.puts strxml
+      file.puts strxml1
       file.puts "</graph>"
       file.close
       end
    end
+    #生成年
+    @dwtest1 = XmlSimple::xml_in('app/assets/javascripts/test.xml')
+     q=0
+      for a  in 2002..2011 do
+      astr=a.to_s
+      str22="app/assets/javascripts/YearsData/"+astr +".xml"
+      file = File.new(str22,'w')
+      file.puts str11
+      strxml2=''
+      doc1 = Builder::XmlMarkup.new(:target=>strxml2,:indent=>2)
+      #s=0 #月份记录
+    for b  in 1..12 do
+    for c  in 1..31 do
+      if @dwtest1['set'][q]["year"].to_f==a && @dwtest1['set'][q]["month"].to_f==b
+        q+=1
+         #file.puts s
+      end
+    end
+    #s+=1
+     q-=1
+      doc1.set(:name=>b,:value=>@dwtest1['set'][q]["value"])
+      q+=1
+    end
+      file.puts strxml2
+      file.puts "</graph>"
+      file.close
+    end
    end #time end
 
   #xml
-
 	end
 
     if(params[:id]=="1") then
