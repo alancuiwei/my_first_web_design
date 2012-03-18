@@ -1,0 +1,329 @@
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag "prototype.js" %>
+
+<!-- <META HTTP-EQUIV="Refresh" content="10"> -->
+<script language="Javascript">
+	function loadpricetable(){
+	new Ajax.Updater('rtpricetable','/strategy/rtprice',{asynchronous:true, evalScripts:true})
+	}
+</script>
+
+<div class="slider2">
+<div class="slice12">
+  <h2>策略性能</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize">
+  <div class="StrategyNews">
+  <h2>策略分类</h2>
+  <ul>
+    <li><%= link_to "无风险套利",:controller =>"strategy",:action =>"show",:id =>"1" %></li>
+    <li><%= link_to "羽根英树正向套利",:controller =>"strategy",:action =>"show",:id =>"2" %></li>
+  </ul>
+<p></p>
+  </div>
+<div>
+<br><br>
+<a href="index.html" onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'"
+class="btnBb" >
+<span><span><span>Subscribe</span></span></span>
+ </a>
+
+<a href="index.html" onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'" 
+class="btnBb" id="button_addToMy">
+<span><span><span>Add to...</span></span></span>
+</a>
+
+<a href="index.html"onMouseOut="this.style.backgroundColor='#369'" 
+onMouseOver="this.style.backgroundColor='#FF8000'" 
+class="btnBb">
+<span><span><span>AutoTrade</span></span></span>
+</a>
+</div>
+<div class="frame">
+
+<% if (params[:id]=="2") then %>
+
+    <div id="chartdiv3" align="center"></div>
+
+	<script type="text/javascript">
+    myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChart", 600, 300, 0, 0);
+	myChart3.setDataURL("http://localhost:3000/assets/yearsData.xml");
+	myChart3.render("chartdiv3");
+    function y_2002()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2002.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2003()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2003.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2004()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2004.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2005()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2005.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2006()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2006.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2007()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2007.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2008()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2008.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2009()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2009.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2010()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2010.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2011()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/YearsData/2011.xml");
+	myChart3.render("chartdiv3");
+	}
+    function y_2002_Jan()
+	{
+	var myChart3 = new FusionCharts("http://localhost:3000/assets/line.swf", "myChartId3", "600", "300");
+	myChart3.setDataURL("http://localhost:3000/assets/2002/1.xml");
+	myChart3.render("chartdiv3");
+	}
+	</script>
+
+      <select name="my" onchange="javascript:location.href=this.value;">
+        <option  selected="selected" >选择年份</option>
+        <option value="2002.html">2002</option>
+        <option value="2003.html">2003</option>
+        <option value="2004.html">2004</option>
+        <option value="2005.html">2005</option>
+        <option value="2006.html">2006</option>
+        <option value="2007.html">2007</option>
+        <option value="2008.html">2008</option>
+        <option value="2009.html">2009</option>
+        <option value="2010.html">2010</option>
+        <option value="2011.html">2011</option>
+    </select>
+
+	<p id="notice"><%= notice %></p>
+	<div class="anreturntable">
+		<h3><%= @strategyweb.name %></h3>
+			
+		<table class="tabledetailformat ">
+		  <tr>
+			<th>年</th>
+			<th>一月</th>
+			<th>二月</th>
+			<th>三月</th>
+			<th>四月</th>
+			<th>五月</th>
+			<th>六月</th>
+			<th>七月</th>
+			<th>八月</th>
+			<th>九月</th>
+			<th>十月</th>
+			<th>十一月</th>
+			<th>十二月</th>
+		  </tr>
+
+		  <% for year in (@existyears.first)..(@existyears.last) %>
+		  <tr>
+			<td class="td"><%= year %></td>
+
+			<% if(@strate[year][0].monthid!=1) then %>
+			<% for i in 1..(@strate[year][0].monthid-1) %>
+			<td></td>
+			<% end %>
+			<% end %>
+
+			<% @strate[year].each do |sr| %>
+			<td><%= number_to_percentage(100*sr.returnrate,:precision=>1) %> </td>
+			<% end %>
+		  </tr>
+		  <% end %>
+		
+		</table>
+	</div>
+	<div class="strategybrief">
+			<table rules=rows class="strategybrieftable">
+		<tr>
+		  <td>应用领域</td>
+		  <td><%= @strategyweb.strategytype %></td>
+		 </tr>
+		<tr>
+		  <td>策略属性</td>
+		  <td><%= @strategyweb.strategyattr %></td>
+		 </tr>
+		<tr>
+		  <td>策略创建时间</td>
+		  <td><%= @strategyweb.startdate %></td>
+		 </tr>
+		<tr>
+		  <td>策略开发人员</td>
+		  <td><%= @strategyweb.developer %></td>
+		 </tr>
+		</table>
+	</div>
+	<div class="traderecorddiv">
+	<table  class="traderecordtable" cellspacing="0" cellpadding="0">
+		<tr>
+			<td colspan="10"><strong>Hypothetical Trading Results</strong></td>
+		</tr>
+		<tr class="nthtr">
+			<td>开仓品种</td>
+			<td >开仓日期</td>
+			<td>平仓日期</td>
+			<td>开仓价差</td>
+			<td>平仓价差</td>
+			<td>保证金占用额</td>
+			<td>盈亏金额</td>
+		</tr>
+		<% @traderecord.each do |tradepos| %>
+		<tr>
+			<td><%= tradepos.tradeobject %></td>
+			<td><%= tradepos.openposdate %></td>
+			<td><%= tradepos.closeposdate %></td>
+			<td><%= tradepos.openposprice %></td>
+			<td><%= tradepos.closeposprice %></td>
+			<td><%= tradepos.marginaccount %></td>
+			<td><%= tradepos.profit %></td>
+		</tr>
+		<% end %>
+	</table></div>
+	<table class="performancetable" >
+	  <tr>
+		<th>所有数据都需要和最新实时行情结合</th>
+	  </tr>
+
+	  
+	  
+	  <% @streference.each do |sf| %>
+			  <tr class="nthtr">
+				<td>最低保证金需要金额</td>
+				<td><%= sf.minmarginaccount %></td>
+			  </tr>
+			  <tr>
+				<td>总利润</td>
+				<td><%= sf.totalnetprofit %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>总毛盈利</td>
+				<td><%= sf.grossprofit %></td>
+			  </tr>
+			  <tr>
+				<td>总毛亏损</td>
+				<td><%= sf.grossloss %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>平均月回报率</td>
+				<td><%= sf.avemonthreturn %></td>
+			  </tr>
+			  <tr>
+				<td>平均年回报率</td>
+				<td><%= sf.aveyearreturn %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>总交易天数</td>
+				<td><%= sf.toaltradingdays %></td>
+			  </tr>
+			  <tr>
+				<td>总交易次数</td>
+				<td><%= sf.totaltrades %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>日均交易次数</td>
+				<td><%= sf.avedaytrades %></td>
+			  </tr>
+			  <tr>
+				<td>盈利交易次数</td>
+				<td><%= sf.numwintrades %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>亏损交易次数</td>
+				<td><%= sf.numlosstrades %></td>
+			  </tr>
+			  <tr>
+				<td>交易胜率</td>
+				<td><%= sf.percentprofitable %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>最大单笔盈利金额</td>
+				<td><%= sf.largestwintrade %></td>
+			  </tr>
+			  <tr>
+				<td>最大单笔亏损金额</td>
+				<td><%= sf.largestlosstrade %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>平均每次交易盈亏金额</td>
+				<td><%= sf.avetrade %></td>
+			  </tr>
+			  <tr>
+				<td>最大资金回退金额</td>
+				<td><%= sf.maxdrawdown %></td>
+			  </tr>
+			  <tr class="nthtr">
+				<td>最大衰退期</td>
+				<td><%= sf.maxdrawdowndays %></td>
+			  </tr>
+		<% end %>
+
+	</table>
+<% end %>
+
+<% if(params[:id]=="1") %>
+     <div class="ironbars">
+        <div class= irontxt>
+        <p> <%= @strategyweb.name %></p>
+        </div>
+        <%= link_to(image_tag("my_analyst.jpg",:class=>"my_analyst_image"),:controller=>"webuserstrategies",:action=>"show",:id=>@strategyweb) %>
+
+      </div>
+
+	<script type="text/javascript">
+	var a = new PeriodicalExecuter(loadpricetable,1.0);
+//	loadpricetable();
+	</script>
+
+	<div id="rtpricetable">
+	</div>
+<% end %>
+
+
+</div>
+
+<div class="clr"></div>
+  </div>
+<div class="clr"></div>
+</div>

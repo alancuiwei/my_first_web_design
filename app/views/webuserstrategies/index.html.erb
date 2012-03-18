@@ -1,0 +1,46 @@
+<div class="slider2">
+<div class="slice12">
+  <h2><%= session[:webuser_name]%>订阅的策略</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize">
+
+  <div class="News">
+	  <h2>策略管理</h2>
+	  <ul>
+		<li><%= link_to "无风险策略配置",webuserstrategies_path %> </li>
+	  </ul>
+	  <p></p>
+  </div>
+  <div class="frame">
+
+<h2>您所定制的策略详情</h2>
+
+<table>
+  <tr>
+    <th>策略名</th>
+    <th>年化收益率</th>
+    <th>策略配置</th>
+  </tr>
+
+<% @webuserstrategies.each do |webuserstrategy| %>
+  <tr>
+    <td><%= webuserstrategy.strategyid %></td>
+    <td><%= webuserstrategy.paravalue %></td>
+    <td><%= link_to 'Edit', edit_webuserstrategy_path(webuserstrategy) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Webuserstrategy', new_webuserstrategy_path %>
+  </div>
+
+   <div class="clr"></div>
+      </div>
+    <div class="clr"></div>
+    </div>
+

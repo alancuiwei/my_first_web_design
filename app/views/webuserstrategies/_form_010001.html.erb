@@ -1,0 +1,30 @@
+
+<%= form_for(@webuserstrategy) do |f| %>
+  <% if @webuserstrategy.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@webuserstrategy.errors.count, "error") %> prohibited this webuserstrategy from being saved:</h2>
+
+      <ul>
+      <% @webuserstrategy.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :用户名 %><br />
+    <%= f.text_field :username,:value=>session[:webuser_name],:readonly=>true; %>
+  </div>
+  <div class="field">
+      <%= f.label :策略号 %><br />
+      <%= f.text_field :strategyid,:value=>'010603',:readonly=>true; %>
+  </div>
+  <div class="field">
+    <%= f.label :paravalue,'年化收益率' %><br />
+    <%= f.text_field :paravalue %>
+  </div>
+  <div class="actions">
+    <%= f.submit '策略配置' %>
+  </div>
+<% end %>

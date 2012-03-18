@@ -1,0 +1,43 @@
+<div class="slider2">
+<div class="slice12">
+  <h2><%= session[:webuser_name]%>,您的策略</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize">
+
+  <div class="News">
+	  <h2>策略管理</h2>
+	  <ul>
+		<li><%= link_to "用户管理",webusers_path %> </li>
+		<li><%= link_to "策略管理",strategywebs_path %></li>
+	  </ul>
+	  <p></p>
+  </div>
+  <div class="frame">
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>策略名</b>
+  <%= (Strategyweb.find_by_strategyid(@webuserstrategy.strategyid)).name %>
+</p>
+
+
+<p>
+  <b>您设置的年化收益率</b>
+  <%= number_to_percentage(100*@webuserstrategy.paravalue,:precision=>0) %>
+</p>
+
+
+<%= link_to '修改策略配置', edit_webuserstrategy_path(@webuserstrategy) %> |
+<%= link_to '返回策略性能', webuserstrategies_path %>
+
+  </div>
+
+   <div class="clr"></div>
+      </div>
+    <div class="clr"></div>
+    </div>
+

@@ -5,36 +5,49 @@
         <ul>
           <li>
             <div>
-              <p class="img"><%= image_tag "selecting.jpg",:size=>"539*292" %></p>
+              <p class="img">
+                <%= link_to(image_tag("selecting.jpg",:size=>"539*292"),:controller => "strategy",:action => "index") %>
+
+              </p>
               <h2>专业为您，<br />
 			  精心挑选，<br />
 			  盈利金融策略。</h2>
               <p>单边：趋势策略，震荡策略；<br />套利：跨期，跨产品，跨市场策略 <a href="#"></a></p>
-              <p><a href="#"><%= image_tag "more_information.gif",:size=>"133*30" %> </a></p>
+              <p>
+                <%= link_to(image_tag("more_information.gif",:size=>"133*30"),:controller => "strategy",:action => "index") %>
+              </p>
             </div>
           </li>
           <li>
             <div>
-              <p class="img"><%= image_tag "realtime.jpg",:size=>"539*292" %></p>
+              <p class="img">
+                <%= link_to(image_tag("realtime.jpg",:size=>"539*292"),:controller => "strategy",:action => "show",:id=>"1") %>
+              </p>
               <h2>实时展示 <br />
-                商品期货市场 <br />
+                商品市场 <br />
                 无风险套利</h2>
               <p>500毫秒刷新行情，<br />
 			  超过200多套利对，<br />
-			  捕捉所有盈利机会。<a href="#"></a></p>
-              <p><a href="#"><%= image_tag "more_information.gif",:size=>"133*30" %></a></p>
+			  捕捉所有盈利机会。</p>
+              <p>
+                <%= link_to(image_tag("more_information.gif",:size=>"133*30"),:controller => "strategy",:action => "show",:id=>"1") %>
+              </p>
             </div>
           </li>
           <li>
             <div>
-              <p class="img"><%= image_tag "customed.jpg",:size=>"539*292" %></p>
+              <p class="img">
+                <%= link_to(image_tag("customed.jpg",:size=>"539*292"),:controller => "webuserstrategies",:action => "index") %>
+              </p>
               <h2>亲身定制 <br />
                  实现,测试,运行<br />
                 金融市场策略。</h2>
               <p>简单上手，<br />
 			  定制您自己的交易策略，<br />
 			  免费帮您测试。<a href="#"></a></p>
-              <p><a href="#"><%= image_tag "more_information.gif",:size=>"133*30" %></a></p>
+              <p>
+                <%= link_to(image_tag("more_information.gif",:size=>"133*30"),:controller => "webuserstrategies",:action => "index") %>
+              </p>
             </div>
           </li>
         </ul>
@@ -48,7 +61,7 @@
         <h2 class="what">关于通天顺</h2>
         <p><strong>南京重人软件科技有限公司</strong> 研发维护。<br />重人软件是家专注于金融产品策略平台研发的企业。公司的创始团队具有多年国外软件公司，以及国内大型期货公司工作经验。<br />
         </p>
-        <p><a href="#">更多信息</a></p>
+        <p><%= link_to "更多信息",:controller =>"contactus",:action =>"intro" %></p>
       </div>
       <div class="blogi">
         <h2 class="Our">我们的服务</h2>
@@ -62,7 +75,7 @@
         <h2 class="work">诚聘人才</h2>
         <p><strong>软件工程师：</strong> 负责金融应用软件开发,1~2年软件开发经验,精通C/C++编程。<br />
         <strong>网站构架师：</strong>精通HTML,CSS编程，精通Javascriopt，熟悉网站构架，了解RoR为佳。</p>
-        <p><a href="#">更多信息</a></p>
+        <p><%= link_to "更多信息",:controller =>"contactus",:action =>"hire" %></p>
       </div>
       <div class="clr"></div>
     </div>

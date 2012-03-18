@@ -1,6 +1,6 @@
 class WebusersController < ApplicationController
-  before_filter :authenticate
-  layout "admin"
+#  before_filter :authenticate
+#  layout "admin"
   # GET /webusers
   # GET /webusers.json
   def index
@@ -84,10 +84,10 @@ class WebusersController < ApplicationController
   end
   protected
 
-  def authenticate
-    authenticate_or_request_with_http_basic do |username,password|
-      username == "admin" && password == "admin"
-    end
+#  def authenticate
+#    authenticate_or_request_with_http_basic do |username,password|
+#      username == "admin" && password == "admin"
+#    end
 
-  end
+#  end
 end

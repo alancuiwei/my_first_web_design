@@ -52,7 +52,7 @@
 		</table>
 	</div>
 	<div class="strategybrief">
-		<table rules=cols class="strategybrieftable">
+			<table rules=rows class="strategybrieftable">
 		<tr>
 		  <td>应用领域</td>
 		  <td><%= @strategyweb.strategytype %></td>
@@ -71,9 +71,10 @@
 		 </tr>
 		</table>
 	</div>
-	<table  class="traderecordtable" border="1" cellspacing="0" cellpadding="0">
+	<div class="traderecorddiv">
+	<table  class="traderecordtable" cellspacing="0" cellpadding="0">
 		<tr>
-			<td colspan="10"><h3>Hypothetical Trading Results</h3></td>
+			<td colspan="10"><strong>Hypothetical Trading Results</strong></td>
 		</tr>
 		<tr class="nthtr">
 			<td>开仓品种</td>
@@ -95,7 +96,7 @@
 			<td><%= tradepos.profit %></td>
 		</tr>
 		<% end %>
-	</table>
+	</table></div>
 	<table class="performancetable" >
 	  <tr>
 		<th>所有数据都需要和最新实时行情结合</th>

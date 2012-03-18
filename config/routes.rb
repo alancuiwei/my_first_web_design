@@ -1,4 +1,18 @@
 Ver01::Application.routes.draw do
+  resources :webuserstrategies
+
+  get "strategy/index"
+
+  get "strategy/performance"
+
+  get "strategy/show"
+
+  get "strategy/customization"
+
+  get "contactus/intro"
+
+  get "contactus/hire"
+
   get "admin" =>'admin#index'
   
   controller :sessions do
@@ -14,10 +28,10 @@ Ver01::Application.routes.draw do
 
   get "sessions/destroy"
   
-  get "strategywebs/rtprice" =>'strategywebs#rtprice'
-  get "strategywebs/strategyindex" =>'strategywebs#strategyindex'
-  get "strategywebs/strategyperformance" =>'strategywebs#strategyperformance'
-  get "strategywebs/strategyshow/:id" =>'strategywebs#strategyshow#:id'
+#  get "strategy/rtprice" =>'strategy#rtprice'
+#  get "strategywebs/strategyindex" =>'strategywebs#strategyindex'
+#  get "strategywebs/strategyperformance" =>'strategywebs#strategyperformance'
+#  get "strategywebs/strategyshow/:id" =>'strategywebs#strategyshow#:id'
 
   resources :webusers
 
