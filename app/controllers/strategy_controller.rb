@@ -37,14 +37,13 @@ class StrategyController < ApplicationController
 		@streference = StrategyreferenceT.find_all_by_rightid(strategy_id)
 
 		@traderecord = StrategypositionrecordT.find(:all,:conditions =>"closeposdate>'2011-12-15'")
-
   #xml
     mytime=Time.now
     hour=mytime.strftime("%H")
     min=mytime.strftime("%M")
     sec=mytime.strftime("%S")
     if hour=="23" && min=="59"&& min=="59"
-    @dwtest = XmlSimple::xml_in('app/assets/javascripts/test.xml')
+    @dwtest = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
     str1="<graph caption='Month' xAxisName='Days' yAxisName='Units' showvalues='0' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
     str11="<graph caption='Year' xAxisName='Months' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
     p=0
@@ -52,7 +51,7 @@ class StrategyController < ApplicationController
     for i  in 1..12 do
       istr=i.to_s
       kstr=k.to_s
-      str2="app/assets/javascripts/" +kstr+"/"+istr +".xml"
+      str2="public/strategyresults/010603/" +kstr+"/"+istr +".xml"
       file = File.new(str2,'w')
       file.puts str1
       strxml1 = ''
@@ -69,11 +68,11 @@ class StrategyController < ApplicationController
       end
    end
     #生成年
-    @dwtest1 = XmlSimple::xml_in('app/assets/javascripts/test.xml')
+    @dwtest1 = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
      q=0
       for a  in 2002..2011 do
       astr=a.to_s
-      str22="app/assets/javascripts/YearsData/"+astr +".xml"
+      str22="public/strategyresults/010603/YearsData/"+astr +".xml"
       file = File.new(str22,'w')
       file.puts str11
       strxml2=''
