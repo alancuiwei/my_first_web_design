@@ -41,27 +41,14 @@ $(document).ready(function(){
   <div class="header">
     <div class="block_header">
 	  <%= link_to(image_tag("logo.gif",:class=>"logoimage"),:controller=>"home",:action=>"index") %>
-      <% if session[:webuser_name]==nil then%>
-	  <div class="register">
-	  <%= link_to "注册", :controller=>"webusers",:action=>"new" %> 
-	  </div>
-      <div class="login">
-	  <%= link_to " 登录", :controller=>"sessions",:action=>"new" %>
-	  </div>
-	  <% else %>
-	  <div class="welcomeuser"><p>  
-	  您好，<%= session[:webuser_name] %>，我们为您准备的策略推荐，<%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
-	  </p></div>
-	  <% end %>
-	  
+
       <div class="clr"></div>
       <div class="menu">
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
-  		  <li><%= link_to "策略库",:controller => "strategy",:action => "index" %></li>
-          <li><%= link_to "个性化交易",:controller => "webuserstrategies",:action => "index" %></li>
-          <li><%= link_to "自动化交易",:controller => "autotrade",:action => "index" %></li>
-          <li><a href="portfolio.html">论坛</a></li>
+  		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"show",:id =>"1" %></li>
+          <li><%= link_to "个性化交易",:controller => "home",:action => "index" %></li>
+          <li><%= link_to "自动化交易",:controller => "home",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "intro" %></li>
         </ul>
       </div>

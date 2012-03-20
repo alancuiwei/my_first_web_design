@@ -1,11 +1,4 @@
 <table class="rttableformat">
-  <%  mysid = '010001' %>
-  <%  myuname = session[:webuser_name] %>
-  <%  @webuserstrategy = Webuserstrategy.find_by_username_and_strategyid(myuname,mysid) %>
-  <%  if !@webuserstrategy then%>
-    <p>您没有对该策略进行个性化配置，如果你想配置的话，请点击右边配置图标</p>
-  <% end %>
-  <% traderecord = Array.new %>
 	  <tr>
 		<th>合约号</th>
 		<th>近月合约价格</th>
@@ -43,44 +36,8 @@
 		<td><%= Time.now %></td>
 		</tr>
 
-        <%  if session[:webuser_name] then%>
-          <% if rt["computerateofreturn"][0].to_f > 0 %>
-              <% traderecord<<rt %>
-          <% end %>
-        <% end %>
 	<% end %>
 
 	</table>
 
-    <%  if session[:webuser_name] then%>
 
-        <% if traderecord.empty? %>
-            <p>没有符合您年化收益率要求的行情记录</p>
-        <% else %>
-            <table class="rttableformat">
-              <tr>
-                <th>合约号</th>
-                <th>近月合约价格</th>
-                <th>远月合约价格</th>
-                <th>最新价差</th>
-                <th>持仓成本</th>
-                <th>年化收益率</th>
-                <th>更新时间</th>
-                <th>测试时间</th>
-              </tr>
-              <% traderecord.each do |trecord| %>
-              <tr>
-                <td><%= trecord["name"][0] %> </td>
-                <td><%= trecord["firstprice"][0] %></td>
-                <td><%= trecord["secondprice"][0] %></td>
-                <td><%= trecord["diffprice"][0] %></td>
-                <td><%= trecord["computearbfee"][0] %></td>
-                <td><%= number_to_percentage(100*(trecord["computerateofreturn"][0].to_f),:precision=>1) %></td>
-                <td><%= trecord["time"][0] %></td>
-                <td><%= Time.now %></td>
-              </tr>
-              <% end %>
-            </table>
-        <% end %>
-
-    <% end %>
