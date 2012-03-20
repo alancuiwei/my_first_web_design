@@ -6,102 +6,105 @@
 	var mrootstr="http://localhost:3000/strategyresults/010603/2006/"
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(yrootstr+"2006.xml"); 
-	myChart3.render("chartdiv3");
-	function main()
+	myChart3.render("chartdiv3");	
+	function choice(month)
+	{
+	if(month.options[month.selectedIndex].value=="0")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(yrootstr+"2006.xml"); 
 	myChart3.render("chartdiv3");
-	}	
-	function y_Jan()
+	}
+	if(month.options[month.selectedIndex].value=="1")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"1.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Feb()
+	if(month.options[month.selectedIndex].value=="2")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"2.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Mar()
+	if(month.options[month.selectedIndex].value=="3")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"3.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-    function y_Apr()
+	if(month.options[month.selectedIndex].value=="4")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"4.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_May()
+	if(month.options[month.selectedIndex].value=="5")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"5.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Jun()
+	if(month.options[month.selectedIndex].value=="6")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"6.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Jul()
+	if(month.options[month.selectedIndex].value=="7")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"7.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Aug()
+	if(month.options[month.selectedIndex].value=="8")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"8.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Sep()
+	if(month.options[month.selectedIndex].value=="9")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"9.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Oct()
+	if(month.options[month.selectedIndex].value=="10")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"10.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Nov()
+	if(month.options[month.selectedIndex].value=="11")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"11.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
 	}
-	function y_Dec()
+	if(month.options[month.selectedIndex].value=="12")
 	{
 	var myChart3 = new FusionCharts(swfstr, "myChartId3", "600", "300"); 
 	myChart3.setDataURL(mrootstr+"12.xml"); 
-	myChart3.render("chartdiv3");	
+	myChart3.render("chartdiv3");
+	}
 	}
 	</script>
 	<center>
 	<form name="form" id="form">
-	<select>
-    <option onclick=main()>选择月份</option>
-	<option onclick=y_Jan()>1月</option>
-    <option onclick=y_Feb()>2月</option>
-    <option onclick=y_Mar()>3月</option>
-    <option onclick=y_Apr()>4月</option>
-    <option onclick=y_May()>5月</option>
-    <option onclick=y_Jun()>6月</option>
-    <option onclick=y_Jul()>7月</option>
-    <option onclick=y_Aug()>8月</option>
-    <option onclick=y_Sep()>9月</option>
-    <option onclick=y_Oct()>10月</option>
-    <option onclick=y_Nov()>11月</option>
-    <option onclick=y_Dec()>12月</option>
+	<select onchange=choice(this)>
+    <option value="0">选择月份</option>
+	<option value="1">1月</option>
+    <option value="2">2月</option>
+    <option value="3">3月</option>
+    <option value="4">4月</option>
+    <option value="5">5月</option>
+    <option value="6">6月</option>
+    <option value="7">7月</option>
+    <option value="8">8月</option>
+    <option value="9">9月</option>
+    <option value="10">10月</option>
+    <option value="11">11月</option>
+    <option value="12">12月</option>
 	</select>
 	</form>
 	</center>
