@@ -7,7 +7,6 @@
 <%= stylesheet_link_tag "style.css" %>
 <%= javascript_include_tag "jquery.js" %>
 <%= javascript_include_tag "easySlider1.5.js" %>
-  <%= javascript_include_tag "FusionCharts.js" %>
 <script type="text/javascript" charset="utf-8">
 
 // <![CDATA[
@@ -40,15 +39,13 @@ $(document).ready(function(){
 <div class="main">
   <div class="header">
     <div class="block_header">
-	  <%= link_to(image_tag("logo.gif",:class=>"logoimage"),:controller=>"home",:action=>"index") %>
+	  <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
 
       <div class="clr"></div>
       <div class="menu">
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"show",:id =>"1" %></li>
-          <li><%= link_to "个性化交易",:controller => "home",:action => "index" %></li>
-          <li><%= link_to "自动化交易",:controller => "home",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "intro" %></li>
         </ul>
       </div>
@@ -58,5 +55,4 @@ $(document).ready(function(){
 
 <%= yield %>
 </div>
-</body>
-</html>
+
