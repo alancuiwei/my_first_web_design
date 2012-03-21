@@ -1,9 +1,6 @@
 require 'digest/sha2'
 
 class Webuser < ActiveRecord::Base
-  has_many:webuserstrategies
-  has_many:strategywebs, :through => :webuserstrategies
-
 	validates :name, :presence =>true, :uniqueness =>true
 	validates :password, :confirmation =>true
 	attr_accessor :password_confirmation

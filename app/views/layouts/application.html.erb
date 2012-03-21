@@ -39,6 +39,18 @@ $(document).ready(function(){
   <div class="header">
     <div class="block_header">
 	  <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
+      <% if session[:webuser_name]==nil then%>
+	  <div class="register">
+	  <%= link_to "注册", :controller=>"webusers",:action=>"new" %> 
+	  </div>
+      <div class="login">
+	  <%= link_to " 登录", :controller=>"sessions",:action=>"new" %>
+	  </div>
+	  <% else %>
+	  <div class="welcomeuser"><p>  
+	  您好，<%= session[:webuser_name] %>，我们为您准备的策略推荐，<%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
+	  </p></div>
+	  <% end %>
 
       <div class="clr"></div>
       <div class="menu">
