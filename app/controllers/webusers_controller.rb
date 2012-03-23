@@ -44,7 +44,8 @@ class WebusersController < ApplicationController
 
     respond_to do |format|
       if @webuser.save
-        format.html { redirect_to(:controller=>"home", :action=>"index", :notice => "Webuser #{@webuser.name} was sucessfully created.")}
+	    session[:webuser_name] = @webuser.name
+        format.html { redirect_to(:controller=>"admin", :action=>"index")}
         format.json { render json: @webuser, status: :created, location: @webuser }
       else
         format.html { render action: "new" }

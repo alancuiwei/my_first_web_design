@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -38,18 +39,23 @@ $(document).ready(function(){
 <div class="main">
   <div class="header">
     <div class="block_header">
-	  <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
-      <% if session[:webuser_name]==nil then%>
-	  <div class="register">
-	  <%= link_to "注册", :controller=>"webusers",:action=>"new" %> 
-	  </div>
-      <div class="login">
-	  <%= link_to " 登录", :controller=>"sessions",:action=>"new" %>
-	  </div>
-	  <% else %>
-	  <div class="welcomeuser"><p>  
-	  您好，<%= session[:webuser_name] %>，我们为您准备的策略推荐，<%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
-	  </p></div>
+          <div class="logoimage">
+          <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
+          </div>
+
+          <% if session[:webuser_name]==nil then%>
+          <div class="register">
+          <%= link_to "注册", :controller=>"webusers",:action=>"new" %>
+          </div>
+
+          <div class="login">
+          <%= link_to " 登录", :controller=>"sessions",:action=>"new" %>
+          </div>
+          <% else %>
+          <div class="welcomeuser"><p>
+          您好，<%= session[:webuser_name] %>，我们为您准备的策略推荐，<%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
+          </p></div>
+
 	  <% end %>
 
       <div class="clr"></div>
