@@ -16,10 +16,6 @@ class StrategyController < ApplicationController
 
   end
 
-  def rtprice
-      render:layout=>'rttabletemplate'
-  end
-
   def show
     @strategyweb = Strategyweb.find(params[:id])
     commonpairid = "000000"
