@@ -1,6 +1,66 @@
-<h1>Editing webuser</h1>
+<div class="slider2">
+<div class="slice14">
+  <h2>个性化管理</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize_login">
+  <div class="StrategyNews">
+  <h2>账号管理</h2>
+  <ul>
+    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+  </ul>
+  <h2>策略管理</h2>
+  <ul>
+    <li>无风险套利</li>
+  </ul>
+<p></p>
+</div>   
 
-<%= render 'form' %>
+<%= form_for(@webuser) do |f| %>
 
-<%= link_to 'Show', @webuser %> |
-<%= link_to 'Back', webusers_path %>
+						<div style="margin:-18px 0 0 0;*margin:18px 0 0 0"><h3>个人信息管理</h3></div>
+<div style="margin:0 200px 0 0">
+<fieldset>
+						<div class="column">
+							<div>
+								<label>用户名:&nbsp;&nbsp;</label>
+								<input type="text" value=<%=@webuser.name%> size="20" readonly disabled>
+                            </div>
+						</div>
+						<br>
+						<div class="column">
+							<div>
+								<label>电子邮件:</label>
+								<%= f.email_field :email, :size=>20 %>
+							</div>
+						</div>
+						<br>
+						<div class="column">
+						<div>
+							<label>密码:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <%= f.password_field :password , :size=>20%>
+                        </div>
+						</div>
+						<br>
+						<div class="column">
+						    <div>
+								<label>密码确认:</label>
+                                <%= f.password_field :password_confirmation, :size=>20 %>
+                            </div>
+                        </div>
+						<br>
+						<div class="bottom">
+                            <div class="actions">
+							<%= f.submit value="确定"%>
+							</div>
+							<div class="clear"></div>
+                        </div>	
+						<% end %> 	
+  </fieldset>
+  </div>
+	<div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+</div>

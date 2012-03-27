@@ -1,25 +1,50 @@
+<div class="slider2">
+<div class="slice12">
+  <h2>管理员</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize_login">
+  <div class="StrategyNews">
+  <h2>用户管理</h2>
+  <ul>
+     <li><%= link_to "用户管理", webusers_path %></li>
+  </ul>
+  <h2>策略管理</h2>
+  <ul>
+  </ul>
+<p></p>
+</div>
 
 <table>
   <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>用户名</th>
+    <th>电子邮箱</th>
+    <th>查看用户</th>
+    <th>编辑用户</th>
+    <th>删除用户</th>
   </tr>
 
 <% @webusers.each do |webuser| %>
   <tr>
     <td><%= webuser.name %></td>
     <td><%= webuser.email %></td>
-    <td><%= link_to 'Show', webuser %></td>
-    <td><%= link_to 'Edit', edit_webuser_path(webuser) %></td>
-    <td><%= button_to 'Destroy', webuser, :method=> :delete %></td>
+    <td><%= link_to "查看", webuser %></td>
+    <td><%= link_to "编辑", edit_webuser_path(webuser) %></td>
+    <td><%= button_to "删除", webuser, :method=> :delete %></td>
 	</tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Webuser', new_webuser_path %>
+<%= link_to "添加新用户", new_webuser_path %>
+
+	<div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+
 

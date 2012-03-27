@@ -1,13 +1,17 @@
+#encoding: utf-8
 class WebusersController < ApplicationController
   # GET /webusers
   # GET /webusers.json
   def index
     @webusers = Webuser.order(:name)
-
+	if session[:webuser_name]=="feifan"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @webusers }
     end
+	else
+	redirect_to(:controller=>"home", :action=>"index")
+	end
   end
 
   # GET /webusers/1
@@ -45,7 +49,7 @@ class WebusersController < ApplicationController
     respond_to do |format|
       if @webuser.save
 	    session[:webuser_name] = @webuser.name
-        format.html { redirect_to(:controller=>"admin", :action=>"index")}
+        format.html { redirect_to(:controller=>"home", :action=>"index")}
         format.json { render json: @webuser, status: :created, location: @webuser }
       else
         format.html { render action: "new" }
@@ -61,8 +65,8 @@ class WebusersController < ApplicationController
 
     respond_to do |format|
       if @webuser.update_attributes(params[:webuser])
-        format.html { redirect_to(webuser_url, :notice => "Webuser #{@webuser.name} was sucessfully updated.") }
-        format.json { head :no_content }
+        format.html { redirect_to(webuser_url, :notice => "用户 #{@webuser.name} 的个人信息修改成功！") }
+        #format.json { head :no_content }
       else
         format.html { render action: "edit" }
         format.json { render json: @webuser.errors, status: :unprocessable_entity }
