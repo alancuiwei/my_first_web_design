@@ -15,6 +15,8 @@ Ver01::Application.routes.draw do
 
   get "admin" =>'admin#index'
   
+  get "usermanagement" =>'usermanagement#index'
+  
   controller :sessions do
 	get 'login' => :new
 	post 'login' => :create

@@ -2,6 +2,7 @@ class AdminController < ApplicationController
 #  before_filter :authenticate
 
   def index
+  @webuser = Webuser.find_by_name(session[:webuser_name])
   end
   def usrctr
   end
