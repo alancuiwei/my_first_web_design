@@ -35,7 +35,7 @@
      {
           xmlhttpobj = false;
           try{
-              xmlhttpobj = new ActiveXObject;
+			  xmlhttpobj=new ActiveXObject();
           }catch(e){
               try{
                   xmlhttpobj=new ActiveXObject("MSXML2.XMLHTTP");
@@ -47,6 +47,11 @@
                   }
               }
           }
+		  if((!xmlhttpobj)&&(window.XMLHttpRequest))
+		  {
+			 xmlhttpobj=new XMLHttpRequest();
+		  }
+		  
           return xmlhttpobj;
      }
 
@@ -54,14 +59,18 @@
      {
          var xmlhttpobj = createxmlhttp();
          if(xmlhttpobj){
-             url = document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.jpg";
-             xmlhttpobj.open('post',"/assets/CSpreadCostStrRunOnTime.xml",true);
+             url = document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml";
+			 xmlhttpobj.open("get",url,true);
+			 xmlhttpobj.setRequestHeader("Cache-Control","no-cache");
+			 xmlhttpobj.setRequestHeader("If-Modified-Since","0");
+			 xmlhttpobj.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");  
              xmlhttpobj.send(null);
              xmlhttpobj.onreadystatechange=function(){
-                 if(xmlhttpobj.readystate==4){
+                 if(xmlhttpobj.readyState==4){
                      if(xmlhttpobj.status==200){
                          var htmlxxx = xmlhttpobj.responseText;
                          var xmldoc=loadXML(htmlxxx);
+						 if(xmldoc!=null){
                          var elements = xmldoc.getElementsByTagName("pair");
                          var tbstr = '<table class="rttableformat">';
                          var tbttl = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
@@ -70,6 +79,8 @@
                              tbstr+="<tr>";
                              tbstr+= "<td>"
                                  + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</td>";
+								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
+									&&(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue>0)){
                              tbstr+= "<td>"
                                  + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
                              tbstr+= "<td>"
@@ -77,9 +88,17 @@
                              tbstr+= "<td>"
                                  + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
                              tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue + "</td>";
+										 + parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue).toFixed(1) + "</td>";
                              tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue + "</td>";
+										 + (elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue*100).toFixed(1) + "% </td>";
+								}
+								else{
+									 tbstr+= "<td> -- </td>";
+									 tbstr+= "<td> -- </td>";
+									 tbstr+= "<td> -- </td>";
+									 tbstr+= "<td> -- </td>";
+									 tbstr+= "<td> -- </td>";							    
+								}
                              tbstr+= "<td>"
                                  + elements[i].getElementsByTagName("time")[0].firstChild.nodeValue + "</td>";
                              tbstr+="</tr>";
@@ -91,9 +110,19 @@
              }
          }
      }
+     }
 
+	function refreshMKData()
+	{
+		var now= new Date();
+		if ((now.getHours()<15)&&(now.getHours()>=9))
+		{
+		   getAjax();
+		}	 	
+	}
 
-    var a = new PeriodicalExecuter(getAjax,2.0);
+	getAjax();
+    var a = new PeriodicalExecuter(refreshMKData,2.0);
 </script>
 
 <div class="slider2">
