@@ -14,7 +14,7 @@
                      xmlDoc.loadXML(xmlString);
                      break;
                  }catch(e){
-	}
+                 }
              }
          }
          else if(window.DOMParser && document.implementation && document.implementation.createDocument){
@@ -55,6 +55,22 @@
           return xmlhttpobj;
      }
 
+	function sortby(first, second){
+	    if(first.value>second.value){
+		   return -1;
+		}else{
+		   return 1;
+		}
+	 }
+	function returnrate(id, value){ 
+	  this.id = id; 
+	  this.value = value; 
+	}
+	function MKDataState(mtcounter, isgetMKData){ 
+	  this.mtcounter = mtcounter; 
+	  this.isgetMKData = isgetMKData; 
+	}	 
+	 
      function getAjax()
      {
          var xmlhttpobj = createxmlhttp();
@@ -64,65 +80,124 @@
 			 xmlhttpobj.setRequestHeader("Cache-Control","no-cache");
 			 xmlhttpobj.setRequestHeader("If-Modified-Since","0");
 			 xmlhttpobj.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");  
-             xmlhttpobj.send(null);
+             xmlhttpobj.send(null);			 
              xmlhttpobj.onreadystatechange=function(){
                  if(xmlhttpobj.readyState==4){
                      if(xmlhttpobj.status==200){
                          var htmlxxx = xmlhttpobj.responseText;
                          var xmldoc=loadXML(htmlxxx);
-						 if(xmldoc!=null){
-                         var elements = xmldoc.getElementsByTagName("pair");
-                         var tbstr = '<table class="rttableformat">';
-                         var tbttl = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
-                         tbstr +=  tbttl;
-                         for (var i = 0; i < elements.length; i++) {
-                             tbstr+="<tr>";
-                             tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</td>";
+						 var elements = xmldoc.getElementsByTagName("pair");
+						 if(elements.length!=0){
+							 var tbs = '<table class="rttableformat">';
+							 var tbttl = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
+                             tbs += tbttl;
+							 var tbstrarray = new Array();		
+							 var returnratearray = new Array();
+							 for (var i = 0; i < elements.length; i++) {
+								tbstrarray[i]="<tr>";
+								tbstrarray[i]+= "<td>"
+									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</td>";
 								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
 									&&(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue>0)){
-                             tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
-                             tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue + "</td>";
-                             tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
-                             tbstr+= "<td>"
+									 tbstrarray[i]+= "<td>"
+										 + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
+									 tbstrarray[i]+= "<td>"
+										 + elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue + "</td>";
+									 tbstrarray[i]+= "<td>"
+										 + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
+									 tbstrarray[i]+= "<td>"
 										 + parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue).toFixed(1) + "</td>";
-                             tbstr+= "<td>"
+									 tbstrarray[i]+= "<td>"
 										 + (elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue*100).toFixed(1) + "% </td>";
+								     returnratearray[i]=new returnrate(i,parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue));
 								}
 								else{
-									 tbstr+= "<td> -- </td>";
-									 tbstr+= "<td> -- </td>";
-									 tbstr+= "<td> -- </td>";
-									 tbstr+= "<td> -- </td>";
-									 tbstr+= "<td> -- </td>";							    
+									 tbstrarray[i]+= "<td> -- </td>";
+									 tbstrarray[i]+= "<td> -- </td>";
+									 tbstrarray[i]+= "<td> -- </td>";
+									 tbstrarray[i]+= "<td> -- </td>";
+									 tbstrarray[i]+= "<td> -- </td>";
+									 returnratearray[i]=new returnrate(i,-10000);										 
 								}
-                             tbstr+= "<td>"
-                                 + elements[i].getElementsByTagName("time")[0].firstChild.nodeValue + "</td>";
-                             tbstr+="</tr>";
-                        }
-                        tbstr+='</table>\n';
-                        document.getElementById("rtpricetable").innerHTML=tbstr;
+								 tbstrarray[i]+= "<td>"
+									 + elements[i].getElementsByTagName("time")[0].firstChild.nodeValue + "</td>";
+								 tbstrarray[i]+= "</tr>";
+							}
+							returnratearray.sort(sortby);
+							for (var i = 0; i < elements.length; i++){
+							    tbs+=tbstrarray[returnratearray[i].id];
+							}
+							tbs+='</table>\n';
+							document.getElementById("rtpricetable").innerHTML=tbs;
+						}
                      }
                  }
              }
          }
      }
-     }
-
+	
 	function refreshMKData()
 	{
-		var now= new Date();
-		if ((now.getHours()<15)&&(now.getHours()>=9))
+		if (g_MKDataState.isgetMKData)
 		{
 		   getAjax();
 		}	 	
 	}
+	
+	function getservertime(){
+	    var xmlhttpobj = createxmlhttp();
+		xmlhttpobj.open("HEAD",location.href,false);  
+        xmlhttpobj.send(null);		
+        var st=new Date(xmlhttpobj.getResponseHeader("Date")); 			
+		return st;   
+		
+	}
+	
+	
+	function checktimeMKTime(){
+		var servertime=getservertime();
+		var endtime=new Date(servertime);
+		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
+		{
+		    if(servertime.getHours()<9){
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(5);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+			}
+			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
+				endtime.setHours(15);
+				endtime.setMinutes(2);
+				endtime.setSeconds(0);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=true;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
+			}else{
+				endtime.setDate(servertime.getDate()+1); 
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(5);	
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
+			}
+		}else{
+			endtime.setDate(servertime.getDate()+1); 
+			endtime.setHours(9);
+			endtime.setMinutes(0);
+			endtime.setSeconds(5);	
+			g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+			g_MKDataState.isgetMKData=false;
+			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+		}		
+	}
 
+	var g_MKDataState=new MKDataState(3600000,true);
+	checktimeMKTime();
+    var g_period = new PeriodicalExecuter(refreshMKData,2.0);
 	getAjax();
-    var a = new PeriodicalExecuter(refreshMKData,2.0);
 </script>
 
 <div class="slider2">
