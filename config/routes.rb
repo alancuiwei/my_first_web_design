@@ -1,4 +1,6 @@
 Ver01::Application.routes.draw do
+  resources :noriskmessages
+
   resources :webuserstrategies
 
   get "strategy/index"
@@ -29,7 +31,7 @@ Ver01::Application.routes.draw do
   get "sessions/create"
 
   get "sessions/destroy"
-  
+
 #  get "strategy/rtprice" =>'strategy#rtprice'
 #  get "strategywebs/strategyindex" =>'strategywebs#strategyindex'
 #  get "strategywebs/strategyperformance" =>'strategywebs#strategyperformance'
