@@ -17,87 +17,89 @@ class StrategyController < ApplicationController
   end
 
   def show
-    @strategyweb = Strategyweb.find(params[:id])
-    commonpairid = "000000"
-    strategy_id = @strategyweb.strategyid + commonpairid
-
-    if(params[:id]=="2") then
-		testrate = StrategyreturnrateT.all
-		firstyear = testrate[0].yearid
-		lastyear = testrate[-1].yearid
-		@existyears = Array(firstyear..lastyear)
-		@strate = Array.new
-		firstyear.upto(lastyear) do |year|
-			@strate[year] = StrategyreturnrateT.find_all_by_rightid_and_yearid(strategy_id,year)
-		end
-		@streference = StrategyreferenceT.find_all_by_rightid(strategy_id)
-
-		@traderecord = StrategypositionrecordT.find(:all,:conditions =>"closeposdate>'2011-12-15'")
-  #xml
-    mytime=Time.now
-    hour=mytime.strftime("%H")
-    min=mytime.strftime("%M")
-    sec=mytime.strftime("%S")
-    if hour=="23" && min=="59"&& min=="59"
-    @dwtest = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
-    str1="<graph caption='Month' xAxisName='Days' yAxisName='Units' showvalues='0' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
-    str11="<graph caption='Year' xAxisName='Months' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
-    p=0
-    for k  in 2002..2011 do
-    for i  in 1..12 do
-      istr=i.to_s
-      kstr=k.to_s
-      str2="public/strategyresults/010603/" +kstr+"/"+istr +".xml"
-      file = File.new(str2,'w')
-      file.puts str1
-      strxml1 = ''
-      doc = Builder::XmlMarkup.new(:target=>strxml1,:indent=>2)
-    for j  in 1..31 do
-      if @dwtest['set'][p]["year"].to_f==k && @dwtest['set'][p]["month"].to_f==i
-      doc.set(:name=>j,:value=>@dwtest['set'][p]["value"])
-      p+=1
-      end
-    end
-      file.puts strxml1
-      file.puts "</graph>"
-      file.close
-      end
-   end
-    #生成年
-    @dwtest1 = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
-     q=0
-      for a  in 2002..2011 do
-      astr=a.to_s
-      str22="public/strategyresults/010603/YearsData/"+astr +".xml"
-      file = File.new(str22,'w')
-      file.puts str11
-      strxml2=''
-      doc1 = Builder::XmlMarkup.new(:target=>strxml2,:indent=>2)
-      #s=0 #月份记录
-    for b  in 1..12 do
-    for c  in 1..31 do
-      if @dwtest1['set'][q]["year"].to_f==a && @dwtest1['set'][q]["month"].to_f==b
-        q+=1
-         #file.puts s
-      end
-    end
-    #s+=1
-     q-=1
-      doc1.set(:name=>b,:value=>@dwtest1['set'][q]["value"])
-      q+=1
-    end
-      file.puts strxml2
-      file.puts "</graph>"
-      file.close
-    end
-   end #time end
-
-  #xml
-	end
+#    @strategyweb = Strategyweb.find(params[:id])
+#    commonpairid = "000000"
+#    strategy_id = @strategyweb.strategyid + commonpairid
+#    strategy_id = "010001000000"
 
     if(params[:id]=="1") then
 
     end
+
+#    if(params[:id]=="2") then
+#		testrate = StrategyreturnrateT.all
+#		firstyear = testrate[0].yearid
+#		lastyear = testrate[-1].yearid
+#		@existyears = Array(firstyear..lastyear)
+#		@strate = Array.new
+#		firstyear.upto(lastyear) do |year|
+#			@strate[year] = StrategyreturnrateT.find_all_by_rightid_and_yearid(strategy_id,year)
+#		end
+#		@streference = StrategyreferenceT.find_all_by_rightid(strategy_id)
+#
+#		@traderecord = StrategypositionrecordT.find(:all,:conditions =>"closeposdate>'2011-12-15'")
+#  #xml
+#    mytime=Time.now
+#    hour=mytime.strftime("%H")
+#    min=mytime.strftime("%M")
+#    sec=mytime.strftime("%S")
+#    if hour=="23" && min=="59"&& min=="59"
+#    @dwtest = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
+#    str1="<graph caption='Month' xAxisName='Days' yAxisName='Units' showvalues='0' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
+#    str11="<graph caption='Year' xAxisName='Months' yAxisName='Units' showNames='1' decimalPrecision='0' formatNumberScale='0'> "
+#    p=0
+#    for k  in 2002..2011 do
+#    for i  in 1..12 do
+#      istr=i.to_s
+#      kstr=k.to_s
+#      str2="public/strategyresults/010603/" +kstr+"/"+istr +".xml"
+#      file = File.new(str2,'w')
+#      file.puts str1
+#      strxml1 = ''
+#      doc = Builder::XmlMarkup.new(:target=>strxml1,:indent=>2)
+#    for j  in 1..31 do
+#      if @dwtest['set'][p]["year"].to_f==k && @dwtest['set'][p]["month"].to_f==i
+#      doc.set(:name=>j,:value=>@dwtest['set'][p]["value"])
+#      p+=1
+#      end
+#    end
+#      file.puts strxml1
+#      file.puts "</graph>"
+#      file.close
+#      end
+#   end
+#    #生成年
+#    @dwtest1 = XmlSimple::xml_in('public/strategyresults/010603/test.xml')
+#     q=0
+#      for a  in 2002..2011 do
+#      astr=a.to_s
+#      str22="public/strategyresults/010603/YearsData/"+astr +".xml"
+#      file = File.new(str22,'w')
+#      file.puts str11
+#      strxml2=''
+#      doc1 = Builder::XmlMarkup.new(:target=>strxml2,:indent=>2)
+#      #s=0 #月份记录
+#    for b  in 1..12 do
+#    for c  in 1..31 do
+#      if @dwtest1['set'][q]["year"].to_f==a && @dwtest1['set'][q]["month"].to_f==b
+#        q+=1
+#         #file.puts s
+#      end
+#    end
+#    #s+=1
+#     q-=1
+#      doc1.set(:name=>b,:value=>@dwtest1['set'][q]["value"])
+#      q+=1
+#    end
+#      file.puts strxml2
+#      file.puts "</graph>"
+#      file.close
+#    end
+#   end #time end
+#
+#  #xml
+#	end
+
 
   end
 

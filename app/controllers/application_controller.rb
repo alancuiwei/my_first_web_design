@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Rails.application.routes.url_helpers
+
 #  before_filter :authorize
 #  protect_from_forgery
   protected
