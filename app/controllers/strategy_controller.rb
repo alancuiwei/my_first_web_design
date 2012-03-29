@@ -97,6 +97,7 @@ class StrategyController < ApplicationController
 
     if(params[:id]=="1") then
 
+
     end
 
   end
