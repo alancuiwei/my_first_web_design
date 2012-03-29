@@ -1,11 +1,10 @@
-require 'rubygems'
+﻿require 'rubygems'
 gem "xml-simple"
 require 'xmlsimple'
 require 'builder'
 
 class StrategyController < ApplicationController
 #  layout "rttabletemplate",:only=>:rtprice
-
   def index
     @strategywebs = Strategyweb.find(:all)
 
@@ -17,6 +16,7 @@ class StrategyController < ApplicationController
   end
 
   def show
+    @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategyweb = Strategyweb.find(params[:id])
     commonpairid = "000000"
     strategy_id = @strategyweb.strategyid + commonpairid
