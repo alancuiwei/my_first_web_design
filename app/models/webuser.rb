@@ -13,8 +13,8 @@ class Webuser < ActiveRecord::Base
   def Webuser.authenticate(name, password)
     if webuser = find_by_name(name)
       if webuser.hashed_password == encrypt_password(password, webuser.salt)
-        webuser
-      end
+       webuser
+     end
     end
   end
 

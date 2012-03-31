@@ -1,10 +1,12 @@
-﻿require 'rubygems'
+﻿#encoding: utf-8
+require 'rubygems'
 gem "xml-simple"
 require 'xmlsimple'
 require 'builder'
 
 class StrategyController < ApplicationController
 #  layout "rttabletemplate",:only=>:rtprice
+  $login=1
   def index
     @strategywebs = Strategyweb.find(:all)
 
@@ -12,7 +14,6 @@ class StrategyController < ApplicationController
       format.html
       format.json { render json: @strategywebs }
     end
-
   end
 
   def show

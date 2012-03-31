@@ -1,8 +1,147 @@
-<%= javascript_include_tag "application.js" %>
-<%= javascript_include_tag "prototype.js" %>
+﻿<%= javascript_include_tag "prototype.js" %>
 
 <!-- <META HTTP-EQUIV="Refresh" content="10"> -->
+<style>
+.mesWindow{border:#666 1px solid;background:#fff;margin:0px 0px 0px 110px;}
+.mesWindowTop{border-bottom:#eee 1px solid;margin-left:5px;padding:3px;font-weight:bold;text-align:left;font-size:12px;}
+.mesWindowContent{margin:4px;font-size:12px;}
+.mesWindow .close{height:15px;width:28px;border:none;cursor:pointer;text-decoration:underline;background:#fff}
+</style>
 <script language="Javascript">
+ //
+    var user_set=0;
+    var isIe=(document.all)?true:false;
+    //设置select的可见状态
+    function setSelectState(state)
+    {
+    var objl=document.getElementsByTagName('select');
+    for(var i=0;i<objl.length;i++)
+    {
+    objl[i].style.visibility=state;
+    }
+    }
+    function mousePosition(ev)
+    {
+    if(ev.pageX || ev.pageY)
+    {
+    return {x:ev.pageX, y:ev.pageY};
+    }
+    return {
+    x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,y:ev.clientY + document.body.scrollTop - document.body.clientTop
+    };
+    }
+    //弹出方法
+    function showMessageBox(wTitle,content,pos,wWidth)
+    {
+    closeWindow();
+    var bWidth=parseInt(document.documentElement.scrollWidth);
+    var bHeight=parseInt(document.documentElement.scrollHeight);
+    if(isIe){
+    setSelectState('hidden');}
+    var back=document.createElement("div");
+    back.id="back";
+    var styleStr="top:0px;left:0px;position:absolute;background:#666666;width:"+bWidth+"px;height:"+bHeight+"px;";
+    styleStr+=(isIe)?"filter:alpha(opacity=40);":"opacity:0.40;";
+    back.style.cssText=styleStr;
+    document.body.appendChild(back);
+    var mesW=document.createElement("div");
+    mesW.id="mesWindow";
+    mesW.className="mesWindow";
+    mesW.innerHTML="<div class='mesWindowTop'><table width='100%' height='100%'><tr><td>"+wTitle+"</td><td style='width:1px;'><input type='button' onclick='closeWindow();' title='关闭窗口' class='close' value='关闭' /></td></tr></table></div><div class='mesWindowContent' id='mesWindowContent'>"+content+"</div><div class='mesWindowBottom'></div>";
+    styleStr="left:"+(((pos.x-wWidth)>0)?(pos.x-wWidth):pos.x)+"px;top:"+(pos.y)+"px;position:absolute;width:"+wWidth+"px;";
+    mesW.style.cssText=styleStr;
+    document.body.appendChild(mesW);
+    }
+ function showMessageBox_set(wTitle,content,pos,wWidth)
+  {
+  closeWindow();
+  var bWidth=parseInt(document.documentElement.scrollWidth);
+  var bHeight=parseInt(document.documentElement.scrollHeight);
+  if(isIe){
+  setSelectState('hidden');}
+  var back=document.createElement("div");
+  back.id="back";
+  var styleStr="top:0px;left:0px;position:absolute;background:#666666;width:"+bWidth+"px;height:"+bHeight+"px;";
+  styleStr+=(isIe)?"filter:alpha(opacity=40);":"opacity:0.40;";
+  back.style.cssText=styleStr;
+  document.body.appendChild(back);
+  var mesW=document.createElement("div");
+  mesW.id="mesWindow";
+  mesW.className="mesWindow";
+  mesW.innerHTML="<div class='mesWindowTop'><table width='100%' height='100%'><tr><td>"+wTitle+
+          "</td><td style='width:1px;'><input type='button' onclick='closeWindow();' title='关闭窗口' class='close' value='关闭' /></td></tr></table></div><div class='mesWindowContent' id='mesWindowContent'>"
+          +content+"</div><div class='mesWindowBottom'></div>";
+  styleStr="left:"+(((pos.x-wWidth)>0)?(pos.x-wWidth):pos.x)+"px;top:"+(pos.y)+"px;position:absolute;width:"+wWidth+"px;";
+  mesW.style.cssText=styleStr;
+  document.body.appendChild(mesW);
+  }
+    function showBackground(obj,endInt)
+    {
+    obj.filters.alpha.opacity+=1;
+    if(obj.filters.alpha.opacity<endInt)
+    {
+    setTimeout(function(){showBackground(obj,endInt)},8);
+    }
+    }
+    //关闭窗口
+    function closeWindow()
+    {
+    if(document.getElementById('back')!=null)
+    {
+    document.getElementById('back').parentNode.removeChild(document.getElementById('back'));
+    }
+    if(document.getElementById('mesWindow')!=null)
+    {
+    document.getElementById('mesWindow').parentNode.removeChild(document.getElementById('mesWindow'));
+    }
+    if(isIe){
+    setSelectState('');}
+    }
+ function closeWindow_set()
+   {
+        //获取text的值
+       if(isNaN(document.getElementById("user_set").value)){
+          alert('交易价格必须是数字！');
+       }
+       else{
+           user_set = document.getElementById("user_set").value;
+           if(document.getElementById('back')!=null)
+              {
+              document.getElementById('back').parentNode.removeChild(document.getElementById('back'));
+              }
+              if(document.getElementById('mesWindow')!=null)
+              {
+              document.getElementById('mesWindow').parentNode.removeChild(document.getElementById('mesWindow'));
+              }
+              if(isIe){
+              setSelectState('');}
+       }
+   }
+    //http
+    var computerateofreturn_max=new Array();
+    for(var j=0;j<100;j++)
+    {
+        computerateofreturn_max[j]=-1000;
+    }
+    var firstprice_max = new Array();
+    var name_max = new Array();
+    var secondprice_max = new Array();
+    var diffprice_max = new Array();
+    var computearbfee_max = new Array();
+    var time_max = new Array();
+    var computestoragefee_max = new Array();
+    var computedeliverfee_max = new Array();
+    var computetransfee_max = new Array();
+    var computetrademarginfee_max = new Array();
+    var computedelivermarginfee_max = new Array();
+    var computevatfee_max = new Array();
+ //
+    var name_fs;
+ //
+    var name = new Array();
+
+
+
      function loadXML(xmlString){
          var xmlDoc=null;
          if(!window.DOMParser && window.ActiveXObject){
@@ -51,7 +190,7 @@
 		  {
 			 xmlhttpobj=new XMLHttpRequest();
 		  }
-		  
+
           return xmlhttpobj;
      }
 
@@ -62,15 +201,15 @@
 		   return 1;
 		}
 	 }
-	function returnrate(id, value){ 
-	  this.id = id; 
-	  this.value = value; 
+	function returnrate(id, value){
+	  this.id = id;
+	  this.value = value;
 	}
-	function MKDataState(mtcounter, isgetMKData){ 
-	  this.mtcounter = mtcounter; 
-	  this.isgetMKData = isgetMKData; 
-	}	 
-	 
+	function MKDataState(mtcounter, isgetMKData){
+	  this.mtcounter = mtcounter;
+	  this.isgetMKData = isgetMKData;
+	}
+
      function getAjax()
      {
          var xmlhttpobj = createxmlhttp();
@@ -79,8 +218,8 @@
 			 xmlhttpobj.open("get",url,true);
 			 xmlhttpobj.setRequestHeader("Cache-Control","no-cache");
 			 xmlhttpobj.setRequestHeader("If-Modified-Since","0");
-			 xmlhttpobj.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");  
-             xmlhttpobj.send(null);			 
+			 xmlhttpobj.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+             xmlhttpobj.send(null);
              xmlhttpobj.onreadystatechange=function(){
                  if(xmlhttpobj.readyState==4){
                      if(xmlhttpobj.status==200){
@@ -91,22 +230,37 @@
 							 var tbs = '<table class="rttableformat">';
 							 var tbttl = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
                              tbs += tbttl;
-							 var tbstrarray = new Array();		
+							 var tbstrarray = new Array();
 							 var returnratearray = new Array();
 							 for (var i = 0; i < elements.length; i++) {
 								tbstrarray[i]="<tr>";
-								tbstrarray[i]+= "<td>"
-									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</td>";
+								tbstrarray[i]+= "<td><a href='#none' onClick='testMessageBox_set(event);'>"
+									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</a></td>";
 								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
 									&&(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue>0)){
 									 tbstrarray[i]+= "<td>"
-										 + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
-									 tbstrarray[i]+= "<td>"
+                                         + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
+                                    tbstrarray[i]+= "<td>"
 										 + elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue + "</td>";
 									 tbstrarray[i]+= "<td>"
 										 + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
-									 tbstrarray[i]+= "<td>"
-										 + parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue).toFixed(1) + "</td>";
+                                    if(name_fs==elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2))
+                                    {
+                                        var all_set=0;
+
+                                        all_set=parseFloat(user_set)+parseFloat(elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue)
+                                                +parseFloat(elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue)
+                                                +parseFloat(elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue)
+                                                +parseFloat(elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue)
+                                                +parseFloat(elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue) ;
+                                        tbstrarray[i]+= "<td>"+all_set  + "</td>";
+                                    }
+                                    else
+                                    {
+                                        tbstrarray[i]+= "<td>"+ parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue).toFixed(1)
+                                                + "</td>";
+                                    }
+
 									 tbstrarray[i]+= "<td>"
 										 + (elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue*100).toFixed(1) + "% </td>";
 								     returnratearray[i]=new returnrate(i,parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue));
@@ -117,7 +271,7 @@
 									 tbstrarray[i]+= "<td> -- </td>";
 									 tbstrarray[i]+= "<td> -- </td>";
 									 tbstrarray[i]+= "<td> -- </td>";
-									 returnratearray[i]=new returnrate(i,-10000);										 
+									 returnratearray[i]=new returnrate(i,-10000);
 								}
 								 tbstrarray[i]+= "<td>"
 									 + elements[i].getElementsByTagName("time")[0].firstChild.nodeValue + "</td>";
@@ -126,38 +280,97 @@
 							returnratearray.sort(sortby);
 							for (var i = 0; i < elements.length; i++){
 							    tbs+=tbstrarray[returnratearray[i].id];
+                                name[i]= elements[returnratearray[i].id].getElementsByTagName("name")[0].firstChild.nodeValue;
+                                name[i]=name[i].substr(0,2);
 							}
 							tbs+='</table>\n';
 							document.getElementById("rtpricetable").innerHTML=tbs;
 						}
-                     }
+
+                         //user
+
+                         if(elements.length!=0){
+                             var tbs_user = '<table class="rttableformat">';
+                             var tbttl_user = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
+                             tbs_user += tbttl_user;
+                             var tbstrarray_user = new Array();
+                             var returnratearray_user = new Array();
+
+                             for (var i = 0; i < elements.length; i++) {
+
+                                 if (parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue)>computerateofreturn_max[i] )
+                                 {
+                                     computerateofreturn_max[i]= parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue);
+                                     firstprice_max[i]=elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue;
+                                     name_max[i] = elements[i].getElementsByTagName("name")[0].firstChild.nodeValue;
+                                     secondprice_max[i] = elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue;
+                                     diffprice_max[i]= elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue;
+                                     computearbfee_max[i] =parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue);
+                                     time_max[i] = elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
+
+
+                                     computestoragefee_max[i] = elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue;
+                                     computedeliverfee_max[i] = elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue;
+                                     computetransfee_max[i] = elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue;
+                                     computetrademarginfee_max[i] = elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue;
+                                     computedelivermarginfee_max[i] = elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue;
+                                     computevatfee_max[i] = elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue;
+                                 }
+                                 tbstrarray_user[i]="<tr>";
+                                 tbstrarray_user[i]+= "<td>"
+                                         + name_max[i] + "</td>";
+
+                                     tbstrarray_user[i]+= "<td>"
+                                             + firstprice_max[i] + "</td>";
+                                     tbstrarray_user[i]+= "<td>"
+                                             + secondprice_max[i] + "</td>";
+                                     tbstrarray_user[i]+= "<td>"
+                                             + diffprice_max[i] + "</td>";
+                                     tbstrarray_user[i]+= "<td><a href='#none'onClick='testMessageBox(event);'>"
+                                             + computearbfee_max[i].toFixed(1) + "</a></td>";
+                                     tbstrarray_user[i]+= "<td>"
+                                             + (computerateofreturn_max[i]*100).toFixed(1) + "% </td>";
+                                     returnratearray_user[i]=new returnrate(i,computerateofreturn_max[i]);
+
+                                 tbstrarray_user[i]+= "<td>"
+                                         +time_max[i] + "</td>";
+                                 tbstrarray_user[i]+= "</tr>";
+                             }
+                             returnratearray.sort(sortby);
+                             for (var i = 0; i < elements.length; i++){
+                                 tbs_user+=tbstrarray_user[returnratearray_user[i].id];
+                             }
+                             tbs_user+='</table>\n';
+                             document.getElementById("rtpricetable_user").innerHTML=tbs_user;
+                         }
                  }
              }
          }
      }
-	
+     }
+
 	function refreshMKData()
 	{
 		if (g_MKDataState.isgetMKData)
 		{
 		   getAjax();
-		}	 	
+		}
 	}
-	
+
 	function getservertime(){
 	    var xmlhttpobj = createxmlhttp();
-		xmlhttpobj.open("HEAD",location.href,false);  
-        xmlhttpobj.send(null);		
-        var st=new Date(xmlhttpobj.getResponseHeader("Date")); 			
-		return st;   
-		
+		xmlhttpobj.open("HEAD",location.href,false);
+        xmlhttpobj.send(null);
+        var st=new Date(xmlhttpobj.getResponseHeader("Date"));
+		return st;
+
 	}
-	
-	
+
+
 	function checktimeMKTime(){
 		var servertime=getservertime();
 		var endtime=new Date(servertime);
-		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
+		if ((servertime.getDay()!=0)&&(servertime.getDay()!=8))
 		{
 		    if(servertime.getHours()<9){
 				endtime.setHours(9);
@@ -165,41 +378,73 @@
 				endtime.setSeconds(5);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
-                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 			}
-			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
-				endtime.setHours(15);
+			else if((servertime.getHours()<23)&&(servertime.getHours()>=9)){
+				endtime.setHours(23);
 				endtime.setMinutes(2);
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=true;
-                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 			}else{
-				endtime.setDate(servertime.getDate()+1); 
+				endtime.setDate(servertime.getDate()+1);
 				endtime.setHours(9);
 				endtime.setMinutes(0);
-				endtime.setSeconds(5);	
+				endtime.setSeconds(5);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
-                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 			}
 		}else{
-			endtime.setDate(servertime.getDate()+1); 
+			endtime.setDate(servertime.getDate()+1);
 			endtime.setHours(9);
 			endtime.setMinutes(0);
-			endtime.setSeconds(5);	
+			endtime.setSeconds(5);
 			g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
 			g_MKDataState.isgetMKData=false;
-			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
-		}		
+			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
+		}
 	}
 
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
     var g_period = new PeriodicalExecuter(refreshMKData,2.0);
 	getAjax();
-</script>
 
+    //弹出
+    function testMessageBox(ev)
+    {
+    var objPos = mousePosition(ev);
+    var a=563;
+    var b=(objPos.y-a)/26;
+        if(b<1)
+        b=1
+        else
+        b=parseInt(b)+1
+    var messContent="<div style='padding:20px 0 20px 0;text-align:center'>持仓成本("+computearbfee_max[b-1]+") = 存储费用+("
+            +computestoragefee_max[b-1]  +")交割费用("+computedeliverfee_max[b-1]+") + 交易费用("
+            +computetransfee_max[b-1]+") + 保证金占用费用("+computetrademarginfee_max[b-1]+") +交割保证金占有费用("
+            +computedelivermarginfee_max[b-1]+") + 增值税费用("+computevatfee_max[b-1]+")</div>";
+    showMessageBox('持仓成本 是您做这笔套利对交易所需要付出的成本金额。',messContent,objPos,400);
+    }
+ //
+ function testMessageBox_set(ev)
+ {
+ var objPos = mousePosition(ev);
+ var a=1061;
+ var b=(objPos.y-a)/26;
+     if(b<1)
+     b=1
+     else
+     b=parseInt(b)+1
+     name_fs=name[b-1] ;
+ var messContent="套利对参数调节<br>套利对名称：CF301 ~ CF305<br>"
+         +"CF 每手手续费： <input type='text' name='user_set'id='user_set' /><input type='button' value='确定'onclick='closeWindow_set()' /> "
+         +name[b-1]+"  NO."+b;
+ showMessageBox_set('请设置你的交易价格：',messContent,objPos,400);
+ }
+</script>
 <div class="slider2">
 <div class="slice12">
   <h2>策略性能</h2>
@@ -218,6 +463,22 @@
 
 <div class="frame">
 <% if(params[:id]=="1") %>
+      <br><br>
+      定制服务：(请不要离开本页面以保证能连续记录满足您要求的交易行情)<br> <br>
+      case1: (请登录使用定制化服务：)<%= link_to "请登录使用定制化服务",:controller =>"sessions",:action =>"new" %> <br> <br>
+      通过年化收益率定制，该策略将符合您设定收益率的行情记录下来，以便于你观察交易。<br> <br>
+      举例：<br>
+      一旦你设置年化收益率为4%,策略将检测所有套利对实时行情，实时计算套利成本，一旦出现实时行情收益率达到您的要求，将在网页上显示出来。
+      <% if(@webuser!=nil) %>
+      <div class="ironbars">
+              <div class= irontxt>
+                <p>无风险套利: </p>
+                <p>最大年收益率</p>
+              </div>
+      </div>
+      <div id="rtpricetable_user"> </div>
+      <% end %>
+
      <div class="ironbars">
         <div class= irontxt>
           <p>无风险套利: </p>
