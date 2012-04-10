@@ -4,7 +4,7 @@ class WebusersController < ApplicationController
   # GET /webusers.json
   def index
     @webusers = Webuser.order(:name)
-	if session[:webuser_name]=="feifan"
+	if session[:webuser_name]=="administrator"
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @webusers }

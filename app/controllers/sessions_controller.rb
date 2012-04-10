@@ -6,13 +6,13 @@ class SessionsController < ApplicationController
   def create
 	if webuser = Webuser.authenticate(params[:name], params[:password])
      @url=request.fullpath
-	   if webuser.name=="feifan"
+	   if webuser.name=="administrator"
 		session[:webuser_name] = webuser.name
 		redirect_to(:controller=>"admin", :action=>"index")
 	  else
 		session[:webuser_name] = webuser.name
     if $login==1
-      redirect_to(:controller=>"strategy", :action=>"show",:id=>1)
+      redirect_to(:controller=>"strategy", :action=>"shownorisk")
     else
       redirect_to(:controller=>"usermanagement", :action=>"index")
     end

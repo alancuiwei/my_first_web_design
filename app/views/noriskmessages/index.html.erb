@@ -1,20 +1,19 @@
-<h2>所有评论</h2>
-<div style="margin:-10px 0px 10px 0px">
-<input type=button value=刷新评论 onclick="location.reload()"></div>
-<%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
-<% @noriskmessages.each do |noriskmessage|  %>
-<div style="margin:0 350px 0 0">
-<fieldset>
-标题：<%= noriskmessage.title %><br><br>
-<%= noriskmessage.name %> 说：<%= noriskmessage.body %>
-<% if @webusername==noriskmessage.name||  @webusername=="feifan" %>
-    <div style="margin:0px 0px 0px 400px;white-space:nowrap;float:right">
-    <%= link_to "编辑", edit_noriskmessage_path(noriskmessage) %>
-	</div>
-<% end %>
- </fieldset>
-</div>
-<% end %>
-<%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
+  <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
+  <% @noriskmessages.each do |noriskmessage|  %>
+  <div style="margin:0 350px 0 0">
+  <fieldset>
+  标题：<%= noriskmessage.title %><br><br>
+  <%= noriskmessage.name %> 说：<%= noriskmessage.body %>
+  <% if @webusername==noriskmessage.name||  @webusername=="administrator" %>
+      <div style="margin:0px 0px 0px 400px;white-space:nowrap;float:right">
+      <%= link_to "编辑", edit_noriskmessage_path(noriskmessage) %>
+      </div>
+  <% end %>
+   </fieldset>
+  </div>
+  <% end %>
+  <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
 
+  <div style="margin:10px 0px 10px 0px">
+  <input type=button value=刷新评论 onclick="location.reload()"></div>
 

@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag "faary.css" %>
+
+<script type="text/javascript">
+<!--
+	function isEmailValid(email){
+		var e = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+		return e.test(email);
+	}
+	function sendForm(){
+		
+		
+		jQuery("#imessageOK, #imessageERROR").hide();
+		jQuery(".required").removeClass("required");
+		if(jQuery("#").val()==""){jQuery("#").addClass("required");window.scroll(0,0);return false;}if(jQuery("#").val()==""){jQuery("#").addClass("required");window.scroll(0,0);return false;}jQuery("#").val("Please Wait...");		var AddDetails; AddDetails+="&="+encodeURIComponent(jQuery("#").val());AddDetails+="&="+encodeURIComponent(jQuery("#").val());		
+		alert("Add sending function here...\n\nOr become FAARY member to download full package!")	}
+-->
+</script>
+
+<%= form_for(@noriskmessage) do |f| %>
+
+<form method="post" action="" onsubmit="return:false" class="iform">
+<div id="imessageOK">Thank you! Message Sent!</div>
+<div id="imessageERROR">ERROR: Message Not Sent!</div>
+<ul>
+<li class="iheader">论坛留言</li>
+<li><label for="">*标题</label><input class="itext" type="text" name="" id="" /></li>
+<li><label for="">*内容</label><textarea class="itextarea" name="" id=""></textarea></li>
+<li class="iseparator">&nbsp;</li>
+<li><label>&nbsp;</label><input type="button" class="ibutton" onclick="sendForm()" name="" id="" value="发表留言!" /></li>
+</ul></form>
+<% end %>
