@@ -1,7 +1,8 @@
+  <%= stylesheet_link_tag "faary.css" %>
+
   <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
   <% @noriskmessages.each do |noriskmessage|  %>
   <div style="margin:0 350px 0 0">
-  <fieldset>
   标题：<%= noriskmessage.title %><br><br>
   <%= noriskmessage.name %> 说：<%= noriskmessage.body %>
   <% if @webusername==noriskmessage.name||  @webusername=="administrator" %>
@@ -9,11 +10,10 @@
       <%= link_to "编辑", edit_noriskmessage_path(noriskmessage) %>
       </div>
   <% end %>
-   </fieldset>
   </div>
   <% end %>
   <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
 
-  <div style="margin:10px 0px 10px 0px">
+  <div style="margin:10px 0px 10px 350px;">
   <input type=button value=刷新评论 onclick="location.reload()"></div>
 
