@@ -1,6 +1,8 @@
 <%= javascript_include_tag "prototype.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
 <%= javascript_include_tag "jquery.qtip.min.js" %>
-<%= javascript_include_tag "jquery-1.4.4.min.js" %>
+<%= stylesheet_link_tag "jquery.qtip.min.css" %>
+
 
 
 <!-- <META HTTP-EQUIV="Refresh" content="10"> -->
@@ -12,6 +14,7 @@
 </style>
 <!-- JS代码 -->
 <script language="Javascript">
+
   // 表格数
   var tablenum;
   var name_fs;
@@ -135,7 +138,7 @@
     }
 
  //
- var flag_click=0
+ var flag_click=0;
 
 
 
@@ -224,7 +227,7 @@
 						 var elements = xmldoc.getElementsByTagName("pair");
 						 if(elements.length!=0){
 							 var tbs = '<table class="rttableformat">';
-							 var tbttl = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
+							 var tbttl = '<tr><th>套利合约对名</th><th>近月合约价格</th><th>远月合约价格</th><th><a title="最新价差 是远月合约价格减去近月合约价格">最新价差</a></th><th><a title="持仓成本 是您做这笔套利对交易所需要付出的成本金额。持仓成本 = 存储费用 + 交割费用 + 交易费用 + 保证金占用费用 + 交割保证金占有费用 + 增值税费用">持仓成本</a></th><th>年化收益率</th><th>更新时间</th></tr>';
                              tbs += tbttl;
 							 var tbstrarray = new Array();		
 							 var returnratearray = new Array();
@@ -424,36 +427,60 @@
      else
      b=parseInt(b)+1
      name_fs=name_all[b-1].substring(0,2) ;
- var messContent="套利对参数调节<br>套利对名称："+name_all[b-1]+"<br>"
-         +name_fs+" 每手手续费： <input type='text' name='user_set'id='user_set' /><input type='button' value='确定'onclick='closeWindow_set()' /> ";
- showMessageBox_set('请设置你的交易价格：',messContent,objPos,400);
+ var messContent=name_fs+" 每手手续费(单位：元)： <input type='text' name='user_set' id='user_set' /><input type='button' value='确定'onclick='closeWindow_set()' /> ";
+ showMessageBox_set('请设置您的手续费（每手）：',messContent,objPos,400);
  }
 
+// Define our positioning and style arrays
+  var at = [
+          'left bottom'
+      ],
+      my = [
+          'right bottom'
+      ],
+      styles = [
+          'red'
+      ];
+
+// Create the tooltips only on document load
+  $(document).ready(function()
+  {
+          $('a[title]').qtip();
+
+          $('.ironbars')
+              /*
+               * Lets delete the qTip data from our target element so we can apply multiple tooltips.
+               * Since the data is also stored on the tooltip element itself this isn't a problem!
+               *
+               * Check here for more details on this: http://craigsworks.com/projects/qtip2/tutorials/advanced/#multi
+               */
+              .removeData('qtip')
+              .qtip({
+                  content: {
+                      text: '您可以调节品种手续费，享受定制化服务',
+                      title: {
+                          text: '请点击套利合约对名',
+                          button: true
+                      }
+                  },
+                  position: {
+                      my: my[0], // Use the corner...
+                      at: at[0] // ...and opposite corner
+                  },
+                  show: {
+                      event: false, // Don't specify a show event...
+                      ready: true // ... but show the tooltip when ready
+                  },
+                  hide: false, // Don't specify a hide event either!
+                  style: {
+                      classes: 'ui-tooltip-shadow ui-tooltip-' + styles[0]
+                  }
+              });
+
+  });
+
 </script>
-<div class="slider2">
-<div class="slice12">
-  <h2>策略分类</h2>
-</div>
-</div>
-<div class="clr"></div>
-<div class="body">
-  <div class="body_resize">
-  <div class="StrategyNews">
-  <h2>无风险套利</h2>
-  <ul>
-    <li><%= link_to "策略介绍",:controller =>"strategy",:action =>"intronorisk" %></li>
-    <li><%= link_to "策略运行",:controller =>"strategy",:action =>"shownorisk" %></li>
-
-  </ul>
-<p></p>
-  </div>
-
-
-
-<div class="frame">
-
      <div class="ironbars">
-
        <div id = "norisktitle">
          <h3>策略实时运行中</h3>
        </div>
@@ -461,7 +488,7 @@
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
-	<div id="rtpricetable">
+	<div id ="rtpricetable">
 	</div>
   <div class ="remarkstitle">
   <a name="remarks">提点意见吧?</a>
@@ -473,9 +500,3 @@
     <h3>所有评论</h3>
 <iframe src="../noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
   </div>
-  </div>
-
-<div class="clr"></div>
-  </div>
-<div class="clr"></div>
-</div>
