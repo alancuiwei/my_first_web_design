@@ -361,10 +361,11 @@
 	}
 
 	function getservertime(){
-	    var xmlhttpobj = createxmlhttp();
-		xmlhttpobj.open("HEAD",location.href,false);  
-        xmlhttpobj.send(null);		
-        var st=new Date(xmlhttpobj.getResponseHeader("Date")); 			
+	    //var xmlhttpobj = createxmlhttp();
+		//xmlhttpobj.open("HEAD",location.href,false);  
+        //xmlhttpobj.send(null);		
+        //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
+        var st=new Date(<%= "'"+(Time.now()).inspect+"'" %>);		
 		return st;   
 
 	}
