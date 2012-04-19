@@ -298,19 +298,18 @@
   });
 
 </script>
+	<br />
+  <% if @webuser!=nil%>
+  <%= button_to "修改交易价格",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+  <% end %>
      <div class="ironbars">
        <div id = "norisktitle">
          <h3>策略实时运行中</h3>
        </div>
-	   <li class="noriskseparator">&nbsp;</li>
-
        <div id = "noriskluntan">
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
-  <% if @webuser!=nil%>
-  <%= button_to "修改交易价格",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
-  <% end %>
 	<div id ="rtpricetable">
 	</div>
   <div class ="remarkstitle">
