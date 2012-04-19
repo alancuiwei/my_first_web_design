@@ -1,0 +1,21 @@
+<%= form_for(@usercommodity_t) do |f| %>
+  <% if @usercommodity_t.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@usercommodity_t.errors.count, "error") %> prohibited this usercommodity_t from being saved:</h2>
+
+      <ul>
+      <% @usercommodity_t.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :"修改交易价格：" %><br />
+    <%= f.text_field :tradecharge %>
+  </div>
+  <div class="actions">
+    <%= f.submit :"提交" %>
+  </div>
+<% end %>

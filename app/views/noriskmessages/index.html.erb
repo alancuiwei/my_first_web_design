@@ -2,9 +2,10 @@
 
   <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
   <% @noriskmessages.each do |noriskmessage|  %>
-  <div style="margin:0 350px 0 0">
-  标题：<%= noriskmessage.title %><br><br>
-  <%= noriskmessage.name %> 说：<%= noriskmessage.body %>
+  <div id = "norisknewmessagedisplay">
+  <!--标题：<%= noriskmessage.title %><br><br>  -->
+  <p><%= noriskmessage.name %> 说：<%= noriskmessage.body %> </p>
+
   <% if @webusername==noriskmessage.name||  @webusername=="administrator" %>
       <div style="margin:0px 0px 0px 400px;white-space:nowrap;float:right">
       <%= link_to "编辑", edit_noriskmessage_path(noriskmessage) %>
@@ -15,5 +16,8 @@
   <%= will_paginate @noriskmessages , :previous_label => "上一页", :next_label => "下一页"%>
 
   <div style="margin:10px 0px 10px 350px;">
-  <input type=button value=刷新评论 onclick="location.reload()"></div>
+  <!--<input type=button value=刷新评论 onclick="location.reload()"> -->
+  <button type="submit" onclick="location.reload()">刷新评论</button>
+  </div>
+  
 

@@ -49,6 +49,27 @@ class WebusersController < ApplicationController
     respond_to do |format|
       if @webuser.save
 	    session[:webuser_name] = @webuser.name
+
+      #new usercommodiy
+      @usercommodity=UsercommodityT.find_all_by_userid("tester1")
+      i=0
+      while @usercommodity[i]!=nil
+      UsercommodityT.new do |u|
+       u.commodityid = @usercommodity[i].commodityid
+       u.userid=@webuser.name
+       u.tradechargetype=@usercommodity[i].tradechargetype
+       u.tradecharge=@usercommodity[i].tradecharge
+       u.deliverchargebyunit=@usercommodity[i].deliverchargebyunit
+       u.deliverchargebyhand=@usercommodity[i].deliverchargebyhand
+       u.futuretocurrenchargebyunit=@usercommodity[i].futuretocurrenchargebyunit
+       u.futuretocurrenchargebyhand=@usercommodity[i].futuretocurrenchargebyhand
+       u.lendrate=@usercommodity[i].lendrate
+       u.trademargingap=@usercommodity[i].trademargingap
+       u.save
+       i=i+1
+      end
+      end
+
         format.html { redirect_to(:controller=>"home", :action=>"index")}
         format.json { render json: @webuser, status: :created, location: @webuser }
       else

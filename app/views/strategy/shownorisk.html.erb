@@ -14,133 +14,21 @@
 </style>
 <!-- JS代码 -->
 <script language="Javascript">
+    var computearbfee = new Array();
+    var computetransfee = new Array();
+    var usercommodityid = new Array();
+    var usertradecharge = new Array();
 
-  // 表格数
-  var tablenum;
-  var name_fs;
-  var name_all = new Array();
- // 用户设置的交易费用
-    var user_set=0;
- //设置select的可见状态
-    var isIe=(document.all)?true:false;
+    var userflag=<%=session[:userflag]%>;
+    if(userflag!=0)
+    {
+        var num=<%= session[:num]%>+1;
+    <% for i in 0..session[:num] do%>
+            usercommodityid[<%=i%>]='<%= session[:usercommodityid][i]%>';
+    <% end%>
 
-    function setSelectState(state)
-    {
-    var objl=document.getElementsByTagName('select');
-    for(var i=0;i<objl.length;i++)
-    {
-    objl[i].style.visibility=state;
-    }
-    }
-    function mousePosition(ev)
-    {
-    if(ev.pageX || ev.pageY)
-    {
-    return {x:ev.pageX, y:ev.pageY};
-    }
-    return {
-    x:ev.clientX + document.body.scrollLeft - document.body.clientLeft,y:ev.clientY + document.body.scrollTop - document.body.clientTop
-    };
-    }
-    //弹出方法
-    function showMessageBox(wTitle,content,pos,wWidth)
-    {
-    closeWindow();
-    var bWidth=parseInt(document.documentElement.scrollWidth);
-    var bHeight=parseInt(document.documentElement.scrollHeight);
-    if(isIe){
-    setSelectState('hidden');}
-    var back=document.createElement("div");
-    back.id="back";
-    var styleStr="top:0px;left:0px;position:absolute;background:#666666;width:"+bWidth+"px;height:"+bHeight+"px;";
-    styleStr+=(isIe)?"filter:alpha(opacity=40);":"opacity:0.40;";
-    back.style.cssText=styleStr;
-    document.body.appendChild(back);
-    var mesW=document.createElement("div");
-    mesW.id="mesWindow";
-    mesW.className="mesWindow";
-    mesW.innerHTML="<div class='mesWindowTop'><table width='100%' height='100%'><tr><td>"+wTitle+"</td><td style='width:1px;'><input type='button' onclick='closeWindow();' title='关闭窗口' class='close' value='关闭' /></td></tr></table></div><div class='mesWindowContent' id='mesWindowContent'>"+content+"</div><div class='mesWindowBottom'></div>";
-    styleStr="left:"+(((pos.x-wWidth)>0)?(pos.x-wWidth):pos.x)+"px;top:"+(pos.y)+"px;position:absolute;width:"+wWidth+"px;";
-    mesW.style.cssText=styleStr;
-    document.body.appendChild(mesW);
-    }
- function showMessageBox_set(wTitle,content,pos,wWidth)
-  {
-  closeWindow();
-  var bWidth=parseInt(document.documentElement.scrollWidth);
-  var bHeight=parseInt(document.documentElement.scrollHeight);
-  if(isIe){
-  setSelectState('hidden');}
-  var back=document.createElement("div");
-  back.id="back";
-  var styleStr="top:0px;left:0px;position:absolute;background:#666666;width:"+bWidth+"px;height:"+bHeight+"px;";
-  styleStr+=(isIe)?"filter:alpha(opacity=40);":"opacity:0.40;";
-  back.style.cssText=styleStr;
-  document.body.appendChild(back);
-  var mesW=document.createElement("div");
-  mesW.id="mesWindow";
-  mesW.className="mesWindow";
-  mesW.innerHTML="<div class='mesWindowTop'><table width='100%' height='100%'><tr><td>"+wTitle+
-          "</td><td style='width:1px;'><input type='button' onclick='closeWindow();' title='关闭窗口' class='close' value='关闭' /></td></tr></table></div><div class='mesWindowContent' id='mesWindowContent'>"
-          +content+"</div><div class='mesWindowBottom'></div>";
-  styleStr="left:"+(((pos.x-wWidth)>0)?(pos.x-wWidth):pos.x)+"px;top:"+(pos.y)+"px;position:absolute;width:"+wWidth+"px;";
-  mesW.style.cssText=styleStr;
-  document.body.appendChild(mesW);
-  }
-    function showBackground(obj,endInt)
-    {
-    obj.filters.alpha.opacity+=1;
-    if(obj.filters.alpha.opacity<endInt)
-    {
-    setTimeout(function(){showBackground(obj,endInt)},8);
-    }
-    }
-    //关闭窗口
-    function closeWindow()
-    {
-    if(document.getElementById('back')!=null)
-    {
-    document.getElementById('back').parentNode.removeChild(document.getElementById('back'));
-    }
-    if(document.getElementById('mesWindow')!=null)
-    {
-    document.getElementById('mesWindow').parentNode.removeChild(document.getElementById('mesWindow'));
-    }
-    if(isIe){
-    setSelectState('');}
-    }
- function closeWindow_set()
-   {
-        //获取text的值
-       if(isNaN(document.getElementById("user_set").value)){
-          alert('交易价格必须是数字！');
+    usertradecharge=<%= session[:usertradecharge]%>
        }
-       else{
-           user_set = document.getElementById("user_set").value;
-           flag_click=1;
-           if(document.getElementById('back')!=null)
-              {
-              document.getElementById('back').parentNode.removeChild(document.getElementById('back'));
-              }
-              if(document.getElementById('mesWindow')!=null)
-              {
-              document.getElementById('mesWindow').parentNode.removeChild(document.getElementById('mesWindow'));
-              }
-              if(isIe){
-              setSelectState('');}
-       }
-   }
-    //http
-    var computerateofreturn_max=new Array();
-    for(var j=0;j<100;j++)
-    {
-        computerateofreturn_max[j]=-1000;
-    }
-
- //
- var flag_click=0;
-
-
 
      function loadXML(xmlString){
          var xmlDoc=null;
@@ -231,11 +119,31 @@
                              tbs += tbttl;
 							 var tbstrarray = new Array();		
 							 var returnratearray = new Array();
-                             tablenum=elements.length+1;
 							 for (var i = 0; i < elements.length; i++) {
-								tbstrarray[i]="<tr>";
+                                 if(userflag==0)
+                                 computetransfee[i]=parseFloat(elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue);
+                                 else
+                                 {
+                                     for(var p=0;p<num;p++)
+                                     {
+                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2)==usercommodityid[p])
+                                         {
+                                             computetransfee[i]=usertradecharge[p];
+                                             break;
+                                         }
+                                         else
+                                         computetransfee[i]=parseFloat(elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue);
+                                     }
+                                 }
 
-								tbstrarray[i]+= "<td><a href='#none' onClick='testMessageBox_set(event);'>"
+								tbstrarray[i]="<tr>";
+                                 computearbfee[i] = parseFloat(elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue)
+                                         +parseFloat(elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue)
+                                         +parseFloat(elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue)
+                                         +parseFloat(elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue)
+                                         +parseFloat(elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue)
+                                         +computetransfee[i];
+							tbstrarray[i]+= "<td>"
 									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</a></td>";
 								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
 									&&(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue>0)){
@@ -246,21 +154,8 @@
 									 tbstrarray[i]+= "<td>"
 										 + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
 
-                                    if(name_fs==elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substring(0,2) && flag_click==1)
-                                    {
-                                        var all_set=0;
-                                        all_set=parseFloat(user_set)+parseFloat(elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue)
-                                                +parseFloat(elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue)
-                                                +parseFloat(elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue)
-                                                +parseFloat(elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue)
-                                                +parseFloat(elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue) ;
-                                        tbstrarray[i]+= "<td>"+all_set  + "</td>";
-                                    }
-                                    else
-                                    {
-                                        tbstrarray[i]+= "<td>"+ parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue).toFixed(1)
+                                        tbstrarray[i]+= "<td>"+ parseFloat(computearbfee[i]).toFixed(1)
                                                 + "</td>";
-                                    }
 
 									 tbstrarray[i]+= "<td>"
 										 + (elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue*100).toFixed(1) + "% </td>";
@@ -281,71 +176,10 @@
 							returnratearray.sort(sortby);
 							for (var i = 0; i < elements.length; i++){
 							    tbs+=tbstrarray[returnratearray[i].id];
-                                //名字数组
-                                var name = new Array();
-                                name[i]= elements[returnratearray[i].id].getElementsByTagName("name")[0].firstChild.nodeValue;
-                              name_all[i]=name[i];
 							}
 							tbs+='</table>\n';
 							document.getElementById("rtpricetable").innerHTML=tbs;
 						}
-
-                         //user
-                         /*
-                         if(elements.length!=0){
-                             var tbs_user = '<table class="rttableformat">';
-                             var tbttl_user = '<tr><th>合约号</th><th>近月合约价格</th><th>远月合约价格</th><th>最新价差</th><th>持仓成本</th><th>年化收益率</th><th>更新时间</th></tr>';
-                             tbs_user += tbttl_user;
-                             var tbstrarray_user = new Array();
-                             var returnratearray_user = new Array();
-
-                             for (var i = 0; i < elements.length; i++) {
-
-                                 if (parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue)>computerateofreturn_max[i] )
-                                 {
-                                     computerateofreturn_max[i]= parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue);
-                                     firstprice_max[i]=elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue;
-                                     name_max[i] = elements[i].getElementsByTagName("name")[0].firstChild.nodeValue;
-                                     secondprice_max[i] = elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue;
-                                     diffprice_max[i]= elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue;
-                                     computearbfee_max[i] =parseFloat(elements[i].getElementsByTagName("computearbfee")[0].firstChild.nodeValue);
-                                     time_max[i] = elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
-
-
-                                     computestoragefee_max[i] = elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue;
-                                     computedeliverfee_max[i] = elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue;
-                                     computetransfee_max[i] = elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue;
-                                     computetrademarginfee_max[i] = elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue;
-                                     computedelivermarginfee_max[i] = elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue;
-                                     computevatfee_max[i] = elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue;
-                                 }
-                                 tbstrarray_user[i]="<tr>";
-                                 tbstrarray_user[i]+= "<td>"
-                                         + name_max[i] + "</td>";
-
-                                     tbstrarray_user[i]+= "<td>"
-                                             + firstprice_max[i] + "</td>";
-                                     tbstrarray_user[i]+= "<td>"
-                                             + secondprice_max[i] + "</td>";
-                                     tbstrarray_user[i]+= "<td>"
-                                             + diffprice_max[i] + "</td>";
-                                     tbstrarray_user[i]+= "<td><a href='#none'onClick='testMessageBox(event);'>"
-                                             + computearbfee_max[i].toFixed(1) + "</a></td>";
-                                     tbstrarray_user[i]+= "<td>"
-                                             + (computerateofreturn_max[i]*100).toFixed(1) + "% </td>";
-                                     returnratearray_user[i]=new returnrate(i,computerateofreturn_max[i]);
-
-                                 tbstrarray_user[i]+= "<td>"
-                                         +time_max[i] + "</td>";
-                                 tbstrarray_user[i]+= "</tr>";
-                             }
-                             returnratearray.sort(sortby);
-                             for (var i = 0; i < elements.length; i++){
-                                 tbs_user+=tbstrarray_user[returnratearray_user[i].id];
-                             }
-                             tbs_user+='</table>\n';
-                             document.getElementById("rtpricetable_user").innerHTML=tbs_user;
-                         }  */
                      }
                  }
              }
@@ -361,15 +195,13 @@
 	}
 
 	function getservertime(){
-	    //var xmlhttpobj = createxmlhttp();
-		//xmlhttpobj.open("HEAD",location.href,false);  
-        //xmlhttpobj.send(null);		
-        //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
-        var st=new Date(<%= "'"+(Time.now()).inspect+"'" %>);		
+	    var xmlhttpobj = createxmlhttp();
+		xmlhttpobj.open("HEAD",location.href,false);  
+        xmlhttpobj.send(null);		
+        var st=new Date(xmlhttpobj.getResponseHeader("Date")); 			
 		return st;   
 
 	}
-
 
 	function checktimeMKTime(){
 		var servertime=getservertime();
@@ -416,21 +248,6 @@
     var g_period = new PeriodicalExecuter(refreshMKData,2.0);
 	getAjax();
 
-//交易价格弹出框
- function testMessageBox_set(ev)
- {
- var objPos = mousePosition(ev);
- var distant=document.getElementById('rtpricetable').offsetHeight/tablenum
- var a=document.getElementById('rtpricetable').offsetTop+distant*5/4;
- var b=(objPos.y-a)/distant;
-     if(b<1)
-     b=1
-     else
-     b=parseInt(b)+1
-     name_fs=name_all[b-1].substring(0,2) ;
- var messContent=name_fs+" 每手手续费(单位：元)： <input type='text' name='user_set' id='user_set' /><input type='button' value='确定'onclick='closeWindow_set()' /> ";
- showMessageBox_set('请设置您的手续费（每手）：',messContent,objPos,400);
- }
 
 // Define our positioning and style arrays
   var at = [
@@ -485,17 +302,22 @@
        <div id = "norisktitle">
          <h3>策略实时运行中</h3>
        </div>
+	   <li class="noriskseparator">&nbsp;</li>
+
        <div id = "noriskluntan">
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
+  <% if @webuser!=nil%>
+  <%= button_to "修改交易价格",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+  <% end %>
 	<div id ="rtpricetable">
 	</div>
   <div class ="remarkstitle">
   <a name="remarks">提点意见吧?</a>
   </div>
   <div class = "newremark">
-  <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="200" width="800" marginheight="0" marginwidth="0"></iframe>
+  <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="170" width="800" marginheight="0" marginwidth="0"></iframe>
   </div>
   <div class ="remarkslist">
     <h3>所有评论</h3>
