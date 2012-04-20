@@ -1,5 +1,6 @@
 #encoding: utf-8
 class UsercommodityTsController < ApplicationController
+layout 'usermanagement'
   # GET /usercommodity_ts
   # GET /usercommodity_ts.json
   def index
