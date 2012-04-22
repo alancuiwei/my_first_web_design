@@ -77,4 +77,18 @@ class StrategyController < ApplicationController
   def intronorisk
   end
 
+  def maxreturnrate
+    @allmaxreturnrate=ArbcostmaxreturnrateV.all
+  end
+  
+  def todayinfo
+    # @todayinfostr=""
+   #File.open("C:\\Sites\\27843651\\app\\assets\\images\\todayinfo.html", "r") do |file|  
+    #  file.each_line do |line|  
+    #      @todayinfostr+=line  
+   #  end  
+  #  end 
+  # redirect_to("/assets/todayinfo.html")
+  end 
+
 end
