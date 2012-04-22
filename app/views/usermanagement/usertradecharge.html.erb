@@ -8,7 +8,9 @@
 
       <thead>
           <tr>
-            <th>合约号</th>
+		  <th>合约名称</th> 	
+		  <th>合约代号</th>
+			<th>手续费类型</th>
             <th>手续费</th>
             <th>操作</th>
           </tr>
@@ -17,7 +19,9 @@
       <tbody>
             <% @usercommodity.each do |usercommodity_t| %>
                   <tr>
-                    <td class="center"><%= usercommodity_t.commodityid %></td>
+					<td class="center"><%= usercommodity_t.commodityid %></td>
+  				    <td class="center"><%= usercommodity_t.commodityid %></td>
+  				    <td class="center"><%= usercommodity_t.tradechargetype %></td>				
                     <td class="center"><%= usercommodity_t.tradecharge %></td>
                     <td class="center"><%= link_to '修改', edit_usercommodity_t_path(usercommodity_t) %></td>
                   </tr>
@@ -25,7 +29,9 @@
       </tbody>
       <tfoot>
           <tr>
-            <th>合约号</th>
+		  <th>合约名称</th> 	
+		  <th>合约代号</th>
+			<th>手续费类型</th>
             <th>手续费</th>
             <th>操作</th>
           </tr>
