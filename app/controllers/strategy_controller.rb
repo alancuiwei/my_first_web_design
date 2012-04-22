@@ -82,6 +82,7 @@ class StrategyController < ApplicationController
   end
   
   def todayinfo
+    @alltodayinfo=TodayinfoT.all
     # @todayinfostr=""
    #File.open("C:\\Sites\\27843651\\app\\assets\\images\\todayinfo.html", "r") do |file|  
     #  file.each_line do |line|  

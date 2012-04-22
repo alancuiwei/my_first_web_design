@@ -1,0 +1,35 @@
+<br />
+<h2> 今日信息: <%=(Time.now()).strftime("%Y年%m月%d日")%> </h2>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
+      <thead>
+	  <tr>
+        <th>合约名</th>
+        <th>品种名</th>
+        <th>期货交易所</th>
+        <th>交易保证金比例</th>
+        <th>涨跌停比例</th>         
+      </tr>
+	  </thead>
+
+	  <tbody>
+        <% @alltodayinfo.each do |todayinfo|   %>    
+		  <tr>
+			<td class="center"><%= todayinfo.contractid %></td>
+			<td class="center"><%= todayinfo.commodityid %></td>
+			<td class="center"><%= todayinfo.exchname %></td>
+			<td class="center"><%= format("%.1f",todayinfo.margin*100) %>%</td>
+			<td class="center"><%= format("%.1f",todayinfo.updownlimit*100) %>%</td>                  
+		  </tr>
+        <% end %>
+	   </tbody>
+      <tfoot>
+	  <tr>
+        <th>合约名</th>
+        <th>品种名</th>
+        <th>期货交易所</th>
+        <th>交易保证金比例</th>
+        <th>涨跌停比例</th>           
+      </tr>
+	  </tfoot>
+
+</table>
