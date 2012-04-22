@@ -248,7 +248,7 @@
     var g_period = new PeriodicalExecuter(refreshMKData,2.0);
 	getAjax();
 
-
+/*
 // Define our positioning and style arrays
   var at = [
           'left bottom'
@@ -259,20 +259,22 @@
       styles = [
           'red'
       ];
-
+*/
 // Create the tooltips only on document load
-  $(document).ready(function()
-  {
-          $('a[title]').qtip();
 
-          $('.ironbars')
+//  $(document).ready(function()
+//  {
+//          $('a[title]').qtip();
+
+//          $('.ironbars')
               /*
                * Lets delete the qTip data from our target element so we can apply multiple tooltips.
                * Since the data is also stored on the tooltip element itself this isn't a problem!
                *
                * Check here for more details on this: http://craigsworks.com/projects/qtip2/tutorials/advanced/#multi
                */
-              .removeData('qtip')
+/*
+			   .removeData('qtip')
               .qtip({
                   content: {
                       text: '您可以调节品种手续费，享受定制化服务',
@@ -296,11 +298,11 @@
               });
 
   });
-
+*/
 </script>
 	<br />
   <% if @webuser!=nil%>
-  <%= button_to "修改交易价格",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+  <%= button_to "个性化手续费",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
   <% end %>
      <div class="ironbars">
        <div id = "norisktitle">

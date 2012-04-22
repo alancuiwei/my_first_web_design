@@ -3,10 +3,14 @@
 <head>
 <title>通天顺金融策略服务网 -- 无风险套利</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<%= javascript_include_tag :defaults %>
+
 <%= stylesheet_link_tag "style.css" %>
+<%= stylesheet_link_tag "datatables.css" %>
 <%= javascript_include_tag "jquery.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "easySlider1.5.js" %>
 <script type="text/javascript" charset="utf-8">
+
 // <![CDATA[
 $(document).ready(function(){
 	$("#slider").easySlider({
@@ -18,6 +22,14 @@ $(document).ready(function(){
 });
 // ]]>
 </script>
+
+<script type="text/javascript">
+$(function(){
+$("#datatables").dataTable();
+});
+</script>
+
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
