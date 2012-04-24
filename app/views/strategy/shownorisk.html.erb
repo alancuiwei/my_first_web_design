@@ -5,29 +5,73 @@
 
 
 
-<!-- <META HTTP-EQUIV="Refresh" content="10"> -->
-<style>
-.mesWindow{border:#666 1px solid;background:#fff;margin:0px 0px 0px 110px;}
-.mesWindowTop{border-bottom:#eee 1px solid;margin-left:5px;padding:3px;font-weight:bold;text-align:left;font-size:12px;}
-.mesWindowContent{margin:4px;font-size:12px;}
-.mesWindow .close{height:15px;width:40px;border:none;cursor:pointer;text-decoration:underline;background:#fff}
-</style>
+
 <!-- JS代码 -->
 <script language="Javascript">
+    //交易费用修改
     var computearbfee = new Array();
     var computetransfee = new Array();
-    var usercommodityid = new Array();
-    var usertradecharge = new Array();
+    var userchange_commodityid = new Array();
+    var userchange_tradecharge = new Array();
 
-    var userflag=<%=session[:userflag]%>;
+    //交割保证金占用成本 delivermarginfee
+    var delivermarginfee = new Array();
+    var xml_tradeunit = new Array();
+    var xml_storageday = new Array();
+    //交易保证金占用成本 trademarginfee
+    var trademarginfee = new Array();
+    var xml_issinglemargin = new Array();
+    var xml_firstmarginrate = new Array();
+    var xml_secondmarginrate = new Array();
+    var xml_D1 = new Array();
+    //存储费用 storagefee
+    var storagefee = new Array();
+    var xml_storagedailyfee = new Array();
+    //交割费用
+    var deliverfee = new Array();
+    var xml_deliverchargebyhand = new Array();
+    //增值税费用
+    var vatfee = new Array();
+    var xml_vatrate = new Array();
+    //db data
+    var userdb_lendrate = new Array();
+    var userdb_commodityid = new Array();
+    var userdb_trademargingap = new Array();
+    var defaultdb_tradecharge = new Array();
+    var defaultdb_lendrate = new Array();
+    var defaultdb_commodityid = new Array();
+    var defaultdb_trademargingap = new Array();
+    //default初始化
+    var defaultdb_num=<%= @defaultdb_num%>
+
+<% for i in 0..@defaultdb_num-1 do%>
+            defaultdb_commodityid[<%=i%>]='<%= @defaultdb_commodityid[i]%>';
+<% end%>
+    defaultdb_lendrate=<%= @defaultdb_lendrate%>
+    defaultdb_tradecharge=<%= @defaultdb_tradecharge%>
+    defaultdb_trademargingap=<%= @defaultdb_trademargingap%>
+
+    //flag
+    var userflag=<%=@userflag%>;
+
+    //定制服务初始化
     if(userflag!=0)
     {
-        var num=<%= session[:num]%>+1;
-    <% for i in 0..session[:num] do%>
-            usercommodityid[<%=i%>]='<%= session[:usercommodityid][i]%>';
+        var tradechargechange_num=<%= @tradechargechange_num %>+1;
+    <% for i in 0..@tradechargechange_num do%>
+            userchange_commodityid[<%=i%>]='<%= @userchange_commodityid[i]%>';
     <% end%>
+    //对象转化为数组
+    userchange_tradecharge=<%= @userchange_tradecharge%>
+     //字符串对象额外操作
+        var userdb_num=<%= @userdb_num%>
+        <% for i in 0..@userdb_num-1 do%>
+                userdb_commodityid[<%=i%>]='<%= @userdb_commodityid[i]%>';
+    <% end%>
+        userdb_lendrate=<%= @userdb_lendrate%>
+        userdb_trademargingap=<%= @userdb_trademargingap%>
 
-    usertradecharge=<%= session[:usertradecharge]%>
+         //the new table var
        }
 
      function loadXML(xmlString){
@@ -97,6 +141,44 @@
 	  this.isgetMKData = isgetMKData; 
 	}	 
 
+    function getxml()
+    {
+        var xmlhttpobj_xml = createxmlhttp();
+        if(xmlhttpobj_xml){
+            url = document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml";
+		 xmlhttpobj_xml.open("get",url,true);
+		 xmlhttpobj_xml.setRequestHeader("Cache-Control","no-cache");
+		 xmlhttpobj_xml.setRequestHeader("If-Modified-Since","0");
+		 xmlhttpobj_xml.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+            xmlhttpobj_xml.send(null);
+            xmlhttpobj_xml.onreadystatechange=function(){
+                if(xmlhttpobj_xml.readyState==4){
+                    if(xmlhttpobj_xml.status==200){
+                        var htmlxxx = xmlhttpobj_xml.responseText;
+                        var xmldoc=loadXML(htmlxxx);
+					 var elements = xmldoc.getElementsByTagName("pair");
+					 if(elements.length!=0){
+                         for (var i = 0; i < elements.length; i++)
+                         {
+                             //交割保证金占用成本 delivermarginfee
+                             xml_tradeunit[i]=parseFloat(elements[i].getElementsByTagName("tradeunit")[0].firstChild.nodeValue);
+                             xml_storageday[i]=parseFloat(elements[i].getElementsByTagName("D2")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("D1")[0].firstChild.nodeValue);
+                             //交易保证金占用成本
+                             xml_issinglemargin[i]=parseFloat(elements[i].getElementsByTagName("issinglemargin")[0].firstChild.nodeValue);
+                             xml_firstmarginrate[i]=parseFloat(elements[i].getElementsByTagName("firstmarginrate")[0].firstChild.nodeValue);
+                             xml_secondmarginrate[i]=parseFloat(elements[i].getElementsByTagName("secondmarginrate")[0].firstChild.nodeValue);
+                             xml_D1[i]=parseFloat(elements[i].getElementsByTagName("D1")[0].firstChild.nodeValue);
+                             xml_storagedailyfee[i]=parseFloat(elements[i].getElementsByTagName("storagedailyfee")[0].firstChild.nodeValue);
+                             xml_deliverchargebyhand[i]=parseFloat(elements[i].getElementsByTagName("deliverchargebyhand")[0].firstChild.nodeValue);
+                             xml_vatrate[i]=parseFloat(elements[i].getElementsByTagName("vatrate")[0].firstChild.nodeValue);
+                         }
+                     }
+                     }
+                }
+            }
+        }
+    }
+    getxml();
      function getAjax()
      {
          var xmlhttpobj = createxmlhttp();
@@ -113,35 +195,144 @@
                          var htmlxxx = xmlhttpobj.responseText;
                          var xmldoc=loadXML(htmlxxx);
 						 var elements = xmldoc.getElementsByTagName("pair");
+
 						 if(elements.length!=0){
+
+                             //original
 							 var tbs = '<table class="rttableformat">';
 							 var tbttl = '<tr><th>套利合约对名</th><th>近月合约价格</th><th>远月合约价格</th><th><a title="最新价差 是远月合约价格减去近月合约价格">最新价差</a></th><th><a title="持仓成本 是您做这笔套利对交易所需要付出的成本金额。持仓成本 = 存储费用 + 交割费用 + 交易费用 + 保证金占用费用 + 交割保证金占有费用 + 增值税费用">持仓成本</a></th><th>年化收益率</th><th>更新时间</th></tr>';
                              tbs += tbttl;
 							 var tbstrarray = new Array();		
 							 var returnratearray = new Array();
+
 							 for (var i = 0; i < elements.length; i++) {
+                                 //默认用户
+
                                  if(userflag==0)
-                                 computetransfee[i]=parseFloat(elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue);
+                                 {
+                                     //默认所有计算
+                                     for(var q=0;q<defaultdb_num-1;q++)
+                                     {
+                                         function default_s()
+                                         {
+                                             vatfee[i]=(parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                     -parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue))*xml_tradeunit[i]
+                                                     *xml_vatrate[i]/(1+xml_vatrate[i])
+                                             //交割费用
+                                             deliverfee[i]=xml_deliverchargebyhand[i]*2
+                                             //存储费用
+                                             storagefee[i]=xml_storagedailyfee[i]*2
+                                             //交易费用
+                                             computetransfee[i]=defaultdb_tradecharge[q]*2;
+                                             //交易保证金占用成本
+                                             if(xml_issinglemargin[i]==1)
+                                             {
+                                                 trademarginfee[i]=parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_firstmarginrate[i]+defaultdb_trademargingap[q])*defaultdb_lendrate[q]*xml_D1[i]/365
+                                                         +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_secondmarginrate[i]+defaultdb_trademargingap[q])*defaultdb_lendrate[q]*xml_storageday[i]/365
+                                             }
                                  else
                                  {
-                                     for(var p=0;p<num;p++)
+                                                 trademarginfee[i]=(parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_firstmarginrate[i]+defaultdb_trademargingap[q])+parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_secondmarginrate[i]+defaultdb_trademargingap[q]))*defaultdb_lendrate[q]*xml_D1[i]/365
+                                                         +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_secondmarginrate[i]+defaultdb_trademargingap[q])*defaultdb_lendrate[q]*xml_storageday[i]/365
+                                             }
+
+                                             //默认交割保证金占用成本
+                                             delivermarginfee[i]=parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                     *xml_tradeunit[i]*defaultdb_lendrate[q]*xml_storageday[i]/365;
+                                         }
+
+                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2)==defaultdb_commodityid[q])
                                      {
-                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2)==usercommodityid[p])
+                                             default_s();
+                                             break;
+
+                                         }
+                                         //内容同上
+                                         else if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,1)==defaultdb_commodityid[q])
                                          {
-                                             computetransfee[i]=usertradecharge[p];
+                                             default_s();
+                                             break;
+                                         }
+                                 }
+                                 }
+                                 //用户
+                                 else
+                                 {
+                                     //所有计算
+                                     for(var q=0;q<userdb_num-1;q++)
+                                     {
+                                         function user()
+                                         {
+                                             vatfee[i]=(parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                 -parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue))*xml_tradeunit[i]
+                                                 *xml_vatrate[i]/(1+xml_vatrate[i])
+                                             //交割费用
+                                             deliverfee[i]=xml_deliverchargebyhand[i]*2
+                                             //存储费用
+                                             storagefee[i]=xml_storagedailyfee[i]*2
+                                             //交易保证金占用成本
+                                             if(xml_issinglemargin[i]==1)
+                                             {
+                                                 trademarginfee[i]=parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_firstmarginrate[i]+userdb_trademargingap[q])*userdb_lendrate[q]*xml_D1[i]/365
+                                                     +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                     *xml_tradeunit[i]*(xml_secondmarginrate[i]+userdb_trademargingap[q])*userdb_lendrate[q]*xml_storageday[i]/365
+                                             }
+                                             else
+                                             {
+                                                 trademarginfee[i]=(parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                         *xml_tradeunit[i]*(xml_firstmarginrate[i]+userdb_trademargingap[q])+parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                 *xml_tradeunit[i]*(xml_secondmarginrate[i]+userdb_trademargingap[q]))*userdb_lendrate[q]*xml_D1[i]/365
+                                                     +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)
+                                                     *xml_tradeunit[i]*(xml_secondmarginrate[i]+userdb_trademargingap[q])*userdb_lendrate[q]*xml_storageday[i]/365
+                                             }
+
+                                             //交割保证金占用成本
+                                             delivermarginfee[i]=parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                                          *xml_tradeunit[i]*userdb_lendrate[q]*xml_storageday[i]/365;
+
+                                         }
+                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2)==userdb_commodityid[q])
+                                         {
+                                             user();
+                                             break;
+                                         }
+                                         //内容同上
+                                         else if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,1)==userdb_commodityid[q])
+                                         {
+                                             user();
+                                             break;
+                                         }
+                                     }
+                                     //交易费用修改（user）
+                                     for(var p=0;p<tradechargechange_num;p++)
+                                     {
+                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,2)==userchange_commodityid[p])
+                                         {
+                                             computetransfee[i]=userchange_tradecharge[p]*2;
+                                             break;
+                                         }
+                                         else if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue.substr(0,1)==userchange_commodityid[p])
+                                         {
+                                             computetransfee[i]=userchange_tradecharge[p]*2;
                                              break;
                                          }
                                          else
-                                         computetransfee[i]=parseFloat(elements[i].getElementsByTagName("computetransfee")[0].firstChild.nodeValue);
+                                             computetransfee[i]=defaultdb_tradecharge[q]*2;
                                      }
                                  }
 
 								tbstrarray[i]="<tr>";
-                                 computearbfee[i] = parseFloat(elements[i].getElementsByTagName("computestoragefee")[0].firstChild.nodeValue)
-                                         +parseFloat(elements[i].getElementsByTagName("computedeliverfee")[0].firstChild.nodeValue)
-                                         +parseFloat(elements[i].getElementsByTagName("computetrademarginfee")[0].firstChild.nodeValue)
-                                         +parseFloat(elements[i].getElementsByTagName("computedelivermarginfee")[0].firstChild.nodeValue)
-                                         +parseFloat(elements[i].getElementsByTagName("computevatfee")[0].firstChild.nodeValue)
+                                 computearbfee[i] = storagefee[i]
+                                         +deliverfee[i]
+                                         +trademarginfee[i]
+                                         +delivermarginfee[i]
+                                         +vatfee[i]
                                          +computetransfee[i];
 							tbstrarray[i]+= "<td>"
 									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</a></td>";
@@ -152,7 +343,7 @@
 									 tbstrarray[i]+= "<td>"
 										 + elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue + "</td>";
 									 tbstrarray[i]+= "<td>"
-										 + elements[i].getElementsByTagName("diffprice")[0].firstChild.nodeValue + "</td>";
+										 + (parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)) + "</td>";
 
                                         tbstrarray[i]+= "<td>"+ parseFloat(computearbfee[i]).toFixed(1)
                                                 + "</td>";
@@ -203,7 +394,6 @@
 		return st;   
 
 	}
-
 
 	function checktimeMKTime(){
 		var servertime=getservertime();
@@ -305,6 +495,10 @@
 	<br />
   <% if @webuser!=nil%>
   <%= button_to "个性化手续费",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+  <%= button_to "修改贷款利率",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
+  <%= button_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id%>
+  <%= button_to "设置期望年化收益率",:controller=>"webusers" ,:action=>"userrateofreturn", :id=>@webuser.id%>
+
   <% end %>
      <div class="ironbars">
        <div id = "norisktitle">

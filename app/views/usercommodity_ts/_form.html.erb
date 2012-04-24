@@ -10,12 +10,13 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
-    <%= f.label :"修改交易价格：" %><br />
+    修改“<%= @usercommodity_t.commodityid%>”的交易价格：<br />
     <%= f.text_field :tradecharge %>
   </div>
   <div class="actions">
     <%= f.submit :"提交" %>
   </div>
 <% end %>
+<%= link_to '显示详细', :controller=>"usercommodity_ts" ,:action=>"show", :id=>@usercommodity_t.id %> |
+<%= link_to '返回', :controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %>

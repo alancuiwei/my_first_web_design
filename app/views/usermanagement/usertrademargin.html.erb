@@ -1,0 +1,24 @@
+   <h2> 欢迎登录，<%= @webuser.name %>！这里是保证金比例修改页面！</h2>
+    <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
+    <table width="400" height="134" border="1" id="example">
+
+      <thead>
+          <tr>
+            <td width="120">合约号</td>
+            <td width="120">当前保证金比例</td>
+            <td width="120">操作</td>
+          </tr>
+      </thead>
+
+      <tbody>
+      <% i=0 %>
+      <% @usercommodity.each do |usercommodity_t| %>
+         <tr>
+           <td><%= @commodityid[i] %></td>
+           <td><%= @exchtrademargin[i] %></td>
+           <td><%= link_to '修改', edit_usercommodity_t_path(usercommodity_t) %></td>
+         </tr>
+      <% i=i+1 %>
+      <% end %>
+      </tbody>
+    </table>

@@ -1,0 +1,6 @@
+   <h2> 欢迎登录，<%= @webuser.name %>！这里是贷款利率修改页面！</h2>
+    <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
+
+    <h2>您当前的贷款利率是<%= @usercommodity[0].lendrate%>，
+      请修改<%= form_tag do %><%= text_field_tag :lendrate_p, params[:lendrate_p],:size=>10 %><%= submit_tag "提交"%><% end %></h2>
+     <%= params[:lendrate] %>

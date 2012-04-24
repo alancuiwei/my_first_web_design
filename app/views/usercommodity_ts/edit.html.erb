@@ -1,7 +1,10 @@
-    <h2>手续费修改：</h2>
-
+    <% if $commodity_form==0 %>
+        <h2>手续费修改：</h2>
     <%= render 'form' %>
+        <% else %>
+        <h2>修改您的保证金比例：</h2>
+    <%= render 'formtm' %>
+        <% end %>
 
-    <%= link_to '显示详细', @usercommodity_t %> |
-    <%= link_to '返回', :controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %>
+
 
