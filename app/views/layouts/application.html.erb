@@ -54,7 +54,7 @@ $(document).ready(function(){
           </div>
           <% else %>
           <div class="welcomeuser"><p>
-          您好，<%= session[:webuser_name] %>，我们为您准备的策略推荐，<%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
+          您好，<%= session[:webuser_name] %>! <%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
           </p></div>
 		  <% if session[:webuser_name]=="administrator" then%>
           <div class="login">
