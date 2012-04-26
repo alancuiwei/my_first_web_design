@@ -28,6 +28,7 @@ def userlendrate
      usercommodity_t.lendrate=params[:lendrate_p]
      usercommodity_t.save
    end
+    redirect_to :controller=>"usercommodity_ts" ,:action=>"showlr", :id=>@usercommodity[1].id
    end
 end
 

@@ -494,11 +494,22 @@
 </script>
 	<br />
   <% if @webuser!=nil%>
-  <%= button_to "个性化手续费",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
-  <%= button_to "修改贷款利率",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
-  <%= button_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id%>
-  <%= button_to "设置期望年化收益率",:controller=>"webusers" ,:action=>"userrateofreturn", :id=>@webuser.id%>
 
+  <div class="buttonbars">
+  <div id = "tradefeebutton">
+  <%= button_to "个性化手续费",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+  </div>
+  <div id = "lendatefeebutton">
+  <%= button_to "修改贷款利率",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
+  </div>
+  <div id = "marginbutton">
+  <%= button_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id%>
+  </div>
+  <div id = "annualreturnbutton">
+  <%= button_to "设置期望年化收益率",:controller=>"webusers" ,:action=>"userrateofreturn", :id=>@webuser.id%>
+  </div>
+  </div>
+  
   <% end %>
      <div class="ironbars">
        <div id = "norisktitle">

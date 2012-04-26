@@ -53,6 +53,11 @@ layout 'usermanagement'
       format.json { render json: @usercommodity_t }
     end
   end
+
+  def showlr
+    @usercommodity_t = UsercommodityT.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+  end
   # GET /usercommodity_ts/new
   # GET /usercommodity_ts/new.json
   def new
