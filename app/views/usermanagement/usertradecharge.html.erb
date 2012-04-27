@@ -20,9 +20,9 @@
             <% @usercommodity.each do |usercommodity_t| %>
                   <tr>
                     <td class="center"><%= link_to '修改', edit_usercommodity_t_path(usercommodity_t) %></td>
+					<td class="center"><%= @hash_commodityid[usercommodity_t.commodityid]  %></td>
 					<td class="center"><%= usercommodity_t.commodityid %></td>
-  				    <td class="center"><%= usercommodity_t.commodityid %></td>
-  				    <td class="center"><%= usercommodity_t.tradechargetype %></td>				
+  				    <td class="center"><%= @hash_tradechargetype[usercommodity_t.tradechargetype]  %></td>
                     <td class="center"><%= usercommodity_t.tradecharge %></td>
                   </tr>
                 <% end %>
