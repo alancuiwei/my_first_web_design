@@ -8,7 +8,7 @@
         <th>近期合约价格</th>
         <th>远期合约价格</th>
         <th>成本</th>
-        <th>年化收益率</th>
+        <th>年化收益率(%)</th>
         <th>历史时间</th>           
       </tr>
 	  </thead>
@@ -22,7 +22,7 @@
                 <td class="center"><%= maxreturnrate.firstprice %></td>
                 <td class="center"><%= maxreturnrate.secondprice %></td>
                 <td class="center"><%= maxreturnrate.cost %></td>
-                <td class="center"><%= format("%.1f",maxreturnrate.returnrate*100) %> %</td>
+                <td class="center"><%= format("%.1f",maxreturnrate.returnrate*100) %> </td>
                 <td class="center"><%= maxreturnrate.currenttime.strftime("%Y年%m月%d日 %H时%M分%S秒") %></td>                    
               </tr>
             <% end %>

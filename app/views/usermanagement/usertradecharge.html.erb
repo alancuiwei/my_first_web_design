@@ -23,7 +23,11 @@
 					<td class="center"><%= @hash_commodityid[usercommodity_t.commodityid]  %></td>
 					<td class="center"><%= usercommodity_t.commodityid %></td>
   				    <td class="center"><%= @hash_tradechargetype[usercommodity_t.tradechargetype]  %></td>
-                    <td class="center"><%= usercommodity_t.tradecharge %></td>
+                    <% if  (usercommodity_t.tradecharge-usercommodity_t.tradecharge.to_i)==0%>
+                        <td class="center"><%= format( "%.0f",usercommodity_t.tradecharge) %></td>
+                        <% else %>
+                            <td class="center"><%= format( "%.6f", usercommodity_t.tradecharge) %></td>
+                        <% end %>
                   </tr>
                 <% end %>
       </tbody>

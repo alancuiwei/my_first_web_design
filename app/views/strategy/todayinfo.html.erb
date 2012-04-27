@@ -6,8 +6,8 @@
         <th>合约名</th>
         <th>品种名</th>
         <th>期货交易所</th>
-        <th>交易保证金比例</th>
-        <th>涨跌停比例</th>         
+        <th>交易保证金比例(%)</th>
+        <th>涨跌停比例(%)</th>
       </tr>
 	  </thead>
 
@@ -17,8 +17,8 @@
 			<td class="center"><%= todayinfo.contractid %></td>
 			<td class="center"><%= todayinfo.commodityid %></td>
 			<td class="center"><%= todayinfo.exchname %></td>
-			<td class="center"><%= format("%.1f",todayinfo.margin*100) %>%</td>
-			<td class="center"><%= format("%.1f",todayinfo.updownlimit*100) %>%</td>                  
+			<td class="center"><%= format("%.1f",todayinfo.margin*100) %></td>
+			<td class="center"><%= format("%.1f",todayinfo.updownlimit*100) %></td>
 		  </tr>
         <% end %>
 	   </tbody>
