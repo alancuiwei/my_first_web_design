@@ -1,4 +1,6 @@
 Ver01::Application.routes.draw do
+  get "tradeinfo/todayinfo"
+
    resources :usercommodity_ts
 
   resources :noriskmessages

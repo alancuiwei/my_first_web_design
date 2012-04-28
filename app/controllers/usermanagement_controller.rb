@@ -6,8 +6,14 @@ include REXML
 
 class UsermanagementController < ApplicationController
 def index
-   @webuser = Webuser.find_by_name(session[:webuser_name])
+  @webuser = Webuser.find_by_name(session[:webuser_name])
+  if @webuser==nil
+   redirect_to :controller=>"sessions" ,:action=>"new"
+   end
   @flag=0
+end
+def trademanageindex
+   @webuser = Webuser.find_by_name(session[:webuser_name])
 end
 def usertradecharge
   $commodity_form=0

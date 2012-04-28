@@ -65,15 +65,6 @@ $("#datatables").dataTable();
           <div class="welcomeuser"><p>
           您好，<%= session[:webuser_name] %>! <%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
           </p></div>
-		  <% if session[:webuser_name]=="administrator" then%>
-          <div class="login">
-          <%= link_to "管理员入口", :controller=>"admin",:action=>"index" %>
-          </div>
-		  <% else %>
-		  <div class="login">
-          <%= link_to "用户设置", :controller=>"usermanagement",:action=>"index" %>
-          </div>
-		  <% end %>
 	  <% end %>
 
       <div class="clr"></div>
@@ -81,8 +72,8 @@ $("#datatables").dataTable();
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
-          <li><%= link_to "个性化交易",:controller => "home",:action => "comingsoon" %></li>
-          <li><%= link_to "自动化交易",:controller => "home",:action => "comingsoon" %></li>
+          <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
+          <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "intro" %></li>
         </ul>
       </div>
@@ -101,9 +92,9 @@ $("#datatables").dataTable();
     <h2>无风险套利</h2>
     <ul>
       <li><%= link_to "策略介绍",:controller =>"strategy",:action =>"intronorisk" %></li>
-      <li><%= link_to "策略运行",:controller =>"strategy",:action =>"shownorisk" %></li>
-      <li><%= link_to "历史最佳套利机会",:controller =>"strategy",:action =>"maxreturnrate" %></li>
-      <li><%= link_to "今日信息",:controller =>"strategy",:action =>"todayinfo" %></li>
+      <li><%= link_to "策略实时运行",:controller =>"strategy",:action =>"shownorisk" %></li>
+      <li><%= link_to "策略历史机会",:controller =>"strategy",:action =>"maxreturnrate" %></li>
+      <li><%= link_to "个性化交易",:controller =>"strategy",:action =>"personaltrading" %></li>
     </ul>
   <p></p>
     </div>

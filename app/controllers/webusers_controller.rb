@@ -29,11 +29,11 @@ class WebusersController < ApplicationController
   # GET /webusers/new.json
   def new
     @webuser = Webuser.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @webuser }
-    end
+	render:layout=>'application'
+#    respond_to do |format|
+#      format.html # new.html.erb
+#      format.json { render json: @webuser }
+#    end
   end
 
   # GET /webusers/1/edit

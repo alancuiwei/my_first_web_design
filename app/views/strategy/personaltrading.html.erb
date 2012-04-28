@@ -1,0 +1,11 @@
+<%= javascript_include_tag "prototype.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
+<%= javascript_include_tag "jquery.qtip.min.js" %>
+<%= stylesheet_link_tag "jquery.qtip.min.css" %>
+
+<br />
+<h2>个性化交易 - 无风险套利 </h2>
+  <p> 年化收益率定制：通过设置它，您将根据您个人特定的手续费等来进行行情记录及交易。</p>
+<p>当然了，如果您嫌麻烦，可以利用我们系统默认的参数，你可以点击查看<%= link_to "默认交易信息",:controller => "tradeinfo",:action => "todayinfo" %></p>
+
+<%= button_to "个性化定制",:controller=>"usermanagement" ,:action=>"trademanageindex" %>

@@ -62,15 +62,6 @@ $("#datatables").dataTable();
           <div class="welcomeuser"><p>
           您好，<%= session[:webuser_name] %>! <%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
           </p></div>
-		  <% if session[:webuser_name]=="administrator" then%>
-          <div class="login">
-          <%= link_to "管理员入口", :controller=>"admin",:action=>"index" %>
-          </div>
-		  <% else %>
-		  <div class="login">
-          <%= link_to "用户设置", :controller=>"usermanagement",:action=>"index" %>
-          </div>
-		  <% end %>
 	  <% end %>
 
       <div class="clr"></div>
@@ -78,8 +69,8 @@ $("#datatables").dataTable();
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
-          <li><%= link_to "个性化交易",:controller => "home",:action => "comingsoon" %></li>
-          <li><%= link_to "自动化交易",:controller => "home",:action => "comingsoon" %></li>
+          <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
+          <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "intro" %></li>
         </ul>
       </div>
@@ -96,14 +87,23 @@ $("#datatables").dataTable();
   <div class="body">
     <div class="body_resize">
     <div class="StrategyNews">
-    <h2>用户设置</h2>
+    <h2>帐号管理</h2>
     <ul>
     <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
-    <li><%= link_to "交易价格修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
-    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
-    <li><%= link_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
     </ul>
-  <p></p>
+	<br />
+    <h2>策略管理</h2>
+    <ul>
+    <li><%= link_to "无风险套利管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+    </ul>
+	<br />
+    <h2><%= link_to "交易管理",:controller=>"usermanagement" ,:action=>"trademanageindex"%></h2>
+    <ul>
+    <li><%= link_to "手续费修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
+    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
+    <li><%= link_to "保证金比例修改",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
+    </ul>
+
     </div>
   <div class="frame">
 

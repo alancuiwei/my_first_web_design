@@ -56,15 +56,6 @@ $(document).ready(function(){
           <div class="welcomeuser"><p>
           您好，<%= session[:webuser_name] %>! <%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
           </p></div>
-		  <% if session[:webuser_name]=="administrator" then%>
-          <div class="login">
-          <%= link_to "管理员入口", :controller=>"admin",:action=>"index" %>
-          </div>
-		  <% else %>
-		  <div class="login">
-          <%= link_to "用户设置", :controller=>"usermanagement",:action=>"index" %>
-          </div>
-		  <% end %>
 	  <% end %>
 
       <div class="clr"></div>
@@ -72,8 +63,8 @@ $(document).ready(function(){
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
-          <li><%= link_to "个性化交易",:controller => "home",:action => "comingsoon" %></li>
-          <li><%= link_to "自动化交易",:controller => "home",:action => "comingsoon" %></li>
+          <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
+          <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "intro" %></li>
         </ul>
       </div>
