@@ -493,14 +493,17 @@
 */
 </script>
 	<br />
-  <% if @webuser!=nil%>
 
   <div class="buttonbars">
   <div id = "annualreturnbutton">
+  
+  <% if @webuser!=nil%>
   <%= button_to "设置期望年化收益率",:controller=>"webusers" ,:action=>"userrateofreturn", :id=>@webuser.id%>
-  </div>
-  </div>
+  <% else %>
+  <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new" %>
   <% end %>
+  </div>
+  </div>
      <div class="ironbars">
        <div id = "norisktitle">
          <h3>策略实时运行中</h3>
