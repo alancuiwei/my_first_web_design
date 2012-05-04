@@ -2,7 +2,6 @@
 require 'rubygems'
 
 class StrategyController < ApplicationController
-  $login=1
   def index
     respond_to do |format|
       format.html
@@ -30,6 +29,7 @@ class StrategyController < ApplicationController
   end
 
   def shownorisk
+    session[:login]=1
 
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
 
