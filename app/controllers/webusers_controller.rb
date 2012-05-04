@@ -108,8 +108,18 @@ class WebusersController < ApplicationController
   # DELETE /webusers/1.json
   def destroy
     @webuser = Webuser.find(params[:id])
-    @webuser.destroy
+    @usercommoditys=UsercommodityT.find_all_by_userid(@webuser.name)
+    @stg010001s=Stg010001.find_all_by_username(@webuser.name)
+    @strategyparam = StrategyparamT.find_by_username(@webuser.name)
 
+    for i in 0..@usercommoditys.size-1
+      @usercommoditys[i].destroy
+    end
+    for i in 0..@stg010001s.size-1
+      @stg010001s[i].destroy
+    end
+   @strategyparam.destroy
+    @webuser.destroy
     respond_to do |format|
       format.html { redirect_to webusers_url }
       format.json { head :ok }

@@ -30,7 +30,6 @@ class StrategyController < ApplicationController
 
   def shownorisk
     session[:login]=1
-
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
 
     if params[:pairname]!=nil
