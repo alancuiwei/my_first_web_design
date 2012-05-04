@@ -1,0 +1,31 @@
+<div class="slider2">
+<div class="slice12">
+  <h2>个性化管理</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize_login">
+  <div class="StrategyNews">
+  <h2>账号管理</h2>
+  <ul>
+    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+  </ul>
+  <h2>策略管理</h2>
+  <ul>
+    <li>无风险套利</li>
+  </ul>
+<p></p>
+</div>
+
+    <p>
+      <b>期望保证金比例修改为：</b>
+      <%= @strategyparam.paramvalue %>
+    </p>
+
+    <%= link_to '返回',:controller=>"strategy" ,:action=>"userrateofreturn", :id=>@webuser.id %>
+
+	<div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+</div>

@@ -1,5 +1,7 @@
 #encoding: utf-8
 class WebusersController < ApplicationController
+  layout "application"  ,:except=>[:edit]
+  #layout "webusers"  ,:only=>[:show]
   # GET /webusers
   # GET /webusers.json
   def index
@@ -29,7 +31,6 @@ class WebusersController < ApplicationController
   # GET /webusers/new.json
   def new
     @webuser = Webuser.new
-	render:layout=>'application'
 #    respond_to do |format|
 #      format.html # new.html.erb
 #      format.json { render json: @webuser }
@@ -39,6 +40,7 @@ class WebusersController < ApplicationController
   # GET /webusers/1/edit
   def edit
     @webuser = Webuser.find(params[:id])
+    render:layout=>'webusers'
   end
 
   # POST /webusers
@@ -50,6 +52,13 @@ class WebusersController < ApplicationController
       if @webuser.save
 	    session[:webuser_name] = @webuser.name
 
+      StrategyparamT.new do |s|
+        s.strategyid="010001"
+        s.paramname="returnrate"
+        s.paramvalue=0.1
+        s.username=session[:webuser_name]
+        s.save
+      end
       #new usercommodiy
       @usercommodity=UsercommodityT.find_all_by_userid("tester1")
       i=0

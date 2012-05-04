@@ -1,0 +1,33 @@
+<div class="slider2">
+<div class="slice12">
+  <h2>个性化管理</h2>
+</div>
+</div>
+<div class="clr"></div>
+<div class="body">
+  <div class="body_resize_login">
+  <div class="StrategyNews">
+  <h2>账号管理</h2>
+  <ul>
+    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+    <li><%= link_to "交易价格修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
+    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
+    <li><%= link_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
+    <li><%= link_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"userrateofreturn", :id=>@webuser.id %></li>
+  </ul>
+  <h2>策略管理</h2>
+  <ul>
+    <li>无风险套利</li>
+  </ul>
+<p></p>
+</div>
+   <h2> 欢迎登录，<%= @webuser.name %>！这里是期望年化收益率修改页面！</h2>
+    <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
+
+    <h2>您当前的期望年化收益率是<%= @strategyparam.paramvalue%>，
+      请修改<%= form_tag do %><%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 %><%= submit_tag "提交"%><% end %></h2>
+
+	<div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+</div>

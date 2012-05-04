@@ -8,12 +8,59 @@
 
 <!-- JS代码 -->
 <script language="Javascript">
+    var click_name=new Array();
+    var click_firstprice=new Array();
+    var click_secondprice=new Array();
+    var click_disprice=new Array();
+    var click_computearbfee=new Array();
+    var click_returnrate=new Array();
+    var click_time=new Array();
+    function  myclick(s)
+    {
+        //$.post("showclick", { myclick: s } );
+        alert(click_name[s]+" "+click_firstprice[s]+" "+click_secondprice[s]+" "+click_disprice[s]+" "+click_computearbfee[s]+" "+click_returnrate[s]+" "+click_time[s])
+
+    }
+    var stg010001_username = new Array();
+    var stg010001_pairname = new Array();
+    var stg010001_time = new Array();
+    var stg010001_returnrate = new Array();
+    var myDate = new Array();
+    <% for i in 0..@stg010001.size-1 do%>
+        stg010001_username[<%=i%>]='<%= @stg010001[i].username%>';
+        stg010001_pairname[<%=i%>]='<%= @stg010001[i].pairname%>';
+        stg010001_time[<%=i%>]='<%= @stg010001[i].time.strftime("%Y年%m月%d日 %H时%M分%S秒")%>';
+        stg010001_returnrate[<%=i%>]='<%= @stg010001[i].returnrate%>';
+    <% end%>
+    Date.prototype.format = function(format)
+        {
+            var o = {
+            "M+" : this.getMonth()+1, //month
+            "d+" : this.getDate(),    //day
+            "h+" : this.getHours(),   //hour
+            "m+" : this.getMinutes(), //minute
+            "s+" : this.getSeconds(), //second
+            "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+            "S" : this.getMilliseconds() //millisecond
+            }
+            if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+            (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+            for(var k in o)if(new RegExp("("+ k +")").test(format))
+            format = format.replace(RegExp.$1,
+            RegExp.$1.length==1 ? o[k] :
+            ("00"+ o[k]).substr((""+ o[k]).length));
+            return format;
+        }
+
     //交易费用修改
     var computearbfee = new Array();
     var computetransfee = new Array();
     var userchange_commodityid = new Array();
     var userchange_tradecharge = new Array();
 
+    //实际年化收益率
+    var computerateofreturn = new Array();
+    var funds = new Array();//总资金
     //交割保证金占用成本 delivermarginfee
     var delivermarginfee = new Array();
     var xml_tradeunit = new Array();
@@ -24,6 +71,7 @@
     var xml_firstmarginrate = new Array();
     var xml_secondmarginrate = new Array();
     var xml_D1 = new Array();
+    var xml_D2 = new Array();
     //存储费用 storagefee
     var storagefee = new Array();
     var xml_storagedailyfee = new Array();
@@ -73,7 +121,15 @@
 
          //the new table var
        }
-
+    <% if @webuser!=nil&&@strategyparam!=nil%>
+    var userrateofreturn = <%= @strategyparam.paramvalue%>
+    var userrateofreturn_first = new Array();
+    var userrateofreturn_first_flag = new Array(20);
+    for(var i=0;i<userrateofreturn_first_flag.length-1;i++)
+    {
+        userrateofreturn_first_flag[i]=0
+    }
+    <% end %>
      function loadXML(xmlString){
          var xmlDoc=null;
          if(!window.DOMParser && window.ActiveXObject){
@@ -168,6 +224,7 @@
                              xml_firstmarginrate[i]=parseFloat(elements[i].getElementsByTagName("firstmarginrate")[0].firstChild.nodeValue);
                              xml_secondmarginrate[i]=parseFloat(elements[i].getElementsByTagName("secondmarginrate")[0].firstChild.nodeValue);
                              xml_D1[i]=parseFloat(elements[i].getElementsByTagName("D1")[0].firstChild.nodeValue);
+                             xml_D2[i]=parseFloat(elements[i].getElementsByTagName("D2")[0].firstChild.nodeValue);
                              xml_storagedailyfee[i]=parseFloat(elements[i].getElementsByTagName("storagedailyfee")[0].firstChild.nodeValue);
                              xml_deliverchargebyhand[i]=parseFloat(elements[i].getElementsByTagName("deliverchargebyhand")[0].firstChild.nodeValue);
                              xml_vatrate[i]=parseFloat(elements[i].getElementsByTagName("vatrate")[0].firstChild.nodeValue);
@@ -224,6 +281,10 @@
                                              storagefee[i]=xml_storagedailyfee[i]*2
                                              //交易费用
                                              computetransfee[i]=defaultdb_tradecharge[q]*2;
+                                             //总资金
+                                             funds[i]=(parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                             +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue
+                                                     *(xml_secondmarginrate[i]+defaultdb_trademargingap[q])))*xml_tradeunit[i]
                                              //交易保证金占用成本
                                              if(xml_issinglemargin[i]==1)
                                              {
@@ -275,6 +336,10 @@
                                              deliverfee[i]=xml_deliverchargebyhand[i]*2
                                              //存储费用
                                              storagefee[i]=xml_storagedailyfee[i]*2
+                                             //总资金
+                                             funds[i]=(parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
+                                             +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue
+                                                     *(xml_secondmarginrate[i]+userdb_trademargingap[q])))*xml_tradeunit[i]
                                              //交易保证金占用成本
                                              if(xml_issinglemargin[i]==1)
                                              {
@@ -334,6 +399,9 @@
                                          +delivermarginfee[i]
                                          +vatfee[i]
                                          +computetransfee[i];
+                                 //年化收益率计算
+                                 computerateofreturn[i]=((parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue))
+                                     *xml_tradeunit[i]-computearbfee[i])*365/(funds[i]*xml_D2[i])
 							tbstrarray[i]+= "<td>"
 									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</a></td>";
 								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
@@ -349,8 +417,8 @@
                                                 + "</td>";
 
 									 tbstrarray[i]+= "<td>"
-										 + (elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue*100).toFixed(1) + "% </td>";
-								     returnratearray[i]=new returnrate(i,parseFloat(elements[i].getElementsByTagName("computerateofreturn")[0].firstChild.nodeValue));
+										 + (computerateofreturn[i]*100).toFixed(1) + "% </td>";
+								     returnratearray[i]=new returnrate(i,computerateofreturn[i]);
 								}
 								else{
 									 tbstrarray[i]+= "<td> -- </td>";
@@ -370,6 +438,102 @@
 							}
 							tbs+='</table>\n';
 							document.getElementById("rtpricetable").innerHTML=tbs;
+
+                             //user table
+                             if(userflag!=0)
+                             {
+                             //user table
+                             var tbs_user = '<table class="rttableformat">';
+                             var tbttl_user = '<tr><th>合约号</th><th>下单年化收益率</th><th>下单时间</th><th>最新年化收益率</th><th>操作</th></tr>';
+                             tbs_user += tbttl_user;
+                             for (var i = 0; i < elements.length; i++)
+                             {
+                                 // db set
+                                 if(computerateofreturn[i]>userrateofreturn && userrateofreturn_first_flag[i]==0)
+                                 {
+                                     var datatime=new Date()
+                                     myDate[i]=datatime.format("yyyy年MM月dd日 hh时mm分ss秒");
+                                     userrateofreturn_first[i]=computerateofreturn[i];
+                                     userrateofreturn_first_flag[i]=1;
+
+                                     if(stg010001_pairname=='')
+                                         $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                     else
+                                     {
+                                     var flag_db=0
+                                     for(var j=0;j<stg010001_pairname.length;j++)
+                                         {
+                                           if(stg010001_pairname[j]==elements[i].getElementsByTagName("name")[0].firstChild.nodeValue)
+                                             flag_db=flag_db+1
+                                         }
+                                         if(flag_db==0)
+                                         {
+                                             $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                         }
+                                     }
+                                  }
+                             }
+                             //show set
+                             if(stg010001_username=='')
+                             {
+                             for (var i = 0; i < elements.length; i++) {
+                                 if(computerateofreturn[i]>userrateofreturn|| userrateofreturn_first[i]>userrateofreturn)
+                                 {
+                                     tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
+                                             +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
+                                             +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="/strategy/showclick">'+"查看"+'</a></td></tr>'
+                                 }
+                             }
+                             }
+
+                             else//not empty
+                             {
+                                 var displayed = new Array();
+                                 var displaynum=0;
+                                 for (var j = 0; j <stg010001_pairname.length; j++)
+                                 {
+                                     for (var i = 0; i < elements.length; i++)
+                                     {
+                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue==stg010001_pairname[j])
+                                         {
+                                             displayed[displaynum]=stg010001_pairname[j];
+                                             click_name[j]=elements[i].getElementsByTagName("name")[0].firstChild.nodeValue;
+                                             click_firstprice[j]=elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue;
+                                             click_secondprice[j]=elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue;
+                                             click_disprice[j]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
+                                             click_computearbfee[j]=parseFloat(computearbfee[i]).toFixed(1)
+                                             click_returnrate[j]=(computerateofreturn[i]*100).toFixed(1)
+                                             click_time[j]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
+                                             tbs_user += '<tr><td>'+displayed[displaynum]+'</td>'
+                                                     +'<td>'+(stg010001_returnrate[j]*100).toFixed(1)+'%</td><td>'+stg010001_time[j]+'</td>'
+                                                     +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+j+')">查看</a></td></tr>'
+                                             displaynum=displaynum+1;
+                                         }
+                                     }
+                                 }
+                                 //rebuild
+                                 for (var i = 0; i < elements.length; i++) {
+                                     var displayflag=0;
+                                     if(computerateofreturn[i]>userrateofreturn|| userrateofreturn_first[i]>userrateofreturn)
+                                     {
+                                         for(var s=0;s<displaynum;s++)
+                                         {
+                                             if(displayed[s]==elements[i].getElementsByTagName("name")[0].firstChild.nodeValue)
+                                             {
+                                                 displayflag=displayflag+1;
+                                             }
+                                         }
+                                         if(displayflag==0)
+                                         {
+                                         tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
+                                                 +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
+                                                 +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="showclick">'+"查看"+'</a></td></tr>'
+                                         }
+                                     }
+                                 }
+                             }
+                             document.getElementById("rtpricetable_user").innerHTML=tbs_user;
+                             }
 						}
                      }
                  }
@@ -498,7 +662,7 @@
   <div id = "annualreturnbutton">
   
   <% if @webuser!=nil%>
-  <%= button_to "设置期望年化收益率",:controller=>"webusers" ,:action=>"userrateofreturn", :id=>@webuser.id%>
+  <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"userrateofreturn", :id=>@webuser.id%>
   <% else %>
   <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new" %>
   <% end %>
@@ -512,6 +676,10 @@
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
+	<% if @webuser!=nil%>
+	<div id="rtpricetable_user">
+		</div>
+	<% end %>	 
 	<div id ="rtpricetable">
 	</div>
   <div class ="remarkstitle">
