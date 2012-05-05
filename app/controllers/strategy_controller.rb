@@ -17,10 +17,19 @@ class StrategyController < ApplicationController
   def userrateofreturn
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
+
+    if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
+      @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
+      for i in 0..@stg010001s.size-1
+            @stg010001s[i].destroy
+      end
+    end
+
     if  params[:paramvalue]!=nil
     @strategyparam.update_attribute(:paramvalue,params[:paramvalue])
     redirect_to :controller=>"strategy" ,:action=>"showror"
     end
+
   end
 
   def showror

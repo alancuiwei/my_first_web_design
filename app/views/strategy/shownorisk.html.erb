@@ -668,21 +668,30 @@
   <% end %>
   </div>
   </div>
+
+	 <% if @webuser!=nil%>
      <div class="ironbars">
        <div id = "norisktitle">
-         <h3>策略实时运行中</h3>
+         <h3>符合您年化收益率的行情记录</h3>
+       </div>
+     </div>
+	<div id="rtpricetable_user">
+		</div>
+	<% end %>	 
+     <div class="ironbars">
+       <div id = "norisktitle">
+		<br />
+	   <h3>策略实时运行中</h3>
        </div>
        <div id = "noriskluntan">
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
-	<% if @webuser!=nil%>
-	<div id="rtpricetable_user">
-		</div>
-	<% end %>	 
 	<div id ="rtpricetable">
 	</div>
-  <div class ="remarkstitle">
+
+
+	<div class ="remarkstitle">
   <a name="remarks">提点意见吧?</a>
   </div>
   <div class = "newremark">
