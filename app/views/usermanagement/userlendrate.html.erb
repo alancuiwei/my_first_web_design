@@ -3,6 +3,6 @@
 
    <h2>贷款利率定制</h2>
    
-    <h3>您当前的贷款利率是<%= @usercommodity[0].lendrate%>，
-      请修改<%= form_tag do %><%= text_field_tag :lendrate_p, params[:lendrate_p],:size=>10 %><%= submit_tag "提交"%><% end %></h3>
+    <h3>您当前的贷款利率是<%= @usercommodity[0].lendrate.to_d*100%>%，
+      请修改<%= form_tag do %><%= text_field_tag :lendrate_p, params[:lendrate_p],:size=>10 %>%<%= submit_tag "提交"%><% end %></h3>
      <%= params[:lendrate] %>
