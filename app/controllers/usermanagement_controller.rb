@@ -38,6 +38,7 @@ def userlendrate
    if  params[:lendrate_p]!=nil
    @usercommodity.each do |usercommodity_t|
      usercommodity_t.lendrate=params[:lendrate_p]
+     usercommodity_t.lendrate=usercommodity_t.lendrate/100
      usercommodity_t.save
    end
     redirect_to :controller=>"usercommodity_ts" ,:action=>"showlr", :id=>@usercommodity[1].id

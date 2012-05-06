@@ -1,5 +1,7 @@
 #encoding: utf-8
 class WebusersController < ApplicationController
+  layout "application"  ,:except=>[:edit]
+  #layout "webusers"  ,:only=>[:show]
   # GET /webusers
   # GET /webusers.json
   def index
@@ -29,7 +31,6 @@ class WebusersController < ApplicationController
   # GET /webusers/new.json
   def new
     @webuser = Webuser.new
-	render:layout=>'application'
 #    respond_to do |format|
 #      format.html # new.html.erb
 #      format.json { render json: @webuser }
@@ -39,6 +40,7 @@ class WebusersController < ApplicationController
   # GET /webusers/1/edit
   def edit
     @webuser = Webuser.find(params[:id])
+    render:layout=>'webusers'
   end
 
   # POST /webusers
@@ -50,6 +52,13 @@ class WebusersController < ApplicationController
       if @webuser.save
 	    session[:webuser_name] = @webuser.name
 
+      StrategyparamT.new do |s|
+        s.strategyid="010001"
+        s.paramname="returnrate"
+        s.paramvalue=0.1
+        s.username=session[:webuser_name]
+        s.save
+      end
       #new usercommodiy
       @usercommodity=UsercommodityT.find_all_by_userid("tester1")
       i=0
@@ -99,8 +108,18 @@ class WebusersController < ApplicationController
   # DELETE /webusers/1.json
   def destroy
     @webuser = Webuser.find(params[:id])
-    @webuser.destroy
+    @usercommoditys=UsercommodityT.find_all_by_userid(@webuser.name)
+    @stg010001s=Stg010001.find_all_by_username(@webuser.name)
+    @strategyparam = StrategyparamT.find_by_username(@webuser.name)
 
+    for i in 0..@usercommoditys.size-1
+      @usercommoditys[i].destroy
+    end
+    for i in 0..@stg010001s.size-1
+      @stg010001s[i].destroy
+    end
+   @strategyparam.destroy
+    @webuser.destroy
     respond_to do |format|
       format.html { redirect_to webusers_url }
       format.json { head :ok }

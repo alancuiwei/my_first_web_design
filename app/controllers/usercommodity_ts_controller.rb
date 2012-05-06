@@ -116,7 +116,7 @@ layout 'usermanagement'
     @webuser = Webuser.find_by_name(session[:webuser_name])
 
     respond_to do |format|
-      params[:usercommodity_t][:trademargingap]=params[:usercommodity_t][:trademargingap].to_f-session[:exchtrademargin].to_f
+      params[:usercommodity_t][:trademargingap]=params[:usercommodity_t][:trademargingap].to_f/100-session[:exchtrademargin].to_f
       if @usercommodity_t.update_attributes(params[:usercommodity_t])
         if $commodity_form==0
         format.html { redirect_to @usercommodity_t, notice:@webuser.name+ '，您的交易价格修改成功！' }

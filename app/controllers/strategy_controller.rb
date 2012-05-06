@@ -14,11 +14,45 @@ class StrategyController < ApplicationController
 #      format.html
 #    end
 #  end
+  def userrateofreturn
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
+
+    if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
+      @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
+      for i in 0..@stg010001s.size-1
+            @stg010001s[i].destroy
+      end
+    end
+
+    if  params[:paramvalue]!=nil
+    @strategyparam.update_attribute(:paramvalue,params[:paramvalue])
+    redirect_to :controller=>"strategy" ,:action=>"showror"
+    end
+
+  end
+
+  def showror
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
+  end
 
   def shownorisk
     session[:login]=1
+    @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
+
+    if params[:pairname]!=nil
+      Stg010001.new do |stg|
+        stg.username=session[:webuser_name]
+        stg.pairname=params[:pairname]
+        stg.returnrate=params[:returnrate].to_f
+        stg.time=Time.now.to_s(:db)
+        stg.save
+      end
+    end
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
 
     #default from db
     @defaultdb_commodityid=Array.new
