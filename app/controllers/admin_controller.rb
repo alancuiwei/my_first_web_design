@@ -4,10 +4,6 @@ class AdminController < ApplicationController
   def index
   @webuser = Webuser.find_by_name(session[:webuser_name])
   end
-  def usrctr
-  end
-  def strctr
-  end
 
   protected
 

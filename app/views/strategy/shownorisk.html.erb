@@ -556,9 +556,9 @@
 		//xmlhttpobj.open("HEAD",location.href,false);  
         //xmlhttpobj.send(null);		
         //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
-        var st=new Date(<%= "'"+(Time.now()).inspect+"'" %>);		
+        var str=<%= "'"+(Time.now()).inspect+"'" %>;
+        var st=new Date(str.replace(/-/g, "\/"));
 		return st;   
-
 	}
 
 	function checktimeMKTime(){
