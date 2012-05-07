@@ -2,35 +2,18 @@
 require 'rubygems'
 
 class StrategyController < ApplicationController
-  def index
-    respond_to do |format|
-      format.html
+#  def index
+#    respond_to do |format|
+#      format.html
 #      format.json { render json: @strategywebs }
-    end
-  end
+#    end
+#  end
 
 #  def show
 #    respond_to do |format|
 #      format.html
 #    end
 #  end
-  def userrateofreturn
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
-
-    if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
-      @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
-      for i in 0..@stg010001s.size-1
-            @stg010001s[i].destroy
-      end
-    end
-
-    if  params[:paramvalue]!=nil
-    @strategyparam.update_attribute(:paramvalue,params[:paramvalue])
-    redirect_to :controller=>"strategy" ,:action=>"showror"
-    end
-
-  end
 
   def showror
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -38,7 +21,7 @@ class StrategyController < ApplicationController
   end
 
   def shownorisk
-    session[:login]=1
+    session[:login]="shownorisk"
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
 
     if params[:pairname]!=nil
@@ -60,12 +43,14 @@ class StrategyController < ApplicationController
     @defaultdb_tradecharge=Array.new
     @defaultdb_trademargingap=Array.new
     @defaultusercommodity=UsercommodityT.find_all_by_userid("tester1")
+	
     for i in 0..@defaultusercommodity.size-1 do
       @defaultdb_tradecharge[i]=@defaultusercommodity[i].tradecharge
       @defaultdb_commodityid[i]= @defaultusercommodity[i].commodityid
       @defaultdb_lendrate[i]=@defaultusercommodity[i].lendrate
       @defaultdb_trademargingap[i] = @defaultusercommodity[i].trademargingap
     end
+	
     @defaultdb_num=@defaultusercommodity.size
 
     #login flag
@@ -126,8 +111,21 @@ class StrategyController < ApplicationController
   end
 
   def personaltrading
+    session[:login]="personaltrading"
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
   
+    if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
+      @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
+      for i in 0..@stg010001s.size-1
+            @stg010001s[i].destroy
+      end
+    end
+
+    if  params[:paramvalue]!=nil
+    @strategyparam.update_attribute(:paramvalue,params[:paramvalue].to_d/100)
+    redirect_to :controller=>"strategy" ,:action=>"showror"
+    end
   end
 
   def maxreturnrate

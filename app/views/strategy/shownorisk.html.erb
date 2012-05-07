@@ -664,9 +664,10 @@
   <div id = "annualreturnbutton">
   
   <% if @webuser!=nil%>
-  <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"userrateofreturn", :id=>@webuser.id%>
+  <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"personaltrading", :id=>@webuser.id%>
   <% else %>
-  <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new" %>
+  <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new",session[:login]=>"userrateofreturn" %>
+
   <% end %>
   </div>
   </div>

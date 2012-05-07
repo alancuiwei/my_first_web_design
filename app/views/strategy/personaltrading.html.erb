@@ -5,10 +5,13 @@
 
 <br />
 <h2>个性化交易 - 无风险套利 </h2>
-  <p> 年化收益率定制：通过设置它，您将根据您个人特定的手续费等来进行行情记录及交易。</p>
-<p>当然了，如果您嫌麻烦，可以利用我们系统默认的参数，你可以点击查看<%= link_to "默认交易信息",:controller => "tradeinfo",:action => "todayinfo" %></p>
+
+  <p> 年化收益率定制：通过设置它，您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%，
+     请修改<%= form_tag do %><%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 %>%<%= submit_tag "提交"%><% end %></p><p>您需要更准确的计算您的套利利润吗？您可根据您个人特定的手续费等来进行行情记录及交易。</p>
+<p>您嫌麻烦的话，可以使用我们系统默认的参数，你可以点击查看<%= link_to "默认交易信息",:controller => "tradeinfo",:action => "todayinfo" %></p>
+<p>您不嫌麻烦的话，可以点击按钮进行
 <% if session[:webuser_name]==nil %>
     <%= button_to "个性化定制",:controller=>"sessions" ,:action=>"new" %>
     <% else %>
 <%= button_to "个性化定制",:controller=>"usermanagement" ,:action=>"trademanageindex" %>
- <% end %>
+ <% end %></p>

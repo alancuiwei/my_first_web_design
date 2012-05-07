@@ -11,8 +11,14 @@ class SessionsController < ApplicationController
 		redirect_to(:controller=>"admin", :action=>"index")
 	  else
 		session[:webuser_name] = webuser.name
-    if session[:login]==1
+    if session[:login]=="shownorisk"
       redirect_to(:controller=>"strategy", :action=>"shownorisk")
+    elsif session[:login]=="personaltrading"
+      redirect_to(:controller=>"usermanagement", :action=>"trademanageindex")
+    elsif session[:login]=="userrateofreturn"
+      redirect_to(:controller=>"strategy", :action=>"personaltrading")
+    elsif session[:login]=="usermanagement"
+      redirect_to(:controller=>"usermanagement", :action=>"index")
     else
       redirect_to(:controller=>"usermanagement", :action=>"index")
     end

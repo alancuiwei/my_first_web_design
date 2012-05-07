@@ -6,6 +6,7 @@ include REXML
 
 class UsermanagementController < ApplicationController
 def index
+  session[:login]="usermanagement"
   @webuser = Webuser.find_by_name(session[:webuser_name])
   if @webuser==nil
    redirect_to :controller=>"sessions" ,:action=>"new"

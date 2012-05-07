@@ -1,5 +1,0 @@
-   <h2> 欢迎登录，<%= @webuser.name %>！这里是期望年化收益率修改页面！</h2>
-    <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
-
-    <h2>您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%，
-      请修改<%= form_tag do %><%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 %>%<%= submit_tag "提交"%><% end %></h2>

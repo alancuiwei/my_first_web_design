@@ -3,6 +3,14 @@ class AdminController < ApplicationController
 
   def index
   @webuser = Webuser.find_by_name(session[:webuser_name])
+   if @webuser.name!="administrator"
+     redirect_to(:controller=>"usermanagement", :action=>"index")
+   end
+  end
+
+  def usrctr
+  end
+  def strctr
   end
 
   protected
