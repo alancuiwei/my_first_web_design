@@ -8,14 +8,14 @@ class UsercommodityTsController < ApplicationController
 layout 'usermanagement'
   # GET /usercommodity_ts
   # GET /usercommodity_ts.json
-  def index
-    @usercommodity_ts = UsercommodityT.all
+#  def index
+#    @usercommodity_ts = UsercommodityT.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @usercommodity_ts }
-    end
-  end
+#    respond_to do |format|
+#      format.html # index.html.erb
+#      format.json { render json: @usercommodity_ts }
+#    end
+#  end
 
   # GET /usercommodity_ts/1
   # GET /usercommodity_ts/1.json
