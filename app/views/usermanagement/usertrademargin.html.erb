@@ -7,10 +7,10 @@
 
       <thead>
           <tr>
-            <th>操作</th>
-            <th>商品名</th>
-            <th>商品代号</th>
-            <th>当前保证金比例</th>
+            <th><center>操作</center></th>
+            <th><center>商品名</center></th>
+            <th><center>商品代号</center></th>
+            <th><center>当前保证金比例( % )</center></th>
           </tr>
       </thead>
 
@@ -18,7 +18,7 @@
       <% i=0 %>
       <% @usercommodity.each do |usercommodity_t| %>
          <tr>
-           <td class = "center"><%= link_to '修改', edit_usercommodity_t_path(usercommodity_t) %></td>
+           <td class = "center"><%= link_to '修改', :controller =>"usercommodity_ts", :action => "edittm" , :id => usercommodity_t.id  %></td>
            <td class = "center"><%= @hash_commodityid[@commodityid[i]] %></td>
            <td class = "center"><%= @commodityid[i] %></td>
            <td class = "center"><%=  format( "%.0f",@exchtrademargin[i]*100)  %></td>
@@ -28,10 +28,10 @@
       </tbody>
       <tfoot>
           <tr>
-            <th>操作</th>
-            <th>商品名</th>
-            <th>商品代号</th>
-            <th>当前保证金比例</th>
+            <th><center>操作</center></th>
+            <th><center>商品名</center></th>
+            <th><center>商品代号</center></th>
+            <th><center>当前保证金比例( % )</center></th>
           </tr>
       </tfoot>
     </table>

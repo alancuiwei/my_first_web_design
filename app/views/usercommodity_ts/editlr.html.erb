@@ -1,0 +1,8 @@
+<h2>贷款利率定制</h2>
+<h3>您好<%= @webuser.name %>！请修改贷款利率：
+  <%= form_tag do %><%= text_field_tag :lendrate_p, params[:lendrate_p],:value=>@usercommodity[0].lendrate.to_d*100,:size=>3 %>%
+      <%= submit_tag "提交"%><% end %></h3>
+
+
+
+

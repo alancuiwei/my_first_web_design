@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>通天顺金融策略服务网 --首页</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%= stylesheet_link_tag "reset.css" %>
+<%= stylesheet_link_tag "style.css" %>
+<%= javascript_include_tag "jquery.js" %>
+<%= javascript_include_tag "easySlider1.5.js" %>
+
+<script type="text/javascript" charset="utf-8">
+// <![CDATA[
+$(document).ready(function(){	
+	$("#slider").easySlider({
+		controlsBefore:	'<p id="controls">',
+		controlsAfter:	'</p>',
+		auto: true, 
+		continuous: true
+	});	
+});
+// ]]>
+</script>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30084381-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</head>
+
+<body>
+<div class="main">
+  <div class="header">
+    <div class="block_header">
+          <div class="logoimage">
+          <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
+          </div>
+
+          <% if session[:webuser_name]==nil then%>
+          <div class="register">
+          <%= link_to "注册", :controller=>"webusers",:action=>"new" %>
+          </div>
+
+          <div class="login">
+          <%= link_to " 登录", :controller=>"sessions",:action=>"new" %>
+          </div>
+          <% else %>
+          <div class="welcomeuser"><p>
+          您好，<%= session[:webuser_name] %>! <%= link_to "(不是 " + session[:webuser_name] +"?)", logout_path %>
+          </p></div>
+	  <% end %>
+
+      <div class="clr"></div>
+      <div class="menu">
+        <ul>
+		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
+  		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
+          <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
+          <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
+          <li><%= link_to "关于我们",:controller => "contactus",:action => "companyintro" %></li>
+        </ul>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="slider2">
+  <div class="slice12">
+    <h2>管理员</h2>
+  </div>
+  </div>
+  <div class="clr"></div>
+  <div class="body">
+    <div class="body_resize_login">
+    <div class="StrategyNews">
+    <h2>用户管理</h2>
+    <ul>
+      <li><%= link_to "用户管理", webusers_path %></li>
+    </ul>
+    <h2>数据管理</h2>
+        <ul>
+      <li><%= link_to "保涨比较",:controller=>"admin" ,:action=>"comparison" %></li>
+        </ul>
+    <h2>策略管理</h2>
+    <ul>
+    </ul>
+  <p></p>
+  </div>
+<%= yield %>
+    </div>
+      <div class="clr"></div>
+    </div>
+</div>
+</body>
+</html>

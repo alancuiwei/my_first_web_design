@@ -8,18 +8,18 @@
 
       <thead>
           <tr>
-          <th>操作</th>
-		  <th>合约名称</th> 	
-		  <th>合约代号</th>
-   		  <th>手续费类型</th>
-          <th>手续费</th>
+          <th><center>操作</center></th>
+		  <th><center>合约名称</center></th> 	
+		  <th><center>合约代号</center></th>
+   		  <th><center>手续费类型</center></th>
+          <th><center>手续费</center></th>
           </tr>
       </thead>
 
       <tbody>
             <% @usercommodity.each do |usercommodity_t| %>
                   <tr>
-                    <td class="center"><%= link_to '修改', edit_usercommodity_t_path(usercommodity_t) %></td>
+                    <td class="center"><%= link_to '修改',:controller => "usercommodity_ts", :action => "edittc" , :id => usercommodity_t.id %></td>
 					<td class="center"><%= @hash_commodityid[usercommodity_t.commodityid]  %></td>
 					<td class="center"><%= usercommodity_t.commodityid %></td>
   				    <td class="center"><%= @hash_tradechargetype[usercommodity_t.tradechargetype]  %></td>
@@ -33,11 +33,11 @@
       </tbody>
       <tfoot>
           <tr>
-          <th>操作</th>
-		  <th>合约名称</th> 	
-		  <th>合约代号</th>
-          <th>手续费类型</th>
-          <th>手续费</th>
+          <th><center>操作</center></th>
+		  <th><center>合约名称</center></th> 	
+		  <th><center>合约代号</center></th>
+   		  <th><center>手续费类型</center></th>
+          <th><center>手续费</center></th>
           </tr>
       </tfoot>
     </table>

@@ -6,71 +6,34 @@ include REXML
 
 class UsercommodityTsController < ApplicationController
 layout 'usermanagement'
-  # GET /usercommodity_ts
-  # GET /usercommodity_ts.json
-#  def index
-#    @usercommodity_ts = UsercommodityT.all
 
-#    respond_to do |format|
-#      format.html # index.html.erb
-#      format.json { render json: @usercommodity_ts }
-#    end
-#  end
-
-  # GET /usercommodity_ts/1
-  # GET /usercommodity_ts/1.json
-  def show
+  def showtc
     @usercommodity_t = UsercommodityT.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @usercommodity_t }
-    end
   end
+
   def showtm
     @usercommodity_t = UsercommodityT.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
-
-    @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
-   #xml读取操作
-   @doc = Document.new(File.new('public/commodity.xml'))
-   @exchtrademargin=Array.new
-   @commodityid=Array.new
-   for i in 0..@usercommodity.size-1
-   @commodityid[i] = @doc.elements.to_a("//commodityid")[i].text
-   @exchtrademargin[i] = @doc.elements.to_a("//exchtrademargin")[i].text
-   end
-
-    for i in 0..@usercommodity.size-1
-       if @commodityid[i]==@usercommodity_t.commodityid
-         @usernum=i
-         break
-       end
-    end
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @usercommodity_t }
-    end
   end
 
   def showlr
-    @usercommodity_t = UsercommodityT.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
-  end
-  # GET /usercommodity_ts/new
-  # GET /usercommodity_ts/new.json
-  def new
-    @usercommodity_t = UsercommodityT.new
+    @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
+   end
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @usercommodity_t }
-    end
+def edittc
+  @usercommodity_t = UsercommodityT.find(params[:id])
+  @webuser = Webuser.find_by_name(session[:webuser_name])
+
+  if  params[:tradecharge_p]!=nil
+    @usercommodity_t.update_attribute(:tradecharge,params[:tradecharge_p].to_f)
+   redirect_to :controller=>"usercommodity_ts" ,:action=>"showtc" ,:id=>params[:id]
   end
 
-  # GET /usercommodity_ts/1/edit
-  def edit
+  end
+
+def edittm
     @usercommodity_t = UsercommodityT.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
@@ -90,57 +53,28 @@ layout 'usermanagement'
        end
     end
 
+  if  params[:trademargingap_p]!=nil
+    params[:trademargingap_p]=params[:trademargingap_p].to_f/100-session[:exchtrademargin].to_f
+    @usercommodity_t.update_attribute(:trademargingap,params[:trademargingap_p])
+   redirect_to :controller=>"usercommodity_ts" ,:action=>"showtm" ,:id=>params[:id]
+  end
   end
 
-  # POST /usercommodity_ts
-  # POST /usercommodity_ts.json
+def editlr
+  #session
+   @webuser = Webuser.find_by_name(session[:webuser_name])
+   #取得默认值
+   @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
+   #params[:lendrate_p]=@usercommodity[0].lendrate
 
-  def create
-    @usercommodity_t = UsercommodityT.new(params[:usercommodity_t])
-
-    respond_to do |format|
-      if @usercommodity_t.save
-        format.html { redirect_to @usercommodity_t, notice: 'Usercommodity t was successfully created.' }
-        format.json { render json: @usercommodity_t, status: :created, location: @usercommodity_t }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @usercommodity_t.errors, status: :unprocessable_entity }
+   if  params[:lendrate_p]!=nil
+   @usercommodity.each do |usercommodity_t|
+     usercommodity_t.lendrate=params[:lendrate_p]
+     usercommodity_t.lendrate=usercommodity_t.lendrate/100
+     usercommodity_t.save
       end
+    redirect_to :controller=>"usercommodity_ts" ,:action=>"showlr", :id=>@usercommodity[0].id
     end
   end
 
-  # PUT /usercommodity_ts/1
-  # PUT /usercommodity_ts/1.json
-  def update
-    @usercommodity_t = UsercommodityT.find(params[:id])
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-
-    respond_to do |format|
-      params[:usercommodity_t][:trademargingap]=params[:usercommodity_t][:trademargingap].to_f/100-session[:exchtrademargin].to_f
-      if @usercommodity_t.update_attributes(params[:usercommodity_t])
-        if $commodity_form==0
-        format.html { redirect_to @usercommodity_t, notice:@webuser.name+ '，您的交易价格修改成功！' }
-        else
-          format.html { redirect_to :controller=>"usercommodity_ts" ,:action=>"showtm", :id=>@usercommodity_t.id }
-        end
-        format.json { head :ok }
-
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @usercommodity_t.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /usercommodity_ts/1
-  # DELETE /usercommodity_ts/1.json
-  def destroy
-    @usercommodity_t = UsercommodityT.find(params[:id])
-    @usercommodity_t.destroy
-
-    respond_to do |format|
-      format.html { redirect_to usercommodity_ts_url }
-      format.json { head :ok }
-    end
-  end
 end

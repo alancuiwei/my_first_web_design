@@ -8,6 +8,9 @@ class AdminController < ApplicationController
    end
   end
 
+  def comparison
+  end
+
   def usrctr
   end
   def strctr
