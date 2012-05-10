@@ -3,9 +3,6 @@
 <%= javascript_include_tag "jquery.qtip.min.js" %>
 <%= stylesheet_link_tag "jquery.qtip.min.css" %>
 
-
-
-
 <!-- JS代码 -->
 <script language="Javascript">
     var click_name=new Array();
@@ -232,12 +229,12 @@
                              xml_vatrate[i]=parseFloat(elements[i].getElementsByTagName("vatrate")[0].firstChild.nodeValue);
                          }
                      }
+                        getAjax();
                      }
                 }
             }
         }
     }
-    getxml();
      function getAjax()
      {
          var xmlhttpobj = createxmlhttp();
@@ -600,12 +597,10 @@
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
 		}		
 	}
-
+    getxml();
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
     var g_period = new PeriodicalExecuter(refreshMKData,2.0);
-	getAjax();
-
 /*
 // Define our positioning and style arrays
   var at = [
