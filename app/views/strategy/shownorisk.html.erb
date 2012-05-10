@@ -277,7 +277,7 @@
                                              //交割费用
                                              deliverfee[i]=xml_deliverchargebyhand[i]*2
                                              //存储费用
-                                             storagefee[i]=xml_storagedailyfee[i]*2
+                                             storagefee[i]=xml_storagedailyfee[i]*xml_storageday[i]
                                              //交易费用
                                              computetransfee[i]=defaultdb_tradecharge[q]*2;
                                              //总资金
@@ -334,7 +334,7 @@
                                              //交割费用
                                              deliverfee[i]=xml_deliverchargebyhand[i]*2
                                              //存储费用
-                                             storagefee[i]=xml_storagedailyfee[i]*2
+                                             storagefee[i]=xml_storagedailyfee[i]*xml_storageday[i]
                                              //总资金
                                              funds[i]=(parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)
                                              +parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue
