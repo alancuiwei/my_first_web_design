@@ -1,4 +1,4 @@
-<%= javascript_include_tag "prototype.js" %>
+﻿<%= javascript_include_tag "prototype.js" %>
 <%= javascript_include_tag "jquery.min.js" %>
 <%= javascript_include_tag "jquery.qtip.min.js" %>
 <%= stylesheet_link_tag "jquery.qtip.min.css" %>
@@ -253,7 +253,6 @@
 						 var elements = xmldoc.getElementsByTagName("pair");
 
 						 if(elements.length!=0){
-
                              //original
 							 var tbs = '<table class="rttableformat">';
 							 var tbttl = '<tr><th>套利合约对名</th><th>近月合约价格</th><th>远月合约价格</th><th><a title="最新价差 是远月合约价格减去近月合约价格">最新价差</a></th><th><a title="持仓成本 是您做这笔套利对交易所需要付出的成本金额。持仓成本 = 存储费用 + 交割费用 + 交易费用 + 保证金占用费用 + 交割保证金占有费用 + 增值税费用">持仓成本</a></th><th>年化收益率</th><th>更新时间</th></tr>';
@@ -553,9 +552,20 @@
 		//xmlhttpobj.open("HEAD",location.href,false);  
         //xmlhttpobj.send(null);		
         //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
-        var str=<%= "'"+(Time.now()).inspect+"'" %>;
+        //$.post("shownorisk",{ gettime:11})
+        var st_a
+        $.ajaxSetup({
+              async: false
+              });
+        $.getJSON("shownorisk",{gettime:"gettime"},callback)
+          function callback(data,status)
+          {
+              var str=data.substr(0,10)+" "+data.substr(11,8);
         var st=new Date(str.replace(/-/g, "\/"));
-		return st;   
+             st_a=st
+          }
+        //alert(st_a)
+		return st_a;
 	}
 
 	function checktimeMKTime(){
@@ -576,6 +586,10 @@
 				endtime.setMinutes(2);
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                $.ajaxSetup({
+                    async: false
+                });
+                getxml();
                 g_MKDataState.isgetMKData=true;
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
 			}else{
@@ -601,6 +615,7 @@
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
     var g_period = new PeriodicalExecuter(refreshMKData,2.0);
+
 /*
 // Define our positioning and style arrays
   var at = [
@@ -666,7 +681,6 @@
   <% end %>
   </div>
   </div>
-
 	 <% if @webuser!=nil%>
      <div class="ironbars">
        <div id = "norisktitle">
@@ -685,10 +699,9 @@
          <a href="#remarks">我想提点意见</a>
        </div>
      </div>
+
 	<div id ="rtpricetable">
 	</div>
-
-
 	<div class ="remarkstitle">
   <a name="remarks">提点意见吧?</a>
   </div>

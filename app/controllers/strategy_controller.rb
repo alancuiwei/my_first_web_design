@@ -21,6 +21,14 @@ class StrategyController < ApplicationController
   end
 
   def shownorisk
+
+    if params[:gettime]!=nil
+    @gettime=Time.now
+    puts @gettime
+    render :json => @gettime
+    end
+
+
     session[:login]="shownorisk"
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
 
@@ -132,5 +140,4 @@ class StrategyController < ApplicationController
     @allmaxreturnrate=ArbcostmaxreturnrateV.all
   end
   
-
 end
