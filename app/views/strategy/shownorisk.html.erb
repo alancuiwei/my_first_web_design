@@ -477,9 +477,16 @@
                              for (var i = 0; i < elements.length; i++) {
                                  if(computerateofreturn[i]>userrateofreturn|| userrateofreturn_first[i]>userrateofreturn)
                                  {
+                                     click_name[i]=elements[i].getElementsByTagName("name")[0].firstChild.nodeValue;
+                                     click_firstprice[i]=elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue;
+                                     click_secondprice[i]=elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue;
+                                     click_disprice[i]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
+                                     click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
+                                     click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
+                                     click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
                                      tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
                                              +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
-                                             +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="/strategy/showclick">'+"查看"+'</a></td></tr>'
+                                             +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+i+')">查看</a></td></tr>'
                                  }
                              }
                              }
@@ -523,9 +530,16 @@
                                          }
                                          if(displayflag==0)
                                          {
+                                             click_name[i]=elements[i].getElementsByTagName("name")[0].firstChild.nodeValue;
+                                             click_firstprice[i]=elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue;
+                                             click_secondprice[i]=elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue;
+                                             click_disprice[i]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
+                                             click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
+                                             click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
+                                             click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
                                          tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
                                                  +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
-                                                 +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="showclick">'+"查看"+'</a></td></tr>'
+                                                 +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+i+')">查看</a></td></tr>'
                                          }
                                      }
                                  }
