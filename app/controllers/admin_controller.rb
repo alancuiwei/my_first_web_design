@@ -11,10 +11,10 @@ class AdminController < ApplicationController
   def comparison
   end
 
-  def usrctr
+  def currentversion
   end
-  def strctr
-  end
+#  def strctr
+#  end
 
   protected
 
