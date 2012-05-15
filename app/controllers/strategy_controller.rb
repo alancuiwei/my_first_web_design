@@ -121,6 +121,13 @@ class StrategyController < ApplicationController
   def personaltrading
     session[:login]="personaltrading"
     @webuser = Webuser.find_by_name(session[:webuser_name])
+  end
+
+  def maxreturnrate
+    @allmaxreturnrate=ArbcostmaxreturnrateV.all
+  end
+
+  def userreturnrate
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
   
     if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
@@ -136,8 +143,4 @@ class StrategyController < ApplicationController
     end
   end
 
-  def maxreturnrate
-    @allmaxreturnrate=ArbcostmaxreturnrateV.all
-  end
-  
 end

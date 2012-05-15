@@ -1,0 +1,6 @@
+<br />
+<h2>个性化交易 - 无风险套利 </h2>
+<% if session[:webuser_name]!=nil %>
+  <p> 年化收益率定制：通过设置它，您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%，
+     请修改<%= form_tag do %><%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 %>%<%= submit_tag "提交"%><% end %></p>
+<% end %>
