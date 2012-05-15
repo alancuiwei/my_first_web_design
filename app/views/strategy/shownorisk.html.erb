@@ -1,7 +1,45 @@
-﻿<%= javascript_include_tag "prototype.js" %>
-<%= javascript_include_tag "jquery.min.js" %>
-<%= javascript_include_tag "jquery.qtip.min.js" %>
-<%= stylesheet_link_tag "jquery.qtip.min.css" %>
+﻿<br />
+ <div class="buttonbars">
+ <div id = "annualreturnbutton">
+
+ <% if @webuser!=nil%>
+ <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"personaltrading", :id=>@webuser.id%>
+ <% else %>
+ <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new",session[:login]=>"userrateofreturn" %>
+
+ <% end %>
+ </div>
+ </div>
+ <% if @webuser!=nil%>
+    <div class="ironbars">
+      <div id = "norisktitle">
+        <h3>符合您年化收益率的行情记录</h3>
+      </div>
+    </div>
+<div id="rtpricetable_user">
+	</div>
+<% end %>
+    <div class="ironbars">
+      <div id = "norisktitle">
+	<br />
+   <h3>策略实时运行中</h3>
+      </div>
+      <div id = "noriskluntan">
+        <a href="#remarks">我想提点意见</a>
+      </div>
+    </div>
+
+<div id ="rtpricetable"></div>
+<div class ="remarkstitle">
+ <a name="remarks">提点意见吧?</a>
+ </div>
+ <div class = "newremark">
+ <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="170" width="800" marginheight="0" marginwidth="0"></iframe>
+ </div>
+ <div class ="remarkslist">
+   <h3>所有评论</h3>
+<iframe name="iframe_index" src="../noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+ </div>
 
 <!-- JS代码 -->
 <script language="Javascript">
@@ -129,56 +167,6 @@
         userrateofreturn_first_flag[i]=0
     }
     <% end %>
-     function loadXML(xmlString){
-         var xmlDoc=null;
-         if(!window.DOMParser && window.ActiveXObject){
-             var xmlDomVersions = ['MSXML.2.DOMDocument.6.0','MSXML.2.DOMDocument.3.0','Microsoft.XMLDOM'];
-             for(var i=0;i<xmlDomVersions.length;i++){
-                 try{
-                     xmlDoc = new ActiveXObject(xmlDomVersions[i]);
-                     xmlDoc.async = false;
-                     xmlDoc.loadXML(xmlString);
-                     break;
-                 }catch(e){
-                 }
-             }
-         }
-         else if(window.DOMParser && document.implementation && document.implementation.createDocument){
-             try{
-                 domParser = new  DOMParser();
-                 xmlDoc = domParser.parseFromString(xmlString, 'text/xml');
-             }catch(e){
-             }
-         }
-         else{
-             return null;
-         }
-         return xmlDoc;
-     }
-
-    function createxmlhttp()
-     {
-          xmlhttpobj = false;
-          try{
-			  xmlhttpobj=new ActiveXObject();
-          }catch(e){
-              try{
-                  xmlhttpobj=new ActiveXObject("MSXML2.XMLHTTP");
-              }catch(e2){
-                  try{
-                      xmlhttpobj=new ActiveXObject("Microsoft.XMLHTTP");
-                      }catch(e3){
-                      xmlhttpobj = false;
-                  }
-              }
-          }
-		  if((!xmlhttpobj)&&(window.XMLHttpRequest))
-		  {
-			 xmlhttpobj=new XMLHttpRequest();
-		  }
-
-          return xmlhttpobj;
-     }
 
 	function sortby(first, second){
 	    if(first.value>second.value){
@@ -198,60 +186,40 @@
 
     function getxml()
     {
-        var xmlhttpobj_xml = createxmlhttp();
-        if(xmlhttpobj_xml){
-            url = document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml";
-		 xmlhttpobj_xml.open("get",url,true);
-		 xmlhttpobj_xml.setRequestHeader("Cache-Control","no-cache");
-		 xmlhttpobj_xml.setRequestHeader("If-Modified-Since","0");
-		 xmlhttpobj_xml.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
-            xmlhttpobj_xml.send(null);
-            xmlhttpobj_xml.onreadystatechange=function(){
-                if(xmlhttpobj_xml.readyState==4){
-                    if(xmlhttpobj_xml.status==200){
-                        var htmlxxx = xmlhttpobj_xml.responseText;
-                        var xmldoc=loadXML(htmlxxx);
-					 var elements = xmldoc.getElementsByTagName("pair");
-					 if(elements.length!=0){
-                         for (var i = 0; i < elements.length; i++)
+        var xml_elements;
+        $.ajaxSetup({
+              async: false
+              });
+        $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",
+                function(data){xml_elements=data.getElementsByTagName("pair");
+        if(xml_elements.length!=0){
+            for (var s = 0; s < xml_elements.length; s++)
                          {
                              //交割保证金占用成本 delivermarginfee
-                             xml_tradeunit[i]=parseFloat(elements[i].getElementsByTagName("tradeunit")[0].firstChild.nodeValue);
-                             xml_storageday[i]=parseFloat(elements[i].getElementsByTagName("D2")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("D1")[0].firstChild.nodeValue);
+                xml_tradeunit[s]=parseFloat(xml_elements[s].getElementsByTagName("tradeunit")[0].firstChild.nodeValue);
+                xml_storageday[s]=parseFloat(xml_elements[s].getElementsByTagName("D2")[0].firstChild.nodeValue)-parseFloat(xml_elements[s].getElementsByTagName("D1")[0].firstChild.nodeValue);
                              //交易保证金占用成本
-                             xml_issinglemargin[i]=parseFloat(elements[i].getElementsByTagName("issinglemargin")[0].firstChild.nodeValue);
-                             xml_firstmarginrate[i]=parseFloat(elements[i].getElementsByTagName("firstmarginrate")[0].firstChild.nodeValue);
-                             xml_secondmarginrate[i]=parseFloat(elements[i].getElementsByTagName("secondmarginrate")[0].firstChild.nodeValue);
-                             xml_D1[i]=parseFloat(elements[i].getElementsByTagName("D1")[0].firstChild.nodeValue);
-                             xml_D2[i]=parseFloat(elements[i].getElementsByTagName("D2")[0].firstChild.nodeValue);
-                             xml_storagedailyfee[i]=parseFloat(elements[i].getElementsByTagName("storagedailyfee")[0].firstChild.nodeValue);
-                             xml_deliverchargebyhand[i]=parseFloat(elements[i].getElementsByTagName("deliverchargebyhand")[0].firstChild.nodeValue);
-                             xml_vatrate[i]=parseFloat(elements[i].getElementsByTagName("vatrate")[0].firstChild.nodeValue);
+                xml_issinglemargin[s]=parseFloat(xml_elements[s].getElementsByTagName("issinglemargin")[0].firstChild.nodeValue);
+                xml_firstmarginrate[s]=parseFloat(xml_elements[s].getElementsByTagName("firstmarginrate")[0].firstChild.nodeValue);
+                xml_secondmarginrate[s]=parseFloat(xml_elements[s].getElementsByTagName("secondmarginrate")[0].firstChild.nodeValue);
+                xml_D1[s]=parseFloat(xml_elements[s].getElementsByTagName("D1")[0].firstChild.nodeValue);
+                xml_D2[s]=parseFloat(xml_elements[s].getElementsByTagName("D2")[0].firstChild.nodeValue);
+                xml_storagedailyfee[s]=parseFloat(xml_elements[s].getElementsByTagName("storagedailyfee")[0].firstChild.nodeValue);
+                xml_deliverchargebyhand[s]=parseFloat(xml_elements[s].getElementsByTagName("deliverchargebyhand")[0].firstChild.nodeValue);
+                xml_vatrate[s]=parseFloat(xml_elements[s].getElementsByTagName("vatrate")[0].firstChild.nodeValue);
                          }
                      }
                         getAjax();
-                     }
-                }
-            }
-        }
+        });
     }
      function getAjax()
      {
-         var xmlhttpobj = createxmlhttp();
-         if(xmlhttpobj){
-             url = document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml";
-			 xmlhttpobj.open("get",url,true);
-			 xmlhttpobj.setRequestHeader("Cache-Control","no-cache");
-			 xmlhttpobj.setRequestHeader("If-Modified-Since","0");
-			 xmlhttpobj.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");  
-             xmlhttpobj.send(null);			 
-             xmlhttpobj.onreadystatechange=function(){
-                 if(xmlhttpobj.readyState==4){
-                     if(xmlhttpobj.status==200){
-                         var htmlxxx = xmlhttpobj.responseText;
-                         var xmldoc=loadXML(htmlxxx);
-						 var elements = xmldoc.getElementsByTagName("pair");
-
+         $.ajaxSetup({
+             async: false
+         });
+         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",
+                 function(data){
+                     var elements=data.getElementsByTagName("pair");
 						 if(elements.length!=0){
                              //original
 							 var tbs = '<table class="rttableformat">';
@@ -262,7 +230,6 @@
 
 							 for (var i = 0; i < elements.length; i++) {
                                  //默认用户
-
                                  if(userflag==0)
                                  {
                                      //默认所有计算
@@ -547,10 +514,8 @@
                              document.getElementById("rtpricetable_user").innerHTML=tbs_user;
                              }
 						}
-                     }
-                 }
-             }
-         }
+
+         ;setTimeout(refreshMKData,2000);} )
      }
 
 	function refreshMKData()
@@ -566,7 +531,6 @@
 		//xmlhttpobj.open("HEAD",location.href,false);  
         //xmlhttpobj.send(null);		
         //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
-        //$.post("shownorisk",{ gettime:11})
         var st_a
         $.ajaxSetup({
               async: false
@@ -628,101 +592,5 @@
     getxml();
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
-    var g_period = new PeriodicalExecuter(refreshMKData,2.0);
-
-/*
-// Define our positioning and style arrays
-  var at = [
-          'left bottom'
-      ],
-      my = [
-          'right bottom'
-      ],
-      styles = [
-          'red'
-      ];
-*/
-// Create the tooltips only on document load
-
-//  $(document).ready(function()
-//  {
-//          $('a[title]').qtip();
-
-//          $('.ironbars')
-              /*
-               * Lets delete the qTip data from our target element so we can apply multiple tooltips.
-               * Since the data is also stored on the tooltip element itself this isn't a problem!
-               *
-               * Check here for more details on this: http://craigsworks.com/projects/qtip2/tutorials/advanced/#multi
-               */
-/*
-			   .removeData('qtip')
-              .qtip({
-                  content: {
-                      text: '您可以调节品种手续费，享受定制化服务',
-                      title: {
-                          text: '请点击套利合约对名',
-                          button: true
-                      }
-                  },
-                  position: {
-                      my: my[0], // Use the corner...
-                      at: at[0] // ...and opposite corner
-                  },
-                  show: {
-                      event: false, // Don't specify a show event...
-                      ready: true // ... but show the tooltip when ready
-                  },
-                  hide: false, // Don't specify a hide event either!
-                  style: {
-                      classes: 'ui-tooltip-shadow ui-tooltip-' + styles[0]
-                  }
-              });
-
-  });
-*/
+    //var g_period = new PeriodicalExecuter(refreshMKData,2.0);
 </script>
-	<br />
-
-  <div class="buttonbars">
-  <div id = "annualreturnbutton">
-  
-  <% if @webuser!=nil%>
-  <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"personaltrading", :id=>@webuser.id%>
-  <% else %>
-  <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new",session[:login]=>"userrateofreturn" %>
-
-  <% end %>
-  </div>
-  </div>
-	 <% if @webuser!=nil%>
-     <div class="ironbars">
-       <div id = "norisktitle">
-         <h3>符合您年化收益率的行情记录</h3>
-       </div>
-     </div>
-	<div id="rtpricetable_user">
-		</div>
-	<% end %>	 
-     <div class="ironbars">
-       <div id = "norisktitle">
-		<br />
-	   <h3>策略实时运行中</h3>
-       </div>
-       <div id = "noriskluntan">
-         <a href="#remarks">我想提点意见</a>
-       </div>
-     </div>
-
-	<div id ="rtpricetable">
-	</div>
-	<div class ="remarkstitle">
-  <a name="remarks">提点意见吧?</a>
-  </div>
-  <div class = "newremark">
-  <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="170" width="800" marginheight="0" marginwidth="0"></iframe>
-  </div>
-  <div class ="remarkslist">
-    <h3>所有评论</h3>
-<iframe name="iframe_index" src="../noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
-  </div>
