@@ -46,6 +46,7 @@
     //data storage 2D array
     var tabledata= new Array([0,0,0,0,0,0,0]);
     var tabledata_user= new Array([0,0,0,0,0]);
+    var tabledata_user_f= new Array([0,0,0,0,0]);
     //click action
     var click_name=new Array();
     var click_firstprice=new Array();
@@ -365,7 +366,6 @@
                                         parseFloat(computearbfee[i]).toFixed(1),
                                         (computerateofreturn[i]*100).toFixed(1),
                                         elements[i].getElementsByTagName("time")[0].firstChild.nodeValue];
-
 								}
 								else{
                                     tabledata[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,"--","--","--","--","--","--"]
@@ -416,7 +416,9 @@
                                      userrateofreturn_first_flag[i]=1;
 
                                      if(stg010001_pairname=='')
-                                         $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                     {
+                                         $.get("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                     }
                                      else
                                      {
                                      var flag_db=0
@@ -427,7 +429,7 @@
                                          }
                                          if(flag_db==0)
                                          {
-                                             $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                             $.get("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
                                          }
                                      }
                                   }
@@ -444,7 +446,7 @@
                                      click_disprice[i]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
                                      click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
                                      click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
-                                     click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
+                                     click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
                                      tabledata_user[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
                                          (userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],
                                          (computerateofreturn[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
@@ -496,17 +498,24 @@
                                              click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
                                              click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
                                              click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
-                                             tabledata_user[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
+                                             tabledata_user[displaynum+i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
                                                  (userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],
                                                  (computerateofreturn[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
                                          }
                                      }
                                  }
                              }
+                                 for(var k=0,s=0;k<tabledata_user.length;k++){
+                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0)
+                                     {
+                                         tabledata_user_f[s]=tabledata_user[k];
+                                         s=s+1;
+                                     }
+                                 }
                                  $(document).ready(function() {
                                      $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="user"></table>');
                                      $('#user').dataTable( {
-                                             "aaData": tabledata_user,
+                                             "aaData": tabledata_user_f,
                                              "aaSorting": [[3,"desc"]],
                                          "bPaginate": false, "bAutoWidth": false,
                                             "aoColumns": [
@@ -516,9 +525,10 @@
                                                  { "sTitle": "最新年化收益率", "sType": "formatted-num","sClass": "center" },
                                                  { "sTitle": "操作", "sClass": "center" }
                                              ] ,
-                                         "bFilter": false,
-                                         //"bRetrieve":true
-                                          "bStateSave": true
+                                         "bFilter": false
+                                         //"bRetrieve":true,
+                                         //"bDestroy": true,
+                                          //"bStateSave": true
                                          } );
                                      } );
                              }
