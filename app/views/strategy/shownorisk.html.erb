@@ -1,35 +1,36 @@
-﻿<br />
+﻿<style type="text/css">
+    tr.even {
+    	background-color: #E2E4FF;
+    }
+    tr.even td.sorting_1 {
+    	background-color: #D3D6FF;
+    }
+</style>
+<!-- top button -->
  <div class="buttonbars">
  <div id = "annualreturnbutton">
-
  <% if @webuser!=nil%>
- <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"personaltrading", :id=>@webuser.id%>
+      <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"personaltrading"%>
  <% else %>
  <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new",session[:login]=>"userrateofreturn" %>
-
  <% end %>
  </div>
  </div>
+<!-- user table -->
  <% if @webuser!=nil%>
     <div class="ironbars">
-      <div id = "norisktitle">
-        <h3>符合您年化收益率的行情记录</h3>
-      </div>
-    </div>
-<div id="rtpricetable_user">
+      <div id = "norisktitle"><h3>符合您年化收益率的行情记录</h3></div>
 	</div>
+    <div id="rtpricetable_user"></div>
 <% end %>
+<!-- default table -->
     <div class="ironbars">
-      <div id = "norisktitle">
-	<br />
-   <h3>策略实时运行中</h3>
+  <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
+  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div>
       </div>
-      <div id = "noriskluntan">
-        <a href="#remarks">我想提点意见</a>
-      </div>
-    </div>
-
 <div id ="rtpricetable"></div>
+<!-- noriskmessage -->
+<br>
 <div class ="remarkstitle">
  <a name="remarks">提点意见吧?</a>
  </div>
@@ -40,9 +41,13 @@
    <h3>所有评论</h3>
 <iframe name="iframe_index" src="../noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
  </div>
-
-<!-- JS代码 -->
-<script language="Javascript">
+<!-- JavaScript -->
+<script type="text/javascript">
+    //data storage 2D array
+    var tabledata= new Array([0,0,0,0,0,0,0]);
+    var tabledata_user= new Array([0,0,0,0,0]);
+    var tabledata_user_f= new Array([0,0,0,0,0]);
+    //click action
     var click_name=new Array();
     var click_firstprice=new Array();
     var click_secondprice=new Array();
@@ -52,11 +57,9 @@
     var click_time=new Array();
     function  myclick(s)
     {
-        //$.post("showclick", { myclick: s } );
         alert("套利合约对名："+click_name[s]+". 近月合约价格："+click_firstprice[s]
                 +" .远月合约价格："+click_secondprice[s]+" .最新价差："+click_disprice[s]
-                +" .持仓成本："+click_computearbfee[s]+" .年化收益率："+click_returnrate[s]+" .更新时间："+click_time[s])
-
+                +" .持仓成本："+click_computearbfee[s]+" .年化收益率："+click_returnrate[s]+" .更新时间："+click_time[s]);
     }
     var stg010001_username = new Array();
     var stg010001_pairname = new Array();
@@ -88,13 +91,11 @@
             ("00"+ o[k]).substr((""+ o[k]).length));
             return format;
         }
-
     //交易费用修改
     var computearbfee = new Array();
     var computetransfee = new Array();
     var userchange_commodityid = new Array();
     var userchange_tradecharge = new Array();
-
     //实际年化收益率
     var computerateofreturn = new Array();
     var funds = new Array();//总资金
@@ -128,7 +129,6 @@
     var defaultdb_trademargingap = new Array();
     //default初始化
     var defaultdb_num=<%= @defaultdb_num%>
-
 <% for i in 0..@defaultdb_num-1 do%>
             defaultdb_commodityid[<%=i%>]='<%= @defaultdb_commodityid[i]%>';
 <% end%>
@@ -138,7 +138,6 @@
 
     //flag
     var userflag=<%=@userflag%>;
-
     //定制服务初始化
     if(userflag!=0)
     {
@@ -155,7 +154,6 @@
     <% end%>
         userdb_lendrate=<%= @userdb_lendrate%>
         userdb_trademargingap=<%= @userdb_trademargingap%>
-
          //the new table var
        }
     <% if @webuser!=nil&&@strategyparam!=nil%>
@@ -167,22 +165,22 @@
         userrateofreturn_first_flag[i]=0
     }
     <% end %>
-
-	function sortby(first, second){
-	    if(first.value>second.value){
-		   return -1;
-		}else{
-		   return 1;
-		}
-	 }
-	function returnrate(id, value){ 
-	  this.id = id; 
-	  this.value = value; 
-	}
 	function MKDataState(mtcounter, isgetMKData){ 
 	  this.mtcounter = mtcounter; 
 	  this.isgetMKData = isgetMKData; 
 	}	 
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
 
     function getxml()
     {
@@ -222,12 +220,6 @@
                      var elements=data.getElementsByTagName("pair");
 						 if(elements.length!=0){
                              //original
-							 var tbs = '<table class="rttableformat">';
-							 var tbttl = '<tr><th>套利合约对名</th><th>近月合约价格</th><th>远月合约价格</th><th><a title="最新价差 是远月合约价格减去近月合约价格">最新价差</a></th><th><a title="持仓成本 是您做这笔套利对交易所需要付出的成本金额。持仓成本 = 存储费用 + 交割费用 + 交易费用 + 保证金占用费用 + 交割保证金占有费用 + 增值税费用">持仓成本</a></th><th>年化收益率</th><th>更新时间</th></tr>';
-                             tbs += tbttl;
-							 var tbstrarray = new Array();		
-							 var returnratearray = new Array();
-
 							 for (var i = 0; i < elements.length; i++) {
                                  //默认用户
                                  if(userflag==0)
@@ -356,8 +348,6 @@
                                              computetransfee[i]=defaultdb_tradecharge[q]*2;
                                      }
                                  }
-
-								tbstrarray[i]="<tr>";
                                  computearbfee[i] = storagefee[i]
                                          +deliverfee[i]
                                          +trademarginfee[i]
@@ -367,50 +357,54 @@
                                  //年化收益率计算
                                  computerateofreturn[i]=((parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue))
                                      *xml_tradeunit[i]-computearbfee[i])*365/(funds[i]*xml_D2[i])
-							tbstrarray[i]+= "<td>"
-									 + elements[i].getElementsByTagName("name")[0].firstChild.nodeValue + "</a></td>";
 								if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)
 									&&(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue>0)){
-									 tbstrarray[i]+= "<td>"
-										 + elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue + "</td>";
-									 tbstrarray[i]+= "<td>"
-										 + elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue + "</td>";
-									 tbstrarray[i]+= "<td>"
-										 + (parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)) + "</td>";
-
-                                        tbstrarray[i]+= "<td>"+ parseFloat(computearbfee[i]).toFixed(1)
-                                                + "</td>";
-
-									 tbstrarray[i]+= "<td>"
-										 + (computerateofreturn[i]*100).toFixed(1) + "% </td>";
-								     returnratearray[i]=new returnrate(i,computerateofreturn[i]);
+                                    tabledata[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
+                                        elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue,
+                                        elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue,
+                                        (parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue)),
+                                        parseFloat(computearbfee[i]).toFixed(1),
+                                        (computerateofreturn[i]*100).toFixed(1),
+                                        elements[i].getElementsByTagName("time")[0].firstChild.nodeValue];
 								}
 								else{
-									 tbstrarray[i]+= "<td> -- </td>";
-									 tbstrarray[i]+= "<td> -- </td>";
-									 tbstrarray[i]+= "<td> -- </td>";
-									 tbstrarray[i]+= "<td> -- </td>";
-									 tbstrarray[i]+= "<td> -- </td>";
-									 returnratearray[i]=new returnrate(i,-10000);										 
+                                    tabledata[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,"--","--","--","--","--","--"]
 								}
-								 tbstrarray[i]+= "<td>"
-									 + elements[i].getElementsByTagName("time")[0].firstChild.nodeValue + "</td>";
-								 tbstrarray[i]+= "</tr>";
 							}
-							returnratearray.sort(sortby);
-							for (var i = 0; i < elements.length; i++){
-							    tbs+=tbstrarray[returnratearray[i].id];
+                             $(document).ready(function() {
+                                 $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
+                                 $('#default').dataTable( {
+                                         "aaData": tabledata,
+                                         "aaSorting": [[5,"desc"]],
+                                         "bPaginate": false,
+                                        "aoColumns": [
+                                             { "sTitle": "套利合约对名", "sClass": "center" },
+                                             { "sTitle": "近月合约价格", "sClass": "center" },
+                                             { "sTitle": "近月合约价格", "sClass": "center" },
+                                             { "sTitle": "最新价差", "sClass": "center" },
+                                             { "sTitle": "持仓成本", "sClass": "center" },
+                                             { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj) {
+                                                         var sReturn = obj.aData[ obj.iDataColumn ];
+                                                         if ( sReturn >=0 )
+                                                         {
+                                                             sReturn = "<font color='red'>"+sReturn+"%</font>";
+                                                         }
+                                                         else
+                                                             sReturn = "<font color='green'>"+sReturn+"%</font>";
+                                                           return sReturn;
 							}
-							tbs+='</table>\n';
-							document.getElementById("rtpricetable").innerHTML=tbs;
-
+                                             },
+                                             { "sTitle": "更新时间", "sClass": "center" }
+                                         ] ,
+                                     "bFilter": false,
+                                     //"bRetrieve":true
+                                     "bStateSave": true
+                                     } );
+                                 } );
                              //user table
                              if(userflag!=0)
                              {
                              //user table
-                             var tbs_user = '<table class="rttableformat">';
-                             var tbttl_user = '<tr><th>合约号</th><th>下单年化收益率</th><th>下单时间</th><th>最新年化收益率</th><th>操作</th></tr>';
-                             tbs_user += tbttl_user;
                              for (var i = 0; i < elements.length; i++)
                              {
                                  // db set
@@ -422,7 +416,9 @@
                                      userrateofreturn_first_flag[i]=1;
 
                                      if(stg010001_pairname=='')
-                                         $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                     {
+                                         $.get("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                     }
                                      else
                                      {
                                      var flag_db=0
@@ -433,7 +429,7 @@
                                          }
                                          if(flag_db==0)
                                          {
-                                             $.post("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
+                                             $.get("shownorisk", { pairname: elements[i].getElementsByTagName("name")[0].firstChild.nodeValue, returnrate: userrateofreturn_first[i] } );
                                          }
                                      }
                                   }
@@ -450,14 +446,13 @@
                                      click_disprice[i]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
                                      click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
                                      click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
-                                     click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
-                                     tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
-                                             +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
-                                             +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+i+')">查看</a></td></tr>'
+                                     click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
+                                     tabledata_user[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
+                                         (userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],
+                                         (computerateofreturn[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
                                  }
                              }
                              }
-
                              else//not empty
                              {
                                  var displayed = new Array();
@@ -476,9 +471,8 @@
                                              click_computearbfee[j]=parseFloat(computearbfee[i]).toFixed(1)
                                              click_returnrate[j]=(computerateofreturn[i]*100).toFixed(1)
                                              click_time[j]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
-                                             tbs_user += '<tr><td>'+displayed[displaynum]+'</td>'
-                                                     +'<td>'+(stg010001_returnrate[j]*100).toFixed(1)+'%</td><td>'+stg010001_time[j]+'</td>'
-                                                     +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+j+')">查看</a></td></tr>'
+                                             tabledata_user[j]=[displayed[displaynum],(stg010001_returnrate[j]*100).toFixed(1)+"%",stg010001_time[j],
+                                                 (computerateofreturn[i]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+j+')">查看</a>']
                                              displaynum=displaynum+1;
                                          }
                                      }
@@ -503,21 +497,44 @@
                                              click_disprice[i]=parseFloat(elements[i].getElementsByTagName("secondprice")[0].firstChild.nodeValue)-parseFloat(elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue);
                                              click_computearbfee[i]=parseFloat(computearbfee[i]).toFixed(1)
                                              click_returnrate[i]=(computerateofreturn[i]*100).toFixed(1)
-                                             click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue
-                                         tbs_user += '<tr><td>'+elements[i].getElementsByTagName("name")[0].firstChild.nodeValue+'</td>'
-                                                 +'<td>'+(userrateofreturn_first[i]*100).toFixed(1)+'%</td><td>'+myDate[i]+'</td>'
-                                                 +'<td>'+(computerateofreturn[i]*100).toFixed(1) +'%</td>'+'<td><a href="#" onclick="myclick('+i+')">查看</a></td></tr>'
+                                             click_time[i]=elements[i].getElementsByTagName("time")[0].firstChild.nodeValue;
+                                             tabledata_user[displaynum+i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,
+                                                 (userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],
+                                                 (computerateofreturn[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
                                          }
                                      }
                                  }
                              }
-                             document.getElementById("rtpricetable_user").innerHTML=tbs_user;
+                                 for(var k=0,s=0;k<tabledata_user.length;k++){
+                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0)
+                                     {
+                                         tabledata_user_f[s]=tabledata_user[k];
+                                         s=s+1;
+                                     }
+                                 }
+                                 $(document).ready(function() {
+                                     $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="user"></table>');
+                                     $('#user').dataTable( {
+                                             "aaData": tabledata_user_f,
+                                             "aaSorting": [[3,"desc"]],
+                                         "bPaginate": false, "bAutoWidth": false,
+                                            "aoColumns": [
+                                                 { "sTitle": "合约号", "sClass": "center" },
+                                                 { "sTitle": "下单年化收益率","sType": "formatted-num", "sClass": "center" },
+                                                 { "sTitle": "下单时间", "sClass": "center" },
+                                                 { "sTitle": "最新年化收益率", "sType": "formatted-num","sClass": "center" },
+                                                 { "sTitle": "操作", "sClass": "center" }
+                                             ] ,
+                                         "bFilter": false
+                                         //"bRetrieve":true,
+                                         //"bDestroy": true,
+                                          //"bStateSave": true
+                                         } );
+                                     } );
                              }
+						};
+                     setTimeout(refreshMKData,2000);} )
 						}
-
-         ;setTimeout(refreshMKData,2000);} )
-     }
-
 	function refreshMKData()
 	{
 		if (g_MKDataState.isgetMKData)
@@ -525,13 +542,12 @@
 		   getAjax();
 		}	 	
 	}
-
 	function getservertime(){
 	    //var xmlhttpobj = createxmlhttp();
 		//xmlhttpobj.open("HEAD",location.href,false);  
         //xmlhttpobj.send(null);		
         //var st=new Date(xmlhttpobj.getResponseHeader("Date")); 
-        var st_a
+        var st_a;
         $.ajaxSetup({
               async: false
               });
@@ -545,7 +561,6 @@
         //alert(st_a)
 		return st_a;
 	}
-
 	function checktimeMKTime(){
 		var servertime=getservertime();
 		var endtime=new Date(servertime);
