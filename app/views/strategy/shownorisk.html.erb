@@ -133,8 +133,8 @@
         this.trademargingap=trademargingap;
     }
     var db=new Array();
-    var defaultdb_num=<%= @defaultdb_num%>;
-<% for i in 0..@defaultdb_num-1 do%>
+    var db_num=<%= @db_num%>;
+    <% for i in 0..@db_num-1 do%>
     <% if @webuser==nil%>
     db[<%=i%>]=new db_f('<%= @defaultdb[i].commodityid%>',<%= @defaultdb[i].lendrate%>,<%= @defaultdb[i].tradecharge%>,<%= @defaultdb[i].trademargingap%>);
     <% else%>
@@ -150,7 +150,6 @@
     <% for i in 0..@tradechargechange_num-1 do%>
         userchange[<%=i%>]=new userchange_f('<%= @userchange[i].commodityid%>',<%= @userchange[i].tradecharge%>);
     <% end%>
-    var userdb_num=<%= @userdb_num%>;
          //the new table var
        }
     <% if @webuser!=nil&&@strategyparam!=nil%>
@@ -242,7 +241,7 @@
                           if(userflag==0)
                                      {
                               //默认所有计算
-                              for(var q=0;q<defaultdb_num-1;q++)
+                              for(var q=0;q<db_num-1;q++)
                               {
                                   if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)==db[q].commodityid)
                                   {
@@ -261,17 +260,20 @@
                                  else
                                  {
                                      //所有计算
-                                     for(var q=0;q<userdb_num-1;q++)
+                              var db_tradecharge_flag;
+                              for(var q=0;q<db_num-1;q++)
                                      {
                                   if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)==db[q].commodityid)
                                          {
                                       db_c(q);
+                                      db_tradecharge_flag=q;
                                              break;
                                          }
                                          //内容同上
                                   else if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,1)==db[q].commodityid)
                                          {
                                       db_c(q);
+                                      db_tradecharge_flag=q;
                                              break;
                                          }
                                      }
@@ -289,14 +291,14 @@
                                              break;
                                          }
                                          else
-                                      computetransfee[i]=db[q].tradecharge*2;
+                                      computetransfee[i]=db[db_tradecharge_flag].tradecharge*2;
                                      }
                                  }
                          computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];
                                  //年化收益率计算
                          computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
                                  *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])-computearbfee[i])*365/(funds[i]*parseFloat(xml_arr['pairsattr']['pair'][i]['D2']))
-                         if((elements[i].getElementsByTagName("firstprice")[0].firstChild.nodeValue>0)&&(rtxml_arr['pairstrade']['pair'][i]['secondprice']>0))
+                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0)
                          {
                              tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],
                                  rtxml_arr['pairstrade']['pair'][i]['firstprice'],
@@ -308,7 +310,7 @@
 								}
                          else
                          {
-                                    tabledata[i]=[elements[i].getElementsByTagName("name")[0].firstChild.nodeValue,"--","--","--","--","--","--"]
+                             tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"]
 								}
 							}
                          $(document).ready(function()

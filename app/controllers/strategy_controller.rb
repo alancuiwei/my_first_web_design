@@ -33,7 +33,7 @@ class StrategyController < ApplicationController
     for i in 0..@defaultusercommodity.size-1 do
       @defaultdb[i]=defaultdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
     end
-    @defaultdb_num=@defaultusercommodity.size
+    @db_num=@defaultusercommodity.size
     #login flag
     @userflag=0
     #for default 初始化
@@ -44,7 +44,6 @@ class StrategyController < ApplicationController
     #user from db
     userdb=Struct.new(:commodityid,:lendrate,:trademargingap)
     @userdb=Array.new
-    @userdb_num=0
     if @webuser!=nil
       #login
       @userflag=1
@@ -58,8 +57,6 @@ class StrategyController < ApplicationController
       user_tradecharge[i]=@usercommodity[i].tradecharge
      @userdb[i]=userdb.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].trademargingap)
    end
-      #user db size num
-      @userdb_num=@usercommodity.size
     for i in 0..@usercommodity.size-1 do
       useredit_commodityid[i]=-1
         if( user_tradecharge[i]!=@defaultdb[i].tradecharge)
