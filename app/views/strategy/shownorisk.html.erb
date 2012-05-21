@@ -135,12 +135,11 @@
     var db=new Array();
     var db_num=<%= @db_num%>;
     <% for i in 0..@db_num-1 do%>
-    <% if @webuser==nil%>
+    if(userflag==0)
     db[<%=i%>]=new db_f('<%= @defaultdb[i].commodityid%>',<%= @defaultdb[i].lendrate%>,<%= @defaultdb[i].tradecharge%>,<%= @defaultdb[i].trademargingap%>);
-    <% else%>
+    else
     db[<%=i%>]=new db_f('<%= @userdb[i].commodityid%>',<%= @userdb[i].lendrate%>,<%= @defaultdb[i].tradecharge%>,<%= @userdb[i].trademargingap%>);
     <% end%>
-<% end%>
     //flag
     var userflag=<%=@userflag%>;
     //定制服务初始化
@@ -313,8 +312,6 @@
                              tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"]
 								}
 							}
-                         $(document).ready(function()
-                         {
                                  $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
                                  $('#default').dataTable( {
                                          "aaData": tabledata,
@@ -343,7 +340,7 @@
                                  "bFilter": false,//"bRetrieve":true
                                      "bStateSave": true
                                      } );
-                                 } );
+
                              //user table
                              if(userflag!=0)
                              {
@@ -454,7 +451,6 @@
                                          s=s+1;
                                      }
                                  }
-                                 $(document).ready(function() {
                                      $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="user"></table>');
                                      $('#user').dataTable( {
                                              "aaData": tabledata_user_f,
@@ -469,7 +465,6 @@
                                              ] ,
                                      "bFilter": false//"bRetrieve":true,//"bDestroy": true,//"bStateSave": true
                                          } );
-                                     } );
                              }
 						};
                      setTimeout(refreshMKData,2000);} )
@@ -513,9 +508,6 @@
 				endtime.setMinutes(2);
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
-                $.ajaxSetup({
-                    async: false
-                });
                 getxml();
                 g_MKDataState.isgetMKData=true;
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
