@@ -44,6 +44,9 @@ class StrategyController < ApplicationController
     #user from db
     userdb=Struct.new(:commodityid,:lendrate,:trademargingap)
     @userdb=Array.new
+    for i in 0..@defaultusercommodity.size-1 do
+         @userdb[i]=userdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].trademargingap)
+       end
     if @webuser!=nil
       #login
       @userflag=1
