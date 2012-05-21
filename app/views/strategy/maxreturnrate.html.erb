@@ -1,28 +1,42 @@
+<script type="text/javascript">
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $(function(){
+        $("#datatables").dataTable({
+            "aaSorting": [[4,"desc"]],
+            "aoColumns": [
+                { "sTitle": "套利对名称", "sClass": "center" },
+                { "sTitle": "近月合约价格", "sClass": "center" },
+                { "sTitle": "近月合约价格", "sClass": "center" },
+                { "sTitle": "成本", "sClass": "center" },
+                { "sTitle": "年化收益率",  "sType": "formatted-num","sClass": "center" },
+                { "sTitle": "历史时间", "sClass": "center" }
+        ]
+        });
+    });
+</script>
 <br />
 <h2> 历史最佳套利机会 </h2>
-
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
-      <thead>
-	  <tr>
-        <th>套利对名称</th>
-        <th>近期合约价格</th>
-        <th>远期合约价格</th>
-        <th>成本</th>
-        <th>年化收益率(%)</th>
-        <th>历史时间</th>           
-      </tr>
-	  </thead>
-
 	  <tbody>
         <% @allmaxreturnrate.each do |maxreturnrate| 
            if ((maxreturnrate.firstprice>0)&&(maxreturnrate.secondprice>0)) then%>
-           
               <tr>
                 <td class="center"><%= maxreturnrate.pairname %></td>
                 <td class="center"><%= maxreturnrate.firstprice %></td>
                 <td class="center"><%= maxreturnrate.secondprice %></td>
                 <td class="center"><%= maxreturnrate.cost %></td>
-                <td class="center"><%= format("%.1f",maxreturnrate.returnrate*100) %> </td>
+                <td class="center" type="formatted-num"><%= format("%.1f",maxreturnrate.returnrate*100) %>%</td>
                 <td class="center"><%= maxreturnrate.currenttime.strftime("%Y年%m月%d日 %H时%M分%S秒") %></td>                    
               </tr>
             <% end %>
@@ -38,5 +52,4 @@
         <th>历史时间</th>           
       </tr>
 	  </tfoot>
-
 </table>

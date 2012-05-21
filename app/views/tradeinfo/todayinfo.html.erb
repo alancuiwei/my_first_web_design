@@ -1,24 +1,48 @@
+<script type="text/javascript">
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $(function(){
+        $("#datatables").dataTable({
+            "aoColumns": [
+                { "sTitle": "合约名", "sClass": "center" },
+                { "sTitle": "品种名", "sClass": "center" },
+                { "sTitle": "期货交易所", "sClass": "center" },
+                { "sTitle": "交易保证金比例","sType": "formatted-num", "sClass": "center" },
+                { "sTitle": "涨跌停比例",  "sType": "formatted-num","sClass": "center" },
+                { "sTitle": "交易价格", "sClass": "center" },
+                { "sTitle": "贷款利率","sType": "formatted-num", "sClass": "center" }
+        ]
+        });
+    });
+</script>
 <br />
 <h2> <%=(Time.now()).strftime("%Y年%m月%d日")%> </h2>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
-      <thead>
-	  <tr>
-        <th>合约名</th>
-        <th>品种名</th>
-        <th>期货交易所</th>
-        <th>交易保证金比例(%)</th>
-        <th>涨跌停比例(%)</th>
-      </tr>
-	  </thead>
-
 	  <tbody>
-        <% @alltodayinfo.each do |todayinfo|   %>    
+  <% for i in 0..@hash_todayinfo.size-1  %>
+      <% if @todayinfo_hashkeys[i].slice(1,1).to_i==0%>
+          <% @commodityid=@todayinfo_hashkeys[i].slice(0,2)%>
+      <% else %>
+          <% @commodityid=@todayinfo_hashkeys[i].slice(0,1)%>
+      <% end %>
 		  <tr>
-			<td class="center"><%= todayinfo.contractid %></td>
-			<td class="center"><%= @hash_commodityid[todayinfo.commodityid] %></td>
-			<td class="center"><%= todayinfo.exchname %></td>
-			<td class="center"><%= format("%.1f",todayinfo.margin*100) %></td>
-			<td class="center"><%= format("%.1f",todayinfo.updownlimit*100) %></td>
+            <td class="center"><%= @todayinfo_hashkeys[i] %></td>
+            <td class="center"><%= @hash_commodityid[@commodityid] %></td>
+            <td class="center"><%= @hash_todayinfo[@todayinfo_hashkeys[i]][0] %></td>
+            <td class="center"><%= format("%.1f",@hash_todayinfo[@todayinfo_hashkeys[i]][1].to_f*100) %>%</td>
+            <td class="center"><%= format("%.1f",@hash_todayinfo[@todayinfo_hashkeys[i]][2].to_f*100) %>%</td>
+            <td class="center"><%= @hash_usercommodity[@commodityid][0] %></td>
+            <td class="center"><%= format("%.1f",@hash_usercommodity[@commodityid][1].to_f*100) %>%</td>
 		  </tr>
         <% end %>
 	   </tbody>
@@ -29,7 +53,8 @@
         <th>期货交易所</th>
         <th>交易保证金比例</th>
         <th>涨跌停比例</th>           
+        <th>交易价格</th>
+        <th>贷款利率</th>
       </tr>
 	  </tfoot>
-
 </table>
