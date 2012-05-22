@@ -178,13 +178,15 @@
         var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
         return parseFloat(y) - parseFloat(x);
     };
+
+    $.ajaxSetup({
+        async: false,
+        cache: false
+    });
     //getxml
     function getxml()
     {
         var xml_elements;
-        $.ajaxSetup({
-              async: false
-              });
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",
                 function(data){
                     xml_arr=xml2array(data);
@@ -194,9 +196,6 @@
     //getAjax
      function getAjax()
      {
-         $.ajaxSetup({
-             async: false
-         });
          $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",
                  function(data){
                      rtxml_arr=xml2array(data);
@@ -479,7 +478,8 @@
 	function getservertime(){
         var st_a;
         $.ajaxSetup({
-              async: false
+              async: false,
+			  cache: false
               });
         $.getJSON("shownorisk",{gettime:"gettime"},callback)
           function callback(data,status)
