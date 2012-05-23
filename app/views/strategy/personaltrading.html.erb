@@ -4,68 +4,72 @@
 	<br />
     <%= button_to "请先登录",:controller=>"sessions" ,:action=>"new" %>
 <% else %>
-	<br />
-
-<svg>
-    <marker id="bigArrow"
-         viewBox="0 0 20 20" refX="0" refY="10"
-         markerUnits="strokeWidth" markerWidth="3" markerHeight="10"
-         orient="auto">
-         <path d="M 0 0 L 20 10 L 0 20 z" fill="purple" stroke="black"/>
-    </marker>
-
-        <rect x="110" y="10" width="120" height="40" rx="10" ry="10"
-              style="fill:lightgrey"/>
-        <text x="120" y="35" font-size="12">精确计算套利成本</text>
-
-	<g id="chart" stroke="purple" stroke-width="3" fill="none"
-         marker-end="url(#bigArrow)" >
-    <path d="M 170 50 l 0 20" />
-    </g>
-
-    <a xlink:href="../usermanagement/trademanageindex">
-        <rect x="110" y="80" width="120" height="40" rx="10" ry="10"
-              style="fill:lightgrey"/>
-        <text x="140" y="105" font-size="12">个性化设置</text>
-    </a>
-
-  <g id="chart" stroke="purple" stroke-width="3" fill="none"
-           marker-end="url(#bigArrow)" >
-      <path d="M 170 120 l 30 30" />
-      </g>
-
-          <rect x="250" y="10" width="120" height="40" rx="10" ry="10"
-                style="fill:lightgrey"/>
-          <text x="260" y="35" font-size="12">通用计算套利成本</text>
-
-  	<g id="chart" stroke="purple" stroke-width="3" fill="none"
-           marker-end="url(#bigArrow)" >
-      <path d="M 310 50 l 0 20" />
-      </g>
-
-      <a xlink:href="../tradeinfo/todayinfo">
-          <rect x="250" y="80" width="120" height="40" rx="10" ry="10"
-                style="fill:lightgrey"/>
-          <text x="275" y="105" font-size="12">查看默认设置</text>
-      </a>
-  <g id="chart" stroke="purple" stroke-width="3" fill="none"
-           marker-end="url(#bigArrow)" >
-      <path d="M 310 120 l -30 30" />
-      </g>
-
-  <a xlink:href="userreturnrate">
-      <rect x="180" y="158" width="120" height="40" rx="10" ry="10"
-            style="fill:lightgrey"/>
-      <text x="195" y="185" font-size="12">年化收益率设置</text>
-  </a>
-  <g id="chart" stroke="purple" stroke-width="3" fill="none"
-          marker-end="url(#bigArrow)" >
-     <path d="M 240 198 l 0 20" />
-     </g>
-  <a xlink:href="shownorisk">
-      <rect x="180" y="228" width="120" height="40" rx="10" ry="10"
-            style="fill:lightgrey"/>
-      <text x="180" y="250" font-size="12">查看符合您的交易机会</text>
-  </a>
-</svg>
+    <div id="showchart">
+    </div>
 <% end %>
+<br>
+<script type="text/javascript">
+    var Sys = {};
+    var ua = navigator.userAgent.toLowerCase();
+    if (window.ActiveXObject)
+        Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+    if(Sys.ie<9)
+    {
+        //alert(Sys.ie)
+        document.getElementById("showchart").innerHTML="精确计算套利成本→<a href='' ='../usermanagement/trademanageindex'><font size='3'> 个性化设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>"
+        +"<br><br>通用计算套利成本→<a href='' ='../tradeinfo/todayinfo'><font size='3'> 查看默认设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>";
+    }
+        else
+        document.getElementById("showchart").innerHTML=
+                "	<br /><svg height='300' width='1024' xmlns='http://www.w3.org/2000/svg'>" +
+                        "<marker id='bigArrow' viewBox='0 0 20 20' refX='0' refY='10'  markerUnits='strokeWidth' markerWidth='3' markerHeight='10' orient='auto'>" +
+                        "<path d='M 0 0 L 20 10 L 0 20 z' fill='purple' stroke='black'/>" +
+                        "</marker>" +
+                        "<rect x='110' y='10' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        " <text x='120' y='35' font-size='12'>精确计算套利成本</text>" +
+                        "<g id='chart' stroke='purple' stroke-width='3' fill='none'" +
+                        " marker-end='url(#bigArrow)' >" +
+                        "<path d='M 170 50 l 0 20' />" +
+                        "</g>" +
+                        "<a xlink:href='../usermanagement/trademanageindex'>" +
+                        "<rect x='110' y='80' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        "<text x='140' y='105' font-size='12'>个性化设置</text>" +
+                        "</a>" +
+                        "<g id='chart' stroke='purple' stroke-width='3' fill='none'" +
+                        " marker-end='url(#bigArrow)' >" +
+                        "<path d='M 170 120 l 30 30' />" +
+                        "</g>" +
+                        "<rect x='250' y='10' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        "<text x='260' y='35' font-size='12'>通用计算套利成本</text>" +
+                        "<g id='chart' stroke='purple' stroke-width='3' fill='none'" +
+                        "marker-end='url(#bigArrow)' >" +
+                        "<path d='M 310 50 l 0 20' />" +
+                        "</g>" +
+                        "<a xlink:href='../tradeinfo/todayinfo'>" +
+                        "<rect x='250' y='80' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        "<text x='275' y='105' font-size='12'>查看默认设置</text>" +
+                        "</a>" +
+                        "<g id='chart' stroke='purple' stroke-width='3' fill='none'" +
+                        "marker-end='url(#bigArrow)' >" +
+                        " <path d='M 310 120 l -30 30' />" +
+                        "</g>" +
+                        " <a xlink:href='userreturnrate'>" +
+                        "<rect x='180' y='158' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        "<text x='195' y='185' font-size='12'>年化收益率设置</text>" +
+                        "</a>" +
+                        "<g id='chart' stroke='purple' stroke-width='3' fill='none'" +
+                        "marker-end='url(#bigArrow)' >" +
+                        "<path d='M 240 198 l 0 20' />" +
+                        " </g>" +
+                        " <a xlink:href='shownorisk'>" +
+                        " <rect x='180' y='228' width='120' height='40' rx='10' ry='10'" +
+                        "style='fill:lightgrey'/>" +
+                        "<text x='180' y='250' font-size='12'>查看符合您的交易机会</text>" +
+                        "</a>" +
+                        "</svg>"
+</script>
