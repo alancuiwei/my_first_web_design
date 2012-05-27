@@ -1,4 +1,4 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 require 'rexml/document'
 #require 'rexml/streamlistener'
 include REXML
@@ -51,12 +51,63 @@ def usertrademargin
    @doc = Document.new(File.new('public/commodity.xml'))
    @exchtrademargin=Array.new
    @commodityid=Array.new
+
+  @hash_commodityidxml=Hash.new
+  for i in 0..@usercommodity.size-1
+    @hash_commodityidxml.store(@doc.elements.to_a("//commodityid")[i].text,@doc.elements.to_a("//exchtrademargin")[i].text.to_d)
+  end
+
    for i in 0..@usercommodity.size-1
-   @commodityid[i] = @doc.elements.to_a("//commodityid")[i].text
-   @exchtrademargin[i] = @doc.elements.to_a("//exchtrademargin")[i].text.to_d+@usercommodity[i].trademargingap.to_d
+   @commodityid[i] = @usercommodity[i].commodityid
+   @exchtrademargin[i] =@hash_commodityidxml[@usercommodity[i].commodityid]+@usercommodity[i].trademargingap.to_d
    #@exchtrademargin[i]=@exchtrademargin[i].to_d
    #@exchtrademargin[i]=@exchtrademargin[i]+@usercommodity[i]
    end
 end
+
+  def  tradechargefast
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @commoditys=CommodityT.all()
+    @usercommoditys=UsercommodityT.find_all_by_userid(@webuser.name)
+
+    @hash_commoditys=Hash.new
+    @commoditys.each do |commodity|
+      @hash_commoditys.store(commodity.commodityid,commodity.exchtradecharge)
+    end
+
+    if  params[:tardecharge_0]!=nil
+      @usercommoditys.each do |usercommodity|
+        if usercommodity.tradechargetype==0
+          usercommodity.tradecharge=@hash_commoditys[usercommodity.commodityid]+params[:tardecharge_0].to_f
+          usercommodity.save
+        end
+      end
+      redirect_to :controller=>"usermanagement" ,:action=>"showfast"
+    end
+    if  params[:tardecharge_1]!=nil
+      @usercommoditys.each do |usercommodity|
+        if usercommodity.tradechargetype==1
+          usercommodity.tradecharge=@hash_commoditys[usercommodity.commodityid]+params[:tardecharge_1].to_f/1000
+          usercommodity.save
+        end
+      end
+    end
+  end
+
+  def showfast
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+  end
+
+  def  trademarginfast
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @usercommoditys=UsercommodityT.find_all_by_userid(@webuser.name)
+    if  params[:tardemargin]!=nil
+      @usercommoditys.each do |usercommodity|
+          usercommodity.trademargingap=params[:tardemargin].to_f/100
+          usercommodity.save
+        end
+      redirect_to :controller=>"usermanagement" ,:action=>"showfast"
+    end
+  end
 
 end

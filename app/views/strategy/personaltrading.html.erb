@@ -30,7 +30,7 @@
     if (window.ActiveXObject)
         Sys.ie = ua.match(/msie ([\d.]+)/)[1];
     if(Sys.ie<9){
-        document.getElementById("showchart").innerHTML="精确计算套利成本→<a href='' ='../usermanagement/trademanageindex'><font size='3'> 个性化设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>"
+        document.getElementById("showchart").innerHTML="<br><br>精确计算套利成本→<a href='' ='../usermanagement/trademanageindex'><font size='3'> 个性化设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>"
         +"<br><br>通用计算套利成本→<a href='' ='../tradeinfo/todayinfo'><font size='3'> 查看默认设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>";
     }
     else{
@@ -312,10 +312,6 @@
 		}
 	function getservertime(){
         var st_a;
-        $.ajaxSetup({
-              async: false,
-			  cache: false
-              });
            $.getJSON("shownorisk",{gettime:"gettime"},callback)
              function callback(data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);
