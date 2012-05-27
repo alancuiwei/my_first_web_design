@@ -8,77 +8,49 @@ class StrategyController < ApplicationController
   end
 
   def shownorisk
+    #gettime for ajax refresh
     if params[:gettime]!=nil
     @gettime=Time.now
     puts @gettime
-    render :json => @gettime
+      render :json => @gettime  #render json
     end
+    #skip saved redirect back(session)
     session[:login]="shownorisk"
+    #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    #db (struct)
+    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
+    @db=Array.new
+    if @webuser==nil
     @defaultusercommodity=UsercommodityT.find_all_by_userid("tester1")
-    #default from db
-    defaultdb=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
-    @defaultdb=Array.new
+      @dbnum=@defaultusercommodity.size
     for i in 0..@defaultusercommodity.size-1 do
-      @defaultdb[i]=defaultdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
+        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
     end
-    @db_num=@defaultusercommodity.size
-    #login flag
-    @userflag=0
-    #for default 初始化
-    #just for chargetrade edit
-    userchange=Struct.new(:commodityid,:tradecharge)
-    @userchange=Array.new
-    @tradechargechange_num=0
-    #user from db
-    userdb=Struct.new(:commodityid,:lendrate,:trademargingap)
-    @userdb=Array.new
-    for i in 0..@defaultusercommodity.size-1 do
-         @userdb[i]=userdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].trademargingap)
-       end
-    if @webuser!=nil
-      #login
-      @userflag=1
+    else
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
-    user_tradecharge=Array.new
-    #重组数组
-      #change tradecharge commodityid
-    useredit_commodityid=Array.new
-      #get all form db
-   for i in 0..@usercommodity.size-1 do
-      user_tradecharge[i]=@usercommodity[i].tradecharge
-     @userdb[i]=userdb.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].trademargingap)
-   end
+      @dbnum=@usercommodity.size
     for i in 0..@usercommodity.size-1 do
-      useredit_commodityid[i]=-1
-        if( user_tradecharge[i]!=@defaultdb[i].tradecharge)
-          useredit_commodityid[i]=@userdb[i].commodityid
+        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap)
           end
     end
-    j=0
-    for i in 0..@usercommodity.size-1 do
-          if(useredit_commodityid[i]!=-1)
-        @userchange[j]=userchange.new(useredit_commodityid[i],user_tradecharge[i])
-            j=j+1
-          end
-    end
-      @tradechargechange_num=j
-    end #end if
   end
 
   def intronorisk
   end
 
   def personaltrading
-    session[:login]="personaltrading"
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-
-    ####
+    #gettime for ajax refresh
     if params[:gettime_p]!=nil
         @gettime_p=Time.now
         puts @gettime_p
         render :json => @gettime_p
         end
+    #skip saved redirect back(session)
+    session[:login]="personaltrading"
+    #webuser
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    #stg010001
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
         if params[:pairname_p]!=nil
       Stg010001.new do |stg|
@@ -93,59 +65,26 @@ class StrategyController < ApplicationController
         stg.save
       end
     end
-    @webuser = Webuser.find_by_name(session[:webuser_name])
+    #strategyparam
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
+    #db (struct)
+    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
+    @db=Array.new
+    if @webuser==nil
+      @userflag=0
     @defaultusercommodity=UsercommodityT.find_all_by_userid("tester1")
-    #default from db
-    defaultdb=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
-    @defaultdb=Array.new
+      @dbnum=@defaultusercommodity.size
     for i in 0..@defaultusercommodity.size-1 do
-      @defaultdb[i]=defaultdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
+        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
     end
-    @db_num=@defaultusercommodity.size
-    #login flag
-    @userflag=0
-    #for default 初始化
-    #just for chargetrade edit
-    userchange=Struct.new(:commodityid,:tradecharge)
-    @userchange=Array.new
-    @tradechargechange_num=0
-    #user from db
-    userdb=Struct.new(:commodityid,:lendrate,:trademargingap)
-    @userdb=Array.new
-    for i in 0..@defaultusercommodity.size-1 do
-         @userdb[i]=userdb.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].trademargingap)
-       end
-    if @webuser!=nil
-      #login
+    else
       @userflag=1
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
-    user_tradecharge=Array.new
-    #重组数组
-      #change tradecharge commodityid
-    useredit_commodityid=Array.new
-      #get all form db
+      @dbnum=@usercommodity.size
    for i in 0..@usercommodity.size-1 do
-      user_tradecharge[i]=@usercommodity[i].tradecharge
-     @userdb[i]=userdb.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].trademargingap)
-   end
-    for i in 0..@usercommodity.size-1 do
-      useredit_commodityid[i]=-1
-        if( user_tradecharge[i]!=@defaultdb[i].tradecharge)
-          useredit_commodityid[i]=@userdb[i].commodityid
+        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap)
           end
     end
-    j=0
-    for i in 0..@usercommodity.size-1 do
-          if(useredit_commodityid[i]!=-1)
-        @userchange[j]=userchange.new(useredit_commodityid[i],user_tradecharge[i])
-            j=j+1
-          end
-    end
-      @tradechargechange_num=j
-    end #end if
-
-    ####
 
   end
 

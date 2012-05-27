@@ -1,4 +1,6 @@
-﻿<h2>个性化交易 - 无风险套利 </h2>
+﻿<%= javascript_include_tag "Date.js" %>
+<%= javascript_include_tag "Hashtable.js" %>
+<h2>个性化交易 - 无风险套利 </h2>
 <!-- top button -->
  <div class="buttonbars">
  <div id = "annualreturnbutton">
@@ -27,14 +29,11 @@
     var ua = navigator.userAgent.toLowerCase();
     if (window.ActiveXObject)
         Sys.ie = ua.match(/msie ([\d.]+)/)[1];
-    if(Sys.ie<9)
-    {
-        //alert(Sys.ie)
+    if(Sys.ie<9){
         document.getElementById("showchart").innerHTML="精确计算套利成本→<a href='' ='../usermanagement/trademanageindex'><font size='3'> 个性化设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>"
         +"<br><br>通用计算套利成本→<a href='' ='../tradeinfo/todayinfo'><font size='3'> 查看默认设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>";
     }
-        else
-    {
+    else{
         document.getElementById("showchart").innerHTML=
                 "	<br /><svg height='300' width='1024' xmlns='http://www.w3.org/2000/svg'>" +
                         "<marker id='bigArrow' viewBox='0 0 20 20' refX='0' refY='10'  markerUnits='strokeWidth' markerWidth='3' markerHeight='10' orient='auto'>" +
@@ -88,7 +87,8 @@
                         "</a>" +
                         "</svg>"
     }
-
+</script>
+<script type="text/javascript">
     //table data storage (2D array)
     var tabledata_user= new Array([0,0,0,0,0,0]);
     var tabledata_user_f= new Array([0,0,0,0,0,0]);
@@ -96,8 +96,7 @@
     var xml_arr=new Array();
     var rtxml_arr=new Array();
     //click action
-    function click_f(name,firstprice,secondprice,disprice,computearbfee,returnrate,time)
-    {
+    function click_f(name,firstprice,secondprice,disprice,computearbfee,returnrate,time){
         this.name=name;
         this.firstprice=firstprice;
         this.secondprice=secondprice;
@@ -107,8 +106,7 @@
         this.time=time;
     }
     var click=new Array();
-    function  myclick(s)
-    {
+    function  myclick(s){
         alert("套利合约对名："+click[s].name+". 近月合约价格："+click[s].firstprice
                 +" .远月合约价格："+click[s].secondprice+" .最新价差："+click[s].disprice
                 +" .持仓成本："+click[s].computearbfee+" .年化收益率："+click[s].returnrate+" .更新时间："+click[s].time);
@@ -116,121 +114,35 @@
     var funds_c = new Array();
     var returnrate_current = new Array();
     //stg010001
-    var stg010001_username = new Array();
-    var stg010001_pairname = new Array();
-    var stg010001_time = new Array();
-    var stg010001_time_c = new Array();
-    var stg010001_returnrate = new Array();
-    var  stg010001_firstprice = new Array();
-    var  stg010001_secondprice = new Array();
-    var  stg010001_firstmarginrate = new Array();
-    var  stg010001_secondmarginrate = new Array();
-    var myDate = new Array();
+    var hash_stg010001 = new Hashtable();
     <% for i in 0..@stg010001.size-1 do%>
-        stg010001_username[<%=i%>]='<%= @stg010001[i].username%>';
-        stg010001_pairname[<%=i%>]='<%= @stg010001[i].pairname%>';
-        stg010001_time[<%=i%>]='<%= @stg010001[i].time.strftime("%Y年%m月%d日 %H时%M分%S秒")%>';
-        stg010001_time_c[<%=i%>]='<%= @stg010001[i].time.strftime("%Y-%m-%d")%>';
-        stg010001_returnrate[<%=i%>]='<%= @stg010001[i].returnrate%>';
-        stg010001_firstprice[<%=i%>]='<%= @stg010001[i].firstprice%>';
-    stg010001_secondprice[<%=i%>]='<%= @stg010001[i].secondprice%>';
-    stg010001_firstmarginrate[<%=i%>]='<%= @stg010001[i].firstmarginrate%>';
-    stg010001_secondmarginrate[<%=i%>]='<%= @stg010001[i].secondmarginrate%>';
+        hash_stg010001.add('<%= @stg010001[i].pairname%>',['<%= @stg010001[i].username%>',
+            '<%= @stg010001[i].time.strftime("%Y年%m月%d日 %H时%M分%S秒")%>','<%= @stg010001[i].time.strftime("%Y-%m-%d")%>',
+            <%= @stg010001[i].returnrate%>,<%= @stg010001[i].firstprice%>,<%= @stg010001[i].secondprice%>,
+            <%= @stg010001[i].firstmarginrate%>,<%= @stg010001[i].secondmarginrate%>])
     <% end%>
-    //JS Date format
-    Date.prototype.format = function(format)
-        {
-            var o = {
-            "M+" : this.getMonth()+1, //month
-            "d+" : this.getDate(),    //day
-            "h+" : this.getHours(),   //hour
-            "m+" : this.getMinutes(), //minute
-            "s+" : this.getSeconds(), //second
-            "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
-            "S" : this.getMilliseconds() //millisecond
-            }
-            if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
-            (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-            for(var k in o)if(new RegExp("("+ k +")").test(format))
-            format = format.replace(RegExp.$1,
-            RegExp.$1.length==1 ? o[k] :
-            ("00"+ o[k]).substr((""+ o[k]).length));
-            return format;
-        }
-    function DateDiff(sDate1, sDate2){ //sDate1和sDate2是2002-12-18格式
-    var aDate, oDate1, oDate2, iDays
-    aDate = sDate1.split("-")
-    oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]) //转换为12-18-2002格式
-    aDate = sDate2.split("-")
-    oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
-    iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 /24) //把相差的毫秒数转换为天数
-    return iDays
-    }
-
-    //交易费用修改
+    //define
+    var hash_notes = new Hashtable();
     var computearbfee = new Array();
     var computetransfee = new Array();
-    //userchange
-    function userchange_f(commodityid,tradecharge)
-    {
-        this.commodityid=commodityid;
-        this.tradecharge=tradecharge;
-    }
-    var userchange=new Array();
-    //实际年化收益率
     var computerateofreturn = new Array();
-    //总资金
     var funds = new Array();
-    //交割保证金占用成本 delivermarginfee
     var delivermarginfee = new Array();
-    //交易保证金占用成本 trademarginfee
     var trademarginfee = new Array();
-    //存储费用 storagefee
     var storagefee = new Array();
-    //交割费用
     var deliverfee = new Array();
-    //增值税费用
     var vatfee = new Array();
-    //db (default user)
-    function db_f(commodityid,lendrate,tradecharge,trademargingap)
-    {
-        this.commodityid=commodityid;
-        this.lendrate=lendrate;
-        this.tradecharge=tradecharge;
-        this.trademargingap=trademargingap;
-    }
-    var db=new Array();
-    var db_num=<%= @db_num%>;
-    <% for i in 0..@db_num-1 do%>
-    if(userflag==0)
-    db[<%=i%>]=new db_f('<%= @defaultdb[i].commodityid%>',<%= @defaultdb[i].lendrate%>,<%= @defaultdb[i].tradecharge%>,<%= @defaultdb[i].trademargingap%>);
-    else
-    db[<%=i%>]=new db_f('<%= @userdb[i].commodityid%>',<%= @userdb[i].lendrate%>,<%= @defaultdb[i].tradecharge%>,<%= @userdb[i].trademargingap%>);
+    //hash table
+    var hash_db = new Hashtable();
+    <% for i in 0..@dbnum-1 do%>
+        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>]);
     <% end%>
-    //flag
-    var userflag=<%=@userflag%>;
-    //定制服务初始化
-    if(userflag!=0)
-    {
-    var tradechargechange_num=<%= @tradechargechange_num %>;
-    <% for i in 0..@tradechargechange_num-1 do%>
-        userchange[<%=i%>]=new userchange_f('<%= @userchange[i].commodityid%>',<%= @userchange[i].tradecharge%>);
-    <% end%>
-         //the new table var
-       }
+    var hash_table = new Hashtable();
+    //first
+    userflag=<%= @userflag%>
     <% if @webuser!=nil&&@strategyparam!=nil%>
     var userrateofreturn = <%= @strategyparam.paramvalue%>;
-    var userrateofreturn_first = new Array();
-    var firstprice_first = new Array();
-    var secondprice_first = new Array();
-    var firstmarginrate_first = new Array();
-    var secondmarginrate_first = new Array();
-    var time_first = new Array();
-    var userrateofreturn_first_flag = new Array(20);
-    for(var i=0;i<userrateofreturn_first_flag.length-1;i++)
-    {
-        userrateofreturn_first_flag[i]=0;
-    }
+    var userrateofreturn_first_flag = new Array();
     <% end %>
     //MKDataState
 	function MKDataState(mtcounter, isgetMKData){
@@ -250,33 +162,26 @@
         var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
         return parseFloat(y) - parseFloat(x);
     };
-
     $.ajaxSetup({
         async: false,
         cache: false
     });
-    //getxml
-    function getxml()
-    {
-        var xml_elements;
-        $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",
-                function(data){
+    function getxml(){
+        $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);
+                    var elements=data.getElementsByTagName("pair");
+                    for (var i = 0; i < elements.length; i++) {
+                        hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0]));
+                    }
                         getAjax();
         });
     }
-    //getAjax
-     function getAjax()
-     {
-         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",
-                 function(data){
+     function getAjax(){
+         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
                      rtxml_arr=xml2array(data);
                      var elements=data.getElementsByTagName("pair");
 						 if(elements.length!=0){
-                             //original
 							 for (var i = 0; i < elements.length; i++) {
-                         function db_c(q)
-                                         {
                              vatfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])
                                      *parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate'])/(1+parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']));
                                              //交割费用
@@ -284,226 +189,108 @@
                                              //存储费用
                              storagefee[i]=parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))
                                              //交易费用
-                             computetransfee[i]=db[q].tradecharge*2;
+                             computetransfee[i]=hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[1]*2;
                                              //总资金
-                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+db[q].trademargingap)))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
+                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
                                              //交易保证金占用成本
-                             if(parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin'])==1)
-                                             {
-                                                 funds_c[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+db[q].trademargingap);
-                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])
-                                         *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+db[q].trademargingap)*db[q].lendrate*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
-                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
-                                         *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+db[q].trademargingap)*db[q].lendrate*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365
+                             if(parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin'])==1){
+                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                                 funds_c[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2]);
                                              }
-                                 else
-                                 {
-                                     funds_c[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+db[q].trademargingap)
-                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+db[q].trademargingap);
-                                     trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])
-                                             *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+db[q].trademargingap)+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
-                                             *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+db[q].trademargingap))*db[q].lendrate*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
-                                             +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
-                                             *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+db[q].trademargingap)*db[q].lendrate*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365
+                             else{
+                                 trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
+                                         *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2]))*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                                 funds_c[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2]);
                                              }
                                              //默认交割保证金占用成本
-                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])
-                                     *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*db[q].lendrate*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
-                                         }
-                          //默认用户
-                          if(userflag==0)
-                                     {
-                              //默认所有计算
-                              for(var q=0;q<db_num-1;q++)
-                              {
-                                  if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)==db[q].commodityid)
-                                  {
-                                      db_c(q);
-                                             break;
-                                         }
-                                         //内容同上
-                                  else if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,1)==db[q].commodityid)
-                                         {
-                                      db_c(q);
-                                             break;
-                                         }
-                                 }
-                                 }
-                                 //用户
-                                 else
-                                 {
-                                     //所有计算
-                              var db_tradecharge_flag;
-                              for(var q=0;q<db_num-1;q++)
-                                     {
-                                  if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)==db[q].commodityid)
-                                         {
-                                      db_c(q);
-                                      db_tradecharge_flag=q;
-                                             break;
-                                         }
-                                         //内容同上
-                                  else if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,1)==db[q].commodityid)
-                                         {
-                                      db_c(q);
-                                      db_tradecharge_flag=q;
-                                             break;
-                                         }
-                                     }
-                                     //交易费用修改（user）
-                                     for(var p=0;p<tradechargechange_num;p++)
-                                     {
-                                  if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)==userchange[p].commodityid)
-                                         {
-                                      computetransfee[i]=userchange[p].tradecharge*2;
-                                             break;
-                                         }
-                                  else if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,1)==userchange[p].commodityid)
-                                         {
-                                      computetransfee[i]=userchange[p].tradecharge*2;
-                                             break;
-                                         }
-                                         else
-                                      computetransfee[i]=db[db_tradecharge_flag].tradecharge*2;
-                                     }
-                                 }
-                         computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];                             //年化收益率计算
+                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                                 computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];
+                             //年化收益率计算
                          computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
                                  *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])-computearbfee[i])*365/(funds[i]*parseFloat(xml_arr['pairsattr']['pair'][i]['D2']))
 							}
                              //user table
-                             if(userflag!=0)
-                             {
-                             //user table
-                             for (var i = 0; i < elements.length; i++)
-                             {
+                             if(userflag!=0){
+                             for (var i = 0; i < elements.length; i++){
                                  // db set
-                                 if(computerateofreturn[i]>userrateofreturn && userrateofreturn_first_flag[i]==0)
-                                 {
                                      var datatime=new Date() ;
-                                     time_first[i]=datatime;
-                                     myDate[i]=datatime.format("yyyy年MM月dd日 hh时mm分ss秒");
-                                     userrateofreturn_first[i]=computerateofreturn[i];
-                                     firstprice_first[i] = parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']);
-                                     secondprice_first[i] = parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice']);
-                                     firstmarginrate_first[i] = parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']);
-                                     secondmarginrate_first[i] = parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate']);
+                                 hash_notes.add(i,[datatime.format("yyyy年MM月dd日 hh时mm分ss秒"),datatime,computerateofreturn[i],
+                                     parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice']),
+                                     parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])]);
+                                 userrateofreturn_first_flag[i]=0;
+                                 if(computerateofreturn[i]>userrateofreturn && userrateofreturn_first_flag[i]==0){
                                      userrateofreturn_first_flag[i]=1;
-                                     if(stg010001_pairname=='')
-                                     {
-                                         $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: userrateofreturn_first[i],
-                                             firstprice_p:firstprice_first[i],secondprice_p:secondprice_first[i], firstmarginrate_p:firstmarginrate_first[i], secondmarginrate_p:secondmarginrate_first[i] } );
+                                     if(hash_stg010001.count()==0){
+                                         $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: hash_notes.items(i)[2],
+                                             firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6] } );
                                      }
-                                     else
-                                     {
+                                     else{
                                          var flag_db=0;
-                                     for(var j=0;j<stg010001_pairname.length;j++)
-                                         {
-                                             if(stg010001_pairname[j]==rtxml_arr['pairstrade']['pair'][i]['name'])
+                                         if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])!=null)
                                                  flag_db=flag_db+1;
-                                         }
-                                         if(flag_db==0)
-                                         {
-                                             $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: userrateofreturn_first[i],
-                                                 firstprice_p:firstprice_first[i],secondprice_p:secondprice_first[i], firstmarginrate_p:firstmarginrate_first[i], secondmarginrate_p:secondmarginrate_first[i]});
+                                         if(flag_db==0){
+                                             $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: hash_notes.items(i)[2],
+                                                 firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6] } );
                                          }
                                      }
                                   }
                              }
-
                              //show set
-                             if(stg010001_username=='')
-                             {
+                             if(hash_stg010001.count()==0){
                                  var got_current=new Array();
-                                 for (var i = 0; i < elements.length; i++)
-                                 {
-                                 if(computerateofreturn[i]>userrateofreturn|| userrateofreturn_first[i]>userrateofreturn)
-                                 {
-                                         click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],
-                                                 rtxml_arr['pairstrade']['pair'][i]['firstprice'],
-                                                 rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                                 parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                 parseFloat(computearbfee[i]).toFixed(1),
-                                                 (computerateofreturn[i]*100).toFixed(1),
-                                                 rtxml_arr['pairstrade']['pair'][i]['time']);
-
-                                     got_current[i]=(secondprice_first[i]-firstprice_first[i]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
-                                     returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),time_first[i].format("yyyy-MM-dd"))+1);
-
-                                     tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],secondprice_first[i]-firstprice_first[i]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
-                                         (computerateofreturn[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
+                                 for (var i = 0; i < elements.length; i++){
+                                 if(computerateofreturn[i]>userrateofreturn|| hash_notes.items(i)[2]>userrateofreturn){
+                                         click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],
+                                                 rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
+                                                 parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                     got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
+                                     returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
+                                     tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
+                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
                                  }
                              }
                              }
-                             else//not empty
-                             {
+                             //not empty
+                             else{
                                  var got_current=new Array();
                                  var got_current_db=new Array();
-                                 var displayed = new Array();
-                                 var displaynum=0;
-                                 for (var j = 0; j <stg010001_pairname.length; j++)
-                                 {
-                                     for (var i = 0; i < elements.length; i++)
-                                     {
-                                         if(elements[i].getElementsByTagName("name")[0].firstChild.nodeValue==stg010001_pairname[j])
-                                         {
-                                             displayed[displaynum]=stg010001_pairname[j];
-                                             click[j]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],
-                                                     rtxml_arr['pairstrade']['pair'][i]['firstprice'],
-                                                     rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                                     parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                     parseFloat(computearbfee[i]).toFixed(1),
-                                                     (computerateofreturn[i]*100).toFixed(1),
-                                                     rtxml_arr['pairstrade']['pair'][i]['time']);
-                                             got_current_db[j]=(stg010001_secondprice[j]-stg010001_firstprice[j]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
-                                             returnrate_current[j]=(got_current_db[j]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),stg010001_time_c[j])+1);
-                                             tabledata_user[j]=[displayed[displaynum],(stg010001_returnrate[j]*100).toFixed(1)+"%",stg010001_time[j],got_current_db[j],
-                                                 (returnrate_current[j]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+j+')">查看</a>']
-                                             displaynum=displaynum+1;
-                                         }
+                                 for (var i = 0; i < elements.length; i++){
+                                     if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])!=null){
+                                         click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
+                                                 parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                             got_current_db[i]=(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]-hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
+                                             returnrate_current[i]=(got_current_db[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+1);
+                                             tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
+                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+i+')">查看</a>']
                                      }
                                  }
                                  //rebuild
-                                 for (var i = 0; i < elements.length; i++)
-                                 {
-                                     var displayflag=0;
-                                     if(computerateofreturn[i]>userrateofreturn|| userrateofreturn_first[i]>userrateofreturn)
-                                     {
-                                         for(var s=0;s<displaynum;s++)
-                                         {
-                                             if(displayed[s]==rtxml_arr['pairstrade']['pair'][i]['name'])
-                                             {
-                                                 displayflag=displayflag+1;
-                                             }
-                                         }
-                                         if(displayflag==0)
-                                         {
-                                             click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],
-                                                     rtxml_arr['pairstrade']['pair'][i]['firstprice'],
-                                                     rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                                     parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                     parseFloat(computearbfee[i]).toFixed(1),
-                                                     (computerateofreturn[i]*100).toFixed(1),
-                                                     rtxml_arr['pairstrade']['pair'][i]['time']);
-                                             got_current[i]=(secondprice_first[i]-firstprice_first[i]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
-                                             returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),time_first[i].format("yyyy-MM-dd"))+1);
-                                             tabledata_user[displaynum+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",myDate[i],got_current[i],
+                                 for (var i = 0; i < elements.length; i++){
+                                     if(computerateofreturn[i]>userrateofreturn|| hash_notes.items(i)[2]>userrateofreturn){
+                                         if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])==null){
+                                             click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],
+                                                     rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
+                                                     parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                             got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
+                                             returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
+                                             tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
                                                  (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
                                          }
                                      }
                                  }
                              }
                                  for(var k=0,s=0;k<tabledata_user.length;k++){
-                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0)
-                                     {
+                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0){
                                          tabledata_user_f[s]=tabledata_user[k];
                                          s=s+1;
                                      }
                                  }
                                      $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="user"></table>');
                                      $('#user').dataTable( {
-                                             "aaData": tabledata_user_f,
-                                             "aaSorting": [[3,"desc"]],
+                                         "aaData": tabledata_user_f,"aaSorting": [[3,"desc"]],
                                          "bPaginate": false, "bAutoWidth": false,
                                             "aoColumns": [
                                                  { "sTitle": "合约号", "sClass": "center" },
@@ -519,22 +306,18 @@
 						};
                      setTimeout(refreshMKData,2000);} )
 						}
-	function refreshMKData()
-	{
+    function refreshMKData(){
 		if (g_MKDataState.isgetMKData)
-		{
 		   getAjax();
 		}
-	}
 	function getservertime(){
         var st_a;
         $.ajaxSetup({
               async: false,
 			  cache: false
               });
-        $.getJSON("personaltrading",{gettime_p:"gettime_p"},callback)
-          function callback(data,status)
-          {
+           $.getJSON("shownorisk",{gettime:"gettime"},callback)
+             function callback(data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);
         var st=new Date(str.replace(/-/g, "\/"));
              st_a=st
@@ -559,8 +342,6 @@
 				endtime.setMinutes(2);
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
-                //if(servertime.getHours()==9&&servertime.getMinutes()==0&&servertime.getSeconds()<10)
-                //getxml();
                 g_MKDataState.isgetMKData=true;
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 			}else{
