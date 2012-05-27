@@ -1,20 +1,23 @@
+﻿<script type="text/javascript">
+    $(function(){
+        $("#datatables").dataTable({
+            "aoColumns": [
+                { "sTitle": "操作", "sClass": "center" },
+                { "sTitle": "合约名称", "sClass": "center" },
+                { "sTitle": "合约代号", "sClass": "center" },
+                { "sTitle": "手续费类型", "sClass": "center" },
+                { "sTitle": "手续费", "sClass": "center" }
+        ]
+        });
+    });
+</script>
 
-    <br />
+    <br />  <a href="../tradechargefast"><font size="3"> 手续费快键修改</font></a>
 	<%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
-
 	<h2> 手续费定制 </h2>
 
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 
-      <thead>
-          <tr>
-          <th><center>操作</center></th>
-		  <th><center>合约名称</center></th> 	
-		  <th><center>合约代号</center></th>
-   		  <th><center>手续费类型</center></th>
-          <th><center>手续费</center></th>
-          </tr>
-      </thead>
 
       <tbody>
             <% @usercommodity.each do |usercommodity_t| %>
