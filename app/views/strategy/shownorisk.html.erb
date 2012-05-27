@@ -140,10 +140,6 @@
 		}	 	
 	function getservertime(){
         var st_a;
-        $.ajaxSetup({
-              async: false,
-			  cache: false
-              });
         $.getJSON("shownorisk",{gettime:"gettime"},callback)
           function callback(data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);

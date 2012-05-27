@@ -14,8 +14,6 @@ class StrategyController < ApplicationController
     puts @gettime
       render :json => @gettime  #render json
     end
-    #skip saved redirect back(session)
-    session[:login]="shownorisk"
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
     #db (struct)
