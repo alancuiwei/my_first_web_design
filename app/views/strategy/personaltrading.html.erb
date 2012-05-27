@@ -2,22 +2,21 @@
 <%= javascript_include_tag "Hashtable.js" %>
 <h2>个性化交易 - 无风险套利 </h2>
 <!-- top button -->
+ <% if @webuser!=nil%>
  <div class="buttonbars">
  <div id = "annualreturnbutton">
- <% if @webuser!=nil%>
       <%= button_to "设置期望年化收益率",:controller=>"strategy" ,:action=>"userreturnrate"%>
- <% else %>
- <%= button_to "设置期望年化收益率",:controller=>"sessions" ,:action=>"new",session[:login]=>"userrateofreturn" %>
+ </div>
+ </div>
  <% end %>
- </div>
- </div>
-<div class="ironbars">
-     <div id = "norisktitle"><h3>符合您年化收益率的行情记录</h3></div>
-</div>
-<% if @webuser==nil %>
+
+ <% if @webuser==nil %>
 	<br />
     <%= button_to "请先登录",:controller=>"sessions" ,:action=>"new" %>
 <% else %>
+<div class="ironbars">
+     <div id = "norisktitle"><h3>符合您年化收益率的行情记录</h3></div>
+</div>
     <div id="rtpricetable_user"></div>
     <div id="showchart">
     </div>
