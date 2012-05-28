@@ -1,7 +1,7 @@
 ﻿#encoding: utf-8
 require 'rubygems'
-#require 'ctrader'
-#require 'iconv'
+require 'ctrader'
+require 'iconv'
 class StrategyController < ApplicationController
 
   def showror
