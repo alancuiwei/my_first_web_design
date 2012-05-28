@@ -38,7 +38,7 @@ def edittm
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
    #xml读取操作
-   @doc = Document.new(File.new('app/assets/xmls/commodity.xml'))
+   @doc = Document.new(File.new('public/commodity.xml'))
    @exchtrademargin=Array.new
    @commodityid=Array.new
    for i in 0..@usercommodity.size-1
