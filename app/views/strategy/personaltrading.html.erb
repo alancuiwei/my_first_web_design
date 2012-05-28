@@ -120,6 +120,29 @@
                 +" .远月合约价格："+click[s].secondprice+" .最新价差："+click[s].disprice
                 +" .持仓成本："+click[s].computearbfee+" .年化收益率："+click[s].returnrate+" .更新时间："+click[s].time);
     }
+    function  myclick_post(s)
+    {
+        var name=click[s].name.replace(/-/,"&")
+        if(click[s].name.charCodeAt(0)>=65 && click[s].name.charCodeAt(0)<=90)
+           name="SPD "+name
+        else
+           name="SP "+name
+        $.post("personaltrading", { name: name,disprice:click[s].disprice } );
+        //alert("套利合约对名："+name+" .最新价差："+click[s].disprice)
+
+    }
+
+    function  myclick_post_s(s)
+    {
+        var name=click[s].name.replace(/-/,"&")
+        if(click[s].name.charCodeAt(0)>=65 && click[s].name.charCodeAt(0)<=90)
+           name="SPD "+name
+        else
+           name="SP "+name
+        $.post("personaltrading", { name_s: name } );
+        //alert("套利合约对名："+name)
+
+    }
     var funds_c = new Array();
     var returnrate_current = new Array();
     //stg010001
@@ -263,7 +286,7 @@
                                      got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                      returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
                                      tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
-                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
+                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
                                  }
                              }
                              }
@@ -278,7 +301,7 @@
                                              got_current_db[i]=(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]-hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              returnrate_current[i]=(got_current_db[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+1);
                                              tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
-                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+i+')">查看</a>']
+                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>']
                                      }
                                  }
                                  //rebuild
@@ -291,7 +314,7 @@
                                              got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
                                              tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
-                                                 (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'];
+                                                 (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
                                          }
                                      }
                                  }

@@ -1,5 +1,7 @@
 ﻿#encoding: utf-8
 require 'rubygems'
+#require 'ctrader'
+#require 'iconv'
 class StrategyController < ApplicationController
 
   def showror
@@ -44,6 +46,105 @@ class StrategyController < ApplicationController
         puts @gettime_p
         render :json => @gettime_p
         end
+    if params[:name]!=nil
+      puts "##########"
+      puts params[:name]
+      puts params[:disprice]
+      begin
+	l_trader = Ctrader::CTrader.new()
+        l_rtn = l_trader.ExtOrderinsert(params[:name],-(params[:disprice].to_i))
+        l_str = ""
+	if l_rtn<0
+	   puts "insertorder error:#{l_trader.rspinfo.ErrorMsg}"
+           l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
+		     render:js => "alert('insertorder error:#{l_str}\\n#{params[:name]},#{params[:disprice]}')"
+	else
+	    if l_trader.isrsperror && l_trader.orderinfo.OrderStatus != nil
+		puts " order process error:#{l_trader.rspinfo.ErrorMsg}"
+                l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
+		         render:js => "alert('order process error:#{l_trader.rspinfo.ErrorMsg}\\n#{params[:name]},#{params[:disprice]}')"
+	    else
+		puts "orderinsert successful!"
+		         render:js => "alert('orderinsert successful!ordestatus:#{l_trader.orderinfo.OrderStatus}\\n#{params[:name]},#{params[:disprice]}')"
+	    end
+	    puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
+	end
+	      puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
+
+      rescue => e
+        render:js => "alert('failed:#{e}')"
+      end
+    end
+
+    if params[:name_s]!=nil
+      puts "##########"
+      puts params[:name_s]
+     begin
+	    l_trader = Ctrader::CTrader.new()
+	    l_trader.StartTrader()
+
+	    l_orderqury=Ctrader::CThostFtdcQryOrderField.new
+	    l_orderqury.InstrumentID = params[:name_s]
+	    l_orderqury.InsertTimeStart = ""
+	    l_orderqury.InsertTimeEnd = ""
+
+	    #sleep(1)
+	    l_rtn = l_trader.ExtQryOrder(l_orderqury)
+	    l_orderarray = Array.new
+	    if l_rtn<0
+           l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
+	       puts "queryorder error:#{l_str}"
+	    else
+	        if l_trader.isrsperror
+               l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
+		       puts " queryorder process error:#{l_str }"
+	        else
+		       puts "queryorder successful!"
+	        end
+	    end
+
+	    #sleep(1)
+	    l_order = Ctrader::CThostFtdcOrderField.new
+	    l_ordernum = l_trader.ExtGetQryOrderNum()
+        l_lines = Array.new
+	    if l_ordernum > 0
+	        for l_id in 0..l_ordernum-1 do
+	           l_orderarray[l_id] = Array.new
+	           l_order = l_trader.ExtGetQryOrder(l_id)
+	           #l_orderarray[l_id] = l_order
+		       l_orderarray[l_id][0] = l_order.InstrumentID
+		        puts "l_orderarray[l_id].OrderStatus:#{l_order.OrderStatus}"
+			    case l_order.OrderStatus
+			      when '0'
+				      l_orderarray[l_id][1] = '成交'
+				      l_orderarray[l_id][6] = '1'
+				      l_orderarray[l_id][7] = l_order.LimitPrice.to_s
+			      else
+				      l_orderarray[l_id][1] = '未成交'
+				      l_orderarray[l_id][6] = '0'
+		          l_orderarray[l_id][7] = '0'
+			    end
+
+		        l_orderarray[l_id][2] = '买'
+			    l_orderarray[l_id][3] = '开'
+		        l_orderarray[l_id][4] = '1'
+		        l_orderarray[l_id][5] = l_order.LimitPrice.to_s
+                l_lines[l_id] = l_orderarray[l_id].join("  ")
+	        end
+
+            puts l_lines.join("\n")
+            l_msgstr = l_lines.join('\n')
+            render:js => "alert('#{l_msgstr}')"
+        else
+            puts "results:#{l_ordernum}"
+            render:js => "alert('results:#{l_ordernum}')"
+	    end
+
+      rescue => e
+        #l_str = Iconv.iconv('UTF-8','GB2312', e)
+        render:js => "alert('failed:#{e}')"
+      end
+    end
     #skip saved redirect back(session)
     session[:login]="personaltrading"
     #webuser
