@@ -12,10 +12,20 @@
     });
 </script>
 
-    <br />  <a href="../tradechargefast"><font size="3"> 手续费快键修改</font></a>
-	<%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
 	<h2> 手续费定制 </h2>
-
+    <br />  
+	<div id = "tradefeebutton">
+	<%= button_to "返回交易管理页面",:controller=>"usermanagement" ,:action=>"trademanageindex"%>
+	</div>
+	<div id = "tradefeebutton">
+	<%= button_to "手续费快捷修改",:controller=>"usermanagement" ,:action=>"tradechargefast"%>
+	</div>
+	<div id = "nextbutton">
+	<%= button_to "下一步：保证金比例修改",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id%>
+	</div>
+	
+	<br />
+	<br />
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 
 

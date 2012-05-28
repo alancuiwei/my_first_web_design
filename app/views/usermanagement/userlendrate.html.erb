@@ -1,7 +1,8 @@
-   <br />
-   <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
 
    <h2>贷款利率定制</h2>
+
+   <br />
+   <%= button_to "返回交易管理页面",:controller=>"usermanagement" ,:action=>"trademanageindex"%>
    
     <h3>您当前的贷款利率是<%= @usercommodity[0].lendrate.to_d*100%>%
       <%= button_to "修改",:controller=>"usercommodity_ts" ,:action=>"editlr"%></h3>

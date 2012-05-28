@@ -48,7 +48,7 @@ def usertrademargin
    @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
 
   #xml读取操作
-   @doc = Document.new(File.new('public/commodity.xml'))
+   @doc = Document.new(File.new('app/assets/xmls/commodity.xml'))
    @exchtrademargin=Array.new
    @commodityid=Array.new
 
@@ -82,7 +82,7 @@ end
           usercommodity.save
         end
       end
-      redirect_to :controller=>"usermanagement" ,:action=>"showfast"
+      redirect_to :controller=>"usermanagement" ,:action=>"showtradechargefast"
     end
     if  params[:tardecharge_1]!=nil
       @usercommoditys.each do |usercommodity|
@@ -94,7 +94,11 @@ end
     end
   end
 
-  def showfast
+  def showtradechargefast
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+  end
+
+  def showtrademarginfast
     @webuser = Webuser.find_by_name(session[:webuser_name])
   end
 
@@ -106,7 +110,7 @@ end
           usercommodity.trademargingap=params[:tardemargin].to_f/100
           usercommodity.save
         end
-      redirect_to :controller=>"usermanagement" ,:action=>"showfast"
+      redirect_to :controller=>"usermanagement" ,:action=>"showtrademarginfast"
     end
   end
 

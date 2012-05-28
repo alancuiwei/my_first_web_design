@@ -22,10 +22,21 @@
         });
     });
 </script>
-   <br /> <a href="../trademarginfast"><font size="3"> 保证金比例快键修改</font></a>
-    <%= button_to "返回无风险页",:controller=>"strategy" ,:action=>"shownorisk"%>
 
-	<h2>保证金比例定制</h2>
+	<h2>保证金比例修改</h2>
+	<br />
+
+	<div id = "tradefeebutton">
+	<%= button_to "返回交易管理页面",:controller=>"usermanagement" ,:action=>"trademanageindex"%>
+	</div>
+
+	<div id = "tradefeebutton">
+	<%= button_to "保证金比例快捷修改",:controller=>"usermanagement" ,:action=>"trademarginfast"%>
+	</div>
+
+	<div id = "nextbutton">
+	<%= button_to "下一步：贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
+	</div>
 
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 
