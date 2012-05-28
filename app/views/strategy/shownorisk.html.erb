@@ -5,6 +5,28 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
+<input  type=checkbox onclick="mychecked_1(this)"> 主力套利对
+<input  type=checkbox onclick="mychecked_2(this)"> 逐月套利对
+<script type="text/javascript">
+    var mychecked_f;
+    var mychecked_s;
+    function mychecked_1(para){
+        if(para.checked){
+            mychecked_f=1
+        }
+        else{
+            mychecked_f=0;
+        }
+    }
+    function mychecked_2(para){
+        if(para.checked){
+            mychecked_s=1
+        }
+        else{
+            mychecked_s=0
+        }
+    }
+</script>
 <!-- default table -->
     <div class="ironbars">
   <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
@@ -27,6 +49,9 @@
 <script type="text/javascript">
     //table data storage (2D array)
     var tabledata= new Array([0,0,0,0,0,0,0]);
+    tabledata=[];
+    var tabledata_f= new Array([0,0,0,0,0,0,0]);
+    tabledata_f=[];
     //xml array
     var xml_arr=new Array();
     var rtxml_arr=new Array();
@@ -72,51 +97,81 @@
                     xml_arr=xml2array(data);
                     var elements=data.getElementsByTagName("pair");
                     for (var i = 0; i < elements.length; i++) {
-                        hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0]));
+                        hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],[hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[0],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[1],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[2],
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['productid'].substr(7,1))
+                        ]);
                     }
                         getAjax();
         });
     }
+
      function getAjax(){
          $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
                      rtxml_arr=xml2array(data);
                      var elements=data.getElementsByTagName("pair");
 						 if(elements.length!=0){
 							 for (var i = 0; i < elements.length; i++) {
-                             vatfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])
-                                     *parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate'])/(1+parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']));
+                             vatfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]
+                                     *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]/(1+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]);
                                              //交割费用
-                             deliverfee[i]=parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand'])*2;
+                             deliverfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]*2;
                                              //存储费用
-                             storagefee[i]=parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))
+                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
                                              //交易费用
-                             computetransfee[i]=hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[1]*2;
+                             computetransfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
                                              //总资金
-                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])))*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']);
+                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              //交易保证金占用成本
-                             if(parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin'])==1)
-                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
-                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                             if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[11]==1)
+                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
                                  else
-                                 trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
-                                         *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2]))*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*parseFloat(xml_arr['pairsattr']['pair'][i]['D1'])/365
-                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*(parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate'])+hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[2])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                                 trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
+                                         *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2]))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
                                              //默认交割保证金占用成本
-                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])*hash_table.items(xml_arr['pairsattr']['pair'][i]['name'])[0]*(parseFloat(xml_arr['pairsattr']['pair'][i]['D2'])-parseFloat(xml_arr['pairsattr']['pair'][i]['D1']))/365;
+                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
                          computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];
                                  //年化收益率计算
                          computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
-                                 *parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit'])-computearbfee[i])*365/(funds[i]*parseFloat(xml_arr['pairsattr']['pair'][i]['D2']))
-                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0)
+                                 *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]-computearbfee[i])*365/(funds[i]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7])
+                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
+                             if(mychecked_f==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
                                  (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
                                          parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_f==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                             if(mychecked_s==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                         (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_s==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                         }
                          else
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"];
 							}
+                             for(var k=0,s=0;k<tabledata.length;k++){
+                                 if(tabledata[k]!=null&&tabledata[k][0]!=0){
+                                     tabledata_f[s]=tabledata[k];
+                                     s=s+1;
+                                 }
+                             }
                                  $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
                                  $('#default').dataTable( {
-                                 "aaData": tabledata,"aaSorting": [[5,"desc"]],"bPaginate": false,
+                                 "aaData": tabledata_f,"aaSorting": [[5,"desc"]],"bPaginate": false,
                                         "aoColumns": [
                                      { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月合约价格", "sClass": "center" },
                                      { "sTitle": "远月合约价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
@@ -129,8 +184,9 @@
                                              },
                                              { "sTitle": "更新时间", "sClass": "center" }
                                          ] ,
-                                 "bFilter": false, "bStateSave": true
+                                 "bFilter": false//, "bStateSave": true
                                      } );
+                             tabledata_f=[]
 						};
                      setTimeout(refreshMKData,2000);} )
 						}
