@@ -202,7 +202,8 @@
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);
                     var elements=data.getElementsByTagName("pair");
-                    for (var i = 0; i < elements.length; i++) {
+                    for (var i = 0; i < elements.length; i++) 
+                        userrateofreturn_first_flag[i]=0;
                         hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],[hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[0],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[1],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[2],
                             parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
                             parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
@@ -257,7 +258,6 @@
                                  hash_notes.add(i,[datatime.format("yyyy年MM月dd日 hh时mm分ss秒"),datatime,computerateofreturn[i],
                                      parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice']),
                                      hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]]);
-                                 userrateofreturn_first_flag[i]=0;
                                  if(computerateofreturn[i]>userrateofreturn && userrateofreturn_first_flag[i]==0){
                                      userrateofreturn_first_flag[i]=1;
                                      if(hash_stg010001.count()==0){
