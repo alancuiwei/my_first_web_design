@@ -119,7 +119,9 @@ class WebusersController < ApplicationController
     for i in 0..@stg010001s.size-1
       @stg010001s[i].destroy
     end
+    if @strategyparam!=nil
    @strategyparam.destroy
+   end
     @webuser.destroy
     respond_to do |format|
       format.html { redirect_to webusers_url }
