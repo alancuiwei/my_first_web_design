@@ -5,10 +5,10 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
-<input  type=checkbox onclick="mychecked_1(this)"> 主力套利对
+<input  type=checkbox checked="true" onclick="mychecked_1(this)"> 主力套利对
 <input  type=checkbox onclick="mychecked_2(this)"> 逐月套利对
 <script type="text/javascript">
-    var mychecked_f;
+    var mychecked_f=1;
     var mychecked_s;
     function mychecked_1(para){
         if(para.checked){
@@ -211,6 +211,7 @@
 				endtime.setSeconds(5);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
+                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
 			}
 			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
@@ -228,6 +229,7 @@
 				endtime.setSeconds(5);	
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
+                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
 			}
 		}else{
