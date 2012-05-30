@@ -39,7 +39,7 @@ $(document).ready(function(){
 </script>
 </head>
 
-<body>
+<body onbeforeunload ="return pageBeforeunload(event);" >
 <div class="main">
   <div class="header">
     <div class="block_header">
@@ -89,6 +89,7 @@ $(document).ready(function(){
       <li><%= link_to "策略实时运行",:controller =>"strategy",:action =>"shownorisk" %></li>
       <li><%= link_to "策略历史机会",:controller =>"strategy",:action =>"maxreturnrate" %></li>
       <li><%= link_to "个性化交易",:controller =>"strategy",:action =>"personaltrading" %></li>
+      <li><%= link_to "用户权限表",:controller =>"strategy",:action =>"leveltable" %></li>
     </ul>
   <p></p>
     </div>

@@ -161,6 +161,20 @@ class StrategyController < ApplicationController
             stg.secondprice=params[:secondprice_p]
             stg.firstmarginrate=params[:firstmarginrate_p]
             stg.secondmarginrate=params[:secondmarginrate_p]
+        stg.vatfee=params[:vatfee_p]
+        stg.storageday=params[:storageday_p]
+        stg.storagedailyfee=params[:storagedailyfee_p]
+        stg.storagefee=params[:storagefee_p]
+        stg.deliverchargebyhand=params[:deliverchargebyhand_p]
+        stg.deliverfee=params[:deliverfee_p]
+        stg.tradecharge=params[:tradecharge_p]
+        stg.computetransfee=params[:computetransfee_p]
+        stg.lendrate=params[:lendrate_p]
+        stg.D1=params[:D1_p]
+        stg.tradeunit=params[:tradeunit_p]
+        stg.trademarginfee=params[:trademarginfee_p]
+        stg.delivermarginfee=params[:delivermarginfee_p]
+        stg.vatrate=params[:vatrate_p]
         stg.save
       end
     end
@@ -206,4 +220,9 @@ class StrategyController < ApplicationController
     redirect_to :controller=>"strategy" ,:action=>"showror"
     end
   end
+
+  def leveltable
+
+  end
+
 end

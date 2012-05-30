@@ -1,5 +1,51 @@
+﻿<body>
+  <div class="slider2">
+  <div class="slice12">
+    <h2>个性化管理</h2>
+  </div>
+  </div>
+  <div class="clr"></div>
+  <div class="body">
+    <div class="body_resize">
+    <div class="StrategyNews">
+    <h2>帐号管理</h2>
+    <ul>
+    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+    </ul>
+	<br />
+    <h2>策略管理</h2>
+    <ul>
+    <li><%= link_to "无风险套利管理",:controller=>"strategy" ,:action=>"personaltrading" %></li>
+    </ul>
+	<br />
+    <h2>帐号管理</h2>
+    <ul>
+    <li><%= link_to "交易价格修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
+    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
+    <li><%= link_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
+    </ul>
+
+    </div>
+  <div class="frame">
+    <br>
 <div style="margin:-18px 0 0 0;*margin:18px 0 0 0"><h3><%= notice %></h3></div>
 <div style="margin:0 200px 0 0">
 	<p><b>用户名:</b><%= @webuser.name %></p>
 	<p><b>电子邮箱:</b><%= @webuser.email %></p>	
+      <%  if session[:webuser_name]=="administrator"  %>
+          <p><b>用户权限:</b><%= @hash_level[@webuser.level] %></p>
+        <% end %>
+
+      </div>
+
+</div>
+
+<div class="clr"></div>
   </div>
+<div class="clr"></div>
+</div>
+</div>
+</body>
+</html>
+
+

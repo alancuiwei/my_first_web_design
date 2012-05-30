@@ -1,4 +1,4 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 class WebusersController < ApplicationController
   layout "application"  ,:except=>[:edit]
   #layout "webusers"  ,:only=>[:show]
@@ -6,6 +6,7 @@ class WebusersController < ApplicationController
   # GET /webusers.json
   def index
     @webusers = Webuser.order(:name)
+    @hash_level= Hash[0,"普通用户",1,"收费用户"]
 	if session[:webuser_name]=="administrator"
     respond_to do |format|
       format.html # index.html.erb
@@ -20,7 +21,7 @@ class WebusersController < ApplicationController
   # GET /webusers/1.json
   def show
     @webuser = Webuser.find(params[:id])
-
+    @hash_level= Hash[0,"普通用户",1,"收费用户"]
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @webuser }
@@ -47,7 +48,7 @@ class WebusersController < ApplicationController
   # POST /webusers.json
   def create
     @webuser = Webuser.new(params[:webuser])
-
+    @webuser.level=0
     respond_to do |format|
       if @webuser.save
 	    session[:webuser_name] = @webuser.name

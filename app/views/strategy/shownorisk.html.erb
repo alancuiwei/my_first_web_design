@@ -19,12 +19,20 @@
         }
     }
     function mychecked_2(para){
+        <% if @webuser==nil%>
+        alert("您还没有登录！");
+        para.checked=null;
+        <% elsif @webuser.level==0%>
+        alert("您还不是收费用户！");
+        para.checked=null;
+            <% else %>
         if(para.checked){
             mychecked_s=1
         }
         else{
             mychecked_s=0
         }
+        <%end%>
     }
 </script>
 <!-- default table -->

@@ -21,14 +21,23 @@
      <div id = "norisktitle"><h3>符合您年化收益率的行情记录</h3></div>
 </div>
 -->
+<script type="text/javascript">
+    function pageBeforeunload(evt){
+         return '系统正在为您实时计算符合您年化收益率的交易机会，您一旦离开该页面，系统将无法为您服务，您真的确定要离开吗？';
+    }
+</script>
 <h2>个性化设置 - 无风险套利 </h2>
 <div id="showchart">
 </div>
 
 <br />
 <h2>个性化交易 - 无风险套利 </h2>
-
+    <div id="showtime"></div>
+    <% if @webuser.level==0%>
+        <h2>您还不是收费用户，不能查看个性化交易。</h2>
+        <% else %>
     <div id="rtpricetable_user"></div>
+<% end %>
 <% end %>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
@@ -105,43 +114,31 @@
     var xml_arr=new Array();
     var rtxml_arr=new Array();
     //click action
-    function click_f(name,firstprice,secondprice,disprice,computearbfee,returnrate,time){
-        this.name=name;
-        this.firstprice=firstprice;
-        this.secondprice=secondprice;
-        this.disprice=disprice;
-        this.computearbfee=computearbfee;
-        this.returnrate=returnrate;
-        this.time=time;
-    }
-    var click=new Array();
+    var hash_click = new Hashtable();
+    var hash_post = new Hashtable();
+    var note_flag = new Array();
     function  myclick(s){
-        alert("套利合约对名："+click[s].name+". 近月合约价格："+click[s].firstprice
-                +" .远月合约价格："+click[s].secondprice+" .最新价差："+click[s].disprice
-                +" .持仓成本："+click[s].computearbfee+" .年化收益率："+click[s].returnrate+" .更新时间："+click[s].time);
+        alert(hash_click.items(s));
     }
     function  myclick_post(s)
     {
-        var name=click[s].name.replace(/-/,"&")
-        if(click[s].name.charCodeAt(0)>=65 && click[s].name.charCodeAt(0)<=90)
+        var name=hash_post.items(s)[0].replace(/-/,"&");
+        if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
-        $.post("personaltrading", { name: name,disprice:click[s].disprice } );
-        //alert("套利合约对名："+name+" .最新价差："+click[s].disprice)
-
+        $.post("personaltrading", { name: name,disprice:hash_post.items(s)[1] } );
+        //alert("套利合约对名："+name+" .最新价差："+hash_post.items(s)[1])
     }
-
     function  myclick_post_s(s)
     {
-        var name=click[s].name.replace(/-/,"&")
-        if(click[s].name.charCodeAt(0)>=65 && click[s].name.charCodeAt(0)<=90)
+        var name=hash_post.items(s)[0].replace(/-/,"&");
+        if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
         $.post("personaltrading", { name_s: name } );
         //alert("套利合约对名："+name)
-
     }
     var funds_c = new Array();
     var returnrate_current = new Array();
@@ -151,7 +148,12 @@
         hash_stg010001.add('<%= @stg010001[i].pairname%>',['<%= @stg010001[i].username%>',
             '<%= @stg010001[i].time.strftime("%Y年%m月%d日 %H时%M分%S秒")%>','<%= @stg010001[i].time.strftime("%Y-%m-%d")%>',
             <%= @stg010001[i].returnrate%>,<%= @stg010001[i].firstprice%>,<%= @stg010001[i].secondprice%>,
-            <%= @stg010001[i].firstmarginrate%>,<%= @stg010001[i].secondmarginrate%>])
+            <%= @stg010001[i].firstmarginrate%>,<%= @stg010001[i].secondmarginrate%>,<%= @stg010001[i].vatfee%>,
+            <%= @stg010001[i].storageday%>,<%= @stg010001[i].storagedailyfee%>,<%= @stg010001[i].storagefee%>,
+            <%= @stg010001[i].deliverchargebyhand%>,<%= @stg010001[i].deliverfee%>,<%= @stg010001[i].tradecharge%>,
+            <%= @stg010001[i].computetransfee%>,<%= @stg010001[i].lendrate%>,<%= @stg010001[i].D1%>,
+            <%= @stg010001[i].tradeunit%>,<%= @stg010001[i].trademarginfee%>,<%= @stg010001[i].delivermarginfee%>,
+            <%= @stg010001[i].vatrate%>])
     <% end%>
     //define
     var hash_notes = new Hashtable();
@@ -175,7 +177,9 @@
     <% if @webuser!=nil&&@strategyparam!=nil%>
     var userrateofreturn = <%= @strategyparam.paramvalue%>;
     var userrateofreturn_first_flag = new Array();
+    var userrateofreturn_first = new Array();
     <% end %>
+    var userrateofreturn_note = new Array();
     //MKDataState
 	function MKDataState(mtcounter, isgetMKData){
 	  this.mtcounter = mtcounter;
@@ -202,8 +206,11 @@
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);
                     var elements=data.getElementsByTagName("pair");
-                    for (var i = 0; i < elements.length; i++) 
+
+                    for (var i = 0; i < elements.length; i++) {
                         userrateofreturn_first_flag[i]=0;
+                        note_flag[i]=0;
+                        userrateofreturn_note[i]=userrateofreturn;
                         hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],[hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[0],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[1],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[2],
                             parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
                             parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
@@ -254,23 +261,45 @@
                              if(userflag!=0){
                              for (var i = 0; i < elements.length; i++){
                                  // db set
+                                 if(computerateofreturn[i]>userrateofreturn_note[i] && userrateofreturn_first_flag[i]==0){
+                                     //userrateofreturn_first_flag[i]=1;
+                                     userrateofreturn_first[i]=computerateofreturn[i];
                                      var datatime=new Date() ;
-                                 hash_notes.add(i,[datatime.format("yyyy年MM月dd日 hh时mm分ss秒"),datatime,computerateofreturn[i],
-                                     parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice']),
-                                     hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]]);
-                                 if(computerateofreturn[i]>userrateofreturn && userrateofreturn_first_flag[i]==0){
-                                     userrateofreturn_first_flag[i]=1;
+                                 hash_notes.add(i,[datatime.format("yyyy年MM月dd日 hh时mm分ss秒"),datatime,vatfee[i],
+                                     parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice']),hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10],
+                                     (hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]),hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6],storagefee[i],
+                                     hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5],deliverfee[i],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1], computetransfee[i],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0],
+                                     hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3],trademarginfee[i],delivermarginfee[i],hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]]);
                                      if(hash_stg010001.count()==0){
-                                         $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: hash_notes.items(i)[2],
-                                             firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6] } );
+                                         if(confirm("套利对"+rtxml_arr['pairstrade']['pair'][i]['name']+"是否记录？"+"时间："+hash_notes.items(i)[0])){
+                                             note_flag[i]=1;
+                                             userrateofreturn_first_flag[i]=1;
+                                         $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: userrateofreturn_first[i],
+                                             firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6],vatfee_p:hash_notes.items(i)[2],
+                                             storageday_p:hash_notes.items(i)[7],storagedailyfee_p:hash_notes.items(i)[8],storagefee_p:hash_notes.items(i)[9],deliverchargebyhand_p:hash_notes.items(i)[10],deliverfee_p:hash_notes.items(i)[11],
+                                             tradecharge_p:hash_notes.items(i)[12], computetransfee_p:hash_notes.items(i)[13],lendrate_p:hash_notes.items(i)[14],D1_p:hash_notes.items(i)[15], tradeunit_p:hash_notes.items(i)[16],
+                                             trademarginfee_p:hash_notes.items(i)[17],delivermarginfee_p:hash_notes.items(i)[18], vatrate_p:hash_notes.items(i)[19] } );
                                      }
                                      else{
-                                         var flag_db=0;
-                                         if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])!=null)
-                                                 flag_db=flag_db+1;
-                                         if(flag_db==0){
-                                             $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: hash_notes.items(i)[2],
-                                                 firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6] } );
+                                             userrateofreturn_note[i]=computerateofreturn[i];
+                                             hash_notes.remove(i);
+                                         }
+                                     }
+                                     else{
+                                         if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])==null){
+                                             if(confirm("套利对"+rtxml_arr['pairstrade']['pair'][i]['name']+"是否记录？"+"时间："+hash_notes.items(i)[0])){
+                                                 note_flag[i]=1;
+                                                 userrateofreturn_first_flag[i]=1;
+                                             $.get("personaltrading", { pairname_p: rtxml_arr['pairstrade']['pair'][i]['name'], returnrate_p: userrateofreturn_first[i],
+                                                 firstprice_p:hash_notes.items(i)[3],secondprice_p:hash_notes.items(i)[4], firstmarginrate_p:hash_notes.items(i)[5], secondmarginrate_p:hash_notes.items(i)[6],vatfee_p:hash_notes.items(i)[2],
+                                                 storageday_p:hash_notes.items(i)[7],storagedailyfee_p:hash_notes.items(i)[8],storagefee_p:hash_notes.items(i)[9],deliverchargebyhand_p:hash_notes.items(i)[10],deliverfee_p:hash_notes.items(i)[11],
+                                                 tradecharge_p:hash_notes.items(i)[12], computetransfee_p:hash_notes.items(i)[13],lendrate_p:hash_notes.items(i)[14],D1_p:hash_notes.items(i)[15], tradeunit_p:hash_notes.items(i)[16],
+                                                 trademarginfee_p:hash_notes.items(i)[17],delivermarginfee_p:hash_notes.items(i)[18], vatrate_p:hash_notes.items(i)[19] } );
+                                             }
+                                              else{
+                                                 userrateofreturn_note[i]=computerateofreturn[i];
+                                                 hash_notes.remove(i);
+                                             }
                                          }
                                      }
                                   }
@@ -279,13 +308,14 @@
                              if(hash_stg010001.count()==0){
                                  var got_current=new Array();
                                  for (var i = 0; i < elements.length; i++){
-                                 if(computerateofreturn[i]>userrateofreturn|| hash_notes.items(i)[2]>userrateofreturn){
-                                         click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],
-                                                 rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                 parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                 if((computerateofreturn[i]>userrateofreturn_note[i]|| userrateofreturn_first[i]>userrateofreturn_note[i])&&note_flag[i]==1){
+                                     hash_click.add(i,["合约名："+rtxml_arr['pairstrade']['pair'][i]['name']," 存储天数："+hash_notes.items(i)[7]," 日存储费用："+hash_notes.items(i)[8]," 存储费用："+hash_notes.items(i)[9]," 每手交割手续费："+hash_notes.items(i)[10]," 交割手续费："+hash_notes.items(i)[11],
+                                         " 每手手续费："+hash_notes.items(i)[12]," 手续费用："+hash_notes.items(i)[13]," 近期合约价格："+hash_notes.items(i)[3]," 近期合约保证金比例："+hash_notes.items(i)[5]," 贷款利率："+hash_notes.items(i)[14]," 近期距离交割天数："+hash_notes.items(i)[15]," 远期合约价格："+hash_notes.items(i)[4]," 交易单位："+hash_notes.items(i)[16]," 远期合约保证金比例："+hash_notes.items(i)[6],
+                                         " 交易保证金费用："+hash_notes.items(i)[17]," 交割保证金费用："+hash_notes.items(i)[18]," 增值税率："+hash_notes.items(i)[19]," 增值税费用："+hash_notes.items(i)[2]]);
+                                     hash_post.add(i,[rtxml_arr['pairstrade']['pair'][i]['name'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])]);
                                      got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                      returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
-                                     tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
+                                     tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
                                          (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
                                  }
                              }
@@ -296,8 +326,11 @@
                                  var got_current_db=new Array();
                                  for (var i = 0; i < elements.length; i++){
                                      if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])!=null){
-                                         click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                 parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                         hash_click.add(i,["合约名："+rtxml_arr['pairstrade']['pair'][i]['name']," 存储天数："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]," 日存储费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]," 存储费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[11]," 每手交割手续费："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]," 交割手续费："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13],
+                                             " 每手手续费："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[14]," 手续费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[15]," 近期合约价格："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]," 近期合约保证金比例："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]," 贷款利率："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[16]," 近期距离交割天数："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[17],
+                                             " 远期合约价格："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]," 交易单位："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[18]," 远期合约保证金比例："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7],
+                                             " 交易保证金费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[19]," 交割保证金费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[20]," 增值税率："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[21]," 增值税费用："+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]]);
+                                         hash_post.add(i,[rtxml_arr['pairstrade']['pair'][i]['name'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])])
                                              got_current_db[i]=(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]-hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              returnrate_current[i]=(got_current_db[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+1);
                                              tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
@@ -306,14 +339,15 @@
                                  }
                                  //rebuild
                                  for (var i = 0; i < elements.length; i++){
-                                     if(computerateofreturn[i]>userrateofreturn|| hash_notes.items(i)[2]>userrateofreturn){
+                                     if((computerateofreturn[i]>userrateofreturn_note[i]|| userrateofreturn_first[i]>userrateofreturn_note[i])&&note_flag[i]==1){
                                          if(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])==null){
-                                             click[i]=new click_f(rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],
-                                                     rtxml_arr['pairstrade']['pair'][i]['secondprice'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']),
-                                                     parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1),rtxml_arr['pairstrade']['pair'][i]['time']);
+                                             hash_click.add(i,["合约名："+rtxml_arr['pairstrade']['pair'][i]['name']," 存储天数："+hash_notes.items(i)[7]," 日存储费用："+hash_notes.items(i)[8]," 存储费用："+hash_notes.items(i)[9]," 每手交割手续费："+hash_notes.items(i)[10]," 交割手续费："+hash_notes.items(i)[11],
+                                                 " 每手手续费："+hash_notes.items(i)[12]," 手续费用："+hash_notes.items(i)[13]," 近期合约价格："+hash_notes.items(i)[3]," 近期合约保证金比例："+hash_notes.items(i)[5]," 贷款利率："+hash_notes.items(i)[14]," 近期距离交割天数："+hash_notes.items(i)[15]," 远期合约价格："+hash_notes.items(i)[4]," 交易单位："+hash_notes.items(i)[16]," 远期合约保证金比例："+hash_notes.items(i)[6],
+                                                 " 交易保证金费用："+hash_notes.items(i)[17]," 交割保证金费用："+hash_notes.items(i)[18]," 增值税率："+hash_notes.items(i)[19]," 增值税费用："+hash_notes.items(i)[2]]);
+                                             hash_post.add(i,[rtxml_arr['pairstrade']['pair'][i]['name'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])]);
                                              got_current[i]=(hash_notes.items(i)[4]-hash_notes.items(i)[3]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              returnrate_current[i]=(got_current[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_notes.items(i)[1].format("yyyy-MM-dd"))+1);
-                                             tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_notes.items(i)[2]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
+                                             tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
                                                  (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
                                          }
                                      }
@@ -340,6 +374,7 @@
                                      "bFilter": false//"bRetrieve":true,//"bDestroy": true,//"bStateSave": true
                                          } );
                                  tabledata_user_f=[];
+                                 $("#showtime").html(new Date().format("yyyy年MM月dd日 hh时mm分ss秒"));
                              }
 						};
                      setTimeout(refreshMKData,2000);} )
@@ -397,7 +432,11 @@
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 		}
 	}
+    <% if @webuser!=nil%>
+    <% if @webuser.level!=0%>
     getxml();
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
+    <% end %>
+    <% end %>
 </script>
