@@ -38,7 +38,7 @@
 <!-- default table -->
     <div class="ironbars">
   <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
-  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div>
+<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
       </div>
 <div id ="rtpricetable"></div>
 <!-- noriskmessage -->
@@ -96,10 +96,6 @@
         var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
         return parseFloat(y) - parseFloat(x);
     };
-    $.ajaxSetup({
-        async: false,
-        cache: false
-    });
     function getxml(){
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);
@@ -115,7 +111,6 @@
                         getAjax();
         });
     }
-
      function getAjax(){
          $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
                      rtxml_arr=xml2array(data);
@@ -202,18 +197,11 @@
 		if (g_MKDataState.isgetMKData)
 		   getAjax();
 		}	 	
-	function getservertime(){
-        var st_a;
+	function checktimeMKTime(){
         $.getJSON("shownorisk",{gettime:"gettime"},callback)
           function callback(data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);
-        var st=new Date(str.replace(/-/g, "\/"));
-             st_a=st
-          }
-		return st_a;
-	}
-	function checktimeMKTime(){
-		var servertime=getservertime();
+		var servertime=new Date(str.replace(/-/g, "\/"));
 		var endtime=new Date(servertime);
 		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
 		{
@@ -231,6 +219,7 @@
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=true;
+                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
 			}else{
 				endtime.setDate(servertime.getDate()+1); 
@@ -251,7 +240,7 @@
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
 		}		
 	}
-    getxml();
+	}
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
 </script>
