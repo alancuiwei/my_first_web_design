@@ -5,8 +5,14 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
-<input  type=checkbox checked="true" onclick="mychecked_1(this)"> 主力套利对
-<input  type=checkbox onclick="mychecked_2(this)"> 逐月套利对
+    <div class="ironbars">
+  <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
+<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
+      </div>
+<div id=checkbox>
+      <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
+      <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
+</div>
 <script type="text/javascript">
     var mychecked_f=1;
     var mychecked_s;
@@ -34,12 +40,33 @@
         }
         <%end%>
     }
+    function setupLabel() {
+        if ($('.label_check input').length) {
+            $('.label_check').each(function(){
+                $(this).removeClass('c_on');
+            });
+            $('.label_check input:checked').each(function(){
+                $(this).parent('label').addClass('c_on');
+            });
+        };
+        if ($('.label_radio input').length) {
+            $('.label_radio').each(function(){
+                $(this).removeClass('r_on');
+            });
+            $('.label_radio input:checked').each(function(){
+                $(this).parent('label').addClass('r_on');
+            });
+        };
+    };
+    $(document).ready(function(){
+        $('body').addClass('has-js');
+        $('.label_check, .label_radio').click(function(){
+            setupLabel();
+        });
+        setupLabel();
+    });
 </script>
 <!-- default table -->
-    <div class="ironbars">
-  <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
-<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
-      </div>
 <div id ="rtpricetable"></div>
 <!-- noriskmessage -->
 <br>
@@ -96,6 +123,9 @@
         var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
         return parseFloat(y) - parseFloat(x);
     };
+    $.ajaxSetup({
+        cache: false
+    });
     function getxml(){
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);

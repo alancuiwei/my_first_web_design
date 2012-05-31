@@ -198,6 +198,9 @@
         var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
         return parseFloat(y) - parseFloat(x);
     };
+    $.ajaxSetup({
+        cache: false
+    });
     function getxml(){
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
                     xml_arr=xml2array(data);
