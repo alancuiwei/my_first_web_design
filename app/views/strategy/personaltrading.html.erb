@@ -118,7 +118,12 @@
     var hash_post = new Hashtable();
     var note_flag = new Array();
     function  myclick(s){
-        alert(hash_click.items(s));
+       // alert(hash_click.items(s));
+        $(document).ready(function(){
+          var content = hash_click.items(s);
+          var title = '<div class="header"><center>详细信息</center></div>';
+         noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title+content,timeout : false });
+        });
     }
     function  myclick_post(s)
     {
@@ -333,7 +338,7 @@
                                              got_current_db[i]=(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]-hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]-(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              returnrate_current[i]=(got_current_db[i]/funds_c[i])*365/(DateDiff(new Date().format("yyyy-MM-dd"),hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+1);
                                              tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
-                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>']
+                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#showchart" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>']
                                      }
                                  }
                                  //rebuild
@@ -388,6 +393,7 @@
               var str=data.substr(0,10)+" "+data.substr(11,8);
   		var servertime=new Date(str.replace(/-/g, "\/"));
 		var endtime=new Date(servertime);
+        getxml();
 		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
 		{
 		    if(servertime.getHours()<9){
@@ -404,7 +410,6 @@
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=true;
-                  getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 			}else{
 				endtime.setDate(servertime.getDate()+1);

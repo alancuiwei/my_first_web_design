@@ -14,6 +14,42 @@
       <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
 </div>
 <script type="text/javascript">
+    //$(document).ready(function(){
+    //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+   // });
+
+    function notyAlertWithButtons(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还没有登录！',
+        buttons: [
+          {type: 'btn btn-primary', text: '登录', click: function($noty) {
+              $noty.close();
+              window.location.href='../sessions/new';
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '您还是注册一下吧！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
+    function notyAlertWithButtons_0(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
+        buttons: [
+          {type: 'btn btn-primary', text: '确定', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '找管理员！', type: 'error'});
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '取消！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
     var mychecked_f=1;
     var mychecked_s;
     function mychecked_1(para){
@@ -26,10 +62,10 @@
     }
     function mychecked_2(para){
         <% if @webuser==nil%>
-        alert("您还没有登录！");
+        notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
         para.checked=null;
         <% elsif @webuser.level==0%>
-        alert("您还不是收费用户！");
+        notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
         para.checked=null;
             <% else %>
         if(para.checked){
@@ -233,6 +269,7 @@
               var str=data.substr(0,10)+" "+data.substr(11,8);
 		var servertime=new Date(str.replace(/-/g, "\/"));
 		var endtime=new Date(servertime);
+        getxml();
 		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
 		{
 		    if(servertime.getHours()<9){
@@ -241,7 +278,6 @@
 				endtime.setSeconds(5);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
-                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
 			}
 			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
@@ -250,7 +286,6 @@
 				endtime.setSeconds(0);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=true;
-                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
 			}else{
 				endtime.setDate(servertime.getDate()+1); 
@@ -259,7 +294,6 @@
 				endtime.setSeconds(5);	
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
-                getxml();
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
 			}
 		}else{
