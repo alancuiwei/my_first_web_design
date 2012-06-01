@@ -1,0 +1,18 @@
+﻿<h2>show version</h2>
+current_version_id:<%= @version.current_version_id %><br>
+current_comments:<%= @version.current_comments %><br>
+Rails:<br>
+comments:<%= @version.rails_comments %>
+branch_id:<%= @version.rails_branch_id  %>
+commit_id:<%= @version.rails_commit_id  %><br>
+MYSQL:<br>
+comments:<%= @version.mysql_comments  %>
+branch_id:<%= @version.mysql_branch_id  %>
+commit_id:<%= @version.mysql_commit_id  %><br>
+CTP:<br>
+comments:<%= @version.ctp_comments  %>
+branch_id:<%= @version.ctp_branch_id  %>
+commit_id:<%= @version.ctp_commit_id  %><br>
+Update date:
+<%= @version.update_date.to_s(:db) %>
+<%= link_to "返回", :controller=>"admin",:action=>"currentversion"%>

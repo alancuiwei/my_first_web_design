@@ -1,3 +1,6 @@
+<%= stylesheet_link_tag "jquery.noty.css" %>
+<%= stylesheet_link_tag "noty_theme_growl.css" %>
+<%= javascript_include_tag "jquery.noty.js" %>
 <body>
   <div class="slider">
     <div class="slice1">
@@ -75,7 +78,26 @@
       </div>
       <div class="Welcome">
         <h2>最新论坛信息</h2>
-        <p>即将推出 </p>
+        <p>即将推出
+
+        <h2>版本信息</h2>
+        <table id=versiontable>
+          <tr>
+            <th>current_version_id</th>
+            <th>current_comments</th>
+            <th>update_date</th>
+          </tr>
+
+        <% @versions.each do |version| %>
+          <tr>
+            <td><%= version.current_version_id %></td>
+            <td><%= version.current_comments %></td>
+            <td><%= version.update_date.to_s(:db) %></td>
+        	</tr>
+        <% end %>
+        </table>
+        <a href="#versiontable" onclick="show_version()">更多信息</a>
+        </p>
         <div class="bg"></div>
         <p>即将推出 </p>
         <div class="bg"></div>
@@ -102,3 +124,13 @@
   </div>
 </body>
 </html>
+<script type="text/javascript">
+  function show_version(){
+    $(document).ready(function(){
+      var title = '<table><tr><th>current_version_id</th><th>current_comments</th><th>update_date</th></tr>'+
+              ' <% @versions_all.each do |version| %><tr><td><%= version.current_version_id %></td><td><%= version.current_comments %></td>'+
+              '<td><%= version.update_date.to_s(:db) %></td></tr><% end %></table>';
+     noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
+    });
+  }
+</script>
