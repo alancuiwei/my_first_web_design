@@ -77,27 +77,20 @@
         <p></p>
       </div>
       <div class="Welcome">
-        <h2>最新论坛信息</h2>
+<!--        <h2>最新论坛信息</h2>
         <p>即将推出
-
+-->
         <h2>版本信息</h2>
-        <table id=versiontable>
-          <tr>
-            <th>current_version_id</th>
-            <th>current_comments</th>
-            <th>update_date</th>
-          </tr>
-
         <% @versions.each do |version| %>
-          <tr>
-            <td><%= version.current_version_id %></td>
-            <td><%= version.current_comments %></td>
-            <td><%= version.update_date.to_s(:db) %></td>
-        	</tr>
+		<p> 版本名: <%= version.current_version_id %>
+		更新日期：<%= version.update_date.to_s(:db) %> </p>
+		<p> 更新内容：<%= version.current_comments %> </p>
+
+		
         <% end %>
-        </table>
-        <a href="#versiontable" onclick="show_version()">更多信息</a>
-        </p>
+
+        <a href="#versiontable" onclick="show_version()">+ 更多信息</a>
+<!--        
         <div class="bg"></div>
         <p>即将推出 </p>
         <div class="bg"></div>
@@ -108,6 +101,7 @@
           <li>羽根英树套利策略</li>
         </ul>
       </div>
+-->
       <div class="clr"></div>
     </div>
     <div class="clr"></div>

@@ -1,20 +1,20 @@
 <h2>创建</h2>
 <div>
 <%= form_tag do %>
-    current_version_id<%= text_field_tag :current_version_id, params[:current_version_id],:size=>8 %><br>
-    current_comments<%= text_field_tag :current_comments, params[:current_comments],:size=>8 %><br>
+    新版本号<%= text_field_tag :current_version_id, params[:current_version_id],:size=>8 %><br>
+    新版本说明<%= text_field_tag :current_comments, params[:current_comments],:size=>8 %><br>
     Rails:<br>
-    comments<%= text_field_tag :rails_comments, params[:rails_comments],:size=>8 %>
-    branch_id<%= text_field_tag :rails_branch_id, params[:rails_branch_id],:size=>8 %>
-    commit_id<%= text_field_tag :rails_commit_id, params[:rails_commit_id],:size=>8 %><br>
+    说明<%= text_field_tag :rails_comments, params[:rails_comments],:size=>8 %>
+    BRANCH_ID<%= text_field_tag :rails_branch_id, params[:rails_branch_id],:size=>8 %>
+    COMMIT_ID<%= text_field_tag :rails_commit_id, params[:rails_commit_id],:size=>8 %><br>
     MYSQL:<br>
-    comments<%= text_field_tag :mysql_comments, params[:mysql_comments],:size=>8 %>
-    branch_id<%= text_field_tag :mysql_branch_id, params[:mysql_branch_id],:size=>8 %>
-    commit_id<%= text_field_tag :mysql_commit_id, params[:mysql_commit_id],:size=>8 %><br>
+    说明<%= text_field_tag :mysql_comments, params[:mysql_comments],:size=>8 %>
+    BRANCH_ID<%= text_field_tag :mysql_branch_id, params[:mysql_branch_id],:size=>8 %>
+    COMMIT_ID<%= text_field_tag :mysql_commit_id, params[:mysql_commit_id],:size=>8 %><br>
     CTP:<br>
-    comments<%= text_field_tag :ctp_comments, params[:ctp_comments],:size=>8 %>
-    branch_id<%= text_field_tag :ctp_branch_id, params[:ctp_branch_id],:size=>8 %>
-    commit_id<%= text_field_tag :ctp_commit_id, params[:ctp_commit_id],:size=>8 %><br>
+    说明<%= text_field_tag :ctp_comments, params[:ctp_comments],:size=>8 %>
+    BRANCH_ID<%= text_field_tag :ctp_branch_id, params[:ctp_branch_id],:size=>8 %>
+    COMMIT_ID<%= text_field_tag :ctp_commit_id, params[:ctp_commit_id],:size=>8 %><br>
     <%= submit_tag "提交"%><% end %>
 <%= link_to "返回", :controller=>"admin",:action=>"currentversion"%>
 </div>
