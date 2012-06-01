@@ -393,7 +393,6 @@
               var str=data.substr(0,10)+" "+data.substr(11,8);
   		var servertime=new Date(str.replace(/-/g, "\/"));
 		var endtime=new Date(servertime);
-        getxml();
 		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
 		{
 		    if(servertime.getHours()<9){
@@ -429,6 +428,7 @@
 			g_MKDataState.isgetMKData=false;
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);
 		}
+        getxml();
 	}
   	}
     <% if @webuser!=nil%>
