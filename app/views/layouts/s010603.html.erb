@@ -6,14 +6,8 @@
 
 <%= stylesheet_link_tag "reset.css" %>
 <%= stylesheet_link_tag "style.css" %>
-  <%= stylesheet_link_tag "jquery.noty.css" %>
-  <%= stylesheet_link_tag "noty_theme_growl.css" %>
-  <%= stylesheet_link_tag "noty_theme_facebook.css" %>
-  <%= stylesheet_link_tag "buttons.css" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= javascript_include_tag "jquery.js" %>
-  <%= javascript_include_tag "jquery.noty.js" %>
-  <%= javascript_include_tag "xml2array.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "easySlider1.5.js" %>
 <script type="text/javascript" charset="utf-8">
@@ -70,7 +64,7 @@ $(document).ready(function(){
       <div class="menu">
         <ul>
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
-  		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
+          <li><%= link_to "策略库",:controller => "strategywebs",:action =>"index" %></li>
           <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
           <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
           <li><%= link_to "关于我们",:controller => "contactus",:action => "companyintro" %></li>
@@ -88,13 +82,10 @@ $(document).ready(function(){
   <div class="body">
     <div class="body_resize">
     <div class="StrategyNews">
-    <h2>无风险套利</h2>
+    <h2>羽根英树正向套利</h2>
     <ul>
-      <li><%= link_to "策略介绍",:controller =>"strategy",:action =>"intronorisk" %></li>
-      <li><%= link_to "策略实时运行",:controller =>"strategy",:action =>"shownorisk" %></li>
-      <li><%= link_to "策略历史机会",:controller =>"strategy",:action =>"maxreturnrate" %></li>
-      <li><%= link_to "个性化交易",:controller =>"strategy",:action =>"personaltrading" %></li>
-      <li><%= link_to "用户权限表",:controller =>"strategy",:action =>"leveltable" %></li>
+      <li><%= link_to "策略介绍",:controller =>"s010603",:action =>"intro" %></li>
+      <li><%= link_to "策略详情",:controller =>"s010603",:action =>"show" %></li>
     </ul>
   <p></p>
     </div>

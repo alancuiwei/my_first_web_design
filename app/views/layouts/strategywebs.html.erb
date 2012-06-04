@@ -1,8 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>通天顺金融策略网 --用户管理</title>
+<title>通天顺金融策略网 -- 无风险套利</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 <%= stylesheet_link_tag "reset.css" %>
 <%= stylesheet_link_tag "style.css" %>
 <%= stylesheet_link_tag "datatables.css" %>
@@ -10,6 +11,7 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "easySlider1.5.js" %>
 <script type="text/javascript" charset="utf-8">
+
 // <![CDATA[
 $(document).ready(function(){
 	$("#slider").easySlider({
@@ -21,13 +23,6 @@ $(document).ready(function(){
 });
 // ]]>
 </script>
-
-<script type="text/javascript">
-$(function(){
-$("#datatables").dataTable();
-});
-</script>
-
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -43,7 +38,7 @@ $("#datatables").dataTable();
 </script>
 </head>
 
-<body>
+<body onbeforeunload ="return pageBeforeunload(event);" >
 <div class="main">
   <div class="header">
     <div class="block_header">
@@ -78,44 +73,33 @@ $("#datatables").dataTable();
       <div class="clr"></div>
     </div>
   </div>
-
   <div class="slider2">
   <div class="slice12">
-    <h2>个性化管理</h2>
+    <h2>策略库</h2>
   </div>
   </div>
   <div class="clr"></div>
   <div class="body">
     <div class="body_resize">
     <div class="StrategyNews">
-    <h2>帐号管理</h2>
+    <h2>策略库</h2>
     <ul>
-    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+      <li><%= link_to "策略介绍" %></li>
+      <li><%= link_to "策略实时运行" %></li><br><br><br><br><br>
     </ul>
-	<br />
-    <h2>策略管理</h2>
-    <ul>
-    <li><%= link_to "无风险套利管理",:controller=>"strategy" ,:action=>"personaltrading" %></li>
-    </ul>
-	<br />
-    <h2>帐号管理</h2>
-    <ul>
-    <li><%= link_to "交易价格修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
-    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
-    <li><%= link_to "修改保证金比例",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
-    </ul>
-
+  <p></p>
     </div>
+
   <div class="frame">
 
 <%= yield %>
-
 </div>
 
 <div class="clr"></div>
   </div>
 <div class="clr"></div>
 </div>
+
 </div>
 </body>
 </html>

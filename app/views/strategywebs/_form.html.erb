@@ -12,37 +12,47 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :策略名 %><br />
+    <%= f.label ":策略名" %><br />
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :策略编号 %><br />
+    <%= f.label ":策略编号" %><br />
     <%= f.text_field :strategyid %>
   </div>
   <div class="field">
-    <%= f.label :策略简述 %><br />
-    <%= f.text_area :description %>
+    <%= f.label ":策略简述" %><br />
+    <%= f.text_field :description %>
   </div>
     <div class="field">
-      <%= f.label :策略类型 %><br />
+      <%= f.label ":策略类型" %><br />
       <%= f.text_field :strategytype %>
     </div>
     <div class="field">
-      <%= f.label :策略属性 %><br />
+      <%= f.label ":策略属性" %><br />
       <%= f.text_field :strategyattr %>
     </div>
     <div class="field">
-      <%= f.label :创建日期 %><br />
+      <%= f.label ":创建日期" %><br />
       <%= f.date_select :startdate %>
     </div>
     <div class="field">
-      <%= f.label :策略创建人 %><br />
+      <%= f.label ":策略创建人" %><br />
       <%= f.text_field :developer %>
     </div>
 
     <div class="field">
 	<%= f.label :image_url %><br />
 	<%= f.text_field :image_url %>
+	</div>
+
+    <div class="field">
+	<%= f.label :control %><br />
+	<%= f.text_field :control %>
+	</div>
+
+    <div class="field">
+	<%= f.label :action %><br />
+	<%= f.text_field :action %>
 	</div>
 	<div class="actions">
 	<%= f.submit %>

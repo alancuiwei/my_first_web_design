@@ -1,0 +1,35 @@
+<h2>羽根英树正向套利策略介绍</h2>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#strategybrieftable').dataTable( {
+            "bFilter": false,
+            "bPaginate": false
+        } );
+    });
+</script>
+<table class="display" id="strategybrieftable">
+  <thead>
+  <tr>
+  <td>项目</td>
+  <td>属性</td>
+  </tr>
+  </thead>
+<tbody>
+<tr>
+  <td>应用领域</td>
+  <td><%= @strategy010603.strategytype %></td>
+ </tr>
+<tr>
+  <td>策略属性</td>
+  <td><%= @strategy010603.strategyattr %></td>
+ </tr>
+<tr>
+  <td>策略创建时间</td>
+  <td><%= @strategy010603.startdate %></td>
+ </tr>
+<tr>
+  <td>策略开发人员</td>
+  <td><%= @strategy010603.developer %></td>
+ </tr>
+</tbody>
+</table>
