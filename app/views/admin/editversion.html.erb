@@ -2,7 +2,7 @@
 <div>
 <%= form_tag do %>
     current_version_id<%= text_field_tag :current_version_id, params[:current_version_id],:value=>@version.current_version_id,:size=>8 %><br>
-    current_comments<%= text_field_tag :current_comments, params[:current_comments],:value=>@version.current_comments,:size=>8 %><br>
+    current_comments<%= text_field_tag :current_comments, params[:current_comments],:value=>@version.current_comments,:size=>50 %><br>
     Rails:<br>
     comments<%= text_field_tag :rails_comments, params[:rails_comments],:value=>@version.rails_comments,:size=>8 %>
     branch_id<%= text_field_tag :rails_branch_id, params[:rails_branch_id],:value=>@version.rails_branch_id,:size=>8 %>
