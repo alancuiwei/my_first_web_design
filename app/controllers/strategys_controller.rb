@@ -1,6 +1,6 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 require 'rubygems'
-class S010603Controller < ApplicationController
+class StrategysController < ApplicationController
 
   def show
     @traderecord=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:limit => 10)
