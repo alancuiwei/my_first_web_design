@@ -1,7 +1,5 @@
 #encoding: utf-8
 require 'rubygems'
-#require 'ctrader'
-#require 'iconv'
 class S010603Controller < ApplicationController
 
   def show
@@ -9,12 +7,7 @@ class S010603Controller < ApplicationController
     @streference = StrategyreferenceT.find_all_by_rightid("010603000000")
     @strategyreturnrates=StrategyreturnrateT.find_all_by_rightid("010603000000")
     @returnrate_arr=Array.new
-    i=0
-       @strategyreturnrates.each do |stgreturnrate|
-         str=stgreturnrate.yearid.to_s+"-"+stgreturnrate.monthid.to_s+"-"+get_days(stgreturnrate.yearid,stgreturnrate.monthid).to_s
-          @returnrate_arr[i]=[DateTime.strptime(str, "%Y-%m-%d").to_i*1000,stgreturnrate.returnrate]
-         i=i+1
-       end
+
     if params[:getjson]!=nil
       i=0
          @strategyreturnrates.each do |stgreturnrate|
