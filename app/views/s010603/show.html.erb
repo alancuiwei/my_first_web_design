@@ -14,10 +14,9 @@
 </script>
 <h3>最近交易记录</h3>
 <div id="container" style="height: 500px; min-width: 500px"></div>​
+<div id="container_profit" style="height: 500px; min-width: 500px"></div>​
 <script type="text/javascript">
-  //alert(new Date("2005-6-7").getTime()+"1118016000000")
     $(function() {
-
         $.getJSON('show',{getjson :"getjson"}, function(data) {
             // Create the chart
             window.chart = new Highcharts.StockChart({
@@ -26,15 +25,14 @@
                 },
 
                 rangeSelector : {
-                    selected : 2
+                    enabled:false
                 },
-
                 title : {
-                    text : '历史年化收益率'
+                    text : '历史年化收益率(%)'
                 },
 
                 series : [{
-                    name : '年化收益率（%）',
+                    name : '年化收益率(%)',
                     data :data,
                     tooltip: {
                         valueDecimals: 2
@@ -42,7 +40,29 @@
                 }]
             });
         });
+        $.getJSON('show',{getprofit :"getprofit"}, function(data) {
+            // Create the chart
+            window.chart = new Highcharts.StockChart({
+                chart : {
+                    renderTo : 'container_profit'
+                },
 
+                rangeSelector : {
+                    selected : 5 //zoom显示的默认选择
+                },
+                title : {
+                    text : '历史profit'
+                },
+
+                series : [{
+                    name : 'profit',
+                    data :data,
+                    tooltip: {
+                        valueDecimals: 2
+                    }
+                }]
+            });
+        });
     });
 </script>
 
