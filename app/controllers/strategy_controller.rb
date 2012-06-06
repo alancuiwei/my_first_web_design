@@ -19,19 +19,19 @@ class StrategyController < ApplicationController
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
     #db (struct)
-    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
+    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap,:tradechargetype)
     @db=Array.new
     if @webuser==nil
     @defaultusercommodity=UsercommodityT.find_all_by_userid("tester1")
       @dbnum=@defaultusercommodity.size
     for i in 0..@defaultusercommodity.size-1 do
-        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
+        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap,@defaultusercommodity[i].tradechargetype)
     end
     else
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
       @dbnum=@usercommodity.size
     for i in 0..@usercommodity.size-1 do
-        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap)
+        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
     end
   end
@@ -181,21 +181,21 @@ class StrategyController < ApplicationController
     #strategyparam
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
     #db (struct)
-    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap)
+    db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap,:tradechargetype)
     @db=Array.new
     if @webuser==nil
       @userflag=0
     @defaultusercommodity=UsercommodityT.find_all_by_userid("tester1")
       @dbnum=@defaultusercommodity.size
     for i in 0..@defaultusercommodity.size-1 do
-        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap)
+        @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap,@defaultusercommodity[i].tradechargetype)
     end
     else
       @userflag=1
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
       @dbnum=@usercommodity.size
    for i in 0..@usercommodity.size-1 do
-        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap)
+        @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
     end
 
