@@ -1,4 +1,4 @@
-﻿<%= javascript_include_tag "Hashtable.js" %>
+<%= javascript_include_tag "Hashtable.js" %>
 <!--
 <style type="text/css">
     tr.even {background-color: #E2E4FF;}
@@ -138,7 +138,7 @@
     //hash table
     var hash_db = new Hashtable();
     <% for i in 0..@dbnum-1 do%>
-        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>]);
+        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>],<%= @db[i].tradechargetype%>);
     <% end%>
     var hash_table = new Hashtable();
 	function MKDataState(mtcounter, isgetMKData){ 
@@ -170,7 +170,7 @@
                             parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
                             parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
                             parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin']),
-                            parseFloat(xml_arr['pairsattr']['pair'][i]['productid'].substr(7,1))
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['productid'].substr(7,1)),hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[3]
                         ]);
                     }
                         getAjax();
@@ -189,6 +189,10 @@
                                              //存储费用
                              storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
                                              //交易费用
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13]==1){
+                                 computetransfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
+                                 }
+                                 else
                              computetransfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
                                              //总资金
                              funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
@@ -254,7 +258,8 @@
                                          ] ,
                                  "bFilter": false//, "bStateSave": true
                                      } );
-                             tabledata_f=[]
+                             tabledata=[];
+                             tabledata_f=[];
 						};
                      setTimeout(refreshMKData,2000);} )
 						}
