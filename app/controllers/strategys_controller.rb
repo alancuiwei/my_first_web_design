@@ -80,6 +80,12 @@ class StrategysController < ApplicationController
     @strategy010603=Strategyweb.find_by_name("羽根英树正向套利")
   end
 
+  def individual
+   puts params[:individual_p1]
+   puts params[:individual_p2]
+   puts params[:individual_p3]
+  end
+
   def get_days(y,m)
     case m
       when 1,3,5,7,8,10,12
@@ -109,9 +115,5 @@ class StrategysController < ApplicationController
         end
       end
     end
-
-
-
-
 end
 
