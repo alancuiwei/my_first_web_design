@@ -12,13 +12,20 @@ class StrategywebsController < ApplicationController
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
     @strategyweb = Strategyweb.find_by_name("无风险套利")
    @strategyweb.update_attributes(:anreturn=>@allmaxreturnrate[0].returnrate)
+    @reference=StrategyreferenceT.find_by_rightid("010603000000")
+    @hash_reference=Hash.new
+    @hash_reference.store("010603",[@reference.maxdrawdown,@reference.percentprofitable])
+    @hash_reference.store("010001",[0,0])
+    @profitchart_arr=Array.new
+    for i in 0..23
+    @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+200000
+    end
     respond_to do |format|
       format.html
       format.json { render json: @strategywebs }
     end
   end
   
-
   # GET /strategywebs/1
   # GET /strategywebs/1.json
   def show

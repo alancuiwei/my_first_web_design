@@ -12,12 +12,12 @@
             "bPaginate": false} );
     } );
 </script>
-<h3>最近交易记录</h3>
-<div id="container" style="height: 500px; min-width: 500px"></div>​
+<!--<h3>最近交易记录</h3>
+<div id="container" style="height: 500px; min-width: 500px"></div>​-->
 <div id="container_profit" style="height: 500px; min-width: 500px"></div>​
 <script type="text/javascript">
     $(function() {
-        $.getJSON('show',{getjson :"getjson"}, function(data) {
+       /* $.getJSON('show',{getjson :"getjson"}, function(data) {
             // Create the chart
             window.chart = new Highcharts.StockChart({
                 chart : {
@@ -39,7 +39,7 @@
                     }
                 }]
             });
-        });
+        });*/
         $.getJSON('show',{getprofit :"getprofit"}, function(data) {
             // Create the chart
             window.chart = new Highcharts.StockChart({
@@ -53,14 +53,19 @@
                 title : {
                     text : '历史profit'
                 },
-
                 series : [{
                     name : 'profit',
                     data :data,
                     tooltip: {
                         valueDecimals: 2
                     }
-                }]
+                }],
+                exporting :{
+                    enabled: true,
+                    filename: "profit_chart",
+                    type: "image/png",
+                    width: 100
+                }
             });
         });
     });
