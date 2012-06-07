@@ -268,8 +268,8 @@
 		   getAjax();
 		}	 	
 	function checktimeMKTime(){
-        $.getJSON("shownorisk",{gettime:"gettime"},callback)
-          function callback(data,status){
+        $.getJSON("shownorisk",{gettime:"gettime"},
+          function (data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);
 		var servertime=new Date(str.replace(/-/g, "\/"));
 		var endtime=new Date(servertime);
@@ -309,7 +309,7 @@
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
 		}		
         getxml();
-	}
+	})
 	}
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
