@@ -278,7 +278,7 @@
 		    if(servertime.getHours()<9){
 				endtime.setHours(9);
 				endtime.setMinutes(0);
-				endtime.setSeconds(5);
+				endtime.setSeconds(30);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
@@ -294,7 +294,7 @@
 				endtime.setDate(servertime.getDate()+1); 
 				endtime.setHours(9);
 				endtime.setMinutes(0);
-				endtime.setSeconds(5);	
+				endtime.setSeconds(30);
                 g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
                 g_MKDataState.isgetMKData=false;
                 setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
@@ -303,7 +303,7 @@
 			endtime.setDate(servertime.getDate()+1); 
 			endtime.setHours(9);
 			endtime.setMinutes(0);
-			endtime.setSeconds(5);	
+			endtime.setSeconds(30);
 			g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
 			g_MKDataState.isgetMKData=false;
 			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
