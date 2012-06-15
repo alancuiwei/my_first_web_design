@@ -1,5 +1,9 @@
 <%= stylesheet_link_tag "faary.css" %>
 
+<%= form_tag do %>
+    提点意见吧?
+<% end %>
+
 <%= form_for(@noriskmessage,:html=>{:class=>"iform"}) do |f| %>
 
 <div id="imessageOK">Thank you! Message Sent!</div>
@@ -8,8 +12,18 @@
 <!-- <li class="iheader">论坛留言</li> -->
 <!-- <li><%= f.label :"标题：" %><%= f.text_field :title,:class=>"itext" %></li> -->
 <li><%= f.label :"内容：" %><%= f.text_area :body ,:class=>"itextarea" %></li>
-<li><%= f.submit :value=>"发表评论",:class=>"ibutton" %></li>
+<li><%= f.submit :value=>"发表评论",:id=>"ie67bug"%></li>
 <br />
 <li class="iseparator">&nbsp;</li>
 </ul>
 <% end %>
+<script type="text/javascript">
+  var Sys = {};
+  var ua = navigator.userAgent.toLowerCase();
+  if (window.ActiveXObject)
+      Sys.ie = ua.match(/msie ([\d.]+)/)[1];
+  if(Sys.ie!=7&&Sys.ie!=6){
+      document.getElementById("ie67bug").className="ibutton"
+  }
+
+  </script>

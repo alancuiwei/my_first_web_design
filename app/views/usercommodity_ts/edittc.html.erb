@@ -1,6 +1,9 @@
+<%= stylesheet_link_tag "faary.css" %>
 <h2>手续费修改：</h2>
 <%= form_tag do %>
     请修改商品品种<%= @usercommodity_t.commodityid%>的交易价格：<br />
     <%= text_field_tag :tradecharge_p ,params[:tradecharge_p],:size=>3,:value=>@usercommodity_t.tradecharge%>元/每手
-    <%= submit_tag "提交"%>
+     <div  class="iform">
+     <%= submit_tag "提交",:class=>"ibutton",:style=>"margin:100px,100px,0px,0px"%>
+    </div>
 <% end %>
