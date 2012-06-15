@@ -1,0 +1,146 @@
+<%= javascript_include_tag "xml2array.js" %>
+<%= javascript_include_tag "highstock.js" %>
+<%= javascript_include_tag "exporting.js" %>
+<h3>选择是否保存。</h3>
+<%= button_to "保存" ,:action=>'mysubmit'%>
+<%= button_to "不保存" ,:action=>'individual' %>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#traderecordtable').dataTable( {
+            "bFilter": false,
+            "bPaginate": false
+        } );
+        $('#performancetable').dataTable( {
+            "bFilter": false,
+            "bPaginate": false} );
+    } );
+    var xml_arr= new Array();
+    var chart_arr= new Array([0,0]);
+    //chart_arr=[];
+    $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/dailyinfo-"+'<%= @uid%>'+".xml",function(data){
+        xml_arr=xml2array(data);
+        var size=data.getElementsByTagName("item").length;
+        for(var i=0;i<size;i++){
+           chart_arr[i]=[parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['dailydatenum']),parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['profit'])]
+        }
+        window.chart = new Highcharts.StockChart({
+            chart : {
+                renderTo : 'container_profit'
+            },
+            rangeSelector : {
+                selected : 5 //zoom显示的默认选择
+            },
+            title : {
+                text : '历史profit'
+            },
+            series : [{
+                name : 'profit',
+                data :chart_arr,
+                tooltip: {
+                    valueDecimals: 2
+                }
+            }],
+            exporting :{
+                enabled: true,
+                filename: "profit_chart",
+                type: "image/png",
+                width: 100
+            }
+        });
+    });
+
+</script>
+<div id="container_profit" style="height: 500px; min-width: 500px"></div>​
+<h3>所有数据都需要和最新实时行情结合</h3>
+
+<table class="display" id=performancetable >
+  <thead>
+  <td>项目</td>
+  <td>值</td>
+  </thead>
+  <tbody>
+ 			  <tr>
+ 				<td>最低保证金需要金额</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][0] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>总利润</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][1] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>总毛盈利</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][2] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>总毛亏损</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][3] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>平均月回报率</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][4] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>平均年回报率</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][5] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>总交易天数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][6] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>总交易次数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][7] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>日均交易次数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][8] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>盈利交易次数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][9] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>亏损交易次数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][10] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>交易胜率</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][11] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>最大单笔盈利金额</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][12] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>最大单笔亏损金额</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][13] %></td>
+ 			  </tr>
+               <tr>
+                 <td>毛赢利金额/赢利交易次数</td>
+                 <td><%= @reference_arr[@reference_arr.keys[0]][14] %></td>
+               </tr>
+               <tr>
+                 <td>毛亏损金额/亏损交易次数</td>
+                 <td><%= @reference_arr[@reference_arr.keys[0]][15] %></td>
+               </tr>
+ 			  <tr>
+ 				<td>平均每次交易盈亏金额/总交易次数</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][16] %></td>
+ 			  </tr>
+               <tr>
+                 <td>(平均利润/总交易次数)/平均损失</td>
+                 <td><%= @reference_arr[@reference_arr.keys[0]][17] %></td>
+               </tr>
+
+ 			  <tr>
+ 				<td>最大资金回退金额</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][18] %></td>
+ 			  </tr>
+ 			  <tr>
+ 				<td>最大衰退期</td>
+ 				<td><%= @reference_arr[@reference_arr.keys[0]][19] %></td>
+ 			  </tr>
+  </tbody>
+</table>
+<br>
+<iframe name="iframe_index" src="../assets/posrecord-52.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>

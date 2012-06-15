@@ -1,5 +1,8 @@
 ﻿#encoding: utf-8
 require 'rubygems'
+require 'builder'
+require 'rexml/document'
+include REXML
 class StrategysController < ApplicationController
 
   def show
@@ -16,7 +19,7 @@ class StrategysController < ApplicationController
    #      end
    # render :json => @returnrate_arr #render json #render json
    # end
-    #@profits=StrategypositionrecordT.all
+   # @s_profits=StrategypositionrecordT.all
     #@hash_profit=Hash.new
     #@profit_arr=Array.new
     @profits_lastday=StrategypositionrecordT.find(:all, :order =>"closeposdate DESC",:limit => 1)[0].closeposdate
@@ -28,7 +31,7 @@ class StrategysController < ApplicationController
     #  @hash_profit.store(1026777600000+i*86400000,0)
     #end
 
-    #  @profits.each do |profit|
+    #  @s_profits.each do |profit|
     #    if @hash_profit[DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000]==0
     #       @hash_profit.store(DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000,profit.profit)
     #    else
@@ -36,15 +39,15 @@ class StrategysController < ApplicationController
     #      @hash_profit.store(DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000,@profit_temp)
     #   end
     #  end
-
     #for i in 0..@days
-    #  if @hash_profit[1026777600000+i*86400000]==0
-    #  @hash_profit.store(1026777600000+i*86400000,@hash_profit[@hash_profit.keys[i-1]])
+    #  if i==0
+    #    @profit_t=0
     #  end
-    #end
-    #for i in 0..@days
-    #  if @hash_profit[1026777600000+(i-1)*86400000]!=nil
-    #    @hash_profit.store(1026777600000+i*86400000,@hash_profit[@hash_profit.keys[i]]+@hash_profit[@hash_profit.keys[i-1]])
+   #   if @hash_profit[1026777600000+i*86400000]!=0
+   #     @profit_t=@profit_t+@hash_profit[1026777600000+i*86400000]
+   #     @hash_profit.store(1026777600000+i*86400000,@profit_t)
+   #     else
+    #    @hash_profit.store(1026777600000+i*86400000,@profit_t)
     #    end
     #end
 
@@ -55,6 +58,7 @@ class StrategysController < ApplicationController
     #  profit.save
     #end
     #end
+
     @profits=Profitchart.all
     @profit_arr=Array.new
     i=0
@@ -81,9 +85,170 @@ class StrategysController < ApplicationController
   end
 
   def individual
-   puts params[:individual_p1]
-   puts params[:individual_p2]
-   puts params[:individual_p3]
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil&&params[:startdate]!=nil
+    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile010603.xml'))
+    @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+    @XMLfile.elements.to_a("//period")[0].text=params[:period]
+    @XMLfile.elements.to_a("//losses")[0].text=params[:losses]
+    @XMLfile.elements.to_a("//wins")[0].text=params[:wins]
+    @XMLfile.elements.to_a("//objecttype")[0].text="future"
+
+    if params[:commoditynames]!=nil
+    for i in 0..6
+      if params[:commoditynames][i]!=nil
+        @XMLfile.root.elements[3].add_element "item"
+        @XMLfile.elements.to_a("//item")[i].text=params[:commoditynames][i]
+      end
+    end
+    end
+
+    @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
+    @XMLfile.elements.to_a("//strategyid")[0].text="010603"
+    @test=@XMLfile
+    file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+    file.puts @XMLfile
+    file.close
+    redirect_to(:controller=>"strategys", :action=>"wait")
+    end
+
+  end
+
+  def reportshow
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @reference_arr=Hash.new
+    #@dailyinfo_arr=Array.new
+    if @webuser!=nil
+      @uid=@webuser.id.to_s
+     @reference = Document.new(File.new('app/assets/xmls/reference-'+@webuser.id.to_s+'.xml'))
+      @reference_arr.store(@reference.root.elements[1].text,[0,0])
+        for i in 0..@reference.root.elements.size-2
+        @reference_arr[@reference.root.elements[1].text][i]=@reference.root.elements[i+2].text
+        end
+
+     # @dailyinfo=Document.new(File.new('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'))
+     #@dailyinfo_arr=@dailyinfo.root.elements[1].text
+    end
+  end
+
+  def wait
+
+  end
+
+  def mysubmit
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+
+    if @webuser!=nil&&params[:strategyname]!=nil
+    @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+    @stgp=StrategyparamT.find_by_username_and_strategyid(session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text)
+    @ordernum=0
+    @firstdb_flag=0
+    if @stgp==nil
+      @ordernum=1
+      @firstdb_flag=1
+      StrategyparamT.new do |stgp|
+         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+         stgp.paramname='period'
+        stgp.paramvalue=@strategyparams.elements.to_a("//period")[0].text.to_f
+        stgp.username=@webuser.name
+         stgp.ordernum=1
+         stgp.userid=@webuser.id
+        stgp.save
+      end
+      StrategyparamT.new do |stgp|
+         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+         stgp.paramname='losses'
+        stgp.paramvalue=@strategyparams.elements.to_a("//losses")[0].text.to_f
+        stgp.username=@webuser.name
+         stgp.ordernum=1
+         stgp.userid=@webuser.id
+         stgp.save
+      end
+      StrategyparamT.new do |stgp|
+         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+         stgp.paramname='wins'
+        stgp.paramvalue=@strategyparams.elements.to_a("//wins")[0].text.to_f
+        stgp.username=@webuser.name
+         stgp.ordernum=1
+         stgp.userid=@webuser.id
+         stgp.save
+      end
+    else
+      @stgp_p=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'period')
+      @stgp_l=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'losses')
+      @stgp_w=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'wins')
+      @db_flag=0
+      params[:username]=session[:webuser_name]
+       @ordernum_t=StrategyparamT.find(:all,:conditions =>["username=:username",params], :order =>"ordernum DESC",:limit => 1)
+      @ordernum=@ordernum_t[0].ordernum
+      for i in 1..@stgp_p.size
+         if @stgp_p[i-1].paramvalue==@strategyparams.elements.to_a("//period")[0].text.to_f&&@stgp_l[i-1].paramvalue==@strategyparams.elements.to_a("//losses")[0].text.to_f&&@stgp_w[i-1].paramvalue==@strategyparams.elements.to_a("//wins")[0].text.to_f
+           @db_flag=1
+           break
+         end
+      end
+      if @db_flag==0
+      @ordernum=@ordernum+1
+      @firstdb_flag=1
+        StrategyparamT.new do |stgp|
+           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+           stgp.paramname='period'
+          stgp.paramvalue=@strategyparams.elements.to_a("//period")[0].text.to_f
+          stgp.username=@webuser.name
+           stgp.ordernum=@ordernum
+           stgp.userid=@webuser.id
+          stgp.save
+        end
+        StrategyparamT.new do |stgp|
+           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+           stgp.paramname='losses'
+          stgp.paramvalue=@strategyparams.elements.to_a("//losses")[0].text.to_f
+          stgp.username=@webuser.name
+           stgp.ordernum=@ordernum
+           stgp.userid=@webuser.id
+           stgp.save
+        end
+        StrategyparamT.new do |stgp|
+           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+           stgp.paramname='wins'
+          stgp.paramvalue=@strategyparams.elements.to_a("//wins")[0].text.to_f
+          stgp.username=@webuser.name
+           stgp.ordernum=@ordernum
+           stgp.userid=@webuser.id
+           stgp.save
+        end
+
+      end
+    end
+
+      if @firstdb_flag==1
+
+        Strategyweb.new do |stgweb|
+          stgweb.name=params[:strategyname]
+          stgweb.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+          stgweb.strategytype=@strategyparams.elements.to_a("//objecttype")[0].text
+          temp=@strategyparams.elements.to_a("//item")[0].text
+          for i in 1..@strategyparams.elements.to_a("//item").size-1
+            temp=temp+"|"+@strategyparams.elements.to_a("//item")[i].text
+          end
+          stgweb.commoditynames=temp
+          stgweb.userid=@webuser.id
+          stgweb.ordernum=@ordernum
+          stgweb.created_at=Time.now.to_s(:db)
+          stgweb.action='show'
+          stgweb.control='strategys'
+          stgweb.startdate=DateTime.strptime(@strategyparams.elements.to_a("//startdate")[0].text,"%Y-%m-%d").to_s(:db)
+          stgweb.anreturn=1
+          stgweb.save
+        end
+
+      end
+
+     end
+  end
+
+  def myprocess
+    #system 'app/assets/xmls/ZR_PROGRAM_BuiltTestResult.exe'
   end
 
   def get_days(y,m)
