@@ -128,4 +128,13 @@ class WebusersController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  def leveledit
+    @webuser = Webuser.find(params[:id])
+    @hash_level= Hash[0,"普通用户",1,"收费用户"]
+    if params[:level]!=nil
+      @webuser.update_attribute(:level,params[:level])
+      redirect_to(:controller=>"webusers", :action=>"index")
+    end
+  end
 end
