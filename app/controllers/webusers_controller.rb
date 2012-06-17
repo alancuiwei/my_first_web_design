@@ -6,7 +6,7 @@ class WebusersController < ApplicationController
   # GET /webusers.json
   def index
     @webusers = Webuser.order(:name)
-    @hash_level= Hash[0,"普通用户",1,"收费用户"]
+    @hash_level= Hash[0,"普通用户",1,"收费用户",99,"试用用户"]
 	if session[:webuser_name]=="administrator"
     respond_to do |format|
       format.html # index.html.erb
@@ -21,7 +21,7 @@ class WebusersController < ApplicationController
   # GET /webusers/1.json
   def show
     @webuser = Webuser.find(params[:id])
-    @hash_level= Hash[0,"普通用户",1,"收费用户"]
+    @hash_level= Hash[0,"普通用户",1,"收费用户",99,"试用用户"]
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @webuser }
@@ -131,9 +131,10 @@ class WebusersController < ApplicationController
 
   def leveledit
     @webuser = Webuser.find(params[:id])
-    @hash_level= Hash[0,"普通用户",1,"收费用户"]
+    @hash_level= Hash[0,"普通用户",1,"收费用户",99,"试用用户"]
     if params[:level]!=nil
       @webuser.update_attribute(:level,params[:level])
+      @webuser.update_attribute(:leveldate,Time.now.to_s(:db))
       redirect_to(:controller=>"webusers", :action=>"index")
     end
   end

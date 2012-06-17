@@ -33,6 +33,14 @@ class StrategyController < ApplicationController
     for i in 0..@usercommodity.size-1 do
         @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
+      if @webuser.level==99
+        @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
+        if @days<=60
+          @webuser.level=1
+        else
+          @webuser.level=0
+        end
+      end
     end
   end
 
@@ -197,6 +205,14 @@ class StrategyController < ApplicationController
    for i in 0..@usercommodity.size-1 do
         @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
+      if @webuser.level==99
+        @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
+        if @days<=60
+          @webuser.level=1
+        else
+          @webuser.level=0
+        end
+      end
     end
 
   end
