@@ -69,11 +69,14 @@
     <div class="body_resize">
       <div class="HomeNews">
         <h2>最新策略信息</h2>
-        <p>2011年11月12日</p>
-        <div class="bg"></div>
-        <p>实时无风险商品套利策略</p>
-        <p></p>
-        <p><a href="#">+ 更多信息</a></p>
+
+        <% @strategyweb.each do |stgw| %>
+		<p> 策略名: <%= stgw.name %>
+		更新日期：<%= stgw.updated_at.to_s(:db) %> </p>
+		<p> 年化收益率：<%= stgw.anreturn*100 %>% </p>
+        <% end %>
+
+        <a href="#stgtable" onclick="show_stg()">+ 更多信息</a>
         <p></p>
       </div>
       <div class="Welcome">
@@ -124,6 +127,14 @@
       var title = '<table><tr><th>current_version_id</th><th>current_comments</th><th>update_date</th></tr>'+
               ' <% @versions_all.each do |version| %><tr><td><%= version.current_version_id %></td><td><%= version.current_comments %></td>'+
               '<td><%= version.update_date.to_s(:db) %></td></tr><% end %></table>';
+     noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
+    });
+  }
+  function show_stg(){
+    $(document).ready(function(){
+      var title = '<table><tr><th>name</th><th>update date</th><th>returnrate</th></tr>'+
+              ' <% @strategyweb_all.each do |stgwa| %><tr><td><%= stgwa.name %></td><td><%= stgwa.updated_at.to_s(:db) %></td>'+
+              '<td><center><%= stgwa.anreturn*100 %>%</center></td></tr><% end %></table>';
      noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
     });
   }
