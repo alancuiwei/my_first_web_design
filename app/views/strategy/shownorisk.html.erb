@@ -312,5 +312,25 @@
 	})
 	}
 	var g_MKDataState=new MKDataState(3600000,true);
+    var stream_flag=0;
 	checktimeMKTime();
+    setInterval(checkStat,10000);
+    function checkStat(){
+        $.ajax({
+            url:"shownorisk",
+            success:function()
+            {
+                if(stream_flag==1){
+	checktimeMKTime();
+                    stream_flag=0;
+                }
+                //alert("request success!");
+            },
+            error:function()
+            {
+                stream_flag=1;
+               // alert("request error!");
+            }
+        });
+    }
 </script>
