@@ -57,11 +57,50 @@ form.button_to div input:active {
 .welcomeuser p {font:normal 15px "Hiragino Sans GB W3";color:#FF9933;}
 .welcomeuser a{color:#FF9933;}
 /* menu */	
-.menu { padding:0; margin:0; width:966px; height:53px; background: url(bg_menu.gif) top repeat-x; }
-.menu ul { padding:0; margin:0 30px 0 0; list-style:none; border:0; float: left; }
-.menu ul li { float:left;height:53px; margin:0; padding:0; border-right:1px solid #303030; border-left:1px solid #0a0a0a; }
-.menu ul li a { float:left; margin:0 -1px 0 0; padding:17px 47px; color:#fff; font:normal 16px Hiragino Sans GB W3, "Times New Roman", Times, serif; text-decoration:none; }
-.menu ul li a:hover  { background: url(hover.png) left repeat-x; }
+/*style the main menu*/
+.menu { padding:0; margin:0; width:966px; height:53px; background: url(bg_menu.gif) top repeat-x;float: left }
+
+
+.menu li {
+    list-style:none;
+    float:left;height:53px;
+}
+
+.menu li a:link, .menu li a:visited {
+
+	display:block;
+	text-decoration:none;
+	background-color:#303030;
+	border-right: 1px solid #303030;
+    margin:0 -1px 0 0; padding:17px 47px; color:#fff; font:normal 16px Hiragino Sans GB W3, "Times New Roman", Times, serif; text-decoration:none;
+}
+
+.menu li a:hover {
+	background-color:#303030;
+}
+
+/*style the sub menu*/
+.menu li ul {
+	position:absolute;
+	visibility:hidden;
+	border-top:0px solid #303030;
+	margin:-1px 0 0 0;
+	padding:0;
+}
+
+.menu li ul li {
+	display:inline;
+	float:none;
+}
+
+.menu li ul li a:link, .menu li ul li a:visited {
+	background-color:#303030;
+	width:auto;
+}
+
+.menu li ul li a:hover {
+	background-color:#303030;
+}
 /********** slider **********/
 .slider { margin:0 auto; padding:0; width:966px;height:348px; }
 /*.slider23 { margin:0px 0px 0px 0px ; padding:0; } */

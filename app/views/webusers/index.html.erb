@@ -22,6 +22,7 @@
     <th>用户名</th>
     <th>电子邮箱</th>
     <th>用户权限</th>
+    <th>权限修改</th>
     <th>查看用户</th>
     <th>编辑用户</th>
     <th>删除用户</th>
@@ -32,6 +33,7 @@
     <td><%= webuser.name %></td>
     <td><%= webuser.email %></td>
     <td><%= @hash_level[webuser.level] %></td>
+    <td><%= link_to "权限修改",:action=>"leveledit",:id=>webuser.id %></td>
     <td><%= link_to "查看", webuser %></td>
     <td><%= link_to "编辑", edit_webuser_path(webuser) %></td>
     <td><%= button_to "删除", webuser, :method=> :delete %></td>

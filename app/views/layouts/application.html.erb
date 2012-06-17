@@ -8,6 +8,24 @@
 <%= javascript_include_tag "jquery.js" %>
 <%= javascript_include_tag "easySlider1.5.js" %>
 
+
+  <script type="text/javascript">
+  $(document).ready(function() {
+  		$('.menu > li').bind('mouseover', openSubMenu);
+  		$('.menu > li').bind('mouseout', closeSubMenu);
+
+  		function openSubMenu() {
+  			$(this).find('ul').css('visibility', 'visible');
+              $(this).find('ul').css('z-index', '99');
+  		};
+
+  		function closeSubMenu() {
+  			$(this).find('ul').css('visibility', 'hidden');
+  		};
+
+  });
+  </script>
+
 <script type="text/javascript" charset="utf-8">
 // <![CDATA[
 $(document).ready(function(){	
@@ -60,19 +78,33 @@ $(document).ready(function(){
 	  <% end %>
 
       <div class="clr"></div>
-      <div class="menu">
-        <ul>
+
+      <ul class="menu">
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
+<<<<<<< HEAD
   		  <li><%= link_to "策略库",:controller => "strategywebs",:action =>"index" %></li>
           <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
+=======
+  		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
+        <li><%= link_to "自动化交易",:controller => "tradeinfo",:action => "todayinfo" %></li>
+>>>>>>> master
           <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
-          <li><%= link_to "关于我们",:controller => "contactus",:action => "companyintro" %></li>
+        <li><%= link_to "信息",:controller => "contactus",:action => "companyintro" %>
+          <ul style="visibility: hidden; ">
+            <li><a href="#">交易信息</a></li>
+            <li><a href="#">&nbsp;&nbsp;当日交易信息</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">&nbsp;&nbsp;公司介绍</a></li>
+            <li><a href="#">&nbsp;&nbsp;公司员工</a></li>
+            <li><a href="#">&nbsp;&nbsp;公司产品</a></li>
+            <li><a href="#">&nbsp;&nbsp;招聘信息</a></li>
+          </ul>
+        </li>
         </ul>
-      </div>
+
       <div class="clr"></div>
     </div>
   </div>
-
 <%= yield %>
 </div>
 </body>

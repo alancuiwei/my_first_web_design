@@ -1,3 +1,4 @@
+<<<<<<< HEAD:app/views/s010001/shownorisk.html.erb
 <%= javascript_include_tag "Hashtable.js" %>
 <!--
 <style type="text/css">
@@ -314,3 +315,341 @@
 	var g_MKDataState=new MKDataState(3600000,true);
 	checktimeMKTime();
 </script>
+=======
+﻿<%= javascript_include_tag "Hashtable.js" %>
+<!--
+<style type="text/css">
+    tr.even {background-color: #E2E4FF;}
+    tr.even td.sorting_1 {background-color: #D3D6FF;}
+</style>
+-->
+    <div class="ironbars">
+  <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
+<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
+      </div>
+<div id=checkbox>
+      <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
+      <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
+</div>
+<script type="text/javascript">
+    //$(document).ready(function(){
+    //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+   // });
+    function notyAlertWithButtons(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还没有登录！',
+        buttons: [
+          {type: 'btn btn-primary', text: '登录', click: function($noty) {
+              $noty.close();
+              window.location.href='../sessions/new';
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '您还是注册一下吧！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
+    function notyAlertWithButtons_0(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
+        buttons: [
+          {type: 'btn btn-primary', text: '确定', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '找管理员！', type: 'error'});
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '取消！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
+    var mychecked_f=1;
+    var mychecked_s;
+    function mychecked_1(para){
+        if(para.checked){
+            mychecked_f=1
+        }
+        else{
+            mychecked_f=0;
+        }
+    }
+    function mychecked_2(para){
+        <% if @webuser==nil%>
+        notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+        para.checked=null;
+        <% elsif @webuser.level==0%>
+        notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        para.checked=null;
+            <% else %>
+        if(para.checked){
+            mychecked_s=1
+        }
+        else{
+            mychecked_s=0
+        }
+        <%end%>
+    }
+    function setupLabel() {
+        if ($('.label_check input').length) {
+            $('.label_check').each(function(){
+                $(this).removeClass('c_on');
+            });
+            $('.label_check input:checked').each(function(){
+                $(this).parent('label').addClass('c_on');
+            });
+        };
+        if ($('.label_radio input').length) {
+            $('.label_radio').each(function(){
+                $(this).removeClass('r_on');
+            });
+            $('.label_radio input:checked').each(function(){
+                $(this).parent('label').addClass('r_on');
+            });
+        };
+    };
+    $(document).ready(function(){
+        $('body').addClass('has-js');
+        $('.label_check, .label_radio').click(function(){
+            setupLabel();
+        });
+        setupLabel();
+    });
+</script>
+<!-- default table -->
+<div id ="rtpricetable"></div>
+<!-- noriskmessage -->
+<br>
+<div class ="remarkstitle">
+
+ </div>
+ <div class = "newremark">
+ <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="250" width="800" marginheight="0" marginwidth="0"></iframe>
+ </div>
+ <div class ="remarkslist">
+   <h3>所有评论</h3>
+<iframe name="iframe_index" src="../noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+ </div>
+<!-- JavaScript -->
+<script type="text/javascript">
+    //table data storage (2D array)
+    var tabledata= new Array([0,0,0,0,0,0,0]);
+    tabledata=[];
+    var tabledata_f= new Array([0,0,0,0,0,0,0]);
+    tabledata_f=[];
+    //xml array
+    var xml_arr=new Array();
+    var rtxml_arr=new Array();
+    //define
+    var computearbfee = new Array();
+    var computetransfee = new Array();
+    var computerateofreturn = new Array();
+    var funds = new Array();
+    var delivermarginfee = new Array();
+    var trademarginfee = new Array();
+    var storagefee = new Array();
+    var deliverfee = new Array();
+    var vatfee = new Array();
+    //hash table
+    var hash_db = new Hashtable();
+    <% for i in 0..@dbnum-1 do%>
+        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>],<%= @db[i].tradechargetype%>);
+    <% end%>
+    var hash_table = new Hashtable();
+	function MKDataState(mtcounter, isgetMKData){ 
+	  this.mtcounter = mtcounter; 
+	  this.isgetMKData = isgetMKData; 
+	}	 
+    //formatted-num
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $.ajaxSetup({
+        cache: false
+    });
+    function getxml(){
+        $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
+                    xml_arr=xml2array(data);
+                    var elements=data.getElementsByTagName("pair");
+                    for (var i = 0; i < elements.length; i++) {
+                        hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],[hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[0],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[1],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[2],
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['productid'].substr(7,1)),hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[3]
+                        ]);
+                    }
+                        getAjax();
+        });
+    }
+     function getAjax(){
+         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
+                     rtxml_arr=xml2array(data);
+                     var elements=data.getElementsByTagName("pair");
+						 if(elements.length!=0){
+							 for (var i = 0; i < elements.length; i++) {
+                             vatfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]
+                                     *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]/(1+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]);
+                                             //交割费用
+                             deliverfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]*2;
+                                             //存储费用
+                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
+                                             //交易费用
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13]==1){
+                                 computetransfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
+                                 }
+                                 else
+                             computetransfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
+                                             //总资金
+                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
+                                             //交易保证金占用成本
+                             if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[11]==1)
+                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                                 else
+                                 trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
+                                         *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2]))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                                             //默认交割保证金占用成本
+                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                         computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];
+                                 //年化收益率计算
+                         computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
+                                 *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]-computearbfee[i])*365/(funds[i]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7])
+                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
+                             if(mychecked_f==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                 (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_f==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                             if(mychecked_s==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                         (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_s==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                         }
+                         else
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"];
+							}
+                             for(var k=0,s=0;k<tabledata.length;k++){
+                                 if(tabledata[k]!=null&&tabledata[k][0]!=0){
+                                     tabledata_f[s]=tabledata[k];
+                                     s=s+1;
+                                 }
+                             }
+                                 $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
+                                 $('#default').dataTable( {
+                                 "aaData": tabledata_f,"aaSorting": [[5,"desc"]],"bPaginate": false,
+                                        "aoColumns": [
+                                     { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月合约价格", "sClass": "center" },
+                                     { "sTitle": "远月合约价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
+                                             { "sTitle": "持仓成本", "sClass": "center" },
+                                     { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
+                                                         var sReturn = obj.aData[ obj.iDataColumn ];
+                                          if ( sReturn >=0 )sReturn = "<font color='red'>"+sReturn+"%</font>";
+                                          else sReturn = "<font color='green'>"+sReturn+"%</font>";
+                                          return sReturn;}
+                                             },
+                                             { "sTitle": "更新时间", "sClass": "center" }
+                                         ] ,
+                                 "bFilter": false//, "bStateSave": true
+                                     } );
+                             tabledata=[];
+                             tabledata_f=[];
+						};
+                     setTimeout(refreshMKData,2000);} )
+						}
+	function refreshMKData(){
+		if (g_MKDataState.isgetMKData)
+		   getAjax();
+		}	 	
+	function checktimeMKTime(){
+        $.getJSON("shownorisk",{gettime:"gettime"},
+          function (data,status){
+              var str=data.substr(0,10)+" "+data.substr(11,8);
+		var servertime=new Date(str.replace(/-/g, "\/"));
+		var endtime=new Date(servertime);
+		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
+		{
+		    if(servertime.getHours()<9){
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(30);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+			}
+			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
+				endtime.setHours(15);
+				endtime.setMinutes(2);
+				endtime.setSeconds(0);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=true;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
+			}else{
+				endtime.setDate(servertime.getDate()+1); 
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(30);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
+			}
+		}else{
+			endtime.setDate(servertime.getDate()+1); 
+			endtime.setHours(9);
+			endtime.setMinutes(0);
+			endtime.setSeconds(30);
+			g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+			g_MKDataState.isgetMKData=false;
+			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+		}		
+        getxml();
+	})
+	}
+	var g_MKDataState=new MKDataState(3600000,true);
+    var stream_flag=0;
+	checktimeMKTime();
+    setInterval(checkStat,10000);
+    function checkStat(){
+        $.ajax({
+            url:"shownorisk",
+            success:function()
+            {
+                if(stream_flag==1){
+	checktimeMKTime();
+                    stream_flag=0;
+                }
+                //alert("request success!");
+            },
+            error:function()
+            {
+                stream_flag=1;
+               // alert("request error!");
+            }
+        });
+    }
+</script>
+>>>>>>> master:app/views/strategy/shownorisk.html.erb
