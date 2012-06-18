@@ -28,6 +28,9 @@
 
   <tr>
     <td><%=@returnrate_firstyear[0].yearid  %></td>
+    <% for k in 0..12-@returnrate_firstyear.size-1 %>
+        <td></td>
+    <% end %>
   <% for i in 0..@returnrate_firstyear.size-1 %>
         <% if @returnrate_firstyear[i].returnrate==0%>
             <td><center>0</center></td>
