@@ -37,8 +37,10 @@ class StrategyController < ApplicationController
         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
         if @days<=60
           @webuser.level=1
+          @trynotice="您是试用用户，还有"+(60-@days).to_s+"天的试用！"
         else
           @webuser.level=0
+          @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
         end
       end
     end
@@ -209,8 +211,10 @@ class StrategyController < ApplicationController
         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
         if @days<=60
           @webuser.level=1
+          @trynotice="您是试用用户，还有"+(60-@days).to_s+"天的试用！"
         else
           @webuser.level=0
+          @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
         end
       end
     end
