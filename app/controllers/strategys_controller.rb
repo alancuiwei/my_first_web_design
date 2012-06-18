@@ -74,6 +74,21 @@ class StrategysController < ApplicationController
      @strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-200000)/200000))
     end
 
+    #return table
+    @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>"rightid='010603000000'")
+    params[:r_lyn]=@returnrate_lastyearnum[0].yearid
+    @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=:r_lyn and rightid='010603000000'",params],:order =>"monthid ASC" )
+    @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<:r_lyn and rightid='010603000000'",params],:order =>"yearid DESC,monthid ASC")
+    if @returnrate_others.size%12==0
+    @returnrate_others_size=@returnrate_others.size/12
+    else
+      @returnrate_others_size=@returnrate_others.size/12+1
+    end
+
+    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>"rightid='010603000000'")
+    params[:r_fyn]=@returnrate_firstyearnum[0].yearid
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=:r_fyn and rightid='010603000000'",params],:order =>"monthid ASC" )
+
   end
 
   def showall

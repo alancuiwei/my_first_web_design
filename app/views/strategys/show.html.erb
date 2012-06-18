@@ -1,6 +1,42 @@
-<%= javascript_include_tag "highstock.js" %>
+﻿<%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
 <h2>羽根英树正向套利</h2>
+<table border="1">
+  <tr>
+    <th></th>
+    <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+    <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+  </tr>
+  <tr>
+    <td><%=@returnrate_lastyear[0].yearid  %></td>
+  <% for i in 0..@returnrate_lastyear.size-1 %>
+        <% if @returnrate_lastyear[i].returnrate==0%>
+            <td><center>0</center></td>
+            <% else %>
+            <td><%= format("%.2f", @returnrate_lastyear[i].returnrate*100)  %>%</td>
+        <% end %>
+  <% end %>
+  </tr>
+    <% for i in 1..@returnrate_others_size-1 %>
+      <tr>
+    <td><%= @returnrate_others[(i-1)*12].yearid  %></td>
+    <% for j in 0..11 %>
+    <td><%= format("%.2f",@returnrate_others[j+12*(i-1)].returnrate*100)  %>%</td>
+    <% end %>
+      </tr>
+    <% end %>
+
+  <tr>
+    <td><%=@returnrate_firstyear[0].yearid  %></td>
+  <% for i in 0..@returnrate_firstyear.size-1 %>
+        <% if @returnrate_firstyear[i].returnrate==0%>
+            <td><center>0</center></td>
+            <% else %>
+            <td><%= format("%.2f", @returnrate_firstyear[i].returnrate*100) %>%</td>
+        <% end %>
+  <% end %>
+  </tr>
+</table>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
