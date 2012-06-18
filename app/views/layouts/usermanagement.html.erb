@@ -89,8 +89,19 @@ $(document).ready(function(){
 	<br />
     <h2>策略管理</h2>
     <ul>
-    <li><%= link_to "无风险套利设置",:controller=>"strategy" ,:action=>"userreturnrate" %></li>
+    <li><%= link_to "无风险套利设置",:controller=>"s010001" ,:action=>"userreturnrate" %></li>
     </ul>
+      <h2>策略收藏</h2>
+     <% if @webuser.collect!=nil %>
+      <% @collect=@webuser.collect.scan(/\d/) %>
+      <% for i in 0..@collect.size-1 %>
+              <ul>
+             <li><%= link_to Strategyweb.find_by_id(@collect[i].to_i).name,:controller=>Strategyweb.find_by_id(@collect[i].to_i).control ,:action=>Strategyweb.find_by_id(@collect[i].to_i).action %></li>
+              </ul>
+      <% end %>
+      <% end %>
+
+
 	<br />
     <h2><%= link_to "交易管理",:controller=>"usermanagement" ,:action=>"trademanageindex"%></h2>
     <ul>

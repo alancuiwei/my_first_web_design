@@ -49,6 +49,7 @@ class WebusersController < ApplicationController
   def create
     @webuser = Webuser.new(params[:webuser])
     @webuser.level=0
+    @webuser.collect=""
     respond_to do |format|
       if @webuser.save
 	    session[:webuser_name] = @webuser.name

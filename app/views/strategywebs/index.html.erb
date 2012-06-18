@@ -1,4 +1,29 @@
 <%= javascript_include_tag "jquery.sparkline.js" %>
+<%= javascript_include_tag "heartcode-canvasloader-min-0.9.1.js" %>
+<script type="text/javascript">
+     function showwait(){
+	var cl = new CanvasLoader('canvasloader-container');
+	cl.setDiameter(44); // default is 40
+	cl.setDensity(49); // default is 40
+	cl.show(); // Hidden by default
+
+	// This bit is only for positioning - not necessary
+	  var loaderObj = document.getElementById("canvasLoader");
+ 		loaderObj.style.position = "absolute";
+ 		loaderObj.style["top"] = cl.getDiameter() * -0.5 + "px";
+ 		loaderObj.style["left"] = cl.getDiameter() * -0.5 + "px";
+     }
+   </script>
+	<style type="text/css">
+		.wrapper {
+			position:absolute;
+			top:58%;
+			left:80%;
+		}
+	</style>
+
+	<div id="canvasloader-container" class="wrapper"></div>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $('#strategywebs').dataTable( {
@@ -16,6 +41,7 @@
     <th>最大回退率</th>
     <th>胜率</th>
     <th>图形</th>
+    <th>收藏</th>
     <% if @show_flag==1 %>
     <th>操作</th>
 	<th>策略配置</th>
@@ -31,6 +57,12 @@
     <td><%=  @hash_reference[strategyweb.strategyid][0] %></td>
     <td><%=  @hash_reference[strategyweb.strategyid][1] %></td>
     <td><span class="dynamicsparkline">Loading..</span></td>
+
+    <% if @hash_iscollect[strategyweb.id]==1 %>
+        <td><%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %></td>
+    <% else %>
+    <td><%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %></td>
+     <% end %>
     <% if @show_flag==1 %>
     <td><%= button_to 'Destroy', strategyweb, :method=> :delete %></td>
     <td><%= link_to '策略配置', edit_strategyweb_path(strategyweb) %></td>

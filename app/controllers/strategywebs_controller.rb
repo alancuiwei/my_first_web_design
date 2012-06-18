@@ -8,6 +8,14 @@ class StrategywebsController < ApplicationController
       if @webuser.name=='administrator'
         @show_flag=1
       end
+      if @webuser.collect!=nil
+     @collect=@webuser.collect.scan(/\d/)
+     @hash_iscollect=Hash.new
+      for i in 0..@collect.size-1
+         @hash_iscollect.store(@collect[i].to_i,1)
+      end
+      end
+
     end
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
     @strategyweb = Strategyweb.find_by_name("无风险套利")
@@ -20,6 +28,7 @@ class StrategywebsController < ApplicationController
     for i in 0..23
     @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+200000
     end
+
     respond_to do |format|
       format.html
       format.json { render json: @strategywebs }
@@ -99,4 +108,37 @@ class StrategywebsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def collect
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil
+      @precollect=@webuser.collect
+      if @webuser.collect.index(params[:id].to_s)==nil
+      if @precollect==nil||@precollect==''
+        @webuser.update_attribute(:collect,params[:id].to_s)
+      else
+        @webuser.update_attribute(:collect,@precollect+"|"+params[:id].to_s)
+      end
+      end
+    end
+    redirect_to :action=>"index"
+  end
+
+  def  cancelcollect
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil
+      @position= @webuser.collect.index(params[:id].to_s)
+      if @position==0&&@webuser.collect.size==1
+        @webuser.update_attribute(:collect,"")
+      elsif @position==0
+        @webuser.update_attribute(:collect, @webuser.collect[2..@position.size])
+      else
+        @webuser.update_attribute(:collect, @webuser.collect[0..@position-2]+@webuser.collect[@position+1..@position.size])
+      end
+
+    end
+    redirect_to :action=>"index"
+  end
+
+
 end
