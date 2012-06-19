@@ -1,5 +1,60 @@
 <%= javascript_include_tag "jquery.sparkline.js" %>
 <%= javascript_include_tag "heartcode-canvasloader-min-0.9.1.js" %>
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+
+<form id="form1" runat="server">
+<div>
+    <input id="keyword" />
+    <input id="getValue" value="页面跳转" type="button"/>
+</div>
+</form>
+<div id="content"></div>
+
+<script type="text/javascript">
+    $(function() {
+        function setdata(name,control,action){
+            this.name=name;
+            this.control=control;
+            this.action=action;
+        }
+        var data=new Array();
+        <% for i in 0..@strategywebs.size-1%>
+          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
+        <% end%>
+        //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
+
+        var searchdate;
+        function findValueCallback(event, data, formatted) {
+        		$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+            searchdate=data
+        	}
+        $('#keyword').autocomplete(data, {
+                             max: 12,    //列表里的条目数
+                             minChars: 0,    //自动完成激活之前填入的最小字符
+                             width: 400,     //提示的宽度，溢出隐藏
+                             scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                             matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                             autoFill: false,    //自动填充
+                             formatItem: function(data, i, total) {
+                                 return "<I>"+data.name+"</I>";
+                             },
+                             formatMatch: function(data, i, total) {
+                                 return data.name;
+            		         },
+                             formatResult: function(data) {
+                                 return data.name;
+                             }
+                         }).result(function(event, data, formatted) {
+                   // location.href="intro";
+        });
+        $("#keyword").result(findValueCallback);
+        $("#getValue").click(function() {$("#keyword").search(location.href=searchdate.control+"/"+searchdate.action)});
+
+    });
+</script>
+
+
 <script type="text/javascript">
      function showwait(){
 	var cl = new CanvasLoader('canvasloader-container');
@@ -17,7 +72,7 @@
 	<style type="text/css">
 		.wrapper {
 			position:absolute;
-			top:58%;
+			top:70%;
 			left:80%;
 		}
 	</style>
