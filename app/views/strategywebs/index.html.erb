@@ -1,4 +1,4 @@
-<%= javascript_include_tag "jquery.sparkline.js" %>
+﻿<%= javascript_include_tag "jquery.sparkline.js" %>
 <%= javascript_include_tag "heartcode-canvasloader-min-0.9.1.js" %>
 <%= javascript_include_tag "jquery.autocomplete.js" %>
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
@@ -96,7 +96,9 @@
     <th>最大回退率</th>
     <th>胜率</th>
     <th>图形</th>
+    <% if @webuser!=nil%>
     <th>收藏</th>
+    <% end %>
     <% if @show_flag==1 %>
     <th>操作</th>
 	<th>策略配置</th>
@@ -112,12 +114,13 @@
     <td><%=  @hash_reference[strategyweb.strategyid][0] %></td>
     <td><%=  @hash_reference[strategyweb.strategyid][1] %></td>
     <td><span class="dynamicsparkline">Loading..</span></td>
-
+    <% if @webuser!=nil%>
     <% if @hash_iscollect[strategyweb.id]==1 %>
         <td><%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %></td>
     <% else %>
     <td><%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %></td>
      <% end %>
+    <% end %>
     <% if @show_flag==1 %>
     <td><%= button_to 'Destroy', strategyweb, :method=> :delete %></td>
     <td><%= link_to '策略配置', edit_strategyweb_path(strategyweb) %></td>
