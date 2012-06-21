@@ -102,7 +102,88 @@
     });
 </script>
 <!-- default table -->
-<div id ="rtpricetable"></div>
+<div id ="rtpricetable"></div> <br>
+<!-- strategytro -->
+<h3>策略介绍</h3>
+<table>
+  <tr>
+    <td>instruments</td><td><%= @strategy_norisk.strategytype  %></td>
+  </tr>
+  <tr>
+    <td>策略类型</td><td><%= @strategy_norisk.strategyattr  %></td>
+  </tr>
+  <tr>
+    <td>系统开始时间</td><td><%= @strategy_norisk.startdate  %></td>
+  </tr>
+  <tr>
+    <td>系统开发者</td><td><%= @strategy_norisk.developer  %></td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $(function(){
+        $("#datatables").dataTable({
+            "aaSorting": [[4,"desc"]],
+            "aoColumns": [
+                { "sTitle": "套利对名称", "sClass": "center" },
+                { "sTitle": "近月合约价格", "sClass": "center" },
+                { "sTitle": "近月合约价格", "sClass": "center" },
+                { "sTitle": "成本", "sClass": "center" },
+                { "sTitle": "年化收益率",  "sType": "formatted-num","sClass": "center" },
+                { "sTitle": "历史时间", "sClass": "center" }
+        ]
+        });
+    });
+</script>
+<br />
+<h2> 历史最佳套利机会 </h2>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
+	  <tbody>
+        <% @allmaxreturnrate.each do |maxreturnrate|
+           if ((maxreturnrate.firstprice>0)&&(maxreturnrate.secondprice>0)) then%>
+              <tr>
+                <td class="center"><%= maxreturnrate.pairname %></td>
+                <td class="center"><%= maxreturnrate.firstprice %></td>
+                <td class="center"><%= maxreturnrate.secondprice %></td>
+                <td class="center"><%= maxreturnrate.cost %></td>
+                <td class="center" type="formatted-num"><%= format("%.1f",maxreturnrate.returnrate*100) %>%</td>
+                <td class="center"><%= maxreturnrate.currenttime.strftime("%Y年%m月%d日 %H时%M分%S秒") %></td>
+              </tr>
+            <% end %>
+        <% end %>
+	   </tbody>
+      <tfoot>
+	  <tr>
+        <th>套利对名称</th>
+        <th>近期合约价格</th>
+        <th>远期合约价格</th>
+        <th>成本</th>
+        <th>年化收益率</th>
+        <th>历史时间</th>
+      </tr>
+	  </tfoot>
+</table>
+<br>
+<div class="ironbars">
+     <h3>无风险策略介绍</h3>
+ </div>
+
+<p>无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
+<p>无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
+
+
 <!-- noriskmessage -->
 <br>
  <div class ="remarkslist">

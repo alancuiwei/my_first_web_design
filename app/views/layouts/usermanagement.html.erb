@@ -9,6 +9,22 @@
 <%= javascript_include_tag "jquery.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "easySlider1.5.js" %>
+
+  <script type="text/javascript">
+  $(document).ready(function() {
+  		$('.menu > li').bind('mouseover', openSubMenu);
+  		$('.menu > li').bind('mouseout', closeSubMenu);
+  		function openSubMenu() {
+  			$(this).find('ul').css('visibility', 'visible');
+              $(this).find('ul').css('z-index', '99');
+  		};
+
+  		function closeSubMenu() {
+  			$(this).find('ul').css('visibility', 'hidden');
+  		};
+
+  });
+  </script>
 <script type="text/javascript" charset="utf-8">
 // <![CDATA[
 $(document).ready(function(){
@@ -60,19 +76,40 @@ $(document).ready(function(){
 	  <% end %>
 
       <div class="clr"></div>
-      <div class="menu">
-        <ul>
+      <ul class="menu">
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
-          <li><%= link_to "交易信息",:controller => "tradeinfo",:action => "todayinfo" %></li>
-          <li><%= link_to "用户设置",:controller => "usermanagement",:action => "index" %></li>
-          <li><%= link_to "关于我们",:controller => "contactus",:action => "companyintro" %></li>
+        <li><%= link_to "自动化交易",:controller => "autotrade",:action => "index" %></li>
+        <li><%= link_to "我的账号",:controller => "usermanagement",:action => "index" %>
+            <ul style="visibility: hidden; ">
+              <li><a href="javascript:void(0)">账号管理</a></li>
+              <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+              <% if @webuser!=nil %>
+              <li><a href="../webusers/edit/<%=@webuser.id%>" >&nbsp;&nbsp;个人信息管理</a></li>
+                  <li><a href="../usermanagement/trademanageindex">&nbsp;&nbsp;交易信息管理</a></li>
+                  <% else %>
+                  <li><a href="../sessions/new">&nbsp;&nbsp;个人信息管理</a></li>
+                  <li><a href="../sessions/new">&nbsp;&nbsp;交易信息管理</a></li>
+                  <% end %>
+              <li><a href="#">策略管理</a></li>
+              <li><a href="../autotrade/userreturnrate">&nbsp;&nbsp;无风险套利配置</a></li>
+            </ul>
+          </li>
+        <li><%= link_to "信息",:controller => "contactus",:action => "companyintro" %>
+          <ul style="visibility: hidden; ">
+            <li><a href="#">交易信息</a></li>
+            <li><a href="../tradeinfo/todayinfo">&nbsp;&nbsp;当日交易信息</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="../contactus/companyintro">&nbsp;&nbsp;公司介绍</a></li>
+            <li><a href="../contactus/personintro">&nbsp;&nbsp;公司员工</a></li>
+            <li><a href="../contactus/productintro">&nbsp;&nbsp;公司产品</a></li>
+            <li><a href="../contactus/hire">&nbsp;&nbsp;招聘信息</a></li>
+          </ul>
+        </li>
         </ul>
-      </div>
       <div class="clr"></div>
     </div>
   </div>
-
   <div class="slider2">
   <div class="slice12">
     <h2>个性化管理</h2>
@@ -85,19 +122,19 @@ $(document).ready(function(){
     <h2>帐号管理</h2>
     <ul>
     <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+      <a href="javascript:void(0)" onclick="menuop()">+&nbsp;&nbsp;&nbsp;</a><%= link_to "交易管理",:controller=>"usermanagement" ,:action=>"trademanageindex"%>
+          <ul id="menuop" style="visibility: visible; ">
+          <li><%= link_to "手续费修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
+          <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
+          <li><%= link_to "保证金比例修改",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
+          </ul>
     </ul>
 	<br />
     <h2>策略管理</h2>
     <ul>
-    <li><%= link_to "无风险套利设置",:controller=>"strategy" ,:action=>"userreturnrate" %></li>
+    <li><%= link_to "无风险套利设置",:controller=>"autotrade" ,:action=>"userreturnrate" %></li>
     </ul>
-	<br />
-    <h2><%= link_to "交易管理",:controller=>"usermanagement" ,:action=>"trademanageindex"%></h2>
-    <ul>
-    <li><%= link_to "手续费修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id %></li>
-    <li><%= link_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></li>
-    <li><%= link_to "保证金比例修改",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id %></li>
-    </ul>
+
 
     </div>
   <div class="frame">
@@ -113,3 +150,13 @@ $(document).ready(function(){
 </div>
 </body>
 </html>
+<script type="text/javascript">
+   function menuop(){
+       if($("#menuop").css("visibility")=="visible"){
+           $("#menuop").css('visibility', 'hidden');
+       }
+
+       else
+       $("#menuop").css('visibility', 'visible');
+   }
+</script>
