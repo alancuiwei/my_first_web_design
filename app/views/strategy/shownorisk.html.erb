@@ -5,6 +5,8 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
+<%= button_to "订阅" %>
+
     <div class="ironbars">
   <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
@@ -105,18 +107,18 @@
 <div id ="rtpricetable"></div> <br>
 <!-- strategytro -->
 <h3>策略介绍</h3>
-<table>
+<table class="biaoge">
   <tr>
-    <td>instruments</td><td><%= @strategy_norisk.strategytype  %></td>
+    <th><h3>交易品种</h3></th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
   </tr>
   <tr>
-    <td>策略类型</td><td><%= @strategy_norisk.strategyattr  %></td>
+    <th><h3>策略类型</h3></th><td><h3><%= @strategy_norisk.strategyattr  %></h3></td>
   </tr>
   <tr>
-    <td>系统开始时间</td><td><%= @strategy_norisk.startdate  %></td>
+    <th><h3>系统开始时间</h3></th><td ><h3><%= @strategy_norisk.startdate  %></h3></td>
   </tr>
   <tr>
-    <td>系统开发者</td><td><%= @strategy_norisk.developer  %></td>
+    <th class="last"><h3>系统开发者</h3></th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
   </tr>
 </table>
 
@@ -180,8 +182,8 @@
      <h3>无风险策略介绍</h3>
  </div>
 
-<p>无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
-<p>无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
+<p class="ironbarsp1">无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
+<p class="ironbarsp2">无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
 
 
 <!-- noriskmessage -->
