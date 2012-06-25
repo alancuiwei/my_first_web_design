@@ -127,23 +127,27 @@
     }
     function  myclick_post(s)
     {
+        alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
+        /*交易功能
         var name=hash_post.items(s)[0].replace(/-/,"&");
         if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
         $.post("personaltrading", { name: name,disprice:hash_post.items(s)[1] } );
-        //alert("套利合约对名："+name+" .最新价差："+hash_post.items(s)[1])
+        //alert("套利合约对名："+name+" .最新价差："+hash_post.items(s)[1])    */
     }
     function  myclick_post_s(s)
     {
+        alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
+        /*交易功能
         var name=hash_post.items(s)[0].replace(/-/,"&");
         if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
         $.post("personaltrading", { name_s: name } );
-        //alert("套利合约对名："+name)
+        //alert("套利合约对名："+name) */
     }
     var funds_c = new Array();
     var returnrate_current = new Array();
@@ -204,7 +208,8 @@
         return parseFloat(y) - parseFloat(x);
     };
     $.ajaxSetup({
-        cache: false
+        cache: false,
+        timeout:10000
     });
     function getxml(){
         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
@@ -225,6 +230,7 @@
                         getAjax();
         });
     }
+    var ajax_watchdog=0;
      function getAjax(){
          $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
                      rtxml_arr=xml2array(data);
@@ -476,14 +482,33 @@
                                  $("#showtime").html(new Date().format("yyyy年MM月dd日 hh时mm分ss秒"));
                              }
 						};
-                     setTimeout(refreshMKData,2000);} )
+                     setTimeout(refreshMKData,2000);
+             ajax_watchdog=1;} )
+						}
+    function ajax_restart(){
+        if(ajax_watchdog==0){
+            refreshMKData();
+        }
+        setTimeout(listen_ajax_watchdog,10000);
+    }
+   //setInterval(justalert,3000);
+   //function justalert(){alert(ajax_watchdog)}
+   function listen_ajax_watchdog(){
+       if(ajax_watchdog==1){
+           setTimeout(listen_ajax_watchdog,10000) ;
+       }
+       if(ajax_watchdog==0){
+          setTimeout(ajax_restart,10000);
+       }
 						}
     function refreshMKData(){
-		if (g_MKDataState.isgetMKData)
+	if (g_MKDataState.isgetMKData){
+           ajax_watchdog=0;
 		   getAjax();
 		}
+	}
     function checktimeMKTime(){
-           $.getJSON("shownorisk",{gettime:"gettime"},
+           $.getJSON("personaltrading",{gettime_p:"gettime_p"},
              function (data,status){
               var str=data.substr(0,10)+" "+data.substr(11,8);
   		var servertime=new Date(str.replace(/-/g, "\/"));
@@ -531,6 +556,7 @@
 	var g_MKDataState=new MKDataState(3600000,true);
     var stream_flag=0;
 	checktimeMKTime();
+    setTimeout(listen_ajax_watchdog,10000) ;
      setInterval(checkStat,10000);
      function checkStat(){
          $.ajax({
