@@ -83,30 +83,30 @@ $(document).ready(function(){
 		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
   		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
         <li><%= link_to "自动化交易",:controller => "autotrade",:action => "index" %></li>
-          <li><%= link_to "我的账号",:controller => "usermanagement",:action => "index" %>
+        <li><%= link_to "我的账号",:controller => "usermanagement",:action => "index" %>
             <ul style="visibility: hidden; ">
               <li><a href="javascript:void(0)">账号管理</a></li>
               <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
-              <li><a href="../webusers/edit/<%=@webuser.id%>" >&nbsp;&nbsp;个人信息管理</a></li>
-                  <li><a href="../usermanagement/trademanageindex">&nbsp;&nbsp;交易信息管理</a></li>
+              <li><a href="/webusers/edit/<%=@webuser.id%>" >&nbsp;&nbsp;个人信息管理</a></li>
+                  <li><a href="/usermanagement/trademanageindex">&nbsp;&nbsp;交易信息管理</a></li>
                   <% else %>
-                  <li><a href="../sessions/new">&nbsp;&nbsp;个人信息管理</a></li>
-                  <li><a href="../sessions/new">&nbsp;&nbsp;交易信息管理</a></li>
+                  <li><a href="/sessions/new">&nbsp;&nbsp;个人信息管理</a></li>
+                  <li><a href="/sessions/new">&nbsp;&nbsp;交易信息管理</a></li>
                   <% end %>
               <li><a href="#">策略管理</a></li>
-              <li><a href="../autotrade/userreturnrate">&nbsp;&nbsp;无风险套利配置</a></li>
+              <li><a href="/autotrade/userreturnrate">&nbsp;&nbsp;无风险套利配置</a></li>
             </ul>
           </li>
         <li><%= link_to "信息",:controller => "contactus",:action => "companyintro" %>
           <ul style="visibility: hidden; ">
             <li><a href="#">交易信息</a></li>
-            <li><a href="../tradeinfo/todayinfo">&nbsp;&nbsp;当日交易信息</a></li>
+            <li><a href="/tradeinfo/todayinfo">&nbsp;&nbsp;当日交易信息</a></li>
             <li><a href="#">关于我们</a></li>
-            <li><a href="../contactus/companyintro">&nbsp;&nbsp;公司介绍</a></li>
-            <li><a href="../contactus/personintro">&nbsp;&nbsp;公司员工</a></li>
-            <li><a href="../contactus/productintro">&nbsp;&nbsp;公司产品</a></li>
-            <li><a href="../contactus/hire">&nbsp;&nbsp;招聘信息</a></li>
+            <li><a href="/contactus/companyintro">&nbsp;&nbsp;公司介绍</a></li>
+            <li><a href="/contactus/personintro">&nbsp;&nbsp;公司员工</a></li>
+            <li><a href="/contactus/productintro">&nbsp;&nbsp;公司产品</a></li>
+            <li><a href="/contactus/hire">&nbsp;&nbsp;招聘信息</a></li>
           </ul>
         </li>
         </ul>
