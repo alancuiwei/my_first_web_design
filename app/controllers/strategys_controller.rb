@@ -70,8 +70,8 @@ class StrategysController < ApplicationController
     if params[:getprofit]!=nil
 
      render :json => @profit_arr #render json #render json
-     @strategyweb = Strategyweb.find_by_name("羽根英树正向套利")
-     @strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-200000)/200000))
+     #@strategyweb = Strategyweb.find_by_name("羽根英树正向套利")
+     #@strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-200000)/200000))
     end
 
     #return table
@@ -240,6 +240,9 @@ class StrategysController < ApplicationController
 
         Strategyweb.new do |stgweb|
           stgweb.name=params[:strategyname]
+          stgweb.description=params[:description]
+          stgweb.price=params[:price]
+          stgweb.trydays=params[:trydays]
           stgweb.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
           stgweb.strategytype=@strategyparams.elements.to_a("//objecttype")[0].text
           temp=@strategyparams.elements.to_a("//item")[0].text

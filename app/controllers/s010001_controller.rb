@@ -44,4 +44,8 @@ class S010001Controller < ApplicationController
     end
   end
 
+  def subscribe
+
+  end
+
   end

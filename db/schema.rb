@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120327143138) do
+ActiveRecord::Schema.define(:version => 20120625094653) do
+
+  create_table "arbcostmaxreturnrate_v", :id => false, :force => true do |t|
+    t.string   "pairname",    :limit => 20
+    t.float    "firstprice"
+    t.float    "secondprice"
+    t.float    "cost"
+    t.float    "returnrate"
+    t.datetime "currenttime"
+  end
 
   create_table "noriskmessage", :force => true do |t|
     t.string   "title"
@@ -19,6 +28,45 @@ ActiveRecord::Schema.define(:version => 20120327143138) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "profitchart", :force => true do |t|
+    t.float "dateint"
+    t.float "profit"
+  end
+
+  create_table "stg010001", :force => true do |t|
+    t.string   "username",            :limit => 20
+    t.string   "pairname",            :limit => 20
+    t.float    "returnrate"
+    t.datetime "time"
+    t.float    "firstprice"
+    t.float    "secondprice"
+    t.float    "firstmarginrate"
+    t.float    "secondmarginrate"
+    t.float    "storageday",                        :default => 1.0
+    t.float    "storagedailyfee",                   :default => 1.0
+    t.float    "storagefee",                        :default => 1.0
+    t.float    "deliverchargebyhand",               :default => 1.0
+    t.float    "deliverfee",                        :default => 1.0
+    t.float    "tradecharge",                       :default => 1.0
+    t.float    "computetransfee",                   :default => 1.0
+    t.float    "lendrate",                          :default => 1.0
+    t.float    "D1",                                :default => 1.0
+    t.float    "tradeunit",                         :default => 1.0
+    t.float    "trademarginfee",                    :default => 1.0
+    t.float    "delivermarginfee",                  :default => 1.0
+    t.float    "vatrate",                           :default => 1.0
+    t.float    "vatfee",                            :default => 1.0
+  end
+
+  create_table "strategyparam_t", :force => true do |t|
+    t.string  "strategyid", :limit => 20
+    t.string  "paramname",  :limit => 20
+    t.float   "paramvalue"
+    t.string  "username",   :limit => 20
+    t.integer "ordernum"
+    t.integer "userid"
   end
 
   create_table "strategypositionrecord_t", :id => false, :force => true do |t|
@@ -55,6 +103,9 @@ ActiveRecord::Schema.define(:version => 20120327143138) do
     t.float   "expectvalue"
     t.float   "maxdrawdown"
     t.integer "maxdrawdowndays"
+    t.string  "strategyid",        :limit => 20
+    t.integer "userid"
+    t.integer "ordernum"
   end
 
   create_table "strategyreturnrate_t", :id => false, :force => true do |t|
@@ -68,14 +119,51 @@ ActiveRecord::Schema.define(:version => 20120327143138) do
     t.string   "name"
     t.text     "description"
     t.string   "image_url"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "strategyid"
     t.float    "anreturn"
     t.string   "strategytype"
     t.string   "strategyattr"
     t.date     "startdate"
     t.string   "developer"
+    t.integer  "strategyweb_id"
+    t.string   "control",        :null => false
+    t.string   "action",         :null => false
+    t.float    "lastdayfunds"
+    t.integer  "userid"
+    t.string   "ordernum"
+    t.integer  "commoditynames"
+    t.float    "price"
+    t.float    "trydays"
+  end
+
+  create_table "todayinfo_t", :primary_key => "contractid", :force => true do |t|
+    t.string "commodityid", :limit => 40
+    t.string "exchname",    :limit => 20
+    t.float  "margin"
+    t.float  "updownlimit"
+  end
+
+  create_table "usercommodity_t", :force => true do |t|
+    t.float    "tardecharge"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "versionstable", :force => true do |t|
+    t.string   "rails_comments"
+    t.string   "rails_branch_id"
+    t.string   "rails_commit_id"
+    t.string   "mysql_comments"
+    t.string   "mysql_branch_id"
+    t.string   "mysql_commit_id"
+    t.string   "ctp_comments"
+    t.string   "ctp_branch_id"
+    t.string   "ctp_commit_id"
+    t.datetime "update_date"
+    t.string   "current_version_id"
+    t.string   "current_comments"
   end
 
   create_table "webuser", :force => true do |t|
@@ -84,7 +172,10 @@ ActiveRecord::Schema.define(:version => 20120327143138) do
     t.string   "salt"
     t.string   "email"
     t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "updated_at"
+    t.integer  "level"
+    t.datetime "leveldate"
+    t.string   "collect"
   end
 
   create_table "webuserstrategy", :force => true do |t|

@@ -107,12 +107,12 @@
   <tbody>
 <% @strategywebs.each do |strategyweb| %>
   <tr>
-    <td><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action %></td>
+    <td><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %></td>
     <td><%=  strategyweb.strategytype %></td>
     <td><%=  strategyweb.startdate.to_s(:db) %></td>
     <td><center><%= strategyweb.anreturn*100 %>%</center></td>
     <td><%=  @hash_reference[strategyweb.strategyid][0] %></td>
-    <td><%=  @hash_reference[strategyweb.strategyid][1] %></td>
+    <td><%=  format("%.3f",@hash_reference[strategyweb.strategyid][1]) %></td>
     <td><span class="dynamicsparkline">Loading..</span></td>
     <% if @webuser!=nil%>
     <% if @hash_iscollect[strategyweb.id]==1 %>
