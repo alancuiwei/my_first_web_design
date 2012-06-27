@@ -70,7 +70,9 @@ class StrategywebsController < ApplicationController
   def create
     
 	@strategyweb = Strategyweb.new(params[:strategyweb])
-
+  @strategyweb.control="strategys"
+  @strategyweb.action="show"
+  @strategyweb.anreturn=1
     respond_to do |format|
       if @strategyweb.save
         format.html { redirect_to :action=>"index", notice: 'Strategyweb was successfully created.' }
