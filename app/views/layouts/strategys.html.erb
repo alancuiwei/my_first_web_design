@@ -123,9 +123,9 @@ $(document).ready(function(){
       <% @strategy=Strategyweb.find(params[:id]) %>
     <h2><%= @strategy.name  %></h2>
     <ul>
-      <li><%= link_to "策略介绍",:controller =>"strategys",:action =>"intro" %></li>
-      <li><%= link_to "策略详情",:controller =>"strategys",:action =>"show" %></li>
-      <li><%= link_to "个性化交易",:controller =>"strategys",:action =>"individual" %></li>
+      <li><%= link_to "策略介绍",:controller =>"strategys",:action =>"intro",:id=>params[:id] %></li>
+      <li><%= link_to "策略详情",:controller =>"strategys",:action =>"show",:id=>params[:id]  %></li>
+      <li><%= link_to "个性化交易",:controller =>"strategys",:action =>"individual",:id=>params[:id]  %></li>
     </ul>
   <p></p>
     </div>

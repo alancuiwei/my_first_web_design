@@ -1,15 +1,26 @@
 ﻿#encoding: utf-8
 class AutotradeController < ApplicationController
   def index
-    @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")
+    @profitchart_arr=Array.new
+    for i in 0..23
+    @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+200000
+    end
+
+    @strategy_free=Strategyweb.find_all_by_price(0)
+
+    @strategy_subscribe=Strategyweb.find(:all,:conditions =>["price>0"])
   end
   def demo
 
   end
 
-  def paychoice
+  def autotrade_s1
+    @strategy=Strategyweb.find(params[:id])
+  end
+  def autotrade_s2
 
   end
+
   def showror
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")

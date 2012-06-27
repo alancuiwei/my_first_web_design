@@ -265,6 +265,14 @@ class StrategysController < ApplicationController
      end
   end
 
+  def subscribe
+    @strategy=Strategyweb.find(params[:id])
+  end
+
+  def pay
+    @strategy=Strategyweb.find(params[:id])
+  end
+
   def myprocess
     #system 'app/assets/xmls/ZR_PROGRAM_BuiltTestResult.exe'
   end

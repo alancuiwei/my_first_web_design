@@ -1,30 +1,26 @@
-﻿<div id="showchart">
-</div>
-
+﻿<%= javascript_include_tag "jquery.sparkline.js" %>
 <script type="text/javascript">
-    var Sys = {};
-    var ua = navigator.userAgent.toLowerCase();
-    if (window.ActiveXObject)
-        Sys.ie = ua.match(/msie ([\d.]+)/)[1];
-    if(Sys.ie<9){
-        document.getElementById("showchart").innerHTML="<a href='../autotrade/paychoice'><font size='3'> 收费标准选择</font></a>→<font size='3'>交易参数配置</font>→<font size='3'>自动化交易</font><br><br><table><tr><th style='width: 80px'><center>你要做的</center></th><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><th style='margin-left: 100px;width: 180px'><center>我们要做的</center></th></tr></table><br><table><tr><th style='width: 300px'><center>自动化交易策略</center></th></tr></table>";
-    }
-    else{
-        document.getElementById("showchart").innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="584px" height="213px" version="1.1"><defs/><a xlink:href="../autotrade/paychoice"><rect x="2" y="2" width="120" height="60" shape-rendering="crispEdges" fill="#ffffff" stroke="#666666" stroke-width="3"/><g font-weight="bold" text-anchor="middle" font-size="12px" font-family="Verdana" fill="#4D4D4D"><text x="62" y="35">收费标准选择</text></g></a><rect x="232" y="2" width="120" height="60" shape-rendering="crispEdges" fill="#ffffff" stroke="#ff9933" stroke-width="3"/><g font-weight="bold" text-anchor="middle" font-size="12px" font-family="Verdana" fill="#4D4D4D"><text x="292" y="35">交易参数配置</text></g><path d="M 132 37 L 132 27 L 192 27 L 192 17 L 222 32 L 192 47 L 192 37 Z" fill="#ff9933" stroke="#000000" stroke-miterlimit="10"/><rect x="462" y="2" width="120" height="60" shape-rendering="crispEdges" fill="#ffffff" stroke="#ff9933" stroke-width="3"/><g font-weight="bold" text-anchor="middle" font-size="12px" font-family="Verdana" fill="#4D4D4D"><text x="522" y="35">自动化交易</text></g><path d="M 362 37 L 362 27 L 422 27 L 422 17 L 452 32 L 422 47 L 422 37 Z" fill="#ff9933" stroke="#000000" stroke-miterlimit="10"/><rect x="2" y="112" width="120" height="30" shape-rendering="crispEdges" fill="#e6e6e6" stroke="#000000"/><g text-anchor="middle" font-size="12px" font-family="Verdana" fill="#4D4D4D"><text x="62" y="130">您要做的</text></g><rect x="232" y="112" width="350" height="30" shape-rendering="crispEdges" fill="#e6e6e6" stroke="#ff9933"/><g text-anchor="middle" font-size="12px" font-family="Verdana" fill="#4D4D4D"><text x="407" y="130">我们要做的</text></g><rect x="2" y="182" width="580" height="30" shape-rendering="crispEdges" fill="#ffffff" stroke="#000000"/><g text-anchor="middle" font-size="12px" font-family="Verdana" fill="#000000"><text x="292" y="200">自动化交易策略</text></g></svg>'
-    }
+    $(document).ready(function() {
+        $('.dynamicsparkline').sparkline(<%= @profitchart_arr%>);
+    } );
 </script>
-<h3>策略介绍</h3>
-<table>
+<h3>免费的策略</h3>
+
+<% @strategy_free.each do |stgf| %>
   <tr>
-    <th>LOGO</th>
-    <th>策略名称</th>
-    <th>策略种类</th>
-    <th>供应单位</th>
-  </tr>
+        <td><%= link_to(image_tag("zi.gif"),:controller =>"autotrade",:action =>"autotrade_s1",:id=>stgf.id)  %></td>
+        <td><span class="dynamicsparkline">Loading..</span></td>
+        <td><%= stgf.name %></td>
+        <td><%= stgf.developer %></td>
+      </tr>  <hr><br>
+<% end %>
+
+<h3>您所订阅的策略</h3>
+<% @strategy_subscribe.each do |stgs| %>
   <tr>
-    <td><%= image_tag("logo.gif") %></td>
-    <td><%= @strategy_norisk.name  %></td>
-    <td><center><%= @strategy_norisk.strategytype  %></center> </td>
-    <td><%= @strategy_norisk.developer  %></td>
-  </tr>
-</table>
+        <td><%= link_to(image_tag("zi.gif"),:controller =>"autotrade",:action =>"autotrade_s1",:id=>stgs.id)  %></td>
+        <td><span class="dynamicsparkline">Loading..</span></td>
+        <td><%= stgs.name %></td>
+        <td><%= stgs.developer %></td>
+      </tr>  <hr><br>
+<% end %>
