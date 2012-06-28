@@ -6,8 +6,10 @@ include REXML
 class StrategysController < ApplicationController
 
   def show
-    @traderecord=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:limit => 10)
-    @streference = StrategyreferenceT.find_all_by_rightid("010603000000")
+    @strat_profit=200000
+    @strategyweb = Strategyweb.find(params[:id])
+    @traderecord=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 10)
+    @streference = StrategyreferenceT.find_all_by_strategyid_and_userid_and_ordernum_and_rightid(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000")
    # @strategyreturnrates=StrategyreturnrateT.find_all_by_rightid("010603000000")
    # @returnrate_arr=Array.new
    # if params[:getjson]!=nil
@@ -22,8 +24,8 @@ class StrategysController < ApplicationController
    # @s_profits=StrategypositionrecordT.all
     #@hash_profit=Hash.new
     #@profit_arr=Array.new
-    @profits_lastday=StrategypositionrecordT.find(:all, :order =>"closeposdate DESC",:limit => 1)[0].closeposdate
-    @profits_first=StrategypositionrecordT.find(:all, :order =>"closeposdate ASC",:limit => 1)[0].closeposdate
+    @profits_lastday=StrategypositionrecordT.find(:all, :order =>"closeposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
+    @profits_first=StrategypositionrecordT.find(:all, :order =>"closeposdate ASC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
 
     @days=(DateTime.strptime(@profits_lastday.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@profits_first.to_s(:db),"%Y-%m-%d").to_i)/86400
 
@@ -63,7 +65,7 @@ class StrategysController < ApplicationController
     @profit_arr=Array.new
     i=0
       @profits.each do |profit|
-       @profit_arr[i]=[profit.dateint,profit.profit+200000]
+       @profit_arr[i]=[profit.dateint,profit.profit+@strat_profit]
       i=i+1
       end
 
@@ -71,38 +73,37 @@ class StrategysController < ApplicationController
 
      render :json => @profit_arr #render json #render json
      #@strategyweb = Strategyweb.find_by_name("羽根英树正向套利")
-     #@strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-200000)/200000))
+     #@strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-@strat_profit)/@strat_profit))
     end
 
     #return table
-    @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>"rightid='010603000000'")
-    params[:r_lyn]=@returnrate_lastyearnum[0].yearid
-    @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=:r_lyn and rightid='010603000000'",params],:order =>"monthid ASC" )
-    @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<:r_lyn and rightid='010603000000'",params],:order =>"yearid DESC,monthid ASC")
+    @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
+    @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
+    @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"yearid DESC,monthid ASC")
     if @returnrate_others.size%12==0
     @returnrate_others_size=@returnrate_others.size/12
     else
       @returnrate_others_size=@returnrate_others.size/12+1
     end
 
-    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>"rightid='010603000000'")
-    params[:r_fyn]=@returnrate_firstyearnum[0].yearid
-    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=:r_fyn and rightid='010603000000'",params],:order =>"monthid ASC" )
+    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
 
   end
 
   def showall
-    @traderecord_all=StrategypositionrecordT.all
+    @traderecord_all=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum])
   end
 
   def intro
-    @strategy010603=Strategyweb.find_by_name("羽根英树正向套利")
+    @strategyweb = Strategyweb.find(params[:id])
   end
 
   def individual
+    @strategyweb = Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if @webuser!=nil&&params[:startdate]!=nil
-    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile010603.xml'))
+    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
     @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
     @XMLfile.elements.to_a("//period")[0].text=params[:period]
     @XMLfile.elements.to_a("//losses")[0].text=params[:losses]
@@ -119,12 +120,12 @@ class StrategysController < ApplicationController
     end
 
     @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
-    @XMLfile.elements.to_a("//strategyid")[0].text="010603"
+    @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
     @test=@XMLfile
     file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
     file.puts @XMLfile
     file.close
-    redirect_to(:controller=>"strategys", :action=>"wait")
+    redirect_to(:controller=>"strategys", :action=>"wait",:id=>params[:id])
     end
 
   end
@@ -147,7 +148,7 @@ class StrategysController < ApplicationController
   end
 
   def wait
-
+    @strategyweb = Strategyweb.find(params[:id])
   end
 
   def mysubmit

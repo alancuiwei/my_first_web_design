@@ -2,8 +2,8 @@
 <%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
 <h3>选择是否保存。</h3>
-<%= button_to "保存" ,:action=>'mysubmit'%>
-<%= button_to "不保存" ,:action=>'individual' %>
+<%= button_to "保存" ,:action=>'mysubmit',:id=>params[:id]%>
+<%= button_to "不保存" ,:action=>'individual',:id=>params[:id] %>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
@@ -143,4 +143,4 @@
   </tbody>
 </table>
 <br>
-<iframe name="iframe_index" src="../assets/posrecord-52.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+<iframe name="iframe_index" src="/assets/posrecord-52.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>

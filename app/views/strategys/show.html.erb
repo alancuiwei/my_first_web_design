@@ -1,6 +1,6 @@
 ﻿<%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
-<h2>羽根英树正向套利</h2>
+<h2><%= @strategyweb.name %></h2>
 <table border="1">
   <tr>
     <th></th>
@@ -79,7 +79,7 @@
                 }]
             });
         });*/
-        $.getJSON('show',{getprofit :"getprofit"}, function(data) {
+        $.getJSON('<%=@strategyweb.id%>',{getprofit :"getprofit"}, function(data) {
             // Create the chart
             window.chart = new Highcharts.StockChart({
                 chart : {
@@ -135,7 +135,7 @@
 	<% end %>
   </tbody>
 </table><br>
-<a href="showall">+ 更多信息</a>
+<a href="/strategys/showall/<%= params[:id]%>">+ 更多信息</a>
 <br>
 <h3>所有数据都需要和最新实时行情结合</h3>
 

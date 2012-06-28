@@ -8,13 +8,13 @@
     止损点：<%= text_field_tag :losses, params[:losses],:id=>"losses",:name=>"losses",:title=>"止损点"%><br>
     止赢点：<%= text_field_tag :wins, params[:wins],:id=>"wins",:name=>"wins",:title=>"止赢点"%><br>
     <!-- 策略对象类型：<%= text_field_tag :objecttype, params[:objecttype],:id=>"objecttype",:name=>"objecttype",:title=>"策略对象类型"%><br>-->
-    策略品种：    <%= check_box_tag 'commoditynames[]','RO-RO'%>RO-RO
-    <%= check_box_tag 'commoditynames[]','TA-TA'%>TA-TA
-    <%= check_box_tag 'commoditynames[]','a-a'%>a-a
-    <%= check_box_tag 'commoditynames[]','l-l'%>l-l
-    <%= check_box_tag 'commoditynames[]','p-p'%>p-p
-    <%= check_box_tag 'commoditynames[]','v-v'%>v-v
-    <%= check_box_tag 'commoditynames[]','y-y'%>y-y
+    策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br> <%= check_box_tag 'commoditynames[]','RO-RO',:checked=>true%>RO-RO </span>
+    <%= check_box_tag 'commoditynames[]','TA-TA',:checked=>true%>TA-TA
+    <%= check_box_tag 'commoditynames[]','a-a',:checked=>true%>a-a
+    <%= check_box_tag 'commoditynames[]','l-l',:checked=>true%>l-l
+    <%= check_box_tag 'commoditynames[]','p-p',:checked=>true%>p-p
+    <%= check_box_tag 'commoditynames[]','v-v',:checked=>true%>v-v
+    <%= check_box_tag 'commoditynames[]','y-y',:checked=>true%>y-y </input>
    <br>
     策略开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
     <%= submit_tag "提交"%>
@@ -24,15 +24,22 @@
      $(function() {
          $("form").validity(function() {
              $("#period")
-                 .require();
+                 .require()
+                 .match("number");
              $("#losses")
-                 .require();
+                 .require()
+                 .match("number");
              $("#wins")
-                 .require();
+                 .require()
+                 .match("number");
+             if($("input[value$='RO-RO']").attr("checked")!="checked"&&$("input[value$='TA-TA']").attr("checked")!="checked"&&$("input[value$='a-a']").attr("checked")!="checked"&&$("input[value$='l-l']").attr("checked")!="checked"&&$("input[value$='p-p']").attr("checked")!="checked"&&$("input[value$='v-v']").attr("checked")!="checked"&&$("input[value$='y-y']").attr("checked")!="checked"){
+             $("#checkbox1")
+                 .require()  }
              $("#objecttype")
                  .require();
              $("#startdate")
                  .require();
          });
+         $("form").validator.addMethod("roles", function(value, elem, param) {     if($(".roles:checkbox:checked").length > 0){        return true;    }else {        return false;    } },"You must select at least one!");
      });
  </script>

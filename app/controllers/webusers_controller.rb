@@ -112,7 +112,7 @@ class WebusersController < ApplicationController
     @webuser = Webuser.find(params[:id])
     @usercommoditys=UsercommodityT.find_all_by_userid(@webuser.name)
     @stg010001s=Stg010001.find_all_by_username(@webuser.name)
-    @strategyparam = StrategyparamT.find_by_username(@webuser.name)
+    @strategyparams = StrategyparamT.find_all_by_username(@webuser.name)
 
     for i in 0..@usercommoditys.size-1
       @usercommoditys[i].destroy
@@ -120,8 +120,10 @@ class WebusersController < ApplicationController
     for i in 0..@stg010001s.size-1
       @stg010001s[i].destroy
     end
-    if @strategyparam!=nil
-   @strategyparam.destroy
+    if @strategyparams!=nil
+      for i in 0..@strategyparams.size-1
+      @strategyparams[i].destroy
+    end
    end
     @webuser.destroy
     respond_to do |format|

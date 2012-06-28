@@ -104,6 +104,45 @@ class StrategywebsController < ApplicationController
   # DELETE /strategywebs/1.json
   def destroy
     @strategyweb = Strategyweb.find(params[:id])
+
+    @strategyparams = StrategyparamT.find_all_by_strategyid_and_userid_and_ordernum(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum)
+    @strategypositionrecords = StrategypositionrecordT.find_all_by_strategyid_and_userid_and_ordernum(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum)
+    @strategyreferences = StrategyreferenceT.find_all_by_strategyid_and_userid_and_ordernum(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum)
+    @strategyreturnrates = StrategyreturnrateT.find_all_by_strategyid_and_userid_and_ordernum(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum)
+
+    if @strategyparams!=nil
+      for i in 0..@strategyparams.size-1
+        @strategyparams[i].destroy
+      end
+    end
+    if @strategypositionrecords!=nil
+      for i in 0..@strategypositionrecords.size-1
+        @strategypositionrecords[i].destroy
+      end
+    end
+    if @strategyreferences!=nil
+      for i in 0..@strategyreferences.size-1
+        @strategyreferences[i].destroy
+      end
+    end
+    if @strategyreturnrates!=nil
+      for i in 0..@strategyreturnrates.size-1
+        @strategyreturnrates[i].destroy
+      end
+    end
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil
+      @position= @webuser.collect.index(params[:id].to_s)
+      if @position==0&&@webuser.collect.size==1
+        @webuser.update_attribute(:collect,"")
+      elsif @position==0
+        @webuser.update_attribute(:collect, @webuser.collect[2..@position.size])
+      else
+        @webuser.update_attribute(:collect, @webuser.collect[0..@position-2]+@webuser.collect[@position+1..@position.size])
+      end
+
+    end
+
     @strategyweb.destroy
 
     respond_to do |format|
