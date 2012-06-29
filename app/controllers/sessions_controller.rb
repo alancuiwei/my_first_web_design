@@ -14,9 +14,9 @@ class SessionsController < ApplicationController
     if session[:login]=="shownorisk"
       redirect_to(:controller=>"strategy", :action=>"shownorisk")
     elsif session[:login]=="personaltrading"
-      redirect_to(:controller=>"strategy", :action=>"personaltrading")
+      redirect_to(:controller=>"autotrade", :action=>"personaltrading")
     elsif session[:login]=="userrateofreturn"
-      redirect_to(:controller=>"strategy", :action=>"personaltrading")
+      redirect_to(:controller=>"autotrade", :action=>"personaltrading")
     elsif session[:login]=="usermanagement"
       redirect_to(:controller=>"usermanagement", :action=>"index")
     else
