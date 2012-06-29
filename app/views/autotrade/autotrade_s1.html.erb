@@ -1,0 +1,123 @@
+﻿<%= javascript_include_tag "jquery-latest.pack.js" %>
+对于策略 <%= @strategy.name %> 进行自动化交易设置。<br><br>
+<%= link_to "点击这里,如果您还未准备好进行自动化交易,想先订阅该策略,通过邮件接收买卖信号." ,:controller =>"strategys",:action =>"subscribe",:id=>@strategy.id  %>
+
+<script type="text/javascript">
+function loadnext(divout,divin){
+$("." + divout).hide();
+$("." + divin).fadeIn("fast");
+}
+</script>
+
+<%= form_tag do %>
+
+<div id="wizardwrapper">
+
+  <div class="1">
+    <h3>第一步: 确认交易品种</h3>
+    <ul id="mainNav" class="fiveStep">
+      <li class="current"><a title=""><em>第一步：确认交易品种</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第二步：设置期货公司</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第三步：设置交易参数</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第四步：确认您的选择</em><span>Et nequ a quam turpis duisi</span></a></li>
+    </ul>  <br><br><br>
+    <div id="wizardcontent">
+      <%= radio_button_tag "radio_p", "s1" %>
+      期货交易
+    </div>
+    <script type="text/javascript">
+      function myop1(){
+        //if($("#test").attr("checked")==true)
+             if ($("#radio_p_s1").attr("checked")=="checked")
+                loadnext(1,2);
+          else
+             alert("请选择内容！")
+      }
+      function myop2(){
+        //if($("#test").attr("checked")==true)
+             if ($("#radio_p2_s1").attr("checked")=="checked")
+                loadnext(2,3);
+          else
+             alert("请选择内容！")
+      }
+    </script>
+    <div class="buttons">
+      <a  href="javascript:void(0)" class="previous" disabled="disabled"> <%= image_tag "arrow_left.png"  %> 返回 </a>
+      <a  href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 <%= image_tag "arrow_right.png"  %> </a>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <div id="wizardpanel" class="2">
+    <h3>第二步：设置期货公司</h3>
+
+    <ul id="mainNav" class="fiveStep">
+      <li class="lastDone"><a href="http://worcesterwideweb.com/" title=""><em>第一步：确认交易品种</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="current"><a title=""><em>第二步：设置期货公司</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第三步：设置交易参数</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第四步：确认您的选择</em><span>Et nequ a quam turpis duisi</span></a></li>
+    </ul><br><br><br>
+    <div id="wizardcontent">
+      <%= radio_button_tag "radio_p2", "s1"%>
+      华泰长城期货交易公司
+      <div id=showtable>
+        您的华泰长城交易帐号<br>
+        请输入您华泰长城期货帐号的相关信息。<br>
+        输入您的帐号：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %><br>
+        输入您的交易密码：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %><br>
+        <a href='#'>没有该期货公司的帐号？请点击开展开户手续。</a>
+      </div>
+    </div>
+    <div class="buttons">
+      <a href="javascript:void(0)" class="previous" onclick="loadnext(2,1);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
+      <a href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 <%= image_tag "arrow_right.png"  %> </a>
+    </div>
+  </div>
+
+
+  <div id="wizardpanel" class="3">
+    <h3>第三步：设置交易参数</h3>
+
+    <ul id="mainNav" class="fiveStep">
+      <li class="done"><a href="http://worcesterwideweb.com/" title=""><em>第一步：确认交易品种</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="lastDone"><a href="http://worcesterwideweb.com/" title=""><em>第二步：设置期货公司</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="current"><a title=""><em>第三步：设置交易参数</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li><a title=""><em>第四步：确认您的选择</em><span>Et nequ a quam turpis duisi</span></a></li>
+    </ul> <br><br><br>
+    <div id="wizardcontent">
+      <%= text_field_tag :lendrate_p, params[:lendrate_p],:size=>3 %>
+    </div>
+    <div class="buttons">
+      <a href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
+      <a href="javascript:void(0)" class="next" onclick="loadnext(3,4);"> 下一步  </a> <%= image_tag "arrow_right.png"  %>
+    </div>
+  </div>
+
+  <div id="wizardpanel" class="4">
+    <h3>第四步：确认您的选择</h3>
+
+    <ul id="mainNav" class="fiveStep">
+      <li class="done"><a href="http://worcesterwideweb.com/" title=""><em>第一步：确认交易品种</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="done"><a href="http://worcesterwideweb.com/" title=""><em>第二步：设置期货公司</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="lastDone"><a href="http://worcesterwideweb.com/" title=""><em>第三步：设置交易参数</em><span>Et nequ a quam turpis duisi</span></a></li>
+      <li class="current"><a title=""><em>第四步：确认您的选择</em><span>Et nequ a quam turpis duisi</span></a></li>
+    </ul><br><br><br>
+        <div id="wizardcontent">
+          <%= text_field_tag :lendrate2_p, params[:lendrate2_p],:size=>3 %>
+        </div>
+    <div class="buttons">
+      <a href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
+      <%= submit_tag "完成"%> <%= image_tag "arrow_right.png" %>
+    </div>
+  </div>
+
+</div>
+<% end %>
+<script type="text/javascript">
+    $("#showtable").hide();
+    $("#radio_p2_s1").click(function(){
+
+            $("#showtable").show();
+    });
+
+</script>
