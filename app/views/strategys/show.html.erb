@@ -1,13 +1,44 @@
 ﻿<%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
 <h2><%= @strategyweb.name %></h2>
-<table border="1">
+<table id="monthly" >
   <tr>
     <th></th>
-    <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
-    <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+    <th>一月</th><th>二月</th><th>三月</th><th>四月</th><th>五月</th><th>六月</th>
+    <th>七月</th><th>八月</th><th>九月</th><th>十月</th ><th class="nothing">十一月</th><th>十二月</th>
   </tr>
   <tr>
+    <th>2012</th>
+	<td class="txred">-1.62%</td>
+	<td class="txred">-16.54%</td>
+	<td class="txred">-0.04%</td>
+	<td class="txred">-1.05%</td>
+	<td class="txgreen">1.74%</td>
+	<td class="txred">-0.27%</td>
+	<td>&nbsp;</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	</tr>
+	<tr>
+	<th>2011</th>
+	<td class="txgreen">12.73%</td>
+	<td class="txred">-0.95%</td>
+	<td class="txred">-1.24%</td>
+	<td class="txred">-3.02%</td>
+	<td class="txred">-0.71%</td>
+	<td class="txgreen">0.20%</td>
+	<td class="txred">-4.87%</td>
+	<td class="txred">-0.83%</td>
+    <td class="txgreen">0.58%</td>
+	<td class="txred">-0.61%</td>
+	<td class="txred">-0.21%</td>
+	<td class="txgreen">16.09%</td>
+	
+	</tr>
+ <!--
     <td><%=@returnrate_lastyear[0].yearid  %></td>
   <% for i in 0..@returnrate_lastyear.size-1 %>
         <% if @returnrate_lastyear[i].returnrate==0%>
@@ -39,6 +70,7 @@
         <% end %>
   <% end %>
   </tr>
+  -->
 </table>
 <script type="text/javascript">
     $(document).ready(function() {

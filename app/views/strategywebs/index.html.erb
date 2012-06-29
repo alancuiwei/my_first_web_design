@@ -109,8 +109,8 @@
     <td><%=  strategyweb.strategytype %></td>
     <td><%=  strategyweb.startdate.to_s(:db) %></td>
     <td><center><%= strategyweb.anreturn*100 %>%</center></td>
-    <td><%=  @hash_reference[strategyweb.strategyid][0] %></td>
-    <td><%=  format("%.3f",@hash_reference[strategyweb.strategyid][1]) %></td>
+    <td><%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %></td>
+    <td><%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></td>
     <td><span class="dynamicsparkline">Loading..</span></td>
     <% if @webuser!=nil%>
     <% if @hash_iscollect[strategyweb.id]==1 %>

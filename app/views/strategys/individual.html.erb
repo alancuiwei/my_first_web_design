@@ -1,26 +1,35 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
-
 <h3>个性化交易</h3>
 <%= form_tag do %>
     时间周期：<%= text_field_tag :period, params[:period],:id=>"period",:name=>"period",:title=>"时间周期" %><br>
     止损点：<%= text_field_tag :losses, params[:losses],:id=>"losses",:name=>"losses",:title=>"止损点"%><br>
     止赢点：<%= text_field_tag :wins, params[:wins],:id=>"wins",:name=>"wins",:title=>"止赢点"%><br>
     <!-- 策略对象类型：<%= text_field_tag :objecttype, params[:objecttype],:id=>"objecttype",:name=>"objecttype",:title=>"策略对象类型"%><br>-->
-    策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br> <%= check_box_tag 'commoditynames[]','RO-RO',:checked=>true%>RO-RO </span>
-    <%= check_box_tag 'commoditynames[]','TA-TA',:checked=>true%>TA-TA
-    <%= check_box_tag 'commoditynames[]','a-a',:checked=>true%>a-a
-    <%= check_box_tag 'commoditynames[]','l-l',:checked=>true%>l-l
-    <%= check_box_tag 'commoditynames[]','p-p',:checked=>true%>p-p
-    <%= check_box_tag 'commoditynames[]','v-v',:checked=>true%>v-v
-    <%= check_box_tag 'commoditynames[]','y-y',:checked=>true%>y-y </input>
+    策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br>
+    <% for i in 0..@rightids_arr.size-1 %>
+        <%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %>
+    <% end %>
+    </input>
    <br>
     策略开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
     <%= submit_tag "提交"%>
 <% end %>
 
  <script type="text/javascript">
+
+   var rightid=new Array();
+   <% for i in 0..@rightids_arr.size-1 %>
+       rightid[<%= i%>]='<%= @rightids_arr[i] %>'
+   <% end %>
+    var checked_flag=0
+   for(var i=0;i<rightid.length;i++){
+       if($("input[value$="+rightid[i]+"]").attr("checked")=="checked"){
+           checked_flag=1;
+           break;
+       }
+   }
      $(function() {
          $("form").validity(function() {
              $("#period")
@@ -32,7 +41,7 @@
              $("#wins")
                  .require()
                  .match("number");
-             if($("input[value$='RO-RO']").attr("checked")!="checked"&&$("input[value$='TA-TA']").attr("checked")!="checked"&&$("input[value$='a-a']").attr("checked")!="checked"&&$("input[value$='l-l']").attr("checked")!="checked"&&$("input[value$='p-p']").attr("checked")!="checked"&&$("input[value$='v-v']").attr("checked")!="checked"&&$("input[value$='y-y']").attr("checked")!="checked"){
+             if(checked_flag==0){
              $("#checkbox1")
                  .require()  }
              $("#objecttype")
@@ -40,6 +49,5 @@
              $("#startdate")
                  .require();
          });
-         $("form").validator.addMethod("roles", function(value, elem, param) {     if($(".roles:checkbox:checked").length > 0){        return true;    }else {        return false;    } },"You must select at least one!");
      });
  </script>

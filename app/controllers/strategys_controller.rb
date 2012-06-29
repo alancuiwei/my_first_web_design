@@ -101,6 +101,13 @@ class StrategysController < ApplicationController
 
   def individual
     @strategyweb = Strategyweb.find(params[:id])
+    @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
+
+    @rightids_arr= Array.new
+    for i in 0..@commodityrights.size-1
+      @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
+    end
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if @webuser!=nil&&params[:startdate]!=nil
     @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))

@@ -2,6 +2,7 @@
 class StrategywebsController < ApplicationController
 
   def index
+    @strat_profit=200000
     @strategywebs = Strategyweb.all
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if @webuser!=nil
@@ -18,16 +19,25 @@ class StrategywebsController < ApplicationController
 
     end
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
-    @strategyweb = Strategyweb.find_by_name("无风险套利")
-   @strategyweb.update_attributes(:anreturn=>@allmaxreturnrate[0].returnrate)
-    @reference=StrategyreferenceT.find_by_rightid("010603000000",0)
+    #updata returnrate
+    @strategyweb_norisk = Strategyweb.find_by_name("无风险套利")
+    @strategyweb_norisk.update_attributes(:anreturn=>@allmaxreturnrate[0].returnrate)
+
     @hash_reference=Hash.new
-    @hash_reference.store("010603",[@reference.maxdrawdown,@reference.percentprofitable])
-    @hash_reference.store("010001",[0,0])
-    @hash_reference.store("040704",[0,0])
+    @hash_reference.store("01000100",[0,0])
+    @reference=Array.new
+    i=0
+    @strategywebs.each do |strategyweb|
+      @reference[i]= StrategyreferenceT.find_by_strategyid_and_userid_and_ordernum_and_rightid(strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,strategyweb.strategyid+"000000")
+      if @reference[i]!=nil
+       @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[@reference[i].maxdrawdown,@reference[i].percentprofitable])
+      end
+      i=i+1
+    end
+
     @profitchart_arr=Array.new
     for i in 0..23
-    @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+200000
+    @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+@strat_profit
     end
 
     respond_to do |format|
