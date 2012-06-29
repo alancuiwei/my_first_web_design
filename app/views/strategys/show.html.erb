@@ -5,60 +5,36 @@
   <tr>
     <th></th>
     <th>一月</th><th>二月</th><th>三月</th><th>四月</th><th>五月</th><th>六月</th>
-    <th>七月</th><th>八月</th><th>九月</th><th>十月</th ><th class="nothing">十一月</th><th>十二月</th>
+    <th>七月</th><th>八月</th><th>九月</th><th>十月</th ><th>十一月</th><th>十二月</th>
   </tr>
   <tr>
-    <th>2012</th>
-	<td class="txred">-1.62%</td>
-	<td class="txred">-16.54%</td>
-	<td class="txred">-0.04%</td>
-	<td class="txred">-1.05%</td>
-	<td class="txgreen">1.74%</td>
-	<td class="txred">-0.27%</td>
-	<td>&nbsp;</td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	<td></td>
-	</tr>
-	<tr>
-	<th>2011</th>
-	<td class="txgreen">12.73%</td>
-	<td class="txred">-0.95%</td>
-	<td class="txred">-1.24%</td>
-	<td class="txred">-3.02%</td>
-	<td class="txred">-0.71%</td>
-	<td class="txgreen">0.20%</td>
-	<td class="txred">-4.87%</td>
-	<td class="txred">-0.83%</td>
-    <td class="txgreen">0.58%</td>
-	<td class="txred">-0.61%</td>
-	<td class="txred">-0.21%</td>
-	<td class="txgreen">16.09%</td>
-	
-	</tr>
- <!--
-    <td><%=@returnrate_lastyear[0].yearid  %></td>
+    <th><%=@returnrate_lastyear[0].yearid  %></th>
   <% for i in 0..@returnrate_lastyear.size-1 %>
-        <% if @returnrate_lastyear[i].returnrate==0%>
-            <td><center>0</center></td>
+          <% if @returnrate_lastyear[i].returnrate>0%>
+            <td class="txred"><%= format("%.2f", @returnrate_lastyear[i].returnrate*100)  %>%</td>
             <% else %>
-            <td><%= format("%.2f", @returnrate_lastyear[i].returnrate*100)  %>%</td>
+              <td class="txgreen"><%= format("%.2f", @returnrate_lastyear[i].returnrate*100)  %>%</td>
+              <% end %>
         <% end %>
+    <% for i in 0..12-@returnrate_lastyear.size-1 %>
+        <td></td>
   <% end %>
   </tr>
     <% for i in 1..@returnrate_others_size-1 %>
       <tr>
-    <td><%= @returnrate_others[(i-1)*12].yearid  %></td>
+    <th><%= @returnrate_others[(i-1)*12].yearid  %></th>
     <% for j in 0..11 %>
-    <td><%= format("%.2f",@returnrate_others[j+12*(i-1)].returnrate*100)  %>%</td>
+            <% if @returnrate_others[i].returnrate>0%>
+              <td class="txred"><%= format("%.2f", @returnrate_others[i].returnrate*100)  %>%</td>
+                <% else %>
+                <td class="txgreen"><%= format("%.2f", @returnrate_others[i].returnrate*100)  %>%</td>
+                <% end %>
     <% end %>
       </tr>
     <% end %>
 
   <tr>
-    <td><%=@returnrate_firstyear[0].yearid  %></td>
+    <th><%=@returnrate_firstyear[0].yearid  %></th>
     <% for k in 0..12-@returnrate_firstyear.size-1 %>
         <td></td>
     <% end %>
@@ -66,11 +42,15 @@
         <% if @returnrate_firstyear[i].returnrate==0%>
             <td><center>0</center></td>
             <% else %>
-            <td><%= format("%.2f", @returnrate_firstyear[i].returnrate*100) %>%</td>
+            <% if @returnrate_firstyear[i].returnrate>0%>
+              <td class="txred"><%= format("%.2f", @returnrate_firstyear[i].returnrate*100)  %>%</td>
+                <% else %>
+                <td class="txgreen"><%= format("%.2f", @returnrate_firstyear[i].returnrate*100)  %>%</td>
+                <% end %>
         <% end %>
   <% end %>
   </tr>
-  -->
+
 </table>
 <script type="text/javascript">
     $(document).ready(function() {
