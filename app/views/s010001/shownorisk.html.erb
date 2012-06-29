@@ -5,10 +5,37 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
-<%= button_to "订阅" %>
+<h1>无风险套利策略</h1>
+
+<div id="dingyue">
+  <a  href="/strategy/shownorisk" class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+</a>
+<!--
+  <a  href="/strategy/shownorisk" class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+  </a>
+  <a  href="/strategy/shownorisk" class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+  </a>
+  -->
+</div>
+<!--<%= button_to "订阅" %> -->
 
     <div class="ironbars">
-  <div id = "norisktitle"><br><h3>策略实时运行中</h3></div>
+  <div id = "norisktitle"><h2  class="strategyconduction">策略实时运行中:</h2></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
       </div> <%= @trynotice  %>
 <div id=checkbox>
@@ -104,21 +131,21 @@
     });
 </script>
 <!-- default table -->
-<div id ="rtpricetable"></div> <br>
+<div id ="rtpricetable"></div> <div class="myheight"></div>
 <!-- strategytro -->
-<h3>策略介绍</h3>
+<h2 class="strategyconduction" >策略介绍:</h2>
 <table class="biaoge">
   <tr>
-    <th><h3>交易品种</h3></th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
+    <th>交易品种</th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
   </tr>
   <tr>
-    <th><h3>策略类型</h3></th><td><h3><%= @strategy_norisk.strategyattr  %></h3></td>
+    <th>策略类型</th><td><h3><%= @strategy_norisk.strategyattr  %></h3></td>
   </tr>
   <tr>
-    <th><h3>系统开始时间</h3></th><td ><h3><%= @strategy_norisk.startdate  %></h3></td>
+    <th>系统开始时间</th><td ><h3><%= @strategy_norisk.startdate  %></h3></td>
   </tr>
   <tr>
-    <th class="last"><h3>系统开发者</h3></th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
+    <th class="last">系统开发者</th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
   </tr>
 </table>
 
@@ -140,8 +167,8 @@
             "aaSorting": [[4,"desc"]],
             "aoColumns": [
                 { "sTitle": "套利对名称", "sClass": "center" },
-                { "sTitle": "近月合约价格", "sClass": "center" },
-                { "sTitle": "近月合约价格", "sClass": "center" },
+                { "sTitle": "近月价格", "sClass": "center" },
+                { "sTitle": "近月价格", "sClass": "center" },
                 { "sTitle": "成本", "sClass": "center" },
                 { "sTitle": "年化收益率",  "sType": "formatted-num","sClass": "center" },
                 { "sTitle": "历史时间", "sClass": "center" }
@@ -150,7 +177,7 @@
     });
 </script>
 <br />
-<h2> 历史最佳套利机会 </h2>
+<h2  class="strategyconduction"> 历史最佳套利机会: </h2>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 	  <tbody>
         <% @allmaxreturnrate.each do |maxreturnrate|
@@ -161,42 +188,43 @@
                 <td class="center"><%= maxreturnrate.secondprice %></td>
                 <td class="center"><%= maxreturnrate.cost %></td>
                 <td class="center" type="formatted-num"><%= format("%.1f",maxreturnrate.returnrate*100) %>%</td>
-                <td class="center"><%= maxreturnrate.currenttime.strftime("%Y年%m月%d日 %H时%M分%S秒") %></td>
+                <td class="center"><%= maxreturnrate.currenttime.strftime("%Y.%m.%d. %H:%M:%S") %></td>
               </tr>
             <% end %>
         <% end %>
 	   </tbody>
-      <tfoot>
+<!--      <tfoot>
 	  <tr>
         <th>套利对名称</th>
-        <th>近期合约价格</th>
-        <th>远期合约价格</th>
+        <th>近期价格</th>
+        <th>远期价格</th>
         <th>成本</th>
         <th>年化收益率</th>
         <th>历史时间</th>
       </tr>
 	  </tfoot>
+-->
 </table>
-<br>
-<div class="ironbars">
-     <h3>无风险策略介绍</h3>
- </div>
+<div class="myheight"></div>
+
+     <h2 class="strategyconduction">无风险策略介绍:</h2>
+
 
 <p class="ironbarsp1">无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
 <p class="ironbarsp2">无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
 
 
 <!-- noriskmessage -->
-<br>
- <div class ="remarkslist">
-<h3>提点意见吧?</h3>
+<div class="myheight"></div>
+ <div class="adverise">
+<h2 class="strategyconduction" >提点意见吧？</h2>
  </div>
  <div class = "newremark">
- <iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="250" width="800" marginheight="0" marginwidth="0"></iframe>
+ <iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="220" width="526" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
  </div>
  <div class ="remarkslist">
-   <h3>所有评论</h3>
-<iframe name="iframe_index" src="/noriskmessages" width="800" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+   <h2>所有评论:</h2>
+<iframe name="iframe_index" src="/noriskmessages" width="526" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
  </div>
 <!-- JavaScript -->
 <script type="text/javascript">
@@ -330,8 +358,8 @@
                                  $('#default').dataTable( {
                                  "aaData": tabledata_f,"aaSorting": [[5,"desc"]],"bPaginate": false,
                                         "aoColumns": [
-                                     { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月合约价格", "sClass": "center" },
-                                     { "sTitle": "远月合约价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
+                                     { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月价格", "sClass": "center" },
+                                     { "sTitle": "远月价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
                                              { "sTitle": "持仓成本", "sClass": "center" },
                                      { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
                                                          var sReturn = obj.aData[ obj.iDataColumn ];
@@ -421,4 +449,5 @@
     var stream_flag=0;
 	checktimeMKTime();
     setTimeout(listen_ajax_watchdog,10000) ;
+
 </script>

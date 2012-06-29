@@ -139,17 +139,34 @@ $(document).ready(function(){
 
 <%= yield %>
 </div>
-      <div style="float: right;width: 220px">
-        订阅该系统    <input type="button" value="详细" id="subscribe">
-        <br>该策略的定价为<%= @strategy_norisk.price%>元，您有<%= format("%.0f",@strategy_norisk.trydays)%>天的免费试用期。<br>
+      <div style="float: right;width: 198px">
+      <div id="title-top"><h3>订阅该系统: </h3> </div>  <!--  <input type="button" value="详细" id="subscribe">  -->
+        <br><p id="subscribe">该策略的定价为XX元每月，您有XX天的免费试用期。
+        <a class="btnB"  href="javascript:void(0)">
+<span>
+<span>
+<span id="subscribe">详细</span>
+</span>
+</span>
+        </a>
+        <!--<input type="button" value="详细" id="subscribe"> </p>    -->
         <div id="menuop"></div>
-        <%= button_to "订阅" ,:controller=>"strategys",:action=>"subscribe",:id=>@strategy_norisk.id%>
+  <div id="buttonWrap">
+        <a class="btnOwB" href="/strategy/shownorisk" >
+  <span class="btnOwB">
+  <span class="btnOwB">
+   <span class="btnOwB">订 阅</span>
+   </span>
+   </span>
+        </a>
+   </div>
+       <!-- <%= button_to "订阅" %> -->
         <script type="text/javascript">
             $("#menuop").hide();
             $("#subscribe").click(function(){ <!--点击按钮触发-->
                 if($("#menuop").is(":hidden")){
                     $("#menuop").show();
-                    $("#menuop").html("订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。");
+                    $("#menuop").html("<p id='psubscribe'>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>");
                 }
                 else
                 $("#menuop").hide();
