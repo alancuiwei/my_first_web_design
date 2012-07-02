@@ -45,4 +45,60 @@ class StrategyController < ApplicationController
     end
   end
 
+  def subscribe
+    @strategy=Strategyweb.find(params[:id])
+  end
+
+  def pay
+    @strategy=Strategyweb.find(params[:id])
+    parameters = {
+      'service' => 'create_direct_pay_by_user',
+      'partner' => '2088801189204575',
+      'seller_email' => 'zhongrensoft@gmail.com',
+      'out_trade_no' => '616002006',
+      'subject' => 'hefeng',
+      'price' => '0.01',
+      'quantity' => '1',
+      'payment_type' => '1',
+      '_input_charset' => 'utf-8',
+      'notify_url' => url_for(:only_path => false, :action => 'notify'),
+      'return_url' => url_for(:only_path => false, :action => 'done')
+    }
+
+    values = {}
+    # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
+    parameters.keys.sort.each do |k|
+      values[k] = parameters[k];
+    end
+
+    # 一定要先unescape后再生成sign，否则支付宝会报ILLEGAL SIGN
+    sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
+    gateway = 'https://mapi.alipay.com/gateway.do?'
+    redirect_to gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
+  end
+
+  def notify
+    render :text => 'success'
+  end
+
+  def done
+    if verify_sign
+      render :text => 'Payment successful'
+    else
+      render :text =>'Alipay Error: ILLEGAL_SIGN'
+    end
+  end
+
+  protected
+    def verify_sign
+      params.delete(sign_type)
+      sign = params.delete(sign)
+
+      values = {}
+      params.keys.sort.each do |k|
+        values[k] = params[k];
+      end
+
+      sign.downcase == Digest::MD5.hexdigest(CGI.unescape(values.to_query) +  'xf1fj8kltbbc766co0ziulq1wowejpzm')
+    end
 end
