@@ -1,5 +1,5 @@
 ﻿<%= javascript_include_tag "jquery-latest.pack.js" %>
-对于策略 <%= @strategy.name %> 进行自动化交易设置。<br><br>
+<div style="padding-bottom:20px">对于策略<%= @strategy.name %>进行自动化交易设置。<br><br>
 <%= link_to "点击这里,如果您还未准备好进行自动化交易,想先订阅该策略,通过邮件接收买卖信号." ,:controller =>"strategys",:action =>"subscribe",:id=>@strategy.id  %>
 
 <script type="text/javascript">
@@ -60,12 +60,12 @@ $("." + divin).fadeIn("fast");
     <div id="wizardcontent">
       <%= radio_button_tag "radio_p2", "s1"%>
       华泰长城期货交易公司
-      <div id=showtable>
-        您的华泰长城交易帐号<br>
-        请输入您华泰长城期货帐号的相关信息。<br>
-        输入您的帐号：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %><br>
-        输入您的交易密码：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %><br>
-        <a href='#'>没有该期货公司的帐号？请点击开展开户手续。</a>
+      <div id="showtable">
+        <h2>您的华泰长城交易帐号</h2><br>
+        <h2>请输入您华泰长城期货帐号的相关信息。</h2><br>
+        <h2>输入您的帐号：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %></h2><br>
+        <h2>输入您的交易密码：<%= text_field_tag :lendrate_p,params[:lendrate_p],:size=>3 %></h2><br>
+        <a href='#' class="noaccount">没有该期货公司的帐号？请点击开展开户手续。</a>
       </div>
     </div>
     <div class="buttons">
