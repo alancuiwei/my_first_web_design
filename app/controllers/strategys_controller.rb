@@ -156,7 +156,13 @@ class StrategysController < ApplicationController
 
   def wait
     @strategyweb = Strategyweb.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    Thread.new {
+    system "/ZRSoftware/Tools/startBuildTest.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
+    }
+
   end
+
 
   def mysubmit
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -265,12 +271,17 @@ class StrategysController < ApplicationController
           stgweb.control='strategys'
           stgweb.startdate=DateTime.strptime(@strategyparams.elements.to_a("//startdate")[0].text,"%Y-%m-%d").to_s(:db)
           stgweb.anreturn=1
+          stgweb.configtype='database'
           stgweb.save
         end
 
+        Thread.new {
+            system "/ZRSoftware/Tools/startBuildTest.sh 'database' '"+@strategyparams.elements.to_a("//strategyid")[0].text+"' '"+@webuser.id.to_s+"' '"+@ordernum.to_s+"'"
+            }
       end
 
      end
+
   end
 
   def subscribe
