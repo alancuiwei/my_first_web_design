@@ -51,54 +51,68 @@ class StrategyController < ApplicationController
 
   def pay
     @strategy=Strategyweb.find(params[:id])
+  end
+
+  def prealipay
+    @strategy=Strategyweb.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
+    @subsribe_id=Time.now.to_s(:stamp)+@webuser.id.to_s
+
     parameters = {
       'service' => 'create_direct_pay_by_user',
       'partner' => '2088801189204575',
+      '_input_charset' => 'utf-8',
+      'return_url' => 'http://127.0.0.1:3000/strategy/done/'+@strategy.id.to_s,
       'seller_email' => 'zhongrensoft@gmail.com',
-      'out_trade_no' => '616002006',
-      'subject' => 'hefeng',
-      'price' => '0.01',
+      'out_trade_no' => @subsribe_id,
+      'subject' => @strategy.name+'订阅',
+      'price' => @strategy.price,
       'quantity' => '1',
       'payment_type' => '1',
-      '_input_charset' => 'utf-8',
-      'notify_url' => url_for(:only_path => false, :action => 'notify'),
-      'return_url' => url_for(:only_path => false, :action => 'done')
     }
-
     values = {}
     # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
     parameters.keys.sort.each do |k|
       values[k] = parameters[k];
     end
-
     # 一定要先unescape后再生成sign，否则支付宝会报ILLEGAL SIGN
     sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
     gateway = 'https://mapi.alipay.com/gateway.do?'
-    redirect_to gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
-  end
-
-  def notify
-    render :text => 'success'
+    @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
   end
 
   def done
-    if verify_sign
-      render :text => 'Payment successful'
-    else
-      render :text =>'Alipay Error: ILLEGAL_SIGN'
-    end
-  end
-
-  protected
-    def verify_sign
-      params.delete(sign_type)
-      sign = params.delete(sign)
+    @notice="交易失败"
+    @webuser = Webuser.find_by_id(params[:out_trade_no].slice(14,2).to_i)
+    @strategy=Strategyweb.find(params[:id])
+    params.delete("sign_type")
+    params.delete("id")
+    params.delete("action")
+    params.delete("controller")
+    sign = params.delete("sign")
 
       values = {}
       params.keys.sort.each do |k|
         values[k] = params[k];
       end
 
-      sign.downcase == Digest::MD5.hexdigest(CGI.unescape(values.to_query) +  'xf1fj8kltbbc766co0ziulq1wowejpzm')
+    if sign.downcase == Digest::MD5.hexdigest(CGI.unescape(values.to_query) +  'xf1fj8kltbbc766co0ziulq1wowejpzm') && params[:trade_status]=='TRADE_SUCCESS'
+      @notice="交易成功"
+       if Subscribetable.find_by_subscribeid(params[:out_trade_no])==nil
+       Subscribetable.new do |s|
+         s.subscribeid=params[:out_trade_no]
+         s.strategyid=@strategy.strategyid
+         s.ordernum=@strategy.ordernum
+         s.strategy_userid=@strategy.userid
+         s.subscribe_userid=@webuser.id
+         s.price=@strategy.price
+         s.subscribedays=30
+         s.subscribedate=Time.now.to_s(:db)
+         s.save
     end
+end
+    end
+  end
+
 end

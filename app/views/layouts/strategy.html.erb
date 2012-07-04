@@ -153,6 +153,15 @@ $(document).ready(function(){
         <div id="menuop"></div>
   <div id="buttonWrap">
     <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
+    <% if session[:webuser_name]==nil %>
+        <a class="btnOwB" href="/sessions/new" >
+          <span class="btnOwB">
+            <span class="btnOwB">
+             <span class="btnOwB">订 阅</span>
+             </span>
+             </span>
+        </a>
+          <% else %>
         <a class="btnOwB" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >
   <span class="btnOwB">
   <span class="btnOwB">
@@ -160,6 +169,7 @@ $(document).ready(function(){
    </span>
    </span>
         </a>
+    <% end %>
    </div>
        <!-- <%= button_to "订阅" %> -->
         <script type="text/javascript">
@@ -178,7 +188,6 @@ $(document).ready(function(){
   </div>
 <div class="clr"></div>
 </div>
-
 </div>
 </body>
 </html>
