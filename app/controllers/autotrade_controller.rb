@@ -20,8 +20,8 @@ class AutotradeController < ApplicationController
       #@decode = decode(@encode).slice(@webuser.salt.size,decode(@encode).size)
       @webuser.update_attribute(:ctp_account,params[:account])
       @webuser.update_attribute(:ctp_password,encode(@webuser.salt+params[:password],@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)))
-      @webuser.update_attribute(:ctp_brokerid ,params[:brokerid])
-      @webuser.update_attribute(:ctp_frontaddr ,params[:frontaddr])
+      @webuser.update_attribute(:ctp_brokerid ,'2030')
+      @webuser.update_attribute(:ctp_frontaddr ,'tcp://asp-sim2-dx-front1.financial-trading-platform.com:26205')
     end
     #@decode = decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).slice(@webuser.salt.size,decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).size)
   end

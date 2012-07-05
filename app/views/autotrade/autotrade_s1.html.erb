@@ -27,6 +27,7 @@ $("." + divin).fadeIn("fast");
       期货交易
     </div>
     <script type="text/javascript">
+
       function myop1(){
         //if($("#test").attr("checked")==true)
              if ($("#radio_p_s1").attr("checked")=="checked")
@@ -36,8 +37,15 @@ $("." + divin).fadeIn("fast");
       }
       function myop2(){
         //if($("#test").attr("checked")==true)
-             if ($("#radio_p2_s1").attr("checked")=="checked")
+             if ($("#radio_p2_s1").attr("checked")=="checked"){
+                 if($("#account").attr("value")==""||$("#password").attr("value")==""){
+                    alert("账号或者密码为空！")
+                 }
+                 else{
                 loadnext(2,3);
+                 }
+             }
+
           else
              alert("请选择内容！")
       }
@@ -64,10 +72,8 @@ $("." + divin).fadeIn("fast");
       <div id="showtable">
         <h2>您的华泰长城交易帐号</h2><br>
         <h2>请输入您华泰长城期货帐号的相关信息。</h2><br>
-        <h2>输入您的帐号：<%= text_field_tag :account,params[:account],:size=>3 %>
-        输入您的交易密码：<%= password_field_tag :password,params[:password],:size=>3 %>  </h2>
-          <h2>输入您的brokerid：<%= text_field_tag :brokerid,params[:brokerid],:size=>3 %>
-        输入您的frontaddr：<%= text_field_tag :frontaddr,params[:frontaddr],:size=>3 %> </h2>
+        <h2>输入您的帐号：<%= text_field_tag :account,params[:account],:size=>3,:value=>"" %> </h2><br>
+         <h2>输入您的交易密码：<%= password_field_tag :password,params[:password],:size=>3,:value=>"" %> </h2><br>
         <a href='#' class="noaccount">没有该期货公司的帐号？请点击开展开户手续。</a>
       </div>
     </div>
