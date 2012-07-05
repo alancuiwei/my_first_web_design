@@ -1,4 +1,5 @@
 ﻿#encoding: utf-8
+require 'openssl'
 class AutotradeController < ApplicationController
   def index
     @profitchart_arr=Array.new
@@ -10,15 +11,19 @@ class AutotradeController < ApplicationController
 
     @strategy_subscribe=Strategyweb.find(:all,:conditions =>["price>0"])
   end
-  def demo
-
-  end
 
   def autotrade_s1
     @strategy=Strategyweb.find(params[:id])
-  end
-  def autotrade_s2
+    @webuser = Webuser.find_by_name(session[:webuser_name])
 
+    if params[:account]!=nil&&params[:password]!=nil &&  (@webuser.ctp_account==nil||@webuser.ctp_account=="" )
+      #@decode = decode(@encode).slice(@webuser.salt.size,decode(@encode).size)
+      @webuser.update_attribute(:ctp_account,params[:account])
+      @webuser.update_attribute(:ctp_password,encode(@webuser.salt+params[:password],@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)))
+      @webuser.update_attribute(:ctp_brokerid ,params[:brokerid])
+      @webuser.update_attribute(:ctp_frontaddr ,params[:frontaddr])
+    end
+    #@decode = decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).slice(@webuser.salt.size,decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).size)
   end
 
   def showror
@@ -27,6 +32,16 @@ class AutotradeController < ApplicationController
   end
   def personaltrading
     #gettime for ajax refresh
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil
+      if @webuser.ctp_account!=nil&& @webuser.ctp_account!=""
+    ctp_account=@webuser.ctp_account
+    ctp_password=decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).slice(@webuser.salt.size,decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).size)
+    ctp_brokerid =@webuser.ctp_brokerid
+    ctp_frontaddr=@webuser.ctp_frontaddr
+      end
+    end
+
     if params[:gettime_p]!=nil
         @gettime_p=Time.now
         puts @gettime_p
@@ -213,4 +228,26 @@ class AutotradeController < ApplicationController
     redirect_to :controller=>"strategy" ,:action=>"showror"
     end
   end
+  #protected
+    ALG = 'DES-EDE3-CBC'
+    #KEY = "lili_925"
+    #DES_KEY = "feifan_5"
+  def encode(str,key,des_key)
+      des = OpenSSL::Cipher::Cipher.new(ALG)
+      des.pkcs5_keyivgen(key, des_key)
+      des.encrypt
+      cipher = des.update(str)
+      cipher << des.final
+      return Base64.encode64(cipher) #Base64编码，才能保存到数据库
+    end
+
+    #解密
+    def decode(str,key,des_key)
+      str = Base64.decode64(str)
+      des = OpenSSL::Cipher::Cipher.new(ALG)
+      des.pkcs5_keyivgen(key, des_key)
+      des.decrypt
+      des.update(str) + des.final
+    end
+
 end

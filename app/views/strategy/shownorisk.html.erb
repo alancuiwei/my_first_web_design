@@ -6,6 +6,8 @@
 </style>
 -->
 <h1>无风险套利策略</h1>
+<% if session[:webuser_name]!=nil %>
+    <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
 <div id="dingyue">
   <a  href="/strategy/subscribe/<%=@strategy_norisk.id%>" class="btnBb">
 <span class="btnBb">
@@ -14,23 +16,31 @@
 </span>
 </span>
 </a>
-<!--
-  <a  href="/strategy/shownorisk" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
-</span>
-</span>
-  </a>
-  <a  href="/strategy/shownorisk" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
-</span>
-</span>
-  </a>
-  -->
 </div>
+    <% else %>
+        <div id="dingyue">
+              <a  href="javascript:void(0)" class="btnBb" onclick="issubscribe()">
+<span class="btnBb">
+<span class="btnBb">
+            <span class="btnBb">已订阅</span>
+</span>
+</span>
+  </a>
+            </div>
+    <% end %>
+    <% else %>
+
+    <div id="dingyue">
+      <a  href="/sessions/new" class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+  </a>
+</div>
+
+    <% end %>
 <!--<%= button_to "订阅" %> -->
 
     <div class="ironbars">

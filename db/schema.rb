@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120704022317) do
+ActiveRecord::Schema.define(:version => 20120705011055) do
 
   create_table "arbcostmaxreturnrate_v", :id => false, :force => true do |t|
     t.string   "pairname",    :limit => 20
@@ -206,6 +206,10 @@ ActiveRecord::Schema.define(:version => 20120704022317) do
     t.integer  "level"
     t.datetime "leveldate"
     t.string   "collect"
+    t.text     "ctp_account"
+    t.text     "ctp_password"
+    t.text     "ctp_brokerid"
+    t.text     "ctp_frontaddr"
   end
 
   create_table "webuserstrategy", :force => true do |t|
