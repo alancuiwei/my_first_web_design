@@ -15,6 +15,8 @@ class SessionsController < ApplicationController
       redirect_to(:controller=>"strategy", :action=>"shownorisk")
     elsif session[:login]=="personaltrading"
       redirect_to(:controller=>"autotrade", :action=>"personaltrading")
+    elsif session[:login]="autotrade_s1"
+      redirect_to(:controller=>"autotrade", :action=>"autotrade_s1",:id=>Strategyweb.find_by_name("无风险套利").id)
     elsif session[:login]=="userrateofreturn"
       redirect_to(:controller=>"autotrade", :action=>"personaltrading")
     elsif session[:login]=="usermanagement"
@@ -24,7 +26,16 @@ class SessionsController < ApplicationController
     end
 	  end
 	else
+    if request.post?
+      if params[:commit]!=nil
 		redirect_to login_url, :alert =>"用户名或密码错误！"
+      else
+        redirect_to login_url
+      end
+    else
+      redirect_to login_url, :alert =>"用户名或密码错误！"
+    end
+
 	end
   end
 

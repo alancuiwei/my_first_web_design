@@ -1,7 +1,7 @@
 ﻿<%= javascript_include_tag "jquery-latest.pack.js" %>
 <% if @webuser!=nil %>
 <div style="padding-bottom:20px">对于策略<%= @strategy.name %>进行自动化交易设置。<br><br></div>
-<%= link_to "点击这里,如果您还未准备好进行自动化交易,想先订阅该策略,通过邮件接收买卖信号." ,:controller =>"strategys",:action =>"subscribe",:id=>@strategy.id  %>
+<%= link_to "点击这里,如果您还未准备好进行自动化交易,想先订阅该策略,通过邮件接收买卖信号." ,:controller =>"strategy",:action =>"subscribe",:id=>@strategy.id  %>
 
 <script type="text/javascript">
 function loadnext(divout,divin){
@@ -95,6 +95,22 @@ $("." + divin).fadeIn("fast");
     </ul> <br><br><br>
     <div id="wizardcontent">
 
+
+      <p>如果您想让您的套利成本，年化收益率计算更加准确，则您可点击下面按钮进行相应选项设置。</p>
+
+      <div id = "tradefeebutton">
+        <%= button_to "手续费修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
+      </div>
+      <div id = "marginbutton">
+        <%= button_to "保证金比例修改",:controller=>"usermanagement" ,:action=>"usertrademargin", :id=>@webuser.id%>
+      </div>
+      <div id = "lendatefeebutton">
+        <%= button_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
+      </div>
+      <br />
+      <div id = "nextbutton">
+        <%= link_to "下一步：年化收益率设置",:controller=>"strategy" ,:action=>"userreturnrate", :id=>@webuser.id%>
+      </div>
     </div>
     <div class="buttons">
       <a href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> <%= image_tag "arrow_left.png"  %> 返回 </a>

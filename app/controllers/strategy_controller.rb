@@ -4,9 +4,8 @@ require 'rubygems'
 #require 'iconv'
 class StrategyController < ApplicationController
 
-
-
   def shownorisk
+    session[:login]="shownorisk"
     @allmaxreturnrate=ArbcostmaxreturnrateV.all
     @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")
     #gettime for ajax refresh

@@ -13,6 +13,7 @@ class AutotradeController < ApplicationController
   end
 
   def autotrade_s1
+    session[:login]="autotrade_s1"
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
 
