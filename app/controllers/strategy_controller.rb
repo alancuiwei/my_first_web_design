@@ -16,6 +16,7 @@ class StrategyController < ApplicationController
     end
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     #db (struct)
     db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap,:tradechargetype)
     @db=Array.new
@@ -40,6 +41,9 @@ class StrategyController < ApplicationController
           @webuser.level=0
           @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
         end
+      elsif @webuser.level==1
+        @sub_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
+        @trynotice="您是订阅用户，还有"+(@subscribe.subscribedays-@sub_days).to_i.to_s+"天的使用天数！"
       end
     end
   end
@@ -84,6 +88,7 @@ class StrategyController < ApplicationController
   def done
     @notice="交易失败"
     @webuser = Webuser.find_by_id(params[:out_trade_no].slice(14,2).to_i)
+    session[:webuser_name]=@webuser.name
     @strategy=Strategyweb.find(params[:id])
     params.delete("sign_type")
     params.delete("id")
@@ -110,6 +115,7 @@ class StrategyController < ApplicationController
          s.subscribedate=Time.now.to_s(:db)
          s.save
     end
+       @webuser.update_attribute(:level,1)
 end
     end
   end

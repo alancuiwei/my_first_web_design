@@ -183,6 +183,7 @@ class AutotradeController < ApplicationController
     session[:login]="personaltrading"
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     #stg010001
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
         if params[:pairname_p]!=nil
@@ -240,6 +241,9 @@ class AutotradeController < ApplicationController
           @webuser.level=0
           @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
         end
+      elsif @webuser.level==1
+        @sub_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
+        @trynotice="您是订阅用户，还有"+(@subscribe.subscribedays-@sub_days).to_i.to_s+"天的使用天数！"
       end
     end
 
