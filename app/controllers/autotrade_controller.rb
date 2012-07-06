@@ -1,5 +1,8 @@
 ﻿#encoding: utf-8
 require 'openssl'
+require 'ctrader'
+require 'iconv'
+require 'yaml'
 class AutotradeController < ApplicationController
   def index
     @profitchart_arr=Array.new
@@ -21,8 +24,8 @@ class AutotradeController < ApplicationController
       #@decode = decode(@encode).slice(@webuser.salt.size,decode(@encode).size)
       @webuser.update_attribute(:ctp_account,params[:account])
       @webuser.update_attribute(:ctp_password,encode(@webuser.salt+params[:password],@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)))
-      @webuser.update_attribute(:ctp_brokerid ,'2030')
-      @webuser.update_attribute(:ctp_frontaddr ,'tcp://asp-sim2-dx-front1.financial-trading-platform.com:26205')
+      @webuser.update_attribute(:ctp_brokerid ,'8080')
+      @webuser.update_attribute(:ctp_frontaddr ,'tcp://gwf-front1.financial-trading-platform.com:41205')
     end
     #@decode = decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).slice(@webuser.salt.size,decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).size)
   end
@@ -53,8 +56,19 @@ class AutotradeController < ApplicationController
       puts params[:name]
       puts params[:disprice]
       begin
-	l_trader = Ctrader::CTrader.new()
-        l_rtn = l_trader.ExtOrderinsert(params[:name],-(params[:disprice].to_i))
+		#l_trader = Ctrader::CTrader.new()
+		#l_rtn = l_trader.ExtOrderinsert(params[:name],-(params[:disprice].to_i))
+		l_tradreinfo=Ctrader::STraderInfo.new
+		l_tradreinfo.frontaddr = ctp_frontaddr
+		l_tradreinfo.brokerid = ctp_brokerid
+		l_tradreinfo.investorid = ctp_account
+		l_tradreinfo.password = ctp_password
+		l_trader = Ctrader::CTrader.new(l_tradreinfo)
+		l_trader.StartTrader()
+		l_orderinsert = Ctrader::CThostFtdcInputOrderField.new 
+		l_orderinsert.InstrumentID = params[:name]
+		l_orderinsert.LimitPrice = -(params[:disprice].to_i)
+		l_rtn = l_trader.ExtOrderinsert(l_orderinsert)         
         l_str = ""
 	if l_rtn<0
 	   puts "insertorder error:#{l_trader.rspinfo.ErrorMsg}"
@@ -72,7 +86,6 @@ class AutotradeController < ApplicationController
 	    puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
 	end
 	      puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
-
       rescue => e
         render:js => "alert('failed:#{e}')"
       end
@@ -82,9 +95,13 @@ class AutotradeController < ApplicationController
       puts "##########"
       puts params[:name_s]
      begin
-	    l_trader = Ctrader::CTrader.new()
+		l_tradreinfo = Ctrader::STraderInfo.new
+		l_tradreinfo.frontaddr = ctp_frontaddr
+		l_tradreinfo.brokerid = ctp_brokerid
+		l_tradreinfo.investorid = ctp_account
+		l_tradreinfo.password = ctp_password
+		l_trader = Ctrader::CTrader.new(l_tradreinfo)
 	    l_trader.StartTrader()
-
 	    l_orderqury=Ctrader::CThostFtdcQryOrderField.new
 	    l_orderqury.InstrumentID = params[:name_s]
 	    l_orderqury.InsertTimeStart = ""
