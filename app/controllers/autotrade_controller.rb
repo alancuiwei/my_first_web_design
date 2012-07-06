@@ -183,7 +183,6 @@ class AutotradeController < ApplicationController
     session[:login]="personaltrading"
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     #stg010001
     @stg010001 = Stg010001.find_all_by_username(session[:webuser_name])
         if params[:pairname_p]!=nil
@@ -226,6 +225,7 @@ class AutotradeController < ApplicationController
         @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap,@defaultusercommodity[i].tradechargetype)
     end
     else
+      @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
       @userflag=1
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
       @dbnum=@usercommodity.size

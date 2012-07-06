@@ -1,7 +1,5 @@
 ﻿#encoding: utf-8
 require 'rubygems'
-#require 'ctrader'
-#require 'iconv'
 class StrategyController < ApplicationController
 
   def shownorisk
@@ -16,7 +14,6 @@ class StrategyController < ApplicationController
     end
     #webuser
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     #db (struct)
     db=Struct.new(:commodityid,:lendrate,:tradecharge,:trademargingap,:tradechargetype)
     @db=Array.new
@@ -27,6 +24,7 @@ class StrategyController < ApplicationController
         @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap,@defaultusercommodity[i].tradechargetype)
     end
     else
+      @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
       @dbnum=@usercommodity.size
     for i in 0..@usercommodity.size-1 do
