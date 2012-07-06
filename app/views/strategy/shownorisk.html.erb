@@ -16,6 +16,13 @@
 </span>
 </span>
 </a>
+  <a  href="/autotrade/personaltrading" class="btnBa">
+<span class="btnBa">
+<span class="btnBa">
+<span class="btnBa">自动化交易</span>
+</span>
+</span>
+</a>
 </div>
     <% else %>
         <div id="dingyue">
@@ -26,6 +33,13 @@
 </span>
 </span>
   </a>
+          <a  href="/autotrade/personaltrading" class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">自动化交易</span>
+        </span>
+        </span>
+        </a>
             </div>
     <% end %>
     <% else %>
@@ -38,6 +52,13 @@
 </span>
 </span>
   </a>
+      <a  href="/sessions/new" class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">自动化交易</span>
+    </span>
+    </span>
+    </a>
 </div>
 
     <% end %>
@@ -60,7 +81,7 @@
         buttons: [
           {type: 'btn btn-primary', text: '登录', click: function($noty) {
               $noty.close();
-              window.location.href='../sessions/new';
+              window.location.href='/sessions/new';
             }
           },
           {type: 'btn btn-danger', text: '取消', click: function($noty) {
@@ -74,9 +95,9 @@
     function notyAlertWithButtons_0(layout, theme){
       noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
         buttons: [
-          {type: 'btn btn-primary', text: '确定', click: function($noty) {
+          {type: 'btn btn-primary', text: '请先订阅策略', click: function($noty) {
               $noty.close();
-              noty({force: true, layout : layout, theme : theme, text: '找管理员！', type: 'error'});
+              window.location.href='/strategy/subscribe/1';
             }
           },
           {type: 'btn btn-danger', text: '取消', click: function($noty) {

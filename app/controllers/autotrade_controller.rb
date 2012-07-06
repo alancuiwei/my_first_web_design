@@ -1,6 +1,6 @@
 ﻿#encoding: utf-8
 require 'openssl'
-require 'ctrader'
+#require 'ctrader'
 require 'iconv'
 require 'yaml'
 class AutotradeController < ApplicationController
@@ -27,6 +27,21 @@ class AutotradeController < ApplicationController
       @webuser.update_attribute(:ctp_brokerid ,'8080')
       @webuser.update_attribute(:ctp_frontaddr ,'tcp://gwf-front1.financial-trading-platform.com:41205')
     end
+
+    @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
+
+    if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
+      @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
+      for i in 0..@stg010001s.size-1
+            @stg010001s[i].destroy
+      end
+    end
+
+    if  params[:paramvalue]!=nil
+    @strategyparam.update_attribute(:paramvalue,params[:paramvalue].to_d/100)
+    redirect_to :controller=>"autotrade" ,:action=>"personaltrading"
+    end
+
     #@decode = decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).slice(@webuser.salt.size,decode(@webuser.ctp_password,@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)).size)
   end
 
@@ -243,9 +258,14 @@ class AutotradeController < ApplicationController
 
     if  params[:paramvalue]!=nil
     @strategyparam.update_attribute(:paramvalue,params[:paramvalue].to_d/100)
-    redirect_to :controller=>"strategy" ,:action=>"showror"
+    redirect_to :controller=>"autotrade" ,:action=>"showror"
     end
   end
+
+  def aboutautotrade
+
+  end
+
   #protected
     ALG = 'DES-EDE3-CBC'
     #KEY = "lili_925"
