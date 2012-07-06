@@ -1,6 +1,6 @@
 ﻿#encoding: utf-8
 require 'openssl'
-#require 'ctrader'
+require 'ctrader'
 require 'iconv'
 require 'yaml'
 class AutotradeController < ApplicationController
