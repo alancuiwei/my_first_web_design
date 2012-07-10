@@ -1,5 +1,5 @@
 ﻿@charset "utf-8";
-body { margin:0; padding:0; width:100%; background:#2e597b url(main_bg.jpg) top repeat-x; }
+body {  padding:0; width:100%; background:#ffffff }
 html { padding:0; margin:0; }
 h2{font-weight:normal;}
 h2.strategyconduction {height:20px;}
@@ -7,6 +7,7 @@ h2.strategyconduction {height:20px;}
      width:526px;
      height:40px;
  }
+
 form.button_to div input {
    border-top: 1px solid #96d1f8;
    background: #65a9d7;
@@ -207,30 +208,37 @@ a.btnOwB :hover  {
 }
    
 /* main */
-.main { width:100%; padding:0; margin:0 auto; }
-.resize { width:966px; margin:0 auto; }
+.main { width:100%; padding:0; margin:0 auto;background-color:#fff; }
+.resize { width:900px; margin:0 auto; }
 /********** header **********/
-.block_header { margin:0 auto; width:966px; }
+.block_header { margin:0 auto; width:900px; }
 /* logo + userlogin bar */
 /*.logo_bar{margin-top:30px;padding:10px 0px 0px 0px;height:80px;width:auto;} */
 /* logo */
-.logoimage { float:left; padding:0; margin:30px 0 5px 0; width:240px; height:72px;}
+.logoimage { float:left; padding:0; margin:0px 0 5px 0; width:200px; height:90px;}
 
 /*login & register*/
-.register {float:right;padding:10px 10px;margin:74px 0 0 0;}
-.register a {text-decoration:none;font:normal 15px "Hiragino Sans GB W3";color:#FFF;}
-.register a:hover{color:#FF9933;text-decoration:underline;}
+.register {float:right;padding:0px 0px;margin:50px 30px 0 0;width:30px;}
+.registerimg{width:30px;height:23px;margin-left:-6px;
+    background:#fff url(dengru.gif) no-repeat right top;}
+.register a {text-decoration:none;font:normal 12px 微软雅黑;color:#cdcdcd;}
+.register a:hover{color:#cdcdcd;text-decoration:none;}
 .register a:active{color:#FF9933;text-decoration:underline;}
-.login {float:right;padding:10px 0;margin:74px 0 0 0;}
-.login a {text-decoration:none;font:normal 15px "Hiragino Sans GB W3";color:#FFF;}
-.login a:hover{color:#FF9933;text-decoration:underline;}
+.login {float:right;padding:0px 0;margin:50px 0 0 0;width:28px}
+.loginimg{width:28px;height:23px;margin-left:-6px;
+    background:#fff url(dengru.gif) no-repeat left top;}
+.logandreg{float:right;margin:48px 4px 0 0 ;width:5px;height:20px;background:#fff url(logreg.gif) no-repeat ;}	
+	
+	
+.login a {text-decoration:none;font:normal 12px 微软雅黑;color:#cdcdcd;}
+.login a:hover{color:#cdcdcd;text-decoration:none;}
 .login a:active{color:#FF9933;text-decoration:underline;}
 .welcomeuser {float:right;padding:0 20px 10px 10px;margin:64px 0 0 200px;}
 .welcomeuser p {font:normal 15px "Hiragino Sans GB W3";color:#FF9933;}
 .welcomeuser a{color:#FF9933;}
 /* menu */	
 /*style the main menu*/
-.menu { padding:0; margin:0; width:966px; height:54px; background-color:#303030; }
+.menu { padding:0; margin:0; width:900px; height:54px; background-color:#303030; }
 .menu li {
     list-style:none;
     float:left;height:54px;
@@ -271,10 +279,54 @@ a.btnOwB :hover  {
 .menu li ul li a:hover {
 	background-color:#303030;
 }
+/*menuMain*/
+
+
+#menuMain{background:#666 url(menucorner_tl.gif) no-repeat left top;z-index:999998;height:34px;width:900px;}
+#menuMain div{background:url(menucorner_tr.gif) no-repeat right top}
+#menuMain div div{background:url(menucorner_bl.gif) no-repeat left bottom}
+#menuMain div div div{background:url(menucorner_br.gif) no-repeat right bottom}
+#menuMain ul{width:832px;margin:0;padding:2px 0 2px 68px;list-style:none}
+#menuMain ul:after{height:0;clear:both;content:"";display:block}
+#menuMain li{ width:150px;float:left;margin-right:1px;z-index:999998}
+#menuMain a{float:left;color:#fff;font-size:15px;font-weight:normal;text-decoration:none;font-family:微软雅黑}
+#menuMain a span{float:left;cursor:pointer}
+#menuMain a span span span{padding:4px 15px}
+#menuMain a:hover,
+#menuMain a.simHover{background:#999999 url(btnGb_tl.gif) no-repeat left top;color:#fff}
+#menuMain a:hover span,
+#menuMain a.simHover span{background:url(btnGb_tr.gif) no-repeat right top}
+#menuMain a:hover span span,
+#menuMain a.simHover span span{background:url(btnGb_bl.gif) no-repeat left bottom}
+#menuMain a:hover span span span,
+#menuMain a.simHover span span span{background:url(btnGb_br.gif) no-repeat right bottom}
+#menuMain li.active a{background:#d72721 url(zuoshang.gif) no-repeat left top;color:#000}
+#menuMain li.active a span{background:url(youshangjiao.gif) no-repeat right top}
+#menuMain li.active a span span{background:url(zuoxiajiao.gif) no-repeat left bottom}
+#menuMain li.active A span span span{background:url(youxiajiao.gif) no-repeat right bottom}
+#menuMain ul li{position:relative;height:1%;z-index:999998}
+#menuMain ul li div.level{z-index:999998;display:none;width:134px;position:absolute;left:0;top:26px;background:#999 url(head.gif) no-repeat;overflow:hidden}
+#menuMain a:hover,#menuMain ul li:hover a,#menuMain ul li.hover a{background:#999999 url(btnGb_tl.gif) no-repeat left top;color:#fff}
+#menuMain a:hover span,#menuMain ul li:hover a span,#menuMain ul li.hover a span{background:url(btnGb_tr.gif) no-repeat right top}
+#menuMain a:hover span span,#menuMain ul li:hover a span span,#menuMain ul li.hover a span span{background:url(btnGb_bl.gif) no-repeat left bottom}#menuMain a:hover span span span,#menuMain ul li:hover a span span span,#menuMain ul li.hover a span span span{background:url(btnGb_br.gif) no-repeat right bottom}
+#menuMain ul li:hover div.level,
+#menuMain ul li.hover div.level{display:block;z-index:999998}
+#menuMain ul li div.level ul{padding:6px 0;width:134px;overflow:hidden;z-index:999998}
+#menuMain ul li div.level ul li{width:134px;float:left;z-index:999998}
+#menuMain ul li:hover div.level ul li a,
+#menuMain ul li.hover div.level ul li a,
+#menuMain div.level ul li a{ text-align:left;width:134px;padding:3px 18px;font-size:12px;color:#fff;border-top:1px solid #878787;position:relative;z-index:999998}
+#menuMain ul li div.level ul li.begin a{border:none}
+
 /********** slider **********/
-.slider { margin:0 auto; padding:0; width:966px;height:348px; }
+
+.slider { margin:0 auto; padding:0; width:900px;height:380px; }
+.bannerl{float:left; width:14px;height:380px;background:url(banner_di_left.gif)  no-repeat;}
+.liubaileft{float:left;width:8px;height:380px;background-color:#fff;}
+.liubairight{float:right;width:8px;height:380px;background-color:#fff;}
+.bannerr{float:right; width:13px;height:380px;background:url(banner_di_right.gif)  no-repeat;}
 /*.slider23 { margin:0px 0px 0px 0px ; padding:0; } */
-.slice12 { margin:0 auto; width:966px; padding:0; background:url(bg_simple2.png) top no-repeat; height:93px; }
+.slice12 { margin:0 auto; width:966px; padding:0; background:url(bg_simple2.gif) top no-repeat; height:93px; }
 /*.slice13 { margin:-21px 0px 0 149px; width:966px; padding:0; background:url(bg_simple2.png) top no-repeat; height:93px; }*/
 /* .slice14 { margin:-21px 0px 0 157px;*margin:-18px 0px 0 146px; width:966px; padding:0; background:url(bg_simple2.png) top no-repeat; height:93px; } */
 .slice12 h2 { font: normal 40px "Hiragino Sans GB W3", "Times New Roman", Times, serif; color:#1c1d1c; padding:20px 40px; margin:0; }
@@ -284,13 +336,23 @@ a.btnOwB :hover  {
 /*simple text*/
 .simple { width:966px; margin:0 auto; padding:0; }
 .simple .text { font:normal 12px Hiragino Sans GB W3, Helvetica, sans-serif; color:#858585; width:200px; float: right; margin:10px 0; padding:0; }
-.slider div.slice1 { margin:0 auto; width:966px; padding:0; }
+.slider div.slice1 {float:left; margin:0 auto; width:857px; padding:0;background:url(banner_dise.gif) repeat-x ; }
 .slider div.slice1 div.slice2 { margin:0 auto; padding:1px; }
-.slider div div div { position:relative;margin:0 auto; padding:0; width:966px; height:348px; background:url(bg_simple.png) top no-repeat; }
-.slider div div div h2 {   font:normal 40px Hiragino Sans GB W6, "Times New Roman", Times, serif; color:#1c1d1c; padding:30px 0 0 40px; margin:0; line-height:1.2em; }
-.slider div div div p {   font:normal 16px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#262626; margin:0; padding:10px 0 0 40px; line-height:1.8em; }
-.slider div div div p.img {  float:right; padding:35px 0 0 0; margin:0; }
+.slider div div div { position:relative;margin:0 auto; padding:0; width:894px; height:380px; }
+
+.slider div div div div{float:left;width:300px;height:280px;margin-top:100px; } 
+#banner3{float:left;margin:0 0 0 50px;width:260px;height:133px;background:url(banner_text3.jpg) no-repeat; }
+#banner2{float:left;margin:0 0 0 50px;width:240px;height:133px;background:url(banner_text2.jpg) no-repeat; }
+#banner1{float:left;margin:0 0 0 50px;width:240px;height:133px;background:url(banner_text1.jpg) no-repeat; }
+.slider div div div div div p{float:left;ont:normal 14px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#6b6b6a;padding:170px 0 0 0px}
+
+.slider div div div p {   font:normal 14px 微软雅黑, "Times New Roman", Times, serif; color:#8d8d8d; margin:0; padding:40px 0 0 50px; line-height:1.8em; text-decoration:underline;}
+.slider div div div p.img {  float:left; padding:60px 0 0 0; margin:0 0 0 40px; }
 img{border:0}
+.zhongjian{width:886px;height:12px;margin: 0 auto;padding:20px 0 15px 0;}
+.zhongjianleft{float:left;width:33px;height:12px;background:url(zhongjian_left.gif) no-repeat 0 0;}
+.zhongjiandise{float:left;width:824px;height:12px;background:url(zhongjian_dise.gif) repeat-x 0 0;}
+.zhongjianright{float:left;width:31px;height:12px;background:url(zhongjian_right.gif) no-repeat 0 0; margin-left:-2px;}
 /********** block index **********/
 .body { padding:0; margin:0; }
 .body h2 { font:normal 24px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#373737; padding:10px 5px; margin:0; }
@@ -300,19 +362,41 @@ img{border:0}
 .body strong { color:#656565; }
 .body span { font:bold 11px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#baa271; }
 .body em { font:italic 11px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#8d8d8d; line-height:1.8em; padding:10px 0 0 10px; }
-.body_resize { width:966px; margin:0 auto; padding:0 0 30px 0; background:#fff; border-bottom:5px solid #0e0e0e; }
+.body_resize { width:900px; margin:0 auto; padding:0 0 30px 0; background:#fff; border-bottom:5px solid #0e0e0e; }
 .body_resize_login { width:966px; margin:0 auto; padding:0 0 30px 0; background-image:url(login_background.jpg); border-bottom:5px solid #0e0e0e; }
 /********************topi***************/
-.topi { width:946px; margin:0 auto; padding:0 0 0 20px; background:#f2f3eb; border-bottom:1px solid #e8e5dc; }
-.topi .blogi { width:300px; margin:5px 5px; padding:0; float:left; }
-.topi h2 { border:0; font:normal 26px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#1c1c1c; padding:18px 0 18px 70px; margin:10px 0 0 0; }
-.topi p { font:normal 14px "Times New Roman", Times, serif; color:#1C1C1C; padding: 5px 2px; margin:0; line-height:1.8em; }
-.topi a { text-decoration:underline; font:normal 11px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#35678f; }
-.topi h2.what { background-image:url(cssimage.png);background-position: 0 -0; background-repeat:no-repeat;}
-.topi h2.what a {text-decoration:none;font:normal 26px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#1c1c1c; padding:18px 0 18px 0; margin:10px 0 0 0;}
-.topi h2.Our { background-image:url(cssimage.png);background-position: 0 -80px; background-repeat:no-repeat;}
-.topi h2.work { background-image:url(cssimage.png);background-position: 0 -160px; background-repeat:no-repeat;}
-.topi h2.work a {text-decoration:none;font:normal 26px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#1c1c1c; padding:18px 0 18px 0; margin:10px 0 0 0;}
+.topi { width:900px; height:171px;margin:0 auto; padding:0 0 0 0px; background:#fff;  }
+.topi .blogi {
+ width:225px; height:171px;margin:0px 0 0px 66px; padding:0; float:left; background:url(guanyu_diseY.gif) repeat-y left top;
+}
+.blogitop01{
+float:left; margin:12px 0 0 -2px;width:30px;height:30px;background:url(content_img01.jpg) 0 0px no-repeat;
+}
+.blogitop02{float:left;margin:12px 0 0 -4px;width:30px;height:30px;background:url(content_img02.jpg) 0 0px no-repeat;}
+.blogitop03{float:left;margin:12px 0 0 -6px;width:30px;height:30px;background:url(content_img03.jpg) 0 0px no-repeat;}
+.blogitop1{float:left;width:40px;height:30px;margin:18px 0 0 5px}
+.blogitop1 h2{font:normal 20px 黑体, "Times New Roman", Times, serif; color:#1c1c1c;padding:0 0;margin:0 0;}
+.blogitop3{float:left;width:60px;height:30px;margin:18px 0 0 5px}
+.blogitop3 h2{font:normal 20px 黑体, "Times New Roman", Times, serif; color:#1c1c1c;padding:0 0;margin:0 0;}
+.blogitop2{float:left;margin-top:18px;width:40px;height:30px}
+.blogitop2 h2{font:normal 20px 黑体, "Times New Roman", Times, serif; color:#ce7376;padding:0 0;margin:0 0;}
+.morexinxi{float:left;width:50px;height:20px;margin: 26px 0 0 40px;}
+.morexinxi a{text-decoration:underline;font:normal 11px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:#35678f;  padding:0px 0 0 0;}
+.contentdise{float:left;padding:5px 0 0 0px;width:8px;height:171px;background:url(content_dise02.gif) no-repeat ;}
+.jieshao1{float:left;width:10px;height:20px;background:url(content_img04.jpg) 0 0px no-repeat;margin-top:5px;}
+.jieshaop{float:left;width:200px;height:140px;}
+
+.jieshaop p { font:normal 11px 微软雅黑, Times, serif; color:#696969; padding: 5px 2px; margin:0; line-height:1.8em; }
+.jieshao2{float:left;width:10px;height:20px;background:url(content_img05.jpg) 0 0px no-repeat;margin-top:5px;}
+.jieshao3{float:left;width:10px;height:20px;background:url(content_img06.jpg) 0 0px no-repeat;margin-top:5px;}
+.dibu{width:886px;height:11x;margin: 0 auto;}
+.dibuleft{float:left;width:25px;height:11px;background:url(dibu_left.gif) no-repeat 0 0;}
+.dibudise{float:left;width:838px;height:11px;background:url(dibu_dise.gif) repeat-x 0 0;}
+.diburight{float:left;width:25px;height:11px;background:url(dibu_right.gif) no-repeat 0 0;margin-left:-2px;}
+.pagedibu{height:10px;margin-top:5px;background:url(page_dibu.gif) repeat-x 0 0;}
+.pagedingbu{height:10px;margin:0 0 20px 0;background:url(page_dingbu.gif) repeat-x 0 0;}
+
+
 a.btnB{
     width:42px;
     float:right;
@@ -362,10 +446,10 @@ a.btnB{
 p.response { text-align:center; color:#2c2c2c; font: bold 11px Hiragino Sans GB W3, Helvetica, sans-serif; line-height:1.8em; width:auto; }
 */
 /********** footer **********/
-.footer { padding:30px 0; margin:0 auto; }
+.footer { height:40px;padding:5px 0; margin:0 auto; }
 .footer .resize p.footer_logo { float:left; padding:0; margin:0 10px;width:200px;height:60px; }
-.footer .resize div { width:966px; color:#d6e8f5; font:normal 11px Hiragino Sans GB W3, Geneva, sans-serif; text-align:left; margin:0 auto; }
-.footer .resize div p { padding:0; margin:0; float:right; }
+.footer .resize div { width:900px; color:#d6e8f5; font:normal 11px Hiragino Sans GB W3, Geneva, sans-serif; text-align:left; margin:0 auto; }
+.footer .resize div p {  font:normal 9px 微软雅黑, Geneva, sans-serif;padding:0 300px 0 220px ; margin-top:-2px; float:right;color:#817f7e; }
 .footer .resize div img { margin:0; padding:0; }
 .footer .resize div a { color:#d6e8f5; font:normal 11px Tahoma, Geneva, sans-serif; padding:0 1px; }
 .text_left { text-align:right; }
@@ -383,13 +467,14 @@ li.bg,
     define width and height of list item (slide)
     entire slider area will adjust according to the parameters provided here
 */
-#slider li { width:966px; height:348px; overflow:hidden; }
+#slider li { width:857px; height:380px; overflow:hidden; }
 p#controls { margin:0; position:relative; }
 #prevBtn,
-#nextBtn { display:block; margin:0; overflow:hidden; width:13px; height:28px; position:absolute; left: -13px; top:-210px; }
-#nextBtn { left:966px; }
-#prevBtn a { display:block; width:13px; height:28px; background-image:url(cssimage.png);background-position: 0 -240px; background-repeat:no-repeat;}
-#nextBtn a { display:block; width:13px; height:28px; background-image:url(cssimage.png);background-position: 0 -278px; background-repeat:no-repeat; }
+#nextBtn { display:block; margin:0; overflow:hidden; width:16px; height:33px; position:absolute; left: -30px; top:-210px; }
+#nextBtn { left:870px; }
+#prevBtn a { display:block; width:24px; height:33px; background-image:url(jiantou_left.gif); background-repeat:no-repeat;}
+#nextBtn a { display:block; width:20px; height:33px; background-image:url(jiantou_right.gif); background-repeat:no-repeat; }
+
 
 /* LOGIN PAGE */
 .loginpage{padding:15px 0 0 250px;width:400px;}
