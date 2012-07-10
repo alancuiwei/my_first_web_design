@@ -60,8 +60,7 @@ $(document).ready(function(){
 
 </script>
 </head>
-
-<body onbeforeunload ="return pageBeforeunload(event);" >
+<body onkeydown="enterkey()" onbeforeunload ="return pageBeforeunload(event);" >
 <div class="main">
   <div class="header">
     <div class="block_header">
@@ -125,12 +124,16 @@ $(document).ready(function(){
         </ul>
 
       <script type="text/javascript">
+          var clickflag ;
       $(document).ready(function() {
           $('a.login-window,a.regedit-window').click(function () {
 
          		// Getting the variable's value from a link
          		var loginBox = $(this).attr('href');
-
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
          		//Fade in the Popup and add close button
          		$(loginBox).fadeIn(300);
 
@@ -162,14 +165,7 @@ $(document).ready(function(){
       function login(){
           $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
           if(data==$("#name").attr("value")) {
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
+              location.reload(); }
               else{
           $("#errormsg").html(data) }
           });
@@ -198,19 +194,17 @@ $(document).ready(function(){
           $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
               regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
           if(data==$("#regedit_name").attr("value")) {
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
+              location.reload(); }
               else{
           $("#regedit_errormsg").html(data) }
           });
       }
-
+          function enterkey(){
+              if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="login" )
+                   $(".clicksubmit_login").click();
+              if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="regedit" )
+                   $(".clicksubmit_regedit").click();
+          }
       </script>
       <div class="container">
       	<div id="content">
@@ -234,7 +228,7 @@ $(document).ready(function(){
                         <div class="bottom">
                           <div class="remember"><input type="checkbox" /><span>记住我</span></div>
                           <div>
-                            <a href="javascript:void(0)" onclick="login()">登录</a>
+                            <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()">登录</a>
                           </div>
                           <a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您还没有账号？请点击注册</a>
                           <div class="clear"></div>
@@ -282,7 +276,7 @@ $(document).ready(function(){
                         </div>
 						<div class="bottom">
                           <div class="actions">
-                            <a href="javascript:void(0)" onclick="regedit()">注册</a>
+                            <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
 							</div>
                           <a href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您早已有帐号，请点击登录</a>
 							<div class="clear"></div>

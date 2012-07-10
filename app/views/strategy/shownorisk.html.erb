@@ -9,10 +9,10 @@
 <% if session[:webuser_name]!=nil %>
     <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
 <div id="dingyue">
-  <a  href="/strategy/subscribe/<%=@strategy_norisk.id%>" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
+  <a  href="/strategy/subscribe/<%=@strategy_norisk.id%>" class="btnBc">
+<span class="btnBc">
+<span class="btnBc">
+<span class="btnBc">订 阅</span>
 </span>
 </span>
 </a>
@@ -26,10 +26,10 @@
 </div>
     <% else %>
         <div id="dingyue">
-              <a  href="javascript:void(0)" class="btnBb" onclick="issubscribe()">
-<span class="btnBb">
-<span class="btnBb">
-            <span class="btnBb">已订阅</span>
+              <a  href="javascript:void(0)" class="btnBc" onclick="issubscribe()">
+<span class="btnBc">
+<span class="btnBc">
+            <span class="btnBc">已订阅</span>
 </span>
 </span>
   </a>
