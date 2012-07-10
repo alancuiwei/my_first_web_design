@@ -30,11 +30,11 @@ class StrategyController < ApplicationController
     for i in 0..@usercommodity.size-1 do
         @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
-      if @webuser.level==99
+      if @webuser.level==99 && @webuser.leveldate!=nil
         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
-        if @days<=60
+        if @days<=@strategy_norisk.trydays
           @webuser.level=1
-          @trynotice="您是试用用户，还有"+(60-@days).to_s+"天的试用！"
+          @trynotice="您是试用用户，还有"+(@strategy_norisk.trydays-@days).to_i.to_s+"天的试用！"
         else
           @webuser.level=0
           @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
@@ -64,7 +64,7 @@ class StrategyController < ApplicationController
       'service' => 'create_direct_pay_by_user',
       'partner' => '2088801189204575',
       '_input_charset' => 'utf-8',
-      'return_url' => 'http://127.0.0.1:3000/strategy/done/'+@strategy.id.to_s,
+      'return_url' => 'http://www.tongtianshun.com/strategy/done/'+@strategy.id.to_s,
       'seller_email' => 'zhongrensoft@gmail.com',
       'out_trade_no' => @subsribe_id,
       'subject' => @strategy.name+'订阅',
@@ -118,4 +118,21 @@ end
     end
   end
 
+  def try
+    @strategy=Strategyweb.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser.leveldate==nil
+    @webuser.update_attribute(:level,99)
+    @webuser.update_attribute(:leveldate,Time.now.to_s(:db))
+    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
+    @notice_try="您成功试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"的试用天数！"
+    else
+    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
+      if (@strategy.trydays-@days)<=0
+      @notice_try="您现在不能试用！"
+      else
+        @notice_try="您正在试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"天的试用天数！"
+        end
+    end
+  end
 end

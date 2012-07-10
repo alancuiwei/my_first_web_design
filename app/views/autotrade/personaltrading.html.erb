@@ -14,7 +14,7 @@
 -->
  <% if @webuser==nil %>
 	<br />
-    <%= button_to "请先登录",:controller=>"sessions" ,:action=>"new" %>
+    <h1> <a href="#login-box" class="login-window">登录</a> </h1>
     <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
         <%= button_to "请先设置参数",:controller=>"autotrade" ,:action=>"autotrade_s1" ,:id=>Strategyweb.find_by_name("无风险套利").id %>
 <% else %>

@@ -42,8 +42,13 @@ $("." + divin).fadeIn("fast");
                  if($("#account").attr("value")==""||$("#password").attr("value")==""){
                     alert("账号或者密码为空！")
                  }
+
                  else{
-                loadnext(2,3);
+                     if($("#account").attr("value").length!=8||$("#account").attr("value").substr(0,3)!="118"||$("#account").attr("value").substr(3,5).match(/\D/)!=null){
+                                         alert("您的华泰长城帐号输入错误！")
+                                      }
+                 else{
+                loadnext(2,3);  }
                  }
              }
 
@@ -136,7 +141,7 @@ $("." + divin).fadeIn("fast");
 </div>
 <% end %>
     <% else %>
-    <%= button_to "请先登录",:controller=>"sessions" ,:action=>"new" %>
+   <h1> <a href="#login-box" class="login-window">登录</a> </h1>
 <% end %>
 <script type="text/javascript">
     $("#showtable").hide();
