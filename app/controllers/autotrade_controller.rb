@@ -271,7 +271,7 @@ class AutotradeController < ApplicationController
 
   end
 
-  #protected
+  protected
     ALG = 'DES-EDE3-CBC'
     #KEY = "lili_925"
     #DES_KEY = "feifan_5"

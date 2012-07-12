@@ -136,7 +136,7 @@ $(document).ready(function(){
           </ul>
 </div>
         </li>
-        <li><a href="#login-box" class="login-window"><span><span><span>我的账号</span></span></span></a>
+        <li><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
                              <div class="level">
  <ul>
               <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
@@ -144,8 +144,8 @@ $(document).ready(function(){
               <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
                   <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li>
                   <% else %>
-                  <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
-                  <li><a href="#login-box" class="login-window">订阅的策略</a></li>
+                  <li class="begin"><a href="#login-box" class="login-window" onclick="click_account()">个人信息管理</a></li>
+                  <li><a href="#login-box" class="login-window" onclick="click_account()">订阅的策略</a></li>
                   <% end %>
             </ul>
 </div>
@@ -167,6 +167,7 @@ $(document).ready(function(){
   </div>
       <script type="text/javascript">
           var clickflag ;
+          var  click_account_flag;
       $(document).ready(function() {
           $('a.login-window,a.regedit-window').click(function () {
 
@@ -204,9 +205,17 @@ $(document).ready(function(){
          	});
          //
       });
+          function click_account(){
+              click_account_flag=true;
+          }
+
       function login(){
           $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
           if(data==$("#name").attr("value")) {
+              if (click_account_flag==true){
+                  location.reload();
+              }
+              else{
              	  $('#mask , .login-popup').fadeOut(300 , function() {
              		$('#mask').remove();
              	});
@@ -214,6 +223,7 @@ $(document).ready(function(){
               $(".register").hide();
               $(".welcomeuser").show()
               $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
+          }
           }
               else{
           $("#errormsg").html(data) }
@@ -283,6 +293,10 @@ $(document).ready(function(){
                         </div>
                         <div class="bottom">
                           <div class="remember"><input type="checkbox" /><span>记住我</span></div>
+                          <div>
+                            <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
+                            <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>">忘记密码？</a>
+                          </div>
                           <div>
                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()">登录</a>
                           </div>

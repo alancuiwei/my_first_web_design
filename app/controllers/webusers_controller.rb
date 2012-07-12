@@ -1,4 +1,5 @@
 ﻿#encoding: utf-8
+require 'openssl'
 class WebusersController < ApplicationController
   layout "application"  ,:except=>[:edit]
   #layout "webusers"  ,:only=>[:show]
@@ -138,4 +139,65 @@ class WebusersController < ApplicationController
       redirect_to(:controller=>"webusers", :action=>"index")
     end
   end
+
+  def forgetpassword
+    if params[:my_email]
+      @webuser=Webuser.find_by_email(params[:my_email])
+    if @webuser==nil
+      @error=true
+    else
+      @error=false
+      fp_id=encode(params[:id]+@webuser.id.to_s)
+      if @webuser.fp_id!=fp_id
+      @webuser.update_attribute(:fp_id,fp_id)
+      @webuser.update_attribute(:fp_date,Time.now.to_s(:db))
+      UserMailer.forgetpassword(params[:my_email],"http://localhost:3000/webusers/resetpassword/"+params[:id]+"?fp_id="+fp_id,@webuser.name,params[:id]).deliver
+      end
+      @mail_serverurl=params[:my_email].slice(params[:my_email].index("@")+1,params[:my_email].size-params[:my_email].index("@"))
+      @hash_fp_url=Hash["163.com","http://mail.163.com","126.com","http://mail.126.com","gmail.com","https://mail.google.com"]
+      if @hash_fp_url[@mail_serverurl]==nil
+        @fp_url="http://"+@mail_serverurl
+      else
+        @fp_url=@hash_fp_url[@mail_serverurl]
+      end
+      #@fp_url=
+    end
+  end
+  end
+
+  def resetpassword
+    id=decode(params[:fp_id]).slice(14,decode(params[:fp_id]).size)
+   @webuser=Webuser.find_by_id(id)
+    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.fp_date.to_s(:db),"%Y-%m-%d").to_i)/86400
+    if @webuser!=nil&&@webuser.fp_id!=nil&&@days<3&&@webuser.fp_id.slice(0,params[:fp_id].size)==params[:fp_id]
+      session[:webuser_name]=@webuser.name
+      redirect_to(:controller=>"webusers", :action=>"edit",:id=>@webuser.id)
+    else
+      @notice="链接已过期！"
+
+    end
+  end
+
+  protected
+    ALG = 'DES-EDE3-CBC'
+    KEY = "lili_925"
+    DES_KEY = "feifan_5"
+  def encode(str)
+      des = OpenSSL::Cipher::Cipher.new(ALG)
+      des.pkcs5_keyivgen(KEY, DES_KEY)
+      des.encrypt
+      cipher = des.update(str)
+      cipher << des.final
+      return Base64.encode64(cipher) #Base64编码，才能保存到数据库
+    end
+
+    #解密
+    def decode(str)
+      str = Base64.decode64(str)
+      des = OpenSSL::Cipher::Cipher.new(ALG)
+      des.pkcs5_keyivgen(KEY, DES_KEY)
+      des.decrypt
+      des.update(str) + des.final
+    end
+
 end
