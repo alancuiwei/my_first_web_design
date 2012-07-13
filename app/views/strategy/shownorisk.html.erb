@@ -5,7 +5,8 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
-<h1>无风险套利策略<a onmouseover="showintro()">灯泡</a></h1>
+
+<!--
 <% if session[:webuser_name]!=nil %>
     <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
 <div id="dingyue">
@@ -62,28 +63,21 @@
 </div>
 
     <% end %>
+	-->
 <!--<%= button_to "订阅" %> -->
-
+<div class="zice">
     <div class="ironbars">
-  <div id = "norisktitle"><h2  class="strategyconduction">策略实时运行中:</h2></div>
+	<ul><li>
+	<a href=""> 自动化交易</a></li></ul></div>
+  <div id="norisktitle"><h2>策略实时运行中:</h2></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
-      </div> <%= @trynotice  %>
 <div id=checkbox>
       <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
       <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
 </div>
+</div>
 
-<div class="container">
- 	<div id="content">
-         <div id="showintro" class="login-popup">
-         <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-               <p class="ironbarsp1">无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
-               <p class="ironbarsp2">无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
-           <% end %>
- 		</div>
-     </div>
- </div>
+
 <script type="text/javascript">
     //$(document).ready(function(){
     //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
@@ -206,9 +200,11 @@
     });
 </script>
 <!-- default table -->
-<div id ="rtpricetable"></div> <div class="myheight"></div>
+<div id ="rtpricetable">
+
+</div> 
 <!-- strategytro -->
-<h2 class="strategyconduction" >策略介绍:</h2>
+<!-- <h2 class="strategyconduction" >策略介绍:</h2>
 <table class="biaoge">
   <tr>
     <th>交易品种</th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
@@ -223,7 +219,7 @@
     <th class="last">系统开发者</th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
   </tr>
 </table>
-
+-->
 <script type="text/javascript">
     jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
     /* Remove any formatting */
@@ -252,7 +248,8 @@
     });
 </script>
 <br />
-<h2  class="strategyconduction"> 历史最佳套利机会: </h2>
+<div id="btpricetable">
+<h2 class="wenzi"> 历史最佳套利机会: </h2></div>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 	  <tbody>
         <% @allmaxreturnrate.each do |maxreturnrate|
@@ -268,7 +265,8 @@
             <% end %>
         <% end %>
 	   </tbody>
-<!--      <tfoot>
+<!--      
+<tfoot>
 	  <tr>
         <th>套利对名称</th>
         <th>近期价格</th>
@@ -280,22 +278,12 @@
 	  </tfoot>
 -->
 </table>
-<div class="myheight"></div>
 
-     <h2 class="strategyconduction">无风险策略介绍:</h2>
 
 <!-- noriskmessage -->
-<div class="myheight"></div>
- <div class="adverise">
-<h2 class="strategyconduction" >提点意见吧？</h2>
- </div>
- <div class = "newremark">
- <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="220" width="526" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
- </div>
- <div class ="remarkslist">
-   <h2>所有评论:</h2>
-<iframe name="iframe_index" src="../noriskmessages" width="526" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
- </div>
+
+ 
+ 
 <!-- JavaScript -->
 <script type="text/javascript">
     //table data storage (2D array)

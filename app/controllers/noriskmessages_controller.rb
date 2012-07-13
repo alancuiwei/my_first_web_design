@@ -6,7 +6,7 @@ class NoriskmessagesController < ApplicationController
   def index
     @webusername=session[:webuser_name]
     @noriskmessages = Noriskmessage.order("created_at DESC")
-	  @noriskmessages = @noriskmessages.paginate(:per_page => 5, :page => params[:page])
+	  @noriskmessages = @noriskmessages.paginate(:per_page => 4, :page => params[:page])
 	respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @noriskmessages }
@@ -60,7 +60,7 @@ class NoriskmessagesController < ApplicationController
 	end
     respond_to do |format|
       if @noriskmessage.save
-        format.html { redirect_to @noriskmessage, notice: '您的评论发表成功。' }
+        format.html { redirect_to action: "new", notice: '您的评论发表成功。' }
         format.json { render json: @noriskmessage, status: :created, location: @noriskmessage }
       else
         format.html { render action: "new" }

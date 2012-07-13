@@ -9,7 +9,7 @@ class HomeController < ApplicationController
         session[:webuser_name] =params[:name]
           render :json =>params[:name].to_json
       else
-        @test='用户名或者密码错误！'.to_json
+        @test='您的用户名或者密码输入错误！'.to_json
       render :json => @test
   end
     end
