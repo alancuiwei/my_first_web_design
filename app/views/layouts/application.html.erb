@@ -105,20 +105,11 @@ $(document).ready(function(){
 		  <div class="loginimg" style="visibility: hidden; ">
           </div>
           </div>
-          <div class="welcomeuser"><p></p></div>
           <% else %>
-        <div class="register" style="display: none;">
-          <a href="#regedit-box" class="regedit-window">注册</a>
-        </div>
-
-        <div class="login" style="display: none;">
-          <a href="#login-box" class="login-window">登录</a>
-        </div>
           <div class="welcomeuser"><p>
             您好，<%= session[:webuser_name] %>! <a href="javascript:void(0)" onclick="logout_s()">(不是<%=session[:webuser_name]%>?)</a>
           </p></div>
 	  <% end %>
-
       <div class="clr"></div>
       <div id="menuMain" >
 	  <div>
@@ -130,8 +121,14 @@ $(document).ready(function(){
         <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
 <ul>
+  <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+  <% if @webuser==nil %>
+      <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
+      <li><a href="#login-box" class="login-window">自动化执行</a></li>
+  <% else %>
             <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
             <li><a href="/autotrade/personaltrading">自动化执行</a></li>
+  <% end %>
             <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
           </ul>
 </div>
@@ -139,13 +136,16 @@ $(document).ready(function(){
         <li><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
                              <div class="level">
  <ul>
-              <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
-              <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+              <% if @webuser.name=="administrator" %>
+              <li class="begin"><a href="/admin" >个人信息管理</a></li>
+           <% else %>
+           <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+           <% end %>
                   <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li>
                   <% else %>
-                  <li class="begin"><a href="#login-box" class="login-window" onclick="click_account()">个人信息管理</a></li>
-                  <li><a href="#login-box" class="login-window" onclick="click_account()">订阅的策略</a></li>
+                  <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
+                  <li><a href="#login-box" class="login-window">订阅的策略</a></li>
                   <% end %>
             </ul>
 </div>
@@ -167,7 +167,6 @@ $(document).ready(function(){
   </div>
       <script type="text/javascript">
           var clickflag ;
-          var  click_account_flag;
       $(document).ready(function() {
           $('a.login-window,a.regedit-window').click(function () {
 
@@ -205,25 +204,11 @@ $(document).ready(function(){
          	});
          //
       });
-          function click_account(){
-              click_account_flag=true;
-          }
 
       function login(){
           $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
           if(data==$("#name").attr("value")) {
-              if (click_account_flag==true){
                   location.reload();
-              }
-              else{
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
           }
               else{
              $("#errormsg_position").css({"padding": "92px 0 0 30px"})
@@ -234,18 +219,14 @@ $(document).ready(function(){
       function logout(){
           $.get("/home/index", { logout:"logout"}, function (data,status){
           if(data=="logout") {
-              $(".welcomeuser").hide();
-              $(".login").show();
-              $(".register").show();
+              location.reload();
            }
           });
       }
       function logout_s(){
           $.get("/home/index", { logout:"logout"}, function (data,status){
           if(data=="logout") {
-              $(".welcomeuser").hide();
-              $(".login").show();
-              $(".register").show();
+              location.reload();
            }
           });
       }
@@ -254,14 +235,7 @@ $(document).ready(function(){
           $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
               regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
           if(data==$("#regedit_name").attr("value")) {
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
+              location.reload();}
               else{
           $("#regedit_errormsg").html(data) }
           });

@@ -22,6 +22,17 @@
   		function closeSubMenu() {
   			$(this).find('ul').css('visibility', 'hidden');
   		};
+		
+		$('.login_dl').bind('mouseover', showimg);
+  		$('.login_dl').bind('mouseout', unshowimg);
+	
+  		function showimg() {
+  			$('.loginimg').css('visibility', 'visible');
+  		};
+
+  		function unshowimg() {
+  			$('.loginimg').css('visibility', 'hidden');
+  		};
 
   });
   </script>
@@ -51,11 +62,28 @@ $(document).ready(function(){
   })();
 
 </script>
+<script type="text/javascript">
+ $(document).ready(function() {
+ $('.registerzc').bind('mouseover', showimg);
+  		$('.registerzc').bind('mouseout', unshowimg);
+	
+  		function showimg() {
+  			$('.registerimg').css('visibility', 'visible');
+  		};
+
+  		function unshowimg() {
+  			$('.registerimg').css('visibility', 'hidden');
+  		};
+});
+ </script>
 </head>
 
 <body onkeydown="enterkey()">
 <div class="main">
   <div class="header">
+  <div class="pagedingbu">
+  
+  </div>
     <div class="block_header">
           <div class="logoimage">
           <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
@@ -63,58 +91,86 @@ $(document).ready(function(){
 
           <% if session[:webuser_name]==nil then%>
           <div class="register">
-            <a href="#regedit-box" class="regedit-window">注册</a>
+         <div class="registerzc">
+            <a href="#regedit-box" class="regedit-window">注册</a></div>
+            <div class="registerimg" style="visibility: hidden; " >
           </div>
-
+</div>
+         <div class="logandreg"></div>
           <div class="login">
-            <a href="#login-box" class="login-window">登录</a>
+         <div class="login_dl">
+            <a href="#login-box" class="login-window">登录</a></div>
+		  <div class="loginimg" style="visibility: hidden; ">
           </div>
-          <div class="welcomeuser"><p></p></div>
+          </div>
           <% else %>
-        <div class="register" style="display: none;">
-          <a href="#regedit-box" class="regedit-window">注册</a>
-        </div>
-
-        <div class="login" style="display: none;">
-          <a href="#login-box" class="login-window">登录</a>
-        </div>
-          <div class="welcomeuser"><p>
-            您好，<%= session[:webuser_name] %>! <a href="javascript:void(0)" onclick="logout_s()">(不是<%=session[:webuser_name]%>?)</a>
-          </p></div>
+          <div class="welcomeuser">
+		  <a href="javascript:void(0)" onclick="logout_s()">退出</a>
+		  <div class="yonghu">
+		  <p>
+            用户：<%= session[:webuser_name] %>!
+          </p>
+		  </div>
+		  <div class="yonghure"></div>
+		  </div>
 	  <% end %>
 
       <div class="clr"></div>
-      <ul class="menu">
-		  <li><%= link_to "首页", :controller=>"home", :action=>"index" %></li>
-  		  <li><%= link_to "无风险套利",:controller => "strategy",:action =>"shownorisk" %></li>
-        <li><a href="javascript:void(0)">自动化交易</a>
-          <ul style="visibility: hidden; ">
-            <li><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
+     <div id="menuMain" >
+	  <div>
+	  <div>
+	  <div>
+      <ul>
+		  <li ><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
+  		  <li><a href="/strategy/shownorisk"><span><span><span>无风险套利</span></span></span></a></li>
+        <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
+                  <div class="level">
+<ul>
+  <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+  <% if @webuser==nil %>
+      <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
+      <li><a href="#login-box" class="login-window">自动化执行</a></li>
+  <% else %>
+            <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
             <li><a href="/autotrade/personaltrading">自动化执行</a></li>
+  <% end %>
             <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
           </ul>
+</div>
         </li>
-        <li><a href="javascript:void(0)">我的账号</a>
-            <ul style="visibility: hidden; ">
+        <li class="active"><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
+                             <div class="level">
+ <ul>
               <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
-              <li><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+              <% if @webuser.name=="administrator" %>
+              <li class="begin"><a href="/admin" >个人信息管理</a></li>
+           <% else %>
+           <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+           <% end %>
                   <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li>
                   <% else %>
-                  <li><a href="#login-box" class="login-window">个人信息管理</a></li>
+                  <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
                   <li><a href="#login-box" class="login-window">订阅的策略</a></li>
                   <% end %>
             </ul>
+</div>
           </li>
-        <li><a href="javascript:void(0)">关于我们</a>
-          <ul style="visibility: hidden; ">
+        <li><a href="javascript:void(0)"><span><span><span>关于我们</span></span></span></a>
+		<div class="level">
+          <ul>
             <li><a href="/contactus/companyintro">公司介绍</a></li>
             <li><a href="/contactus/personintro">公司员工</a></li>
             <li><a href="/contactus/productintro">公司产品</a></li>
             <li><a href="/contactus/hire">招聘信息</a></li>
           </ul>
+   </div>
         </li>
         </ul>
+	 </div>
+	 </div>
+	 </div>	
+  </div>
 
       <script type="text/javascript">
           var clickflag ;
@@ -159,15 +215,9 @@ $(document).ready(function(){
       function login(){
           $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
           if(data==$("#name").attr("value")) {
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
+              location.reload();}
               else{
+              $("#errormsg_position").css({"padding": "92px 0 0 30px"})
           $("#errormsg").html(data) }
           });
       }
@@ -175,18 +225,14 @@ $(document).ready(function(){
       function logout(){
           $.get("/home/index", { logout:"logout"}, function (data,status){
           if(data=="logout") {
-              $(".welcomeuser").hide();
-              $(".login").show();
-              $(".register").show();
+              location.reload();
            }
           });
       }
       function logout_s(){
           $.get("/home/index", { logout:"logout"}, function (data,status){
           if(data=="logout") {
-              $(".welcomeuser").hide();
-              $(".login").show();
-              $(".register").show();
+              location.reload();
            }
           });
       }
@@ -195,14 +241,7 @@ $(document).ready(function(){
           $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
               regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
           if(data==$("#regedit_name").attr("value")) {
-             	  $('#mask , .login-popup').fadeOut(300 , function() {
-             		$('#mask').remove();
-             	});
-              $(".login").hide();
-              $(".register").hide();
-              $(".welcomeuser").show()
-              $(".welcomeuser").html('<p style=color:#FF9933;>您好,'+data+'!(不是<a href="javascript:void(0)" onclick="logout()">'+data+'</a>'+'?)</p>');
-          }
+              location.reload();}
               else{
           $("#regedit_errormsg").html(data) }
           });
@@ -219,29 +258,36 @@ $(document).ready(function(){
               <div id="login-box" class="login-popup">
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
                 <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-                    <div id="form_wrapper" class="form_wrapper">
-                      <form class="login active">
-                        <h3>登录</h3><br>
+                    <div class="login_box_bg">
+
+                         <div id="errormsg_position">
                         <div id="errormsg"></div>
                         <div class="column">
                           <div>
-                            <label>用户名:</label>
+                             <label id="label_login">用户名:</label>
                             <%= text_field_tag :name, params[:name],:class =>"name-input" %>
                           </div>
                           <div>
-                            <label>密码:</label>
+                             <label id="label_login">密码:</label> &nbsp;
                             <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
+                            <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
+                            <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
                         </div>
-                        <div class="bottom">
-                          <div class="remember"><input type="checkbox" /><span>记住我</span></div>
-                          <div>
-                            <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()">登录</a>
+                        <div>
+                           <div class="remember"><span id="rememberme"><input type="checkbox" />记住我</span>
+                             <span id="noaccount">您没有账号？<a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
+                             </span>
                           </div>
-                          <a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您还没有账号？请点击注册</a>
+
+                          <div  id="loginlink">
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
+                          </div>
+
                           <div class="clear"></div>
                         </div>
-                      </form>
+
+                         </div>
                     </div>
                 <% end %>
       		</div>
@@ -254,9 +300,9 @@ $(document).ready(function(){
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
 
                 <%= form_tag do%>
-                    <div id="form_wrapper1" class="form_wrapper1">
-                      <form class="register1 active">
-						<h3>注册</h3>
+                    <div class="regedit_box_bg">
+                    <div id="regeditmsg_position">
+
                         <div id="regedit_errormsg"></div>
 						<div class="column">
                           <div>
@@ -282,39 +328,39 @@ $(document).ready(function(){
                               <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
                             </div>
                         </div>
-						<div class="bottom">
+						<div>
                           <div class="actions">
                             <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
 							</div>
                           <a href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您早已有帐号，请点击登录</a>
 							<div class="clear"></div>
                         </div>
-					</form>
 				</div>
                 <% end %>
       		</div>
           </div>
       </div>
+    </div>
 
       <div class="clr"></div>
     </div>
   </div>
-  <div class="slider2">
-  <div class="slice12">
-    <h2>个性化管理</h2>
-  </div>
-  </div>
+  
   <div class="clr"></div>
   <div class="body">
     <div class="body_resize">
     <div class="StrategyNews">
-    <h2>我的账号</h2>
+	<div id="StrategyNewsimg"></div>
+	<div class="StrategyNewslb"></div>
+  <div id="StrategyNewscontactus">
     <ul>
-    <li><%= link_to "个人信息管理",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
-      <li> <%= link_to "订阅的策略",:controller=>"usermanagement" ,:action=>"trademanageindex"%></li>
+    <li><%= link_to "我的信息",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
+      <li> <%= link_to "我订阅的策略",:controller=>"usermanagement" ,:action=>"trademanageindex"%></li>
     </ul>
     </div>
-  <div class="frame">
+	<div class="clr"></div>
+	</div>
+  <div class="frame_usemanage">
 
 <%= yield %>
 

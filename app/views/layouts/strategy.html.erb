@@ -41,12 +41,6 @@
   		function unshowimg() {
   			$('.loginimg').css('visibility', 'hidden');
   		};
-		
-		
-		
-		
-		
-		
   });
   </script>
 
@@ -119,23 +113,12 @@ $(document).ready(function(){
 		  <div class="loginimg" style="visibility: hidden; ">
           </div>
           </div>
-          <div class="welcomeuser"><p></p></div>
           <% else %>
-        <div class="register" style="display: none;">
-          <a href="#regedit-box" class="regedit-window">注册</a>
-        </div>
-
-        <div class="login" style="display: none;">
-          <a href="#login-box" class="login-window">登录</a>
-        </div>
           <div class="welcomeuser">
 		  <a href="javascript:void(0)" onclick="logout_s()">退出</a>
 		  <div class="yonghu">
 		  <p>
-            用户：<%= session[:webuser_name] %>! 
-			
-			
-			
+            用户：<%= session[:webuser_name] %>!
           </p>
 		  </div>
 		  <div class="yonghure"></div>
@@ -153,8 +136,14 @@ $(document).ready(function(){
         <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
 <ul>
+  <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+  <% if @webuser==nil %>
+      <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
+      <li><a href="#login-box" class="login-window">自动化执行</a></li>
+  <% else %>
             <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
             <li><a href="/autotrade/personaltrading">自动化执行</a></li>
+  <% end %>
             <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
           </ul>
 </div>
@@ -164,7 +153,11 @@ $(document).ready(function(){
  <ul>
               <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
-              <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+       <% if @webuser.name=="administrator" %>
+       <li class="begin"><a href="/admin" >个人信息管理</a></li>
+    <% else %>
+    <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+    <% end %>
                   <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li>
                   <% else %>
                   <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
@@ -233,6 +226,7 @@ $(document).ready(function(){
               location.reload();
           }
               else{
+              $("#errormsg_position").css({"padding": "92px 0 0 30px"})
           $("#errormsg").html(data) }
           });
       }
@@ -270,35 +264,41 @@ $(document).ready(function(){
       </script>
 	  
 	  
-	  
       <div class="container">
       	<div id="content">
               <div id="login-box" class="login-popup">
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
                 <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-                    <div id="form_wrapper" class="form_wrapper">
-                      <form class="login active">
-                        <h3>登录</h3><br>
+                    <div class="login_box_bg">
+
+                         <div id="errormsg_position">
                         <div id="errormsg"></div>
                         <div class="column">
                           <div>
-                            <label>用户名:</label>
+                             <label id="label_login">用户名:</label>
                             <%= text_field_tag :name, params[:name],:class =>"name-input" %>
                           </div>
                           <div>
-                            <label>密码:</label>
+                             <label id="label_login">密码:</label> &nbsp;
                             <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
+                            <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
+                            <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
                         </div>
-                        <div class="bottom">
-                          <div class="remember"><input type="checkbox" /><span>记住我</span></div>
-                          <div>
-                            <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()">登录</a>
+                        <div>
+                           <div class="remember"><span id="rememberme"><input type="checkbox" />记住我</span>
+                             <span id="noaccount">您没有账号？<a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
+                             </span>
                           </div>
-                          <a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您还没有账号？请点击注册</a>
+
+                          <div  id="loginlink">
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
+                          </div>
+
                           <div class="clear"></div>
                         </div>
-                      </form>
+
+                         </div>
                     </div>
                 <% end %>
       		</div>
@@ -311,9 +311,9 @@ $(document).ready(function(){
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
 
                 <%= form_tag do%>
-                    <div id="form_wrapper1" class="form_wrapper1">
-                      <form class="register1 active">
-						<h3>注册</h3>
+                    <div class="regedit_box_bg">
+                    <div id="regeditmsg_position">
+
                         <div id="regedit_errormsg"></div>
 						<div class="column">
                           <div>
@@ -339,19 +339,19 @@ $(document).ready(function(){
                               <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
                             </div>
                         </div>
-						<div class="bottom">
+						<div>
                           <div class="actions">
                             <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
 							</div>
                           <a href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您早已有帐号，请点击登录</a>
 							<div class="clear"></div>
                         </div>
-					</form>
 				</div>
                 <% end %>
       		</div>
           </div>
       </div>
+    </div>
 
       <div class="clr"></div>
     </div>
@@ -372,52 +372,56 @@ $(document).ready(function(){
     
 
   <div class="frame_norisk">
-  <div class="lframe_norisk"></div>
-<div class="rframe_norisk"></div>
+
 <%= yield %>
 
 </div>
       <div style="float: right;width: 250px ;margin-top:-50px;" >
 
         <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
-            <% if session[:webuser_name]==nil %>
+        <% if (session[:webuser_name]==nil) %>
             <div id="title-top">
-	  <ul>
-      <li><a class="login-window" href="#login-box" >订阅</a></li>
-	  <li><a class="login-window" href="#login-box" >试用</a></li>
-	  </ul>
+			<ul>
+			<li><a class="login-window" href="#login-box" >订阅</a></li>
+			<li><a class="login-window" href="#login-box" >试用</a></li>
+			</ul>
             </div>
-        <% else %>
-            <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
-                <div id="title-top1"><div class="top1left">
-        <ul>
-              <!-- <li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li> -->
-          <% if Webuser.find_by_name(session[:webuser_name]).level==0 %>
-              <li> <a class="login-window" href="/strategy/try/<%=@strategy_norisk.id%>" >试用</a></li>
-          <% elsif Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
-              <li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
-          <% elsif Webuser.find_by_name(session[:webuser_name]).level==99 %>
-              <li><a class="login-window" href="javascript:void(0)" onclick="havetry()" >已试用 </a></li>
-          <% end %>
-        </ul> </div>
-		<div class="top1right"> 
-                  <ul>
-                  	  <li><p>      <%= @trynotice  %></p>
-                  	  </li>
-                  	  </ul>
-					   </div>
-                </div>
-      <% else %>
-                <div id="title-top1"> <div class="top1left">   <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
-				<div class="top1right"> 
-                  <ul>
-                  	  <li><p>      <%= @trynotice  %></p>
-                  	  </li>
-                  	  </ul>
-					  </div>
-                </div>
-<% end %>
-  <% end %>
+		<% else %>	
+			<% if(Webuser.find_by_name(session[:webuser_name]).level==0) %>
+            <div id="title-top">
+			<ul>
+			<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+			<li><a class="login-window" href="/strategy/try/<%=@strategy_norisk.id%>" >试用</a></li>
+			</ul>
+            </div>
+			<% else %>
+				<% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
+					<div id="title-top1"><div class="top1left">
+					<ul>
+					<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+					<% if Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
+							<li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
+					<% end %>
+					</ul> </div>
+					<div class="top1right"> 
+					<ul>
+                  	<li><p>      <%= @trynotice  %></p>
+                  	</li>
+                  	</ul>
+					</div>
+					</div>
+				<% else %>
+					<div id="title-top1"> <div class="top1left">   <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
+					<div class="top1right"> 
+					<ul>
+                  	<li><p>      <%= @trynotice  %></p>
+                  	</li>
+                  	</ul>
+					</div>
+					</div>
+				<% end %>
+			<% end %>
+		<% end %>
 
 	  <!--  <input type="button" value="详细" id="subscribe">  -->
       <div id="psubscribe">      
@@ -462,7 +466,7 @@ $(document).ready(function(){
 	
  <div class ="remarkslist">
 
-<iframe name="iframe_index" src="../noriskmessages" width="250" scrolling="no" height="400" marginheight="0" marginwidth="0" style="border:none"></iframe>
+<iframe name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height="400" marginheight="0" marginwidth="0" style="border:none"></iframe>
  </div>
 	
 	</div>
@@ -471,7 +475,7 @@ $(document).ready(function(){
 <h2 class="strategyconduction" >您的意见</h2>
  </div>
  <div class = "newremark">
- <iframe src="../noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
+ <iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
  </div>
 	
    </div>
@@ -516,5 +520,6 @@ $(document).ready(function(){
 <div class="clr"></div>
 </div>
 </div>
+<div class="pagedibu"> </div>
 </body>
 </html>

@@ -1,8 +1,8 @@
 ﻿<%= javascript_include_tag "jquery-latest.pack.js" %>
 <% if @webuser!=nil %>
-<div style="padding-bottom:20px">对于策略<%= @strategy.name %>进行自动化交易设置。</div>
 
-<%= link_to "点击这里,如果您还未准备好进行自动化交易,想先订阅该策略,通过邮件接收买卖信号." ,:controller =>"strategy",:action =>"subscribe",:id=>@strategy.id  %>
+
+
 
 <script type="text/javascript">
 function loadnext(divout,divin){
@@ -17,12 +17,13 @@ $("." + divin).fadeIn("fast");
 
   <div class="1">
     <ul id="mainNav" class="fiveStep">
-      <li class="current"><a title=""><em>第一步：确认交易品种</em><span>详细</span></a></li>
-      <li><a title=""><em>第二步：设置期货公司</em><span>详细</span></a></li>
-      <li><a title=""><em>第三步：设置交易参数</em><span>详细</span></a></li>
-      <li><a title=""><em>第四步：确认您的选择</em><span>详细</span></a></li>
-    </ul>   <br><br> <br><br>
-    <h3>第一步: 确认交易品种</h3>
+      <li class="current"><a title="">第一步</a></li>
+      <li><a title="">第二步</a></li>
+      <li><a title="">第三步</a></li>
+      <li><a title="">第四步</a></li>
+    </ul>  
+	<div id="mainNavwz">
+    <h2>确认交易品种</h2></div>
     <div id="wizardcontent">
       <%= radio_button_tag "radio_p", "s1" %>
       期货交易
@@ -39,7 +40,7 @@ $("." + divin).fadeIn("fast");
       function myop2(){
         //if($("#test").attr("checked")==true)
              if ($("#radio_p2_s1").attr("checked")=="checked"){
-                 if($("#account").attr("value")==""||$("#password").attr("value")==""){
+                 if($("#account").attr("value")==""||$("#password_s").attr("value")==""){
                     alert("账号或者密码为空！")
                  }
 
@@ -66,8 +67,12 @@ $("." + divin).fadeIn("fast");
       }
     </script>
     <div class="buttons">
-      <a  href="javascript:void(0)" class="previous" disabled="disabled"> <%= image_tag "arrow_left.png"  %> 返回 </a>
-      <a  href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 <%= image_tag "arrow_right.png"  %> </a>
+	<div class="frameprevious">
+      <a  href="javascript:void(0)" class="previous" disabled="disabled"> 返回 </a>
+	  </div>
+	  	<div class="framenext">
+      <a  href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 </a>
+	    </div>
     </div>
     <div style="clear:both"></div>
   </div>
@@ -75,25 +80,32 @@ $("." + divin).fadeIn("fast");
   <div id="wizardpanel" class="2">
 
     <ul id="mainNav" class="fiveStep">
-      <li class="lastDone"><a href="#" title=""><em>第一步：确认交易品种</em><span>详细</span></a></li>
-      <li class="current"><a title=""><em>第二步：设置期货公司</em><span>详细</span></a></li>
-      <li><a title=""><em>第三步：设置交易参数</em><span>详细</span></a></li>
-      <li><a title=""><em>第四步：确认您的选择</em><span>详细</span></a></li>
-    </ul>  <br><br><br><br>  <h3>第二步：设置期货公司</h3>
+      <li class="lastDone"><a href="#" title="">第一步</a></li>
+      <li class="current"><a title="">第二步</a></li>
+      <li><a title="">第三步</a></li>
+      <li><a title="">第四步</a></li>
+    </ul> <div id="mainNavwz">
+    <h2>设置期货公司</h2></div>
     <div id="wizardcontent">
-      <%= radio_button_tag "radio_p2", "s1"%>
-      华泰长城期货交易公司
+     <div id="huatai"> <%= radio_button_tag "radio_p2", "s1"%>
+      华泰长城期货交易公司</div>
       <div id="showtable">
-        <h2>您的华泰长城交易帐号</h2><br>
-        <h2>请输入您华泰长城期货帐号的相关信息。</h2><br>
-        <h2>输入您的帐号：<%= text_field_tag :account,params[:account],:size=>3,:value=>"" %> </h2><br>
-         <h2>输入您的交易密码：<%= password_field_tag :password,params[:password],:size=>3,:value=>"" %> </h2><br>
-        <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a>
+        <h2>您的华泰长城交易帐号:</h2><br>
+        
+        <%= text_field_tag :account,params[:account],:size=>20,:value=>"" %> <br>
+         <h2>您的交易密码:</h2><br>
+		 <%= password_field_tag :password_s,params[:password_s],:size=>20,:value=>"" %> <!-- <br>
+        <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a> -->
       </div>
     </div>
-    <div class="buttons">
-      <a href="javascript:void(0)" class="previous" onclick="loadnext(2,1);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
-      <a href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 <%= image_tag "arrow_right.png"  %> </a>
+   <div class="buttons">
+	<div class="frameprevious">
+	
+      <a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);"> 返回 </a>
+	  </div>
+	  	<div class="framenext">
+      <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
+	    </div>
     </div>
   </div>
 
@@ -101,44 +113,76 @@ $("." + divin).fadeIn("fast");
   <div id="wizardpanel" class="3">
 
     <ul id="mainNav" class="fiveStep">
-      <li class="done"><a href="#" title=""><em>第一步：确认交易品种</em><span>详细</span></a></li>
-      <li class="lastDone"><a href="#" title=""><em>第二步：设置期货公司</em><span>详细</span></a></li>
-      <li class="current"><a title=""><em>第三步：设置交易参数</em><span>详细</span></a></li>
-      <li><a title=""><em>第四步：确认您的选择</em><span>详细</span></a></li>
-    </ul> <br><br><br><br>  <h3>第三步：设置交易参数</h3>
-    <div id="wizardcontent">
-
-        年化收益率定制：通过设置它，您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%。<br>
-           请修改<%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 ,:id=>"returnrate"%>%
-
+      <li class="done"><a href="#" title="">第一步</a></li>
+      <li class="lastDone"><a href="#" title="">第二步</a></li>
+      <li class="current"><a title="">第三步</a></li>
+      <li><a title="">第四步</a></li>
+    </ul> <div id="mainNavwz">
+    <h2>设置交易参数</h2></div>
+    <div id="wizardcontent3">
+      <ul>
+       <li> 年化收益率定制：</li>
+		<li class="pianyou">您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%。</li>
+       <li class="pianyou"> 请修改<%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 ,:id=>"returnrate"%>%</li>
+  </ul>
     </div>
     <div class="buttons">
-      <a href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
-      <a href="javascript:void(0)" class="next" onclick="myop3()"> 下一步  </a> <%= image_tag "arrow_right.png"  %>
+	<div class="frameprevious">
+	
+      <a  href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> 返回 </a>
+	  </div>
+	  	<div class="framenext">
+      <a  href="javascript:void(0)" class="next" onclick="myop3()"> 下一步 </a>
+	    </div>
     </div>
   </div>
 
   <div id="wizardpanel" class="4">
 
     <ul id="mainNav" class="fiveStep">
-      <li class="done"><a href="#" title=""><em>第一步：确认交易品种</em><span>详细</span></a></li>
-      <li class="done"><a href="#" title=""><em>第二步：设置期货公司</em><span>详细</span></a></li>
-      <li class="lastDone"><a href="#" title=""><em>第三步：设置交易参数</em><span>详细</span></a></li>
-      <li class="current"><a title=""><em>第四步：确认您的选择</em><span>详细</span></a></li>
-    </ul> <br><br><br><br><h3>第四步：确认您的选择</h3>
-        <div id="wizardcontent">
-
-          您将在期货市场应用无风险套利策略,您的开户公司是华泰长城期货公司,
-          当市场上出现收益率超过<span id="show_t"></span>%时，您将下单1手进行投资。
-
+      <li class="done"><a href="#" title="">第一步</a></li>
+      <li class="done"><a href="#" title="">第二步</a></li>
+      <li class="lastDone"><a href="#" title="">第三步</a></li>
+      <li class="current"><a title="">第四步</a></li>
+    </ul> <div id="mainNavwz">
+    <h2>确认您的设置</h2></div>
+        <div id="wizardcontent4">
+<ul>
+         <li> 您将在期货市场应用<span>无风险套利策略</span></li><li>您的开户公司是<span>华泰长城期货公司</span>,</li>
+          <li>当市场上出现收益率超过<span id="show_t"></span>%时，您将下单1手进行投资。</li>
+</ul>
         </div>
     <div class="buttons">
-      <a href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> <%= image_tag "arrow_left.png"  %> 返回 </a>
-      <%= submit_tag "确认"%> <%= image_tag "arrow_right.png" %>
+	<div class="frameprevious">
+	
+      <a  href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> 返回 </a>
+	  </div>
+	  	<div class="framenext">
+            <%= submit_tag "确认"%>
+	    </div>
     </div>
   </div>
 
 </div>
+
+
+<div class="framer">
+<div id="wenti"><h2>常见问题</h2></div>
+
+<div id="wentineir">
+<ul>
+<li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a></li>
+<li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_2')"> 自动化交易如何工作的?</a> </li>
+<li ><a href="javascript:window.open ('/autotrade/aboutautotrade#about_4')">  我如果开展自动化交易,需要额外付钱吗? </a></li> 
+<li class="tworow"><a href="javascript:window.open ('/autotrade/aboutautotrade#about_3')">我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> </li>
+
+<li class="tworow"> <a href="javascript:window.open ('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a></li><br><br>
+</ul></div>
+
+<div class="clr"></div>
+  </div>
+<div class="framerimg"></div>
+
 <% end %>
     <% else %>
    <h1> <a href="#login-box" class="login-window">登录</a> </h1>
@@ -146,6 +190,7 @@ $("." + divin).fadeIn("fast");
 <script type="text/javascript">
     $("#showtable").hide();
     $("#radio_p2_s1").click(function(){
+        $("#huatai").hide();
 
             $("#showtable").show();
     });
@@ -154,9 +199,3 @@ $("." + divin).fadeIn("fast");
 
 
 
-常见问题：<br>
-<a href="javascript:window.open ('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a><br>
-<a href="javascript:window.open ('/autotrade/aboutautotrade#about_2')"> 自动化交易如何工作的?</a> <br>
-<a href="javascript:window.open ('/autotrade/aboutautotrade#about_3')">我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> <br>
-<a href="javascript:window.open ('/autotrade/aboutautotrade#about_4')">  我如果开展自动化交易,需要额外付钱吗? </a> <br>
-<a href="javascript:window.open ('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a><br><br>

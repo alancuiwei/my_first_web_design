@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120705011055) do
+ActiveRecord::Schema.define(:version => 20120713024926) do
 
   create_table "arbcostmaxreturnrate_v", :id => false, :force => true do |t|
     t.string   "pairname",    :limit => 20
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20120705011055) do
     t.float    "delivermarginfee",                  :default => 1.0
     t.float    "vatrate",                           :default => 1.0
     t.float    "vatfee",                            :default => 1.0
+    t.integer  "isorder"
   end
 
   create_table "strategyparam_t", :force => true do |t|
@@ -210,6 +211,8 @@ ActiveRecord::Schema.define(:version => 20120705011055) do
     t.text     "ctp_password"
     t.text     "ctp_brokerid"
     t.text     "ctp_frontaddr"
+    t.text     "fp_id"
+    t.datetime "fp_date"
   end
 
   create_table "webuserstrategy", :force => true do |t|
