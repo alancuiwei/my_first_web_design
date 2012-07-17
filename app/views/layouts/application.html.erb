@@ -263,19 +263,19 @@ $(document).ready(function(){
                           </div>
                           <div>
                              <label id="label_login">密码:</label> &nbsp;
-                            <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
+                            <%= password_field_tag :password, params[:password],:class =>"passwd-inputapp" %>
                             <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
                             <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
                         </div>
                         <div class="bottom">
-                           <div class="remember"><span id="rememberme"><input type="checkbox" />记住我</span>
+                           <div class="remember"><span id="rememberme"><input type="checkbox" /><span>记住我</span></span>
                              <span id="noaccount">您没有账号？<a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
                              </span>
                           </div>
 
                           <div  id="loginlink">
-                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
                           </div>
 
                           <div class="clear"></div>
