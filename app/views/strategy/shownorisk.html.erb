@@ -69,11 +69,16 @@
 <div class="zice">
     <div class="ironbars">
 	<ul><li>
+      <% if @webuser!=nil %>
       <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
 	<a href="/autotrade/autotrade_s1/1"> 自动化交易</a>
           <% else %>
           <a href="/autotrade/personaltrading"> 自动化交易</a>
-          <% end %></li></ul></div>
+          <% end %>
+      <% else %>
+      <a href="/autotrade/autotrade_s1/1"> 自动化交易</a>
+      <% end %>
+    </li></ul></div>
   <div id="norisktitle"><h2>策略实时运行中:</h2></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
 <div id=checkbox>
