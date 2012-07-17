@@ -1,5 +1,15 @@
 #encoding: utf-8
 class HomeController < ApplicationController
+
+  def oldpassword
+    @webuser=Webuser.find_by_name(session[:webuser_name])
+    if Webuser.authenticate(session[:webuser_name], params[:oldpassword])
+      @webuser.update_attribute(:hashed_password,Webuser.encrypt_password(params[:password], @webuser.salt))
+      render :json=>"s".to_json
+    else
+      render :json=>"f".to_json
+    end
+  end
   def index
     #UserMailer.forgetpassword("feifan_5223@163.com",1,1).deliver
     @versions=Versionstable.find(:all, :order =>"update_date DESC",:limit => 3)

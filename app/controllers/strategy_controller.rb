@@ -1,7 +1,6 @@
 ﻿#encoding: utf-8
 require 'rubygems'
 class StrategyController < ApplicationController
-
   def shownorisk
     session[:login]="shownorisk"
     @allmaxreturnrate=ArbcostmaxreturnrateV.all

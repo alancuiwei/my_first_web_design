@@ -532,3 +532,131 @@
     setTimeout(listen_ajax_watchdog,10000) ;
 
 </script>
+<div style="float: right;width: 250px ;margin:-470px -270px 0 0;" >
+
+  <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
+  <% if (session[:webuser_name]==nil) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="#login-box" >订阅</a></li>
+<li><a class="login-window" href="#login-box" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if(Webuser.find_by_name(session[:webuser_name]).level==0) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<li><a class="login-window" href="/strategy/try/<%=@strategy_norisk.id%>" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
+<div id="title-top1"><div class="top1left">
+<ul>
+<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<% if Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
+	<li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
+<% end %>
+</ul> </div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% else %>
+<div id="title-top1"> <div class="top1left">   <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% end %>
+<% end %>
+<% end %>
+
+<!--  <input type="button" value="详细" id="subscribe">  -->
+<div id="psubscribe">
+<p>该策略的定价为<%= Strategyweb.find_by_strategyid("010001").price%>元每月，您将有<%= Strategyweb.find_by_strategyid("010001").trydays%>天的免费试用期。
+<p>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>
+</div>
+
+
+<!--      <a class="btnB"  href="javascript:void(0)">
+<span>
+<span>
+<span id="subscribe">详细</span>
+</span>
+</span>
+ </a>
+-->
+
+
+  <!--<input type="button" value="详细" id="subscribe">    -->
+  <div id="menuop"></div>
+<div id="celuojieshao">
+<h2>策略介绍:</h2>
+<div class="celuojieshaol">
+<h2>交易品种</h2>
+<h2>策略类型</h2>
+<h2>系统开始时间</h2>
+<h2>系统开发者</h2>
+</div>
+<div class="celuojieshaom">
+</div>
+<div id="celuojieshaor">
+<h2>交易品种</h2>
+<h2>策略类型</h2>
+<h2>系统开始时间</h2>
+<h2>系统开发者</h2>
+</div>
+
+</div>
+<div id="tiyijian">
+<h2>提点意见</h2>
+
+
+<div class ="remarkslist">
+
+<iframe name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height="400" marginheight="0" marginwidth="0" style="border:none"></iframe>
+</div>
+
+</div>
+
+<div class="adverise">
+<h2 class="strategyconduction" >您的意见</h2>
+</div>
+<div class = "newremark">
+<iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
+</div>
+
+</div>
+ <!-- <%= button_to "订阅" %> -->
+  <script type="text/javascript">
+      $("#menuop").hide();
+      $("#subscribe").click(function(){ <!--点击按钮触发-->
+          if($("#menuop").is(":hidden")){
+              $("#menuop").show();
+              $("#menuop").html("<p id='psubscribe'>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>");
+          }
+          else
+          $("#menuop").hide();
+     });
+
+      function issubscribe(){
+          if(confirm('您钱真多，再付一次钱吧！')){
+              location.href=("/strategy/subscribe/<%=@strategy_norisk.id%>")
+          }
+      }
+      function havetry(){
+          alert("您已经在试用了！")
+      }
+      function havedtry(){
+          alert("您已经试用过了！")
+      }
+
+  </script>
