@@ -280,7 +280,7 @@ $(document).ready(function(){
                           </div>
                           <div>
                              <label id="label_login">密码:</label> &nbsp;
-                            <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
+                            <%= password_field_tag :password, params[:password],:class =>"passwd-inputapp" %>
                             <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
                             <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
@@ -292,7 +292,7 @@ $(document).ready(function(){
                           </div>
 
                           <div  id="loginlink">
-                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
                           </div>
 
                           <div class="clear"></div>
