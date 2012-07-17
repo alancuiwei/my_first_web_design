@@ -251,7 +251,7 @@ $(document).ready(function(){
       	<div id="content">
               <div id="login-box" class="login-popup">
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
+                <form class="signin">
                     <div class="login_box_bg">
 
                          <div id="errormsg_position">
@@ -283,7 +283,7 @@ $(document).ready(function(){
 
                          </div>
                     </div>
-                <% end %>
+                </form>
       		</div>
           </div>
       </div>
@@ -293,36 +293,37 @@ $(document).ready(function(){
               <div id="regedit-box" class="login-popup">
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
 
-                <%= form_tag do%>
+                <form class="registerin">
                     <div class="regedit_box_bg">
                     <div id="regeditmsg_position">
 
                         <div id="regedit_errormsg"></div>
 						<div class="column">
                           <div>
-                            <label>用户名:</label>
+                            <label id="label_register">用户名:</label>
                             <%= text_field_tag :regedit_name, params[:regedit_name] %>
                           </div>
 						</div>
 						<div class="column">
 							<div>
-								<label>电子邮件:</label>
+								<label id="label_register">电子邮件:</label>
 								<%= email_field_tag :regedit_email, params[:regedit_email] %>
 							</div>
 						</div>
 						<div class="column">
 							<div>
-								<label>密码:</label>
+								<label id="label_register">密码:</label>
                               <%= password_field_tag :regedit_password, params[:regedit_password] %>
                             </div>
 						</div>
 						<div class="column">
 							<div>
-								<label>密码确认:</label>
+								<label id="label_register">密码确认:</label>
                               <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
                             </div>
                         </div>
 						<div class="bottom">
+						
                           <div class="actions">
                             <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
 							</div>
@@ -330,7 +331,7 @@ $(document).ready(function(){
 							<div class="clear"></div>
                         </div>
 				</div>
-                <% end %>
+                </form>
       		</div>
           </div>
       </div>
