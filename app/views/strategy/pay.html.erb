@@ -53,14 +53,23 @@
 <div class="container">
 	<div id="content">
         <div id="alipay-box" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-          <div style="width: 300px;height:300px;background-color: white;">
-            <h2>prealipay</h2>
-            <%= image_tag("260x45.png") %> <br>
-            你的订单号是：<%= @subsribe_id%>。<br>
-            您会订阅一个月的 <%= @strategy.name%> 。
-            <a href='<%= @alipy_url %>'><h2>=>前往支付宝付款</h2></a>
-            <%= @sign %>
+        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnzfb_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+          <div style="width: 394px;height:283px;margin-top:10px;">
+		  <div id="prealipay">
+		  <h2> 你的订单号是：</h2>
+      
+          
+      <div style="font:13px Microsoft Yahei;color:#a43a35;margin-left:70px;font-style:italic;text-decoration:underline">  <%= @subsribe_id%>。</div>
+            <h3>您会订阅一个月的<span style="font:12px Microsoft Yahei;color:#a43a35;text-decoration:underline;font-style:italic"><%= @strategy.name%> 。</span></h3>
+			
+			<div id="qianwang">
+			<a href='<%= @alipy_url %>'>前往支付宝</a>
+			</div>
+				<div id="quxiao">
+				<a href="#" class="close"> 取消</a>
+			</div>
+			</div>
+
           </div>
 		</div>
     </div>
