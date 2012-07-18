@@ -81,7 +81,7 @@ $(document).ready(function(){
   <div class="pagedingbu"> </div>
     <div class="block_header">
           <div class="logoimage">
-          <%= link_to(image_tag("logo.gif"),:controller=>"home",:action=>"index") %>
+          <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
           </div>
 
           <% if session[:webuser_name]==nil then%>
@@ -100,7 +100,7 @@ $(document).ready(function(){
           </div>
           <% else %>
           <div class="welcomeuser">
-		  <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
+		  <a href="javascript:void(0)" onclick="logout_s()">退出</a>
 		  <div class="yonghu">
 		  <p>
             用户：<%= session[:webuser_name] %>!
@@ -363,7 +363,8 @@ $(document).ready(function(){
   <div class="body">
     <div class="body_resize">
     
-  <div class="framecontactus">
+    
+  <div class="frame">
 
 <%= yield %>
 
