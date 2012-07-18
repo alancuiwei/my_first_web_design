@@ -100,7 +100,7 @@ $(document).ready(function(){
           </div>
           <% else %>
           <div class="welcomeuser">
-		  <a href="javascript:void(0)" onclick="logout_s()">退出</a>
+		  <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
 		  <div class="yonghu">
 		  <p>
             用户：<%= session[:webuser_name] %>!
@@ -243,6 +243,7 @@ $(document).ready(function(){
               location.reload();
           }
               else{
+              $("#regeditmsg_position").css({"padding": "93px 0 0 30px"})
           $("#regedit_errormsg").html(data) }
           });
       }
@@ -341,15 +342,13 @@ $(document).ready(function(){
                             </div>
                         </div>
 						<div>
-                          
-                          <a style="font:12px Microsoft Yahei;color:#8f0606;margin:0px 0 0 170px"  href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您已有帐号，登入</a>
-                          <div class="actions">
-                            <a style="font:16px Microsoft Yahei;color:white ;margin:0px 0 0 30px;text-decoration:none" class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
-							</div>
-							<div class="clear"></div>
+                          <a style="font:12px Microsoft Yahei;color:#8f0606;padding:0px 0 0 170px" href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您已有帐号?登入</a>
+                           <div style="margin:20px 0 0 162px">
+                            <a style="font:16px Microsoft Yahei;color:white ;text-decoration:none" class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
+                           </div>
                         </div>
-				</div> </div>
-               </form>
+				</div> 	</div>
+                </form>
       		</div>
           </div>
       </div>
