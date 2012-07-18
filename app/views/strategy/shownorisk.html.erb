@@ -205,7 +205,8 @@
         //notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
         para.checked=null;
         <% elsif @webuser.level==0%>
-        notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        //notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        box("#msg-box");
         para.checked=null;
             <% else %>
         if(para.checked){
@@ -679,4 +680,30 @@
           alert("您已经试用过了！")
       }
 
+      function box(id){
+          var loginBox = id;
+        		//Fade in the Popup and add close button
+        		$(loginBox).fadeIn(300);
+
+        		//Set the center alignment padding + border
+        		var popMargTop = ($(loginBox).height() + 24) / 2;
+        		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        		$(loginBox).css({
+        			'margin-top' : -popMargTop,
+        			'margin-left' : -popMargLeft
+        		});
+          $('body').append('<div id="mask"></div>');
+        		$('#mask').fadeIn(300);
+      }
   </script>
+<div class="container">
+	<div id="content">
+        <div id="msg-box" class="login-popup">
+        <div style="width: 200px;height: 200px;background: white;" id="msg-show">
+		<p>您还不是收费用户，请先订阅策略</p>
+          <a href="/strategy/subscribe/1">订阅</a> <a href="javascript:void(0)" id="cancle">取消</a>
+        </div>
+        </div>
+    </div>
+</div>
