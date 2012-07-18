@@ -1,9 +1,6 @@
 ﻿<%= javascript_include_tag "jquery-latest.pack.js" %>
 <% if @webuser!=nil %>
 
-
-
-
 <script type="text/javascript">
 function loadnext(divout,divin){
 $("." + divout).hide();
@@ -49,7 +46,27 @@ $("." + divin).fadeIn("fast");
                                          alert("您的华泰长城帐号输入错误！")
                                       }
                  else{
-                loadnext(2,3);  }
+
+                         $.get("/autotrade/autotrade_s1/1",{account:$("#account").attr("value"),password_s:$("#password_s").attr("value")},function(data){
+                             if(data=="0"){
+                                 //$("#showtable").html("提交成功！") ;
+                                 loadnext(2,3);
+
+                             }
+                             else if(data=="99"){
+                                 box("#errormsg-box");
+                                 $("#errormsg-show").html("无法连接交易服务器！") ;
+
+                             }
+                             else{
+                                 box("#errormsg-box");
+                                 $("#errormsg-show").html(data) ;
+
+                             }
+
+                         })
+
+ }
                  }
              }
 
@@ -91,10 +108,9 @@ $("." + divin).fadeIn("fast");
       华泰长城期货交易公司</div>
       <div id="showtable">
         <h2>您的华泰长城交易帐号:</h2><br>
-        
-        <%= text_field_tag :account,params[:account],:size=>20,:value=>"" %> <br>
+        <input type="text" value="" id="account" size="20"><br>
          <h2>您的交易密码:</h2><br>
-		 <%= password_field_tag :password_s,params[:password_s],:size=>20,:value=>"" %> <!-- <br>
+        <input type="password" value="" id="password_s" size="20"><!-- <br>
         <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a> -->
       </div>
     </div>
@@ -194,8 +210,36 @@ $("." + divin).fadeIn("fast");
 
             $("#showtable").show();
     });
+
+        function box(id){
+            var loginBox = id;
+          		//Fade in the Popup and add close button
+          		$(loginBox).fadeIn(300);
+
+          		//Set the center alignment padding + border
+          		var popMargTop = ($(loginBox).height() + 24) / 2;
+          		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+          		$(loginBox).css({
+          			'margin-top' : -popMargTop,
+          			'margin-left' : -popMargLeft
+          		});
+
+          		// Add the mask to body
+          		$('body').append('<div id="mask"></div>');
+          		$('#mask').fadeIn(300);
+        }
 </script>
 <br>
 
+<div class="container">
+	<div id="content">
+        <div id="errormsg-box" class="login-popup">
+        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+        <div style="width: 200px;height: 200px;background: white" id="errormsg-show">
+        </div>
+        </div>
+    </div>
+</div>
 
 

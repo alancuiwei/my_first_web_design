@@ -254,7 +254,7 @@ $(document).ready(function(){
       	<div id="content">
               <div id="login-box" class="login-popup">
               <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
+                <form class="signin">
                     <div class="login_box_bg">
 
                          <div id="errormsg_position">
@@ -266,19 +266,19 @@ $(document).ready(function(){
                           </div>
                           <div>
                              <label id="label_login">密码:</label> &nbsp;
-                            <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
+                            <%= password_field_tag :password, params[:password],:class =>"passwd-inputapp" %>
                             <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
                             <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
                         </div>
-                        <div>
-                           <div class="remember"><span id="rememberme"><input type="checkbox" />记住我</span>
+                        <div class="bottom">
+                           <div class="remember"><span id="rememberme"><input type="checkbox" /><span>记住我</span></span>
                              <span id="noaccount">您没有账号？<a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
                              </span>
                           </div>
 
                           <div  id="loginlink">
-                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
                           </div>
 
                           <div class="clear"></div>
@@ -286,7 +286,7 @@ $(document).ready(function(){
 
                          </div>
                     </div>
-                <% end %>
+                </form>
       		</div>
           </div>
       </div>
@@ -294,34 +294,34 @@ $(document).ready(function(){
       <div class="container">
       	<div id="content">
               <div id="regedit-box" class="login-popup">
-              <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+              <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnrg_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
 
-                <%= form_tag do%>
+                <form class="registerin">
                     <div class="regedit_box_bg">
                     <div id="regeditmsg_position">
 
                         <div id="regedit_errormsg"></div>
 						<div class="column">
                           <div>
-                            <label>用户名:</label>
+                            <label id="label_register">用户名:</label>
                             <%= text_field_tag :regedit_name, params[:regedit_name] %>
                           </div>
 						</div>
 						<div class="column">
 							<div>
-								<label>电子邮件:</label>
+								<label id="label_register">电子邮件:</label>
 								<%= email_field_tag :regedit_email, params[:regedit_email] %>
 							</div>
 						</div>
 						<div class="column">
 							<div>
-								<label>密码:</label>
+								<label id="label_register">设置密码:</label>
                               <%= password_field_tag :regedit_password, params[:regedit_password] %>
                             </div>
 						</div>
 						<div class="column">
 							<div>
-								<label>密码确认:</label>
+								<label id="label_register">密码确认:</label>
                               <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
                             </div>
                         </div>
@@ -329,11 +329,11 @@ $(document).ready(function(){
                           <div class="actions">
                             <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
 							</div>
-                          <a href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您早已有帐号，请点击登录</a>
+                          <a style="margin-left:200px;font:12px Microsoft Yahei" href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">您已有帐号，登入</a>
 							<div class="clear"></div>
                         </div>
 				</div>
-                <% end %>
+               </form>
       		</div>
           </div>
       </div>

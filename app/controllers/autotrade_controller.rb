@@ -21,12 +21,33 @@ class AutotradeController < ApplicationController
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
 
-    if params[:account]!=nil&&params[:password_s]!=nil &&  (@webuser.ctp_account==nil||@webuser.ctp_account=="" )
+    if params[:account]!=nil&&params[:password_s]!=nil
+
+      l_tradreinfo=Ctrader::STraderInfo.new
+      l_tradreinfo.frontaddr = 'tcp://gwf-front1.financial-trading-platform.com:41205'
+      l_tradreinfo.brokerid = '8080'
+      l_tradreinfo.investorid = params[:account]
+      l_tradreinfo.password = params[:password]
+      l_trader = Ctrader::CTrader.new(l_tradreinfo)
+      l_rtn = l_trader.StartTrader()
+      if l_rtn==0
+        l_trader.rspinfo.ErrorID =99
+      end
+      if l_trader.rspinfo.ErrorID == 0
       #@decode = decode(@encode).slice(@webuser.salt.size,decode(@encode).size)
       @webuser.update_attribute(:ctp_account,params[:account])
       @webuser.update_attribute(:ctp_password,encode(@webuser.salt+params[:password_s],@webuser.email.slice(0,8),@webuser.hashed_password.slice(0,8)))
       @webuser.update_attribute(:ctp_brokerid ,'8080')
       @webuser.update_attribute(:ctp_frontaddr ,'tcp://gwf-front1.financial-trading-platform.com:41205')
+
+         render :json=>"0".to_json
+      elsif l_trader.rspinfo.ErrorID == 99
+        render :json=>"99".to_json
+      elsif l_trader.rspinfo.ErrorID > 0
+        l_msgstr = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
+        render :json=>"#{l_msgstr}".to_json
+      end
+
     end
 
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
