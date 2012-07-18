@@ -11,7 +11,7 @@
 </div>
 <div class="StrategyNewssb">
 	<div class="StrategyNewssbfk"></div>
-	<div id="fukuanzfb"><a href="/strategy/prealipay/<%=@strategy.id%>">支付宝交付</a>
+	<div id="fukuanzfb"><a href="#alipay-box" class="alipay">支付宝交付</a>
 	</div>
 	<div id="fukuanxj">
 	<h2>现金支付</h2>
@@ -50,5 +50,19 @@
 </div>
 <div class="framerimg"></div>
 </div>
-
+<div class="container">
+	<div id="content">
+        <div id="alipay-box" class="login-popup">
+        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+          <div style="width: 300px;height:300px;background-color: white;">
+            <h2>prealipay</h2>
+            <%= image_tag("260x45.png") %> <br>
+            你的订单号是：<%= @subsribe_id%>。<br>
+            您会订阅一个月的 <%= @strategy.name%> 。
+            <a href='<%= @alipy_url %>'><h2>=>前往支付宝付款</h2></a>
+            <%= @sign %>
+          </div>
+		</div>
+    </div>
+</div>
 

@@ -130,6 +130,9 @@ $(document).ready(function(){
   <% if @webuser==nil %>
       <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
       <li><a href="#login-box" class="login-window">自动化执行</a></li>
+  <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
+      <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
+      <li><a href="#autotrade-box"  class="autotrade_p">自动化执行</a></li>
   <% else %>
             <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
             <li><a href="/autotrade/personaltrading">自动化执行</a></li>
@@ -175,7 +178,7 @@ $(document).ready(function(){
       <script type="text/javascript">
           var clickflag ;
       $(document).ready(function() {
-          $('a.login-window,a.regedit-window').click(function () {
+          $('a.login-window,a.regedit-window,a.autotrade_p').click(function () {
 
          		// Getting the variable's value from a link
          		var loginBox = $(this).attr('href');
@@ -253,6 +256,18 @@ $(document).ready(function(){
                    $(".clicksubmit_regedit").click();
           }
       </script>
+      <div class="container">
+      	<div id="content">
+              <div id="autotrade-box" class="login-popup">
+              <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+                <div style="width: 200px;height: 200px;background-color: white;">
+                  请先设置参数！<br>
+                  <a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
+                  <a class="close">取消</a>
+                </div>
+      		</div>
+          </div>
+      </div>
       <div class="container">
       	<div id="content">
               <div id="login-box" class="login-popup">

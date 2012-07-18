@@ -50,10 +50,7 @@ class StrategyController < ApplicationController
   end
 
   def pay
-    @strategy=Strategyweb.find(params[:id])
-  end
-
-  def prealipay
+  # prealipay
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
     Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
