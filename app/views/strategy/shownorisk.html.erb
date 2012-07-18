@@ -82,12 +82,12 @@
 	<ul><li>
       <% if @webuser!=nil %>
       <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-	<a href="/autotrade/autotrade_s1/1"> 自动化交易</a>
+	<a href="#autotrade-box"  class="autotrade_p"> 自动化交易</a>
           <% else %>
           <a href="/autotrade/personaltrading"> 自动化交易</a>
           <% end %>
       <% else %>
-      <a href="/autotrade/autotrade_s1/1"> 自动化交易</a>
+      <a href="#login-box" class="login-window"> 自动化交易</a>
       <% end %>
     </li></ul></div>
   <div id="norisktitle"><h2>策略实时运行中:</h2></div>
@@ -103,6 +103,7 @@
     //$(document).ready(function(){
     //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
    // });
+
     function showintro(){
         $(document).ready(function() {
 
@@ -210,7 +211,7 @@
         para.checked=null;
             <% else %>
         if(para.checked){
-            mychecked_s=1
+            mychecked_s=1;
         }
         else{
             mychecked_s=0
@@ -291,7 +292,6 @@
         });
     });
 </script>
-<br />
 <div id="btpricetable">
 <h2 class="wenzi"> 历史最佳套利机会: </h2></div>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
@@ -552,8 +552,8 @@
 	checktimeMKTime();
     setTimeout(listen_ajax_watchdog,10000) ;
 
-</script>
-<div style="float: right;width: 250px ;margin:-470px -270px 0 0;" >
+</script> </div>
+<div style="float: right;width: 250px;margin-top: 65px" >
 
   <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
   <% if (session[:webuser_name]==nil) %>
