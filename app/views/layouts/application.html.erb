@@ -90,7 +90,6 @@ $(document).ready(function(){
           <div class="logoimage">
           <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
           </div>
-
           <% if session[:webuser_name]==nil then%>
           <div class="register">
          <div class="registerzc">
@@ -105,6 +104,10 @@ $(document).ready(function(){
 		  <div class="loginimg" style="visibility: hidden; ">
           </div>
           </div>
+  		  <div id="weiboblock">
+		  <iframe width="63" height="24" frameborder="0" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="http://widget.weibo.com/relationship/followbutton.php?language=zh_cn&width=63&height=24&uid=2858671002&style=1&btn=red&dpc=1"></iframe>
+		  </div>	
+
           <% else %>
         <div class="welcomeuser">
 			<a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
