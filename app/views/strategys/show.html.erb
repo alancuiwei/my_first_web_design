@@ -1,6 +1,10 @@
 ﻿<%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
+<% if session[:webuser_name]==nil %>
+    <a href="#login-box" class="login-window">定制</a>
+    <% else %>
 <a href="/strategys/individual/2">定制</a>
+    <% end %>
 <h2><%= @strategyweb.name %></h2>
 <table id="monthly" >
   <tr>
