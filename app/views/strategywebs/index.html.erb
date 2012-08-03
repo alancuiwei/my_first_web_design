@@ -85,14 +85,18 @@
         $('.dynamicsparkline').sparkline(<%= @profitchart_arr%>);
     } );
 </script>
+
 <% @strategywebs.each do |strategyweb| %>
     <div style="float: left;">
       <% if @webuser!=nil%>
+          <% if Subscribetable.find_by_subscribe_userid_and_strategy_userid_and_strategyid_and_ordernum(Webuser.find_by_name(session[:webuser_name]).id,strategyweb.userid,strategyweb.strategyid,strategyweb.ordernum)==nil %>
+          <a href="/s010001/subscribe/<%=strategyweb.id%>">订购</a>
+              <% else %>
+          已订购
+              <% end %>
           <% if @hash_iscollect[strategyweb.id]==1 %>
-              订购
               <%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
           <% else %>
-              订购
           <%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
 <% end %>
           <% end %>

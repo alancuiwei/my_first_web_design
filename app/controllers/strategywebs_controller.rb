@@ -5,10 +5,10 @@ class StrategywebsController < ApplicationController
     @strat_profit=200000
     @strategywebs = Strategyweb.all
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    if @webuser!=nil
     if @webuser.collect==nil
     @webuser.update_attribute(:collect,"")
     end
-    if @webuser!=nil
       if @webuser.name=='administrator'
         @show_flag=1
       end

@@ -118,10 +118,13 @@ $(document).ready(function(){
            <% else %>
            <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
            <% end %>
+                      <!--      <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li> -->
 			<li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id) %></li>
+                 <li><%= link_to("收藏的策略",:controller=>"usermanagement" ,:action=>"collection", :id=>@webuser.id) %></li>
                   <% else %>
                   <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
                   <li><a href="#login-box" class="login-window">订阅的策略</a></li>
+                            <li><a href="#login-box" class="login-window">收藏的策略</a></li>
                   <% end %>
             </ul>
 </div>

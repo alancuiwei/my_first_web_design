@@ -567,15 +567,15 @@
 <% if(Webuser.find_by_name(session[:webuser_name]).level==0) %>
       <div id="title-top">
 <ul>
-<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-<li><a class="login-window" href="/strategy/try/<%=@strategy_norisk.id%>" >试用</a></li>
+<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
 </ul>
       </div>
 <% else %>
 <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
 <div id="title-top1"><div class="top1left">
 <ul>
-<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
 <% if Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
 	<li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
 <% end %>
@@ -670,7 +670,7 @@
 
       function issubscribe(){
           if(confirm('您钱真多，再付一次钱吧！')){
-              location.href=("/strategy/subscribe/<%=@strategy_norisk.id%>")
+              location.href=("/s010001/subscribe/<%=@strategy_norisk.id%>")
           }
       }
       function havetry(){
