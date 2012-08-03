@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120625094653) do
+ActiveRecord::Schema.define(:version => 20120713024926) do
 
   create_table "arbcostmaxreturnrate_v", :id => false, :force => true do |t|
     t.string   "pairname",    :limit => 20
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.float    "delivermarginfee",                  :default => 1.0
     t.float    "vatrate",                           :default => 1.0
     t.float    "vatfee",                            :default => 1.0
+    t.integer  "isorder"
   end
 
   create_table "strategyparam_t", :force => true do |t|
@@ -79,6 +80,9 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.float   "closeposprice"
     t.float   "marginaccount"
     t.float   "profit"
+    t.string  "strategyid",    :limit => 20
+    t.integer "userid"
+    t.integer "ordernum"
   end
 
   create_table "strategyreference_t", :id => false, :force => true do |t|
@@ -113,14 +117,17 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.integer "yearid"
     t.integer "monthid"
     t.float   "returnrate"
+    t.string  "strategyid", :limit => 20
+    t.integer "userid"
+    t.integer "ordernum"
   end
 
   create_table "strategyweb", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.string   "image_url"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
     t.string   "strategyid"
     t.float    "anreturn"
     t.string   "strategytype"
@@ -128,14 +135,28 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.date     "startdate"
     t.string   "developer"
     t.integer  "strategyweb_id"
-    t.string   "control",        :null => false
-    t.string   "action",         :null => false
+    t.string   "control"
+    t.string   "action"
     t.float    "lastdayfunds"
     t.integer  "userid"
     t.string   "ordernum"
-    t.integer  "commoditynames"
+    t.string   "commoditynames"
+    t.string   "configtype",     :limit => 45
     t.float    "price"
     t.float    "trydays"
+  end
+
+  create_table "subscribetable", :force => true do |t|
+    t.string   "subscribeid"
+    t.string   "strategyid"
+    t.integer  "ordernum"
+    t.integer  "strategy_userid"
+    t.integer  "subscribe_userid"
+    t.float    "price"
+    t.float    "subscribedays"
+    t.datetime "subscribedate"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "todayinfo_t", :primary_key => "contractid", :force => true do |t|
@@ -149,6 +170,16 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.float    "tardecharge"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "userstrategy_t", :force => true do |t|
+    t.integer  "userid"
+    t.string   "strategyname"
+    t.string   "strategyid"
+    t.string   "objecttype"
+    t.string   "commoditynames"
+    t.datetime "startdate"
+    t.integer  "ordernum"
   end
 
   create_table "versionstable", :force => true do |t|
@@ -176,6 +207,12 @@ ActiveRecord::Schema.define(:version => 20120625094653) do
     t.integer  "level"
     t.datetime "leveldate"
     t.string   "collect"
+    t.text     "ctp_account"
+    t.text     "ctp_password"
+    t.text     "ctp_brokerid"
+    t.text     "ctp_frontaddr"
+    t.text     "fp_id"
+    t.datetime "fp_date"
   end
 
   create_table "webuserstrategy", :force => true do |t|

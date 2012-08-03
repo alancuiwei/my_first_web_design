@@ -5,53 +5,144 @@
     tr.even td.sorting_1 {background-color: #D3D6FF;}
 </style>
 -->
-<h1>无风险套利策略</h1>
+<div class="slider2">
+  
+  <div id="slice12">
+    <ul>
+  <li><a onmouseover="showintro()"></a>
+  </li>
+  </ul>
+  </div>
+  </div>
 
+
+<div class="lframe_norisk"></div>
+<div class="rframe_norisk"></div>
+<!--
+<% if session[:webuser_name]!=nil %>
+    <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
 <div id="dingyue">
-  <a  href="/strategy/shownorisk" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
+  <a  href="/strategy/subscribe/<%=@strategy_norisk.id%>" class="btnBc">
+<span class="btnBc">
+<span class="btnBc">
+<span class="btnBc">订 阅</span>
 </span>
 </span>
 </a>
-<!--
-  <a  href="/strategy/shownorisk" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
+  <a  href="/autotrade/personaltrading" class="btnBa">
+<span class="btnBa">
+<span class="btnBa">
+<span class="btnBa">自动化交易</span>
 </span>
 </span>
-  </a>
-  <a  href="/strategy/shownorisk" class="btnBb">
-<span class="btnBb">
-<span class="btnBb">
-<span class="btnBb">订 阅</span>
-</span>
-</span>
-  </a>
-  -->
+</a>
 </div>
-<!--<%= button_to "订阅" %> -->
+    <% else %>
+        <div id="dingyue">
+              <a  href="javascript:void(0)" class="btnBc" onclick="issubscribe()">
+<span class="btnBc">
+<span class="btnBc">
+            <span class="btnBc">已订阅</span>
+</span>
+</span>
+  </a>
+          <a  href="/autotrade/personaltrading" class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">自动化交易</span>
+        </span>
+        </span>
+        </a>
+            </div>
+    <% end %>
+    <% else %>
 
+    <div id="dingyue">
+      <a href="#login-box"  class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+  </a>
+      <a  href="#login-box" class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">自动化交易</span>
+    </span>
+    </span>
+    </a>
+</div>
+
+    <% end %>
+	-->
+<!--<%= button_to "订阅" %> -->
+<div class="zice">
     <div class="ironbars">
-  <div id = "norisktitle"><h2  class="strategyconduction">策略实时运行中:</h2></div>
+	<ul><li>
+      <% if @webuser!=nil %>
+      <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
+	<a href="#autotrade-box"  class="autotrade_p"> 自动化交易</a>
+          <% else %>
+          <a href="/autotrade/personaltrading"> 自动化交易</a>
+          <% end %>
+      <% else %>
+      <a href="#login-box" class="login-window"> 自动化交易</a>
+      <% end %>
+    </li></ul></div>
+  <div id="norisktitle"><h2>策略实时运行中:</h2></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
-      </div> <%= @trynotice  %>
 <div id=checkbox>
       <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
       <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
 </div>
+</div>
+
+
 <script type="text/javascript">
     //$(document).ready(function(){
     //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
    // });
+
+    function showintro(){
+        $(document).ready(function() {
+
+           		// Getting the variable's value from a link
+           		var loginBox = "#showintro";
+           		//Fade in the Popup and add close button
+           		$(loginBox).fadeIn(300);
+
+           		//Set the center alignment padding + border
+           		var popMargTop = ($(loginBox).height() + 24) / 2;
+           		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+           		$(loginBox).css({
+           			'margin-top' : -popMargTop,
+           			'margin-left' : -popMargLeft
+           		});
+
+           		// Add the mask to body
+           		$('body').append('<div id="mask"></div>');
+           		$('#mask').fadeIn(300);
+
+           		return false;
+           	});
+
+           	// When clicking on the button close or the mask layer the popup closed
+           	$('a.close, #mask').live('click', function() {
+           	  $('#mask , .login-popup').fadeOut(300 , function() {
+           		$('#mask').remove();
+           	});
+           	return false;
+           	});
+           //
+    }
     function notyAlertWithButtons(layout, theme){
       noty({layout : layout, theme : theme, type : 'notification', text: '您还没有登录！',
         buttons: [
           {type: 'btn btn-primary', text: '登录', click: function($noty) {
               $noty.close();
-              window.location.href='../sessions/new';
+              window.location.href='/sessions/new';
             }
           },
           {type: 'btn btn-danger', text: '取消', click: function($noty) {
@@ -65,9 +156,9 @@
     function notyAlertWithButtons_0(layout, theme){
       noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
         buttons: [
-          {type: 'btn btn-primary', text: '确定', click: function($noty) {
+          {type: 'btn btn-primary', text: '请先订阅策略', click: function($noty) {
               $noty.close();
-              noty({force: true, layout : layout, theme : theme, text: '找管理员！', type: 'error'});
+              window.location.href='/strategy/subscribe/1';
             }
           },
           {type: 'btn btn-danger', text: '取消', click: function($noty) {
@@ -90,14 +181,37 @@
     }
     function mychecked_2(para){
         <% if @webuser==nil%>
-        notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+
+               // Getting the variable's value from a link
+         		var loginBox = "#login-box";
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
+         		//Fade in the Popup and add close button
+         		$(loginBox).fadeIn(300);
+
+         		//Set the center alignment padding + border
+         		var popMargTop = ($(loginBox).height() + 24) / 2;
+         		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+         		$(loginBox).css({
+         			'margin-top' : -popMargTop,
+         			'margin-left' : -popMargLeft
+         		});
+
+         		// Add the mask to body
+         		$('body').append('<div id="mask"></div>');
+         		$('#mask').fadeIn(300);
+        //notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
         para.checked=null;
         <% elsif @webuser.level==0%>
-        notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        //notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        box("#msg-box");
         para.checked=null;
             <% else %>
         if(para.checked){
-            mychecked_s=1
+            mychecked_s=1;
         }
         else{
             mychecked_s=0
@@ -131,9 +245,11 @@
     });
 </script>
 <!-- default table -->
-<div id ="rtpricetable"></div> <div class="myheight"></div>
+<div id ="rtpricetable">
+
+</div> 
 <!-- strategytro -->
-<h2 class="strategyconduction" >策略介绍:</h2>
+<!-- <h2 class="strategyconduction" >策略介绍:</h2>
 <table class="biaoge">
   <tr>
     <th>交易品种</th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
@@ -148,7 +264,7 @@
     <th class="last">系统开发者</th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
   </tr>
 </table>
-
+-->
 <script type="text/javascript">
     jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
     /* Remove any formatting */
@@ -176,8 +292,8 @@
         });
     });
 </script>
-<br />
-<h2  class="strategyconduction"> 历史最佳套利机会: </h2>
+<div id="btpricetable">
+<h2 class="wenzi"> 历史最佳套利机会: </h2></div>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 	  <tbody>
         <% @allmaxreturnrate.each do |maxreturnrate|
@@ -193,7 +309,8 @@
             <% end %>
         <% end %>
 	   </tbody>
-<!--      <tfoot>
+<!--      
+<tfoot>
 	  <tr>
         <th>套利对名称</th>
         <th>近期价格</th>
@@ -205,27 +322,12 @@
 	  </tfoot>
 -->
 </table>
-<div class="myheight"></div>
-
-     <h2 class="strategyconduction">无风险策略介绍:</h2>
-
-
-<p class="ironbarsp1">无风险套利属于跨期套利的一种，而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，在同一期货商品的不同合约月份建立数量相等、方向相反的持仓如何把握主力持仓量，并以对冲或交割方式结束交易的一种操作方式。其中参与实际仓单交割的套利就是无风险套利，因为建立在严格的持仓成本和持仓条件基础上，一般不会受市场行情波动的影响。当然，满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，一旦发生，往往会吸引资金积极参与。 </p>
-<p class="ironbarsp2">无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。</p>
 
 
 <!-- noriskmessage -->
-<div class="myheight"></div>
- <div class="adverise">
-<h2 class="strategyconduction" >提点意见吧？</h2>
- </div>
- <div class = "newremark">
- <iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="220" width="526" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
- </div>
- <div class ="remarkslist">
-   <h2>所有评论:</h2>
-<iframe name="iframe_index" src="/noriskmessages" width="526" scrolling="no" height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
- </div>
+
+ 
+ 
 <!-- JavaScript -->
 <script type="text/javascript">
     //table data storage (2D array)
@@ -450,4 +552,158 @@
 	checktimeMKTime();
     setTimeout(listen_ajax_watchdog,10000) ;
 
-</script>
+</script> </div>
+<div style="float: right;width: 250px;margin-top: 30px" >
+
+  <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
+  <% if (session[:webuser_name]==nil) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="#login-box" >订阅</a></li>
+<li><a class="login-window" href="#login-box" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if(Webuser.find_by_name(session[:webuser_name]).level==0) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<li><a class="login-window" href="/strategy/try/<%=@strategy_norisk.id%>" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
+<div id="title-top1"><div class="top1left">
+<ul>
+<li><a class="login-window" href="/strategy/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<% if Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
+	<li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
+<% end %>
+</ul> </div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% else %>
+<div id="title-top1"> <div class="top1left">   <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% end %>
+<% end %>
+<% end %>
+
+<!--  <input type="button" value="详细" id="subscribe">  -->
+<div id="psubscribe">
+<p>该策略的定价为<%= Strategyweb.find_by_strategyid("010001").price%>元每月，您将有<%= Strategyweb.find_by_strategyid("010001").trydays%>天的免费试用期。
+<p>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>
+</div>
+
+
+<!--      <a class="btnB"  href="javascript:void(0)">
+<span>
+<span>
+<span id="subscribe">详细</span>
+</span>
+</span>
+ </a>
+-->
+
+
+  <!--<input type="button" value="详细" id="subscribe">    -->
+  <div id="menuop"></div>
+<div id="celuojieshao">
+<h2>策略介绍:</h2>
+<div class="celuojieshaol">
+<h2>交易品种</h2>
+<h2>策略类型</h2>
+<h2>系统开始时间</h2>
+<h2>系统开发者</h2>
+</div>
+<div class="celuojieshaom">
+</div>
+<div id="celuojieshaor">
+<h2><%= @strategy_norisk.strategytype  %></h2>
+<h2><%= @strategy_norisk.strategyattr  %></h2>
+<h2><%= @strategy_norisk.startdate  %></h2>
+<h2><%= @strategy_norisk.developer  %></h2>
+</div>
+
+</div>
+<div id="tiyijian">
+<h2>提点意见</h2>
+
+
+<div class ="remarkslist">
+
+<iframe name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height="600" marginheight="0" marginwidth="0" style="border:none"></iframe>
+</div>
+
+</div>
+
+<div class="adverise">
+<h2 class="strategyconduction" >您的意见</h2>
+</div>
+<div class = "newremark">
+<iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
+</div>
+
+</div>
+ <!-- <%= button_to "订阅" %> -->
+  <script type="text/javascript">
+      $("#menuop").hide();
+      $("#subscribe").click(function(){ <!--点击按钮触发-->
+          if($("#menuop").is(":hidden")){
+              $("#menuop").show();
+              $("#menuop").html("<p id='psubscribe'>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>");
+          }
+          else
+          $("#menuop").hide();
+     });
+
+      function issubscribe(){
+          if(confirm('您钱真多，再付一次钱吧！')){
+              location.href=("/strategy/subscribe/<%=@strategy_norisk.id%>")
+          }
+      }
+      function havetry(){
+          alert("您已经在试用了！")
+      }
+      function havedtry(){
+          alert("您已经试用过了！")
+      }
+
+      function box(id){
+          var loginBox = id;
+        		//Fade in the Popup and add close button
+        		$(loginBox).fadeIn(300);
+
+        		//Set the center alignment padding + border
+        		var popMargTop = ($(loginBox).height() + 24) / 2;
+        		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        		$(loginBox).css({
+        			'margin-top' : -popMargTop,
+        			'margin-left' : -popMargLeft
+        		});
+          $('body').append('<div id="mask"></div>');
+        		$('#mask').fadeIn(300);
+      }
+  </script>
+<div class="container">
+	<div id="content">
+        <div id="msg-box" class="login-popup">
+        <div style="width: 200px;height: 200px;background: white;" id="msg-show">
+		<p>您还不是收费用户，请先订阅策略</p>
+          <a href="/strategy/subscribe/1">订阅</a> <a href="javascript:void(0)" id="cancle">取消</a>
+        </div>
+        </div>
+    </div>
+</div>

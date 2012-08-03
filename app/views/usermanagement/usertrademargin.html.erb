@@ -14,10 +14,10 @@
     $(function(){
         $("#datatables").dataTable({
             "aoColumns": [
-                { "sTitle": "操作", "sClass": "center" },
                 { "sTitle": "商品名", "sClass": "center" },
                 { "sTitle": "商品代号", "sClass": "center" },
-                { "sTitle": "当前保证金比例","sType": "formatted-num", "sClass": "center" }
+                { "sTitle": "当前保证金比例","sType": "formatted-num", "sClass": "center" },
+                { "sTitle": "操作", "sClass": "center" }
         ]
         });
     });
@@ -42,23 +42,21 @@
 
 
       <tbody>
-      <% i=0 %>
       <% @usercommodity.each do |usercommodity_t| %>
          <tr>
+           <td class = "center"><%= @hash_commodityid[usercommodity_t.commodityid] %></td>
+           <td class = "center"><%= usercommodity_t.commodityid %></td>
+           <td class = "center"><%=  format( "%.0f",@hash_exchtrademargin[usercommodity_t.commodityid]*100)  %>%</td>
            <td class = "center"><%= link_to '修改', :controller =>"usercommodity_ts", :action => "edittm" , :id => usercommodity_t.id  %></td>
-           <td class = "center"><%= @hash_commodityid[@commodityid[i]] %></td>
-           <td class = "center"><%= @commodityid[i] %></td>
-           <td class = "center"><%=  format( "%.0f",@exchtrademargin[i]*100)  %>%</td>
          </tr>
-      <% i=i+1 %>
       <% end %>
       </tbody>
       <tfoot>
           <tr>
-            <th><center>操作</center></th>
             <th><center>商品名</center></th>
             <th><center>商品代号</center></th>
             <th><center>当前保证金比例</center></th>
+            <th><center>操作</center></th>
           </tr>
       </tfoot>
     </table>

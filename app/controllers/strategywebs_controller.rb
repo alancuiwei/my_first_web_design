@@ -34,10 +34,13 @@ class StrategywebsController < ApplicationController
       end
       i=i+1
     end
-
+    Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
     @profitchart_arr=Array.new
+    @profitchart_arr_day=Array.new
     for i in 0..23
     @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+@strat_profit
+    @profitchart_arr_day[23-i]=Time.at(Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].dateint/1000).to_s(:stamp)
+    #DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000
     end
 
     respond_to do |format|

@@ -14,7 +14,9 @@
 -->
  <% if @webuser==nil %>
 	<br />
-    <%= button_to "请先登录",:controller=>"sessions" ,:action=>"new" %>
+    <h1> <a href="#login-box" class="login-window">登录</a> </h1>
+    <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
+        <%= button_to "请先设置参数",:controller=>"autotrade" ,:action=>"autotrade_s1" ,:id=>Strategyweb.find_by_name("无风险套利").id %>
 <% else %>
 <!--
 <div class="ironbars">
@@ -22,20 +24,66 @@
 </div>
 -->
 <script type="text/javascript">
+    var isorder_search;
+    var hash_isorder_show = new Hashtable();
+    var hash_isorder_opshow = new Hashtable();
     function pageBeforeunload(evt){
          return '系统正在为您实时计算符合您年化收益率的交易机会，您一旦离开该页面，系统将无法为您服务，您真的确定要离开吗？';
     }
+    show_all();
+    function show_all(){
+        $.get("personaltrading", { isorder_show: "isorder_show" },function(data,status){
+            isorder_search=2;
+            hash_isorder_show.clear();
+            for(var i=0;i<data.length;i++){
+                hash_isorder_show.add(data[i].pairname,1)
+            }
+        } );
+    }
+
+    function show_none(){
+        $.get("personaltrading", { isorder_show: "isorder_show" },function(data,status){
+            isorder_search=0;
+            hash_isorder_show.clear();
+            for(var i=0;i<data.length;i++){
+                if(data[i].isorder==null)
+                hash_isorder_show.add(data[i].pairname,1)
+                else
+                    hash_isorder_show.add(data[i].pairname,0)
+            }
+        } );
+    }
+
+    function show_done(){
+        $.get("personaltrading", { isorder_show: "isorder_show" },function(data,status){
+            isorder_search=1;
+            hash_isorder_show.clear();
+            for(var i=0;i<data.length;i++){
+                if(data[i].isorder==null)
+                hash_isorder_show.add(data[i].pairname,0)
+                else
+                    hash_isorder_show.add(data[i].pairname,1)
+            }
+        } );
+    }
+
 </script>
-<h2>个性化设置 - 无风险套利 </h2>
+<h2>个性化交易</h2>
+<!--
 <div id="showchart">
 </div>
-
+-->
 <br />
-<h2>个性化交易 - 无风险套利 </h2>
+<!-- <h2>个性化交易 - 无风险套利 </h2> -->
     <div id="showtime"></div>
     <% if @webuser.level==0%>
         <h2>您还不是收费用户，不能查看个性化交易。</h2>
         <% else %>
+        <div style="float: right;margin-right:60px">
+              <a href="javascript:void(0)" onclick="show_all()">全部</a>&nbsp;&nbsp;
+              <a href="javascript:void(0)" onclick="show_none()">未下单</a>&nbsp;&nbsp;
+              <a href="javascript:void(0)" onclick="show_done()">已下单</a>
+            </div>
     <div id="rtpricetable_user"></div>
 <% end %>
 <% end %>
@@ -125,29 +173,37 @@
          noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title+content,timeout : false });
         });
     }
+
+    <% for i in 0..@stg010001s_isorder_out.size-1%>
+        hash_isorder_opshow.add('<%= @stg010001s_isorder_out[i].pairname%>',1)
+    <% end%>
     function  myclick_post(s)
     {
-        alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
-        /*交易功能
+        //alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
+        //交易功能
         var name=hash_post.items(s)[0].replace(/-/,"&");
         if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
-        $.post("personaltrading", { name: name,disprice:hash_post.items(s)[1] } );
-        //alert("套利合约对名："+name+" .最新价差："+hash_post.items(s)[1])    */
+        $.post("personaltrading", { name: name,disprice:hash_post.items(s)[1] },function(data,status){
+            for(var i=0;i<data.length;i++){
+                hash_isorder_opshow.add(data[i].pairname,1)
+            }
+        } );
+        //alert("套利合约对名："+name+" .最新价差："+hash_post.items(s)[1])
     }
     function  myclick_post_s(s)
     {
-        alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
-        /*交易功能
+        //alert("您如欲进行实盘交易，请电子邮件联系： alan_cuiwei@yahoo.com.cn， 或电话联系 崔先生：13451936496 ");
+        //交易功能
         var name=hash_post.items(s)[0].replace(/-/,"&");
         if(name.charCodeAt(0)>=65 && name.charCodeAt(0)<=90)
            name="SPD "+name
         else
            name="SP "+name
         $.post("personaltrading", { name_s: name } );
-        //alert("套利合约对名："+name) */
+        //alert("套利合约对名："+name)
     }
     var funds_c = new Array();
     var returnrate_current = new Array();
@@ -359,8 +415,13 @@
                                          +"<br>保本收益率:"+(userrateofreturn_first[i]*100).toFixed(1)+"%=(总收入:"+income_s+"-套利成本:"+costfee_s+")/投入资金"+putfund_s+"*365/远期距离交割天数:"+(hash_notes.items(i)[7]+hash_notes.items(i)[15])
                                          +"<br>三、当前盈利额计算：<br>当前盈利额:"+got_current[i]+"=((下单时远期价格:"+hash_notes.items(i)[4]+"-下单时近期价格:"+hash_notes.items(i)[3]+")+(当前远期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])+"- 当前近期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+")*单位交易数目:"+hash_notes.items(i)[16]
                                          +"<br>四、当前所费资金量计算:<br>当前所费资金量:"+funds_c[i]+cost_fund_s+"<br>五、当前收益率计算:<br>当前收益率:"+(returnrate_current[i]*100).toFixed(1)+"%=(当前盈利额:"+got_current[i]+"/当前所费资金量:"+funds_c[i]+")*100%"]);
+                                     if(hash_isorder_opshow.items(rtxml_arr['pairstrade']['pair'][i]['name'])==1)
                                      tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
-                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
+                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">详情</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
+                                     else
+                                         tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
+                                         (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'];
+
                                  }
                              }
                              }
@@ -406,8 +467,14 @@
                                              +"<br>三、当前盈利额计算：<br>当前盈利额:"+got_current_db[i]+"=((下单时远期价格:"+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]+"-下单时近期价格:"+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]+")+(当前远期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])+"- 当前近期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+")*单位交易数目:"+hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[18]
                                              +"<br>四、当前所费资金量计算:<br>当前所费资金量:"+funds_c[i]+cost_fund+"<br>五、当前收益率计算:<br>当前收益率:"+(returnrate_current[i]*100).toFixed(1)+"%=(当前盈利额:"+got_current_db[i]+"/当前所费资金量:"+funds_c[i]+")*100%"]);
                                          hash_post.add(i,[rtxml_arr['pairstrade']['pair'][i]['name'],parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])]);
+                                         if(hash_isorder_opshow.items(rtxml_arr['pairstrade']['pair'][i]['name'])==1)
                                              tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
-                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#showchart" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>']
+                                                 (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#showchart" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>']
+                                         else
+                                             tabledata_user[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*100).toFixed(1)+"%",hash_stg010001.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1],got_current_db[i],
+                                                   (returnrate_current[i]*100).toFixed(1)+"%" ,'<a href="#showchart" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>']
+
+
                                      }
                                  }
                                  //rebuild
@@ -450,20 +517,24 @@
                                                  +"<br>保本收益率:"+(userrateofreturn_first[i]*100).toFixed(1)+"%=(总收入:"+income_sn+"-套利成本:"+costfee_sn+")/投入资金"+putfund_sn+"*365/远期距离交割天数:"+(hash_notes.items(i)[7]+hash_notes.items(i)[15])
                                                  +"<br>三、当前盈利额计算：<br>当前盈利额:"+got_current[i]+"=((下单时远期价格:"+hash_notes.items(i)[4]+"-下单时近期价格:"+hash_notes.items(i)[3]+")+(当前远期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])+"- 当前近期合约价格:"+parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+")*单位交易数目:"+hash_notes.items(i)[16]
                                                  +"<br>四、当前所费资金量计算:<br>当前所费资金量:"+funds_c[i]+cost_fund_sn+"<br>五、当前收益率计算:<br>当前收益率:"+(returnrate_current[i]*100).toFixed(1)+"%=(当前盈利额:"+got_current[i]+"/当前所费资金量:"+funds_c[i]+")*100%"]);
-
+                                             if(hash_isorder_opshow.items(rtxml_arr['pairstrade']['pair'][i]['name'])==1)
                                              tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
-                                                 (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
+                                                 (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post_s('+i+')">订单查询</a>'];
+                                             else
+                                                 tabledata_user[hash_stg010001.count()+i]=[rtxml_arr['pairstrade']['pair'][i]['name'],(userrateofreturn_first[i]*100).toFixed(1)+"%",hash_notes.items(i)[0],got_current[i],
+                                                    (returnrate_current[i]*100).toFixed(1)+"%",'<a href="#" onclick="myclick('+i+')">查看</a>'+'  '+'<a href="#" onclick="myclick_post('+i+')">下单</a>'];
+
                                          }
                                      }
                                  }
                              }
                                  for(var k=0,s=0;k<tabledata_user.length;k++){
-                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0){
+                                     if(tabledata_user[k]!=null&&tabledata_user[k][0]!=0&&hash_isorder_show.items(tabledata_user[k][0])==1){
                                          tabledata_user_f[s]=tabledata_user[k];
                                          s=s+1;
                                      }
                                  }
-                                     $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="user"></table>');
+                                     $('#rtpricetable_user').html('<table cellpadding="0" cellspacing="0" border="0" class="displayzd" id="user"></table>');
                                      $('#user').dataTable( {
                                          "aaData": tabledata_user_f,"aaSorting": [[1,"desc"]],
                                          "bPaginate": false, "bAutoWidth": false,

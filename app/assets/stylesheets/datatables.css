@@ -30,13 +30,15 @@
  * DataTables features
  */
 
-.body h2 { font:normal 16px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:rgb(78,108,163); padding:4px; 
+.body h2 { font:normal 15px Microsoft Yahei, "Times New Roman", Times, serif; color:#b04747; padding:4px; 
 margin-top:2px;clear:both;
-font-weight:bold;
+
 }
  
 .dataTables_wrapper {
+width:600px;
 	margin-top: 0px;
+	float:left;
 /*	position: relative;
 	clear: both;
 	zoom: 1; *//* Feeling sorry for IE */
@@ -59,30 +61,38 @@ font-weight:bold;
 }
 
 .dataTables_length {
-	font: 80% Hiragino Sans GB W3;
-	width: 40%;
-	margin:5px;
+	font:  12px Microsoft Yahei;
+	width: 150px;
+	margin:10px 5px 0 25px;
 	float: left;
+	padding-left:50px;
+	color:#6e6f6f;
 }
 
 .dataTables_filter {
-	font: 80% Hiragino Sans GB W3;
-	width: 50%;
-	margin:5px;
+	font:  12px Microsoft Yahei;
+	width: 200px;
+	margin:10px 40px 0 5px;
 	float: right;
 	text-align: right;
+	color:#6e6f6f;
 }
 
 .dataTables_info {
-	font: 80% Hiragino Sans GB W3;
-	width: 60%;
-	float: left;
+	font:normal 10px Microsoft Yahei  ;
+	width: 220px;
+	float: right;
+	color:#959595;
+	margin-top:10px;
+	font-style:italic;
 }
 
 .dataTables_paginate {
-	font: 80% Hiragino Sans GB W3;
-	float: right;
+	font: 80% Microsoft Yahei;
+	float: left;
+	margin-top:10px;
 	text-align: right;
+	padding-left:60px;
 }
 
 /* Pagination nested */
@@ -92,7 +102,10 @@ font-weight:bold;
 	float: left;
 	cursor: pointer;
 	*cursor: hand;
-	color: #111 !important;
+	color: #959595 !important;
+	margin-right:14px;
+	text-decoration:underline;
+	font:bold 12px;
 }
 .paginate_disabled_previous:hover, .paginate_enabled_previous:hover,
 .paginate_disabled_next:hover, .paginate_enabled_next:hover {
@@ -105,37 +118,19 @@ font-weight:bold;
 
 .paginate_disabled_previous,
 .paginate_disabled_next {
-	color: #666 !important;
-}
-.paginate_disabled_previous, .paginate_enabled_previous {
-	padding-left: 23px;
-}
-.paginate_disabled_next, .paginate_enabled_next {
-	padding-right: 23px;
-	margin-left: 10px;
+	color: #959595 !important;
+	margin-right:14px;
+	font:bold 12px ;
+	text-decoration:underline;
+
 }
 
-.paginate_disabled_previous {
-	background: url(back_disabled.png) no-repeat top left;
-}
 
-.paginate_enabled_previous {
-	background: url(back_enabled.png) no-repeat top left;
-}
-.paginate_enabled_previous:hover {
-	background: url(back_enabled_hover.png) no-repeat top left;
-}
 
-.paginate_disabled_next {
-	background: url(forward_disabled.png) no-repeat top right;
-}
 
-.paginate_enabled_next {
-	background: url(forward_enabled.png) no-repeat top right;
-}
-.paginate_enabled_next:hover {
-	background: url(forward_enabled_hover.png) no-repeat top right;
-}
+
+
+
 
 
 
@@ -143,10 +138,10 @@ font-weight:bold;
  * DataTables display
  */
 table.display {
-	margin: 0 auto;
+	margin: 0 0 0 40px;
 	clear: both;
-	width: 100%;
-	font: 80% Hiragino Sans GB W3;
+	width: 535px;
+	font: 80% Microsoft Yahei;
 	
 	/* Note Firefox 3.5 and before have a bug with border-collapse
 	 * ( https://bugzilla.mozilla.org/show%5Fbug.cgi?id=155955 ) 
@@ -165,11 +160,15 @@ table.display {
 table.display thead th {
 
 	border: none;
-	border-bottom: 1px solid black;
+	border-bottom: 2px solid #b04747;
+text-align:center;
+	font-size: 14px;
+color:#757475;
+font-family:Microsoft Yahei, Helvetica, sans-serif;
 
-	font-weight: bold;
 	cursor: pointer;
 	* cursor: hand;
+	margin-top:10px;
 }
 
 table.display tfoot th {
@@ -184,14 +183,56 @@ table.display tr.heading2 td {
 }
 
 table.display td {
-	padding: 3px 10px;
+	padding: 3px 5px;
+	color:#454545;
+	font:normal 12px Microsoft Yahei;
 }
 
 table.display td.center {
 	text-align: center;
+	color:#454545;
 }
 
+table.displayzd {
+	margin: 0  0px;
+	clear: both;
+	width: 600px;
+	font: 80% Microsoft Yahei;}
+table.displayzd thead th {
 
+	border: none;
+	border-bottom: 2px solid #b04747;
+text-align:center;
+	font-size: 14px;
+color:#757475;
+font-family:Microsoft Yahei, Helvetica, sans-serif;
+
+	cursor: pointer;
+	* cursor: hand;
+	margin-top:10px;
+}
+
+table.displayzd tfoot th {
+	padding: 3px 18px 3px 10px;
+	border: none;
+	border-top: 1px solid black;
+	font-weight: bold;
+}
+
+table.displayzd tr.heading2 td {
+	border-bottom: 1px solid #aaa;
+}
+
+table.displayzd td {
+	padding: 3px 5px;
+	color:454545;
+	font:normal 12px Microsoft Yahei;
+}
+
+table.displayzd td.center {
+	text-align: center;
+	color:#454545;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables sorting
@@ -202,11 +243,11 @@ table.display td.center {
 }
 
 .sorting_desc {
-	background: url(sort_desc.png) no-repeat center right;
+	background:  no-repeat center right;
 }
 
 .sorting {
-	background: url(sort_both.png) no-repeat center right;
+	background: no-repeat center right;
 }
 
 .sorting_asc_disabled {
@@ -263,11 +304,14 @@ table.display tr.even.gradeU {
 */
 
 tr.odd {
-	background-color: #E2E4FF;
+	background-color: #ececec;
 }
 
 tr.even {
 	background-color: white;
+	color:454545;
+	font:normal 12px Microsoft Yahei;
+	
 }
 
 
@@ -383,7 +427,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #D3D6FF;
+	background-color: #e1c2c0;
 }
 
 tr.odd td.sorting_2 {
@@ -395,7 +439,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #EAEBFF;
+	background-color: #f1e3e3;
 }
 
 tr.even td.sorting_2 {

@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "faary.css" %>
+﻿<%= stylesheet_link_tag "faary.css" %>
 
 <%= form_tag do %>
 
@@ -11,11 +11,13 @@
 <ul>
 <!-- <li class="iheader">论坛留言</li> -->
 <!-- <li><%= f.label :"标题：" %><%= f.text_field :title,:class=>"itext" %></li> -->
-<li><%= f.label :"内容：" %><%= f.text_area :body ,:class=>"itextarea" %></li>
-<li><%= f.submit :value=>"发表评论",:id=>"ie67bug"%></li>
+<li><%= f.text_area :body ,:class=>"itextarea" ,:style=>"resize:none"%></li>
+
+<li class="tijiaor"><input id="ie67bug" class="tijiao1" type="submit" value="提交" name="commit"></li>
 <br />
-<li class="iseparator">&nbsp;</li>
+
 </ul>
+
 <% end %>
 <script type="text/javascript">
   var Sys = {};
@@ -23,7 +25,6 @@
   if (window.ActiveXObject)
       Sys.ie = ua.match(/msie ([\d.]+)/)[1];
   if(Sys.ie!=7&&Sys.ie!=6){
-      document.getElementById("ie67bug").className="ibutton"
+      document.getElementById("ie67bug").className="tijiao1"
   }
-
   </script>

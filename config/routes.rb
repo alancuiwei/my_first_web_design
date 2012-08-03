@@ -7,6 +7,14 @@ Ver01::Application.routes.draw do
 
   resources :webuserstrategies
 
+  get "strategy/index"
+
+  get "strategy/performance"
+
+  get "strategy/show"
+
+  get "strategy/customization"
+
   get "contactus/intro"
 
   get "contactus/hire"

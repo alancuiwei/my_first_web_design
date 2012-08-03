@@ -28,7 +28,8 @@ def edittc
 
   if  params[:tradecharge_p]!=nil
     @usercommodity_t.update_attribute(:tradecharge,params[:tradecharge_p].to_f)
-   redirect_to :controller=>"usercommodity_ts" ,:action=>"showtc" ,:id=>params[:id]
+    render :json=>params[:tradecharge_p].to_f.to_json
+  # redirect_to :controller=>"usercommodity_ts" ,:action=>"showtc" ,:id=>params[:id]
   end
 
   end
@@ -52,11 +53,13 @@ def edittm
          break
        end
     end
-
+    session[:exchtrademargin]=@exchtrademargin[@usernum].to_d
   if  params[:trademargingap_p]!=nil
+    @render_p=params[:trademargingap_p].to_f
     params[:trademargingap_p]=params[:trademargingap_p].to_f/100-session[:exchtrademargin].to_f
     @usercommodity_t.update_attribute(:trademargingap,params[:trademargingap_p])
-   redirect_to :controller=>"usercommodity_ts" ,:action=>"showtm" ,:id=>params[:id]
+
+    render :json=>@render_p.to_json
   end
   end
 
