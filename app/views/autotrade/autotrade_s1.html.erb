@@ -209,7 +209,29 @@ $("." + divin).fadeIn("fast");
 
 <% end %>
     <% else %>
-   <h1> <a href="#login-box" class="login-window">登录</a> </h1>
+    <script type="text/javascript">
+                 		// Getting the variable's value from a link
+         		var loginBox = "#login-box";
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
+         		//Fade in the Popup and add close button
+         		$(loginBox).fadeIn(300);
+
+         		//Set the center alignment padding + border
+         		var popMargTop = ($(loginBox).height() + 24) / 2;
+         		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+         		$(loginBox).css({
+         			'margin-top' : -popMargTop,
+         			'margin-left' : -popMargLeft
+         		});
+
+         		// Add the mask to body
+         		$('body').append('<div id="mask"></div>');
+         		$('#mask').fadeIn(300);
+    </script>
 <% end %>
 <script type="text/javascript">
   function myop_retrun(s1,s2){
