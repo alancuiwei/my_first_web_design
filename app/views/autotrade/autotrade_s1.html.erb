@@ -113,10 +113,19 @@ $("." + divin).fadeIn("fast");
         <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a> -->
       </div>
     </div>
-   <div class="buttons">
+   <div class="buttons" id="s2_1">
 	<div class="frameprevious">
 	
-      <a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);"> 返回 </a>
+      <a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);;"> 返回 </a>
+	  </div>
+	  	<div class="framenext">
+      <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
+	    </div>
+    </div>
+    <div class="buttons" id="s2_2">
+	<div class="frameprevious">
+	
+      <a  href="javascript:void(0)" class="previous" onclick="myop_retrun(2,1);"> 返回 </a>
 	  </div>
 	  	<div class="framenext">
       <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
@@ -203,10 +212,17 @@ $("." + divin).fadeIn("fast");
    <h1> <a href="#login-box" class="login-window">登录</a> </h1>
 <% end %>
 <script type="text/javascript">
+  function myop_retrun(s1,s2){
+      $("#showtable").hide();
+      $("#huatai").show();
+      $("#radio_p2_s1").attr('checked',false);
+  }
     $("#showtable").hide();
+  $("#s2_2").hide();
     $("#radio_p2_s1").click(function(){
         $("#huatai").hide();
-
+        $("#s2_1").hide();
+        $("#s2_2").show();
             $("#showtable").show();
     });
 
