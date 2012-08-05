@@ -4,19 +4,18 @@
 <title>通天顺金融策略网 -- 无风险套利</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-<%= stylesheet_link_tag "reset.css" %>
-<%= stylesheet_link_tag "style.css" %>
-  <%= stylesheet_link_tag "jquery.noty.css" %>
-  <%= stylesheet_link_tag "noty_theme_growl.css" %>
-  <%= stylesheet_link_tag "noty_theme_facebook.css" %>
-  <%= stylesheet_link_tag "buttons.css" %>
-<%= stylesheet_link_tag "datatables.css" %>
-<%= javascript_include_tag "jquery.js" %>
-  <%= javascript_include_tag "jquery.noty.js" %>
-  <%= javascript_include_tag "xml2array.js" %>
-<%= javascript_include_tag "jquery.dataTables.min.js" %>
-<%= javascript_include_tag "easySlider1.5.js" %>
-
+  <%= stylesheet_link_tag "reset.css" %>
+  <%= stylesheet_link_tag "style.css" %>
+    <%= stylesheet_link_tag "jquery.noty.css" %>
+    <%= stylesheet_link_tag "noty_theme_growl.css" %>
+    <%= stylesheet_link_tag "noty_theme_facebook.css" %>
+    <%= stylesheet_link_tag "buttons.css" %>
+  <%= stylesheet_link_tag "datatables.css" %>
+  <%= javascript_include_tag "jquery.js" %>
+    <%= javascript_include_tag "jquery.noty.js" %>
+    <%= javascript_include_tag "xml2array.js" %>
+  <%= javascript_include_tag "jquery.dataTables.min.js" %>
+  <%= javascript_include_tag "easySlider1.5.js" %>
   <script type="text/javascript">
   $(document).ready(function() {
   		$('.menu > li').bind('mouseover', openSubMenu);
@@ -31,16 +30,6 @@
   			$(this).find('ul').css('visibility', 'hidden');
   		};
 
-		$('.login_dl').bind('mouseover', showimg);
-  		$('.login_dl').bind('mouseout', unshowimg);
-	
-  		function showimg() {
-  			$('.loginimg').css('visibility', 'visible');
-  		};
-
-  		function unshowimg() {
-  			$('.loginimg').css('visibility', 'hidden');
-  		};
   });
   </script>
 
@@ -70,64 +59,32 @@ $(document).ready(function(){
   })();
 
 </script>
- <script type="text/javascript">
- $(document).ready(function() {
- $('.registerzc').bind('mouseover', showimg);
-  		$('.registerzc').bind('mouseout', unshowimg);
-	
-  		function showimg() {
-  			$('.registerimg').css('visibility', 'visible');
-  		};
-
-  		function unshowimg() {
-  			$('.registerimg').css('visibility', 'hidden');
-  		};
-});
- </script>
-
 </head>
-
 <body onkeydown="enterkey()" onbeforeunload ="return pageBeforeunload(event);" >
 <div class="main">
   <div class="header">
-  <div class="pagedingbu">
-  
-  
-  </div>
-      <div class="block_header">
+  <div class="pagedingbu"> </div>
+    <div class="block_header">
           <div class="logoimage">
           <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
           </div>
 
           <% if session[:webuser_name]==nil then%>
           <div class="register">
-         <div class="registerzc">
-            <a href="#regedit-box" class="regedit-window">注册</a></div>
-            <div class="registerimg" style="visibility: hidden; " >
+            <a href="#regedit-box" class="regedit-window">注册</a>
           </div>
-          </div>
-         <div class="logandreg"></div>
-          <div class="login">
-         <div class="login_dl">
-            <a href="#login-box" class="login-window">登录</a></div>
-		  <div class="loginimg" style="visibility: hidden; ">
-          </div>
-          </div>
-   		  <div id="weiboblock">
-          <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
-		  
-		  </div>	
 
+          <div class="login">
+            <a href="#login-box" class="login-window">登录</a>
+          </div>
           <% else %>
           <div class="welcomeuser">
-		  <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
-		  <div class="yonghu">
-		  <p>
-            用户：<%= session[:webuser_name] %>!
-          </p>
-		  </div>
-		  <div class="yonghure"></div>
-		  </div>
+<a onclick="logout_s()" href="javascript:void(0)">&nbsp;退出</a>
+<div class="yonghu">
+<p> 用户：<%=session[:webuser_name]%>! </p>
+</div>
+<div class="yonghure"></div>
+</div>
 	  <% end %>
       <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
       <div class="clr"></div>
@@ -137,11 +94,11 @@ $(document).ready(function(){
 	  <div>
       <ul>
 		  <li ><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
-  		  <li class="active"><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
+        <li><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
         <% if @webuser==nil %>
             <li><a href="#login-box" class="login-window"><span><span><span>策略组合</span></span></span></a></li>
         <% else %>
-            <li><a href="/strategys_combine"><span><span><span>策略组合</span></span></span></a></li>
+            <li  class="active"><a href="/strategys_combine"><span><span><span>策略组合</span></span></span></a></li>
         <% end %>
         <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
@@ -169,7 +126,7 @@ $(document).ready(function(){
        <% if @webuser.name=="administrator" %>
        <li class="begin"><a href="/admin" >个人信息管理</a></li>
     <% else %>
-    <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
+              <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
     <% end %>
                       <!--      <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li> -->
 			<li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id) %></li>
@@ -197,17 +154,18 @@ $(document).ready(function(){
 	 </div>
 	 </div>	
   </div>
+
       <script type="text/javascript">
           var clickflag ;
       $(document).ready(function() {
-          $('a.login-window,a.btnBb,a.btnBa,a.regedit-window,a.autotrade_p,a.alipay').click(function () {
+          $('a.login-window,a.regedit-window,a.autotrade_p').click(function () {
 
          		// Getting the variable's value from a link
          		var loginBox = $(this).attr('href');
-              if (loginBox=="#login-box")
-             clickflag="login" ;
-           else
-                 clickflag="regedit";
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
          		//Fade in the Popup and add close button
          		$(loginBox).fadeIn(300);
 
@@ -228,16 +186,8 @@ $(document).ready(function(){
          	});
 
          	// When clicking on the button close or the mask layer the popup closed
-         	$('a.close, #mask,#cancle').live('click', function() {
+         	$('a.close, #mask').live('click', function() {
          	  $('#mask , .login-popup').fadeOut(300 , function() {
-         		$('#mask').remove();
-         	});
-         	return false;
-         	});
-			
-			
-			$('a.close, #mask,#cancle').live('click', function() {
-         	  $('#mask , .login-popupop').fadeOut(300 , function() {
          		$('#mask').remove();
          	});
          	return false;
@@ -247,8 +197,7 @@ $(document).ready(function(){
       function login(){
           $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
           if(data==$("#name").attr("value")) {
-              location.reload();
-          }
+              location.reload(); }
               else{
               $("#errormsg_position").css({"padding": "92px 0 0 30px"})
           $("#errormsg").html(data) }
@@ -274,7 +223,7 @@ $(document).ready(function(){
           $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
               regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
           if(data==$("#regedit_name").attr("value")) {
-              location.reload();  }
+              location.reload(); }
               else{
               $("#regeditmsg_position").css({"padding": "93px 0 0 30px"})
           $("#regedit_errormsg").html(data) }
@@ -299,7 +248,7 @@ $(document).ready(function(){
       		</div>
           </div>
       </div>
-	  
+
       <div class="container">
       	<div id="content">
               <div id="login-box" class="login-popup">
@@ -316,7 +265,7 @@ $(document).ready(function(){
                           </div>
                           <div>
                              <label id="label_login">密码:</label> &nbsp;
-                            <%= password_field_tag :password, params[:password],:class =>"passwd-inputapp" %>
+                            <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
                             <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
                             <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                           </div>
@@ -328,7 +277,7 @@ $(document).ready(function(){
                           </div>
 
                           <div  id="loginlink">
-                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
+                             <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;">登录</a>
                           </div>
 
                           <div class="clear"></div>
@@ -386,59 +335,44 @@ $(document).ready(function(){
       		</div>
           </div>
       </div>
-    </div>
 
       <div class="clr"></div>
     </div>
   </div>
-  
-  
+  <!--
+  <div class="slider2">
+  <div class="slice12">
+    <h2>自动化交易</h2>
+  </div> 
+  </div> -->
   <div class="clr"></div>
   <div class="body">
     <div class="body_resize">
-    
+    <div class="StrategyNews">
+	   <div id="StrategyNewsimg_stgweb">
+	   </div>
+<div class="StrategyNewslb"></div>
+<div id="StrategyNewscontactus">
+   <!-- <h2><%= link_to "策略库",:controller =>"autotrade",:action =>"index" %></h2> -->
+    <ul>
+      <li><a href="/strategys_combine">策略组合</a></li>
+    </ul>
+</div>
+  
+    </div>
+	
 
-  <div class="frame_norisk">
-
+  <div class="frame">
+<% if @webuser!=nil %>
 <%= yield %>
-
+        <% else %>
+        <a href="#login-box" class="login-window">请先登录</a>
+    <% end %>
 </div>
-      </div>
-
-
-
-
-    <div class="container">
-     	<div id="content">
-             <div id="showintro" class="login-popupop">
-			 <p>&nbsp;无风险套利属于跨期套利的一种，
-			 而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，
-			 在同一期货商品的不同合约月份建立数量相等、
-			 方向相反的持仓如何把握主力持仓量,并以对冲或交割方式结束交易的一种操作方式。
-			 其中参与实际仓单交割的套利就是无风险套利
-			 ，因为建立在严格的持仓成本和持仓条件基础上，
-			 一般不会受市场行情波动的影响。当然，
-			 满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，
-			 一旦发生,往往会吸引资金积极参与。
-			 </p>
-			  <h2>&nbsp;无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。
-
-			 </h2>
-             <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnpp_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-               <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-                  
-               <% end %>
-     		</div>
-         </div>
-     </div>
-	 
-	 
-	 
-<div class="clr"></div>
-  </div>
 <div class="clr"></div>
 </div>
+
 </div>
-<div class="pagedibu"> </div>
+</div>
 </body>
 </html>

@@ -81,7 +81,7 @@ $(document).ready(function(){
   <div class="yonghure"></div>
   </div>
 	  <% end %>
-
+      <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
       <div class="clr"></div>
       <div id="menuMain" >
 	  <div>
@@ -90,10 +90,15 @@ $(document).ready(function(){
       <ul>
 		  <li ><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
         <li><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
+        <% if @webuser==nil %>
+            <li><a href="#login-box" class="login-window"><span><span><span>策略组合</span></span></span></a></li>
+        <% else %>
+            <li><a href="/strategys_combine"><span><span><span>策略组合</span></span></span></a></li>
+        <% end %>
         <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
 <ul>
-  <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+
   <% if @webuser==nil %>
       <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
       <li><a href="#login-box" class="login-window">自动化执行</a></li>

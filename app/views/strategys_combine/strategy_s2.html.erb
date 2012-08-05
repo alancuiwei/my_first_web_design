@@ -1,0 +1,78 @@
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+<div id="wizardwrapper">
+
+  <div class="1">
+    <ul id="mainNav" class="fiveStep">
+      <li class="done"><a title="">第一步</a></li>
+      <li class="lastDone"><a title="">第二步</a></li>
+      <li class="current"><a title="">第三步</a></li>
+      <li><a title="">第四步</a></li>
+    </ul>
+    <div id="wizardcontent">
+      选择策略2：
+      <form id="form1" runat="server">
+      <div>
+          <input id="keyword1" />
+      </div>
+      </form>
+    </div>
+
+    <div class="buttons">
+	  	<div class="framenext">
+      <a  href="javascript:void(0)" class="next"  id="getValue1"> 下一步 </a>
+	    </div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  search("#keyword1","#getValue1");
+    function search(keywardid,getvalueid) {
+        function setdata(name,control,action,id){
+            this.name=name;
+            this.control=control;
+            this.action=action;
+            this.id=id;
+        }
+        var data=new Array();
+        <% for i in 0..@strategywebs.size-1%>
+          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>','<%= @strategywebs[i].id%>')
+        <% end%>
+        //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
+
+        var searchdate;
+        function findValueCallback(event, data, formatted) {
+        		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+            searchdate=data;
+        	}
+        $(keywardid).autocomplete(data, {
+                             max: 12,    //列表里的条目数
+                             minChars: 0,    //自动完成激活之前填入的最小字符
+                             width: 400,     //提示的宽度，溢出隐藏
+                             scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                             matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                             autoFill: false,    //自动填充
+                             formatItem: function(data, i, total) {
+                                 return "<I>"+data.name+"</I>";
+                             },
+                             formatMatch: function(data, i, total) {
+                                 return data.name;
+            		         },
+                             formatResult: function(data) {
+                                 return data.name;
+                             }
+        });
+       $(keywardid).result(findValueCallback);
+
+        $(getvalueid).click(function() {
+            if($(keywardid).attr("value")==""){
+                alert("请选择策略！")
+            }
+            else
+            $(keywardid).search(location.href="/strategys_combine/strategy_s3/"+searchdate.id)
+        });
+
+    }
+</script>
