@@ -77,8 +77,12 @@ $(document).ready(function(){
           <div class="login">
             <a href="#login-box" class="login-window">登录</a>
           </div>
+        <div id="weiboblock">
+            <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
+  		  </div>
           <% else %>
           <div class="welcomeuser">
+          <div style="float: left;padding-right: 10px;"><%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %></div>
 <a onclick="logout_s()" href="javascript:void(0)">&nbsp;退出</a>
 <div class="yonghu">
 <p> 用户：<%=session[:webuser_name]%>! </p>
@@ -342,8 +346,12 @@ $(document).ready(function(){
   <div class="body">
     <div class="body_resize">
     <div class="StrategyNews">
+      <% if params[:action]=="aboutautotrade" %>
+     <div id="StrategyNewsimg_aboutat"> </div>
+          <% else %>
 	   <div id="StrategyNewsimg">
 </div>
+          <% end %>
 <div class="StrategyNewslb"></div>
 <div id="StrategyNewsb">
 
