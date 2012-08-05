@@ -104,12 +104,17 @@ $(document).ready(function(){
 		  <div class="loginimg" style="visibility: hidden; ">
           </div>
           </div>
+        <div id="weiboblock">
+           <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
+
+ 		  </div>
           <% else %>
           <div class="welcomeuser">
+          <div style="float: left;padding-right: 10px;"><%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %></div>
 		  <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
 		  <div class="yonghu">
 		  <p>
-            用户：<%= session[:webuser_name] %>!
+            用户：<%= session[:webuser_name] %>
           </p>
 		  </div>
 		  <div class="yonghure"></div>

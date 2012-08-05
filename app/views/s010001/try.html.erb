@@ -1,10 +1,42 @@
-﻿<h2><%= @notice_try  %></h2>
-<p  id="psubscribe">您目前可以享受该策略的全部功能。试用天数过后，如果您对该策略满意的话，您可以选择订阅<%= @strategy.name  %>策略，订阅后您将立刻受到该策略服务。
-订阅费用是 <%= @strategy.price  %>元/每月。我们将在每个月月底征收该策略的服务费。您可以随时取消订阅该策略。</p><br> 
-<h2>咨询: 如果您想了解更多的信息，请通过如下方式联系我们。</h2>
- <div style="padding-left:5px">邮件咨询：<a href="mailto:tongtianshun@yahoo.cn"><%= image_tag("email.jpg")  %></a><br>
- </div><div style="padding-left:5px">QQ咨询：
-  <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc"><img border="0"  src="http://wpa.qq.com/imgd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息"></a>
-<br></div>
-<div style="padding-left:5px">微博关注我们：<iframe allowtransparency="" border="0" frameborder="0" height="22" marginheight="0" marginwidth="0" scrolling="no" src="http://widget.weibo.com/relationship/followbutton.php?width=200&amp;height=22&amp;uid=2858671002&amp;style=5&amp;btn=red&amp;dpc=1" style="width: 64px; height: 22px;" width="200"></iframe>
-<br></div><br>
+﻿
+<div class="slider2">
+  <div id="slice12dy"></div>
+  </div>
+
+<div class="StrategyNews">
+<div class="StrategyNewslb"></div>
+<div id="StrategyNewsb">
+    <ul>
+      <li><%= link_to "无风险套利",:controller =>"autotrade",:action =>"personaltrading" %></li>
+    </ul>
+</div>
+</div>
+  
+	<div class="StrategyNewssb">
+  	<div class="StrategyNewssbdy"></div>
+	<div id="dysubscribe">
+	<p>
+		您目前可以享受该策略的全部功能。试用天数过后，如果您对该策略满意的话，您可以选择订阅<%= @strategy.name  %>策略，订阅后您将立刻受到该策略服务。
+订阅费用是 <%= @strategy.price  %>元/每月。我们将在每个月月底征收该策略的服务费。您可以随时取消订阅该策略。
+	</p>
+	</div>
+</div>
+
+</div>
+<div id = "subscribe-right">
+
+<div id="lixiwomen">
+<h2>联系我们</h2>
+<ul>
+<li><a href="mailto:tongtianshun@yahoo.cn">邮件咨询</a>
+</li>
+<li><a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">QQ咨询</a>
+</li>
+<li><a href="http://weibo.com/u/2858671002">新浪微博</a>
+</li>
+</ul>
+
+</div>
+<div class="framerimg-subscribe"></div>
+</div>
+

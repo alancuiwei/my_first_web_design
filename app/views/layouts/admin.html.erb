@@ -70,12 +70,16 @@ $(document).ready(function(){
           <div class="login">
             <a href="#login-box" class="login-window">登录</a>
           </div>
+        <div id="weiboblock">
+            <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
+  		  </div>
           <% else %>
         <div class="welcomeuser">
+          <div style="float: left;padding-right: 10px;"><%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %></div>
   <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
   <div class="yonghu">
   <p>
-          用户：<%= session[:webuser_name] %>!
+          用户：<%= session[:webuser_name] %>
         </p>
   </div>
   <div class="yonghure"></div>
@@ -116,7 +120,6 @@ $(document).ready(function(){
         <li><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
                              <div class="level">
  <ul>
-                        <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
               <% if @webuser.name=="administrator" %>
               <li class="begin"><a href="/admin" >个人信息管理</a></li>

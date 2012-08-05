@@ -109,8 +109,9 @@ $(document).ready(function(){
 		  </div>	
 
           <% else %>
-        <div class="welcomeuser">
 
+        <div class="welcomeuser">
+          <div style="float: left;padding-right: 10px;"><%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %></div>
 		  <a href="javascript:void(0)" onclick="logout_s()">&nbsp;退出</a>
 			<div class="yonghu">
 			<p>
@@ -155,7 +156,6 @@ $(document).ready(function(){
         <li><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
                              <div class="level">
  <ul>
-                        <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
               <% if @webuser!=nil %>
               <% if @webuser.name=="administrator" %>
               <li class="begin"><a href="/admin" >个人信息管理</a></li>
