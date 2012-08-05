@@ -1,6 +1,69 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+策略列表：
+
+      <form id="form1" runat="server">
+      <div>
+          <input id="keyword1" value="<%= @strategyweb.name %>"/>
+      </div>
+      </form>
+ <div id="mycontent">  选择结果：<%= @strategyweb.name %></div>
+
+<script type="text/javascript">
+  search("#keyword1","#getValue1");
+    function search(keywardid,getvalueid) {
+        function setdata(name,control,action,id){
+            this.name=name;
+            this.control=control;
+            this.action=action;
+            this.id=id;
+        }
+        var data=new Array();
+        <% for i in 0..@strategywebs.size-1%>
+          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>','<%= @strategywebs[i].id%>')
+        <% end%>
+        //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
+
+        var searchdate;
+        function findValueCallback(event, data, formatted) {
+        		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+            $("#mycontent").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
+            searchdate=data;
+            location.href="/strategys/individual/"+searchdate.id
+        	}
+        $(keywardid).autocomplete(data, {
+                             max: 12,    //列表里的条目数
+                             minChars: 0,    //自动完成激活之前填入的最小字符
+                             width: 400,     //提示的宽度，溢出隐藏
+                             scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                             matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                             autoFill: false,    //自动填充
+                             formatItem: function(data, i, total) {
+                                 return "<I>"+data.name+"</I>";
+                             },
+                             formatMatch: function(data, i, total) {
+                                 return data.name;
+            		         },
+                             formatResult: function(data) {
+                                 return data.name;
+                             }
+        });
+       $(keywardid).result(findValueCallback);
+
+        $(getvalueid).click(function() {
+            if($(keywardid).attr("value")==""){
+                alert("请选择策略！")
+            }
+            else
+            $(keywardid).search(location.href="/strategys_combine/strategy_s1/"+searchdate.id)
+        });
+
+    }
+</script>
+
 <h3>个性化交易</h3>
 <%= form_tag do %>
     时间周期：<%= text_field_tag :period, params[:period],:id=>"period",:name=>"period",:title=>"时间周期" %><br>

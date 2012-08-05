@@ -100,6 +100,7 @@ class StrategysController < ApplicationController
   end
 
   def individual
+    @strategywebs = Strategyweb.all
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
 

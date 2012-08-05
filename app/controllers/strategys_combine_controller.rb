@@ -11,6 +11,10 @@ class StrategysCombineController < ApplicationController
 
   end
 
+  def strategy_s0
+    @strategywebs = Strategyweb.all
+
+  end
   def strategy_s1
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
