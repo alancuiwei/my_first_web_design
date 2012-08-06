@@ -92,6 +92,7 @@ class StrategysController < ApplicationController
   end
 
   def showall
+    @strategyweb = Strategyweb.find(params[:id])
     @traderecord_all=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum])
   end
 
