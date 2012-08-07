@@ -43,41 +43,6 @@ class HomeController < ApplicationController
       elsif  Webuser.find_by_email(params[:regedit_email])!=nil
         render :json=>'电子邮箱已注册！'.to_json
       else
-        Webuser.new do |w|
-          w.name=params[:regedit_name]
-          w.email=params[:regedit_email]
-          w.salt=Webuser.object_id.to_s + rand.to_s
-          w.hashed_password=Webuser.encrypt_password(params[:regedit_password], w.salt)
-          w.level=0
-          w.save
-        end
-        StrategyparamT.new do |s|
-          s.strategyid="010001"
-          s.paramname="returnrate"
-          s.paramvalue=0.1
-          s.username=params[:regedit_name]
-          s.save
-        end
-        #new usercommodiy
-        @usercommodity=UsercommodityT.find_all_by_userid("tester1")
-        i=0
-        while @usercommodity[i]!=nil
-        UsercommodityT.new do |u|
-         u.commodityid = @usercommodity[i].commodityid
-         u.userid=params[:regedit_name]
-         u.tradechargetype=@usercommodity[i].tradechargetype
-         u.tradecharge=@usercommodity[i].tradecharge
-         u.deliverchargebyunit=@usercommodity[i].deliverchargebyunit
-         u.deliverchargebyhand=@usercommodity[i].deliverchargebyhand
-         u.futuretocurrenchargebyunit=@usercommodity[i].futuretocurrenchargebyunit
-         u.futuretocurrenchargebyhand=@usercommodity[i].futuretocurrenchargebyhand
-         u.lendrate=@usercommodity[i].lendrate
-         u.trademargingap=@usercommodity[i].trademargingap
-         u.save
-         i=i+1
-        end
-        end
-        session[:webuser_name] =params[:regedit_name]
         render :json=>params[:regedit_name].to_json
       end
     end

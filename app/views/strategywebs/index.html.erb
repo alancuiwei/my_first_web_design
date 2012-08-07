@@ -4,12 +4,6 @@
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 
-<form id="form1" runat="server">
-<div>
-    <input id="keyword" />
-    <input id="getValue" value="策略查询" type="button"/>
-</div>
-</form>
 <div id="content"></div>
 
 <script type="text/javascript">
@@ -87,36 +81,60 @@
 </script>
 
 <% @strategywebs.each do |strategyweb| %>
-    <div style="float: left;">
-      <% if @webuser!=nil%>
+    <div class="strategyinstance">
+    <div class= "s_header">  
+    <div class="s_title" >
+    <h3><%= strategyweb.name%></h3>
+    </div>  
+    <% if @webuser!=nil%>
+
+    <div class="s_buy">
           <% if Subscribetable.find_by_subscribe_userid_and_strategy_userid_and_strategyid_and_ordernum(Webuser.find_by_name(session[:webuser_name]).id,strategyweb.userid,strategyweb.strategyid,strategyweb.ordernum)==nil %>
           <a href="/s010001/subscribe/<%=strategyweb.id%>">订购</a>
               <% else %>
           已订购
               <% end %>
-          <% if @hash_iscollect[strategyweb.id]==1 %>
-              <%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
-          <% else %>
-          <%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
-<% end %>
-          <% end %>
-      <div style="float: left;">
+    </div>
+    <div class="s_collect">
+      <% if @hash_iscollect[strategyweb.id]==1 %>
 
-        <span id="<%= strategyweb.id%>" style="height:200px;float: left;" ><%= strategyweb.id%></span>
-        <table border=1 style="float: right; margin: 30px 0 0 0">
-          <tr><th>
-      策略开始时间：<%=  strategyweb.startdate.to_s(:db) %> <br>
-      年化收益率：<%= strategyweb.anreturn*100 %>% <br>
-      最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> <br>
-      胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %>
-          </th> </tr> </table><br>
-        <div >
-              策略种类：<%= strategyweb.strategytype %>
-              <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> <br>
-              </div>
-      </div>
+      <%= link_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
+
+      <% else %>
+      <%= link_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
+      <% end %>
 
     </div>
+
+    
+    <% end %>
+    </div>
+
+      <div class="s_performance">
+        <div class="s_performance_pic">
+        </div>
+        <div class="s_performance_text">
+        <ul>
+          
+      <li>策略开始时间：<%=  strategyweb.startdate.to_s(:db) %></li>
+      <li>年化收益率：<%= strategyweb.anreturn*100 %>% </li>
+      <li>最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </li>
+      <li>胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></li>
+
+        </div>
+
+
+      </div>  <!-- div of s_performance -->
+        <div class="s_footer" >
+            <div class="s_type">
+              策略种类：<%= strategyweb.strategytype %>
+            </div>
+            <div class="s_details">
+              <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> 
+            </div>
+        </div> <!-- div of s_footer -->
+
+    </div>  <!-- div of strategyinstance -->
 <% end %>
 
 <% if @show_flag==1 %>

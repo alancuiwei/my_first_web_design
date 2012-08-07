@@ -5,6 +5,59 @@ class WebusersController < ApplicationController
   #layout "webusers"  ,:only=>[:show]
   # GET /webusers
   # GET /webusers.json
+
+  def regeditconfirm
+    @mail_serverurl=params[:regedit_email].slice(params[:regedit_email].index("@")+1,params[:regedit_email].size-params[:regedit_email].index("@"))
+    @hash_fp_url=Hash["163.com","http://mail.163.com","126.com","http://mail.126.com","gmail.com","https://mail.google.com"]
+    if @hash_fp_url[@mail_serverurl]==nil
+      @fp_url="http://"+@mail_serverurl
+    else
+      @fp_url=@hash_fp_url[@mail_serverurl]
+    end
+    UserMailer.regeditconfirm(params[:regedit_email],params[:regedit_name],"http://localhost:3000/webusers/regedit/1?"+"regedit_name="+params[:regedit_name]+"&regedit_email="+(params[:regedit_email])+"&regedit_password="+params[:regedit_password]).deliver
+  end
+
+  def regedit
+    @webuser = Webuser.find_by_name(params[:regedit_name])
+    if @webuser==nil
+    Webuser.new do |w|
+      w.name=params[:regedit_name]
+      w.email=params[:regedit_email]
+      w.salt=Webuser.object_id.to_s + rand.to_s
+      w.hashed_password=Webuser.encrypt_password(params[:regedit_password], w.salt)
+      w.level=0
+      w.save
+    end
+    StrategyparamT.new do |s|
+      s.strategyid="010001"
+      s.paramname="returnrate"
+      s.paramvalue=0.1
+      s.username=params[:regedit_name]
+      s.save
+    end
+    #new usercommodiy
+    @usercommodity=UsercommodityT.find_all_by_userid("tester1")
+    i=0
+    while @usercommodity[i]!=nil
+    UsercommodityT.new do |u|
+     u.commodityid = @usercommodity[i].commodityid
+     u.userid=params[:regedit_name]
+     u.tradechargetype=@usercommodity[i].tradechargetype
+     u.tradecharge=@usercommodity[i].tradecharge
+     u.deliverchargebyunit=@usercommodity[i].deliverchargebyunit
+     u.deliverchargebyhand=@usercommodity[i].deliverchargebyhand
+     u.futuretocurrenchargebyunit=@usercommodity[i].futuretocurrenchargebyunit
+     u.futuretocurrenchargebyhand=@usercommodity[i].futuretocurrenchargebyhand
+     u.lendrate=@usercommodity[i].lendrate
+     u.trademargingap=@usercommodity[i].trademargingap
+     u.save
+     i=i+1
+    end
+    end
+    session[:webuser_name] =params[:regedit_name]
+      end
+  end
+
   def index
     @webusers = Webuser.order(:name)
     @hash_level= Hash[0,"普通用户",1,"收费用户",99,"试用用户"]

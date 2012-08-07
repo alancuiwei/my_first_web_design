@@ -12,4 +12,11 @@ class UserMailer < ActionMailer::Base
 
     mail(:to => myemail,:subject=>"通天顺用户："+username+"的密码重置邮件("+id+")")
   end
+
+  def regeditconfirm(myemail,username,reseturl)
+    @username=username
+    @reseturl=reseturl
+
+    mail(:to => myemail,:subject=>"通天顺用户："+username+"的注册确认邮件")
+  end
 end

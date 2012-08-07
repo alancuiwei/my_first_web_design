@@ -226,7 +226,7 @@ $(document).ready(function(){
           $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
               regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
           if(data==$("#regedit_name").attr("value")) {
-              location.reload(); }
+              location.href="/webusers/regeditconfirm/1?"+("regedit_name="+$("#regedit_name").attr("value")+"&regedit_email="+encodeURIComponent($("#regedit_email").attr("value"))+"&regedit_password="+($("#regedit_password").attr("value")));}
               else{
               $("#regeditmsg_position").css({"padding": "93px 0 0 30px"})
           $("#regedit_errormsg").html(data) }
