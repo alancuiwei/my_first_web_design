@@ -42,7 +42,7 @@
         		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
             $("#mycontent").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
             searchdate=data;
-            location.href="/strategys/individual/"+searchdate.id
+            location.href="/strategys_combine/individual/"+searchdate.id
         	}
         $(keywardid).autocomplete(data, {
                              max: 12,    //列表里的条目数
@@ -82,10 +82,10 @@
           jQuery("#<%= @strategy_params[i].paramname  %>").slider({
             from: -100,
             to: 100,
-            step: 5,
+            step: 1,
             dimension: '',
             skin: 'plastic',
-            scale: ['-50', '|', '0', '|', '50', '|', '100', '|', '150', '|', '200']
+            scale: ['-100', '|', '-50', '|', '0', '|', '50', '|', '100']
           });
         </script>
      <% end %>
