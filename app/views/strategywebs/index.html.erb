@@ -111,7 +111,7 @@
     </div>
 
       <div class="s_performance">
-        <div class="s_performance_pic">
+        <div class="s_performance_pic" id="<%= strategyweb.id%>">
         </div>
         <div class="s_performance_text">
         <ul>
@@ -120,7 +120,7 @@
       <li>年化收益率：<%= strategyweb.anreturn*100 %>% </li>
       <li>最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </li>
       <li>胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></li>
-
+          </ul>
         </div>
 
 
