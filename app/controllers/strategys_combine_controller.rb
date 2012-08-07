@@ -12,12 +12,14 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s0
-    @strategywebs = Strategyweb.all
+    @strategywebs = Strategyweb.where("strategyid like '0407%' or strategyid like '0408%'").all
 
   end
   def strategy_s1
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
+
+    @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
     @rightids_arr= Array.new
     for i in 0..@commodityrights.size-1
@@ -28,9 +30,9 @@ class StrategysCombineController < ApplicationController
     if @webuser!=nil&&params[:startdate]!=nil
     @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
     @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
-    @XMLfile.elements.to_a("//period")[0].text=params[:period]
-    @XMLfile.elements.to_a("//losses")[0].text=params[:losses]
-    @XMLfile.elements.to_a("//wins")[0].text=params[:wins]
+    for i in 0..@strategy_params.size-1
+      @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+    end
     @XMLfile.elements.to_a("//objecttype")[0].text="future"
 
     if params[:commoditynames]!=nil
@@ -54,13 +56,15 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s2
-    @strategywebs = Strategyweb.all
+    @strategywebs = Strategyweb.where("strategyid like '0407%'").all
 
   end
 
   def strategy_s3
     @strategyweb = Strategyweb.find(params[:id])
         @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
+
+    @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
         @rightids_arr= Array.new
         for i in 0..@commodityrights.size-1
@@ -71,9 +75,9 @@ class StrategysCombineController < ApplicationController
         if @webuser!=nil&&params[:startdate]!=nil
         @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
         @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
-        @XMLfile.elements.to_a("//period")[0].text=params[:period]
-        @XMLfile.elements.to_a("//losses")[0].text=params[:losses]
-        @XMLfile.elements.to_a("//wins")[0].text=params[:wins]
+        for i in 0..@strategy_params.size-1
+          @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+        end
         @XMLfile.elements.to_a("//objecttype")[0].text="future"
 
         if params[:commoditynames]!=nil
@@ -106,7 +110,7 @@ class StrategysCombineController < ApplicationController
 
   def individual
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    @strategywebs = Strategyweb.all
+    @strategywebs = Strategyweb.where("strategyid like '01%'or strategyid like '02%'or strategyid like '03%'").all
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
