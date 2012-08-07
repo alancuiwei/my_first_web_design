@@ -1,0 +1,75 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= javascript_include_tag "jQuery.validity.min.js" %>
+<%= stylesheet_link_tag "jquery.validity.css" %>
+<div id="wizardwrapper">
+
+  <div class="1">
+    <ul id="mainNav" class="fiveStep">
+      <li class="lastDone"><a title="">第一步</a></li>
+      <li class="current"><a title="">第二步</a></li>
+      <li><a title="">第三步</a></li>
+      <li><a title="">第四步</a></li>
+    </ul>
+    <div >
+      配置<%= @strategyweb.name%>策略：
+      <%= form_tag do %>
+          时间周期：<%= text_field_tag :period, params[:period],:id=>"period",:name=>"period",:title=>"时间周期" %><br>
+          止损点：<%= text_field_tag :losses, params[:losses],:id=>"losses",:name=>"losses",:title=>"止损点"%><br>
+          止赢点：<%= text_field_tag :wins, params[:wins],:id=>"wins",:name=>"wins",:title=>"止赢点"%><br>
+          <!-- 策略对象类型：<%= text_field_tag :objecttype, params[:objecttype],:id=>"objecttype",:name=>"objecttype",:title=>"策略对象类型"%><br>-->
+          策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br>
+          <% for i in 0..@rightids_arr.size-1 %>
+              <%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %>
+          <% end %>
+          </input>
+         <br>
+          策略开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
+          <div class="buttons">
+      	<div class="frameprevious">
+            <a  href="/strategys_combine" class="previous"> 返回 </a>
+      	  </div>
+            <%= submit_tag "下一步" %>
+          </div>
+          <div style="clear:both"></div>
+
+      <% end %>
+
+       <script type="text/javascript">
+
+         var rightid=new Array();
+         <% for i in 0..@rightids_arr.size-1 %>
+             rightid[<%= i%>]='<%= @rightids_arr[i] %>'
+         <% end %>
+          var checked_flag=0
+         for(var i=0;i<rightid.length;i++){
+             if($("input[value$="+rightid[i]+"]").attr("checked")=="checked"){
+                 checked_flag=1;
+                 break;
+             }
+         }
+           $(function() {
+               $("form").validity(function() {
+                   $("#period")
+                       .require()
+                       .match("number");
+                   $("#losses")
+                       .require()
+                       .match("number");
+                   $("#wins")
+                       .require()
+                       .match("number");
+                   if(checked_flag==0){
+                   $("#checkbox1")
+                       .require()  }
+                   $("#objecttype")
+                       .require();
+                   $("#startdate")
+                       .require();
+               });
+           });
+       </script>
+
+    </div>
+
+  </div>
+</div>

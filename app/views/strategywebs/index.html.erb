@@ -1,18 +1,192 @@
-<table>
-  <tr>
-    <th>策略名称</th>
-    <th>策略描述</th>
-	<th>策略配置</th>
-  </tr>
+<%= javascript_include_tag "jquery.sparkline.js" %>
+<%= javascript_include_tag "heartcode-canvasloader-min-0.9.1.js" %>
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+
+<form id="form1" runat="server">
+<div>
+    <input id="keyword" />
+    <input id="getValue" value="页面跳转" type="button"/>
+</div>
+</form>
+<div id="content"></div>
+
+<script type="text/javascript">
+    $(function() {
+        function setdata(name,control,action){
+            this.name=name;
+            this.control=control;
+            this.action=action;
+        }
+        var data=new Array();
+        <% for i in 0..@strategywebs.size-1%>
+          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
+        <% end%>
+        //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
+
+        var searchdate;
+        function findValueCallback(event, data, formatted) {
+        		$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+            searchdate=data
+        	}
+        $('#keyword').autocomplete(data, {
+                             max: 12,    //列表里的条目数
+                             minChars: 0,    //自动完成激活之前填入的最小字符
+                             width: 400,     //提示的宽度，溢出隐藏
+                             scrollHeight: 300,   //提示的高度，溢出显示滚动条
+                             matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+                             autoFill: false,    //自动填充
+                             formatItem: function(data, i, total) {
+                                 return "<I>"+data.name+"</I>";
+                             },
+                             formatMatch: function(data, i, total) {
+                                 return data.name;
+            		         },
+                             formatResult: function(data) {
+                                 return data.name;
+                             }
+        });
+        $("#keyword").result(findValueCallback);
+        $("#getValue").click(function() {$("#keyword").search(location.href=searchdate.control+"/"+searchdate.action)});
+
+    });
+</script>
+
+
+<script type="text/javascript">
+     function showwait(){
+	var cl = new CanvasLoader('canvasloader-container');
+	cl.setDiameter(44); // default is 40
+	cl.setDensity(49); // default is 40
+	cl.show(); // Hidden by default
+
+	// This bit is only for positioning - not necessary
+	  var loaderObj = document.getElementById("canvasLoader");
+ 		loaderObj.style.position = "absolute";
+ 		loaderObj.style["top"] = cl.getDiameter() * -0.5 + "px";
+ 		loaderObj.style["left"] = cl.getDiameter() * -0.5 + "px";
+     }
+   </script>
+	<style type="text/css">
+		.wrapper {
+			position:absolute;
+			top:70%;
+			left:80%;
+		}
+	</style>
+
+	<div id="canvasloader-container" class="wrapper"></div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#strategywebs').dataTable( {
+        } );
+        $('.dynamicsparkline').sparkline(<%= @profitchart_arr%>);
+    } );
+</script>
 
 <% @strategywebs.each do |strategyweb| %>
-  <tr>
-    <td><%= link_to strategyweb.name,strategyweb %></td>
-    <td><%= link_to strategyweb.description,strategyweb %></td>
-    <td><%= button_to 'Destroy', strategyweb, :method=> :delete %></td>
-    <td><%= link_to '策略配置', edit_strategyweb_path(strategyweb) %></td>
-  </tr>
+    <div style="float: left;">
+      <% if @webuser!=nil%>
+          <% if Subscribetable.find_by_subscribe_userid_and_strategy_userid_and_strategyid_and_ordernum(Webuser.find_by_name(session[:webuser_name]).id,strategyweb.userid,strategyweb.strategyid,strategyweb.ordernum)==nil %>
+          <a href="/s010001/subscribe/<%=strategyweb.id%>">订购</a>
+              <% else %>
+          已订购
+              <% end %>
+          <% if @hash_iscollect[strategyweb.id]==1 %>
+              <%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
+          <% else %>
+          <%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
 <% end %>
-</table>
+          <% end %>
+      <div style="float: left;">
 
+        <span id="<%= strategyweb.id%>" style="height:200px;float: left;" ><%= strategyweb.id%></span>
+        <table border=1 style="float: right; margin: 30px 0 0 0">
+          <tr><th>
+      策略开始时间：<%=  strategyweb.startdate.to_s(:db) %> <br>
+      年化收益率：<%= strategyweb.anreturn*100 %>% <br>
+      最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> <br>
+      胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %>
+          </th> </tr> </table><br>
+        <div >
+              策略种类：<%= strategyweb.strategytype %>
+              <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> <br>
+              </div>
+      </div>
+
+    </div>
+<% end %>
+
+<% if @show_flag==1 %>
 <%= link_to '新建策略', new_strategyweb_path %>
+<% end %>
+
+<script type="text/javascript">
+    <% @strategywebs.each do |strategyweb| %>
+    highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
+    <% end %>
+    var profitchart_arr_day=new Array;
+    <% for i in 0..@profitchart_arr_day.size-1 %>
+        profitchart_arr_day[<%= i%>] ='<%= @profitchart_arr_day[i] %>'
+    <% end %>
+    //alert(profitchart_arr_day)
+    function highcharts(id,stgname) {
+        var chart;
+        $(document).ready(function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: id,
+                    type: 'area',
+                    width: 200,
+                    height: 200
+                },
+                title: {
+                    text:stgname
+                },
+                subtitle: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: profitchart_arr_day,
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                plotOptions: {
+                    area: {
+                        //pointStart: 1940,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: '收益',
+                    data: <%= @profitchart_arr%>
+                }]
+            });
+
+            $(".highcharts-legend").remove()
+        });
+    }
+</script>

@@ -1,0 +1,23 @@
+请选择：<br>
+<%= radio_button_tag "radio", "s1" %>
+套利
+<%= radio_button_tag "radio", "s2" %>
+单边
+<br>
+<a href="javascript:void(0)" onclick="next()">下一步</a>
+<script type="text/javascript">
+  function next(){
+      var href;
+   if($("#radio_s1").attr("checked")=="checked"){
+       href="/strategys_combine/individual/2";
+       window.location.href=href;
+        }
+      else if($("#radio_s2").attr("checked")=="checked"){
+          href="/strategys_combine/strategy_s0";
+          window.location.href=href;
+            }
+            else
+      alert("请选择内容！")
+
+    }
+</script>

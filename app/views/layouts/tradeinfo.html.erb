@@ -86,7 +86,7 @@ $(document).ready(function(){
   <div class="yonghure"></div>
   </div>
 	  <% end %>
-
+      <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
       <div class="clr"></div>
       <div id="menuMain" >
 	  <div>
@@ -94,11 +94,16 @@ $(document).ready(function(){
 	  <div>
       <ul>
 		  <li ><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
-  		  <li><a href="/strategy/shownorisk"><span><span><span>无风险套利</span></span></span></a></li>
+        <li><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
+        <% if @webuser==nil %>
+            <li><a href="#login-box" class="login-window"><span><span><span>策略组合</span></span></span></a></li>
+        <% else %>
+            <li><a href="/strategys_combine"><span><span><span>策略组合</span></span></span></a></li>
+        <% end %>
         <li><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
 <ul>
-  <%  @webuser = Webuser.find_by_name(session[:webuser_name]) %>
+
   <% if @webuser==nil %>
       <li class="begin"><a href="#login-box" class="login-window" >自动化设置</a></li>
       <li><a href="#login-box" class="login-window">自动化执行</a></li>
@@ -123,10 +128,13 @@ $(document).ready(function(){
            <% else %>
            <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
            <% end %>
+                      <!--      <li><a href="/usermanagement/trademanageindex">订阅的策略</a></li> -->
 			<li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id) %></li>
+                 <li><%= link_to("收藏的策略",:controller=>"usermanagement" ,:action=>"collection", :id=>@webuser.id) %></li>
                   <% else %>
                   <li class="begin"><a href="#login-box" class="login-window">个人信息管理</a></li>
                   <li><a href="#login-box" class="login-window">订阅的策略</a></li>
+                            <li><a href="#login-box" class="login-window">收藏的策略</a></li>
                   <% end %>
             </ul>
 </div>

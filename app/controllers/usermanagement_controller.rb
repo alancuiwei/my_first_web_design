@@ -127,4 +127,23 @@ end
     end
   end
 
+  def collection
+    @webuser = Webuser.find(params[:id])
+    @collect_stg=Array.new
+    if @webuser!=nil
+      if @webuser.collect!=nil
+     @collect=@webuser.collect.scan(/\d/)
+        if @collect!=nil
+          for i in 0..@collect.size-1
+            if @collect[i]!=nil
+            @collect_stg[i]=Strategyweb.find_by_id(@collect[i])
+            else
+              break
+            end
+          end
+        end
+      end
+
+    end
+  end
 end

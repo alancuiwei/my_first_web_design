@@ -1,0 +1,721 @@
+﻿<%= javascript_include_tag "Hashtable.js" %>
+<!--
+<style type="text/css">
+    tr.even {background-color: #E2E4FF;}
+    tr.even td.sorting_1 {background-color: #D3D6FF;}
+</style>
+-->
+<div class="slider2">
+  
+  <div id="slice12">
+    <ul>
+  <li><a onmouseover="showintro()"></a>
+  </li>
+  </ul>
+  </div>
+  </div>
+
+
+<div class="lframe_norisk"></div>
+<div class="rframe_norisk"></div>
+<!--
+<% if session[:webuser_name]!=nil %>
+    <% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
+<div id="dingyue">
+  <a  href="/strategy/subscribe/<%=@strategy_norisk.id%>" class="btnBc">
+<span class="btnBc">
+<span class="btnBc">
+<span class="btnBc">订 阅</span>
+</span>
+</span>
+</a>
+  <a  href="/autotrade/personaltrading" class="btnBa">
+<span class="btnBa">
+<span class="btnBa">
+<span class="btnBa">自动化交易</span>
+</span>
+</span>
+</a>
+</div>
+    <% else %>
+        <div id="dingyue">
+              <a  href="javascript:void(0)" class="btnBc" onclick="issubscribe()">
+<span class="btnBc">
+<span class="btnBc">
+            <span class="btnBc">已订阅</span>
+</span>
+</span>
+  </a>
+          <a  href="/autotrade/personaltrading" class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">
+        <span class="btnBa">自动化交易</span>
+        </span>
+        </span>
+        </a>
+            </div>
+    <% end %>
+    <% else %>
+
+    <div id="dingyue">
+      <a href="#login-box"  class="btnBb">
+<span class="btnBb">
+<span class="btnBb">
+<span class="btnBb">订 阅</span>
+</span>
+</span>
+  </a>
+      <a  href="#login-box" class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">
+    <span class="btnBa">自动化交易</span>
+    </span>
+    </span>
+    </a>
+</div>
+
+    <% end %>
+	-->
+<!--<%= button_to "订阅" %> -->
+<div class="zice">
+    <div class="ironbars">
+	<ul><li>
+      <% if @webuser!=nil %>
+      <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
+	<a href="#autotrade-box"  class="autotrade_p"> 自动化交易</a>
+          <% else %>
+          <a href="/autotrade/personaltrading"> 自动化交易</a>
+          <% end %>
+      <% else %>
+      <a href="#login-box" class="login-window"> 自动化交易</a>
+      <% end %>
+    </li></ul></div>
+  <div id="norisktitle"><h2>策略实时运行中:</h2></div>
+<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
+<div id=checkbox>
+      <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
+      <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    //$(document).ready(function(){
+    //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+   // });
+
+    function showintro(){
+        $(document).ready(function() {
+
+           		// Getting the variable's value from a link
+           		var loginBox = "#showintro";
+           		//Fade in the Popup and add close button
+           		$(loginBox).fadeIn(300);
+
+           		//Set the center alignment padding + border
+           		var popMargTop = ($(loginBox).height() + 24) / 2;
+           		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+           		$(loginBox).css({
+           			'margin-top' : -popMargTop,
+           			'margin-left' : -popMargLeft
+           		});
+
+           		// Add the mask to body
+           		$('body').append('<div id="mask"></div>');
+           		$('#mask').fadeIn(300);
+
+           		return false;
+           	});
+
+           	// When clicking on the button close or the mask layer the popup closed
+           	$('a.close, #mask').live('click', function() {
+           	  $('#mask , .login-popup').fadeOut(300 , function() {
+           		$('#mask').remove();
+           	});
+           	return false;
+           	});
+           //
+    }
+    function notyAlertWithButtons(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还没有登录！',
+        buttons: [
+          {type: 'btn btn-primary', text: '登录', click: function($noty) {
+              $noty.close();
+              window.location.href='/sessions/new';
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '您还是注册一下吧！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
+    function notyAlertWithButtons_0(layout, theme){
+      noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
+        buttons: [
+          {type: 'btn btn-primary', text: '请先订阅策略', click: function($noty) {
+              $noty.close();
+              window.location.href='/strategy/subscribe/1';
+            }
+          },
+          {type: 'btn btn-danger', text: '取消', click: function($noty) {
+              $noty.close();
+              noty({force: true, layout : layout, theme : theme, text: '取消！', type: 'error'});
+            }
+          }
+        ], closable: false, timeout: 3000
+      });
+    }
+    var mychecked_f=1;
+    var mychecked_s;
+    function mychecked_1(para){
+        if(para.checked){
+            mychecked_f=1
+        }
+        else{
+            mychecked_f=0;
+        }
+    }
+    function mychecked_2(para){
+        <% if @webuser==nil%>
+
+               // Getting the variable's value from a link
+         		var loginBox = "#login-box";
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
+         		//Fade in the Popup and add close button
+         		$(loginBox).fadeIn(300);
+
+         		//Set the center alignment padding + border
+         		var popMargTop = ($(loginBox).height() + 24) / 2;
+         		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+         		$(loginBox).css({
+         			'margin-top' : -popMargTop,
+         			'margin-left' : -popMargLeft
+         		});
+
+         		// Add the mask to body
+         		$('body').append('<div id="mask"></div>');
+         		$('#mask').fadeIn(300);
+        //notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
+        para.checked=null;
+        <% elsif @webuser.level==0%>
+        //notyAlertWithButtons_0('bottomLeft', 'noty_theme_facebook');
+        box("#msg-box");
+        para.checked=null;
+            <% else %>
+        if(para.checked){
+            mychecked_s=1;
+        }
+        else{
+            mychecked_s=0
+        }
+        <%end%>
+    }
+    function setupLabel() {
+        if ($('.label_check input').length) {
+            $('.label_check').each(function(){
+                $(this).removeClass('c_on');
+            });
+            $('.label_check input:checked').each(function(){
+                $(this).parent('label').addClass('c_on');
+            });
+        };
+        if ($('.label_radio input').length) {
+            $('.label_radio').each(function(){
+                $(this).removeClass('r_on');
+            });
+            $('.label_radio input:checked').each(function(){
+                $(this).parent('label').addClass('r_on');
+            });
+        };
+    };
+    $(document).ready(function(){
+        $('body').addClass('has-js');
+        $('.label_check, .label_radio').click(function(){
+            setupLabel();
+        });
+        setupLabel();
+    });
+</script>
+<!-- default table -->
+<div id ="rtpricetable">
+
+</div> 
+<!-- strategytro -->
+<!-- <h2 class="strategyconduction" >策略介绍:</h2>
+<table class="biaoge">
+  <tr>
+    <th>交易品种</th><td><h3><%= @strategy_norisk.strategytype  %></h3></td>
+  </tr>
+  <tr>
+    <th>策略类型</th><td><h3><%= @strategy_norisk.strategyattr  %></h3></td>
+  </tr>
+  <tr>
+    <th>系统开始时间</th><td ><h3><%= @strategy_norisk.startdate  %></h3></td>
+  </tr>
+  <tr>
+    <th class="last">系统开发者</th><td class="last"><h3><%= @strategy_norisk.developer  %></h3></td>
+  </tr>
+</table>
+-->
+<script type="text/javascript">
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $(function(){
+        $("#datatables").dataTable({
+            "aaSorting": [[4,"desc"]],
+            "aoColumns": [
+                { "sTitle": "套利对名称", "sClass": "center" },
+                { "sTitle": "近月价格", "sClass": "center" },
+                { "sTitle": "近月价格", "sClass": "center" },
+                { "sTitle": "成本", "sClass": "center" },
+                { "sTitle": "年化收益率",  "sType": "formatted-num","sClass": "center" },
+                { "sTitle": "历史时间", "sClass": "center" }
+        ]
+        });
+    });
+</script>
+<div id="btpricetable">
+<h2 class="wenzi"> 历史最佳套利机会: </h2></div>
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
+	  <tbody>
+        <% @allmaxreturnrate.each do |maxreturnrate|
+           if ((maxreturnrate.firstprice>0)&&(maxreturnrate.secondprice>0)) then%>
+              <tr>
+                <td class="center"><%= maxreturnrate.pairname %></td>
+                <td class="center"><%= maxreturnrate.firstprice %></td>
+                <td class="center"><%= maxreturnrate.secondprice %></td>
+                <td class="center"><%= maxreturnrate.cost %></td>
+                <td class="center" type="formatted-num"><%= format("%.1f",maxreturnrate.returnrate*100) %>%</td>
+                <td class="center"><%= maxreturnrate.currenttime.strftime("%Y.%m.%d. %H:%M:%S") %></td>
+              </tr>
+            <% end %>
+        <% end %>
+	   </tbody>
+<!--      
+<tfoot>
+	  <tr>
+        <th>套利对名称</th>
+        <th>近期价格</th>
+        <th>远期价格</th>
+        <th>成本</th>
+        <th>年化收益率</th>
+        <th>历史时间</th>
+      </tr>
+	  </tfoot>
+-->
+</table>
+
+
+<!-- noriskmessage -->
+
+ 
+ 
+<!-- JavaScript -->
+<script type="text/javascript">
+    //table data storage (2D array)
+    var tabledata= new Array([0,0,0,0,0,0,0]);
+    tabledata=[];
+    var tabledata_f= new Array([0,0,0,0,0,0,0]);
+    tabledata_f=[];
+    //xml array
+    var xml_arr=new Array();
+    var rtxml_arr=new Array();
+    //define
+    var computearbfee = new Array();
+    var computetransfee = new Array();
+    var computerateofreturn = new Array();
+    var funds = new Array();
+    var delivermarginfee = new Array();
+    var trademarginfee = new Array();
+    var storagefee = new Array();
+    var deliverfee = new Array();
+    var vatfee = new Array();
+    //hash table
+    var hash_db = new Hashtable();
+    <% for i in 0..@dbnum-1 do%>
+        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>],<%= @db[i].tradechargetype%>);
+    <% end%>
+    var hash_table = new Hashtable();
+	function MKDataState(mtcounter, isgetMKData){ 
+	  this.mtcounter = mtcounter; 
+	  this.isgetMKData = isgetMKData; 
+	}	 
+    //formatted-num
+    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
+    /* Remove any formatting */
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        /* Parse and return */
+        return parseFloat(x) - parseFloat(y);
+    };
+    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
+        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
+        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
+        return parseFloat(y) - parseFloat(x);
+    };
+    $.ajaxSetup({
+        cache: false,
+        timeout:10000
+    });
+    function getxml(){
+        $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostPairs.xml",function(data){
+                    xml_arr=xml2array(data);
+                    var elements=data.getElementsByTagName("pair");
+                    for (var i = 0; i < elements.length; i++) {
+                        hash_table.add(xml_arr['pairsattr']['pair'][i]['name'],[hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[0],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[1],hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[2],
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['tradeunit']),parseFloat(xml_arr['pairsattr']['pair'][i]['vatrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['deliverchargebyhand']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['storagedailyfee']),parseFloat(xml_arr['pairsattr']['pair'][i]['D2']),parseFloat(xml_arr['pairsattr']['pair'][i]['D1']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['firstmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['secondmarginrate']),parseFloat(xml_arr['pairsattr']['pair'][i]['issinglemargin']),
+                            parseFloat(xml_arr['pairsattr']['pair'][i]['productid'].substr(7,1)),hash_db.items(xml_arr['pairsattr']['pair'][i]['name'].match(/([a-zA-Z]+)/g)[0])[3]
+                        ]);
+                    }
+                        getAjax();
+        });
+    }
+    var ajax_watchdog=0;
+     function getAjax(){
+         $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
+                     rtxml_arr=xml2array(data);
+                     var elements=data.getElementsByTagName("pair");
+						 if(elements.length!=0){
+							 for (var i = 0; i < elements.length; i++) {
+                             vatfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]
+                                     *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]/(1+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[4]);
+                                             //交割费用
+                             deliverfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]*2;
+                                             //存储费用
+                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
+                                             //交易费用
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13]==1){
+                                 computetransfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
+                                 }
+                                 else
+                             computetransfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
+                                             //总资金
+                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
+                                             //交易保证金占用成本
+                             if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[11]==1)
+                                 trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                                 else
+                                 trademarginfee[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])+parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])
+                                         *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2]))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
+                                         +parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                                             //默认交割保证金占用成本
+                             delivermarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])/365;
+                         computearbfee[i] = storagefee[i]+deliverfee[i]+trademarginfee[i]+delivermarginfee[i]+vatfee[i]+computetransfee[i];
+                                 //年化收益率计算
+                         computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
+                                 *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]-computearbfee[i])*365/(funds[i]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7])
+                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
+                             if(mychecked_f==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                 (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_f==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                             if(mychecked_s==1){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                         (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                             }
+                             if(mychecked_s==0){
+                                 if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
+                                     tabledata[i]=[0,0,0,0,0,0,0];
+                             }
+                         }
+                         else
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"];
+							}
+                             for(var k=0,s=0;k<tabledata.length;k++){
+                                 if(tabledata[k]!=null&&tabledata[k][0]!=0){
+                                     tabledata_f[s]=tabledata[k];
+                                     s=s+1;
+                                 }
+                             }
+                                 $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
+                                 $('#default').dataTable( {
+                                 "aaData": tabledata_f,"aaSorting": [[5,"desc"]],"bPaginate": false,
+                                        "aoColumns": [
+                                     { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月价格", "sClass": "center" },
+                                     { "sTitle": "远月价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
+                                             { "sTitle": "持仓成本", "sClass": "center" },
+                                     { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
+                                                         var sReturn = obj.aData[ obj.iDataColumn ];
+                                          if ( sReturn >=0 )sReturn = "<font color='red'>"+sReturn+"%</font>";
+                                          else sReturn = "<font color='green'>"+sReturn+"%</font>";
+                                          return sReturn;}
+                                             },
+                                             { "sTitle": "更新时间", "sClass": "center" }
+                                         ] ,
+                                 "bFilter": false//, "bStateSave": true
+                                     } );
+                             tabledata=[];
+                             tabledata_f=[];
+						};
+                     setTimeout(refreshMKData,2000);
+             ajax_watchdog=1;
+
+         } )
+						}
+     function ajax_restart(){
+         if(ajax_watchdog==0){
+             refreshMKData();
+         }
+         setTimeout(listen_ajax_watchdog,10000);
+     }
+    //setInterval(justalert,3000);
+    //function justalert(){alert(ajax_watchdog)}
+    function listen_ajax_watchdog(){
+        if(ajax_watchdog==1){
+            setTimeout(listen_ajax_watchdog,10000) ;
+        }
+        if(ajax_watchdog==0){
+           setTimeout(ajax_restart,10000);
+        }
+						}
+	function refreshMKData(){
+		if (g_MKDataState.isgetMKData){
+            ajax_watchdog=0;
+		   getAjax();
+		}	 	
+		}	 	
+	function checktimeMKTime(){
+        $.getJSON("shownorisk",{gettime:"gettime"},
+          function (data,status){
+              var str=data.substr(0,10)+" "+data.substr(11,8);
+		var servertime=new Date(str.replace(/-/g, "\/"));
+		var endtime=new Date(servertime);
+		if ((servertime.getDay()!=0)&&(servertime.getDay()!=6))
+		{
+		    if(servertime.getHours()<9){
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(30);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+			}
+			else if((servertime.getHours()<15)&&(servertime.getHours()>=9)){
+				endtime.setHours(15);
+				endtime.setMinutes(2);
+				endtime.setSeconds(0);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=true;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);	
+			}else{
+				endtime.setDate(servertime.getDate()+1); 
+				endtime.setHours(9);
+				endtime.setMinutes(0);
+				endtime.setSeconds(30);
+                g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+                g_MKDataState.isgetMKData=false;
+                setTimeout(checktimeMKTime,g_MKDataState.mtcounter);				
+			}
+		}else{
+			endtime.setDate(servertime.getDate()+1); 
+			endtime.setHours(9);
+			endtime.setMinutes(0);
+			endtime.setSeconds(30);
+			g_MKDataState.mtcounter=endtime.getTime()-servertime.getTime();
+			g_MKDataState.isgetMKData=false;
+			setTimeout(checktimeMKTime,g_MKDataState.mtcounter);			
+		}		
+        getxml();
+	})
+	}
+	var g_MKDataState=new MKDataState(3600000,true);
+    var stream_flag=0;
+	checktimeMKTime();
+    setTimeout(listen_ajax_watchdog,10000) ;
+
+</script> </div>
+<div style="float: right;width: 250px;margin-top: 30px" >
+
+  <% @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")%>
+  <% if (session[:webuser_name]==nil) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="#login-box" >订阅</a></li>
+<li><a class="login-window" href="#login-box" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if(Webuser.find_by_name(session[:webuser_name]).level==0) %>
+      <div id="title-top">
+<ul>
+<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
+</ul>
+      </div>
+<% else %>
+<% if Subscribetable.find_by_subscribe_userid(Webuser.find_by_name(session[:webuser_name]).id)==nil %>
+<div id="title-top1"><div class="top1left">
+<ul>
+<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+<% if Webuser.find_by_name(session[:webuser_name]).level==99&& @strategy_norisk.trydays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400<=0 %>
+	<li><a  href="javascript:void(0)" onclick="havedtry()" >已过试用</a></li>
+<% end %>
+</ul> </div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice1  %></p>
+            	</li>
+              <li><p><%= @trynotice2  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% else %>
+<div id="title-top1"> <div class="top1left">   <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
+<div class="top1right">
+<ul>
+            	<li><p>      <%= @trynotice1  %><br><%= @trynotice2  %></p>
+            	</li>
+            	</ul>
+</div>
+</div>
+<% end %>
+<% end %>
+<% end %>
+
+<!--  <input type="button" value="详细" id="subscribe">  -->
+<div id="psubscribe">
+<p>该策略的定价为<%= Strategyweb.find_by_strategyid("010001").price%>元每月，您将有<%= Strategyweb.find_by_strategyid("010001").trydays%>天的免费试用期。
+<p>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>
+</div>
+
+
+<!--      <a class="btnB"  href="javascript:void(0)">
+<span>
+<span>
+<span id="subscribe">详细</span>
+</span>
+</span>
+ </a>
+-->
+
+
+  <!--<input type="button" value="详细" id="subscribe">    -->
+  <div id="menuop"></div>
+<div id="celuojieshao">
+<h2>策略介绍:</h2>
+<div class="celuojieshaol">
+<h2>交易品种</h2>
+<h2>策略类型</h2>
+<h2>系统开始时间</h2>
+<h2>系统开发者</h2>
+</div>
+<div class="celuojieshaom">
+</div>
+<div id="celuojieshaor">
+<h2><%= @strategy_norisk.strategytype  %></h2>
+<h2><%= @strategy_norisk.strategyattr  %></h2>
+<h2><%= @strategy_norisk.startdate  %></h2>
+<h2><%= @strategy_norisk.developer  %></h2>
+</div>
+
+</div>
+<div id="tiyijian">
+<h2>提点意见</h2>
+
+
+<div class ="remarkslist">
+
+<iframe id ="remarkslist" onLoad="iFrameHeight()" name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height=auto marginheight="0" marginwidth="0" style="border:none"></iframe>
+</div>
+
+</div>
+
+<div class="adverise">
+<h2 class="strategyconduction" >您的意见</h2>
+</div>
+<div class = "newremark">
+<iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
+</div>
+
+</div>
+ <!-- <%= button_to "订阅" %> -->
+  <script type="text/javascript">
+      $("#menuop").hide();
+      $("#subscribe").click(function(){ <!--点击按钮触发-->
+          if($("#menuop").is(":hidden")){
+              $("#menuop").show();
+              $("#menuop").html("<p id='psubscribe'>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>");
+          }
+          else
+          $("#menuop").hide();
+     });
+
+      function issubscribe(){
+          if(confirm('您钱真多，再付一次钱吧！')){
+              location.href=("/s010001/subscribe/<%=@strategy_norisk.id%>")
+          }
+      }
+      function havetry(){
+          alert("您已经在试用了！")
+      }
+      function havedtry(){
+          alert("您已经试用过了！")
+      }
+
+      function box(id){
+          var loginBox = id;
+        		//Fade in the Popup and add close button
+        		$(loginBox).fadeIn(300);
+
+        		//Set the center alignment padding + border
+        		var popMargTop = ($(loginBox).height() + 24) / 2;
+        		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        		$(loginBox).css({
+        			'margin-top' : -popMargTop,
+        			'margin-left' : -popMargLeft
+        		});
+          $('body').append('<div id="mask"></div>');
+        		$('#mask').fadeIn(300);
+      }
+
+
+function iFrameHeight() {
+     var ifm= document.getElementById("remarkslist");
+     var subWeb = document.frames ? document.frames["remarkslist"].document : ifm.contentDocument;
+     if(ifm != null && subWeb != null) {
+     ifm.height = subWeb.body.scrollHeight;
+     }
+     }
+      //window.setInterval("iFrameHeight()", 200);
+  </script>
+<div class="container">
+	<div id="content">
+        <div id="msg-box" class="login-popup">
+        <div style="width: 200px;height: 200px;background: white;" id="msg-show">
+		<p>您还不是收费用户，请先订阅策略</p>
+          <a href="/strategy/subscribe/1">订阅</a> <a href="javascript:void(0)" id="cancle">取消</a>
+        </div>
+        </div>
+    </div>
+</div>

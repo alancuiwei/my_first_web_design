@@ -1,7 +1,8 @@
+<% if @webuser!=nil %>
+
 我所订购的策略为：无风险套利策略。<br>
 
 <p>如果您想让您的套利成本，年化收益率计算更加准确，则您可点击下面按钮进行相应选项设置。</p>
-
 <div id = "tradefeebutton">
   <%= button_to "手续费修改",:controller=>"usermanagement" ,:action=>"usertradecharge", :id=>@webuser.id%>
 </div>
@@ -11,4 +12,7 @@
 <div id = "lendatefeebutton">
   <%= button_to "贷款利率修改",:controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id%>
 </div>
+    <% else %>
+    <a href="#login-box" class="login-window">请先登录</a>
+<% end %>
 
