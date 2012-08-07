@@ -645,7 +645,7 @@
 
 <div class ="remarkslist">
 
-<iframe name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height="600" marginheight="0" marginwidth="0" style="border:none"></iframe>
+<iframe id ="remarkslist" onLoad="iFrameHeight()" name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height=auto marginheight="0" marginwidth="0" style="border:none"></iframe>
 </div>
 
 </div>
@@ -698,6 +698,16 @@
           $('body').append('<div id="mask"></div>');
         		$('#mask').fadeIn(300);
       }
+
+
+function iFrameHeight() {
+     var ifm= document.getElementById("remarkslist");
+     var subWeb = document.frames ? document.frames["remarkslist"].document : ifm.contentDocument;
+     if(ifm != null && subWeb != null) {
+     ifm.height = subWeb.body.scrollHeight;
+     }
+     }
+      //window.setInterval("iFrameHeight()", 200);
   </script>
 <div class="container">
 	<div id="content">
