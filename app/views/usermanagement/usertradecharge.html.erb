@@ -77,7 +77,7 @@
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
               <div id="fastedit_choose">
                   <div id="fastedit_margin"><input type="radio" id="tm" onclick="tm_c()" >保证金比例</div> 
-                  <br \>
+                  <br>
                 <div id="fastedit_fee"><input type="radio" id="tc" onclick="tc_c()" >手续费
                 </div>
               </div>
@@ -121,6 +121,7 @@
 </div>
 <script type="text/javascript">
   function tm_c(){
+      $('#fastedit').hide();
      var loginBox = "#tm_fe";
     		//Fade in the Popup and add close button
     		$(loginBox).fadeIn(300);
@@ -141,6 +142,7 @@
   }
 
   function tc_c(){
+      $('#fastedit').hide();
       var loginBox = "#tc_fe";
      		//Fade in the Popup and add close button
      		$(loginBox).fadeIn(300);
