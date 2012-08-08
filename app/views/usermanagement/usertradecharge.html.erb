@@ -12,10 +12,11 @@
         });
     });
 </script>
-	<h2> 手续费定制 </h2>
-    <br />  
+	<div id="customer_config"></div>
 	
+<div id="fast_modification"> 
 <a href="#fastedit" class="login-window"  style="color: red">快捷修改</a>
+</div>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 
       <tbody>
@@ -72,8 +73,8 @@
 
 <div class="container">
 	<div id="content">
-        <div id="fastedit" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+        <div id="fastedit" class="login-popupop">
+<!--        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a> -->
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
               <div style="background-color: white;width: 200px;height: 200px;">
                   <input type="radio" id="tm" onclick="tm_c()" >保证金比例   <br>
@@ -104,7 +105,7 @@
 
 <div class="container">
 	<div id="content">
-        <div id="tc_fe" class="login-popup">
+        <div id="tc_fe" class="login-popupop">
         <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
               <div id="tc_html" style="background-color: white;width: 200px;height: 300px;">

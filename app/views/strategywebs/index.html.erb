@@ -80,6 +80,13 @@
     } );
 </script>
 
+<div class="strategysearch">
+<form id="form1" runat="server">
+    <input id="keyword" />
+    <input id="getValue" value="策略查询" type="button"/>
+</form>
+</div>
+
 <% @strategywebs.each do |strategyweb| %>
     <div class="strategyinstance">
     <div class= "s_header">  
@@ -156,8 +163,8 @@
                 chart: {
                     renderTo: id,
                     type: 'area',
-                    width: 161,
-                    height: 114
+                    width: 170,
+                    height: 170
                 },
                 title: {
                     enabled: false

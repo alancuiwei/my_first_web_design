@@ -387,7 +387,7 @@ $(document).ready(function(){
           <li><a href="#login-box" class="login-window">我收藏的策略</a></li>
       <% else %>
     <li><%= link_to "我的信息",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
-      <li> <%= link_to "我订阅的策略",:controller=>"usermanagement" ,:action=>"trademanageindex"%></li>
+      <li> <%= link_to "我订阅的策略",:controller=>"usermanagement" ,:action=>"usertradecharge",:id=>@webuser.id%></li>
           <li> <%= link_to "我收藏的策略",:controller=>"usermanagement" ,:action=>"collection" ,:id=>@webuser.id%></li>
       <% end %>
 

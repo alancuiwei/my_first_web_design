@@ -362,13 +362,13 @@ $(document).ready(function(){
    <% @strategywebs_d = Strategyweb.where("strategyid like '04%'").all %>
   <% @strategywebs_t = Strategyweb.where("strategyid like '01%' or strategyid like '02%' or strategyid like '03%'").all %>
     <ul>
-    <li><a href="javascript:void(0)" onclick="stg_d()">单边</a></li>
+    <li><a href="javascript:void(0)" onclick="stg_d()">单边策略</a></li>
     <div id="db">
       <% @strategywebs_d.each do |strategyweb| %>
       <li><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %></li>
       <% end %>
     </div>
-    <li><a href="javascript:void(0)" onclick="stg_t()">套利</a></li>
+    <li><a href="javascript:void(0)" onclick="stg_t()">套利策略</a></li>
     <div id="tl">
       <% @strategywebs_t.each do |strategyweb| %>
       <li><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %></li>
@@ -398,12 +398,6 @@ $(document).ready(function(){
 <%= yield %>
 </div>
 
-<div id="strategysearch">
-<form id="form1" runat="server">
-    <input id="keyword" />
-    <input id="getValue" value="策略查询" type="button"/>
-</form>
-</div>
 
 <div class="clr"></div>
 </div>
