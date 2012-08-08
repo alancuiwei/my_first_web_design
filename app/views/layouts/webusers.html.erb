@@ -387,13 +387,56 @@ $(document).ready(function(){
         <% if @webuser==nil %>
             <li> <a href="#login-box" class="login-window">我的信息</a></li>
             <li>  <a href="#login-box" class="login-window">我订阅的策略</a></li>
+          <li>  <a href="#login-box" class="login-window">我收藏的策略</a></li>
      <% else %>
             <% if @webuser.name=="administrator" %>
                 <li><%= link_to "我的信息",:controller=>"admin" %></li>
          <% else %>
                 <li><%= link_to "我的信息",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id %></li>
          <% end %>
-            <li> <%= link_to "我订阅的策略",:controller=>"usermanagement" ,:action=>"trademanageindex"%></li>
+            <li> <a href="javascript:void(0)" onclick="sub()">我订阅的策略</a></li>
+          <% @subscribe=Subscribetable.find_all_by_subscribe_userid(@webuser.id) %>
+          <% @sub_hash = Hash.new  %>
+          <% for i in 0..@subscribe.size-1  %>
+              <% @stg_sub=Strategyweb.find_by_strategyid_and_ordernum_and_userid(@subscribe[i].strategyid,@subscribe[i].ordernum,@subscribe[i].strategy_userid) %>
+              <% @sub_hash.store(@subscribe[i].strategyid.to_s+@subscribe[i].ordernum.to_s+@subscribe[i].strategy_userid.to_s,[@stg_sub.name,@stg_sub.control,@stg_sub.action,@stg_sub.id]) %>
+              <% end %>
+          <div id="sub">
+          <% for i in 0..@sub_hash.size-1  %>
+              <li><a href="/<%= @sub_hash[@sub_hash.keys[i]][1] %>/<%= @sub_hash[@sub_hash.keys[i]][2] %>/<%= @sub_hash[@sub_hash.keys[i]][3] %>"><%= @sub_hash[@sub_hash.keys[i]][0] %></a></li>
+          <% end  %>
+          </div>
+          <li> <a href="javascript:void(0)" onclick="coll()">我收藏的策略</a></li>
+          <% @collect_stg=Array.new %>
+          <% if @webuser!=nil %>
+          <% if @webuser.collect!=nil %>
+          <%  @collect=@webuser.collect.scan(/\d/) %>
+          <% if @collect!=nil %>
+          <% for i in 0..@collect.size-1 %>
+          <% if @collect[i]!=nil %>
+          <% @collect_stg[i]=Strategyweb.find_by_id(@collect[i]) %>
+          <% else break  end end  end end end %>
+          <div id="coll">
+          <% for i in 0..@collect_stg.size-1  %>
+              <li><a href="/<%=@collect_stg[i].control%>/<%=@collect_stg[i].action%>/<%=@collect_stg[i].id%>"><%= @collect_stg[i].name %></a></li>
+          <% end  %>
+          </div>
+          <script type="text/javascript">
+            $("#sub").hide();
+             function sub(){
+                 if($("#sub").is( ":hidden "))
+                 $("#sub").fadeIn(1000);
+                 else
+                     $("#sub").fadeOut(1000);
+             }
+            $("#coll").hide();
+             function coll(){
+                 if($("#coll").is( ":hidden "))
+                 $("#coll").fadeIn(1000);
+                 else
+                     $("#coll").fadeOut(1000);
+             }
+          </script>
      <% end %>
       </ul>
   
