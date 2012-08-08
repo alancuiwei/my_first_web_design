@@ -359,14 +359,40 @@ $(document).ready(function(){
 <div class="StrategyNewslb"></div>
 <div id="StrategyNewscontactus">
    <!-- <h2><%= link_to "策略库",:controller =>"autotrade",:action =>"index" %></h2> -->
+   <% @strategywebs_d = Strategyweb.where("strategyid like '04%'").all %>
+  <% @strategywebs_t = Strategyweb.where("strategyid like '01%' or strategyid like '02%' or strategyid like '03%'").all %>
     <ul>
-      <% @strategywebs.each do |strategyweb| %>
+    <li><a href="javascript:void(0)" onclick="stg_d()">单边</a></li>
+    <div id="db">
+      <% @strategywebs_d.each do |strategyweb| %>
       <li><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %></li>
       <% end %>
+    </div>
+    <li><a href="javascript:void(0)" onclick="stg_t()">套利</a></li>
+    <div id="tl">
+      <% @strategywebs_t.each do |strategyweb| %>
+      <li><%= link_to strategyweb.name,:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %></li>
+      <% end %>
+    </div>
     </ul>
 </div>
     </div>
-
+<script type="text/javascript">
+  $("#db").hide();
+   function stg_d(){
+       if($("#db").is( ":hidden "))
+       $("#db").fadeIn(1000);
+       else
+           $("#db").fadeOut(1000);
+   }
+  $("#tl").hide();
+   function stg_t(){
+       if($("#tl").is( ":hidden "))
+       $("#tl").fadeIn(1000);
+       else
+           $("#tl").fadeOut(1000);
+   }
+</script>
   <div class="frame">
 
 <%= yield %>
