@@ -89,12 +89,10 @@
 <div class="container">
 	<div id="content">
         <div id="tm_fe" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
               <div id="tm_html" style="background-color: white;width: 200px;height: 200px;">
-                <h2>保证金比例快键修改</h2>
-                <h3>您好<%= @webuser.name %>！请快键修改保证金比例：
-                 <input type="text" size="5" id="tm_submit_text">
+                <p>如果您不清楚您的保证金比例，请向您的期货公司咨询</p>
+                <h3>比期货交易所保证金比例高<input type="text" size="5" id="tm_submit_text">百分比
                   <a href="javascript:void(0)" onclick="tm_submit()">提交</a>
                   <a href="#" class="close">取消</a>
                 </h3>
