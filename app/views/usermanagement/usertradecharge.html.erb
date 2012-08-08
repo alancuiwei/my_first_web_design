@@ -74,11 +74,12 @@
 <div class="container">
 	<div id="content">
         <div id="fastedit" class="login-popupop">
-<!--        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a> -->
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-              <div style="background-color: white;width: 200px;height: 200px;">
-                  <input type="radio" id="tm" onclick="tm_c()" >保证金比例   <br>
-                <input type="radio" id="tc" onclick="tc_c()" >手续费
+              <div id="fastedit_choose">
+                  <div id="fastedit_margin"><input type="radio" id="tm" onclick="tm_c()" >保证金比例</div> 
+                  <br \>
+                <div id="fastedit_fee"><input type="radio" id="tc" onclick="tc_c()" >手续费
+                </div>
               </div>
           <% end %>
 		</div>
