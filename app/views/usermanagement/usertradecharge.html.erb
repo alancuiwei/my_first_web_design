@@ -91,11 +91,12 @@
         <div id="tm_fe" class="login-popupop_sub">
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
               <div id="fastmargin_config">
-                <p>如果您不清楚您的保证金比例，请向您的期货公司咨询</p>
-                <h3>比期货交易所保证金比例高<input type="text" size="5" id="tm_submit_text">百分比
-                  <a href="javascript:void(0)" onclick="tm_submit()">提交</a>
-                  <a href="#" class="close">取消</a>
-                </h3>
+                <p>如果不清楚保证金比例，请向期货公司咨询。</p>
+                <h3>比期货交易所保证金比例</h3><h3>高 <input type="text" size="5" id="tm_submit_text">%</h3>
+                <div id="fastmargin_buttons">  
+                  <a id="fastmargin_submit" href="javascript:void(0)" onclick="tm_submit()">提交</a>
+                  <a id="fastmargin_cancel" href="#" class="close">取消</a>
+                </div>  
               </div>
           <% end %>
 		</div>
