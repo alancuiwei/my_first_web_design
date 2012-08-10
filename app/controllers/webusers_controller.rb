@@ -14,7 +14,9 @@ class WebusersController < ApplicationController
     else
       @fp_url=@hash_fp_url[@mail_serverurl]
     end
+    if params[:regedit_flag]!=nil
     UserMailer.regeditconfirm(params[:regedit_email],params[:regedit_name],"http://localhost:3000/webusers/regedit/1?"+"regedit_name="+params[:regedit_name]+"&regedit_email="+(params[:regedit_email])+"&regedit_password="+params[:regedit_password]).deliver
+  end
   end
 
   def regedit

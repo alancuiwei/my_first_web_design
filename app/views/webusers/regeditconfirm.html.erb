@@ -11,12 +11,16 @@
 <div class="frame">
    邮件已经发送到您的邮箱：<%=params[:regedit_email]%>，<a href="<%= @fp_url %>">前往邮箱确认注册</a>！
 </div>
-
 <div class="clr"></div>
 </div>
 <div class="clr"></div>
 </div>
 <script type="text/javascript">
+
+    $.get("/webusers/regeditconfirm/1",
+            { regedit_password:'<%= params[:regedit_password]%>',regedit_name:'<%= params[:regedit_name]%>',
+                regedit_email:'<%= params[:regedit_email]%>',regedit_flag:1});
+
     $(function() {
          $("form").validity(function() {
              $("#my_email")
