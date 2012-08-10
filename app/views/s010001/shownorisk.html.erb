@@ -9,7 +9,7 @@
   
   <div id="slice12">
     <ul>
-  <li><a onmouseover="showintro()"></a>
+  <li><a onclick="showintro()" href="javascript:void(0)"></a>
   </li>
   </ul>
   </div>
@@ -98,12 +98,7 @@
 </div>
 </div>
 
-
 <script type="text/javascript">
-    //$(document).ready(function(){
-    //  notyAlertWithButtons('bottomLeft', 'noty_theme_facebook');
-   // });
-
     function showintro(){
         $(document).ready(function() {
 
@@ -137,38 +132,7 @@
            	});
            //
     }
-    function notyAlertWithButtons(layout, theme){
-      noty({layout : layout, theme : theme, type : 'notification', text: '您还没有登录！',
-        buttons: [
-          {type: 'btn btn-primary', text: '登录', click: function($noty) {
-              $noty.close();
-              window.location.href='/sessions/new';
-            }
-          },
-          {type: 'btn btn-danger', text: '取消', click: function($noty) {
-              $noty.close();
-              noty({force: true, layout : layout, theme : theme, text: '您还是注册一下吧！', type: 'error'});
-            }
-          }
-        ], closable: false, timeout: 3000
-      });
-    }
-    function notyAlertWithButtons_0(layout, theme){
-      noty({layout : layout, theme : theme, type : 'notification', text: '您还不是收费用户！',
-        buttons: [
-          {type: 'btn btn-primary', text: '请先订阅策略', click: function($noty) {
-              $noty.close();
-              window.location.href='/strategy/subscribe/1';
-            }
-          },
-          {type: 'btn btn-danger', text: '取消', click: function($noty) {
-              $noty.close();
-              noty({force: true, layout : layout, theme : theme, text: '取消！', type: 'error'});
-            }
-          }
-        ], closable: false, timeout: 3000
-      });
-    }
+
     var mychecked_f=1;
     var mychecked_s;
     function mychecked_1(para){

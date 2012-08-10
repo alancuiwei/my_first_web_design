@@ -69,8 +69,8 @@
 	<style type="text/css">
 		.wrapper {
 			position:absolute;
-			top:70%;
-			left:80%;
+			top:50%;
+			left:50%;
 		}
 	</style>
 
@@ -95,35 +95,37 @@
     <div class="strategyinstance">
     <div class= "s_header">  
     <div class="s_title" >
-    <h3><%= strategyweb.name%></h3>
+    <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h3><%= strategyweb.name %> </h3></a>
     </div>  
     <% if @webuser!=nil%>
 
     <div class="s_buy">
           <% if Subscribetable.find_by_subscribe_userid_and_strategy_userid_and_strategyid_and_ordernum(Webuser.find_by_name(session[:webuser_name]).id,strategyweb.userid,strategyweb.strategyid,strategyweb.ordernum)==nil %>
-          <a href="/s010001/subscribe/<%=strategyweb.id%>">订购</a>
+          <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
               <% else %>
-          已订购
+          <img src="/assets/chelan2.gif" /><a>已订购</a>
               <% end %>
     </div>
     <div class="s_collect">
-      <% if @hash_iscollect[strategyweb.id]==1 %>
-
-      <%= link_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
-
+      <% if @hash_iscollect[strategyweb.id]!=1 %>
+          <a href="/strategywebs/collect/<%=strategyweb.id%>" onclick="showwait()"><img src="/assets/xingxing2.gif" />收藏</a>
       <% else %>
-      <%= link_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
+          <a href="/strategywebs/cancelcollect/<%=strategyweb.id%>" onclick="showwait()"><img src="/assets/xingxing.gif" />取消收藏</a>
       <% end %>
 
     </div>
-
-    
+    <% else %>
+          <div class="s_collect">
+          <a href="#login-box" class="login-window">收藏</a></div>
+          <div class="s_buy">
+          <a href="#login-box" class="login-window">订购</a></div>
     <% end %>
     </div>
 
       <div class="s_performance">
+        <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>">
         <div class="s_performance_pic" id="<%= strategyweb.id%>">
-        </div>
+        </div></a>
         <div class="s_performance_text">
         <ul>
           
