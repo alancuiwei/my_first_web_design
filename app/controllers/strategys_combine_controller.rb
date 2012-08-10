@@ -22,8 +22,10 @@ class StrategysCombineController < ApplicationController
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
     @rightids_arr= Array.new
+    @rightids_arr_d= Array.new
     for i in 0..@commodityrights.size-1
       @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
+      @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
     end
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -67,8 +69,10 @@ class StrategysCombineController < ApplicationController
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
         @rightids_arr= Array.new
+    @rightids_arr_d= Array.new
         for i in 0..@commodityrights.size-1
           @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
+      @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
         end
 
         @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -115,8 +119,10 @@ class StrategysCombineController < ApplicationController
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
     @rightids_arr= Array.new
+    @rightids_arr_d= Array.new
     for i in 0..@commodityrights.size-1
       @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
+      @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
     end
 
     if @webuser!=nil&&params[:startdate]!=nil
