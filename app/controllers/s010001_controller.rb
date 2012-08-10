@@ -41,8 +41,13 @@ class S010001Controller < ApplicationController
         end
       elsif @webuser.level==1
         @sub_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
+        if (@subscribe.subscribedays-@sub_days).to_i>0
         @trynotice1="您是订阅用户，"
         @trynotice2="还有"+(@subscribe.subscribedays-@sub_days).to_i.to_s+"天的使用天数！"
+        else
+          @trynotice1="您的订阅时间已过！"
+          @webuser.update_attribute(:level,0)
+          end
       end
     end
   end

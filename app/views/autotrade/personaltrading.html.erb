@@ -2,8 +2,29 @@
 <%= javascript_include_tag "Hashtable.js" %>
 
  <% if @webuser==nil %>
-	<br />
-    <h1> <a href="#login-box" class="login-window">登录</a> </h1>
+    <script type="text/javascript">
+                 		// Getting the variable's value from a link
+         		var loginBox = "#login-box";
+                if (loginBox=="#login-box")
+                clickflag="login" ;
+              else
+                    clickflag="regedit";
+         		//Fade in the Popup and add close button
+         		$(loginBox).fadeIn(300);
+
+         		//Set the center alignment padding + border
+         		var popMargTop = ($(loginBox).height() + 24) / 2;
+         		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+         		$(loginBox).css({
+         			'margin-top' : -popMargTop,
+         			'margin-left' : -popMargLeft
+         		});
+
+         		// Add the mask to body
+         		$('body').append('<div id="mask"></div>');
+         		$('#mask').fadeIn(300);
+    </script>
     <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
         <%= button_to "请先设置参数",:controller=>"autotrade" ,:action=>"autotrade_s1" ,:id=>Strategyweb.find_by_name("无风险套利").id %>
 <% else %>

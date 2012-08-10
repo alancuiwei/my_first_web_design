@@ -123,17 +123,21 @@
     </div>
 
       <div class="s_performance">
+        <div class="s_performance_pic">
         <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>">
-        <div class="s_performance_pic" id="<%= strategyweb.id%>">
-        </div></a>
+        <div id="<%= strategyweb.id%>">
+        </div>
+        </a>
+      </div>
         <div class="s_performance_text">
-        <ul>
+      <ul>
           
-      <li>策略开始时间：<%=  strategyweb.startdate.to_s(:db) %></li>
       <li>年化收益率：<%= strategyweb.anreturn*100 %>% </li>
       <li>最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </li>
       <li>胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></li>
-          </ul>
+      </ul>
+      <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> 
+
         </div>
 
 
@@ -143,7 +147,7 @@
               <p>策略种类：<%= strategyweb.strategytype %></p>
             </div>
             <div class="s_details">
-              <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> 
+                   <p>策略开始时间：<%=  strategyweb.startdate.to_s(:db) %></p>
             </div>
         </div> <!-- div of s_footer -->
     </div>  <!-- div of strategyinstance -->
