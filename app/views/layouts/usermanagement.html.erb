@@ -272,12 +272,11 @@ $(document).ready(function(){
       </script>
       <div class="container">
       	<div id="content">
-              <div id="autotrade-box" class="login-popup">
-              <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <div style="width: 200px;height: 200px;background-color: white;">
-                  请先设置参数！<br>
-                  <a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
-                  <a class="close">取消</a>
+              <div id="autotrade-box" class="login-popupop_sub">
+                  <h3>请先设置参数！</h3>
+                  <div class="login-popupop_sub_a">
+                  <a id="popupop_sub_config" href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
+                  <a id="popupop_sub_cancell" class="close">取消</a>
                 </div>
       		</div>
           </div>
