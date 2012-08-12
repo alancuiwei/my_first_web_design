@@ -206,6 +206,31 @@ class WebusersController < ApplicationController
       if @webuser.fp_id!=fp_id
       @webuser.update_attribute(:fp_id,fp_id)
       @webuser.update_attribute(:fp_date,Time.now.to_s(:db))
+      #UserMailer.forgetpassword(params[:my_email],"http://localhost:3000/webusers/resetpassword/"+params[:id]+"?fp_id="+fp_id,@webuser.name,params[:id]).deliver
+      end
+      @mail_serverurl=params[:my_email].slice(params[:my_email].index("@")+1,params[:my_email].size-params[:my_email].index("@"))
+      @hash_fp_url=Hash["163.com","http://mail.163.com","126.com","http://mail.126.com","gmail.com","https://mail.google.com"]
+      if @hash_fp_url[@mail_serverurl]==nil
+        @fp_url="http://"+@mail_serverurl
+      else
+        @fp_url=@hash_fp_url[@mail_serverurl]
+      end
+      #@fp_url=
+    end
+  end
+  end
+
+  def forgetpassword_af
+    if params[:my_email]
+      @webuser=Webuser.find_by_email(params[:my_email])
+    if @webuser==nil
+      @error=true
+    else
+      @error=false
+      fp_id=encode(params[:id]+@webuser.id.to_s)
+      if @webuser.fp_id!=fp_id
+      @webuser.update_attribute(:fp_id,fp_id)
+      @webuser.update_attribute(:fp_date,Time.now.to_s(:db))
       UserMailer.forgetpassword(params[:my_email],"http://localhost:3000/webusers/resetpassword/"+params[:id]+"?fp_id="+fp_id,@webuser.name,params[:id]).deliver
       end
       @mail_serverurl=params[:my_email].slice(params[:my_email].index("@")+1,params[:my_email].size-params[:my_email].index("@"))
@@ -218,6 +243,7 @@ class WebusersController < ApplicationController
       #@fp_url=
     end
   end
+    render :json=>"s".to_json
   end
 
   def resetpassword
