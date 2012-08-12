@@ -30,7 +30,7 @@
                              matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
                              autoFill: false,    //自动填充
                              formatItem: function(data, i, total) {
-                                 return "<I>"+data.name+"</I>";
+                                 return "<I onmouseover='showpic("+i+")'>"+data.name+"</I>";
                              },
                              formatMatch: function(data, i, total) {
                                  return data.name;
@@ -47,8 +47,69 @@
             else
             $("#keyword").search(location.href=searchdate.control+"/"+searchdate.action)
         });
-
     });
+
+    function showpic(name){
+       $("#showpic").show();
+        highcharts();
+        function highcharts() {
+                var chart;
+                $(document).ready(function() {
+                    chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: "showpic",
+                            type: 'line',
+                            width: 160,
+                            height: 165
+                        },
+                        title: {
+                            enabled: false
+                        },
+                        subtitle: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            categories: profitchart_arr_day,
+                            title:{
+                                enabled: false
+                            } ,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        yAxis: {
+                            title:{
+                                enabled: false
+                            } ,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        plotOptions: {
+                            line: {
+                                //pointStart: 1940,
+                                marker: {
+                                    enabled: false,
+                                    symbol: 'circle',
+                                    radius: 2,
+                                    states: {
+                                        hover: {
+                                            enabled: false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        series: [{
+                            name: '收益',
+                            data: <%= @profitchart_arr%>
+                        }]
+                    });
+
+                    $(".highcharts-legend").remove()
+    });
+            }
+    }
 </script>
 
 
@@ -89,7 +150,9 @@
     <input id="keyword" value="策略查询" onclick="this.value=''" onmouseout="this.value='策略查询'"/>
     <a href="javascript:void(0)" id="getValue">搜索图片</a>
 </form>
+  <div id="showpic" style="float: right;z-index: 99;"></div>
 </div>
+
 
 <% @strategywebs.each do |strategyweb| %>
     <div class="strategyinstance">
@@ -204,6 +267,7 @@
                         //pointStart: 1940,
                         marker: {
                             enabled: false,
+                            symbol: 'circle',
                             radius: 2,
                             states: {
                                 hover: {

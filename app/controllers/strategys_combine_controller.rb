@@ -302,8 +302,20 @@ class StrategysCombineController < ApplicationController
   def wait
     @strategyweb = Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:wait]==nil
+    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+    end
+    end
+    if params[:wait]!=nil
+     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+     else
+       render :json=>"error".to_json
+     end
+    end
     Thread.new {
-    system "/ZRSoftware/Tools/startBuildTest.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
+    system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
     }
 
   end
