@@ -170,6 +170,12 @@ class StrategysCombineController < ApplicationController
 
      # @dailyinfo=Document.new(File.new('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'))
      #@dailyinfo_arr=@dailyinfo.root.elements[1].text
+      @dailyinfo=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
+      file=File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.html','w')
+      file.puts '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table>'
+      file.puts @dailyinfo
+      file.puts "</table>"
+      file.close
     end
   end
 
