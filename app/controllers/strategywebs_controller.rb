@@ -40,12 +40,19 @@ class StrategywebsController < ApplicationController
     Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
     @profitchart_arr=Array.new
     @profitchart_arr_day=Array.new
+    @profitchart_hash=Hash.new
+    @strategywebs.each do |strategyweb|
+    if  Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730).size==730
+      @profitchart_arr=[]
+      @profitchart_arr_day=[]
     for i in 0..23
-    @profitchart_arr[23-i]=Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].profit+@strat_profit
-    @profitchart_arr_day[23-i]=Time.at(Profitchart.find(:all, :order =>"dateint DESC",:limit => 730)[i*30].dateint/1000).to_s(:stamp)
+    @profitchart_arr[23-i]=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)[i*30].profit+@strat_profit
+    @profitchart_arr_day[23-i]=Time.at(Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)[i*30].dateint/1000).to_s(:stamp)
     #DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000
     end
-
+    @profitchart_hash.store(strategyweb.id,[@profitchart_arr,@profitchart_arr_day])
+      end
+    end
     respond_to do |format|
       format.html
       format.json { render json: @strategywebs }

@@ -3,17 +3,18 @@
 <%= javascript_include_tag "jquery.autocomplete.js" %>
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
 <%= javascript_include_tag "highcharts.js" %>
-
+<%= javascript_include_tag "Hashtable.js" %>
 <script type="text/javascript">
     $(function() {
-        function setdata(name,control,action){
+        function setdata(id,name,control,action){
+            this.id=id;
             this.name=name;
             this.control=control;
             this.action=action;
         }
         var data=new Array();
         <% for i in 0..@strategywebs.size-1%>
-          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
+          data[<%= i %>]=new setdata(<%= @strategywebs[i].id%>,'<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
         <% end%>
         //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
 
@@ -30,7 +31,7 @@
                              matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
                              autoFill: false,    //自动填充
                              formatItem: function(data, i, total) {
-                                 return "<I onmouseover='showpic("+i+")'>"+data.name+"</I>";
+                                 return "<I onmouseover='showpic("+data.id+")'>"+data.name+"</I>";
                              },
                              formatMatch: function(data, i, total) {
                                  return data.name;
@@ -49,7 +50,7 @@
         });
     });
 
-    function showpic(name){
+    function showpic(id){
        $("#showpic").show();
         highcharts();
         function highcharts() {
@@ -69,7 +70,7 @@
                             enabled: false
                         },
                         xAxis: {
-                            categories: profitchart_arr_day,
+                            categories: profitchart_day_hash.items(id),
                             title:{
                                 enabled: false
                             } ,
@@ -102,7 +103,7 @@
                         },
                         series: [{
                             name: '收益',
-                            data: <%= @profitchart_arr%>
+                            data: profitchart_data_hash.items(id)
                         }]
                     });
 
@@ -221,15 +222,23 @@
 <% end %>
 
 <script type="text/javascript">
+    var profitchart_data_hash=new Hashtable();
+    var profitchart_day_hash=new Hashtable();
     <% @strategywebs.each do |strategyweb| %>
     highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
+    <% if @profitchart_hash[strategyweb.id]!=nil%>
+    var profitchart_arr_day=new Array();
+    var profitchart_arr_data=new Array();
+    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
+      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
+    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
     <% end %>
-    var profitchart_arr_day=new Array;
-    <% for i in 0..@profitchart_arr_day.size-1 %>
-        profitchart_arr_day[<%= i%>] ='<%= @profitchart_arr_day[i] %>'
+    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
+    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
     <% end %>
-    //alert(profitchart_arr_day)
+    <% end %>
     function highcharts(id,stgname) {
+
         var chart;
         $(document).ready(function() {
             chart = new Highcharts.Chart({
@@ -246,7 +255,7 @@
                     enabled: false
                 },
                 xAxis: {
-                    categories: profitchart_arr_day,
+                    categories: profitchart_day_hash.items(id),
                     title:{
                         enabled: false
                     } ,
@@ -279,7 +288,7 @@
                 },
                 series: [{
                     name: '收益',
-                    data: <%= @profitchart_arr%>
+                    data:profitchart_data_hash.items(id)
                 }]
             });
 
