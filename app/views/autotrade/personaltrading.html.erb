@@ -28,11 +28,7 @@
     <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
         <%= button_to "请先设置参数",:controller=>"autotrade" ,:action=>"autotrade_s1" ,:id=>Strategyweb.find_by_name("无风险套利").id %>
 <% else %>
-<!--
-<div class="ironbars">
-     <div id = "norisktitle"><h3>符合您年化收益率的行情记录</h3></div>
-</div>
--->
+
 <script type="text/javascript">
     var isorder_search;
     var hash_isorder_show = new Hashtable();
@@ -87,15 +83,16 @@
 <br />
 <!-- <h2>个性化交易 - 无风险套利 </h2> -->
     <div id="showtime"></div>
-    <% if @webuser.level==0%>
-        <h2>您还不是收费用户，不能查看个性化交易。</h2>
-        <% else %>
+    <% if @norisk_havesub!=nil &&@norisk_havesub!=-1%>
         <div id="order_status">
               <a href="javascript:void(0)" onclick="show_all()">全部</a>&nbsp;&nbsp;
               <a href="javascript:void(0)" onclick="show_none()">未下单</a>&nbsp;&nbsp;
               <a href="javascript:void(0)" onclick="show_done()">已下单</a>
         </div>
     <div id="rtpricetable_user"></div>
+
+        <% else %>
+        <h2>您还不是收费用户，不能查看个性化交易。</h2>
 <% end %>
 <% end %>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>

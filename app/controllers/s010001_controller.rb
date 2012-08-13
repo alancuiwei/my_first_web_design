@@ -23,30 +23,47 @@ class S010001Controller < ApplicationController
         @db[i]=db.new(@defaultusercommodity[i].commodityid,@defaultusercommodity[i].lendrate,@defaultusercommodity[i].tradecharge,@defaultusercommodity[i].trademargingap,@defaultusercommodity[i].tradechargetype)
     end
     else
-      @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=?",@webuser.id],:order =>"subscribedate DESC",:limit=>1)[0]
     @usercommodity=UsercommodityT.find_all_by_userid(@webuser.name)
       @dbnum=@usercommodity.size
     for i in 0..@usercommodity.size-1 do
         @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
-      if @webuser.level==99 && @webuser.leveldate!=nil
-        @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
-        if @days<=@strategy_norisk.trydays
-          @webuser.level=1
-          @trynotice1="您是试用用户，"
-          @trynotice2="还有"+(@strategy_norisk.trydays-@days).to_i.to_s+"天的试用！"
+      #try and subscribe
+      if @webuser.tryid!=nil
+        @tryid=@webuser.tryid.scan(/\d/)
+       if @tryid!=nil
+         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.trydate.to_s(:db),"%Y-%m-%d").to_i)/86400
+         for i in 0..@tryid.size-1
+           if @tryid[i]!=nil&&@strategy_norisk.id.to_s==@tryid[i]
+             @norisk_istry=1
+             if(@strategy_norisk.trydays-@days)>0
+             @norisk_havetry=(@strategy_norisk.trydays-@days)
         else
-          @webuser.level=0
-          @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
+               @norisk_havetry=-1
         end
-      elsif @webuser.level==1
-        @sub_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
-        if (@subscribe.subscribedays-@sub_days).to_i>0
-        @trynotice1="您是订阅用户，"
-        @trynotice2="还有"+(@subscribe.subscribedays-@sub_days).to_i.to_s+"天的使用天数！"
         else
-          @trynotice1="您的订阅时间已过！"
-          @webuser.update_attribute(:level,0)
+             break
+           end
+         end
+       end
+      end
+      if @webuser.subid!=nil
+        @subid=@webuser.subid.scan(/\d/)
+       if @subid!=nil
+         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.subdate.to_s(:db),"%Y-%m-%d").to_i)/86400
+         for i in 0..@subid.size-1
+           if @subid[i]!=nil&&@strategy_norisk.id.to_s==@subid[i]
+             @norisk_issub=1
+             @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=? and strategyid=? and ordernum=? and strategy_userid=?",@webuser.id,@strategy_norisk.strategyid,@strategy_norisk.ordernum,@strategy_norisk.userid],:order =>"subscribedate DESC",:limit=>1)[0]
+             if (@subscribe.subscribedays-@days)>0
+              @norisk_havesub=(@subscribe.subscribedays-@days)
+             else
+               @norisk_havesub=-1
+             end
+           else
+             break
+           end
+         end
           end
       end
     end
@@ -54,6 +71,7 @@ class S010001Controller < ApplicationController
 
   def subscribe
     @strategy=Strategyweb.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
   end
 
   def pay
@@ -116,7 +134,23 @@ class S010001Controller < ApplicationController
          s.subscribedate=Time.now.to_s(:db)
          s.save
     end
-       @webuser.update_attribute(:level,1)
+
+       if @webuser!=nil
+         @presub=@webuser.subid
+         if @presub==nil
+           @webuser.update_attribute(:subid,"")
+         end
+         if @webuser.subid.index(params[:id].to_s)==nil
+         if @presub==nil||@presub==''
+           @webuser.update_attribute(:subid,params[:id].to_s)
+         else
+           @webuser.update_attribute(:subid,@presub+"|"+params[:id].to_s)
+         end
+         end
+
+         @webuser.update_attribute(:subdate,Time.now.to_s(:db))
+       end
+
 end
     end
   end
@@ -124,17 +158,29 @@ end
   def try
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    if @webuser.leveldate==nil
-    @webuser.update_attribute(:level,99)
-    @webuser.update_attribute(:leveldate,Time.now.to_s(:db))
-    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
-    @notice_try="您成功试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"的试用天数！"
+    if @webuser!=nil
+      @pretry=@webuser.tryid
+      if @pretry==nil
+        @webuser.update_attribute(:tryid,"")
+      end
+      if @webuser.tryid.index(params[:id].to_s)==nil
+      if @pretry==nil||@pretry==''
+        @webuser.update_attribute(:tryid,params[:id].to_s)
     else
-    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
-      if (@strategy.trydays-@days)<=0
-      @notice_try="您现在不能试用！"
-      else
-        @notice_try="您正在试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"天的试用天数！"
+        @webuser.update_attribute(:tryid,@pretry+"|"+params[:id].to_s)
+      end
+      end
+      if  @webuser.trydate==nil
+        @webuser.update_attribute(:trydate,Time.now.to_s(:db))
+      #@days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.trydate.to_s(:db),"%Y-%m-%d").to_i)/86400
+     # @notice_try="您成功试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"的试用天数！"
+     # else
+      #  @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.trydate.to_s(:db),"%Y-%m-%d").to_i)/86400
+      #if (@strategy.trydays-@days)<=0
+     #   @notice_try="您的试用期已过！"
+     # else
+      #  @notice_try="您正在试用"+@strategy.name+"策略!您还有"+(@strategy.trydays-@days).to_i.to_s+"天的试用天数！"
+      #end
         end
     end
   end

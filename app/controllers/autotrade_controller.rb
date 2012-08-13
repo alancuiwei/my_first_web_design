@@ -265,19 +265,46 @@ class AutotradeController < ApplicationController
    for i in 0..@usercommodity.size-1 do
         @db[i]=db.new(@usercommodity[i].commodityid,@usercommodity[i].lendrate,@usercommodity[i].tradecharge,@usercommodity[i].trademargingap,@usercommodity[i].tradechargetype)
           end
-      if @webuser.level==99 && @webuser.leveldate!=nil
-        @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.leveldate.to_s(:db),"%Y-%m-%d").to_i)/86400
-        if @days<=@strategy_norisk.trydays
-          @webuser.level=1
-          @trynotice="您是试用用户，还有"+(@strategy_norisk.trydays-@days).to_i.to_s+"天的试用！"
+
+      #try and subscribe
+      if @webuser.tryid!=nil
+        @tryid=@webuser.tryid.scan(/\d/)
+       if @tryid!=nil
+         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.trydate.to_s(:db),"%Y-%m-%d").to_i)/86400
+         for i in 0..@tryid.size-1
+           if @tryid[i]!=nil&&@strategy_norisk.id.to_s==@tryid[i]
+             @norisk_istry=1
+             if(@strategy_norisk.trydays-@days)>0
+             @norisk_havetry=(@strategy_norisk.trydays-@days)
+             else
+               @norisk_havetry=-1
+            end
         else
-          @webuser.level=0
-          @trynotice="该帐号试用期限已满，如果您想继续使用的话，需要缴费，请邮件联系 alan_cuiwei@yahoo.com.cn 或电话 13451936496！"
+             break
         end
-      elsif @webuser.level==1
-        @sub_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
-        @trynotice="您是订阅用户，还有"+(@subscribe.subscribedays-@sub_days).to_i.to_s+"天的使用天数！"
       end
+    end
+      end
+      if @webuser.subid!=nil
+        @subid=@webuser.subid.scan(/\d/)
+       if @subid!=nil
+         @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.subdate.to_s(:db),"%Y-%m-%d").to_i)/86400
+         for i in 0..@subid.size-1
+           if @subid[i]!=nil&&@strategy_norisk.id.to_s==@subid[i]
+             @norisk_issub=1
+             @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=? and strategyid=? and ordernum=? and strategy_userid=?",@webuser.id,@strategy_norisk.strategyid,@strategy_norisk.ordernum,@strategy_norisk.userid],:order =>"subscribedate DESC",:limit=>1)[0]
+             if (@subscribe.subscribedays-@days)>0
+              @norisk_havesub=(@subscribe.subscribedays-@days)
+             else
+               @norisk_havesub=-1
+             end
+           else
+             break
+           end
+         end
+       end
+      end
+
     end
 
   end
