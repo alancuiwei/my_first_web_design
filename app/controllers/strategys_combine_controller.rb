@@ -104,6 +104,9 @@ class StrategysCombineController < ApplicationController
   end
 
   def finish
+    Thread.new {
+      system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"-2.xml'"
+    }
 
   end
 
