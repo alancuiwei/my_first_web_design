@@ -1,0 +1,28 @@
+<br><br><br><br><div><img alt="Logo" src="/assets/loading.gif" /></div>
+<%= @test %>
+<script language="javascript">
+    filecheck();
+    var flag=0;
+    var xmldate;
+  function filecheck(){
+    $.get("<%=params[:id]%>",{wait:1},function(data,status){
+        if(data=="error"){
+            setTimeout(filecheck,2000);
+        }
+        else{
+            if(data=='<%= @firstdata%>')
+                setTimeout(filecheck,2000);
+            else
+                location.href="/strategys_combine/reportshow";
+
+                 }
+    });
+
+            //alert(data.lastModified)
+           // if(xmldata!=data)
+          //     location.href="/strategys_combine/reportshow";
+          //  else
+           //     setTimeout(fileexist,2000)
+
+        }
+</script>

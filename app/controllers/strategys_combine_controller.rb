@@ -99,15 +99,8 @@ class StrategysCombineController < ApplicationController
         file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml','w')
         file.puts @XMLfile
         file.close
-        redirect_to(:controller=>"strategys_combine", :action=>"finish")
+        redirect_to(:controller=>"strategys_combine", :action=>"wait_d")
         end
-  end
-
-  def finish
-    Thread.new {
-      system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
-    }
-
   end
 
   def showall
@@ -176,6 +169,14 @@ class StrategysCombineController < ApplicationController
       @dailyinfo=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
       file=File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.html','w')
       file.puts '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table>'
+      file.puts '   <tr>
+            <td>交易对象名称</td>
+            <td>是否平仓（1是/0否）</td>
+            <td>开仓日期</td>
+            <td>平仓日期</td>
+            <td>买卖方向（-1做空/1做多）</td>
+            <td>收益</td>
+         </tr>'
       file.puts @dailyinfo
       file.puts "</table>"
       file.close
@@ -184,7 +185,15 @@ class StrategysCombineController < ApplicationController
 
   def mysubmit
     @webuser = Webuser.find_by_name(session[:webuser_name])
-
+    @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+    @g_strategyparams=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a
+    @g_strategyparams_arr=Array.new
+    for i in 0..@g_strategyparams.size-1
+      @g_strategyparams_arr[i]=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+    end
+    @stgp_arr=Array.new
+    #@test=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a[1].to_s
+    #@test=@test.slice(1,@test.index(">")-1)
     if @webuser!=nil&&params[:strategyname]!=nil
     @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
     @stgp=StrategyparamT.find_by_username_and_strategyid(session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text)
@@ -193,83 +202,57 @@ class StrategysCombineController < ApplicationController
     if @stgp==nil
       @ordernum=1
       @firstdb_flag=1
+      for i in 0..@g_strategyparams.size-1
       StrategyparamT.new do |stgp|
          stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-         stgp.paramname='period'
-        stgp.paramvalue=@strategyparams.elements.to_a("//period")[0].text.to_f
+         stgp.paramname= @g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+        stgp.paramvalue=@g_strategyparams[i].text.to_f
         stgp.username=@webuser.name
-         stgp.ordernum=1
+         stgp.ordernum=0
+         stgp.userid=0
+        stgp.save
+      end
+      end
+      @notice="策略保存成功！"
+    else
+      @notice="策略已存在！"
+      for i in 0..@g_strategyparams_arr.size-1
+        @stgp_arr[i]=StrategyparamT.find_all_by_strategyid_and_username_and_paramname(@strategyparams.elements.to_a("//strategyid")[0].text,session[:webuser_name],@g_strategyparams_arr[i])
+      end
+      @db_flag=0
+       @ordernum_t=StrategyparamT.find(:all,:conditions =>["username=? and strategyid=?",session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text], :order =>"ordernum DESC",:limit => 1)
+      @ordernum=@ordernum_t[0].ordernum
+      for i in 0..@stgp_arr[0].size-1   #group
+        count=0
+        for j in 0..@stgp_arr.size-1
+          if @stgp_arr[j][i].paramvalue==@g_strategyparams[j].text.to_f
+             count=count+1
+          end
+        end
+        if count==@stgp_arr.size
+          @db_flag=1
+          break
+        end
+      end
+      if @db_flag==0
+        @notice="策略保存成功！"
+      @ordernum=@ordernum+1
+      @firstdb_flag=1
+      for i in 0..@g_strategyparams.size-1
+      StrategyparamT.new do |stgp|
+         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
+         @g_strategyparams_arr[i]=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+         stgp.paramname= @g_strategyparams_arr[i]
+        stgp.paramvalue=@g_strategyparams[i].text.to_f
+        stgp.username=@webuser.name
+         stgp.ordernum=@ordernum
          stgp.userid=@webuser.id
         stgp.save
       end
-      StrategyparamT.new do |stgp|
-         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-         stgp.paramname='losses'
-        stgp.paramvalue=@strategyparams.elements.to_a("//losses")[0].text.to_f
-        stgp.username=@webuser.name
-         stgp.ordernum=1
-         stgp.userid=@webuser.id
-         stgp.save
       end
-      StrategyparamT.new do |stgp|
-         stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-         stgp.paramname='wins'
-        stgp.paramvalue=@strategyparams.elements.to_a("//wins")[0].text.to_f
-        stgp.username=@webuser.name
-         stgp.ordernum=1
-         stgp.userid=@webuser.id
-         stgp.save
-      end
-    else
-      @stgp_p=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'period')
-      @stgp_l=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'losses')
-      @stgp_w=StrategyparamT.find_all_by_username_and_paramname(session[:webuser_name],'wins')
-      @db_flag=0
-      params[:username]=session[:webuser_name]
-       @ordernum_t=StrategyparamT.find(:all,:conditions =>["username=:username",params], :order =>"ordernum DESC",:limit => 1)
-      @ordernum=@ordernum_t[0].ordernum
-      for i in 1..@stgp_p.size
-         if @stgp_p[i-1].paramvalue==@strategyparams.elements.to_a("//period")[0].text.to_f&&@stgp_l[i-1].paramvalue==@strategyparams.elements.to_a("//losses")[0].text.to_f&&@stgp_w[i-1].paramvalue==@strategyparams.elements.to_a("//wins")[0].text.to_f
-           @db_flag=1
-           break
-         end
-      end
-      if @db_flag==0
-      @ordernum=@ordernum+1
-      @firstdb_flag=1
-        StrategyparamT.new do |stgp|
-           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-           stgp.paramname='period'
-          stgp.paramvalue=@strategyparams.elements.to_a("//period")[0].text.to_f
-          stgp.username=@webuser.name
-           stgp.ordernum=@ordernum
-           stgp.userid=@webuser.id
-          stgp.save
-        end
-        StrategyparamT.new do |stgp|
-           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-           stgp.paramname='losses'
-          stgp.paramvalue=@strategyparams.elements.to_a("//losses")[0].text.to_f
-          stgp.username=@webuser.name
-           stgp.ordernum=@ordernum
-           stgp.userid=@webuser.id
-           stgp.save
-        end
-        StrategyparamT.new do |stgp|
-           stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-           stgp.paramname='wins'
-          stgp.paramvalue=@strategyparams.elements.to_a("//wins")[0].text.to_f
-          stgp.username=@webuser.name
-           stgp.ordernum=@ordernum
-           stgp.userid=@webuser.id
-           stgp.save
-        end
-
       end
     end
-
       if @firstdb_flag==1
-
         Strategyweb.new do |stgweb|
           stgweb.name=params[:strategyname]
           stgweb.description=params[:description]
@@ -294,7 +277,7 @@ class StrategysCombineController < ApplicationController
         end
 
         Thread.new {
-            system "/ZRSoftware/Tools/startBuildTest.sh 'database' '"+@strategyparams.elements.to_a("//strategyid")[0].text+"' '"+@webuser.id.to_s+"' '"+@ordernum.to_s+"'"
+            system "/ZRSoftware/Tools/startBuildTests.sh 'database' '"+@strategyparams.elements.to_a("//strategyid")[0].text+"' '"+@webuser.id.to_s+"' '"+@ordernum.to_s+"'"
             }
       end
 
@@ -303,11 +286,30 @@ class StrategysCombineController < ApplicationController
   end
 
   def wait
-    @strategyweb = Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if params[:wait]==nil
       Thread.new {
       system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
+      }
+    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+    end
+    end
+    if params[:wait]!=nil
+     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+     else
+       render :json=>"error".to_json
+     end
+    end
+
+  end
+
+  def wait_d
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:wait]==nil
+      Thread.new {
+        system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
       }
     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
       @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
