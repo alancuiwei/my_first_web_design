@@ -1,4 +1,4 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 require 'rubygems'
 require 'builder'
 require 'rexml/document'
@@ -110,7 +110,7 @@ class StrategysCombineController < ApplicationController
 
   def individual
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    @strategywebs = Strategyweb.where("strategyid like '01%'or strategyid like '02%'or strategyid like '03%'").all
+    @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%') and strategyid!=010001").all
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
