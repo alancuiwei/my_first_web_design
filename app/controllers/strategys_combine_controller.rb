@@ -12,7 +12,7 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s0
-    @strategywebs = Strategyweb.where("strategyid like '0407%' or strategyid like '0408%'").all
+    @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 
   end
   def strategy_s1
@@ -58,7 +58,7 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s2
-    @strategywebs = Strategyweb.where("strategyid like '0407%'").all
+    @strategywebs = Strategyweb.where("strategyid like '0407%' and userid=0 and ordernum=0").all
 
   end
 
@@ -185,6 +185,13 @@ class StrategysCombineController < ApplicationController
 
   def mysubmit
     @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:stgtype]==""
+      params[:stgtype]=nil
+    end
+    #@test=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a[1].to_s
+    #@test=@test.slice(1,@test.index(">")-1)
+    if @webuser!=nil&&params[:strategyname]!=nil
+      if params[:stgtype]==nil
     @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
     @g_strategyparams=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a
     @g_strategyparams_arr=Array.new
@@ -192,15 +199,10 @@ class StrategysCombineController < ApplicationController
       @g_strategyparams_arr[i]=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
     end
     @stgp_arr=Array.new
-    #@test=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a[1].to_s
-    #@test=@test.slice(1,@test.index(">")-1)
-    if @webuser!=nil&&params[:strategyname]!=nil
-    @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
     @stgp=StrategyparamT.find_by_username_and_strategyid(session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text)
     @ordernum=0
     @firstdb_flag=0
     if @stgp==nil
-      @ordernum=1
       @firstdb_flag=1
       for i in 0..@g_strategyparams.size-1
       StrategyparamT.new do |stgp|
@@ -241,8 +243,7 @@ class StrategysCombineController < ApplicationController
       for i in 0..@g_strategyparams.size-1
       StrategyparamT.new do |stgp|
          stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text
-         @g_strategyparams_arr[i]=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
-         stgp.paramname= @g_strategyparams_arr[i]
+         stgp.paramname=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
         stgp.paramvalue=@g_strategyparams[i].text.to_f
         stgp.username=@webuser.name
          stgp.ordernum=@ordernum
@@ -281,6 +282,193 @@ class StrategysCombineController < ApplicationController
             }
       end
 
+        else
+          #combine
+          @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+          @strategyparams_2 = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml'))
+          @g_strategyparams=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a
+          @g_strategyparams_2=@strategyparams_2.elements.to_a("//g_strategyparams")[0].elements.to_a
+          @g_strategyparams_arr=Array.new
+          for i in 0..@g_strategyparams.size-1
+            @g_strategyparams_arr[i]=@g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+          end
+          @stgp_arr=Array.new
+          @g_strategyparams_arr_2=Array.new
+          for i in 0..@g_strategyparams_2.size-1
+            @g_strategyparams_arr_2[i]=@g_strategyparams_2[i].to_s.slice(1,@g_strategyparams_2[i].to_s.index(">")-1)
+          end
+          @stgp_arr_2=Array.new
+
+          @stgp=StrategyparamT.find_by_username_and_strategyid(session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text)
+
+          @ordernum=0
+          @firstdb_flag=0
+          if @stgp==nil
+            @firstdb_flag=1
+            for i in 0..@g_strategyparams.size-1
+            StrategyparamT.new do |stgp|
+               stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text
+               stgp.paramname= @g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+              stgp.paramvalue=@g_strategyparams[i].text.to_f
+              stgp.username=@webuser.name
+               stgp.ordernum=0
+               stgp.userid=0
+              stgp.save
+            end
+            end
+            for i in 0..@g_strategyparams_2.size-1
+            StrategyparamT.new do |stgp|
+               stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text
+               stgp.paramname= @g_strategyparams_2[i].to_s.slice(1,@g_strategyparams_2[i].to_s.index(">")-1)
+              stgp.paramvalue=@g_strategyparams_2[i].text.to_f
+              stgp.username=@webuser.name
+               stgp.ordernum=0
+               stgp.userid=0
+              stgp.save
+            end
+            end
+            @notice="策略保存成功！"
+            else
+            #stgpara!=nil  comnbine   stgp_arr.size为xml参数数
+
+              @notice="策略已存在！"
+
+              @ordernum_t=StrategyparamT.find(:all,:conditions =>["username=? and strategyid=?",session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text], :order =>"ordernum DESC",:limit => 1)
+             @ordernum=@ordernum_t[0].ordernum
+
+              for i in 0..@g_strategyparams_arr.size-1
+                @stgp_arr[i]=StrategyparamT.find_all_by_strategyid_and_username_and_paramname(@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text,session[:webuser_name],@g_strategyparams_arr[i])
+              end
+
+              for i in 0..@stgp_arr.size-1
+                if @stgp_arr[i].size>1 #多组
+                if @stgp_arr[i][1].id-@stgp_arr[i][0].id<@g_strategyparams_arr.size+@g_strategyparams_arr_2.size
+                  @kk=1
+                   for j in 0..@stgp_arr[i].size-1
+                       if j%2!=0
+                         @stgp_arr[i][j]=nil
+
+                       end
+                   end
+                  @stgp_arr[i]=@stgp_arr[i].compact
+                end
+                end
+              end
+
+              for i in 0..@g_strategyparams_arr_2.size-1
+                @stgp_arr_2[i]=StrategyparamT.find_all_by_strategyid_and_username_and_paramname(@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text,session[:webuser_name],@g_strategyparams_arr_2[i])
+              end
+
+              for i in 0..@stgp_arr_2.size-1
+                if @stgp_arr_2[i].size>1 #多组
+                if @stgp_arr_2[i][1].id-@stgp_arr_2[i][0].id<@g_strategyparams_arr.size+@g_strategyparams_arr_2.size
+                   for j in 0..@stgp_arr_2[i].size-1
+                       if j%2==0
+                         @stgp_arr_2[i][j]=nil
+                       end
+                   end
+                  @stgp_arr_2[i]=@stgp_arr_2[i].compact
+                end
+                end
+              end
+
+              @stgp_arr=@stgp_arr+@stgp_arr_2
+
+              @db_flag=0
+
+              for i in 0..@stgp_arr[0].size-1   #group  ordernum
+
+                count=0
+                for j in 0..@g_strategyparams.size-1
+                  if @stgp_arr[j][i].paramvalue==@g_strategyparams[j].text.to_f
+                     count=count+1
+                  end
+                end
+                for j in 0..@g_strategyparams_2.size-1
+                  if @stgp_arr[j+@g_strategyparams.size][i].paramvalue==@g_strategyparams_2[j].text.to_f
+                     count=count+1
+                  end
+                end
+
+                if count==@stgp_arr.size
+                  @db_flag=1
+                  break
+                end
+              end
+              if @db_flag==0
+                @notice="策略保存成功！"
+              @ordernum=@ordernum+1
+              @firstdb_flag=1
+              for i in 0..@g_strategyparams.size-1
+              StrategyparamT.new do |stgp|
+                 stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text
+                 stgp.paramname= @g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
+                stgp.paramvalue=@g_strategyparams[i].text.to_f
+                stgp.username=@webuser.name
+                 stgp.ordernum=@ordernum
+                 stgp.userid=@webuser.id
+                stgp.save
+              end
+              end
+                for i in 0..@g_strategyparams_2.size-1
+                StrategyparamT.new do |stgp|
+                   stgp.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text
+                   stgp.paramname= @g_strategyparams_2[i].to_s.slice(1,@g_strategyparams_2[i].to_s.index(">")-1)
+                  stgp.paramvalue=@g_strategyparams_2[i].text.to_f
+                  stgp.username=@webuser.name
+                   stgp.ordernum=@ordernum
+                   stgp.userid=@webuser.id
+                  stgp.save
+                end
+                end
+              end
+
+           end
+
+          if @firstdb_flag==1
+            Strategyweb.new do |stgweb|
+              stgweb.name=params[:strategyname]
+              stgweb.description=params[:description]
+              stgweb.price=params[:price]
+              stgweb.trydays=params[:trydays]
+              stgweb.strategyid=@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text
+              stgweb.strategytype=@strategyparams.elements.to_a("//objecttype")[0].text
+
+              @commodity_1=Array.new
+              @commodity_2=Array.new
+              for i in 0..@strategyparams.elements.to_a("//item").size-1
+                @commodity_1[i]=@strategyparams.elements.to_a("//item")[i].text
+              end
+              for i in 0..@strategyparams_2.elements.to_a("//item").size-1
+                @commodity_2[i]=@strategyparams_2.elements.to_a("//item")[i].text
+              end
+              temp_arr=@commodity_1&@commodity_2
+              temp=temp_arr[0]
+              for i in 1..temp_arr.size-1
+                temp=temp+"|"+temp_arr[i]
+              end
+              stgweb.commoditynames=temp
+              if @ordernum==0
+              stgweb.userid=0
+              else
+              stgweb.userid=@webuser.id
+              end
+              stgweb.ordernum=@ordernum
+              stgweb.created_at=Time.now.to_s(:db)
+              stgweb.action='show'
+              stgweb.control='strategys'
+              stgweb.startdate=DateTime.strptime(@strategyparams.elements.to_a("//startdate")[0].text,"%Y-%m-%d").to_s(:db)
+              stgweb.anreturn=1
+              stgweb.configtype='database'
+              stgweb.save
+            end
+
+            Thread.new {
+                system "/ZRSoftware/Tools/startBuildTests.sh 'database' '"+@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text+"' '"+@webuser.id.to_s+"' '"+@ordernum.to_s+"'"
+                }
+          end
+
+      end
      end
 
   end
