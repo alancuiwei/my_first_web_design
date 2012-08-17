@@ -1,4 +1,4 @@
-#encoding: utf-8
+﻿#encoding: utf-8
 class StrategywebsController < ApplicationController
 
   def index
@@ -141,6 +141,8 @@ class StrategywebsController < ApplicationController
       end
       if @reference[i]!=nil
        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[@reference[i].maxdrawdown,@reference[i].percentprofitable])
+      else
+        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil])
       end
       i=i+1
     end
