@@ -1,6 +1,8 @@
 <%= javascript_include_tag "xml2array.js" %>
 <%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
+<%= render "side" %>
+<div class="frame">
 <h3>选择是否保存。</h3>
 <%= button_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
 <%= button_to "不保存" ,:action=>'individual',:id=>params[:id] %>
@@ -144,3 +146,4 @@
 </table>
 <br>
 <iframe name="iframe_index" src="/assets/posrecord-<%= @webuser.id%>.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+</div>

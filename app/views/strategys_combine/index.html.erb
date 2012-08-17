@@ -1,3 +1,6 @@
+<%= render "side" %>
+<div class="frame">
+  <% if session[:webuser_name]!=nil %>
 <div id="select_strategy_type">
 <p>请选择您所需要的策略类型 </p>
 <%= radio_button_tag "radio", "s1" %>
@@ -22,3 +25,5 @@
 
     }
 </script>
+<% end %>
+</div>

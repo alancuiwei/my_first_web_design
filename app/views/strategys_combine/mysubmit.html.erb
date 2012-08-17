@@ -1,5 +1,7 @@
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
+<%= render "side" %>
+<div class="frame">
 <% if params[:strategyname]==nil %>
 <h3>为您新建的策略命名：</h3>
 <%= form_tag do %>
@@ -21,3 +23,4 @@
     <% else %>
     <%= @notice  %>
 <% end %>
+</div>

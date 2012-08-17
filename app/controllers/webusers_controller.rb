@@ -1,8 +1,6 @@
 ﻿#encoding: utf-8
 require 'openssl'
 class WebusersController < ApplicationController
-  layout "application"  ,:except=>[:edit]
-  #layout "webusers"  ,:only=>[:show]
   # GET /webusers
   # GET /webusers.json
 
@@ -97,7 +95,6 @@ class WebusersController < ApplicationController
   # GET /webusers/1/edit
   def edit
     @webuser = Webuser.find(params[:id])
-    render:layout=>'webusers'
   end
 
   # POST /webusers
