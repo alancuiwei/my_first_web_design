@@ -1,11 +1,17 @@
 ﻿<%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "exporting.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+  <%= javascript_include_tag "xml2array.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= render "side" %>
+<div class="frame">
 <% if session[:webuser_name]==nil %>
     <a href="#login-box" class="login-window">定制</a>
     <% else %>
 <a href="/strategys_combine/individual/<%= @strategyweb.id %>">定制</a>
     <% end %>
 <h2><%= @strategyweb.name %></h2>
+
 <table id="monthly" >
   <tr>
     <th></th>
@@ -25,14 +31,15 @@
         <td></td>
   <% end %>
   </tr>
+
     <% for i in 1..@returnrate_others_size-1 %>
       <tr>
     <th><%= @returnrate_others[(i-1)*12].yearid  %></th>
     <% for j in 0..11 %>
             <% if @returnrate_others[i].returnrate>0%>
-              <td class="txred"><%= format("%.2f", @returnrate_others[i].returnrate*100)  %>%</td>
+              <td class="txred"><%= format("%.2f", @returnrate_others[(i-1)*12+j].returnrate*100)  %>%</td>
                 <% else %>
-                <td class="txgreen"><%= format("%.2f", @returnrate_others[i].returnrate*100)  %>%</td>
+                <td class="txgreen"><%= format("%.2f", @returnrate_others[(i-1)*12+j].returnrate*100)  %>%</td>
                 <% end %>
     <% end %>
       </tr>
@@ -247,3 +254,4 @@
  		<% end %>
   </tbody>
 </table>
+</div>

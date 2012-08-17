@@ -87,30 +87,32 @@
 <% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
 <!-- body -->
 <body onkeydown="enterkey()">
-<div class="main">
-  <div class="header">
+<div class="logo_welcome_nav">
   <div class="pagedingbu"></div>
   <div class="block_header">
-  <div class="logoimage">
-    <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
-  </div>
-  <% if session[:webuser_name]==nil%>
-      <div class="register">
+    <div class="logoimage">
+      <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
+    </div>
+
+    <div class="welcomeuser">
+    <% if session[:webuser_name]==nil%>
+    <div class="register">
         <div class="registerzc">
           <a href="#regedit-box" class="regedit-window">注册</a></div>
         <div class="registerimg" style="visibility: hidden; " ></div>
-      </div>
-      <div class="logandreg"></div>
-      <div class="login">
+    </div>
+
+    <div class="logandreg"></div>
+    <div class="login">
         <div class="login_dl">
           <a href="#login-box" class="login-window">登录</a></div>
         <div class="loginimg" style="visibility: hidden; "></div>
       </div>
-      <div id="weiboblock">
+    <div id="weiboblock">
         <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
-      </div>
-  <% else %>
-      <div class="welcomeuser">
+    </div>
+  
+    <% else %>
         <div style="float: left;padding-right: 10px;">
           <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
         </div>
@@ -119,8 +121,10 @@
           <p>用户：<%= session[:webuser_name] %></p>
         </div>
         <div class="yonghure"></div>
-      </div>
-  <% end %>
+    <% end %>
+    
+    </div>
+
   <div class="clr"></div>
   <div id="menuMain" ><div>
     <div>
@@ -309,7 +313,6 @@
     </div>
   </div>
   <!-- block_header end -->
-  </div>
   </div>
 </div>
 <!-- main end -->

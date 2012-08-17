@@ -311,8 +311,8 @@ class StrategysCombineController < ApplicationController
                stgp.paramname= @g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
               stgp.paramvalue=@g_strategyparams[i].text.to_f
               stgp.username=@webuser.name
-               stgp.ordernum=0
-               stgp.userid=0
+               stgp.ordernum=1
+               stgp.userid=@webuser.id
               stgp.save
             end
             end
@@ -322,8 +322,8 @@ class StrategysCombineController < ApplicationController
                stgp.paramname= @g_strategyparams_2[i].to_s.slice(1,@g_strategyparams_2[i].to_s.index(">")-1)
               stgp.paramvalue=@g_strategyparams_2[i].text.to_f
               stgp.username=@webuser.name
-               stgp.ordernum=0
-               stgp.userid=0
+               stgp.ordernum=1
+               stgp.userid=@webuser.id
               stgp.save
             end
             end
