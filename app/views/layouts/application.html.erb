@@ -59,17 +59,6 @@
         function closeSubMenu() {
             $(this).find('ul').css('visibility', 'hidden');
         };
-        //loginimg  registerimg
-        $('.login_dl').bind('mouseover',{id:".loginimg"}, showimg);
-        $('.login_dl').bind('mouseout',{id:".loginimg"}, unshowimg);
-        $('.registerzc').bind('mouseover',{id:".registerimg"}, showimg);
-        $('.registerzc').bind('mouseout',{id:".registerimg"}, unshowimg);
-        function showimg(events) {
-            $(events.data.id).css('visibility', 'visible');
-        };
-        function unshowimg(events) {
-            $(events.data.id).css('visibility', 'hidden');
-        };
   });
    //google-analytics
     var _gaq = _gaq || [];
@@ -95,33 +84,30 @@
     </div>
 
     <div class="welcomeuser">
+    <!-- user hasn't login yet -->  
     <% if session[:webuser_name]==nil%>
     <div class="register">
-        <div class="registerzc">
-          <a href="#regedit-box" class="regedit-window">注册</a></div>
-        <div class="registerimg" style="visibility: hidden; " ></div>
+          <a href="#regedit-box" class="regedit-window">注册</a>
     </div>
 
-    <div class="logandreg"></div>
+    <div class="logandreg"> </div>
+    
     <div class="login">
-        <div class="login_dl">
-          <a href="#login-box" class="login-window">登录</a></div>
-        <div class="loginimg" style="visibility: hidden; "></div>
-      </div>
-    <div id="weiboblock">
-        <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
+          <a href="#login-box" class="login-window">登录</a>
     </div>
-  
+
+    <!-- user had logined in -->
     <% else %>
-        <div style="float: left;padding-right: 10px;">
-          <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
-        </div>
-        <a href="javascript:void(0)" onclick="logout()">&nbsp;退出</a>
+        <a href="javascript:void(0)" onclick="logout()">退出</a>
         <div class="yonghu">
           <p>用户：<%= session[:webuser_name] %></p>
         </div>
         <div class="yonghure"></div>
     <% end %>
+
+    <div class="weiboblock">
+        <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
+    </div>
     
     </div>
 

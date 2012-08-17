@@ -86,10 +86,17 @@ class StrategysController < ApplicationController
       @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"])
       @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"monthid ASC" )
       @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"yearid DESC,monthid ASC")
+      @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"])
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"monthid ASC" )
+
       else
     @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
     @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
     @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"yearid DESC,monthid ASC")
+
+    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
+
     end
     if @returnrate_others.size%12==0
     @returnrate_others_size=@returnrate_others.size/12
@@ -97,8 +104,6 @@ class StrategysController < ApplicationController
       @returnrate_others_size=@returnrate_others.size/12+1
     end
 
-    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
-    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
 
   end
 
