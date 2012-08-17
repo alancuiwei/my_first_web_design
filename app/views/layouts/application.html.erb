@@ -90,7 +90,7 @@
           <a href="#regedit-box" class="regedit-window">注册</a>
     </div>
 
-    <div class="logandreg"> </div>
+    <img src="/assets/logreg.gif">
     
     <div class="login">
           <a href="#login-box" class="login-window">登录</a>
@@ -98,11 +98,13 @@
 
     <!-- user had logined in -->
     <% else %>
+    <div class="register">  
         <a href="javascript:void(0)" onclick="logout()">退出</a>
-        <div class="yonghu">
-          <p>用户：<%= session[:webuser_name] %></p>
-        </div>
-        <div class="yonghure"></div>
+    </div>
+    <div class="login">
+        <p>用户：<%= session[:webuser_name] %></p>
+    </div>
+    <img src="/assets/yonghutouxiang.gif">
     <% end %>
 
     <div class="weiboblock">
@@ -112,7 +114,8 @@
     </div>
 
   <div class="clr"></div>
-  <div id="menuMain" ><div>
+
+  <div class="menuMain" ><div>
     <div>
       <div>
         <ul>

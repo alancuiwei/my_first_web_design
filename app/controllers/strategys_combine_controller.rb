@@ -301,7 +301,7 @@ class StrategysCombineController < ApplicationController
 
           @stgp=StrategyparamT.find_by_username_and_strategyid(session[:webuser_name],@strategyparams.elements.to_a("//strategyid")[0].text+"-"+@strategyparams_2.elements.to_a("//strategyid")[0].text)
 
-          @ordernum=0
+          @ordernum=1
           @firstdb_flag=0
           if @stgp==nil
             @firstdb_flag=1
@@ -311,7 +311,7 @@ class StrategysCombineController < ApplicationController
                stgp.paramname= @g_strategyparams[i].to_s.slice(1,@g_strategyparams[i].to_s.index(">")-1)
               stgp.paramvalue=@g_strategyparams[i].text.to_f
               stgp.username=@webuser.name
-               stgp.ordernum=1
+               stgp.ordernum=@ordernum
                stgp.userid=@webuser.id
               stgp.save
             end
