@@ -162,7 +162,10 @@
     }
 
      function showwait(id){
-
+         <% if @webuser!=nil%>
+     <% if @webuser.level!=1&&@webuser.collect.split("|").size>=10%>
+    alert("您不是收费用户，只能收藏10个策略！")
+    <%else%>
          		// Getting the variable's value from a link
          		var loginBox ="#showwait";
          		//Fade in the Popup and add close button
@@ -184,6 +187,8 @@
          $.get("/strategywebs/collect/"+id,function(){
              location.reload();
          })
+     <%end%>
+     <%end%>
      }
    </script>
 
