@@ -51,14 +51,14 @@ class AutotradeController < ApplicationController
     end
 
     @strategyparam = StrategyparamT.find_by_username_and_strategyid_and_paramname(session[:webuser_name],"010001","returnrate")
-
+     if @strategyparam!=nil
     if  params[:paramvalue]!=nil && params[:paramvalue].to_f > @strategyparam.paramvalue.to_f
       @stg010001s=Stg010001.find_all_by_username(session[:webuser_name])
       for i in 0..@stg010001s.size-1
             @stg010001s[i].destroy
       end
     end
-
+    end
     if  params[:paramvalue]!=nil
     @strategyparam.update_attribute(:paramvalue,params[:paramvalue].to_d/100)
     redirect_to :controller=>"autotrade" ,:action=>"personaltrading"

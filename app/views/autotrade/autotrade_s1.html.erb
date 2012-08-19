@@ -147,7 +147,7 @@ $("." + divin).fadeIn("fast");
     <div id="wizardcontent3">
       <ul>
        <li> 年化收益率定制：</li>
-		<li class="pianyou">您当前的期望年化收益率是<%= @strategyparam.paramvalue*100%>%。</li>
+		<li class="pianyou">您当前的期望年化收益率是<% if @strategyparam!=nil%><%= @strategyparam.paramvalue*100%><%else%>无<%end%>%。</li>
        <li class="pianyou"> 请修改<%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 ,:id=>"returnrate"%>%</li>
   </ul>
     </div>
