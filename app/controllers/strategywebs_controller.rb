@@ -125,12 +125,8 @@ class StrategywebsController < ApplicationController
 
     end
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
-    #updata returnrate
-    @strategyweb_norisk = Strategyweb.find_by_name("无风险套利")
-    @strategyweb_norisk.update_attributes(:anreturn=>@allmaxreturnrate[0].returnrate)
 
     @hash_reference=Hash.new
-    @hash_reference.store("01000100",[0,0])
     @reference=Array.new
     i=0
     @strategywebs.each do |strategyweb|
@@ -140,12 +136,13 @@ class StrategywebsController < ApplicationController
       @reference[i]= StrategyreferenceT.find_by_strategyid_and_userid_and_ordernum_and_rightid(strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,strategyweb.strategyid+"000000")
       end
       if @reference[i]!=nil
-       @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[@reference[i].maxdrawdown,@reference[i].percentprofitable])
+       @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[@reference[i].maxdrawdown,@reference[i].percentprofitable,@reference[i].aveyearreturn])
       else
-        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil])
+        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil,nil])
       end
       i=i+1
     end
+    @hash_reference.store("01000100",["无","无",@allmaxreturnrate[0].returnrate])
     Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
     @profitchart_arr=Array.new
     @profitchart_arr_day=Array.new
