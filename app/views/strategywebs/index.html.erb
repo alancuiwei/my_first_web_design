@@ -193,75 +193,142 @@
    </script>
 
 <div id="strategyfilter_logo"></div>
+
 <div id="strategyfilter">
    <div id="strategyfilter_domain">
      投资领域：<br>
-     <input  type=checkbox id="filed_all" >所有<br>
-     <input  type=checkbox id="filed_future">期货<br>
+     <input  type=checkbox id="filed_all" onclick="filed_all_f()" checked="true">所有<br>
+     <input  type=checkbox id="filed_future" onclick="filed_future_f()">期货<br>
    </div>
   <div id="strategyfilter_frequence">
     交易频率：<br>
-    <input  type=checkbox id="trades_all">所有<br>
-    <input  type=checkbox id="trades_sl" >超长期策略<br>
-    <input  type=checkbox id="trades_l">长期策略(月)<br>
-    <input  type=checkbox id="trades_m">中期策略(周)<br>
-    <input  type=checkbox id="trades_s">短期策略(日)<br>
+    <input  type="radio" name="frequence" id="trades_all" checked="true" value=0 onclick="trades_f(null,null)">所有<br>
+    <input  type="radio" name="frequence" id="trades_sl" value=1 onclick="trades_f(0,0.05)">超长期策略<br>
+    <input  type="radio" name="frequence" id="trades_l"  value=2 onclick="trades_f(0.05,0.2)">长期策略(月)<br>
+    <input  type="radio" name="frequence" id="trades_m"  value=3 onclick="trades_f(0.2,1)">中期策略(周)<br>
+    <input  type="radio" name="frequence" id="trades_s"  value=4 onclick="trades_f(1,null)">短期策略(日)<br>
   </div>
     <div id="strategyfilter_onlydisplay">
       只显示：<br>
-      <input  type=checkbox id="free">免费订购的策略<br>
-      <input  type=checkbox id="havesub" >已有人订阅的策略<br>
+      <input  type=checkbox id="free" onclick="free_f()">免费订购的策略<br>
+      <input  type=checkbox id="havesub" onclick="havesub_f()">已有人订阅的策略<br>
     </div>
 </div>
-<div id="strategyfilter_submit">  
-  <a href="javascript:void(0)" id="filter" >过滤</a>
-  <a href="/strategywebs">重置</a>
-</div>
 
-<script type="text/javascript">
-  var url="/strategywebs?";
-  var strategytype="strategytype=";
-  var avedaytrades="&avedaytrades=";
-  var free="&free=";
-  var havesub="&havesub="
 
-  $("#filter").click(function(){
+
+
+<script>
+    var frequence_hash=new Hashtable();
+    frequence_hash.add(0,[null,null])
+    frequence_hash.add(1,[0,0.05])
+    frequence_hash.add(2,[0.05,0.2])
+    frequence_hash.add(3,[0.2,1])
+    frequence_hash.add(4,[1,null])
+
+  var stg_hash=new Hashtable();
+  var key=0;
+  <% @strategywebs.each do |strategyweb| %>
+  stg_hash.add(key,["#s_<%= strategyweb.id%>",'<%= @stg_hash[strategyweb.id][0]%>',<%= @stg_hash[strategyweb.id][1]%>,<%= @stg_hash[strategyweb.id][2]%>,<%= @stg_hash[strategyweb.id][3]%>])
+  key=key+1;
+  <% end %>
+
+    if($("#filed_all").attr("checked")=="checked"){
+        $("#filed_future").attr("checked",true);
+    }
+  function filed_all_f(){
+     //if have more than future
+  }
+    //diff
+    function filed_future_f(){
       if($("#filed_all").attr("checked")=="checked"){
-          strategytype="";
+            $("#filed_future").attr("checked",true);
+            $("#filed_all").attr("checked",false);
       }
       if($("#filed_future").attr("checked")=="checked"){
-          strategytype=strategytype+"期货";
+            var temp=frequence_hash.items($('input:radio[name="frequence"]:checked').val())
+            trades_f(temp[0],temp[1]);
+            for(var i=0;i<stg_hash.count();i++){
+                if(stg_hash.items(i)[1]!="future"&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                    $(stg_hash.items(i)[0]).fadeOut(300);
+                }
+            }
+        }
+        else{
+            var temp=frequence_hash.items($('input:radio[name="frequence"]:checked').val())
+            trades_f(temp[0],temp[1]);
+            for(var i=0;i<stg_hash.count();i++){
+                if(stg_hash.items(i)[1]=="future"&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                    $(stg_hash.items(i)[0]).fadeOut(300);
       }
-      if($("#trades_all").attr("checked")=="checked"){
-          avedaytrades="";
       }
-      if($("#trades_sl").attr("checked")=="checked"){
-          avedaytrades=avedaytrades+"|0";
       }
-      if($("#trades_l").attr("checked")=="checked"){
-          avedaytrades=avedaytrades+"|1";
       }
-      if($("#trades_m").attr("checked")=="checked"){
-          avedaytrades=avedaytrades+"|2";
-      }
-      if($("#trades_s").attr("checked")=="checked"){
-          avedaytrades=avedaytrades+"|3";
-      }
-      if($("#free").attr("checked")=="checked"){
-          free=free+"1";
-      }
-      if($("#havesub").attr("checked")=="checked"){
-          havesub=havesub+"1";
-      }
-      url=url+strategytype+avedaytrades+free+havesub;
-      location.href=encodeURI(url);
-  })
 
+  function trades_f(a,b){
+      for(var i=0;i<stg_hash.count();i++){
+          $(stg_hash.items(i)[0]).show();
+           if(stg_hash.items(i)[2]<a||stg_hash.items(i)[2]>=b||stg_hash.items(i)[2]==null){
+               $(stg_hash.items(i)[0]).hide();
+           }
+          if(a==null&&b==null){
+              $(stg_hash.items(i)[0]).show();
+          }
+          if($("#free").attr("checked")=="checked"&&stg_hash.items(i)[3]!=0){
+              $(stg_hash.items(i)[0]).hide();
+          }
+          if($("#havesub").attr("checked")=="checked"&&stg_hash.items(i)[4]!=1){
+              $(stg_hash.items(i)[0]).hide();
+      }
+          if($("#filed_future").attr("checked")=="checked"&&stg_hash.items(i)[1]!="future"){
+              $(stg_hash.items(i)[0]).hide();
+          }
+          if($("#filed_future").attr("checked")!="checked"&&stg_hash.items(i)[1]=="future"){
+              $(stg_hash.items(i)[0]).hide();
+          }
+      }
+  }
+  function free_f(){
+      if($("#free").attr("checked")=="checked"){
+          for(var i=0;i<stg_hash.count();i++){
+              if(stg_hash.items(i)[3]!=0&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                  $(stg_hash.items(i)[0]).fadeOut(300);
+              }
+          }
+      }
+      else{
+          var temp=frequence_hash.items($('input:radio[name="frequence"]:checked').val())
+          trades_f(temp[0],temp[1]);
+          for(var i=0;i<stg_hash.count();i++){
+              if(stg_hash.items(i)[3]!=0&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                  $(stg_hash.items(i)[0]).fadeIn(300);
+              }
+          }
+      }
+  }
+    function havesub_f(){
+      if($("#havesub").attr("checked")=="checked"){
+            for(var i=0;i<stg_hash.count();i++){
+                if(stg_hash.items(i)[4]!=1&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                    $(stg_hash.items(i)[0]).fadeOut(300);
+                }
+            }
+        }
+        else{
+            var temp=frequence_hash.items($('input:radio[name="frequence"]:checked').val())
+            trades_f(temp[0],temp[1]);
+            for(var i=0;i<stg_hash.count();i++){
+                if(stg_hash.items(i)[4]!=1&&$(stg_hash.items(i)[0]).is( ":hidden ")==false){
+                    $(stg_hash.items(i)[0]).fadeIn(300);
+                }
+            }
+        }
+      }
 </script>
 
 <div id="strategysdisplay">
 <% @strategywebs.each do |strategyweb| %>
-    <div class="strategyinstance">
+    <div class="strategyinstance" id='s_<%= strategyweb.id %>'>
     <div class= "s_header">  
     <div class="s_title" >
     <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h3><%= strategyweb.name %> </h3></a>

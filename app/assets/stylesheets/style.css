@@ -628,18 +628,6 @@ p#controls { margin:0; position:relative; }
 #nextBtn a { display:block; width:20px; height:33px; background-image:url(jiantou_right.gif); background-repeat:no-repeat; }
 
 
-/* LOGIN PAGE */
-.loginpage{padding:15px 0 0 250px;width:400px;}
-/* .loginpage fieldset{background:whiteSmoke;} */
-.loginpage legend{font:normal 18px Microsoft Yahei;}
-.loginpage lable{font:normal 18px Microsoft Yahei;}
-.loginpage div label{font:bold 14px Microsoft Yahei;float:left;}
-
-.name-input{width: 60%;height:24px;font-size: 15px;}
-
-.passwd-inputapp{width:35%;height:22px;font-size:15px;margin:16px 0 0 10px }
-
-.passwd-input{width:35%;height:24px;font-size:15px;margin-top: 16px}
 /* .frameyy{width:900px;float:left;overflow:hidden} */
 .frame{width:650px;float:left;overflow:hidden}
 .frame_usemanage{width:600px;float:left}
@@ -1556,11 +1544,13 @@ padding:0 0 ;
 	position: fixed; left: 0; top: 0;
 	width: 100%; height: 100%;
 }
+/*
 .login_box_bg{
     height: 333px;
 	width:415px;
 	background:url(dengrukuang.png) no-repeat;
 }
+*/
 .regedit_box_bg{
     margin: 0 110px 0 10px;
     width: 200%;
@@ -1576,7 +1566,10 @@ padding:0 0 ;
 	position: fixed;
 	top: 50%; left: 50%;
 	z-index: 99999;
-	width:430px
+    height:333px;
+	width:430px;
+    background:url(dengrukuang.png) no-repeat;
+
 }
 .login-popupop{
 	display:none;
@@ -1753,18 +1746,46 @@ form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #
 
 form.registerin {height: 400px;}
 
-#errormsg_position{
-    padding: 110px 0 0 30px;
+/* LOGIN PAGE */
+
+form.signin{
+    padding: 100px 0 0 0px;
+    height: 200px;
+
 }
+
 #errormsg{
     color: red;
     font-size: 14px;
     padding-left: 30px ;
 }
+
+.login_username{
+    padding-left:30px;
+}
+
+.login_password{
+    padding-left:30px;
+}
+
+.loginpage{padding:15px 0 0 250px;width:400px;}
+.loginpage legend{font:normal 18px Microsoft Yahei;}
+.loginpage lable{font:normal 18px Microsoft Yahei;}
+.loginpage div label{font:bold 14px Microsoft Yahei;float:left;}
+
+.name-input{width: 60%;height:24px;font-size: 15px;}
+
+.passwd-inputapp{width:35%;height:22px;font-size:15px;margin:16px 0 0 10px }
+
+.passwd-input{width:35%;height:24px;font-size:15px;margin-top: 16px;margin-left:20px;}
+
+/*
 .column{
     padding-top: 10px;
     padding-left: 60px
 }
+*/
+
 #regedit_name{margin-left:18px}
 
 #forgetpassword{

@@ -222,32 +222,31 @@
               <div id="login-box" class="login-popup">
                 <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
                 <form class="signin">
-                  <div class="login_box_bg">
-                    <div id="errormsg_position">
                       <div id="errormsg"></div>
-                      <div class="column">
-                        <div>
+
+                        <div class="login_username">
                           <label id="label_login">用户名:</label>
                           <%= text_field_tag :name, params[:name],:class =>"name-input" %>
                         </div>
-                        <div>
-                          <label id="label_login">密码:</label> &nbsp;
+                        <div class="login_password">
+                          <label id="label_login">密码:</label>
                           <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
                           <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
                         </div>
-                      </div>
-                      <div class="bottom">
-                        <div class="remember"><span id="rememberme"><input type="checkbox" /><span>记住我</span></span>
-                          <span id="noaccount">您没有账号？<a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
+
+                        <div class="login_comment">
+                          <span id="rememberme">
+                            <input type="checkbox" />
+                          <span>记住我</span>
+                          </span>
+                          <span id="noaccount">您没有账号？
+                            <a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" style="color:#8F0606;">注册</a>
                           </span>
                         </div>
-                        <div  id="loginlink">
+                        <div class="login_submit">
                           <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
                         </div>
-                        <div class="clear"></div>
-                      </div>
-                    </div>
-                  </div>
+
                 </form>
               </div>
 
