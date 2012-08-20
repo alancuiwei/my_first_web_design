@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120713024926) do
+ActiveRecord::Schema.define(:version => 20120813072425) do
 
   create_table "arbcostmaxreturnrate_v", :id => false, :force => true do |t|
     t.string   "pairname",    :limit => 20
@@ -31,8 +31,11 @@ ActiveRecord::Schema.define(:version => 20120713024926) do
   end
 
   create_table "profitchart", :force => true do |t|
-    t.float "dateint"
-    t.float "profit"
+    t.float   "dateint"
+    t.float   "profit"
+    t.string  "strategyid", :limit => 20
+    t.integer "userid"
+    t.integer "ordernum"
   end
 
   create_table "stg010001", :force => true do |t|
@@ -213,6 +216,10 @@ ActiveRecord::Schema.define(:version => 20120713024926) do
     t.text     "ctp_frontaddr"
     t.text     "fp_id"
     t.datetime "fp_date"
+    t.text     "tryid"
+    t.datetime "trydate"
+    t.text     "subid"
+    t.datetime "subdate"
   end
 
   create_table "webuserstrategy", :force => true do |t|

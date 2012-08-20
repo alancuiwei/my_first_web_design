@@ -1,11 +1,15 @@
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
+<%= render "side" %>
+<div class="frame">
+<% if params[:strategyname]==nil %>
 <h3>为您新建的策略命名：</h3>
 <%= form_tag do %>
     策略名：<%= text_field_tag :strategyname, params[:strategyname],:id=>"strategyname",:name=>"strategyname",:title=>"策略名"%><br>
     描述：<%= text_field_tag :description, params[:description]%><br>
     策略定价：<%= text_field_tag :price, params[:price]%><br>
     试用天数：<%= text_field_tag :trydays, params[:trydays]%>
+    <input name="stgtype" type="hidden" value=<%= params[:stgtype] %> >
     <br><%= submit_tag "提交"%>
 <% end %>
 <script type="text/javascript">
@@ -16,3 +20,7 @@
         });
     });
 </script>
+    <% else %>
+    <%= @notice  %>
+<% end %>
+</div>

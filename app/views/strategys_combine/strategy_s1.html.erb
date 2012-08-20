@@ -1,6 +1,16 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
+<%= stylesheet_link_tag "jslider.css" %>
+<%= stylesheet_link_tag "jslider.plastic.css" %>
+<%= javascript_include_tag "jshashtable-2.1_src.js" %>
+<%= javascript_include_tag "jquery.numberformatter-1.2.3.js" %>
+<%= javascript_include_tag "tmpl.js" %>
+<%= javascript_include_tag "jquery.dependClass-0.1.js" %>
+<%= javascript_include_tag "draggable-0.1.js" %>
+<%= javascript_include_tag "jquery.slider.js" %>
+<%= render "side" %>
+<div class="frame">
 <div id="wizardwrapper">
 
   <div class="1">
@@ -13,17 +23,33 @@
     <div >
       配置<%= @strategyweb.name%>策略：
       <%= form_tag do %>
-          时间周期：<%= text_field_tag :period, params[:period],:id=>"period",:name=>"period",:title=>"时间周期" %><br>
-          止损点：<%= text_field_tag :losses, params[:losses],:id=>"losses",:name=>"losses",:title=>"止损点"%><br>
-          止赢点：<%= text_field_tag :wins, params[:wins],:id=>"wins",:name=>"wins",:title=>"止赢点"%><br>
+          <% for i in 0..@strategy_params.size-1 %>
+              <%= @strategy_params[i].paramname  %><span style="display: inline-block; width: 200px; padding: 0 5px;"><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>" title="<%= @strategy_params[i].paramname  %>" type="slider" value="50"/></span><br><br>
+              <script type="text/javascript" charset="utf-8">
+                jQuery("#<%= @strategy_params[i].paramname  %>").slider({
+                  from: -100,
+                  to: 100,
+                  step: 1,
+                  dimension: '',
+                  skin: 'plastic',
+                  scale: ['-100', '|', '-50', '|', '0', '|', '50', '|', '100']
+                });
+              </script>
+           <% end %>
           <!-- 策略对象类型：<%= text_field_tag :objecttype, params[:objecttype],:id=>"objecttype",:name=>"objecttype",:title=>"策略对象类型"%><br>-->
           策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br>
+          <% if @strategyweb.strategyid.slice(0,2)=="04" %>
+          <% for i in 0..@rightids_arr_d.size-1 %>
+              <%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %>
+          <% end %>
+              <% else %>
           <% for i in 0..@rightids_arr.size-1 %>
               <%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %>
           <% end %>
+          <% end %>
           </input>
          <br>
-          策略开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
+          策略评估开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
           <div class="buttons">
       	<div class="frameprevious">
             <a  href="/strategys_combine" class="previous"> 返回 </a>
@@ -31,13 +57,17 @@
             <%= submit_tag "下一步" %>
           </div>
           <div style="clear:both"></div>
-
       <% end %>
+
 
        <script type="text/javascript">
 
          var rightid=new Array();
+         <% if @strategyweb.strategyid.slice(0,2)=="04" %>
          <% for i in 0..@rightids_arr.size-1 %>
+             rightid[<%= i%>]='<%= @rightids_arr_d[i] %>'
+         <% end %>
+         <% else %>
              rightid[<%= i%>]='<%= @rightids_arr[i] %>'
          <% end %>
           var checked_flag=0
@@ -72,4 +102,5 @@
     </div>
 
   </div>
+</div>
 </div>

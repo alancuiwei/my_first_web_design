@@ -1,25 +1,23 @@
-<style type="text/css">
-body{margin:0px;padding:0px;}
-#veryhuobox{line-height:20px;width:300px;height:20px;background:#ccc;text-align:left;margin:100px auto 0 auto;}
-#veryhuoLoading{color:#fff;font-size:12px;line-height:20px;width:0px;height:20px;background:#46A3FF;text-align:center;position: absolute;}
-</style>
-<script type="text/javascript">
-    window.onload=function(){
-        var idiv=document.getElementById('veryhuoLoading');
-        var veryhuobox=document.getElementById('veryhuobox');
-        var timer=null;
-        timer=setInterval(function(){
-            var iWidth=idiv.offsetWidth/veryhuobox.offsetWidth*100;
-            idiv.style.width=idiv.offsetWidth+1+'px';
-            idiv.innerHTML=Math.round(iWidth)+"%";
-            if(iWidth==100){
-                clearInterval(timer); //停止执行
-                location.href="/strategys_combine/reportshow/<%=@strategyweb.id%>";
-
+<%= render "side" %>
+<div class="frame">
+  <br><br><br><br><div><img alt="Logo" src="/assets/loading.gif" /></div>
+<%= @test %>
+<script language="javascript">
+    filecheck();
+    var flag=0;
+    var xmldate;
+  function filecheck(){
+    $.get("<%=params[:id]%>",{wait:1},function(data,status){
+        if(data=="error"){
+            setTimeout(filecheck,2000);
+        }
+        else{
+            if(data=='<%= @firstdata%>')
+                setTimeout(filecheck,2000);
+            else
+                location.href="/strategys_combine/reportshow";
                  }
-        },20); //每过20毫秒，执行函数
+    });
         }
 </script>
-<div id="veryhuobox"><div id="veryhuoLoading"></div>
 </div>
-<center>请稍等......</center>

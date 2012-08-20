@@ -1,4 +1,7 @@
-﻿<%= stylesheet_link_tag "faary.css" %>
+﻿
+<%= render "side" %>
+<div class="frame">
+<%= stylesheet_link_tag "faary.css" %>
 <% if session[:webuser_name]!=nil %>
 <br />
 <%= form_for(@webuser, :html=>{:class=>"iform"}) do |f| %>
@@ -59,3 +62,4 @@
     }
 
 </script>
+</div>

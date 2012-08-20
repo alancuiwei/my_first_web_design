@@ -1,33 +1,26 @@
-<%= javascript_include_tag "jquery.sparkline.js" %>
-<%= javascript_include_tag "heartcode-canvasloader-min-0.9.1.js" %>
-<%= javascript_include_tag "jquery.autocomplete.js" %>
+﻿<%= javascript_include_tag "jquery.autocomplete.js" %>
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
 <%= javascript_include_tag "highcharts.js" %>
-
-<form id="form1" runat="server">
-<div>
-    <input id="keyword" />
-    <input id="getValue" value="页面跳转" type="button"/>
-</div>
-</form>
-<div id="content"></div>
-
+<%= javascript_include_tag "Hashtable.js" %>
+<%= render "side" %>
+<div class="frame">
 <script type="text/javascript">
     $(function() {
-        function setdata(name,control,action){
+        function setdata(id,name,control,action){
+            this.id=id;
             this.name=name;
             this.control=control;
             this.action=action;
         }
         var data=new Array();
         <% for i in 0..@strategywebs.size-1%>
-          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
+          data[<%= i %>]=new setdata(<%= @strategywebs[i].id%>,'<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>')
         <% end%>
         //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
 
         var searchdate;
         function findValueCallback(event, data, formatted) {
-        		$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+        		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
             searchdate=data
         	}
         $('#keyword').autocomplete(data, {
@@ -38,7 +31,7 @@
                              matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
                              autoFill: false,    //自动填充
                              formatItem: function(data, i, total) {
-                                 return "<I>"+data.name+"</I>";
+                                 return "<I onmouseover='showpic("+data.id+")'>"+data.name+"</I>";
                              },
                              formatMatch: function(data, i, total) {
                                  return data.name;
@@ -48,108 +41,350 @@
                              }
         });
         $("#keyword").result(findValueCallback);
-        $("#getValue").click(function() {$("#keyword").search(location.href=searchdate.control+"/"+searchdate.action)});
-
+        $("#getValue").click(function() {
+            if($("#keyword").attr("value")=="策略查询"){
+                alert("请选择策略！")
+            }
+            else
+            $("#keyword").search(location.href=searchdate.control+"/"+searchdate.action)
+        });
     });
+
+    function showpic(id){
+       $("#showpic").show();
+        highcharts();
+        function highcharts() {
+                var chart;
+                $(document).ready(function() {
+                    chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: "showpic",
+                            type: 'line',
+                            width: 160,
+                            height: 165
+                        },
+                        title: {
+                            enabled: false
+                        },
+                        subtitle: {
+                            enabled: false
+                        },
+                        xAxis: {
+                            categories: profitchart_day_hash.items(id),
+                            title:{
+                                enabled: false
+                            } ,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        yAxis: {
+                            title:{
+                                enabled: false
+                            } ,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        plotOptions: {
+                            line: {
+                                //pointStart: 1940,
+                                marker: {
+                                    enabled: false,
+                                    symbol: 'circle',
+                                    radius: 2,
+                                    states: {
+                                        hover: {
+                                            enabled: false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        series: [{
+                            name: '收益',
+                            data: profitchart_data_hash.items(id)
+                        }]
+                    });
+
+                    $(".highcharts-legend").remove()
+    });
+            }
+
+        var loginBox = "#showpic";
+      		$(loginBox).fadeIn(300);
+
+      		//Set the center alignment padding + border
+      		var popMargTop = ($(loginBox).height() + 24) / 2;
+      		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+      		$(loginBox).css({
+      			'margin-top' : -popMargTop+$(".ac_results").height()+100,
+      			'margin-left' : -popMargLeft
+      		});
+        //alert($(".ac_results").height())
+    }
 </script>
+
+<div class="container">
+	<div id="content">
+        <div id="showwait" class="login-popup">
+            <div id="showwait_p"><%= image_tag("showwait.gif") %></div>
+		</div>
+    </div>
+</div>
 
 
 <script type="text/javascript">
-     function showwait(){
-	var cl = new CanvasLoader('canvasloader-container');
-	cl.setDiameter(44); // default is 40
-	cl.setDensity(49); // default is 40
-	cl.show(); // Hidden by default
+    function showwait_c(id){
 
-	// This bit is only for positioning - not necessary
-	  var loaderObj = document.getElementById("canvasLoader");
- 		loaderObj.style.position = "absolute";
- 		loaderObj.style["top"] = cl.getDiameter() * -0.5 + "px";
- 		loaderObj.style["left"] = cl.getDiameter() * -0.5 + "px";
+                 		// Getting the variable's value from a link
+        		var loginBox ="#showwait";
+        		//Fade in the Popup and add close button
+        		$(loginBox).fadeIn(300);
+
+        		//Set the center alignment padding + border
+        		var popMargTop = ($(loginBox).height() + 24) / 2;
+        		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        		$(loginBox).css({
+        			'margin-top' : -popMargTop,
+        			'margin-left' : -popMargLeft
+        		});
+
+        		// Add the mask to body
+        		$('body').append('<div id="mask_wait"></div>');
+        		$('#mask_wait').fadeIn(300);
+
+        $.get("/strategywebs/cancelcollect/"+id,function(){
+            location.reload();
+        })
+    }
+
+     function showwait(id){
+         <% if @webuser!=nil%>
+     <% if @webuser.level!=1&&@webuser.collect.split("|").size>=10%>
+    alert("您不是收费用户，只能收藏10个策略！")
+    <%else%>
+         		// Getting the variable's value from a link
+         		var loginBox ="#showwait";
+         		//Fade in the Popup and add close button
+         		$(loginBox).fadeIn(300);
+
+         		//Set the center alignment padding + border
+         		var popMargTop = ($(loginBox).height() + 24) / 2;
+         		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+         		$(loginBox).css({
+         			'margin-top' : -popMargTop,
+         			'margin-left' : -popMargLeft
+         		});
+
+         		// Add the mask to body
+         		$('body').append('<div id="mask_wait"></div>');
+         		$('#mask_wait').fadeIn(300);
+
+         $.get("/strategywebs/collect/"+id,function(){
+             location.reload();
+         })
+     <%end%>
+     <%end%>
      }
    </script>
-	<style type="text/css">
-		.wrapper {
-			position:absolute;
-			top:70%;
-			left:80%;
-		}
-	</style>
 
-	<div id="canvasloader-container" class="wrapper"></div>
+<div id="strategyfilter_logo"></div>
+<div id="strategyfilter">
+   <div id="strategyfilter_domain">
+     投资领域：<br>
+     <input  type=checkbox id="filed_all" >所有<br>
+     <input  type=checkbox id="filed_future">期货<br>
+   </div>
+  <div id="strategyfilter_frequence">
+    交易频率：<br>
+    <input  type=checkbox id="trades_all">所有<br>
+    <input  type=checkbox id="trades_sl" >超长期策略<br>
+    <input  type=checkbox id="trades_l">长期策略(月)<br>
+    <input  type=checkbox id="trades_m">中期策略(周)<br>
+    <input  type=checkbox id="trades_s">短期策略(日)<br>
+  </div>
+    <div id="strategyfilter_onlydisplay">
+      只显示：<br>
+      <input  type=checkbox id="free">免费订购的策略<br>
+      <input  type=checkbox id="havesub" >已有人订阅的策略<br>
+    </div>
+</div>
+<div id="strategyfilter_submit">  
+  <a href="javascript:void(0)" id="filter" >过滤</a>
+  <a href="/strategywebs">重置</a>
+</div>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('#strategywebs').dataTable( {
-        } );
-        $('.dynamicsparkline').sparkline(<%= @profitchart_arr%>);
-    } );
+  var url="/strategywebs?";
+  var strategytype="strategytype=";
+  var avedaytrades="&avedaytrades=";
+  var free="&free=";
+  var havesub="&havesub="
+
+  $("#filter").click(function(){
+      if($("#filed_all").attr("checked")=="checked"){
+          strategytype="";
+      }
+      if($("#filed_future").attr("checked")=="checked"){
+          strategytype=strategytype+"期货";
+      }
+      if($("#trades_all").attr("checked")=="checked"){
+          avedaytrades="";
+      }
+      if($("#trades_sl").attr("checked")=="checked"){
+          avedaytrades=avedaytrades+"|0";
+      }
+      if($("#trades_l").attr("checked")=="checked"){
+          avedaytrades=avedaytrades+"|1";
+      }
+      if($("#trades_m").attr("checked")=="checked"){
+          avedaytrades=avedaytrades+"|2";
+      }
+      if($("#trades_s").attr("checked")=="checked"){
+          avedaytrades=avedaytrades+"|3";
+      }
+      if($("#free").attr("checked")=="checked"){
+          free=free+"1";
+      }
+      if($("#havesub").attr("checked")=="checked"){
+          havesub=havesub+"1";
+      }
+      url=url+strategytype+avedaytrades+free+havesub;
+      location.href=encodeURI(url);
+  })
+
 </script>
 
+<div id="strategysdisplay">
 <% @strategywebs.each do |strategyweb| %>
-    <div style="float: left;">
-      <% if @webuser!=nil%>
-          <% if Subscribetable.find_by_subscribe_userid_and_strategy_userid_and_strategyid_and_ordernum(Webuser.find_by_name(session[:webuser_name]).id,strategyweb.userid,strategyweb.strategyid,strategyweb.ordernum)==nil %>
-          <a href="/s010001/subscribe/<%=strategyweb.id%>">订购</a>
-              <% else %>
-          已订购
-              <% end %>
-          <% if @hash_iscollect[strategyweb.id]==1 %>
-              <%= button_to "取消收藏",{:action=>"cancelcollect",:id=>strategyweb.id},:onclick=>"showwait()" %>
-          <% else %>
-          <%= button_to "收藏",{:action=>"collect",:id=>strategyweb.id},:onclick=>"showwait()" %>
-<% end %>
-          <% end %>
-      <div style="float: left;">
+    <div class="strategyinstance">
+    <div class= "s_header">  
+    <div class="s_title" >
+    <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h3><%= strategyweb.name %> </h3></a>
+    </div>  
+    <% if @webuser!=nil%>
 
-        <span id="<%= strategyweb.id%>" style="height:200px;float: left;" ><%= strategyweb.id%></span>
-        <table border=1 style="float: right; margin: 30px 0 0 0">
-          <tr><th>
-      策略开始时间：<%=  strategyweb.startdate.to_s(:db) %> <br>
-      年化收益率：<%= strategyweb.anreturn*100 %>% <br>
-      最大回退率：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> <br>
-      胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %>
-          </th> </tr> </table><br>
-        <div >
-              策略种类：<%= strategyweb.strategytype %>
-              <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> <br>
-              </div>
-      </div>
+    <div class="s_buy">
+         <%   if @webuser.subid!=nil %>
+           <%      @subid=@webuser.subid.scan(/\d/)  %>
+              <%    if @subid!=nil   %>
+               <%    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.subdate.to_s(:db),"%Y-%m-%d").to_i)/86400   %>
+               <%    for i in 0..@subid.size-1     %>
+                 <%     if @subid[i]!=nil&&strategyweb.id.to_s==@subid[i]    %>
+                   <%      @norisk_issub=1   %>
+                   <%      @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=? and strategyid=? and ordernum=? and strategy_userid=?",@webuser.id,strategyweb.strategyid,strategyweb.ordernum,strategyweb.userid],:order =>"subscribedate DESC",:limit=>1)[0] %>
+                   <%      if (@subscribe.subscribedays-@days)>0  %>
+                     <%   norisk_havesub=(@subscribe.subscribedays-@days)%>
+                    <%      else norisk_havesub=-1  end else break end end end end %>
+      <% if norisk_havesub!=nil &&norisk_havesub!=-1 %>
+          <img src="/assets/chelan2.gif" /><a>已订购</a>
+              <% else %>
+          <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
+              <% end %>
+    </div>
+    <div class="s_collect">
+      <% if @hash_iscollect[strategyweb.id]!=1 %>
+          <a href="javascript:void(0)" onclick="showwait(<%=strategyweb.id%>)"><img src="/assets/xingxing2.gif" />收藏</a>
+      <% else %>
+          <a href="javascript:void(0)" onclick="showwait_c(<%=strategyweb.id%>)"><img src="/assets/xingxing.gif" />取消收藏</a>
+      <% end %>
 
     </div>
+    <% else %>
+          <div class="s_collect">
+          <a href="#login-box" class="login-window">收藏</a></div>
+          <div class="s_buy">
+          <a href="#login-box" class="login-window">订购</a></div>
+    <% end %>
+    </div>
+
+      <div class="s_performance">
+        <div class="s_performance_pic">
+        <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>">
+        <div id="<%= strategyweb.id%>">
+        </div>
+        </a>
+      </div>
+        <div class="s_performance_text">
+      <ul>
+          
+
+        <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]==nil || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]==nil ||@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]==nil%>
+            <li>年收益率：稍候刷新</li>
+            <li>最大回退金额：稍候刷新</li>
+            <li>胜率：稍候刷新 </li>
+           <% else %>
+            <li>年收益率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]*100) %>% </li>
+            <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]=="无" || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]=="无" %>
+                <li>最大回退金额：无</li>
+                <li>胜率：无 </li>
+            <% else %>
+
+            <li>最大回退金额：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </li>
+      <li>胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></li>
+            <% end %>
+            <% end %>
+      </ul>
+      <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> 
+
+        </div>
+
+
+      </div>  <!-- div of s_performance -->
+        <div class="s_footer" >
+            <div class="s_type">
+              <p>策略种类：<%= strategyweb.strategytype %></p>
+            </div>
+            <div class="s_details">
+                   <p>策略开始时间：<%=  strategyweb.startdate.to_s(:db) %></p>
+            </div>
+        </div> <!-- div of s_footer -->
+    </div>  <!-- div of strategyinstance -->
 <% end %>
 
 <% if @show_flag==1 %>
 <%= link_to '新建策略', new_strategyweb_path %>
 <% end %>
-
+</div>
 <script type="text/javascript">
+    var profitchart_data_hash=new Hashtable();
+    var profitchart_day_hash=new Hashtable();
     <% @strategywebs.each do |strategyweb| %>
     highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
+    <% if @profitchart_hash[strategyweb.id]!=nil%>
+    var profitchart_arr_day=new Array();
+    var profitchart_arr_data=new Array();
+    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
+      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
+    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
     <% end %>
-    var profitchart_arr_day=new Array;
-    <% for i in 0..@profitchart_arr_day.size-1 %>
-        profitchart_arr_day[<%= i%>] ='<%= @profitchart_arr_day[i] %>'
+    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
+    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
     <% end %>
-    //alert(profitchart_arr_day)
+    <% end %>
     function highcharts(id,stgname) {
+
         var chart;
         $(document).ready(function() {
             chart = new Highcharts.Chart({
                 chart: {
                     renderTo: id,
-                    type: 'area',
-                    width: 200,
-                    height: 200
+                    type: 'line',
+                    width: 160,
+                    height: 165
                 },
                 title: {
-                    text:stgname
+                    enabled: false
                 },
                 subtitle: {
                     enabled: false
                 },
                 xAxis: {
-                    categories: profitchart_arr_day,
+                    categories: profitchart_day_hash.items(id),
                     title:{
                         enabled: false
                     } ,
@@ -166,7 +401,7 @@
                     }
                 },
                 plotOptions: {
-                    area: {
+                    line: {
                         //pointStart: 1940,
                         marker: {
                             enabled: false,
@@ -182,7 +417,7 @@
                 },
                 series: [{
                     name: '收益',
-                    data: <%= @profitchart_arr%>
+                    data:profitchart_data_hash.items(id)
                 }]
             });
 
@@ -190,3 +425,5 @@
         });
     }
 </script>
+
+</div>

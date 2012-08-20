@@ -1,4 +1,6 @@
-﻿<script type="text/javascript">
+﻿<%= render "side" %>
+<div class="frame">
+<script type="text/javascript">
     $(function(){
         $("#datatables").dataTable({
             "aoColumns": [
@@ -12,10 +14,11 @@
         });
     });
 </script>
-	<h2> 手续费定制 </h2>
-    <br />  
+	<div id="customer_config"></div>
 	
+<div id="fast_modification"> 
 <a href="#fastedit" class="login-window"  style="color: red">快捷修改</a>
+</div>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 
       <tbody>
@@ -72,12 +75,13 @@
 
 <div class="container">
 	<div id="content">
-        <div id="fastedit" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+        <div id="fastedit" class="login-popupop">
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-              <div style="background-color: white;width: 200px;height: 200px;">
-                  <input type="radio" id="tm" onclick="tm_c()" >保证金比例   <br>
-                <input type="radio" id="tc" onclick="tc_c()" >手续费
+              <div id="fastedit_choose">
+                  <div id="fastedit_margin"><input type="radio" id="tm" onclick="tm_c()" >保证金比例</div> 
+                  <br>
+                <div id="fastedit_fee"><input type="radio" id="tc" onclick="tc_c()" >手续费
+                </div>
               </div>
           <% end %>
 		</div>
@@ -86,16 +90,15 @@
 
 <div class="container">
 	<div id="content">
-        <div id="tm_fe" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+        <div id="tm_fe" class="login-popupop_sub">
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-              <div id="tm_html" style="background-color: white;width: 200px;height: 200px;">
-                <h2>保证金比例快键修改</h2>
-                <h3>您好<%= @webuser.name %>！请快键修改保证金比例：
-                 <input type="text" size="5" id="tm_submit_text">
-                  <a href="javascript:void(0)" onclick="tm_submit()">提交</a>
-                  <a href="#" class="close">取消</a>
-                </h3>
+              <div id="fastmargin_config">
+                <p>如果不清楚保证金比例，请向期货公司咨询。</p>
+                <h3>比期货交易所保证金比例</h3><h3>高 <input type="text" size="5" id="tm_submit_text">%</h3>
+                <div id="fastmargin_buttons">  
+                  <a id="fastmargin_submit" href="javascript:void(0)" onclick="tm_submit()">提交</a>
+                  <a id="fastmargin_cancel" href="#" class="close">取消</a>
+                </div>  
               </div>
           <% end %>
 		</div>
@@ -104,15 +107,15 @@
 
 <div class="container">
 	<div id="content">
-        <div id="tc_fe" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+        <div id="tc_fe" class="login-popupop_sub">
           <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-              <div id="tc_html" style="background-color: white;width: 200px;height: 300px;">
-                <h2>手续费快键修改</h2>
-                您好,<%= @webuser.name %>！如果您不清楚您的手续费，请向您的期货公司咨询：
-                  商品每手手续费比交易所多：<input type="text" size="5" id="tc_submit_text">元<br>
-                  <a href="javascript:void(0)" onclick="tc_submit()">提交</a>
-                  <a href="#" class="close">取消</a>
+              <div id="fastmargin_config">
+                <p>如果不清楚手续费，请向期货公司咨询。</p>
+                <h3>每手手续费比交易所</h3><h3>高 <input type="text" size="5" id="tc_submit_text">元
+                  <div id="fastfee_buttons">
+                  <a id="fastfee_submit" href="javascript:void(0)" onclick="tc_submit()">提交</a>
+                  <a id="fastfee_cancel" href="#" class="close">取消</a>
+                </div>
                 </h3>
               </div>
           <% end %>
@@ -121,6 +124,7 @@
 </div>
 <script type="text/javascript">
   function tm_c(){
+      $('#fastedit').hide();
      var loginBox = "#tm_fe";
     		//Fade in the Popup and add close button
     		$(loginBox).fadeIn(300);
@@ -141,6 +145,7 @@
   }
 
   function tc_c(){
+      $('#fastedit').hide();
       var loginBox = "#tc_fe";
      		//Fade in the Popup and add close button
      		$(loginBox).fadeIn(300);
@@ -188,7 +193,7 @@
             location.reload()
         }
 </script>
-
+</div>
 
 
 

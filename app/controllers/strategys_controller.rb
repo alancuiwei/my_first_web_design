@@ -9,7 +9,11 @@ class StrategysController < ApplicationController
     @strat_profit=200000
     @strategyweb = Strategyweb.find(params[:id])
     @traderecord=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 10)
+    if @strategyweb.strategyid.size>6
+      @streference = StrategyreferenceT.find_all_by_strategyid_and_userid_and_ordernum_and_rightid(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000")
+      else
     @streference = StrategyreferenceT.find_all_by_strategyid_and_userid_and_ordernum_and_rightid(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000")
+   end
    # @strategyreturnrates=StrategyreturnrateT.find_all_by_rightid("010603000000")
    # @returnrate_arr=Array.new
    # if params[:getjson]!=nil
@@ -24,10 +28,10 @@ class StrategysController < ApplicationController
    # @s_profits=StrategypositionrecordT.all
     #@hash_profit=Hash.new
     #@profit_arr=Array.new
-    @profits_lastday=StrategypositionrecordT.find(:all, :order =>"closeposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
-    @profits_first=StrategypositionrecordT.find(:all, :order =>"closeposdate ASC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
+    #@profits_lastday=StrategypositionrecordT.find(:all, :order =>"closeposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
+    #@profits_first=StrategypositionrecordT.find(:all, :order =>"closeposdate ASC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum],:limit => 1)[0].closeposdate
 
-    @days=(DateTime.strptime(@profits_lastday.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@profits_first.to_s(:db),"%Y-%m-%d").to_i)/86400
+    #@days=(DateTime.strptime(@profits_lastday.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@profits_first.to_s(:db),"%Y-%m-%d").to_i)/86400
 
     #for i in 0..@days
     #  @hash_profit.store(1026777600000+i*86400000,0)
@@ -61,7 +65,10 @@ class StrategysController < ApplicationController
     #end
     #end
 
-    @profits=Profitchart.all
+
+
+    if params[:getprofit]!=nil
+      @profits=Profitchart.find_all_by_strategyid_and_userid_and_ordernum(@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum)
     @profit_arr=Array.new
     i=0
       @profits.each do |profit|
@@ -69,25 +76,34 @@ class StrategysController < ApplicationController
       i=i+1
       end
 
-    if params[:getprofit]!=nil
-
      render :json => @profit_arr #render json #render json
      #@strategyweb = Strategyweb.find_by_name("羽根英树正向套利")
      #@strategyweb.update_attributes(:anreturn=>((@profit_arr[@days][1]-@strat_profit)/@strat_profit))
     end
 
     #return table
+    if @strategyweb.strategyid.size>6
+      @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"])
+      @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"monthid ASC" )
+      @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"yearid DESC,monthid ASC")
+      @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"])
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid.slice(0,6)+"000000-"+@strategyweb.strategyid.slice(7,6)+"000000"],:order =>"monthid ASC" )
+
+      else
     @returnrate_lastyearnum=StrategyreturnrateT.find(:all, :order =>"yearid DESC,monthid DESC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
     @returnrate_lastyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
     @returnrate_others=StrategyreturnrateT.find(:all, :conditions =>["yearid<? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_lastyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"yearid DESC,monthid ASC")
+
+    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
+    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
+
+    end
     if @returnrate_others.size%12==0
     @returnrate_others_size=@returnrate_others.size/12
     else
       @returnrate_others_size=@returnrate_others.size/12+1
     end
 
-    @returnrate_firstyearnum=StrategyreturnrateT.find(:all, :order =>"yearid ASC" ,:limit => 1,:conditions =>["strategyid=? and userid=? and ordernum=? and rightid=?",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"])
-    @returnrate_firstyear=StrategyreturnrateT.find(:all, :conditions =>["yearid=? and strategyid=? and userid=? and ordernum=? and rightid=?",@returnrate_firstyearnum[0].yearid,@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum,@strategyweb.strategyid+"000000"],:order =>"monthid ASC" )
 
   end
 
