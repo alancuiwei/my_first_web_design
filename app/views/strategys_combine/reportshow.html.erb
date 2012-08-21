@@ -5,7 +5,11 @@
 <div class="frame">
 <h3>选择是否保存。</h3>
 <%= button_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
-<%= button_to "不保存" ,:action=>'individual',:id=>params[:id] %>
+  <% if params[:stgtype]=="d" %>
+<%= button_to "不保存" ,:controller=>'strategys_combine',:action=>'strategy_s1'%>
+      <% else %>
+      <%= button_to "不保存" ,:controller=>'strategys_combine',:action=>'individual',:id=>2%>
+      <% end %>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {

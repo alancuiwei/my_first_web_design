@@ -4,12 +4,6 @@ require 'builder'
 require 'rexml/document'
 include REXML
 class StrategysCombineController < ApplicationController
-  # GET /usercommodity_ts
-  # GET /usercommodity_ts.json
-  def index
-    @strategywebs = Strategyweb.all
-  end
-
   def strategy_s1
     @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 

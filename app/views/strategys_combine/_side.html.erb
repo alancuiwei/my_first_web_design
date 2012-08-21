@@ -1,13 +1,22 @@
-
   <div class="leftframe">
   <div class="pagedomain">
     <h1>策略配置</h1>
   </div>
 <div id="StrategyNewscontactus">
- <!-- <h2><%= link_to "策略库",:controller =>"autotrade",:action =>"index" %></h2> -->
+  <% if params[:action]=="individual" ||params[:action]=="wait"||(params[:action]=="reportshow"&&params[:stgtype]!="d")||(params[:action]=="mysubmit"&&params[:stgtype]!="d")  %>
+      <ul>
+      <li><a href="/strategys_combine/individual/2"><% if params[:action]=="individual"%><p style="color: red;"><%else%><p><%end%>策略选择</p></a></li>
+      <li><a href="/strategys_combine/wait/<% params[:id]%>"><% if params[:action]=="wait"||params[:action]=="reportshow"%><p style="color: red;"><%else%><p><%end%>策略测试</p></a></li>
+      <li><a href="/strategys_combine/mysubmit"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>收藏发布</p></a></li>
+    </ul>
+  <% else %>
   <ul>
-    <li><a href="/strategys_combine">策略配置</a></li>
+    <li><a href="/strategys_combine/strategy_s1"><% if params[:action]=="strategy_s1"%><p style="color: red;"><%else%><p><%end%>确定趋势</p></a></li>
+    <li><a href="/strategys_combine/strategy_s2"><% if params[:action]=="strategy_s2"%><p style="color: red;"><%else%><p><%end%>确定进场</p></a></li>
+    <li><a href="/strategys_combine/strategy_s3"><% if params[:action]=="strategy_s3"||params[:action]=="wait_d"||params[:action]=="reportshow"%><p style="color: red;"><%else%><p><%end%>策略测试</p></a></li>
+    <li><a href="/strategys_combine/mysubmit"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>收藏发布</p></a></li>
   </ul>
+ <% end %>
 </div>
 
   </div>
