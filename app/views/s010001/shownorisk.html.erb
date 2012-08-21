@@ -32,7 +32,7 @@
 <img id="norisk_leftline" src="/assets/leftline.gif" alt="noriskframe left decoration">
 <img id="norisk_rightline" src="/assets/rightline.gif" alt="noriskframe right decoration">
 
-<div class="zice">
+<div class="strategyRTtitle">
     <div class="ironbars">
 	<ul><li>
       <% if @webuser!=nil %>
@@ -190,7 +190,7 @@
         });
     });
 </script>
-<div id="btpricetable">
+<div id="strategyHistorytitle">
 <h2 class="wenzi"> 历史最佳套利机会: </h2></div>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 	  <tbody>
@@ -434,31 +434,32 @@
 
 </script>
 </div>
-<div style="float: right;width: 250px;margin-top: 30px" >
+<div class="frame_norisk_comment" >
 
   <% if session[:webuser_name]==nil %>
       <div id="title-top">
-<ul>
-<li><a class="login-window" href="#login-box" >订阅</a></li>
-<li><a class="login-window" href="#login-box" >试用</a></li>
-</ul>
+        <ul>
+        <li><a class="login-window" href="#login-box" >订阅</a></li>
+        <li><a class="login-window" href="#login-box" >试用</a></li>
+        </ul>
       </div>
-<% else %>
+  <% else %>
       <% if @norisk_istry==nil&&@norisk_issub==nil %>
       <div id="title-top">
-<ul>
-<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-<li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
-</ul>
+        <ul>
+        <li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+        <li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
+        </ul>
       </div>
-<% else %>
-          <%if @norisk_issub==nil%>
-              <div id="title-top1">
-                <div class="top1left">
-<ul>
-<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-                </ul> </div>
-                <div class="top1right">
+      <% else %>
+      <%if @norisk_issub==nil%>
+         <div id="title-top1">
+         <div class="top1left">
+            <ul>
+            <li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+            </ul>
+         </div>
+         <div class="top1right">
                   <ul>
                     <li><p>您是试用用户，</p></li>
                     <% if @norisk_havetry==-1 %>
@@ -503,20 +504,20 @@
 
   <div id="menuop"></div>
 <div id="celuojieshao">
-<h2>策略介绍:</h2>
-<div class="celuojieshaol">
-<h2>交易品种</h2>
-<h2>策略类型</h2>
-<h2>系统开始时间</h2>
-<h2>系统开发者</h2>
+<h3>策略介绍:</h3>
+<div id="celuojieshaol">
+<p>交易品种</p>
+<p>策略类型</p>
+<p>系统开始时间</p>
+<p>系统开发者</p>
 </div>
 <div class="celuojieshaom">
 </div>
 <div id="celuojieshaor">
-<h2><%= @strategy_norisk.strategytype  %></h2>
-<h2><%= @strategy_norisk.strategyattr  %></h2>
-<h2><%= @strategy_norisk.startdate  %></h2>
-<h2><%= @strategy_norisk.developer  %></h2>
+<p><%= @strategy_norisk.strategytype  %></p>
+<p><%= @strategy_norisk.strategyattr  %></p>
+<p><%= @strategy_norisk.startdate  %></p>
+<p><%= @strategy_norisk.developer  %></p>
 </div>
 
 </div>

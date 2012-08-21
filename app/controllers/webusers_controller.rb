@@ -3,6 +3,55 @@ require 'openssl'
 class WebusersController < ApplicationController
   # GET /webusers
   # GET /webusers.json
+  def user_lr
+    if params[:name]!=nil
+      if Webuser.authenticate(params[:name], params[:password])
+        session[:webuser_name] =params[:name]
+          render :json =>params[:name].to_json
+      else
+        @test='您的用户名或者密码输入错误！'.to_json
+      render :json => @test
+  end
+    end
+
+    if params[:regedit_name]!=nil
+      if  params[:regedit_name]==""
+        puts params[:regedit_name]
+        render :json=>'用户名为空！'.to_json
+      elsif  params[:regedit_email]==""
+          render :json=>'电子邮箱为空！'.to_json
+      elsif  params[:regedit_password]==""
+          render :json=>'密码为空！'.to_json
+      elsif  params[:regedit_password_confirmation]==""
+            render :json=>'密码确认为空！'.to_json
+      elsif  params[:regedit_password_confirmation]!=params[:regedit_password]
+            render :json=>'密码不一致！'.to_json
+      elsif /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.match(params[:regedit_email])==nil
+        render :json=>'请输入正确的电子邮箱！'.to_json
+      elsif Webuser.find_by_name(params[:regedit_name])!=nil
+        render :json=>'用户名已注册！'.to_json
+      elsif  Webuser.find_by_email(params[:regedit_email])!=nil
+        render :json=>'电子邮箱已注册！'.to_json
+      else
+        render :json=>params[:regedit_name].to_json
+      end
+    end
+
+    if params[:logout]!=nil
+      session[:webuser_name] =nil
+      render :json=>params[:logout].to_json
+    end
+  end
+
+  def oldpassword
+    @webuser=Webuser.find_by_name(session[:webuser_name])
+    if Webuser.authenticate(session[:webuser_name], params[:oldpassword])
+      @webuser.update_attribute(:hashed_password,Webuser.encrypt_password(params[:password], @webuser.salt))
+      render :json=>"s".to_json
+    else
+      render :json=>"f".to_json
+    end
+  end
 
   def regeditconfirm
     @mail_serverurl=params[:regedit_email].slice(params[:regedit_email].index("@")+1,params[:regedit_email].size-params[:regedit_email].index("@"))
@@ -76,86 +125,11 @@ class WebusersController < ApplicationController
   def show
     @webuser = Webuser.find(params[:id])
     @hash_level= Hash[0,"普通用户",1,"收费用户",99,"试用用户"]
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @webuser }
-    end
-  end
-
-  # GET /webusers/new
-  # GET /webusers/new.json
-  def new
-    @webuser = Webuser.new
-#    respond_to do |format|
-#      format.html # new.html.erb
-#      format.json { render json: @webuser }
-#    end
   end
 
   # GET /webusers/1/edit
   def edit
     @webuser = Webuser.find(params[:id])
-  end
-
-  # POST /webusers
-  # POST /webusers.json
-  def create
-    @webuser = Webuser.new(params[:webuser])
-    @webuser.level=0
-    respond_to do |format|
-      if @webuser.save
-	    session[:webuser_name] = @webuser.name
-
-      StrategyparamT.new do |s|
-        s.strategyid="010001"
-        s.paramname="returnrate"
-        s.paramvalue=0.1
-        s.username=session[:webuser_name]
-        s.save
-      end
-      #new usercommodiy
-      @usercommodity=UsercommodityT.find_all_by_userid("tester1")
-      i=0
-      while @usercommodity[i]!=nil
-      UsercommodityT.new do |u|
-       u.commodityid = @usercommodity[i].commodityid
-       u.userid=@webuser.name
-       u.tradechargetype=@usercommodity[i].tradechargetype
-       u.tradecharge=@usercommodity[i].tradecharge
-       u.deliverchargebyunit=@usercommodity[i].deliverchargebyunit
-       u.deliverchargebyhand=@usercommodity[i].deliverchargebyhand
-       u.futuretocurrenchargebyunit=@usercommodity[i].futuretocurrenchargebyunit
-       u.futuretocurrenchargebyhand=@usercommodity[i].futuretocurrenchargebyhand
-       u.lendrate=@usercommodity[i].lendrate
-       u.trademargingap=@usercommodity[i].trademargingap
-       u.save
-       i=i+1
-      end
-      end
-
-        format.html { redirect_to(:controller=>"home", :action=>"index")}
-        format.json { render json: @webuser, status: :created, location: @webuser }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @webuser.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /webusers/1
-  # PUT /webusers/1.json
-  def update
-    @webuser = Webuser.find(params[:id])
-
-    respond_to do |format|
-      if @webuser.update_attributes(params[:webuser])
-        format.html { redirect_to(webuser_url, :notice => "用户 #{@webuser.name} 的个人信息修改成功！") }
-        #format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @webuser.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # DELETE /webusers/1

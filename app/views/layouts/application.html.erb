@@ -178,7 +178,7 @@
             <script type="text/javascript">
               //login
               function login(){
-                  $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
+                  $.get("/webusers/user_lr/1", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
                       if(data==$("#name").attr("value")) {
                           location.reload();
                       }
@@ -190,7 +190,7 @@
               }
               //logout
               function logout(){
-                  $.get("/home/index", { logout:"logout"}, function (data,status){
+                  $.get("/webusers/user_lr/1", { logout:"logout"}, function (data,status){
                       if(data=="logout") {
                           location.reload();
                       }
@@ -198,7 +198,7 @@
               }
             //regedit
               function regedit(){
-                  $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
+                  $.get("/webusers/user_lr/1", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
                       regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
                       if(data==$("#regedit_name").attr("value")) {
                           location.href="/webusers/regeditconfirm/1?"+("regedit_name="+$("#regedit_name").attr("value")+"&regedit_email="+encodeURIComponent($("#regedit_email").attr("value"))+"&regedit_password="+($("#regedit_password").attr("value")));
