@@ -21,7 +21,7 @@
       </ul>
       <div id="wizardcontent">选择策略1：
         <form id="form1" runat="server">
-          <div> <input id="keyword1" value="<%= @strategy_name %>" onclick="this.value=''"/></div>
+          <div> <input id="keyword1" value="<%= @strategy_name %>" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/></div>
         </form>
       </div>
     </div>
@@ -30,6 +30,7 @@
 <script type="text/javascript">
     search("#keyword1","#getValue1");
     function search(keywardid,getvalueid) {
+
         function setdata(name,control,action,id){
             this.name=name;
             this.control=control;
@@ -50,7 +51,7 @@
      $(keywardid).autocomplete(data, {
          max: 12,    //列表里的条目数
          minChars: 0,    //自动完成激活之前填入的最小字符
-         width: 400,     //提示的宽度，溢出隐藏
+         width: 200,     //提示的宽度，溢出隐藏
          scrollHeight: 300,   //提示的高度，溢出显示滚动条
          matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
          autoFill: false,    //自动填充
