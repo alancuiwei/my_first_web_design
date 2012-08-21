@@ -1,36 +1,25 @@
 <%= javascript_include_tag "jquery.autocomplete.js" %>
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
+<%= stylesheet_link_tag "jslider.css" %>
+<%= stylesheet_link_tag "jslider.plastic.css" %>
+<%= javascript_include_tag "jshashtable-2.1_src.js" %>
+<%= javascript_include_tag "jquery.numberformatter-1.2.3.js" %>
+<%= javascript_include_tag "tmpl.js" %>
+<%= javascript_include_tag "jquery.dependClass-0.1.js" %>
+<%= javascript_include_tag "draggable-0.1.js" %>
+<%= javascript_include_tag "jquery.slider.js" %>
+
 <%= render "side" %>
 <div class="frame">
-<div id="wizardwrapper">
 
-  <div class="1">
-    <ul id="mainNav" class="fiveStep">
-      <li class="done"><a title="">第一步</a></li>
-      <li class="lastDone"><a title="">第二步</a></li>
-      <li class="current"><a title="">第三步</a></li>
-      <li><a title="">第四步</a></li>
-    </ul>
-    <div id="wizardcontent">
-      选择策略2：
-      <form id="form1" runat="server">
-      <div>
-          <input id="keyword1" />
-      </div>
-      </form>
-    </div>
-
-    <div class="buttons">
-	  	<div class="framenext">
-      <a  href="javascript:void(0)" class="next"  id="getValue1"> 下一步 </a>
-	    </div>
-    </div>
-    <div style="clear:both"></div>
+  <div id="wizardcontent">选择策略2：
+    <form id="form1" runat="server">
+      <div> <input id="keyword1" value="<%= @strategy_name %>" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/></div>
+    </form>
   </div>
-</div>
 
 <script type="text/javascript">
-  search("#keyword1","#getValue1");
+    search("#keyword1","#getValue1");
     function search(keywardid,getvalueid) {
         function setdata(name,control,action,id){
             this.name=name;
@@ -39,43 +28,64 @@
             this.id=id;
         }
         var data=new Array();
-        <% for i in 0..@strategywebs.size-1%>
-          data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>','<%= @strategywebs[i].id%>')
-        <% end%>
-        //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
-
-        var searchdate;
-        function findValueCallback(event, data, formatted) {
-        		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
-            searchdate=data;
-        	}
-        $(keywardid).autocomplete(data, {
-                             max: 12,    //列表里的条目数
-                             minChars: 0,    //自动完成激活之前填入的最小字符
-                             width: 400,     //提示的宽度，溢出隐藏
-                             scrollHeight: 300,   //提示的高度，溢出显示滚动条
-                             matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
-                             autoFill: false,    //自动填充
-                             formatItem: function(data, i, total) {
-                                 return "<I>"+data.name+"</I>";
-                             },
-                             formatMatch: function(data, i, total) {
-                                 return data.name;
-            		         },
-                             formatResult: function(data) {
-                                 return data.name;
-                             }
-        });
-       $(keywardid).result(findValueCallback);
-
-        $(getvalueid).click(function() {
-            if($(keywardid).attr("value")==""){
-                alert("请选择策略！")
-            }
-            else
-            $(keywardid).search(location.href="/strategys_combine/strategy_s3/"+searchdate.id)
-        });
-
+    <% for i in 0..@strategywebs.size-1%>
+        data[<%= i %>]=new setdata('<%= @strategywebs[i].name%>','<%= @strategywebs[i].control%>','<%= @strategywebs[i].action%>','<%= @strategywebs[i].id%>')
+    <% end%>
+     //var data = [{name:'1',controls:"xx"},{name:'2',controls:"xx"},{name:'3',controls:"xx"}];
+     var searchdate;
+     function findValueCallback(event, data, formatted) {
+        //$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
+        searchdate=data;
+        location.href="/strategys_combine/strategy_s2/"+searchdate.id;
+     }
+     $(keywardid).autocomplete(data, {
+         max: 12,    //列表里的条目数
+         minChars: 0,    //自动完成激活之前填入的最小字符
+         width: 400,     //提示的宽度，溢出隐藏
+         scrollHeight: 300,   //提示的高度，溢出显示滚动条
+         matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+         autoFill: false,    //自动填充
+         formatItem: function(data, i, total) {
+             return "<I>"+data.name+"</I>";
+         },
+         formatMatch: function(data, i, total) {
+             return data.name;
+         },
+         formatResult: function(data) {
+             return data.name;
+         }
+     });
+        $(keywardid).result(findValueCallback);
     }
 </script>
+
+<% if params[:id]!=nil%>
+<div>
+  配置<%= @strategyweb.name%>策略：
+  <%= form_tag do %>
+      <% for i in 0..@strategy_params.size-1 %>
+            <%= @strategy_params[i].paramname  %><span style="display: inline-block; width: 200px; padding: 0 5px;"><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>" title="<%= @strategy_params[i].paramname  %>" type="slider" value="50"/></span><br><br>
+            <script type="text/javascript" charset="utf-8">
+              jQuery("#<%= @strategy_params[i].paramname  %>").slider({
+                from: -100,
+                to: 100,
+                step: 1,
+                dimension: '',
+                skin: 'plastic',
+                scale: ['-100', '|', '-50', '|', '0', '|', '50', '|', '100']
+              });
+            </script>
+         <% end %>
+
+      <div class="buttons">
+    	<div class="frameprevious">
+          <a  href="/strategys_combine" class="previous"> 返回 </a>
+    	  </div>
+          <%= submit_tag "下一步" %>
+        </div>
+        <div style="clear:both"></div>
+    <% end %>
+
+</div>
+  <% end %>
 </div>

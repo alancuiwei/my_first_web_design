@@ -121,9 +121,23 @@
                 <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
                 <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
                 <% if @webuser==nil %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="#login-box" class="login-window"><span><span><span>策略配置</span></span></span></a></li>
+                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>策略配置</span></span></span></a>
+                    <div class="level">
+                      <ul>
+                        <li><a href="#login-box" class="login-window">套利</a></li>
+                        <li><a href="#login-box" class="login-window">单边</a></li>
+                      </ul>
+                    </div>
+                    </li>
                 <% else %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="/strategys_combine"><span><span><span>策略配置</span></span></span></a></li>
+                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略配置</span></span></span></a>
+                    <div class="level">
+                      <ul>
+                        <li><a href="/strategys_combine/individual/2">套利</a></li>
+                        <li><a href="/strategys_combine/strategy_s1">单边</a></li>
+                      </ul>
+                    </div>
+                    </li>
                 <% end %>
                 <% if params[:controller]=="autotrade"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
@@ -178,7 +192,7 @@
             <script type="text/javascript">
               //login
               function login(){
-                  $.get("/home/index", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
+                  $.get("/webusers/user_lr/1", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
                       if(data==$("#name").attr("value")) {
                           location.reload();
                       }
@@ -190,7 +204,7 @@
               }
               //logout
               function logout(){
-                  $.get("/home/index", { logout:"logout"}, function (data,status){
+                  $.get("/webusers/user_lr/1", { logout:"logout"}, function (data,status){
                       if(data=="logout") {
                           location.reload();
                       }
@@ -198,7 +212,7 @@
               }
             //regedit
               function regedit(){
-                  $.get("/home/index", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
+                  $.get("/webusers/user_lr/1", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
                       regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
                       if(data==$("#regedit_name").attr("value")) {
                           location.href="/webusers/regeditconfirm/1?"+("regedit_name="+$("#regedit_name").attr("value")+"&regedit_email="+encodeURIComponent($("#regedit_email").attr("value"))+"&regedit_password="+($("#regedit_password").attr("value")));

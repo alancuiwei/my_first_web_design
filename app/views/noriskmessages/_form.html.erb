@@ -6,11 +6,9 @@
 
 <%= form_for(@noriskmessage,:html=>{:class=>"iform"}) do |f| %>
 
-<div id="imessageOK">Thank you! Message Sent!</div>
-<div id="imessageERROR">ERROR: Message Not Sent!</div>
+<div id="imessageOK">谢谢您，留言已提交</div>
+<div id="imessageERROR">很抱歉，留言提交失败!</div>
 <ul>
-<!-- <li class="iheader">论坛留言</li> -->
-<!-- <li><%= f.label :"标题：" %><%= f.text_field :title,:class=>"itext" %></li> -->
 <li><%= f.text_area :body ,:class=>"itextarea" ,:style=>"resize:none"%></li>
 
 <li class="tijiaor"><input id="ie67bug" class="tijiao1" type="submit" value="提交" name="commit"></li>

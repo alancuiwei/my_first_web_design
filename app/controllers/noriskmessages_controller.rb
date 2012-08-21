@@ -1,6 +1,6 @@
 #encoding: utf-8
 class NoriskmessagesController < ApplicationController
-#layout "application" ,:except=>[:edit,:index,:new,:show]
+ #layout "application" ,:except=>[:edit,:index,:new,:show]
   # GET /noriskmessages
   # GET /noriskmessages.json
   def index

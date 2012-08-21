@@ -46,7 +46,7 @@
         }
         else{
 
-            $.get("/home/oldpassword",{oldpassword:$("#oldpassword").attr("value"),password:$("#webuser_password").attr("value")},function(data){
+            $.get("/webusers/oldpassword/1",{oldpassword:$("#oldpassword").attr("value"),password:$("#webuser_password").attr("value")},function(data){
                 if(data=="s"){
                     alert("修改成功!") ;
                     location.reload()

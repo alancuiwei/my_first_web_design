@@ -1,18 +1,38 @@
 ﻿<%= javascript_include_tag "Hashtable.js" %>
-<div class="body">
-  <div class="body_resize">
-<%= render "side" %>
-<div class="frame_norisk">
-<div class="slider2">
-  <div id="slice12">
-    <ul>
-  <li><a onclick="showintro()" href="javascript:void(0)"></a>
-  </li></ul>
-  </div></div>
+<%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "xml2array.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
 
-<div class="lframe_norisk"></div>
-<div class="rframe_norisk"></div>
-<div class="zice">
+
+
+<div class="frame_norisk">
+<div class="pagedomain">
+  <a onclick="showintro()" href="javascript:void(0)"><h1>无风险套利策略</h1></a>
+
+</div>
+
+<div id="showintro" class="login-popup" style="width: 348px;" >
+<a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnpp_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+<p>无风险套利属于跨期套利的一种，
+而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，
+在同一期货商品的不同合约月份建立数量相等、
+方向相反的持仓如何把握主力持仓量,并以对冲或交割方式结束交易的一种操作方式。
+其中参与实际仓单交割的套利就是无风险套利
+，因为建立在严格的持仓成本和持仓条件基础上，
+一般不会受市场行情波动的影响。当然，
+满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，
+一旦发生,往往会吸引资金积极参与。</p>
+
+<p>无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。
+  当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。
+  当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。
+</p>
+</div>
+
+<img id="norisk_leftline" src="/assets/leftline.gif" alt="noriskframe left decoration">
+<img id="norisk_rightline" src="/assets/rightline.gif" alt="noriskframe right decoration">
+
+<div class="strategyRTtitle">
     <div class="ironbars">
 	<ul><li>
       <% if @webuser!=nil %>
@@ -170,7 +190,7 @@
         });
     });
 </script>
-<div id="btpricetable">
+<div id="strategyHistorytitle">
 <h2 class="wenzi"> 历史最佳套利机会: </h2></div>
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
 	  <tbody>
@@ -414,31 +434,32 @@
 
 </script>
 </div>
-<div style="float: right;width: 250px;margin-top: 30px" >
+<div class="frame_norisk_comment" >
 
   <% if session[:webuser_name]==nil %>
       <div id="title-top">
-<ul>
-<li><a class="login-window" href="#login-box" >订阅</a></li>
-<li><a class="login-window" href="#login-box" >试用</a></li>
-</ul>
+        <ul>
+        <li><a class="login-window" href="#login-box" >订阅</a></li>
+        <li><a class="login-window" href="#login-box" >试用</a></li>
+        </ul>
       </div>
-<% else %>
+  <% else %>
       <% if @norisk_istry==nil&&@norisk_issub==nil %>
       <div id="title-top">
-<ul>
-<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-<li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
-</ul>
+        <ul>
+        <li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+        <li><a class="login-window" href="/s010001/try/<%=@strategy_norisk.id%>" >试用</a></li>
+        </ul>
       </div>
-<% else %>
-          <%if @norisk_issub==nil%>
-              <div id="title-top1">
-                <div class="top1left">
-<ul>
-<li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-                </ul> </div>
-                <div class="top1right">
+      <% else %>
+      <%if @norisk_issub==nil%>
+         <div id="title-top1">
+         <div class="top1left">
+            <ul>
+            <li><a class="login-window" href="/s010001/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+            </ul>
+         </div>
+         <div class="top1right">
                   <ul>
                     <li><p>您是试用用户，</p></li>
                     <% if @norisk_havetry==-1 %>
@@ -483,33 +504,34 @@
 
   <div id="menuop"></div>
 <div id="celuojieshao">
-<h2>策略介绍:</h2>
-<div class="celuojieshaol">
-<h2>交易品种</h2>
-<h2>策略类型</h2>
-<h2>系统开始时间</h2>
-<h2>系统开发者</h2>
+<h3>策略介绍:</h3>
+<div id="celuojieshaol">
+<p>交易品种</p>
+<p>策略类型</p>
+<p>系统开始时间</p>
+<p>系统开发者</p>
 </div>
 <div class="celuojieshaom">
 </div>
 <div id="celuojieshaor">
-<h2><%= @strategy_norisk.strategytype  %></h2>
-<h2><%= @strategy_norisk.strategyattr  %></h2>
-<h2><%= @strategy_norisk.startdate  %></h2>
-<h2><%= @strategy_norisk.developer  %></h2>
+<p><%= @strategy_norisk.strategytype  %></p>
+<p><%= @strategy_norisk.strategyattr  %></p>
+<p><%= @strategy_norisk.startdate  %></p>
+<p><%= @strategy_norisk.developer  %></p>
 </div>
 
 </div>
 <div id="tiyijian">
-<h2>提点意见</h2>
+<h3>提点意见</h3>
 <div class ="remarkslist">
 <iframe id ="remarkslist" onLoad="iFrameHeight()" name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height=auto marginheight="0" marginwidth="0" style="border:none"></iframe>
 </div>
 </div>
 
 <div class="adverise">
-<h2 class="strategyconduction" >您的意见</h2>
+<h3>您的意见</h3>
 </div>
+
 <div class = "newremark">
 <iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
 </div>
@@ -577,6 +599,5 @@ function iFrameHeight() {
     </div>
 </div>
 
-</div>
-</div>
+
 <div class="pagedibu"> </div>

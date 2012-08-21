@@ -4,70 +4,76 @@ require 'builder'
 require 'rexml/document'
 include REXML
 class StrategysCombineController < ApplicationController
-  # GET /usercommodity_ts
-  # GET /usercommodity_ts.json
-  def index
-    @strategywebs = Strategyweb.all
-
-  end
-
-  def strategy_s0
+  def strategy_s1
     @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 
-  end
-  def strategy_s1
+    if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
-    @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
-
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
-    @rightids_arr= Array.new
-    @rightids_arr_d= Array.new
-    for i in 0..@commodityrights.size-1
-      @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
-      @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
-    end
-
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    if @webuser!=nil&&params[:startdate]!=nil
+      if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
     @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
-    @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+        #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
     for i in 0..@strategy_params.size-1
       @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
     end
     @XMLfile.elements.to_a("//objecttype")[0].text="future"
+        @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
+        @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
 
-    if params[:commoditynames]!=nil
-    for i in 0..6
-      if params[:commoditynames][i]!=nil
-        @XMLfile.root.elements[3].add_element "item"
-        @XMLfile.elements.to_a("//item")[i].text=params[:commoditynames][i]
+        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+        file.puts @XMLfile
+        file.close
+        redirect_to(:controller=>"strategys_combine", :action=>"strategy_s2")
       end
-    end
+      end
+
+    if @strategyweb!=nil
+      @strategy_name=@strategyweb.name
+    else
+      @strategy_name=nil
     end
 
-    @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
-    @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
-    @test=@XMLfile
-    file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
-    file.puts @XMLfile
-    file.close
-    redirect_to(:controller=>"strategys_combine", :action=>"strategy_s2",:id=>params[:id])
     end
-
-  end
 
   def strategy_s2
     @strategywebs = Strategyweb.where("strategyid like '0407%' and userid=0 and ordernum=0").all
 
+    if params[:id]!=nil
+      @strategyweb = Strategyweb.find(params[:id])
+      @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
+
+      @webuser = Webuser.find_by_name(session[:webuser_name])
+      if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
+        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+        #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+        for i in 0..@strategy_params.size-1
+          @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+        end
+        @XMLfile.elements.to_a("//objecttype")[0].text="future"
+    @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
+    @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
+
+        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml','w')
+    file.puts @XMLfile
+    file.close
+        redirect_to(:controller=>"strategys_combine", :action=>"strategy_s3",:id=>params[:id])
+      end
+    end
+
+    if @strategyweb!=nil
+      @strategy_name=@strategyweb.name
+    else
+      @strategy_name=nil
+  end
+
   end
 
   def strategy_s3
+    if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
         @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
-
-    @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
-
         @rightids_arr= Array.new
     @rightids_arr_d= Array.new
         for i in 0..@commodityrights.size-1
@@ -78,14 +84,9 @@ class StrategysCombineController < ApplicationController
         @webuser = Webuser.find_by_name(session[:webuser_name])
         if @webuser!=nil&&params[:startdate]!=nil
         @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
-        @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
-        for i in 0..@strategy_params.size-1
-          @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
-        end
-        @XMLfile.elements.to_a("//objecttype")[0].text="future"
 
         if params[:commoditynames]!=nil
-        for i in 0..6
+    for i in 0..@commodityrights.size
           if params[:commoditynames][i]!=nil
             @XMLfile.root.elements[3].add_element "item"
             @XMLfile.elements.to_a("//item")[i].text=params[:commoditynames][i]
@@ -93,14 +94,17 @@ class StrategysCombineController < ApplicationController
         end
         end
 
-        @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
-        @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
-        @test=@XMLfile
-        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml','w')
+    @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+    @XMLfile.elements.to_a("//enddate")[0].text=params[:enddate]
+    file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
         file.puts @XMLfile
         file.close
         redirect_to(:controller=>"strategys_combine", :action=>"wait_d")
         end
+
+    end
+
+
   end
 
   def showall
