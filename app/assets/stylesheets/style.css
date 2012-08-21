@@ -410,17 +410,25 @@ img{border:0}
 /********** Left Side  **********/
 
 .leftframe {
-    width:245px;
+    width:160px;
+    margin-right:60px;
     float:left;
     height:auto;
     background:#fff;
 }
 
 .pagedomain{
-    margin-top:30px;
-    width:245px;
+    width:157px;
     height:50px;
-    background:url(celueku.jpg)  no-repeat;
+    margin-top:25px;
+    background:url(pagedomain.gif)  no-repeat;
+}
+.pagedomain h1{
+    font:normal 20px Microsoft Yahei, "Times New Roman", Times, serif;
+    color: white;
+    text-align: center;
+    padding-top:8px;
+
 }
 
 
@@ -628,18 +636,6 @@ p#controls { margin:0; position:relative; }
 #nextBtn a { display:block; width:20px; height:33px; background-image:url(jiantou_right.gif); background-repeat:no-repeat; }
 
 
-/* LOGIN PAGE */
-.loginpage{padding:15px 0 0 250px;width:400px;}
-/* .loginpage fieldset{background:whiteSmoke;} */
-.loginpage legend{font:normal 18px Microsoft Yahei;}
-.loginpage lable{font:normal 18px Microsoft Yahei;}
-.loginpage div label{font:bold 14px Microsoft Yahei;float:left;}
-
-.name-input{width: 60%;height:24px;font-size: 15px;}
-
-.passwd-inputapp{width:35%;height:22px;font-size:15px;margin:16px 0 0 10px }
-
-.passwd-input{width:35%;height:24px;font-size:15px;margin-top: 16px}
 /* .frameyy{width:900px;float:left;overflow:hidden} */
 .frame{width:650px;float:left;overflow:hidden}
 .frame_usemanage{width:600px;float:left}
@@ -1515,7 +1511,7 @@ font:normal 14px Microsoft Yahei;
 color:#767676;
 padding:0 0 ;
 }
-.noaccount{margin-top:20px;}
+/* .noaccount{margin-top:20px;} */
 
 /*login */
 .container {width: 960px; margin: 0 auto; overflow: hidden;}
@@ -1556,11 +1552,13 @@ padding:0 0 ;
 	position: fixed; left: 0; top: 0;
 	width: 100%; height: 100%;
 }
+/*
 .login_box_bg{
     height: 333px;
 	width:415px;
 	background:url(dengrukuang.png) no-repeat;
 }
+*/
 .regedit_box_bg{
     margin: 0 110px 0 10px;
     width: 200%;
@@ -1576,7 +1574,17 @@ padding:0 0 ;
 	position: fixed;
 	top: 50%; left: 50%;
 	z-index: 99999;
-	width:430px
+    height:350px;
+	width:430px;
+
+}
+#login-box{
+    background:url(dengrukuang.png) no-repeat;
+
+}
+#regedit-box
+{
+    background:url(zhuce.png) no-repeat;
 }
 .login-popupop{
 	display:none;
@@ -1699,11 +1707,11 @@ margin-top:15px;
 }
 img.btn_close {
 	float: right;
-	margin: 0 15px 0  0 
+	margin: -15px 15px 0  0
 }
 img.btnrg_close {
 	float: right;
-	margin: 0 5px 0 0;
+	margin: -18px 15px 0 0;
 }
 img.btnzfb_close {
 	float: right;
@@ -1717,61 +1725,118 @@ fieldset {
 	border:none;
 }
 
-form.signin .textbox label {
-	display:block;
-	padding-bottom:7px;
+.regedit_submit{
+    margin-top:57px;
+    margin-left:183px;
+
+}
+.regedit_submit a{
+    font:16px Microsoft Yahei;
+    color:white ;
+    text-decoration:none;
 }
 
-form.signin .textbox span {
-	display:block;
+form.registerin {
+    height: 250px;
+    padding-top:100px;
 }
 
-form.signin p, form.signin span {
+.regedit_username,.regedit_email, .regedit_password, .regedit_confirm_password{
+    padding-left: 60px;
+}
+
+.regedit_comment{
+    margin-top:10px;
+}
+.regedit_comment p{
+    font:11px Microsoft Yahei;
+    color:#9a999a;
+    padding:5px 0 0 200px;
+    display:inline;
+}
+
+.regedit_comment a{
+    font:11px Microsoft Yahei;color:#9a999a;
+    padding:5px 0 0 0px
+}
+
+/* LOGIN PAGE */
+
+form.signin{
+    height: 200px;
+    padding-top: 100px;
+}
+
+form.signin p{
+    display: inline;
 	color:#999;
 	font-size:12px;
 	line-height:18px;
-	font-family:Microsoft YaHei
+	font:Microsoft YaHei;
 }
 
-form.signin .textbox input {
-	background:#666666;
-	border-bottom:1px solid #333;
-	border-left:1px solid #000;
-	border-right:1px solid #333;
-	border-top:1px solid #000;
-	color:#fff;
-	border-radius: 3px 3px 3px 3px;
-	-moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-	font:13px Arial, Helvetica, sans-serif;
-	padding:6px 6px 4px;
-	width:200px;
-}
 
-form.signin input:-moz-placeholder { color:#bbb; text-shadow:0 0 2px #000; }
-form.signin input::-webkit-input-placeholder { color:#bbb; text-shadow:0 0 2px #000;  }
-
-form.registerin {height: 400px;}
-
-#errormsg_position{
-    padding: 110px 0 0 30px;
-}
 #errormsg{
     color: red;
     font-size: 14px;
     padding-left: 30px ;
 }
+
+.login_username{
+    padding-left:30px;
+}
+
+.login_password{
+    padding-left:30px;
+}
+
+.login_comment{
+    width:400px;
+    margin-top:10px;
+    text-align: right;
+}
+.login_comment a{
+    color:red;
+    margin-right: 55px;
+    font:normal 12px Microsoft Yahei;
+
+}
+.login_submit {
+    width: 400px;
+    margin-top:22px;
+    text-align: center;
+}
+
+#regedit_errormsg{
+    font:12px Microsoft Yahei;color:#ff0e00;
+    margin-left:20px;
+}
+
+.loginpage{padding:15px 0 0 250px;width:400px;}
+.loginpage legend{font:normal 18px Microsoft Yahei;}
+.loginpage lable{font:normal 18px Microsoft Yahei;}
+.loginpage div label{font:bold 14px Microsoft Yahei;float:left;}
+
+.name-input{width: 60%;height:24px;font-size: 15px;}
+
+.passwd-inputapp{width:35%;height:22px;font-size:15px;margin:16px 0 0 10px }
+
+.passwd-input{width:35%;height:24px;font-size:15px;margin-top: 16px;margin-left:18px;}
+
+/*
 .column{
     padding-top: 10px;
     padding-left: 60px
 }
+*/
+
 #regedit_name{margin-left:18px}
 
 #forgetpassword{
     color: gray;
     font-size: 14px;
     padding: 0 0 0 20px ;
-  font-family: Microsoft YaHei;
+  font: Microsoft YaHei;
 }
 
 #forgetpassword_img{
@@ -1798,7 +1863,7 @@ form.registerin {height: 400px;}
     color: gray;
     font-size: 14px;
     padding: 30px 0 0 20px ;
-	font-family: Microsoft YaHei;
+	font: Microsoft YaHei;
   background:url(forgetpassword.gif)  no-repeat;
 }
 
@@ -1841,21 +1906,25 @@ margin-left: 158px;
 #forget_passwd_errmail a{
 color:white;
 }
+
 #label_login{
     color: #8F0606;
-    font-family: Microsoft YaHei;
+    font: Microsoft YaHei;
 }
-#label_register{color: #8F0606;
-    font-family: Microsoft YaHei;
-	font-size:17px}
+#label_register{
+    color: #8F0606;
+    font:normal 17px Microsoft Yahei;
+}
 #noaccount{
     color: #8F0606;
 }
+/*
 .remember{width:400px;height:28px}
 #rememberme input{margin-top:10px}
 #rememberme{
     padding: 30px 0 0 100px
 }
+*/
 #loginlink{
     padding: 21px 0 0 163px
 }

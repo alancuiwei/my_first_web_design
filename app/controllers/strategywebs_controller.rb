@@ -3,108 +3,7 @@ class StrategywebsController < ApplicationController
 
   def index
     @strat_profit=200000
-    if params[:avedaytrades]==""
-      params[:avedaytrades]=nil
-    end
-    if params[:strategytype]==""
-      params[:strategytype]=nil
-    end
-    if params[:free]==""
-      params[:free]=nil
-    end
-    if params[:havesub]==""
-      params[:havesub]=nil
-    end
-    @hash_filter=Hash["0","avedaytrades>0 and avedaytrades<0.05","1","avedaytrades>=0.05 and avedaytrades<0.2",
-    "2","avedaytrades>=0.2 and avedaytrades<1","3","avedaytrades>=1"]
 
-    if params[:strategytype]!=nil&&params[:avedaytrades]!=nil
-      @avedaytrades_arr=Array.new
-      @avedaytrades=params[:avedaytrades].scan(/\d/)
-      for i in 0..@avedaytrades.size-1
-        @avedaytrades_arr[i]=@hash_filter[@avedaytrades[i]]
-        if i==0
-        @avedaytrades_sql="(("+@avedaytrades_arr[i]+")"
-        else
-          @avedaytrades_sql=@avedaytrades_sql+" or ("+@avedaytrades_arr[i]+")"
-        end
-        if i==@avedaytrades.size-1
-          @avedaytrades_sql=@avedaytrades_sql+")"
-        end
-
-      end
-      @strategyreferences=StrategyreferenceT.where("rightid like '%000000' and strategyid is not null and #{@avedaytrades_sql}").all
-      @strategywebs=Array.new
-      for i in 0..@strategyreferences.size-1
-        @strategywebs[i] = Strategyweb.find_by_strategytype_and_strategyid_and_ordernum_and_userid(params[:strategytype],@strategyreferences[i].strategyid,@strategyreferences[i].ordernum,@strategyreferences[i].userid)
-      end
-      #@strategywebs = Strategyweb.find_all_by_id(2)
-
-      elsif params[:strategytype]!=nil&&params[:avedaytrades]==nil
-        @strategywebs= Strategyweb.find_all_by_strategytype(params[:strategytype])
-      elsif params[:strategytype]==nil&&params[:avedaytrades]!=nil
-        @avedaytrades_arr=Array.new
-        @avedaytrades=params[:avedaytrades].scan(/\d/)
-        for i in 0..@avedaytrades.size-1
-          @avedaytrades_arr[i]=@hash_filter[@avedaytrades[i]]
-          if i==0
-          @avedaytrades_sql="(("+@avedaytrades_arr[i]+")"
-          else
-            @avedaytrades_sql=@avedaytrades_sql+" or ("+@avedaytrades_arr[i]+")"
-          end
-          if i==@avedaytrades.size-1
-            @avedaytrades_sql=@avedaytrades_sql+")"
-          end
-
-        end
-        @strategyreferences=StrategyreferenceT.where("rightid like '%000000' and strategyid is not null and #{@avedaytrades_sql}").all
-        @strategywebs=Array.new
-        for i in 0..@strategyreferences.size-1
-          @strategywebs[i] = Strategyweb.find_by_strategyid_and_ordernum_and_userid(@strategyreferences[i].strategyid,@strategyreferences[i].ordernum,@strategyreferences[i].userid)
-        end
-    else
-    @strategywebs = Strategyweb.all
-    end
-    @strategywebs=@strategywebs.compact
-    if params[:free]!=nil
-      for i in 0..@strategywebs.size-1
-        if @strategywebs[i].price!=0
-          @strategywebs[i]=nil
-        end
-      end
-    end
-    @strategywebs=@strategywebs.compact
-
-    if params[:havesub]!=nil
-      @webuser_sub=Webuser.all
-      @webuser_sub_id=Array.new
-      @sub_id=Hash.new
-      for i in 0..@webuser_sub.size-1
-        @webuser_sub_id[i]=@webuser_sub[i].subid
-      end
-      @webuser_sub_id=@webuser_sub_id.compact
-      for i in 0..@webuser_sub_id.size-1
-        @webuser_sub_id[i]=@webuser_sub_id[i].scan(/\d/)
-        for j in 0..@webuser_sub_id[i].size-1
-          @sub_id.store(@webuser_sub_id[i][j],0)
-        end
-      end
-      @sub_id=@sub_id.keys
-      for i in 0..@strategywebs.size-1
-        flag=0
-        for j in 0..@sub_id.size-1
-        if @strategywebs[i].id.to_s!=@sub_id[j]
-          flag=flag+1
-        end
-          if flag==@sub_id.size
-            @strategywebs[i]=nil
-          end
-        end
-      end
-
-    end
-
-    @strategywebs=@strategywebs.compact
     #@strategyreferences=StrategyreferenceT.where("rightid like '%000000' and strategyid is not null and ((avedaytrades > 0 and avedaytrades<0.05) or (avedaytrades>=0.2 and avedaytrades<1))").all.size
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -116,7 +15,7 @@ class StrategywebsController < ApplicationController
         @show_flag=1
       end
       if @webuser.collect!=nil
-     @collect=@webuser.collect.scan(/\d/)
+     @collect=@webuser.collect.split("|")
      @hash_iscollect=Hash.new
       for i in 0..@collect.size-1
          @hash_iscollect.store(@collect[i].to_i,1)
@@ -124,6 +23,9 @@ class StrategywebsController < ApplicationController
       end
 
     end
+
+    @strategywebs = Strategyweb.all
+
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
 
     @hash_reference=Hash.new
@@ -144,21 +46,69 @@ class StrategywebsController < ApplicationController
     end
     @hash_reference.store("01000100",["无","无",@allmaxreturnrate[0].returnrate])
     Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
+
     @profitchart_arr=Array.new
     @profitchart_arr_day=Array.new
     @profitchart_hash=Hash.new
+
     @strategywebs.each do |strategyweb|
-    if  Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730).size==730
+      profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)
+    if  profit.size==730
       @profitchart_arr=[]
       @profitchart_arr_day=[]
     for i in 0..23
-    @profitchart_arr[23-i]=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)[i*30].profit+@strat_profit
-    @profitchart_arr_day[23-i]=Time.at(Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)[i*30].dateint/1000).to_s(:stamp)
+    @profitchart_arr[23-i]=profit[i*30].profit+@strat_profit
+    @profitchart_arr_day[23-i]=Time.at(profit[i*30].dateint/1000).to_s(:stamp)
     #DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000
     end
     @profitchart_hash.store(strategyweb.id,[@profitchart_arr,@profitchart_arr_day])
       end
     end
+
+    @stg_hash=Hash.new
+
+    @webuser_sub=Webuser.all
+    @webuser_sub_id=Array.new
+    @sub_id=Hash.new
+    for i in 0..@webuser_sub.size-1
+      @webuser_sub_id[i]=@webuser_sub[i].subid
+    end
+    @webuser_sub_id=@webuser_sub_id.compact
+    for i in 0..@webuser_sub_id.size-1
+      @webuser_sub_id[i]=@webuser_sub_id[i].split("|")
+      for j in 0..@webuser_sub_id[i].size-1
+        @sub_id.store(@webuser_sub_id[i][j],1)
+      end
+    end
+
+
+    @strategywebs.each do |strategyweb|
+      if strategyweb.strategyid.size>6
+        temp=strategyweb.strategyid.split("-")
+        rightid=temp[0]+"000000-"+temp[1]+"000000"
+      else
+        rightid=strategyweb.strategyid+"000000"
+      end
+      reference=StrategyreferenceT.find_by_rightid_and_strategyid_and_userid_and_ordernum(rightid,strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum)
+      if reference!=nil
+        avedaytrades=reference.avedaytrades
+      else
+        avedaytrades=nil
+      end
+      if @sub_id[strategyweb.id.to_s]==nil
+        subid=nil
+      else
+        subid=@sub_id[strategyweb.id.to_s]
+      end
+      if strategyweb.strategytype=="期货"
+        strategytype="future"
+      else
+        strategytype=strategyweb.strategytype
+      end
+      @stg_hash.store(strategyweb.id,[strategytype,avedaytrades,strategyweb.price,subid])
+    end
+
+
     respond_to do |format|
       format.html
       format.json { render json: @strategywebs }
