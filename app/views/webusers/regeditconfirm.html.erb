@@ -1,19 +1,10 @@
 ﻿<%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
-<div class="body">
-  <div class="body_resize">
-    <div class="StrategyNews">
-    <h2>注册确认</h2>
-    <ul>
-    <li><%= link_to "注册确认",:controller=>"webusers" ,:action=>"regeditconfirm" ,:id=>"1"%></li>
-    </ul>
-    </div>
-<div class="frame">
-   邮件已经发送到您的邮箱：<%=params[:regedit_email]%>，<a href="<%= @fp_url %>">前往邮箱确认注册</a>！
-</div>
-<div class="clr"></div>
-</div>
-<div class="clr"></div>
+
+<%= render "side" %>
+<div class="centerrightframe">
+<h2>注册邮箱确认</h2>
+<p>   邮件已经发送到您的邮箱：<%=params[:regedit_email]%>，<a href="<%= @fp_url %>">前往邮箱确认注册</a>！</p>
 </div>
 <script type="text/javascript">
 
