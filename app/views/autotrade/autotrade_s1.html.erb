@@ -4,8 +4,8 @@
 
 <script type="text/javascript">
 function loadnext(divout,divin){
-$("." + divout).hide();
-$("." + divin).fadeIn("fast");
+$(".autotrade_setup_step" + divout).hide();
+$(".autotrade_setup_step" + divin).fadeIn("fast");
 }
 </script>
 
@@ -13,13 +13,15 @@ $("." + divin).fadeIn("fast");
 
 <div id="wizardwrapper">
 
-  <div class="1">
+  <div class="autotrade_setup_step1">
+<!--
     <ul id="mainNav" class="fiveStep">
       <li class="current"><a title="">第一步</a></li>
       <li><a title="">第二步</a></li>
       <li><a title="">第三步</a></li>
       <li><a title="">第四步</a></li>
-    </ul>  
+    </ul>
+      -->
     <h2>确定交易品种</h2>
     <div id="wizardcontent">
       <%= radio_button_tag "radio_p", "s1" %>
@@ -94,14 +96,17 @@ $("." + divin).fadeIn("fast");
     <div style="clear:both"></div>
   </div>
 
-  <div id="wizardpanel" class="2">
+  <div id="wizardpanel" class="autotrade_setup_step2">
 
+    <!--
     <ul id="mainNav" class="fiveStep">
       <li class="lastDone"><a href="#" title="">第一步</a></li>
       <li class="current"><a title="">第二步</a></li>
       <li><a title="">第三步</a></li>
       <li><a title="">第四步</a></li>
-    </ul> <div id="mainNavwz_s2"></div>
+    </ul>
+    -->
+    <h2>设置期货公司</h2>
     <div id="wizardcontent">
      <div id="huatai"> <%= radio_button_tag "radio_p2", "s1"%>
       华泰长城期货交易公司</div>
@@ -134,15 +139,17 @@ $("." + divin).fadeIn("fast");
   </div>
 
 
-  <div id="wizardpanel" class="3">
+  <div id="wizardpanel" class="autotrade_setup_step3">
 
+    <!--
     <ul id="mainNav" class="fiveStep">
       <li class="done"><a href="#" title="">第一步</a></li>
       <li class="lastDone"><a href="#" title="">第二步</a></li>
       <li class="current"><a title="">第三步</a></li>
       <li><a title="">第四步</a></li>
-    </ul> <div id="mainNavwz">
-    <h2>设置交易参数</h2></div>
+    </ul>
+    -->
+    <h2>设置交易参数</h2>
     <div id="wizardcontent3">
       <ul>
        <li> 年化收益率定制：</li>
@@ -161,15 +168,16 @@ $("." + divin).fadeIn("fast");
     </div>
   </div>
 
-  <div id="wizardpanel" class="4">
-
+  <div id="wizardpanel" class="autotrade_setup_step4">
+    <!--
     <ul id="mainNav" class="fiveStep">
       <li class="done"><a href="#" title="">第一步</a></li>
       <li class="done"><a href="#" title="">第二步</a></li>
       <li class="lastDone"><a href="#" title="">第三步</a></li>
       <li class="current"><a title="">第四步</a></li>
-    </ul> <div id="mainNavwz">
-    <h2>确认您的设置</h2></div>
+    </ul>
+    -->
+    <h2>确认您的设置</h2>
         <div id="wizardcontent4">
 <ul>
          <li> 您将在期货市场应用<span>无风险套利策略</span></li><li>您的开户公司是<span>华泰长城期货公司</span>,</li>
@@ -190,22 +198,6 @@ $("." + divin).fadeIn("fast");
 </div>
 
 
-<div class="framer">
-<div id="wenti"><h2>常见问题</h2></div>
-
-<div id="wentineir">
-<ul>
-<li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a></li>
-<li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_2')"> 自动化交易如何工作的?</a> </li>
-<li ><a href="javascript:window.open ('/autotrade/aboutautotrade#about_4')">  我如果开展自动化交易,需要额外付钱吗? </a></li> 
-<li class="tworow"><a href="javascript:window.open ('/autotrade/aboutautotrade#about_3')">我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> </li>
-
-<li class="tworow"> <a href="javascript:window.open ('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a></li><br><br>
-</ul></div>
-
-<div class="clr"></div>
-  </div>
-<div class="framerimg"></div>
 
 <% end %>
     <% else %>
@@ -278,5 +270,25 @@ $("." + divin).fadeIn("fast");
         </div>
     </div>
 </div>
+</div>
+<div class="rightframe">
+  <div class="framer">
+  <div id="wenti"><h2>常见问题</h2></div>
+
+  <div id="wentineir">
+  <ul>
+  <li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a></li>
+  <li><a href="javascript:window.open ('/autotrade/aboutautotrade#about_2')"> 自动化交易如何工作的?</a> </li>
+  <li ><a href="javascript:window.open ('/autotrade/aboutautotrade#about_4')">  我如果开展自动化交易,需要额外付钱吗? </a></li>
+  <li class="tworow"><a href="javascript:window.open ('/autotrade/aboutautotrade#about_3')">我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> </li>
+
+  <li class="tworow"> <a href="javascript:window.open ('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a></li><br><br>
+  </ul></div>
+
+  <div class="clr"></div>
+    </div>
+  <div class="framerimg"></div>
+
+
 </div>
 

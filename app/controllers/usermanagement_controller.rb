@@ -132,7 +132,7 @@ end
     @collect_stg=Array.new
     if @webuser!=nil
       if @webuser.collect!=nil
-     @collect=@webuser.collect.scan(/\d/)
+     @collect=@webuser.collect.split("|")
         if @collect!=nil
           for i in 0..@collect.size-1
             if @collect[i]!=nil
