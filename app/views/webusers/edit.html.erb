@@ -1,12 +1,12 @@
 ﻿
 <%= render "side" %>
-<div class="frame">
+<div class="centerrightframe">
 <%= stylesheet_link_tag "faary.css" %>
 <% if session[:webuser_name]!=nil %>
 <br />
 <%= form_for(@webuser, :html=>{:class=>"iform"}) do |f| %>
 
-	<div style="margin:18px 0 0 0;*margin:18px 0 0 0;font:24px Microsoft Yahei;color:#c71314" >修改</div>
+	<h2>修改</h2>
 	
 	<ul>
 	<li><%= f.label :"用户名：" %><%= f.text_field :name,:disable=>true,:readonly=>true,:class=>"itext" %></li>
@@ -18,13 +18,13 @@
     <li><%= f.label :"密码：" %><%= f.password_field :password,:class=>"itext" %><div id="p_m"></div></li>
       <li><%= f.label :"密码确认：" %><input id="passwordconfirm" name="passwordconfirm" type="password" class="itext" /><div id="pc_m"></div></li>
 	<%= image_tag("tiyijian_line.gif")%>
-	<li class="accountsure"><a href="javascript:void(0)" onclick="mysubmit()">确认</a></li>
-	<br />
-	<li class="accountunsure"><%= link_to "取消",:class=>"accountunsure1" %></li>
-	<br />
-	
+
 	</ul>
-<% end %> 	
+    <div class="button_confirm_2"><a href="javascript:void(0)" onclick="mysubmit()">确认</a></div>
+    <div class="frameprevious"><%= link_to "取消",:class=>"accountunsure1" %></div>
+    <br >
+
+<% end %>
 <% else %>
 <a href="#login-box" class="login-window">请先登录</a>
 <% end %>

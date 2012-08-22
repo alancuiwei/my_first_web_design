@@ -5,6 +5,11 @@ require 'rexml/document'
 include REXML
 class StrategysCombineController < ApplicationController
   def strategy_s1
+    @url_1="/strategys_combine/strategy_s1"
+    @url_2="javascript:void(0)"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
     @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 
     if params[:id]!=nil
@@ -38,6 +43,11 @@ class StrategysCombineController < ApplicationController
     end
 
   def strategy_s2
+    @url_1="/strategys_combine/strategy_s1"
+    @url_2="/strategys_combine/strategy_s2"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
     @strategywebs = Strategyweb.where("strategyid like '0407%' and userid=0 and ordernum=0").all
 
     if params[:id]!=nil
@@ -71,6 +81,11 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s3
+    @url_1="/strategys_combine/strategy_s1"
+    @url_2="/strategys_combine/strategy_s2"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
     if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
         @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
@@ -83,7 +98,7 @@ class StrategysCombineController < ApplicationController
 
         @webuser = Webuser.find_by_name(session[:webuser_name])
         if @webuser!=nil&&params[:startdate]!=nil
-        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
 
         if params[:commoditynames]!=nil
     for i in 0..@commodityrights.size
@@ -113,6 +128,10 @@ class StrategysCombineController < ApplicationController
   end
 
   def individual
+    @url_1="/strategys_combine/individual/2"
+    @url_2="javascript:void(0)"
+    @url_3="javascript:void(0)"
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%') and strategyid!=010001").all
     @strategyweb = Strategyweb.find(params[:id])
@@ -157,6 +176,17 @@ class StrategysCombineController < ApplicationController
   end
 
   def reportshow
+    if params[:stgtype]==nil
+    @url_1="/strategys_combine/individual/2"
+    @url_2="/strategys_combine/reportshow"
+    @url_3="/strategys_combine/mysubmit"
+    else
+      @url_1="/strategys_combine/strategy_s1"
+      @url_2="/strategys_combine/strategy_s2"
+      @url_3="/strategys_combine/reportshow?stgtype=d"
+      @url_4="/strategys_combine/mysubmit?stgtype=d"
+    end
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @reference_arr=Hash.new
     #@dailyinfo_arr=Array.new
@@ -188,6 +218,17 @@ class StrategysCombineController < ApplicationController
   end
 
   def mysubmit
+    if params[:stgtype]==nil
+     @url_1="/strategys_combine/individual/2"
+     @url_2="/strategys_combine/reportshow"
+     @url_3="/strategys_combine/mysubmit"
+     else
+       @url_1="/strategys_combine/strategy_s1"
+       @url_2="/strategys_combine/strategy_s2"
+       @url_3="/strategys_combine/reportshow?stgtype=d"
+       @url_4="/strategys_combine/mysubmit?stgtype=d"
+     end
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if params[:stgtype]==""
       params[:stgtype]=nil
@@ -196,6 +237,7 @@ class StrategysCombineController < ApplicationController
     #@test=@test.slice(1,@test.index(">")-1)
     if @webuser!=nil&&params[:strategyname]!=nil
       if params[:stgtype]==nil
+
     @strategyparams = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
     @g_strategyparams=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a
     @g_strategyparams_arr=Array.new
@@ -478,6 +520,10 @@ class StrategysCombineController < ApplicationController
   end
 
   def wait
+    @url_1="/strategys_combine/individual/2"
+    @url_2="javascript:void(0)"
+    @url_3="javascript:void(0)"
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if params[:wait]==nil
       Thread.new {
@@ -498,6 +544,11 @@ class StrategysCombineController < ApplicationController
   end
 
   def wait_d
+    @url_1="/strategys_combine/strategy_s1"
+    @url_2="/strategys_combine/strategy_s2"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if params[:wait]==nil
       Thread.new {

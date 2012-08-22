@@ -3,7 +3,7 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "Hashtable.js" %>
 <%= render "side" %>
-<div class="frame">
+<div class="centerrightframe">
 <script type="text/javascript">
     $(function() {
         function setdata(id,name,control,action){
@@ -126,13 +126,11 @@
     }
 </script>
 
-<div class="container">
-	<div id="content">
+
         <div id="showwait" class="login-popup">
             <div id="showwait_p"><%= image_tag("showwait.gif") %></div>
 		</div>
-    </div>
-</div>
+
 
 
 <script type="text/javascript">
@@ -192,26 +190,26 @@
      }
    </script>
 
-<div id="strategyfilter_logo"></div>
+<h2>策略库搜索</h2>
 
 <div id="strategyfilter">
    <div id="strategyfilter_domain">
-     投资领域：<br>
-     <input  type=checkbox id="filed_all" onclick="filed_all_f()" checked="true">所有<br>
-     <input  type=checkbox id="filed_future" onclick="filed_future_f()">期货<br>
+     <h3>投资领域：</h3>
+     <p><input  type=checkbox id="filed_all" onclick="filed_all_f()" checked="true">所有</p>
+     <p><input  type=checkbox id="filed_future" onclick="filed_future_f()">期货</p>
    </div>
   <div id="strategyfilter_frequence">
-    交易频率：<br>
-    <input  type="radio" name="frequence" id="trades_all" checked="true" value=0 onclick="trades_f(null,null)">所有<br>
-    <input  type="radio" name="frequence" id="trades_sl" value=1 onclick="trades_f(0,0.05)">超长期策略<br>
-    <input  type="radio" name="frequence" id="trades_l"  value=2 onclick="trades_f(0.05,0.2)">长期策略(月)<br>
-    <input  type="radio" name="frequence" id="trades_m"  value=3 onclick="trades_f(0.2,1)">中期策略(周)<br>
-    <input  type="radio" name="frequence" id="trades_s"  value=4 onclick="trades_f(1,null)">短期策略(日)<br>
+    <h3>交易频率：</h3>
+    <p><input  type="radio" name="frequence" id="trades_all" checked="true" value=0 onclick="trades_f(null,null)">所有</p>
+    <p><input  type="radio" name="frequence" id="trades_sl" value=1 onclick="trades_f(0,0.05)">超长期策略</p>
+    <p><input  type="radio" name="frequence" id="trades_l"  value=2 onclick="trades_f(0.05,0.2)">长期策略(月)</p>
+    <p><input  type="radio" name="frequence" id="trades_m"  value=3 onclick="trades_f(0.2,1)">中期策略(周)</p>
+    <p><input  type="radio" name="frequence" id="trades_s"  value=4 onclick="trades_f(1,null)">短期策略(日)</p>
   </div>
     <div id="strategyfilter_onlydisplay">
-      只显示：<br>
-      <input  type=checkbox id="free" onclick="free_f()">免费订购的策略<br>
-      <input  type=checkbox id="havesub" onclick="havesub_f()">已有人订阅的策略<br>
+      <h3>只显示：</h3>
+      <p><input  type=checkbox id="free" onclick="free_f()">免费订购的策略</p>
+      <p><input  type=checkbox id="havesub" onclick="havesub_f()">已有人订阅的策略</p>
     </div>
 </div>
 
@@ -396,7 +394,7 @@
             <% end %>
             <% end %>
       </ul>
-      <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %> 
+<!--      <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %>  -->
 
         </div>
 
