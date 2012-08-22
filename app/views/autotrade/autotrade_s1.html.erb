@@ -1,5 +1,5 @@
 ﻿<%= render "side" %>
-<div class="frame">
+<div class="centerframe">
 <% if @webuser!=nil %>
 
 <script type="text/javascript">
@@ -20,8 +20,7 @@ $("." + divin).fadeIn("fast");
       <li><a title="">第三步</a></li>
       <li><a title="">第四步</a></li>
     </ul>  
-	<div id="mainNavwz_s1">
-    </div>
+    <h2>确定交易品种</h2>
     <div id="wizardcontent">
       <%= radio_button_tag "radio_p", "s1" %>
       期货交易
@@ -88,7 +87,7 @@ $("." + divin).fadeIn("fast");
 	<div class="frameprevious">
       <a  href="javascript:void(0)" class="previous" disabled="disabled"> 返回 </a>
 	  </div>
-	  	<div class="framenext">
+	  	<div class="button_confirm_3">
       <a  href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 </a>
 	    </div>
     </div>
@@ -119,7 +118,7 @@ $("." + divin).fadeIn("fast");
 	
       <a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);;"> 返回 </a>
 	  </div>
-	  	<div class="framenext">
+	  	<div class="button_confirm_3">
       <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
 	    </div>
     </div>
@@ -128,7 +127,7 @@ $("." + divin).fadeIn("fast");
 	
       <a  href="javascript:void(0)" class="previous" onclick="myop_retrun(2,1);"> 返回 </a>
 	  </div>
-	  	<div class="framenext">
+	  	<div class="button_confirm_3">
       <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
 	    </div>
     </div>
@@ -156,7 +155,7 @@ $("." + divin).fadeIn("fast");
 	
       <a  href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> 返回 </a>
 	  </div>
-	  	<div class="framenext">
+	  	<div class="button_confirm_3">
       <a  href="javascript:void(0)" class="next" onclick="myop3()"> 下一步 </a>
 	    </div>
     </div>
@@ -182,7 +181,7 @@ $("." + divin).fadeIn("fast");
 	
       <a  href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> 返回 </a>
 	  </div>
-	  	<div class="framenext">
+	  	<div class="button_confirm_2">
             <%= submit_tag "确认"%>
 	    </div>
     </div>
