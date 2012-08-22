@@ -2,12 +2,32 @@
   <div class="pagedomain">
     <h1>策略配置</h1>
   </div>
-<div id="StrategyNewscontactus">
+<div id="strategy_config_steps">
   <% if params[:action]=="individual" ||params[:action]=="wait"||(params[:action]=="reportshow"&&params[:stgtype]!="d")||(params[:action]=="mysubmit"&&params[:stgtype]!="d")  %>
       <ul>
-      <li><a href="/strategys_combine/individual/2"><% if params[:action]=="individual"%><p style="color: red;"><%else%><p><%end%>策略选择</p></a></li>
-      <li><a href="/strategys_combine/wait/<% params[:id]%>"><% if params[:action]=="wait"||params[:action]=="reportshow"%><p style="color: red;"><%else%><p><%end%>策略测试</p></a></li>
-      <li><a href="/strategys_combine/mysubmit"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>收藏发布</p></a></li>
+      <li>
+        <a href="/strategys_combine/individual/2">
+        <% if params[:action]=="individual"%>
+            <p style="color: red;">
+            <%else%>
+            <p>
+            <%end%>
+            1.策略选择
+            </p>
+        </a>
+      </li>
+      <li>
+        <a href="/strategys_combine/wait/<% params[:id]%>">
+        <% if params[:action]=="wait"||params[:action]=="reportshow"%>
+              <p style="color: red;">
+              <%else%>
+              <p>
+              <%end%>
+              2.策略测试
+              </p>
+        </a>
+      </li>
+      <li><a href="/strategys_combine/mysubmit"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>3.收藏发布</p></a></li>
     </ul>
   <% else %>
   <ul>

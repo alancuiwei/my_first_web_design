@@ -83,7 +83,7 @@ class StrategysCombineController < ApplicationController
 
         @webuser = Webuser.find_by_name(session[:webuser_name])
         if @webuser!=nil&&params[:startdate]!=nil
-        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
 
         if params[:commoditynames]!=nil
     for i in 0..@commodityrights.size

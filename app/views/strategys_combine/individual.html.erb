@@ -12,16 +12,20 @@
 <%= javascript_include_tag "draggable-0.1.js" %>
 <%= javascript_include_tag "jquery.slider.js" %>
 <%= render "side" %>
-<div class="frame">
-策略列表：
+<div class="centerrightframe">
+    <h2>套利策略配置</h2>
+  <div class="strategy_config_selecting">
+    <h3>策略选择：</h3>
 
       <form id="form1" runat="server">
       <div>
-          <input id="keyword1" value="<%= @strategyweb.name %>" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
+          <input id="keyword1" value="点击我 选择策略" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
       </div>
       </form>
- <div id="mycontent">  选择结果：<%= @strategyweb.name %></div>
-
+      <div id="selectedstrategy">
+        <p>选择结果：<%= @strategyweb.name %></p>
+      </div>
+  </div>
 
 <script type="text/javascript">
   search("#keyword1","#getValue1");
@@ -41,7 +45,7 @@
         var searchdate;
         function findValueCallback(event, data, formatted) {
         		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
-            $("#mycontent").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
+            $("#selectedstrategy").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
             searchdate=data;
             location.href="/strategys_combine/individual/"+searchdate.id
         	}
@@ -91,7 +95,8 @@
         </script>
      <% end %>
     <!-- 策略对象类型：<%= text_field_tag :objecttype, params[:objecttype],:id=>"objecttype",:name=>"objecttype",:title=>"策略对象类型"%><br>-->
-    策略品种：  <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br>
+    <h3>策略品种：</h3>
+      <input id="checkbox1" style= "visibility:hidden "title="策略品种"> <br>
     <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
         <%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %>
