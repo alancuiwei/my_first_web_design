@@ -8,6 +8,14 @@ class StrategywebsController < ApplicationController
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if @webuser!=nil
+      #sub
+      @sub_hash=Hash.new
+      @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=? ",@webuser.id],:order =>"subscribedate ASC")
+      for i in 0..@subscribe.size-1
+        days=@subscribe[i].subscribedays-(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe[i].subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
+       @sub_hash.store(@subscribe[i].strategyid+@subscribe[i].ordernum.to_s+@subscribe[i].strategy_userid.to_s,days)
+      end
+
     if @webuser.collect==nil
     @webuser.update_attribute(:collect,"")
     end

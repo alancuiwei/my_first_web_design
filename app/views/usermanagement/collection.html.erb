@@ -1,15 +1,20 @@
 <%= render "side" %>
-<div class="frame">
+<div class="centerrightframe">
+  <h2>我收藏的策略：</h2>
 <% if session[:webuser_name]==nil%>
     <a href="#login-box" class="login-window">请先登录</a>
     <% else %>
-<% if @collect==[]%>
+
+    <% if @collect==[]%>
     您还没有收藏策略！
     <% else %>
-我收藏的策略：<br>
 <% for i in 0..@collect_stg.size-1%>
 
-   <a href="/<%= @collect_stg[i].control %>/<%= @collect_stg[i].action %>"><%= @collect_stg[i].name %></a>
+   <ul>
+     <li>
+       <a href="/<%= @collect_stg[i].control %>/<%= @collect_stg[i].action %>"><%= @collect_stg[i].name %></a>
+     </li>
+   </ul>
 <% end %>
 <% end %>
 <% end %>

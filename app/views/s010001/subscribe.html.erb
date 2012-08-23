@@ -15,7 +15,7 @@
     </ul>
 </div>
 </div>
-  
+<% if @strategy.price!=0 %>
 	<div class="StrategyNewssb">
 	<div class="StrategyNewssbdy"></div>
 	<div id="dysubscribe">
@@ -30,6 +30,13 @@
 	    </div>
     </div>
 	</div>
+      <% else %>
+      <% if @days>1 %>
+      <%= @strategy.name  %>策略免费，你已成功订阅！
+          <% else %>
+      您今天已经订阅过了！
+      <% end %>
+  <% end %>
 	
 </div>
 <div id = "subscribe-right">

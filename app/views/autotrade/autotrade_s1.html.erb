@@ -110,11 +110,11 @@ $(".autotrade_setup_step" + divin).fadeIn("fast");
     <div id="wizardcontent">
      <div id="huatai"> <%= radio_button_tag "radio_p2", "s1"%>
       华泰长城期货交易公司</div>
-      <div id="showtable">
-        <h2>您的华泰长城交易帐号:</h2><br>
-        <input type="text" value="" id="account" size="20"><br>
-         <h2>您的交易密码:</h2><br>
-        <input type="password" value="" id="password_s" size="20"><!-- <br>
+      <div id="ctp_account_setup">
+        <p>您的华泰长城交易帐号:
+        <input type="text" value="" id="account" size="20"></p>
+         <p>您的交易密码:
+        <input type="password" value="" id="password_s" size="20"></p><!-- <br>
         <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a> -->
       </div>
     </div>
@@ -227,17 +227,17 @@ $(".autotrade_setup_step" + divin).fadeIn("fast");
 <% end %>
 <script type="text/javascript">
   function myop_retrun(s1,s2){
-    $("#showtable").hide();
+    $("#ctp_account_setup").hide();
       $("#huatai").show();
       $("#radio_p2_s1").attr('checked',false);
   }
-    $("#showtable").hide();
+    $("#ctp_account_setup").hide();
   $("#s2_2").hide();
     $("#radio_p2_s1").click(function(){
         $("#huatai").hide();
         $("#s2_1").hide();
         $("#s2_2").show();
-            $("#showtable").show();
+            $("#ctp_account_setup").show();
     });
 
         function box(id){
@@ -261,16 +261,19 @@ $(".autotrade_setup_step" + divin).fadeIn("fast");
 </script>
 <br>
 
+<!--
 <div class="container">
 	<div id="content">
+	-->
         <div id="errormsg-box" class="login-popup">
         <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
         <div style="width: 200px;height: 200px;background: white" id="errormsg-show">
         </div>
         </div>
     </div>
+<!--</div>
 </div>
-</div>
+-->
 <div class="rightframe">
   <div class="framer">
   <div id="wenti"><h2>常见问题</h2></div>
