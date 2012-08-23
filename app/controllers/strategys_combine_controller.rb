@@ -128,12 +128,14 @@ class StrategysCombineController < ApplicationController
   end
 
   def individual
-    @url_1="/strategys_combine/individual/2"
+    @url_1="/strategys_combine/individual"
     @url_2="javascript:void(0)"
     @url_3="javascript:void(0)"
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%') and strategyid!=010001").all
+
+    if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
@@ -173,11 +175,14 @@ class StrategysCombineController < ApplicationController
     redirect_to(:controller=>"strategys_combine", :action=>"wait",:id=>params[:id])
     end
 
+    else
+
+      end
   end
 
   def reportshow
     if params[:stgtype]==nil
-    @url_1="/strategys_combine/individual/2"
+    @url_1="/strategys_combine/individual"
     @url_2="/strategys_combine/reportshow"
     @url_3="/strategys_combine/mysubmit"
     else
@@ -219,7 +224,7 @@ class StrategysCombineController < ApplicationController
 
   def mysubmit
     if params[:stgtype]==nil
-     @url_1="/strategys_combine/individual/2"
+     @url_1="/strategys_combine/individual"
      @url_2="/strategys_combine/reportshow"
      @url_3="/strategys_combine/mysubmit"
      else
@@ -520,7 +525,7 @@ class StrategysCombineController < ApplicationController
   end
 
   def wait
-    @url_1="/strategys_combine/individual/2"
+    @url_1="/strategys_combine/individual"
     @url_2="javascript:void(0)"
     @url_3="javascript:void(0)"
 

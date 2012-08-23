@@ -12,12 +12,18 @@
 
       <form id="form1" runat="server">
       <div>
+        <% if params[:id]==nil %>
           <input id="keyword1" value="点击我 选择策略" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
+            <% else %>
+          <input id="keyword1" value="策略选择成功" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
+        <% end %>
       </div>
       </form>
+    <% if params[:id]!=nil %>
       <div id="selectedstrategy">
         <p>选择结果：<%= @strategyweb.name %></p>
       </div>
+        <% end %>
   </div>
 
 <script type="text/javascript">
@@ -38,7 +44,7 @@
         var searchdate;
         function findValueCallback(event, data, formatted) {
         		//$("#content").html("<strong>"+(!data ? "没有匹配！" : "您选择的是：" + formatted)+"</strong>");
-            $("#selectedstrategy").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
+            //$("#selectedstrategy").html("选择结果："+(!data ? "没有匹配！" :  formatted)+"</strong>");
             searchdate=data;
             location.href="/strategys_combine/individual/"+searchdate.id
         	}
@@ -71,7 +77,7 @@
 
     }
 </script>
-
+<% if params[:id]!=nil %>
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
 <%= form_tag do %>
@@ -166,5 +172,12 @@
        alert("提交选择的策略！")
    }
  </script>
+  <% end %>
   </div>
+
+  <% if params[:id]!=nil %>
+  <div>
+     <%= @strategyweb.description%>
+  </div>
+   <% end %>
 </div>
