@@ -1,8 +1,5 @@
 ﻿<%= stylesheet_link_tag "faary.css" %>
-
-<%= form_tag do %>
-
-<% end %>
+<%= javascript_include_tag "jquery.js" %>
 
 <%= form_for(@noriskmessage,:html=>{:class=>"iform"}) do |f| %>
 
@@ -11,12 +8,13 @@
 <ul>
 <li><%= f.text_area :body ,:class=>"itextarea" ,:style=>"resize:none"%></li>
 
-<li class="tijiaor"><input id="ie67bug" class="tijiao1" type="submit" value="提交" name="commit"></li>
+<li class="tijiaor">  <a id="ie67bug" class="tijiao1" href="javascript:void(0)" onclick="$('.iform').submit();">提交</a></li>
 <br />
 
 </ul>
 
 <% end %>
+
 <script type="text/javascript">
   var Sys = {};
   var ua = navigator.userAgent.toLowerCase();

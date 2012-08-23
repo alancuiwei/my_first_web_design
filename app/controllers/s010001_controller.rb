@@ -72,6 +72,49 @@ class S010001Controller < ApplicationController
   def subscribe
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
+
+    if @webuser!=nil
+    Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
+    @subscribe=Subscribetable.find(:all,:conditions =>["subscribe_userid=? and strategyid=? and ordernum=? and strategy_userid=?",@webuser.id,@strategy.strategyid,@strategy.ordernum,@strategy.userid],:order =>"subscribedate DESC",:limit=>1)[0]
+    if @subscribe==nil
+      @days=99
+      else
+    @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@subscribe.subscribedate.to_s(:db),"%Y-%m-%d").to_i)/86400
+    end
+    if @days>1
+    subsribe_id=Time.now.to_s(:stamp)+@webuser.id.to_s
+    if @strategy.price==0
+      if Subscribetable.find_by_subscribeid(subsribe_id)==nil
+      Subscribetable.new do |s|
+        s.subscribeid=subsribe_id
+        s.strategyid=@strategy.strategyid
+        s.ordernum=@strategy.ordernum
+        s.strategy_userid=@strategy.userid
+        s.subscribe_userid=@webuser.id
+        s.price=@strategy.price
+        s.subscribedays=30
+        s.subscribedate=Time.now.to_s(:db)
+        s.save
+   end
+        @presub=@webuser.subid
+        if @presub==nil
+          @webuser.update_attribute(:subid,"")
+        end
+        if @webuser.subid.index(params[:id].to_s)==nil
+        if @presub==nil||@presub==''
+          @webuser.update_attribute(:subid,params[:id].to_s)
+        else
+          @webuser.update_attribute(:subid,@presub+"|"+params[:id].to_s)
+        end
+        end
+
+        @webuser.update_attribute(:subdate,Time.now.to_s(:db))
+      end
+
+    end
+    end
+
+      end
   end
 
   def pay

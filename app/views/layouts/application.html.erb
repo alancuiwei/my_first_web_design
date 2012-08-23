@@ -37,7 +37,7 @@
        	});
        	// When clicking on the button close or the mask layer the popup closed
        	$('a.close, #mask').live('click', function() {
-       	  $('#mask , .login-popup,.login-popupop_sub').fadeOut(300 , function() {
+       	  $('#mask , .login-popup').fadeOut(300 , function() {
        		$('#mask').remove();
        	});
        	return false;
@@ -133,7 +133,7 @@
                     <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略配置</span></span></span></a>
                     <div class="level">
                       <ul>
-                        <li><a href="/strategys_combine/individual/2">套利</a></li>
+                        <li><a href="/strategys_combine/individual">套利</a></li>
                         <li><a href="/strategys_combine/strategy_s1">单边</a></li>
                       </ul>
                     </div>
@@ -305,7 +305,7 @@
               </div>
 
               <!--autotrade-box -->
-              <div id="autotrade-box" class="login-popupop_sub">
+              <div id="autotrade-box" class="login-popup">
                 <h3>请先设置参数！</h3>
                 <div class="login-popupop_sub_a">
                   <a id="popupop_sub_config" href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
