@@ -213,9 +213,16 @@
     </div>
 </div>
 
+<select id="myselect"  onchange="window.location.href=(this.options[this.selectedIndex].value);">
+  <option id="myselect_5" value ="/strategywebs?shownum=5">显示5个</option>
+  <option id="myselect_10" value ="/strategywebs?shownum=10" >显示10个</option>
+  <option id="myselect_20" value ="/strategywebs?shownum=20">显示20个</option>
+  <option id="myselect_30" value ="/strategywebs?shownum=30">显示30个</option>
+</select>
 
-
-
+<script>
+  $("#myselect_<%= params[:shownum]%>").attr("selected",true);
+</script>
 <script>
     var frequence_hash=new Hashtable();
     frequence_hash.add(0,[null,null])
@@ -330,7 +337,7 @@
     <div class= "s_header">  
     <div class="s_title" >
     <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h3><%= strategyweb.name %> </h3></a>
-    </div>  
+    </div>
     <% if @webuser!=nil%>
 
     <div class="s_buy">
@@ -372,7 +379,7 @@
       <div class="s_performance">
         <div class="s_performance_pic">
         <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>">
-        <div id="<%= strategyweb.id%>">
+        <div id="<%= strategyweb.id%>" style="margin-top: -20px;">
         </div>
         </a>
       </div>

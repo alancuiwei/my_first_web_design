@@ -4,7 +4,7 @@
 <%= javascript_include_tag "jquery.autocomplete.js" %>
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
 <%= render "side" %>
-<div class="centerrightframe">
+<div class="centerframe">
   <div class="strategy_config">
     <h2>套利策略配置</h2>
   <div class="strategy_config_selecting">
@@ -175,9 +175,13 @@
   <% end %>
   </div>
 
-  <% if params[:id]!=nil %>
-  <div>
-     <%= @strategyweb.description%>
-  </div>
-   <% end %>
+
+</div>
+
+<div class="rightframe">
+<% if params[:id]!=nil %>
+
+   <h3><%= @strategyweb.name %></h3>
+   <p><%= @strategyweb.description%></p>
+ <% end %>
 </div>

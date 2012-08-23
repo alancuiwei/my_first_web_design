@@ -32,7 +32,11 @@ class StrategywebsController < ApplicationController
 
     end
 
-    @strategywebs = Strategyweb.all
+    if params[:shownum]==nil
+    @strategywebs = Strategyweb.find(:all, :limit => 5)
+    else
+      @strategywebs = Strategyweb.find(:all, :limit =>params[:shownum].to_i)
+    end
 
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
 
@@ -60,13 +64,15 @@ class StrategywebsController < ApplicationController
     @profitchart_hash=Hash.new
 
     @strategywebs.each do |strategyweb|
-      profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint DESC",:limit => 730)
-    if  profit.size==730
+      profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint ASC")
+
+    if  profit!=nil
       @profitchart_arr=[]
       @profitchart_arr_day=[]
-    for i in 0..23
-    @profitchart_arr[23-i]=profit[i*30].profit+@strat_profit
-    @profitchart_arr_day[23-i]=Time.at(profit[i*30].dateint/1000).to_s(:stamp)
+      diff_day=20
+    for i in 0..(profit.size/diff_day).to_i-1
+    @profitchart_arr[i]=profit[i*diff_day].profit+@strat_profit
+    @profitchart_arr_day[i]=Time.at(profit[i*diff_day].dateint/1000).to_s(:stamp)
     #DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000
     end
     @profitchart_hash.store(strategyweb.id,[@profitchart_arr,@profitchart_arr_day])

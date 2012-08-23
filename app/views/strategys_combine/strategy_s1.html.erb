@@ -2,9 +2,11 @@
 <%= stylesheet_link_tag "jquery.autocomplete.css" %>
 
 <%= render "side" %>
-<div class="frame">
+<div class="centerframe">
+  <h2>确定趋势</h2>
 
-  <div id="wizardcontent">选择策略1：
+  <div class="strategy_config_selecting">
+    <h3>选择策略 决定趋势</h3>
     <form id="form1" runat="server">
       <div> <input id="keyword1" value="<%= @strategy_name %>" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/></div>
     </form>
@@ -63,23 +65,25 @@
 </script>
 
 <% if params[:id]!=nil%>
-<div>
-  配置<%= @strategyweb.name%>策略：
+<div class="strategy_config_para">
+  <h3><%= @strategyweb.name%>策略 参数配置</h3>
   <%= form_tag do %>
       <% for i in 0..@strategy_params.size-1 %>
             <%= @strategy_params[i].paramname  %>
           <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" /><br><br>
          <% end %>
 
-      <div class="buttons">
-    	<div class="frameprevious">
-          <a  href="/strategys_combine" class="previous"> 返回 </a>
-    	  </div>
-          <%= submit_tag "下一步" %>
-        </div>
         <div style="clear:both"></div>
     <% end %>
 
 </div>
+
+    	<div class="frameprevious">
+          <a  href="/strategys_combine" class="previous"> 返回 </a>
+    	</div>
+        <div class="button_confirm_2">
+          <%= submit_tag "下一步" %>
+        </div>
+
   <% end %>
 </div>
