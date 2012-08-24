@@ -3,9 +3,10 @@
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= render "side" %>
-<div class="frame">
+<div class="centerframe">
 
-  <div id="wizardcontent">选择策略2：
+  <div class="strategy_config_selecting">
+       <h3>选择策略2：</h3>
     <form id="form1" runat="server">
       <div>
         <% if params[:id]==nil %>
@@ -77,25 +78,27 @@
               });
           });
       </script>
-<div>
+<div class="strategy_config_para">
   配置<%= @strategyweb.name%>策略：
   <form id="form_s2">
       <% for i in 0..@strategy_params.size-1 %>
             <%= @strategy_params[i].paramname  %><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" /><br><br>
          <% end %>
 
-      <div class="buttons">
-    	<div class="frameprevious">
-          <a  href="/strategys_combine/strategy_s1" class="previous"> 返回 </a>
-    	  </div>
-          <a href="javascript:void(0)" onclick="$('#form_s2').submit();">下一步</a>
 
-        </div>
-        <div style="clear:both"></div>
+
   </form>
 
 </div>
+      <div class="frameprevious">
+           <a  href="/strategys_combine/strategy_s1" class="previous"> 返回 </a>
+     	  </div>
+         <div class="button_confirm_3">
+           <a href="javascript:void(0)" onclick="$('#form_s2').submit();">下一步</a>
+         </div>
+
     <% end %>
+
 </div>
 
 <div class="rightframe">

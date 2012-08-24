@@ -2,13 +2,14 @@
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= render "side" %>
-<div class="frame">
+<div class="centerframe">
 
     <% if params[:id]!=nil %>
-    <div >
-      <%= @strategyweb.name%>策略测试：
+
+      <h2><%= @strategyweb.name%>策略测试：</h2>
       <%= form_tag do %>
-          策略品种：
+          <div class="strategy_config_commodity">
+          <h3>策略品种：</h3>
           <% if @strategyweb.strategyid.slice(0,2)=="04" %>
           <% for i in 0..@rightids_arr_d.size-1 %>
               <%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %>
@@ -19,36 +20,39 @@
           <% end %>
           <% end %>
           </input>
-         <br>
-          策略评估开始时间：<%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
-          策略评估结束时间：<%= text_field_tag :enddate, params[:enddate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"enddate",:name=>"enddate",:title=>" 策略结束时间"%><br>
+          </div>
+          <div class="strategy_config_startdate">
+          <h3>策略测试日期设置</h3>
+          <p>开始日期：</p><%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
+          <p>结束日期：</p><%= text_field_tag :enddate, params[:enddate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"enddate",:name=>"enddate",:title=>" 策略结束时间"%><br>
+          </div>
 
-          <div class="buttons">
       	<div class="frameprevious">
             <a  href="/strategys_combine/strategy_s2" class="previous"> 返回 </a>
       	  </div>
 
-            <div class="buttons">
+
         	  	<div class="button_confirm_3">
                     <a href="#ensure_test" class="login-window">下一步</a>
         	    </div>
-            </div>
+
 
 
             <div id="ensure_test" class="login-popup">
             <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-              <div style="width: 200px;height: 200px;background-color: white;">
+              <p>
                 我想在
                 <% for i in 0..@rightids_arr.size-1 %>
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
                 上，用<%= @strategyweb.name %>测试。
+                </p>
                 <%= submit_tag "确定测试"%>
                 <a class="close">取消</a>
               </div>
     		</div>
 
-          </div>
+
           <div style="clear:both"></div>
       <% end %>
 
@@ -95,7 +99,7 @@
            }
        </script>
 
-    </div>
+
 
  <% end %>
 

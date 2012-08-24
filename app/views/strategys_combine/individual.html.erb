@@ -111,15 +111,15 @@
 
             <div id="ensure_test" class="login-popup">
             <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-              <div style="width: 200px;height: 200px;background-color: white;">
-                我想在
+
+                <p>我想在
                 <% for i in 0..@rightids_arr.size-1 %>
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
-                上，用<%= @strategyweb.name %>测试。
+                上，用<%= @strategyweb.name %>测试。</p>
                 <%= submit_tag "确定测试"%>
                 <a class="close">取消</a>
-              </div>
+
     		</div>
 
 <% end %>
