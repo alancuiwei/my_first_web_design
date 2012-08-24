@@ -78,9 +78,10 @@
     }
 </script>
 <% if params[:id]!=nil %>
+
+<form id="individual_form">
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
-<%= form_tag do %>
     <% for i in 0..@strategy_params.size-1 %>
         <%= @strategy_params[i].paramname  %>
           <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/><br><br>
@@ -119,12 +120,11 @@
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
                 上，用<%= @strategyweb.name %>测试。</p>
-                <%= submit_tag "确定测试"%>
+              <a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定测试</a>
                 <a class="close">取消</a>
 
     		</div>
-
-<% end %>
+        </form>
 
  <script type="text/javascript">
     //alert(document.getElementsByName('commoditynames[]').length)

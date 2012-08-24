@@ -7,7 +7,7 @@
     <% if params[:id]!=nil %>
 
       <h2><%= @strategyweb.name%>策略测试：</h2>
-      <%= form_tag do %>
+<form id="s3_form">
           <div class="strategy_config_commodity">
           <h3>策略品种：</h3>
           <% if @strategyweb.strategyid.slice(0,2)=="04" %>
@@ -47,14 +47,13 @@
                 <% end %>
                 上，用<%= @strategyweb.name %>测试。
                 </p>
-                <%= submit_tag "确定测试"%>
+              <a href="javascript:void(0)" onclick="$('#s3_form').submit();">确定测试</a>
                 <a class="close">取消</a>
               </div>
-    		</div>
 
 
           <div style="clear:both"></div>
-      <% end %>
+      </form>
 
 
        <script type="text/javascript">
