@@ -2,32 +2,31 @@
 <%= render "side" %>
 <div class="centerframe">
 
-<h2>无风险套利策略</h2>
+<h2>订购 无风险套利策略</h2>
 
 <% if @strategy.price!=0 %>
-	<div class="StrategyNewssb">
-	<div class="StrategyNewssbdy"></div>
+
 	<div id="dysubscribe">
 	<p>
 		您将订阅<%= @strategy.name  %>策略，订阅后您将立刻受到该策略服务。订阅费用是<span><%= @strategy.price  %>元/每月</span>。我们将在<span>每个月月底 </span>征收该策略的服务费。您可以随时取消订阅该策略。
 	</p>
-	</div>
-	 <div class="buttons">
-	
+
 	  	<div class="button_confirm_3">
       <a  href="/s010001/pay/1"> 下一步 </a>
 	    </div>
-    </div>
-	</div>
+      </div>
+
       <% else %>
+      <div id="dysubscribe">
       <% if @days>1 %>
       <p><%= @strategy.name  %>策略免费，你已成功订阅！</p>
           <% else %>
       <p>您今天已经订阅过了！</p>
       <% end %>
-  <% end %>
+      </div>
+    <% end %>
 	
-</div>
+    </div>
 <div class="rightframe">
 
 
@@ -40,7 +39,6 @@
 <li><a href="http://weibo.com/u/2858671002">新浪微博</a>
 </li>
 </ul>
-
 
 <div class="framerimg-subscribe"></div>
 </div>

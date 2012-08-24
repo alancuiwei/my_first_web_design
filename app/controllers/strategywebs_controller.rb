@@ -255,24 +255,27 @@ class StrategywebsController < ApplicationController
         @webuser.update_attribute(:collect,@precollect+"|"+params[:id].to_s)
       end
       end
+      render :json=>"success".to_json
     end
-    redirect_to :action=>"index"
+
   end
 
   def  cancelcollect
     @webuser = Webuser.find_by_name(session[:webuser_name])
     if @webuser!=nil
-      @position= @webuser.collect.index(params[:id].to_s)
-      if @position==0&&@webuser.collect.size==1
+      @collect=@webuser.collect.split("|")
+      if @collect.size==1
         @webuser.update_attribute(:collect,"")
-      elsif @position==0
-        @webuser.update_attribute(:collect, @webuser.collect[2..@position.size])
       else
-        @webuser.update_attribute(:collect, @webuser.collect[0..@position-2]+@webuser.collect[@position+1..@position.size])
+        @collect=@collect-[params[:id]]
+          temp=@collect[0]
+          for i in 1..@collect.size-1
+          temp=temp+"|"+@collect[i]
+          end
+          @webuser.update_attribute(:collect,temp)
       end
-
+      render :json=>"success".to_json
     end
-    redirect_to :action=>"index"
   end
 
 

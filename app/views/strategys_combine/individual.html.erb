@@ -1,4 +1,4 @@
-<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+﻿<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= javascript_include_tag "jquery.autocomplete.js" %>
@@ -88,13 +88,15 @@
 </div>
    <div class="strategy_config_commodity">
     <h3>策略品种：</h3>
+     <input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选
+
      <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
         <p><%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %></p>
     <% end %>
         <% else %>
     <% for i in 0..@rightids_arr.size-1 %>
-        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %></p>
+        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %>-<%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %> 套利 (<%=@rightids_arr[i]%>)</p>
     <% end %>
     <% end %>
     </input>
@@ -125,6 +127,14 @@
 <% end %>
 
  <script type="text/javascript">
+    //alert(document.getElementsByName('commoditynames[]').length)
+    function $N(name){return document.getElementsByName(name);}
+    function checkall(v,name){//v当前要设置的值true/false;name要设置的checkbox组的name,如果省略则默认为所有的checkbox
+        o=name?$N(name):$N("input");
+        //alert(o.length)
+        for(i=0;i<o.length;i++)
+            if(o[i].type=="checkbox")o[i].checked=v;
+    }
 
    var rightid=new Array();
    <% if @strategyweb.strategyid.slice(0,2)=="04" %>

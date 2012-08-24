@@ -136,26 +136,12 @@
 <script type="text/javascript">
     function showwait_c(id){
 
-                 		// Getting the variable's value from a link
-        		var loginBox ="#showwait";
-        		//Fade in the Popup and add close button
-        		$(loginBox).fadeIn(300);
-
-        		//Set the center alignment padding + border
-        		var popMargTop = ($(loginBox).height() + 24) / 2;
-        		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        		$(loginBox).css({
-        			'margin-top' : -popMargTop,
-        			'margin-left' : -popMargLeft
-        		});
-
-        		// Add the mask to body
-        		$('body').append('<div id="mask_wait"></div>');
-        		$('#mask_wait').fadeIn(300);
-
         $.get("/strategywebs/cancelcollect/"+id,function(){
-            location.reload();
+            //location.reload();
+            alert("取消收藏成功！");
+            $("#canclecollect_"+id).hide();
+            $("#collect_"+id).show();
+            $("#collect_"+id).html("<a href='javascript:void(0)' onclick='showwait("+id+")'><img src='/assets/xingxing2.gif' />收藏</a>")
         })
     }
 
@@ -164,26 +150,13 @@
      <% if @webuser.level!=1&&@webuser.collect.split("|").size>=10%>
     alert("您不是收费用户，只能收藏10个策略！")
     <%else%>
-         		// Getting the variable's value from a link
-         		var loginBox ="#showwait";
-         		//Fade in the Popup and add close button
-         		$(loginBox).fadeIn(300);
-
-         		//Set the center alignment padding + border
-         		var popMargTop = ($(loginBox).height() + 24) / 2;
-         		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-         		$(loginBox).css({
-         			'margin-top' : -popMargTop,
-         			'margin-left' : -popMargLeft
-         		});
-
-         		// Add the mask to body
-         		$('body').append('<div id="mask_wait"></div>');
-         		$('#mask_wait').fadeIn(300);
 
          $.get("/strategywebs/collect/"+id,function(){
-             location.reload();
+             alert("收藏成功！");
+             $("#collect_"+id).hide();
+             $("#canclecollect_"+id).show();
+             $("#canclecollect_"+id).html("<a href='javascript:void(0)' onclick='showwait_c("+id+")'><img src='/assets/xingxing.gif' />取消收藏</a>")
+             //location.reload();
          })
      <%end%>
      <%end%>
@@ -360,11 +333,17 @@
           <% end %>
               <% end %>
     </div>
-    <div class="s_collect">
+    <div class="s_collect" id="r_collect">
       <% if @hash_iscollect[strategyweb.id]!=1 %>
+          <div id="collect_<%=strategyweb.id%>">
           <a href="javascript:void(0)" onclick="showwait(<%=strategyweb.id%>)"><img src="/assets/xingxing2.gif" />收藏</a>
+          </div>
+          <div id="canclecollect_<%=strategyweb.id%>"></div>
       <% else %>
+          <div id="collect_<%=strategyweb.id%>"></div>
+          <div id="canclecollect_<%=strategyweb.id%>">
           <a href="javascript:void(0)" onclick="showwait_c(<%=strategyweb.id%>)"><img src="/assets/xingxing.gif" />取消收藏</a>
+          </div>
       <% end %>
 
     </div>
