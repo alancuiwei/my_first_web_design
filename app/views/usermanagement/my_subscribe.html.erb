@@ -1,0 +1,25 @@
+<%= render "side" %>
+<div class="centerrightframe">
+
+  <a href="/usermanagement/params_set">无风险套利设置</a>
+
+  <h2>我订阅的策略：</h2>
+<% if session[:webuser_name]==nil%>
+    <a href="#login-box" class="login-window">请先登录</a>
+    <% else %>
+
+    <% if @sub==[]%>
+    您还没有订阅策略！
+    <% else %>
+
+<% for i in 0..@sub.size-1%>
+
+   <ul>
+     <li>
+       <a href="/<%= @sub_stg[i].control %>/<%= @sub_stg[i].action %>"><%= @sub_stg[i].name %></a>
+     </li>
+   </ul>
+<% end %>
+<% end %>
+<% end %>
+</div>

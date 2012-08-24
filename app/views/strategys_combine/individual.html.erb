@@ -1,4 +1,4 @@
-<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+﻿<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= javascript_include_tag "jquery.autocomplete.js" %>
@@ -78,9 +78,10 @@
     }
 </script>
 <% if params[:id]!=nil %>
+
+<form id="individual_form">
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
-<%= form_tag do %>
     <% for i in 0..@strategy_params.size-1 %>
         <%= @strategy_params[i].paramname  %>
           <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/><br><br>
@@ -88,13 +89,15 @@
 </div>
    <div class="strategy_config_commodity">
     <h3>策略品种：</h3>
+     <input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选
+
      <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
         <p><%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %></p>
     <% end %>
         <% else %>
     <% for i in 0..@rightids_arr.size-1 %>
-        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %></p>
+        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %>-<%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %> 套利 (<%=@rightids_arr[i]%>)</p>
     <% end %>
     <% end %>
     </input>
@@ -111,20 +114,27 @@
 
             <div id="ensure_test" class="login-popup">
             <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-              <div style="width: 200px;height: 200px;background-color: white;">
-                我想在
+
+                <p>我想在
                 <% for i in 0..@rightids_arr.size-1 %>
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
-                上，用<%= @strategyweb.name %>测试。
-                <%= submit_tag "确定测试"%>
+                上，用<%= @strategyweb.name %>测试。</p>
+              <a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定测试</a>
                 <a class="close">取消</a>
-              </div>
-    		</div>
 
-<% end %>
+    		</div>
+        </form>
 
  <script type="text/javascript">
+    //alert(document.getElementsByName('commoditynames[]').length)
+    function $N(name){return document.getElementsByName(name);}
+    function checkall(v,name){//v当前要设置的值true/false;name要设置的checkbox组的name,如果省略则默认为所有的checkbox
+        o=name?$N(name):$N("input");
+        //alert(o.length)
+        for(i=0;i<o.length;i++)
+            if(o[i].type=="checkbox")o[i].checked=v;
+    }
 
    var rightid=new Array();
    <% if @strategyweb.strategyid.slice(0,2)=="04" %>

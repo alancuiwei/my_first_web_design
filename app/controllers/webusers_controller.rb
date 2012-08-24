@@ -7,7 +7,7 @@ class WebusersController < ApplicationController
     if params[:name]!=nil
       if Webuser.authenticate(params[:name], params[:password])
         session[:webuser_name] =params[:name]
-          render :json =>params[:name].to_json
+        render :json =>(params[:name]+"|"+Webuser.find_by_name(session[:webuser_name]).id.to_s).to_json
       else
         @test='您的用户名或者密码输入错误！'.to_json
       render :json => @test

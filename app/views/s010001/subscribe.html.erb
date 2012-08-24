@@ -1,48 +1,36 @@
-﻿<div class="body">
-  <div class="body_resize">
+﻿
 <%= render "side" %>
-<div class="frame_norisk">
+<div class="centerframe">
 
-<div class="slider2">
-  <div id="slice12dy"></div>
-  </div>
+<h2>订购 无风险套利策略</h2>
 
-<div class="StrategyNews">
-<div class="StrategyNewslb"></div>
-<div id="StrategyNewsb">
-    <ul>
-      <li><%= link_to "无风险套利",:controller =>"autotrade",:action =>"personaltrading" %></li>
-    </ul>
-</div>
-</div>
 <% if @strategy.price!=0 %>
-	<div class="StrategyNewssb">
-	<div class="StrategyNewssbdy"></div>
+
 	<div id="dysubscribe">
 	<p>
 		您将订阅<%= @strategy.name  %>策略，订阅后您将立刻受到该策略服务。订阅费用是<span><%= @strategy.price  %>元/每月</span>。我们将在<span>每个月月底 </span>征收该策略的服务费。您可以随时取消订阅该策略。
 	</p>
-	</div>
-	 <div class="buttons">
-	
+
 	  	<div class="button_confirm_3">
       <a  href="/s010001/pay/1"> 下一步 </a>
 	    </div>
-    </div>
-	</div>
-      <% else %>
-      <% if @days>1 %>
-      <%= @strategy.name  %>策略免费，你已成功订阅！
-          <% else %>
-      您今天已经订阅过了！
-      <% end %>
-  <% end %>
-	
-</div>
-<div id = "subscribe-right">
+      </div>
 
-<div id="lixiwomen">
-<h2>联系我们</h2>
+      <% else %>
+      <div id="dysubscribe">
+      <% if @days>1 %>
+      <p><%= @strategy.name  %>策略免费，你已成功订阅！</p>
+          <% else %>
+      <p>您今天已经订阅过了！</p>
+      <% end %>
+      </div>
+    <% end %>
+	
+    </div>
+<div class="rightframe">
+
+
+<h3>联系我们</h3>
 <ul>
 <li><a href="mailto:tongtianshun@yahoo.cn">邮件咨询</a>
 </li>
@@ -52,9 +40,6 @@
 </li>
 </ul>
 
-</div>
 <div class="framerimg-subscribe"></div>
 </div>
 
-</div>
-</div>
