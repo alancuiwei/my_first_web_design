@@ -1,20 +1,9 @@
-﻿<div class="body">
-  <div class="body_resize">
+﻿
 <%= render "side" %>
-<div class="frame_norisk">
+<div class="centerframe">
 
-<div class="slider2">
-  <div id="slice12dy"></div>
-  </div>
+<h2>无风险套利策略</h2>
 
-<div class="StrategyNews">
-<div class="StrategyNewslb"></div>
-<div id="StrategyNewsb">
-    <ul>
-      <li><%= link_to "无风险套利",:controller =>"autotrade",:action =>"personaltrading" %></li>
-    </ul>
-</div>
-</div>
 <% if @strategy.price!=0 %>
 	<div class="StrategyNewssb">
 	<div class="StrategyNewssbdy"></div>
@@ -32,17 +21,17 @@
 	</div>
       <% else %>
       <% if @days>1 %>
-      <%= @strategy.name  %>策略免费，你已成功订阅！
+      <p><%= @strategy.name  %>策略免费，你已成功订阅！</p>
           <% else %>
-      您今天已经订阅过了！
+      <p>您今天已经订阅过了！</p>
       <% end %>
   <% end %>
 	
 </div>
-<div id = "subscribe-right">
+<div class="rightframe">
 
-<div id="lixiwomen">
-<h2>联系我们</h2>
+
+<h3>联系我们</h3>
 <ul>
 <li><a href="mailto:tongtianshun@yahoo.cn">邮件咨询</a>
 </li>
@@ -52,9 +41,7 @@
 </li>
 </ul>
 
-</div>
+
 <div class="framerimg-subscribe"></div>
 </div>
 
-</div>
-</div>
