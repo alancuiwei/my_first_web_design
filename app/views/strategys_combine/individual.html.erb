@@ -83,13 +83,13 @@
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
     <% for i in 0..@strategy_params.size-1 %>
-        <%= @strategy_params[i].paramname  %>
-          <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/><br><br>
+        <p><%= @strategy_params[i].paramname  %>
+          <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/></p>
      <% end %>
 </div>
    <div class="strategy_config_commodity">
     <h3>策略品种：</h3>
-     <input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选
+     <p><input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选</p>
 
      <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
