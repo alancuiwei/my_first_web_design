@@ -83,13 +83,13 @@
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
     <% for i in 0..@strategy_params.size-1 %>
-        <%= @strategy_params[i].paramname  %>
-          <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/><br><br>
+        <p><%= @strategy_params[i].paramname  %>
+          <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text"/></p>
      <% end %>
 </div>
    <div class="strategy_config_commodity">
     <h3>策略品种：</h3>
-     <input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选
+     <p><input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选</p>
 
      <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
@@ -113,15 +113,17 @@
 
 
             <div id="ensure_test" class="login-popup">
-            <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-
-                <p>我想在
+            <div class="popup_2buttons_pattern">
+              <div class="popup_content">
+              <p>我想在
                 <% for i in 0..@rightids_arr.size-1 %>
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
                 上，用<%= @strategyweb.name %>测试。</p>
-              <a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定测试</a>
-                <a class="close">取消</a>
+              </div>
+              <div class="popup_2buttons_confirm"><a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定</a></div>
+              <div class="popup_2buttons_cancel">  <a class="close">取消</a></div>
+            </div>
 
     		</div>
         </form>

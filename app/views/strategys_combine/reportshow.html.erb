@@ -4,8 +4,8 @@
 <%= stylesheet_link_tag "datatables.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= render "side" %>
-<div class="frame">
-<h3>选择是否保存。</h3>
+<div class="centerrightframe">
+<p>选择是否保存。</p>
 <%= button_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
   <% if params[:stgtype]=="d" %>
 <%= button_to "不保存" ,:controller=>'strategys_combine',:action=>'strategy_s1'%>
@@ -51,7 +51,7 @@
                 selected : 5 //zoom显示的默认选择
             },
             title : {
-                text : '历史profit'
+                text : ''
             },
             series : [{
                 name : 'profit',
@@ -69,13 +69,16 @@
         });
     });
 </script>
-<div id="container_profit" style="height: 500px; min-width: 500px"></div>​
-<h3>所有数据都需要和最新实时行情结合</h3>
 
+<h2>年化收益率表</h2>
+<p>所有数据都需要和最新实时行情结合</p>
+<div class="annual_profit_display" id="container_profit"></div>​
+
+<h2>策略详细参数</h2>
 <table class="display" id=performancetable >
   <thead>
-  <td>项目</td>
-  <td>值</td>
+  <td>属性名</td>
+  <td>数值</td>
   </thead>
   <tbody>
  			  <tr>

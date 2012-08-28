@@ -94,16 +94,16 @@
 	<div id="content">
 	-->
         <div id="tm_fe" class="login-popup">
-          <%= form_tag ('/home/index') ,:class=>"signin",:remote => true  do %>
-              <div id="fastmargin_config">
+              <div class="popup_2buttons_pattern">
+                <div class="popup_content">
                 <p>如果不清楚保证金比例，请向期货公司咨询。</p>
-                <p>比期货交易所保证金比例</p><p>高 <input type="text" size="5" id="tm_submit_text">%</p>
-                <div id="fastmargin_buttons">  
-                  <a id="fastmargin_submit" href="javascript:void(0)" onclick="tm_submit()">提交</a>
-                  <a id="fastmargin_cancel" href="#" class="close">取消</a>
-                </div>  
+                <p>比期货交易所保证金比例</p><p>高 <input type="text" size="5" id="tm_submit_text"> %</p>
+                </div>
+
+                <div class="popup_2buttons_confirm"><a href="javascript:void(0)" onclick="tm_submit()">提交</a></div>
+                <div class="popup_2buttons_cancel"><a href="#" class="close">取消</a></div>
+
               </div>
-          <% end %>
 		</div>
   <!--
     </div>
@@ -114,11 +114,15 @@
 	<div id="content">
 	-->
         <div id="tc_fe" class="login-popup">
-              <div id="fastmargin_config">
+              <div class="popup_2buttons_pattern">
+                <div class="popup_content">
                 <p>如果不清楚手续费，请向期货公司咨询。</p>
-                <p>每手手续费比交易所</p><p>高 <input type="text" size="5" id="tc_submit_text">元</p>
-                  <a id="fastfee_submit" href="javascript:void(0)" onclick="tc_submit()">提交</a>
-                  <a id="fastfee_cancel" href="#" class="close">取消</a>
+                <p>每手手续费比交易所</p><p>高 <input type="text" size="5" id="tc_submit_text"> 元</p>
+                </div>
+
+                <div class="popup_2buttons_confirm"><a href="javascript:void(0)" onclick="tc_submit()">提交</a></div>
+                <div class="popup_2buttons_cancel"><a href="#" class="close">取消</a></div>
+
 
               </div>
 		</div>
