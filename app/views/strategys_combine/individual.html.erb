@@ -113,15 +113,17 @@
 
 
             <div id="ensure_test" class="login-popup">
-            <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-
-                <p>我想在
+            <div class="popup_2buttons_pattern">
+              <div class="popup_content">
+              <p>我想在
                 <% for i in 0..@rightids_arr.size-1 %>
                     <%= @rightids_arr[i] %>&nbsp;
                 <% end %>
                 上，用<%= @strategyweb.name %>测试。</p>
-              <a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定测试</a>
-                <a class="close">取消</a>
+              </div>
+              <div class="popup_2buttons_confirm"><a href="javascript:void(0)" onclick="$('#individual_form').submit();">确定</a></div>
+              <div class="popup_2buttons_cancel">  <a class="close">取消</a></div>
+            </div>
 
     		</div>
         </form>
