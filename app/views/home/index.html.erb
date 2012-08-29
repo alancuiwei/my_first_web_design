@@ -3,63 +3,49 @@
 <%= javascript_include_tag "jquery.noty.js" %>
 <body>
    
-  <div class="slider">
+  <div class="slider_set">
 
-  
-  <div class="bannerl">
-  </div>
-    <div class="slice1">
-      <div class="slice2" id="slider">
+    <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
+    <div class="slice_background">
+      <div id="slider">
         <ul>
           <li>
-            <div>
-			<div>
-              
 			  <div id="banner3">
               
               <p>500毫秒刷新行情，<br />
 			  超过200多组套利对，<br />
-			  捕捉所有盈利机会。<a href="#"></a></p>
+			  捕捉所有盈利机会。<a href="#"></a>
+              </p>
             </div>
-			  </div>
-			  <p class="img"><%= link_to(image_tag("img03.jpg"),:controller => "strategy",:action => "shownorisk") %></p>
-            </div>
+			  <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller => "strategy",:action => "shownorisk") %></p>
           </li>
           <li>
-            <div>
-             <div>
 			 <div id="banner2">
-              <h3>单边：趋势策略，震荡策略；</h3><br /><h2>套利：跨期，跨产品，跨市场策略</h2> <a href="#"></a>
+              <p>单边：趋势策略，震荡策略；<br>套利：跨期，跨产品，跨市场策略</p> <a href="#"></a>
             </div>
-			 </div>
-              <p class="img"><%= image_tag "img02.jpg" %></p>
+              <p class="homepage_slide_img"><%= image_tag "img02.jpg" %></p>
               
               
-            </div>
           </li>
           <li>
-            <div>
-			<div>
 			 <div id="banner1">
 			 <p>简单上手，<br />
 			  定制您自己的交易策略，<br />
 			  免费帮您测试。<a href="#"></a></p>
             </div>
-			  </div>
-              <p class="img"><%= image_tag "img01.jpg" %></p>
+              <p class="homepage_slide_img"><%= image_tag "img01.jpg" %></p>
               
-            </div>
           </li>
         </ul>
       </div>
-    </div>
+      </div>
 
-	<div class="bannerr">
+    <img src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
   </div>
-  
-  
-  </div>
-  <div class="clr"></div>
+
+
+
+<!--
   <div class="zhongjian">
   <div class="zhongjianleft">
   </div>
@@ -142,31 +128,30 @@
       <div class="clr"></div>
     </div>
     <div class="clr"></div>
-	<div class="dibu">
-  <div class="dibuleft">
-  </div>
-  <div class="dibudise">
-  </div>
-  <div class="diburight">
-  </div>
-  </div>
-  <div class="clr"></div>
-    
+
       
 
-  <div class="footer">
-    <div class="resize">
-        <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
-		版权信息： 版权名：R3.0  更新日期：2012-06-05 09:10:20</p>
-	  
-    </div>
-	
-    <p class="clr"></p>
-<!--	<div class="pagedibu"></div> -->
+
   </div>
-  </div>
+
+
+
+
+
+
+
+
+-->
 </body>
+
+<!-- <img class="homepage_bottom_decoration" src="/assets/dibu_dise.gif" alt="homepage_bottom_decoration"> -->
+
+<div class="footer">
+    <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
+      版权信息： 版权名：R3.0  更新日期：2012-06-05 09:10:20</p>
+</div>
 </html>
+
 <script type="text/javascript">
   function show_version(){
     $(document).ready(function(){
