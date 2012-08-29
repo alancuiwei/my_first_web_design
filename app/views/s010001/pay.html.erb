@@ -44,21 +44,12 @@
 
 
         <div id="alipay-box" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnzfb_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-          <div style="width: 394px;height:283px;margin-top:10px;">
-		  <div id="prealipay">
-		  <h2> 你的订单号是：</h2>
-      
-          
-      <div id="subscribeid"><%= @subsribe_id%></div>
-            <h3>您会订阅一个月的<span style="font:12px Microsoft Yahei;color:#a43a35;text-decoration:underline;font-style:italic"><%= @strategy.name%> </span></h3>
+		  <div class="popup_alipay_content">
+		  <p> 你的订单号是：<%= @subsribe_id%></p>
+          <p>您会订阅一个月的<%= @strategy.name%></p>
 			
-			<div id="qianwang">
-			<a href='<%= @alipy_url %>'>前往支付宝</a>
-			</div>
-				<div id="quxiao">
-				<a href="#" class="close"> 取消</a>
-			</div>
+		  <div class="popup_alipay_2buttons_confirm"><a href='<%= @alipy_url %>'>前往支付宝</a></div>
+		  <div class="popup_alipay_2buttons_cancel"><a href="#" class="close"> 取消</a></div>
 			</div>
 
           </div>
