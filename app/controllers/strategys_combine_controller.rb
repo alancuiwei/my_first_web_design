@@ -16,10 +16,38 @@ class StrategysCombineController < ApplicationController
     @strategyweb = Strategyweb.find(params[:id])
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
+    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+    @param_arr=Array.new
+    param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+    for i in 0..param.size-1
+      if param[i].text.index(":")==nil
+        temp0=param[i].text[1..-2].split(",")
+        for j in 0..temp0.size-1
+          temp0[j]=temp0[j].to_i
+        end
+        @param_arr[i]=temp0
+      elsif param[i].text.scan(/:/).size==1
+        temp= Array.new
+        temp[0]=param[i].text.split(":")[0].to_i
+        for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+          temp[j]=temp[j-1]+1
+        end
+        @param_arr[i]=temp
+      else  param[i].text.scan(/:/).size==2
+        temp2= Array.new
+        temp2[0]=param[i].text.split(":")[0].to_i
+        for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+          temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+        end
+        @param_arr[i]=temp2
+      end
+    end
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
-    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+
     for i in 0..@strategy_params.size-1
       @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
     end
@@ -54,9 +82,35 @@ class StrategysCombineController < ApplicationController
       @strategyweb = Strategyweb.find(params[:id])
       @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
 
+      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+      @param_arr=Array.new
+      param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+      for i in 0..param.size-1
+        if param[i].text.index(":")==nil
+          temp0=param[i].text[1..-2].split(",")
+          for j in 0..temp0.size-1
+            temp0[j]=temp0[j].to_i
+          end
+          @param_arr[i]=temp0
+        elsif param[i].text.scan(/:/).size==1
+          temp= Array.new
+          temp[0]=param[i].text.split(":")[0].to_i
+          for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+            temp[j]=temp[j-1]+1
+          end
+          @param_arr[i]=temp
+        else  param[i].text.scan(/:/).size==2
+          temp2= Array.new
+          temp2[0]=param[i].text.split(":")[0].to_i
+          for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+            temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+          end
+          @param_arr[i]=temp2
+        end
+      end
+
       @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
-        @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
         for i in 0..@strategy_params.size-1
           @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
@@ -150,9 +204,34 @@ class StrategysCombineController < ApplicationController
       @rightids_arr[i]=@commodityrights[i].firstcommodityid+"-"+@commodityrights[i].secondcommodityid
       @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
     end
+    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+    @param_arr=Array.new
+    param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+    for i in 0..param.size-1
+      if param[i].text.index(":")==nil
+        temp0=param[i].text[1..-2].split(",")
+        for j in 0..temp0.size-1
+          temp0[j]=temp0[j].to_i
+        end
+        @param_arr[i]=temp0
+      elsif param[i].text.scan(/:/).size==1
+        temp= Array.new
+        temp[0]=param[i].text.split(":")[0].to_i
+        for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+          temp[j]=temp[j-1]+1
+        end
+        @param_arr[i]=temp
+      else  param[i].text.scan(/:/).size==2
+        temp2= Array.new
+        temp2[0]=param[i].text.split(":")[0].to_i
+        for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+          temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+        end
+        @param_arr[i]=temp2
+      end
+    end
 
     if @webuser!=nil&&params[:startdate]!=nil
-    @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
     @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
     for i in 0..@strategy_params.size-1
       @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
@@ -577,4 +656,25 @@ class StrategysCombineController < ApplicationController
     end
 
   end
+
+  def optimizedmethod
+    @strategywebs=Strategyweb.all
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:id]!=nil
+    @strategyweb=Strategyweb.find(params[:id])
+    if @webuser!=nil&&params[:opmed]!=nil
+      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+      @XMLfile.elements.to_a("//optimizedmethod")[0].text=params[:opmed]
+      file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+      file.puts @XMLfile
+      file.close
+
+      Thread.new {
+          system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml"+"'"
+          }
+    end
+    end
+  end
+
+
 end

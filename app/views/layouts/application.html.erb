@@ -217,8 +217,10 @@
                           location.href=redirect;
                       }
                       else{
-                          $("#errormsg_position").css({"padding": "89px 0 0 30px"})
-                          $("#errormsg").html(data);
+/*                         $("#errormsg_position").css({"padding": "89px 0 0 30px"})    */
+                         $("#login_errormsg").html(data.toString());
+
+
                       }
                   });
               }
@@ -239,7 +241,7 @@
                       }
                       else{
                           $("#regeditmsg_position").css({"padding": "93px 0 0 30px"});
-                          $("#regedit_errormsg").html(data);
+                          $("#regedit_errormsg").html(data.toString());
                       }
                   });
               }
@@ -256,7 +258,7 @@
               <div id="login-box" class="login-popup">
                 <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
                 <form class="signin">
-                      <div id="errormsg"></div>
+                      <div id="login_errormsg"></div>
 
                         <div class="login_username">
                           <label id="label_login">用户名:</label>
