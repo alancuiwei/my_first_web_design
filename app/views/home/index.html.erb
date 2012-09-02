@@ -1,6 +1,9 @@
 <%= stylesheet_link_tag "jquery.noty.css" %>
 <%= stylesheet_link_tag "noty_theme_growl.css" %>
 <%= javascript_include_tag "jquery.noty.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "Hashtable.js" %>
+
 <body>
    
   <div class="slider_set">
@@ -131,8 +134,30 @@
     <p>图表皆基于历史数据的评测。</p>
     <h3>新增策略</h3>
     <div class="strategy_status_module">
+    <% @strategywebs.each do |strategyweb| %>
+    <div id="<%= strategyweb.id%>">
     </div>
+        <%= strategyweb.name %>
+        <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]==nil || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]==nil ||@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]==nil%>
+            <li>年收益率：稍候刷新</li>
+            <li>最大回退金额：稍候刷新</li>
+            <li>胜率：稍候刷新 </li>
+           <% else %>
+            <li>年收益率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]*100) %>% </li>
+            <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]=="无" || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]=="无" %>
+                <li>最大回退金额：无</li>
+                <li>胜率：无 </li>
+            <% else %>
 
+            <li>最大回退金额：<%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </li>
+      <li>胜率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></li>
+            <% end %>
+            <% end %>
+        <p>策略种类：<%= strategyweb.strategytype %></p>
+        <p>策略更新时间：<%=  strategyweb.updated_at.to_s(:db) %></p>
+        <%= link_to "详细",:controller => strategyweb.control,:action =>strategyweb.action,:id=>strategyweb.id %>
+    <%end%>
+    </div>
   </div>
 
   </div>
@@ -156,4 +181,78 @@
      noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
     });
   }
+
+    var profitchart_data_hash=new Hashtable();
+    var profitchart_day_hash=new Hashtable();
+    <% @strategywebs.each do |strategyweb| %>
+    highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
+    <% if @profitchart_hash[strategyweb.id]!=nil%>
+    var profitchart_arr_day=new Array();
+    var profitchart_arr_data=new Array();
+    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
+      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
+    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
+    <% end %>
+    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
+    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
+    <% end %>
+    <% end %>
+    function highcharts(id,stgname) {
+
+        var chart;
+        $(document).ready(function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: id,
+                    type: 'line',
+                    width: 120,
+                    height: 120
+                },
+                title: {
+                    enabled: false
+                },
+                subtitle: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: profitchart_day_hash.items(id),
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        //pointStart: 1940,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: '收益',
+                    data:profitchart_data_hash.items(id)
+                }]
+            });
+
+            $(".highcharts-legend").remove()
+        });
+    }
 </script>

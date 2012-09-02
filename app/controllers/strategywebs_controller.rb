@@ -64,15 +64,14 @@ class StrategywebsController < ApplicationController
     @profitchart_hash=Hash.new
 
     @strategywebs.each do |strategyweb|
-      profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum], :order =>"dateint ASC")
+      profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=? and id%20=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,0], :order =>"dateint ASC")
 
     if  profit!=nil
       @profitchart_arr=[]
       @profitchart_arr_day=[]
-      diff_day=20
-    for i in 0..(profit.size/diff_day).to_i-1
-    @profitchart_arr[i]=profit[i*diff_day].profit+@strat_profit
-    @profitchart_arr_day[i]=Time.at(profit[i*diff_day].dateint/1000).to_s(:stamp)
+    for i in 0..profit.size-1
+    @profitchart_arr[i]=profit[i].profit+@strat_profit
+    @profitchart_arr_day[i]=Time.at(profit[i].dateint/1000).to_s(:stamp)
     #DateTime.strptime(profit.closeposdate.to_s(:db), "%Y-%m-%d").to_i*1000
     end
     @profitchart_hash.store(strategyweb.id,[@profitchart_arr,@profitchart_arr_day])
