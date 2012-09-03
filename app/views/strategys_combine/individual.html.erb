@@ -197,3 +197,27 @@
    <p><%= @strategyweb.description%></p>
  <% end %>
 </div>
+
+<% if params[:id]!=nil %>
+<script>
+  var param_arr=new Array();
+     <% for i in 0..@param_arr.size-1 %>
+       param_arr[<%=i%>]=<%=@param_arr[i]%>
+     <% end%>
+      $("form").submit(function(e){
+          //e.preventDefault();
+          var submit_flag=0;
+          <% for i in 0..@strategy_params.size-1 %>
+
+          if(param_arr[<%=i%>].indexOf(parseInt($("#<%= @strategy_params[i].paramname %>").attr("value")))==-1){
+          alert("<%= @strategy_params[i].paramname %>参数范围错误！")
+          }
+          else
+              submit_flag=submit_flag+1;
+          <% end %>
+          if(submit_flag!=<%=@strategy_params.size %>){
+          e.preventDefault();
+          }
+      });
+</script>
+<% end %>

@@ -1,172 +1,189 @@
 <%= stylesheet_link_tag "jquery.noty.css" %>
 <%= stylesheet_link_tag "noty_theme_growl.css" %>
 <%= javascript_include_tag "jquery.noty.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "Hashtable.js" %>
+
 <body>
    
-  <div class="slider">
+  <div class="slider_set">
 
-  
-  <div class="bannerl">
-  </div>
-    <div class="slice1">
-      <div class="slice2" id="slider">
+    <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
+    <div class="slice_background">
+      <div id="slider">
         <ul>
           <li>
-            <div>
-			<div>
-              
 			  <div id="banner3">
               
               <p>500毫秒刷新行情，<br />
 			  超过200多组套利对，<br />
-			  捕捉所有盈利机会。<a href="#"></a></p>
+			  捕捉所有盈利机会。<a href="#"></a>
+              </p>
             </div>
-			  </div>
-			  <p class="img"><%= link_to(image_tag("img03.jpg"),:controller => "strategy",:action => "shownorisk") %></p>
-            </div>
+			  <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller => "strategy",:action => "shownorisk") %></p>
           </li>
           <li>
-            <div>
-             <div>
 			 <div id="banner2">
-              <h3>单边：趋势策略，震荡策略；</h3><br /><h2>套利：跨期，跨产品，跨市场策略</h2> <a href="#"></a>
+              <p>单边：趋势策略，震荡策略；<br>套利：跨期，跨产品，跨市场策略</p> <a href="#"></a>
             </div>
-			 </div>
-              <p class="img"><%= image_tag "img02.jpg" %></p>
+              <p class="homepage_slide_img"><%= image_tag "img02.jpg" %></p>
               
               
-            </div>
           </li>
           <li>
-            <div>
-			<div>
 			 <div id="banner1">
 			 <p>简单上手，<br />
 			  定制您自己的交易策略，<br />
 			  免费帮您测试。<a href="#"></a></p>
             </div>
-			  </div>
-              <p class="img"><%= image_tag "img01.jpg" %></p>
+              <p class="homepage_slide_img"><%= image_tag "img01.jpg" %></p>
               
-            </div>
           </li>
         </ul>
       </div>
-    </div>
-
-	<div class="bannerr">
-  </div>
-  
-  
-  </div>
-  <div class="clr"></div>
-  <div class="zhongjian">
-  <div class="zhongjianleft">
-  </div>
-  <div class="zhongjiandise">
-  </div>
-  <div class="zhongjianright">
-  </div>
-  </div>
-  <div class="clr"></div>
-  <div class="body">
-    <div class="topi">
-      <div class="blogi">
-	   <div class="tounima">
-	  <div class="blogitop01"></div>
-	  <div class="blogitop1">
-	  <h2>关于</h2>
-	  </div>
-	  <div class="blogitop2">
-	  <h2>我们</h2>
-	  </div>
-	  <div class="morexinxi1">
-	  <a href="/contactus/companyintro">+更多</a>
-	  </div>
-	  	  </div>
-	  <div class="clr"></div>
-	  <div class="jieshao1"></div>
-	  <div class="jieshaop">
-	 <p>南京重人软件科技有限公司研发维护.重人软件是家专注于金融产品策略平台研发的企业.公司的创始团队具有多年国外软件公司,以及国内大型期货公司工作经验.
-        </p>
-      </div>
-      </div>
-	   <div class="contentdise"></div>
-	  
-      <div class="blogi">
-	   <div class="tounima">
-	   <div class="blogitop02"></div>
-	  <div class="blogitop3">
-	  <h2>我们的</h2>
-	  </div>
-	  <div class="blogitop2">
-	  <h2>服务</h2>
-	  </div>
-	  <div class="morexinxi">
-	  <a href="/contactus/productintro">+更多</a>
-	  </div>
-	  	  </div>
-     <div class="clr"></div>
-   <div class="jieshao2"></div>	
-   <div class="jieshaop">
-        <p>策略设计评估:实时市场行情加载精选策略,评估策略优略,免费供您选择.套利计算:200多套利对实时计算套利成本.策略定制:先进计算机技术帮您定制盈利策略.</p>
-        
-      </div>
-      </div>
-	  <div class="contentdise"></div>
-      <div class="blogi">
-	 <div class="tounima">
-	  <div class="blogitop03"></div>
-	  <div class="blogitop1">
-	  <h2>诚聘</h2>
-      </div>
-	  <div class="blogitop2">
-	  <h2>英才</h2>
-    </div>
-	  <div class="morexinxi1">
-	  <a href="/contactus/hire">+更多</a>
-	  
       </div>
 
-		</div>
+    <img src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
+  </div>
+  <div class="quicklink_strategyshow">
+  <div class="quicklink_set">
+  <div class="quicklink_instance">
+    <a href="/strategys_combine/strategy_s1">
+      <img class="qs_image" src="/assets/celuezuhe.jpg" alt="quicklink_trend_strategy_config">
+    </a>
+    <div class="qs_content">
+      <a href="/strategys_combine/strategy_s1"><h2>策略组合</h2></a>
+      <a href="/strategys_combine/strategy_s1">
+        <p>主要针对单边策略，根据顺大势确定方向，逆小势确定入场的思想而实现，可以自行配置元策略参数，直观快捷的查看策略性能指标。</p>
+      </a>
+    </div>
 
-       <div class="clr"></div>
-     <div class="jieshao3"></div>	
-	 <div class="jieshaop">
-        <p>软件工程师:负责金融应用软件开发,2年软件开发经验,精通C/C++编程。网站构架师：精通HTML,CSS编程，熟悉Javascript,熟悉网站构架,了解Ruby on Rails为佳。
-		</p>
-        </div>
-		
+  </div>
+    <div class="quicklink_instance">
+      <a href="/strategys_combine/individual">
+        <img class="qs_image" src="/assets/celuepeizhi.jpg" alt="quicklink_arbitrage_strategy_config">
+      </a>
+      <div class="qs_content">
+        <a href="/strategys_combine/individual"><h2>策略配置</h2></a>
+        <a href="/strategys_combine/individual">
+          <p>主要针对套利策略，引用日本羽根英树先生的策略思想而实现，具体策略详细介绍可参考《价差交易入门》一书。</p>
+        </a>
+
       </div>
-	  <div class="contentdise"></div>
-      <div class="clr"></div>
-    </div>
-    <div class="clr"></div>
-	<div class="dibu">
-  <div class="dibuleft">
-  </div>
-  <div class="dibudise">
-  </div>
-  <div class="diburight">
-  </div>
-  </div>
-  <div class="clr"></div>
-    
-      
 
-  <div class="footer">
-    <div class="resize">
-        <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
-		版权信息： 版权名：R3.0  更新日期：2012-06-05 09:10:20</p>
-	  
     </div>
-	
-    <p class="clr"></p>
-<!--	<div class="pagedibu"></div> -->
+
+    <div class="quicklink_instance">
+      <a href="/S010001/shownorisk">
+        <img class="qs_image" src="/assets/kuaisutongdao.jpg" alt="quicklink_norisk_strategy">
+      </a>
+
+      <div class="qs_content">
+        <a href="/S010001/shownorisk"><h2>无风险套利</h2></a>
+        <a href="/S010001/shownorisk">
+          <p>商品期货市场的无风险套利是当前市场中最稳健的获利策略，他真正意义上实现了保本无风险投资。</p>
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="quicklink_instance">
+      <img class="qs_image" src="/assets/celueyouhua.jpg" alt="quicklink_strategy_optimization">
+
+      <div class="qs_content">
+        <h2>策略优化</h2>
+        <p>通过登山，模拟退火，路径优先，遗传等优化算法，让您快速的获得符合您策略的最佳参数，从而获得最高的回报率。</p>
+
+      </div>
+
+    </div>
+
+    <div class="quicklink_instance">
+      <a href="/autotrade/aboutautotrade">
+        <img class="qs_image" src="/assets/zidonghuajiaoyi.jpg" alt="quicklink_autotrade">
+      </a>
+      <div class="qs_content">
+        <a href="/autotrade/aboutautotrade"><h2>自动化交易</h2></a>
+        <a href="/autotrade/aboutautotrade">
+          <p>自动化交易就是您设置好交易品种范围，交易规模，系统根据您的策略自动完成开仓，平仓的交易。当前仅支持无风险套利策略。</p>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="quicklink_instance">
+      <img class="qs_image" src="/assets/tongtianshundashi.jpg" alt="quicklink_tongtianshun_master">
+
+      <div class="qs_content">
+        <h2>通天顺大师</h2>
+        <p>通天顺大师帮助您了解您的个性特征，从而分析交易习惯，得出比较适合您的交易策略。</p>
+
+      </div>
+
+    </div>
+
+    <div class="quicklink_instance">
+      <a href="/contactus/hire">
+        <img class="qs_image" src="/assets/chengpingyingcai.jpg" alt="quicklink_hire_information">
+      </a>
+      <div class="qs_content">
+        <a href="/contactus/hire"><h2>诚聘人才</h2></a>
+        <a href="/contactus/hire">
+        <p>招聘Javascript, Matlab软件程序员。</p>
+        </a>
+      </div>
+
+    </div>
+
   </div>
+
+  <div class="strategy_status_set">
+    <img class="strategy_set_left_decoration" src="/assets/strategy_set_left_decoration.gif" alt="strategy_set_left_decoration">
+    <img class="strategy_set_right_decoration" src="/assets/strategy_set_right_decoration.gif" alt="strategy_set_right_decoration">
+    <div class="strategy_set_title_module">
+    <h2>策略动态</h2>
+    </div>
+    <p>图表皆基于历史数据的评测。</p>
+    <h3>新增策略</h3>
+    <div class="strategy_status_module">
+    <% @strategywebs.each do |strategyweb| %>
+    <div class="strategy_status_instance">
+    <div class="strategy_graph_display" id="<%= strategyweb.id%>">
+    </div>
+    <div class="strategy_text_display">
+        <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h4><%= strategyweb.name %></h4></a>
+        <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]==nil || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]==nil ||@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]==nil%>
+            <p>年收益率：稍候刷新</p>
+<!--            <p>最大回退金额：稍候刷新</p>
+            <p>胜率：稍候刷新 </p>     -->
+
+            <% else %>
+
+            <p>年收益率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]*100) %>% </p>
+<!--            <p>最大回退金额：</p><p><%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </p>
+            <p>胜率：</p><p><%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></p>  -->
+            <% end %>
+
+            <p>更新时间：</p><p><%=  strategyweb.updated_at.to_s(:stamp) %></p>
+    </div>
+    </div>
+    <%end%>
+    </div>
   </div>
+
+  </div>
+
 </body>
+
+<!-- <img class="homepage_bottom_decoration" src="/assets/dibu_dise.gif" alt="homepage_bottom_decoration"> -->
+
+<div class="footer">
+    <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
+      </p>
+</div>
 </html>
+
 <script type="text/javascript">
   function show_version(){
     $(document).ready(function(){
@@ -176,4 +193,78 @@
      noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
     });
   }
+
+    var profitchart_data_hash=new Hashtable();
+    var profitchart_day_hash=new Hashtable();
+    <% @strategywebs.each do |strategyweb| %>
+    highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
+    <% if @profitchart_hash[strategyweb.id]!=nil%>
+    var profitchart_arr_day=new Array();
+    var profitchart_arr_data=new Array();
+    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
+      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
+    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
+    <% end %>
+    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
+    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
+    <% end %>
+    <% end %>
+    function highcharts(id,stgname) {
+
+        var chart;
+        $(document).ready(function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: id,
+                    type: 'line',
+                    width: 100,
+                    height: 100
+                },
+                title: {
+                    enabled: false
+                },
+                subtitle: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: profitchart_day_hash.items(id),
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title:{
+                        enabled: false
+                    } ,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        //pointStart: 1940,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                                hover: {
+                                    enabled: false
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: '收益',
+                    data:profitchart_data_hash.items(id)
+                }]
+            });
+
+            $(".highcharts-legend").remove()
+        });
+    }
 </script>
