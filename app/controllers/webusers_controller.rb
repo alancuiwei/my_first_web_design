@@ -202,7 +202,7 @@ class WebusersController < ApplicationController
       if @webuser.fp_id!=fp_id
       @webuser.update_attribute(:fp_id,fp_id)
       @webuser.update_attribute(:fp_date,Time.now.to_s(:db))
-      UserMailer.forgetpassword(params[:my_email],"http://localhost:3000/webusers/resetpassword/"+params[:id]+"?fp_id="+fp_id,@webuser.name,params[:id]).deliver
+      UserMailer.forgetpassword(params[:my_email],"http://www.tongtianshun.com/webusers/resetpassword/"+params[:id]+"?fp_id="+fp_id,@webuser.name,params[:id]).deliver
       end
       @mail_serverurl=params[:my_email].slice(params[:my_email].index("@")+1,params[:my_email].size-params[:my_email].index("@"))
       @hash_fp_url=Hash["163.com","http://mail.163.com","126.com","http://mail.126.com","gmail.com","https://mail.google.com"]
