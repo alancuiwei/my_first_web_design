@@ -6,11 +6,13 @@
 <%= render "side" %>
 <div class="centerrightframe">
 <p>选择是否保存。</p>
-<%= button_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
+<%= link_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
+
+
   <% if params[:stgtype]=="d" %>
-<%= button_to "不保存" ,:controller=>'strategys_combine',:action=>'strategy_s1'%>
+<%= link_to "不保存" ,:controller=>'strategys_combine',:action=>'strategy_s1'%>
       <% else %>
-      <%= button_to "不保存" ,:controller=>'strategys_combine',:action=>'individual',:id=>2%>
+      <%= link_to "不保存" ,:controller=>'strategys_combine',:action=>'individual',:id=>2%>
       <% end %>
 <script type="text/javascript">
     $(document).ready(function() {

@@ -316,23 +316,24 @@
     <div class="s_buy">
 
       <% if @sub_hash[strategyweb.strategyid+strategyweb.ordernum.to_s+strategyweb.userid.to_s]!=nil %>
-          <% if @sub_hash[strategyweb.strategyid+strategyweb.ordernum.to_s+strategyweb.userid.to_s]>0 %>
               <a><img src="/assets/chelan2.gif" />已订购</a>
-              <% else %>
-              <% if strategyweb.price==0%>
-          <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
-                  <% else %>
-              <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
-              <% end %>
-          <% end %>
       <% else %>
-          <% if strategyweb.price==0%>
-           <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
-              <% else %>
-          <a href="/s010001/subscribe/<%=strategyweb.id%>"><img src="/assets/chelan.gif" />订购</a>
-          <% end %>
-              <% end %>
+          <a href="#strategy_buy_confirm" class="login-window"><img src="/assets/chelan.gif" />订购</a>
+          <div id="strategy_buy_confirm" class="login-popup">
+            <div class="popup_2buttons_pattern">
+              <div class="popup_content">
+                <p>您确定要订购<%= strategyweb.name %>嘛？</p>
+              </div>
+              <div class="popup_2buttons_confirm"><a href="/s010001/subscribe/<%=strategyweb.id%>">确定</a></div>
+              <div class="popup_2buttons_cancel"><a class="close">取消</a></div>
+            </div>
+          </div>
+      <% end %>
+
     </div>
+
+
+
     <div class="s_collect" id="r_collect">
       <% if @hash_iscollect[strategyweb.id]!=1 %>
           <div id="collect_<%=strategyweb.id%>">
