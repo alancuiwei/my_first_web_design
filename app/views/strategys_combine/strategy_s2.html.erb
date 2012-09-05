@@ -11,7 +11,7 @@
             <select onchange="location.href=this.options[this.selectedIndex].value;">
               <option value="javascript:void(0)">点击我 选择策略</option>
               <% for i in 0..@strategywebs.size-1%>
-                  <option value="/strategys_combine/strategy_s1/<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
+                  <option value="/strategys_combine/strategy_s2/<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
 
             </select>
@@ -19,7 +19,7 @@
 
             <select onchange="location.href=this.options[this.selectedIndex].value;">
               <% for i in 0..@strategywebs.size-1%>
-                  <option value="/strategys_combine/strategy_s1/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
+                  <option value="/strategys_combine/strategy_s2/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
 
             </select>
