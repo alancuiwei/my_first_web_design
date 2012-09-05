@@ -209,8 +209,8 @@ class WebusersController < ApplicationController
 
   protected
     ALG = 'DES-EDE3-CBC'
-    KEY = "lili_925"
-    DES_KEY = "feifan_5"
+    KEY = "liliy925"
+    DES_KEY = "feifany5"
   def encode(str)
       des = OpenSSL::Cipher::Cipher.new(ALG)
       des.pkcs5_keyivgen(KEY, DES_KEY)
