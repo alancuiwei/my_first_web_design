@@ -11,15 +11,17 @@
           <div class="strategy_config_commodity">
           <h3>策略品种：</h3>
           <% if @strategyweb.strategyid.slice(0,2)=="04" %>
-          <% for i in 0..@rightids_arr_d.size-1 %>
-              <%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %>
+                <%= check_box_tag 'commoditynames[]',@rightids_arr_d[0],:checked=>true%><%= @rightids_arr_d[0] %>
+          <% for i in 1..@rightids_arr_d.size-1 %>
+              <%= check_box_tag 'commoditynames[]',@rightids_arr_d[i]%><%= @rightids_arr_d[i] %>
           <% end %>
               <% else %>
+                <%= check_box_tag 'commoditynames[]',@rightids_arr[0],:checked=>true%><%= @rightids_arr[0] %>
           <% for i in 0..@rightids_arr.size-1 %>
-              <%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @rightids_arr[i] %>
+              <%= check_box_tag 'commoditynames[]',@rightids_arr[i]%><%= @rightids_arr[i] %>
           <% end %>
           <% end %>
-          </input>
+          <p>如果选择全部品种，等待时间会比较长，请耐心等待</p>
           </div>
           <div class="strategy_config_startdate">
           <h3>策略测试日期设置</h3>
