@@ -426,8 +426,7 @@ class StrategysCombineController < ApplicationController
           }
       else
         Thread.new {
-            system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '"
-          +"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
+            system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
             }
       end
     if FileTest::exist?'app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml'
