@@ -9,6 +9,7 @@ class StrategysCombineController < ApplicationController
     @url_2="javascript:void(0)"
     @url_3="javascript:void(0)"
     @url_4="javascript:void(0)"
+    @url_5="javascript:void(0)"
 
     @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 
@@ -75,6 +76,7 @@ class StrategysCombineController < ApplicationController
     @url_2="/strategys_combine/strategy_s2"
     @url_3="javascript:void(0)"
     @url_4="javascript:void(0)"
+    @url_5="javascript:void(0)"
 
     @strategywebs = Strategyweb.where("strategyid like '0407%' and userid=0 and ordernum=0").all
 
@@ -139,6 +141,7 @@ class StrategysCombineController < ApplicationController
     @url_2="/strategys_combine/strategy_s2"
     @url_3="javascript:void(0)"
     @url_4="javascript:void(0)"
+    @url_5="javascript:void(0)"
 
     if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
@@ -190,6 +193,7 @@ class StrategysCombineController < ApplicationController
     @url_1="/strategys_combine/individual"
     @url_2="javascript:void(0)"
     @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%') and strategyid!=010001").all
@@ -268,12 +272,14 @@ class StrategysCombineController < ApplicationController
     if params[:stgtype]==nil
     @url_1="/strategys_combine/individual"
     @url_2="/strategys_combine/reportshow"
-    @url_3="/strategys_combine/mysubmit"
+    @url_3="/strategys_combine/optimizedmethod"
+    @url_4="/strategys_combine/mysubmit"
     else
       @url_1="/strategys_combine/strategy_s1"
       @url_2="/strategys_combine/strategy_s2"
       @url_3="/strategys_combine/reportshow?stgtype=d"
-      @url_4="/strategys_combine/mysubmit?stgtype=d"
+      @url_4="/strategys_combine/optimizedmethod?stgtype=d"
+      @url_5="/strategys_combine/mysubmit?stgtype=d"
     end
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -306,22 +312,232 @@ class StrategysCombineController < ApplicationController
     end
   end
 
-  def mysubmit
+  def wait
+    @url_1="/strategys_combine/individual"
+    @url_2="javascript:void(0)"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:wait]==nil
+      Thread.new {
+      system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
+      }
+    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+    end
+    end
+    if params[:wait]!=nil
+     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+     else
+       render :json=>"error".to_json
+     end
+    end
+
+  end
+
+  def wait_d
+    @url_1="/strategys_combine/strategy_s1"
+    @url_2="/strategys_combine/strategy_s2"
+    @url_3="javascript:void(0)"
+    @url_4="javascript:void(0)"
+
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:wait]==nil
+      Thread.new {
+        system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
+      }
+    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+    end
+    end
+    if params[:wait]!=nil
+     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
+       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
+     else
+       render :json=>"error".to_json
+     end
+    end
+
+  end
+
+  def optimizedmethod
+
+    if params[:stgtype]==""
+      params[:stgtype]=nil
+    end
     if params[:stgtype]==nil
      @url_1="/strategys_combine/individual"
      @url_2="/strategys_combine/reportshow"
-     @url_3="/strategys_combine/mysubmit"
+     @url_3="/strategys_combine/optimizedmethod"
+     @url_4="javascript:void(0)"
+    else
+      @url_1="/strategys_combine/strategy_s1"
+      @url_2="/strategys_combine/strategy_s2"
+      @url_3="/strategys_combine/reportshow?stgtype=d"
+      @url_4="/strategys_combine/optimizedmethod?stgtype=d"
+      @url_5="javascript:void(0)"
+     end
+
+    @strategywebs=Strategyweb.all
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+
+    if @webuser!=nil&&params[:opmed]!=nil
+
+      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+      @XMLfile.elements.to_a("//optimizedmethod")[0].text=params[:opmed]
+      file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+      file.puts @XMLfile
+      file.close
+
+      if params[:stgtype]==nil
+      redirect_to(:controller=>"strategys_combine", :action=>"wait_opmed")
+      else
+        redirect_to(:controller=>"strategys_combine", :action=>"wait_opmed",:stgtype=>"d")
+      end
+
+    end
+  end
+
+  def wait_opmed
+
+    if params[:stgtype]==""
+      params[:stgtype]=nil
+    end
+    if params[:stgtype]==nil
+     @url_1="/strategys_combine/individual"
+     @url_2="/strategys_combine/reportshow"
+     @url_3="javascript:void(0)"
+     @url_4="javascript:void(0)"
+    else
+      @url_1="/strategys_combine/strategy_s1"
+      @url_2="/strategys_combine/strategy_s2"
+      @url_3="/strategys_combine/reportshow?stgtype=d"
+      @url_4="javascript:void(0)"
+      @url_5="javascript:void(0)"
+     end
+
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    if params[:wait]==nil
+      if params[:stgtype]==nil
+      Thread.new {
+          system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml"+"'"
+          }
+      else
+        Thread.new {
+            system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '"
+          +"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
+            }
+      end
+    if FileTest::exist?'app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml'
+      @firstdata=File::mtime('app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml').to_i.to_json
+    end
+    end
+
+    if params[:wait]!=nil
+     if FileTest::exist?'app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml'
+       render :json=>File::mtime('app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml').to_i.to_json
+     else
+       render :json=>"error".to_json
+     end
+    end
+
+  end
+
+  def opmed_rps
+    if params[:stgtype]==""
+      params[:stgtype]=nil
+    end
+    if params[:stgtype]==nil
+     @url_1="/strategys_combine/individual"
+     @url_2="/strategys_combine/reportshow"
+     @url_3="/strategys_combine/optimizedmethod"
+     @url_4="/strategys_combine/mysubmit"
      else
        @url_1="/strategys_combine/strategy_s1"
        @url_2="/strategys_combine/strategy_s2"
        @url_3="/strategys_combine/reportshow?stgtype=d"
-       @url_4="/strategys_combine/mysubmit?stgtype=d"
+      @url_4="javascript:void(0)"
+      @url_5="javascript:void(0)"
      end
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
+
+    if @webuser
+    @XMLfile = Document.new(File.new('app/assets/xmls/optimization-'+@webuser.id.to_s+'.xml'))
+
+    @opt_title=Array.new
+    @opt_data=Array.new
+    opt_1=@XMLfile.elements.to_a("//tr")[0].elements.to_a
+      for i in 0..opt_1.size-1
+        @opt_title[i]=opt_1[i].text
+      end
+    opt_2=@XMLfile.elements.to_a("//tr")
+    for i in 0..opt_2.size-1
+      @opt_data[i]=[]
+      for j in 0..opt_2[i].elements.to_a.size-1
+        @opt_data[i][j]=opt_2[i].elements.to_a[j].text
+      end
+    end
+
+    if params[:stgtype]==nil
+      if params[:"#{@opt_title[0]}"]!=nil
+        @XMLfile_2 = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+        for i in 0..@opt_title.size-2
+          @XMLfile_2.elements.to_a("//g_strategyparams")[0].elements.to_a[i].text=params[:"#{@opt_title[i]}"]
+        end
+        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+        file.puts @XMLfile_2
+        file.close
+
+        redirect_to(:controller=>"strategys_combine", :action=>"wait")
+      end
+    else
+
+      if params[:"#{@opt_title[0]}"]!=nil
+        @XMLfile_3 = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
+        for i in 0..@XMLfile_3.elements.to_a("//g_strategyparams")[0].elements.to_a.size-1
+          @XMLfile_3.elements.to_a("//g_strategyparams")[0].elements.to_a[i].text=params[:"#{@opt_title[i]}"]
+        end
+        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
+        file.puts @XMLfile_3
+        file.close
+
+        @XMLfile_4 = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml'))
+        for i in 0..@XMLfile_4.elements.to_a("//g_strategyparams")[0].elements.to_a.size-1
+          @XMLfile_4.elements.to_a("//g_strategyparams")[0].elements.to_a[i].text=params[:"#{@opt_title[i+@XMLfile_3.elements.to_a("//g_strategyparams")[0].elements.to_a.size]}"]
+        end
+        file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml','w')
+        file.puts @XMLfile_4
+        file.close
+        redirect_to(:controller=>"strategys_combine", :action=>"wait_d")
+      end
+
+    end
+
+    end
+  end
+
+  def mysubmit
     if params[:stgtype]==""
       params[:stgtype]=nil
     end
+    if params[:stgtype]==nil
+     @url_1="/strategys_combine/individual"
+     @url_2="/strategys_combine/reportshow"
+     @url_3="/strategys_combine/optimizedmethod"
+     @url_4="/strategys_combine/mysubmit"
+     else
+       @url_1="/strategys_combine/strategy_s1"
+       @url_2="/strategys_combine/strategy_s2"
+       @url_3="/strategys_combine/reportshow?stgtype=d"
+       @url_4="/strategys_combine/optimizedmethod?stgtype=d"
+       @url_5="/strategys_combine/mysubmit?stgtype=d"
+     end
+
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+
     #@test=@strategyparams.elements.to_a("//g_strategyparams")[0].elements.to_a[1].to_s
     #@test=@test.slice(1,@test.index(">")-1)
     if @webuser!=nil&&params[:strategyname]!=nil
@@ -607,74 +823,5 @@ class StrategysCombineController < ApplicationController
      end
 
   end
-
-  def wait
-    @url_1="/strategys_combine/individual"
-    @url_2="javascript:void(0)"
-    @url_3="javascript:void(0)"
-
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-    if params[:wait]==nil
-      Thread.new {
-      system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml'"
-      }
-    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
-      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
-    end
-    end
-    if params[:wait]!=nil
-     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
-       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
-     else
-       render :json=>"error".to_json
-     end
-    end
-
-  end
-
-  def wait_d
-    @url_1="/strategys_combine/strategy_s1"
-    @url_2="/strategys_combine/strategy_s2"
-    @url_3="javascript:void(0)"
-    @url_4="javascript:void(0)"
-
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-    if params[:wait]==nil
-      Thread.new {
-        system "/ZRSoftware/Tools/startBuildTests.sh 'xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml' '/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+"_2.xml'"
-      }
-    if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
-      @firstdata=File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
-    end
-    end
-    if params[:wait]!=nil
-     if FileTest::exist?'app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'
-       render :json=>File::mtime('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml').to_i.to_json
-     else
-       render :json=>"error".to_json
-     end
-    end
-
-  end
-
-  def optimizedmethod
-    @strategywebs=Strategyweb.all
-    @webuser = Webuser.find_by_name(session[:webuser_name])
-    if params[:id]!=nil
-    @strategyweb=Strategyweb.find(params[:id])
-    if @webuser!=nil&&params[:opmed]!=nil
-      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
-      @XMLfile.elements.to_a("//optimizedmethod")[0].text=params[:opmed]
-      file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
-      file.puts @XMLfile
-      file.close
-
-      Thread.new {
-          system "/ZRSoftware/Tools/startOptimization.sh 'xml' '"+"/ZRSoftware/tongtianshun/app/assets/xmls/g_XMLfile-"+@webuser.id.to_s+".xml"+"'"
-          }
-    end
-    end
-  end
-
 
 end

@@ -5,15 +5,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= render "side" %>
 <div class="centerrightframe">
-<p>选择是否保存。</p>
-<%= link_to "保存" ,:action=>'mysubmit',:id=>params[:id],:stgtype=>params[:stgtype]%>
-
-
-  <% if params[:stgtype]=="d" %>
-<%= link_to "不保存" ,:controller=>'strategys_combine',:action=>'strategy_s1'%>
-      <% else %>
-      <%= link_to "不保存" ,:controller=>'strategys_combine',:action=>'individual',:id=>2%>
-      <% end %>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
@@ -26,6 +17,7 @@
     } );
     var xml_arr= new Array();
     var chart_arr= new Array([0,0]);
+    var start_profit=200000;
     //chart_arr=[];
     $.ajaxSetup({
         cache: false
@@ -41,7 +33,7 @@
         xml_arr=xml2array(data);
         var size=data.getElementsByTagName("item").length;
         for(var i=0;i<size-1;i++){
-           chart_arr[i]=[parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['dailydatenum']),parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['profit'])]
+           chart_arr[i]=[parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['dailydatenum']),parseFloat(xml_arr['l_dailyinfoxml']['item'][i]['profit'])+start_profit]
         }
         //alert(size)
         window.chart = new Highcharts.StockChart({
@@ -168,4 +160,14 @@
 </table>
 <br>
 <iframe name="iframe_index" src="/assets/posrecord-<%= @webuser.id%>.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+
+  <br><br>
+  <a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>">您还不满意？</a>
+  <a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>">收藏</a>
+    <% if params[:stgtype]=="d" %>
+      <a href="/strategys_combine/strategy_s1">取消</a>
+        <% else %>
+      <a href="/strategys_combine/individual">取消</a>
+        <% end %>
+  <br><br><br><br>
 </div>

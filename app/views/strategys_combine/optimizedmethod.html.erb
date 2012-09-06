@@ -1,23 +1,4 @@
-﻿<%= javascript_include_tag "jquery.autocomplete.js" %>
-<%= stylesheet_link_tag "jquery.autocomplete.css" %>
-<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
-<%= javascript_include_tag "jQuery.validity.min.js" %>
-<%= stylesheet_link_tag "jquery.validity.css" %>
-<%= render "side" %>
-<div class="strategy_config_selecting">
-  <h3>选择策略</h3>
-  <form id="form1" runat="server">
-    <div>
-      <% if params[:id]==nil %>
-        <input id="keyword1" value="点击我 选择策略" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
-          <% else %>
-        <input id="keyword1" value="策略选择成功" onclick="this.value=''" onmousemove="$('#keyword1').focus();"/>
-      <% end %>
-    </div>
-  </form>
-</div>
-<% if params[:id]!=nil %>
-<%= @strategyweb.name %>
+﻿<%= render "side" %>
 策略优化
 <form id="op">
   <select  id="opmed" name="opmed">
@@ -29,17 +10,13 @@
     <option value="5">遗传算法</option>
     <option value="6">路径优先算法</option>
   </select>
-  <div class="strategy_config_startdate">
-  <h3>策略测试日期设置</h3>
-  <p>开始日期：</p><%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
-  <p>结束日期：</p><%= text_field_tag :enddate, params[:enddate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"enddate",:name=>"enddate",:title=>" 策略结束时间"%><br>
-  </div>
+  <input type="hidden" id="stgtype" name="stgtype" value="<%= params[:stgtype] %>">
 </form>
 
 <div class="button_confirm_3">
   <a href="javascript:void(0)" onclick="$('#op').submit();">下一步</a>
 </div>
-<% end %>
+
 <script>
     $('#opmed option:eq(<%= params[:opmed]%>)').attr('selected','selected');
 
@@ -81,16 +58,19 @@
      });
         $(keywardid).result(findValueCallback);
     }
-
-    function side_2(){
-        alert("提交选择的策略1！")
-    }
-    function side_3(){
-        alert("提交选择的策略1！")
-    }
+    <%if params[:stgtype]!="d"%>
     function side_4(){
-        alert("提交选择的策略1！")
+        if(window.confirm('你放弃使用优化算法？')){
+            location.href="/strategys_combine/mysubmit";
+        }
     }
+    <%else%>
+    function side_5(){
+        if(window.confirm('你放弃使用优化算法？')){
+            location.href="/strategys_combine/mysubmit?stgtype=d";
+    }
+    }
+    <%end%>
     $(function() {
         $("form").validity(function() {
             $("#startdate")

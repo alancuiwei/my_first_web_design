@@ -1,7 +1,6 @@
 <%= render "side" %>
 <div class="frame">
   <br><br><br><br><div><img alt="Logo" src="/assets/loading.gif" /></div>
-<%= @test %>
 <script language="javascript">
     filecheck();
     var flag=0;
@@ -15,18 +14,25 @@
             if(data=='<%= @firstdata%>')
                 setTimeout(filecheck,2000);
             else
-                location.href="/strategys_combine/reportshow";
+          <%if params[:stgtype]!="d"%>
+                location.href="/strategys_combine/opmed_rps";
+        <%else%>
+            location.href="/strategys_combine/opmed_rps?stgtype=d";
+        <%end%>
                  }
     });
         }
-    function side_2(){
-        alert("策略正在运行测试！")
-    }
-    function side_3(){
-        alert("策略正在运行测试！")
-    }
+    <%if params[:stgtype]!="d"%>
     function side_4(){
-        alert("策略正在运行测试！")
+        alert("策略优化正在运行测试！")
     }
+    <%else%>
+    function side_4(){
+        alert("策略优化正在运行测试！")
+    }
+    function side_5(){
+        alert("策略优化正在运行测试！")
+    }
+    <%end%>
 </script>
 </div>

@@ -31,13 +31,16 @@
 
 <script type="text/javascript">
     function side_2(){
-        alert("提交选择的策略1！")
+        alert("请选择策略1！")
     }
     function side_3(){
-        alert("提交选择的策略1！")
+        alert("请选择策略1！")
     }
     function side_4(){
-        alert("提交选择的策略1！")
+        alert("请选择策略1！")
+    }
+    function side_5(){
+        alert("请选择策略1！")
     }
     <% if params[:id]!=nil%>
       $("#s_<%= params[:id]%>").attr("selected",true)
@@ -46,6 +49,18 @@
 
 <% if params[:id]!=nil%>
 <script>
+    function side_2(){
+        alert("提交选择的策略1！")
+    }
+    function side_3(){
+        alert("提交选择的策略1！")
+    }
+    function side_4(){
+        alert("提交选择的策略1！")
+    }
+    function side_5(){
+        alert("提交选择的策略1！")
+    }
           $(function() {
         $("form").validity(function() {
             <% for i in 0..@strategy_params.size-1 %>
