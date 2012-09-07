@@ -8,8 +8,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
-            "bFilter": false,
-            "bPaginate": false
+            "aaSorting": [[5,"desc"]]
         } );
         $('#performancetable').dataTable( {
             "bFilter": false,
@@ -161,10 +160,30 @@
 <br>
   <% if @webuser!=nil%>
       <% if @webuser.level!=0 %>
-<iframe name="iframe_index" src="/assets/posrecord-<%= @webuser.id%>.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
+          <h2>posrecord</h2>
+        <table class="display" id="traderecordtable" >
+          <thead>
+          <td>交易对象名称</td>
+          <td>是否平仓（1是/0否）</td>
+          <td>开仓日期</td>
+          <td>平仓日期</td>
+          <td>买卖方向（-1做空/1做多）</td>
+          <td>收益</td>
+          </thead>
+          <tbody>
+          <% for i in 0..@dailyinfo_data.size-1%>
+          <tr>
+            <% for j in 0..@dailyinfo_data[i].size-1%>
+          <td><%=@dailyinfo_data[i][j]%></td>
       <% end %>
+          </tr>
   <% end %>
-  <br><br>
+          </tbody>
+        </table>
+
+<% end %>
+  <% end %>
+  <br><br>   <br><br>
   <a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>">您还不满意？</a>
   <a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>">收藏</a>
     <% if params[:stgtype]=="d" %>

@@ -1,6 +1,7 @@
 #encoding: utf-8
 class HomeController < ApplicationController
   def index
+    @pagetitle="首页"
     @strat_profit=200000
     #UserMailer.forgetpassword("feifan_5223@163.com",1,1).deliver
     @versions=Versionstable.find(:all, :order =>"update_date DESC",:limit => 3)

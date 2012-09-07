@@ -299,22 +299,16 @@ class StrategysCombineController < ApplicationController
         @reference_arr[@reference.root.elements[1].text][i]=@reference.root.elements[i+2].text
         end
 
-     # @dailyinfo=Document.new(File.new('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'))
-     #@dailyinfo_arr=@dailyinfo.root.elements[1].text
-      @dailyinfo=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
-      file=File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.html','w')
-      file.puts '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table>'
-      file.puts '   <tr>
-            <td>交易对象名称</td>
-            <td>是否平仓（1是/0否）</td>
-            <td>开仓日期</td>
-            <td>平仓日期</td>
-            <td>买卖方向（-1做空/1做多）</td>
-            <td>收益</td>
-         </tr>'
-      file.puts @dailyinfo
-      file.puts "</table>"
-      file.close
+      @dailyinfo_xml=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
+
+      @dailyinfo_data=Array.new
+      daily_t=@dailyinfo_xml.elements.to_a("//tr")
+      for i in 0..daily_t.size-1
+        @dailyinfo_data[i]=[]
+        for j in 0..daily_t[i].elements.to_a.size-1
+          @dailyinfo_data[i][j]=daily_t[i].elements.to_a[j].text
+        end
+      end
     end
   end
 
