@@ -16,14 +16,33 @@ class StrategysCombineController < ApplicationController
     if params[:id]!=nil
     @strategyweb = Strategyweb.find(params[:id])
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
-    @hash_params=Hash.new
-    if @strategy_params!=nil
-      for i in 0..@strategy_params.size-1
-       @hash_params.store(@strategy_params[i].paramname ,@strategy_params[i].strategy_para_range)
-      end
-    end
 
     @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+    @param_arr=Array.new
+    param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+    for i in 0..param.size-1
+      if param[i].text.index(":")==nil
+        temp0=param[i].text[1..-2].split(",")
+        for j in 0..temp0.size-1
+          temp0[j]=temp0[j].to_i
+        end
+        @param_arr[i]=temp0
+      elsif param[i].text.scan(/:/).size==1
+        temp= Array.new
+        temp[0]=param[i].text.split(":")[0].to_i
+        for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+          temp[j]=temp[j-1]+1
+        end
+        @param_arr[i]=temp
+      else  param[i].text.scan(/:/).size==2
+        temp2= Array.new
+        temp2[0]=param[i].text.split(":")[0].to_i
+        for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+          temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+        end
+        @param_arr[i]=temp2
+      end
+    end
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
@@ -55,6 +74,8 @@ class StrategysCombineController < ApplicationController
     end
 
   def strategy_s2
+    @title="单边策略--s2"
+
     @url_1="/strategys_combine/strategy_s1"
     @url_2="/strategys_combine/strategy_s2"
     @url_3="javascript:void(0)"
@@ -66,13 +87,33 @@ class StrategysCombineController < ApplicationController
     if params[:id]!=nil
       @strategyweb = Strategyweb.find(params[:id])
       @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
-      @hash_params=Hash.new
-      if @strategy_params!=nil
-        for i in 0..@strategy_params.size-1
-         @hash_params.store(@strategy_params[i].paramname ,@strategy_params[i].strategy_para_range)
+
+      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+      @param_arr=Array.new
+      param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+      for i in 0..param.size-1
+        if param[i].text.index(":")==nil
+          temp0=param[i].text[1..-2].split(",")
+          for j in 0..temp0.size-1
+            temp0[j]=temp0[j].to_i
+          end
+          @param_arr[i]=temp0
+        elsif param[i].text.scan(/:/).size==1
+          temp= Array.new
+          temp[0]=param[i].text.split(":")[0].to_i
+          for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+            temp[j]=temp[j-1]+1
+          end
+          @param_arr[i]=temp
+        else  param[i].text.scan(/:/).size==2
+          temp2= Array.new
+          temp2[0]=param[i].text.split(":")[0].to_i
+          for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+            temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+          end
+          @param_arr[i]=temp2
         end
       end
-      @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
 
       @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
@@ -167,14 +208,6 @@ class StrategysCombineController < ApplicationController
     @strategyweb = Strategyweb.find(params[:id])
     @commodityrights=CommodityrightT.where("rightid like '"+@strategyweb.strategyid+"%'").all
     @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
-
-    @hash_params=Hash.new
-    if @strategy_params!=nil
-      for i in 0..@strategy_params.size-1
-       @hash_params.store(@strategy_params[i].paramname ,@strategy_params[i].strategy_para_range)
-      end
-    end
-
     @rightids_arr= Array.new
     @rightids_arr_d= Array.new
     for i in 0..@commodityrights.size-1
@@ -182,6 +215,31 @@ class StrategysCombineController < ApplicationController
       @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
     end
     @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
+    @param_arr=Array.new
+    param= @XMLfile.elements.to_a("//adjustparams")[0].elements.to_a
+    for i in 0..param.size-1
+      if param[i].text.index(":")==nil
+        temp0=param[i].text[1..-2].split(",")
+        for j in 0..temp0.size-1
+          temp0[j]=temp0[j].to_i
+        end
+        @param_arr[i]=temp0
+      elsif param[i].text.scan(/:/).size==1
+        temp= Array.new
+        temp[0]=param[i].text.split(":")[0].to_i
+        for j in 1..param[i].text.split(":")[1].to_i-param[i].text.split(":")[0].to_i
+          temp[j]=temp[j-1]+1
+        end
+        @param_arr[i]=temp
+      else  param[i].text.scan(/:/).size==2
+        temp2= Array.new
+        temp2[0]=param[i].text.split(":")[0].to_i
+        for j in 1..(param[i].text.split(":")[2].to_i-param[i].text.split(":")[0].to_i)/param[i].text.split(":")[1].to_i
+          temp2[j]=temp2[j-1]+param[i].text.split(":")[1].to_i
+        end
+        @param_arr[i]=temp2
+      end
+    end
 
     if @webuser!=nil&&params[:startdate]!=nil
     @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
@@ -242,19 +300,23 @@ class StrategysCombineController < ApplicationController
         for i in 0..@reference.root.elements.size-2
         @reference_arr[@reference.root.elements[1].text][i]=@reference.root.elements[i+2].text
         end
-      if @webuser.level!=0
-      @dailyinfo_xml=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
 
-      @dailyinfo_data=Array.new
-      daily_t=@dailyinfo_xml.elements.to_a("//tr")
-      for i in 0..daily_t.size-1
-        @dailyinfo_data[i]=[]
-        for j in 0..daily_t[i].elements.to_a.size-1
-          @dailyinfo_data[i][j]=daily_t[i].elements.to_a[j].text
-        end
-      end
-    end
-
+     # @dailyinfo=Document.new(File.new('app/assets/xmls/dailyinfo-'+@webuser.id.to_s+'.xml'))
+     #@dailyinfo_arr=@dailyinfo.root.elements[1].text
+      @dailyinfo=Document.new(File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.xml'))
+      file=File.new('app/assets/xmls/posrecord-'+@webuser.id.to_s+'.html','w')
+      file.puts '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table>'
+      file.puts '   <tr>
+            <td>交易对象名称</td>
+            <td>是否平仓（1是/0否）</td>
+            <td>开仓日期</td>
+            <td>平仓日期</td>
+            <td>买卖方向（-1做空/1做多）</td>
+            <td>收益</td>
+         </tr>'
+      file.puts @dailyinfo
+      file.puts "</table>"
+      file.close
     end
   end
 
