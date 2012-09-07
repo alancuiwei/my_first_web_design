@@ -118,7 +118,8 @@
       <p>加仓条件描述：<%= @strategyweb.add_position_conditions %></p>
       <br>
     <p>参数介绍：</p>
-      <p>参数简介：
+      <p>参数简介：<%= @strategyweb.strategy_para_description %></p>
+      <p>
       <% for i in 0..@strategy_params.size-1 %> <br>
             参数名称：<%= @strategy_params[i].paramname %>(<%= @strategy_params[i].strategy_para_name %>)<br>
             参数简介：<%= @strategy_params[i].strategy_para_description %> <br>
@@ -126,9 +127,7 @@
             参数默认值：<%= @strategy_params[i].strategy_para_default %> <br>
       <% end %>
       </p><br>
-      <p>参数解释说明：</p>
-      <p>参数数值范围：</p>
-      <p>参数数值默认值：</p>
+
       <p>策略图形介绍：<%=image_tag("#{@strategyweb.strategy_img_description}")  %></p>
       <p>策略指标引用：<%= @strategyweb.strategy_reference %></p>
   <% end %>
