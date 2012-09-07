@@ -159,8 +159,11 @@
   </tbody>
 </table>
 <br>
+  <% if @webuser!=nil%>
+      <% if @webuser.level!=0 %>
 <iframe name="iframe_index" src="/assets/posrecord-<%= @webuser.id%>.html" width="700"  height="700" marginheight="10" marginwidth="0" style="border:none"></iframe>
-
+      <% end %>
+  <% end %>
   <br><br>
   <a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>">您还不满意？</a>
   <a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>">收藏</a>

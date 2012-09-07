@@ -55,7 +55,9 @@ class StrategysCombineController < ApplicationController
     @XMLfile.elements.to_a("//objecttype")[0].text="future"
         @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
         @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
-
+        if @webuser.level!=0
+          @XMLfile.elements.to_a("//savepos")[0].text=1
+        end
         file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
         file.puts @XMLfile
         file.close
@@ -120,7 +122,9 @@ class StrategysCombineController < ApplicationController
         @XMLfile.elements.to_a("//objecttype")[0].text="future"
     @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
     @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
-
+        if @webuser.level!=0
+          @XMLfile.elements.to_a("//savepos")[0].text=1
+        end
         file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'_2.xml','w')
     file.puts @XMLfile
     file.close
@@ -256,7 +260,9 @@ class StrategysCombineController < ApplicationController
 
     @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
     @XMLfile.elements.to_a("//strategyid")[0].text=@strategyweb.strategyid
-    @test=@XMLfile
+    if @webuser.level!=0
+      @XMLfile.elements.to_a("//savepos")[0].text=1
+    end
     file=File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml','w')
     file.puts @XMLfile
     file.close
