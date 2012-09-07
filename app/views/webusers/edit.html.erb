@@ -13,8 +13,9 @@
 	<%= image_tag("tiyijian_line.gif")%>
     <li><%= f.label :"电子邮件：" %><%= f.email_field :email,:class=>"itext" %></li>
 	<%= image_tag("tiyijian_line.gif")%>
-
+    <% if params[:fp]==nil %>
      <li><%= f.label :"原始密码：" %><input id="oldpassword" name="oldpassword" type="password" class="itext"/><div id="old_m"></div></li>
+    <% end %>
     <li><%= f.label :"密码：" %><%= f.password_field :password,:class=>"itext" %><div id="p_m"></div></li>
       <li><%= f.label :"密码确认：" %><input id="passwordconfirm" name="passwordconfirm" type="password" class="itext" /><div id="pc_m"></div></li>
 	<%= image_tag("tiyijian_line.gif")%>
@@ -30,10 +31,12 @@
 <% end %>
 <script type="text/javascript">
     function mysubmit(){
+    <% if params[:fp]==nil %>
         if($("#oldpassword").attr("value")==""){
            $("#old_m").html("原始密码为空！")
         }
-        else if($("#webuser_password").attr("value")==""){
+
+        else <% end %>if($("#webuser_password").attr("value")==""){
             $("#old_m").hide();
             $("#p_m").html("密码为空！")
         }
@@ -46,15 +49,15 @@
         }
         else{
 
-            $.get("/webusers/oldpassword/1",{oldpassword:$("#oldpassword").attr("value"),password:$("#webuser_password").attr("value")},function(data){
+            $.get("/webusers/oldpassword/1",{ <% if params[:fp]==nil %>oldpassword:$("#oldpassword").attr("value"),<%else%>fp:1,<% end %>password:$("#webuser_password").attr("value")},function(data){
                 if(data=="s"){
                     alert("修改成功!") ;
                     location.reload()
                    //$("#pc_m").hide();
                 }
-                else
+                else{
                     alert("原始密码不正确!")
-                location.reload()
+                location.reload()}
                    // $("#pc_m").hide();
             })
         }
@@ -62,4 +65,4 @@
     }
 
 </script>
-</div>
+</div

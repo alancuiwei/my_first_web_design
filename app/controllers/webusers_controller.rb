@@ -45,11 +45,16 @@ class WebusersController < ApplicationController
 
   def oldpassword
     @webuser=Webuser.find_by_name(session[:webuser_name])
+    if params[:fp]==nil
     if Webuser.authenticate(session[:webuser_name], params[:oldpassword])
       @webuser.update_attribute(:hashed_password,Webuser.encrypt_password(params[:password], @webuser.salt))
       render :json=>"s".to_json
     else
       render :json=>"f".to_json
+    end
+    else
+      @webuser.update_attribute(:hashed_password,Webuser.encrypt_password(params[:password], @webuser.salt))
+      render :json=>"s".to_json
     end
   end
 
@@ -130,6 +135,12 @@ class WebusersController < ApplicationController
   # GET /webusers/1/edit
   def edit
     @webuser = Webuser.find(params[:id])
+    webuser_now=Webuser.find_by_name(session[:webuser_name])
+    if webuser_now!=nil
+    if webuser_now.id.to_s!=params[:id]
+      redirect_to(:controller=>"webusers", :action=>"edit",:id=>webuser_now.id)
+    end
+    end
   end
 
   # DELETE /webusers/1
@@ -195,12 +206,13 @@ class WebusersController < ApplicationController
 
 
   def resetpassword
+    params[:fp_id]=params[:fp_id].gsub(" ","+")
     id=decode(params[:fp_id]).slice(14,decode(params[:fp_id]).size)
    @webuser=Webuser.find_by_id(id)
     @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.fp_date.to_s(:db),"%Y-%m-%d").to_i)/86400
     if @webuser!=nil&&@webuser.fp_id!=nil&&@days<3&&@webuser.fp_id.slice(0,params[:fp_id].size)==params[:fp_id]
       session[:webuser_name]=@webuser.name
-      redirect_to(:controller=>"webusers", :action=>"edit",:id=>@webuser.id)
+      redirect_to(:controller=>"webusers", :action=>"edit",:id=>@webuser.id,:fp=>1)
     else
       @notice="链接已过期！"
 
