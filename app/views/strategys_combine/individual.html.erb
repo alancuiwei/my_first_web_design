@@ -182,32 +182,25 @@
 
 <% if params[:id]!=nil %>
 <script>
-  var param_arr=new Array();
-     <% for i in 0..@param_arr.size-1 %>
-       param_arr[<%=i%>]=<%=@param_arr[i]%>
-     <% end%>
-  if(!Array.prototype.indexOf){
-      Array.prototype.indexOf=function(el, index){
-          var n = this.length>>>0, i = ~~index;
-          if(i < 0) i += n;
-          for(; i < n; i++) if(i in this && this[i] === el) return i;
-          return -1;
-      }
-  }
+  <% if @hash_params!=nil%>
       $("form").submit(function(e){
           //e.preventDefault();
           var submit_flag=0;
           <% for i in 0..@strategy_params.size-1 %>
-
-          if(param_arr[<%=i%>].indexOf(parseInt($("#<%= @strategy_params[i].paramname %>").attr("value")))==-1){
-          alert("<%= @strategy_params[i].paramname %>参数范围错误！")
+          var value_t=$("#<%= @strategy_params[i].paramname %>").attr("value");
+          if(value_t!=""){
+          if(parseFloat(value_t)<<%= @hash_params[@strategy_params[i].paramname].split("-")[0].to_f %>||parseFloat(value_t)><%= @hash_params[@strategy_params[i].paramname].split("-")[1].to_f %>){
+          alert("<%= @strategy_params[i].paramname %>参数范围错误！");
+          submit_flag=submit_flag+1;
+          }
           }
           else
-              submit_flag=submit_flag+1;
+          submit_flag=1;
           <% end %>
-          if(submit_flag!=<%=@strategy_params.size %>){
+          if(submit_flag!=0){
           e.preventDefault();
           }
       });
+  <% end %>
 </script>
 <% end %>
