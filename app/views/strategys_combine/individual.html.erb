@@ -180,9 +180,8 @@
  <% end %>
 </div>
 
-<% if params[:id]!=nil %>
+<% if params[:id]!=nil&&@hash_params[0]!=nil %>
 <script>
-  <% if @hash_params!=nil%>
       $("form").submit(function(e){
           //e.preventDefault();
           var submit_flag=0;
@@ -201,6 +200,5 @@
           e.preventDefault();
           }
       });
-  <% end %>
 </script>
 <% end %>
