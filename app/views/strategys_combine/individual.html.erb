@@ -66,15 +66,15 @@
 </div>
    <div class="strategy_config_commodity">
     <h3>策略品种：</h3>
-     <p><input checked="checked"  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选</p>
+     <p><input  type="checkbox" onclick="if(this.checked==true)checkall(true,'commoditynames[]'); else checkall(false,'commoditynames[]')" />全选/全不选</p>
 
      <% if @strategyweb.strategyid.slice(0,2)=="04" %>
     <% for i in 0..@rightids_arr_d.size-1 %>
-        <p><%= check_box_tag 'commoditynames[]',@rightids_arr_d[i],:checked=>true%><%= @rightids_arr_d[i] %></p>
+        <p><%= check_box_tag 'commoditynames[]',@rightids_arr_d[i]%><%= @rightids_arr_d[i] %></p>
     <% end %>
         <% else %>
     <% for i in 0..@rightids_arr.size-1 %>
-        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i],:checked=>true%><%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %>-<%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %> 套利 (<%=@rightids_arr[i]%>)</p>
+        <p><%= check_box_tag 'commoditynames[]',@rightids_arr[i]%><%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %>-<%= @hash_commodityid[@rightids_arr[i].split("-")[0]]  %> 套利 (<%=@rightids_arr[i]%>)</p>
     <% end %>
     <% end %>
     </input>
@@ -117,11 +117,13 @@
 
    var rightid=new Array();
    <% if @strategyweb.strategyid.slice(0,2)=="04" %>
+    $("#commoditynames_").attr("checked",true)
    <% for i in 0..@rightids_arr_d.size-1 %>
        rightid[<%= i%>]='<%= @rightids_arr_d[i] %>'
    <% end %>
    <% else %>
     <% for i in 0..@rightids_arr.size-1 %>
+    $("#commoditynames_").attr("checked",true)
        rightid[<%= i%>]='<%= @rightids_arr[i] %>'
    <% end %>
    <% end %>
