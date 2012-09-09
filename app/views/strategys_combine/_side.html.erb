@@ -1,16 +1,22 @@
   <div class="leftframe">
-  <div class="pagedomain">
-    <h1>策略配置</h1>
-  </div>
-<div id="strategy_config_steps">
   <% if params[:action]=="individual" ||params[:action]=="wait"||(params[:action]=="wait_opmed"&&params[:stgtype]!="d")||(params[:action]=="opmed_rps"&&params[:stgtype]!="d")||(params[:action]=="reportshow"&&params[:stgtype]!="d")||(params[:action]=="optimizedmethod"&&params[:stgtype]!="d")  ||(params[:action]=="mysubmit"&&params[:stgtype]!="d")  %>
+        <div class="pagedomain">
+          <h1>策略配置</h1>
+        </div>
+        <div id="strategy_config_steps">
+
       <ul>
         <li><a href='<%= @url_1 %>'><% if params[:action]=="individual"%><p style="color: red;"><%else%><p><%end%>1.策略配置 </p></a></li>
         <li><a href='<%= @url_2 %>' onclick="side_2()"><% if params[:action]=="wait"||params[:action]=="reportshow"%><p style="color: red;"><%else%><p><%end%>2.策略测试</p></a></li>
         <li><a href='<%= @url_3 %>'onclick="side_3()"><% if params[:action]=="optimizedmethod" || params[:action]=="wait_opmed" ||params[:action]=="opmed_rps"%><p style="color: red;"><%else%><p><%end%>3.策略优化</p></a></li>
        <li><a href='<%= @url_4 %>'onclick="side_4()"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>4.收藏发布</p></a></li>
     </ul>
+        </div>
   <% else %>
+        <div class="pagedomain">
+          <h1>策略组合</h1>
+        </div>
+        <div id="strategy_config_steps">
   <ul>
     <li><a href='<%= @url_1 %>'><% if params[:action]=="strategy_s1"%><p style="color: red;"><%else%><p><%end%>1.确定趋势</p></a></li>
     <li><a href='<%= @url_2 %>' onclick="side_2()"><% if params[:action]=="strategy_s2"%><p style="color: red;"><%else%><p><%end%>2.确定进场</p></a></li>
@@ -18,7 +24,9 @@
     <li><a href='<%= @url_4 %>' onclick="side_4()"><% if params[:action]=="optimizedmethod" || params[:action]=="wait_opmed" ||params[:action]=="opmed_rps" %><p style="color: red;"><%else%><p><%end%>4.策略优化</p></a></li>
     <li><a href='<%= @url_5 %>' onclick="side_5()"><% if params[:action]=="mysubmit" %><p style="color: red;"><%else%><p><%end%>5.收藏发布</p></a></li>
   </ul>
+        </div>
  <% end %>
-</div>
+
 
   </div>
+

@@ -124,20 +124,20 @@
                 <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
                 <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
                 <% if @webuser==nil %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>策略配置</span></span></span></a>
+                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>个性化策略</span></span></span></a>
                     <div class="level">
                       <ul>
-                        <li><a href="#login-box" class="login-window" name="/strategys_combine/individual">套利</a></li>
-                        <li><a href="#login-box" class="login-window" name="/strategys_combine/strategy_s1">单边</a></li>
+                        <li><a href="#login-box" class="login-window" name="/strategys_combine/individual">策略配置</a></li>
+                        <li><a href="#login-box" class="login-window" name="/strategys_combine/strategy_s1">策略组合</a></li>
                       </ul>
                     </div>
                     </li>
                 <% else %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略配置</span></span></span></a>
+                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>个性化策略</span></span></span></a>
                     <div class="level">
                       <ul>
-                        <li><a href="/strategys_combine/individual">套利</a></li>
-                        <li><a href="/strategys_combine/strategy_s1">单边</a></li>
+                        <li><a href="/strategys_combine/individual">策略配置</a></li>
+                        <li><a href="/strategys_combine/strategy_s1">策略组合</a></li>
                       </ul>
                     </div>
                     </li>
