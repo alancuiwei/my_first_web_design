@@ -1,4 +1,4 @@
-﻿﻿#encoding: utf-8
+﻿#encoding: utf-8
 require 'rubygems'
 require 'builder'
 require 'rexml/document'
