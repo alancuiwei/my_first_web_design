@@ -161,7 +161,7 @@ class StrategysCombineController < ApplicationController
     @url_4="javascript:void(0)"
 
     @webuser = Webuser.find_by_name(session[:webuser_name])
-    @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%') and strategyid!=010001").all
+    @strategywebs = Strategyweb.where("(strategyid like '01%'or strategyid like '02%'or strategyid like '03%'or strategyid like '0407%') and strategyid!=010001 and ordernum=0 and userid=0").all
 
     if params[:id]!=nil
       @strategyweb = Strategyweb.find(params[:id])
