@@ -19,10 +19,15 @@
 <tbody>
 <% for i in 0..@commoditys.size-1 %>
 <tr>
-    <td><%= @hash_commoditys[@commoditys[i].commodityid] %></td>
+    <td><%= @hash_commoditys[@commoditys[i].commodityid][0] %></td>
     <td><%= @hash_commodityid[@commoditys[i].commodityid] %></td>
-    <td>N/A</td>
-    <td><%= link_to "下载文件",:action=>"download",:id=>"data",:filename=>"commodity.xml" %>  </td>
+  <% if @hash_commoditys[@commoditys[i].commodityid][1]==nil%>
+       <td>文件不存在</td>
+      <td>文件不存在</td>
+    <% else%>
+    <td><%= @hash_commoditys[@commoditys[i].commodityid][1] %></td>
+    <td><%= link_to "下载文件",:action=>"download",:id=>"data",:filename=>@commoditys[i].commodityid+".zip" %>  </td>
+  <% end %>
 </tr>
 <% end %>
 </tbody>

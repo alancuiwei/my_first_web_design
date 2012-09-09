@@ -138,11 +138,17 @@ class StrategywebsController < ApplicationController
          "ru","橡胶","v","聚氯乙烯","wr","线材","y","豆油","zn","锌"]
     @hash_city=Hash["DL","大连","ZZ","郑州","SH","上海"]
     for i in 0..@commoditys.size-1
-      @hash_commoditys.store(@commoditys[i].commodityid,@hash_city[@commoditys[i].exchangeid])
+      if FileTest::exist?'app/assets/historydatadownload/'+@commoditys[i].commodityid+'.zip'
+        date=File::mtime('app/assets/historydatadownload/'+@commoditys[i].commodityid+'.zip').to_s(:db)
+      else
+        date=nil
+      end
+      @hash_commoditys.store(@commoditys[i].commodityid,[@hash_city[@commoditys[i].exchangeid],date])
     end
+
   end
   def download
-    send_file "app/assets/xmls/"+params[:filename] unless params[:filename].blank?
+    send_file "app/assets/historydatadownload/"+params[:filename] unless params[:filename].blank?
   end
   # GET /strategywebs/1
   # GET /strategywebs/1.json
