@@ -17,6 +17,8 @@ class AutotradeController < ApplicationController
   end
 
   def autotrade_s1
+    @pagetitle="自动化设置"
+
     session[:login]="autotrade_s1"
     @strategy=Strategyweb.find(params[:id])
     @webuser = Webuser.find_by_name(session[:webuser_name])
@@ -73,6 +75,8 @@ class AutotradeController < ApplicationController
   end
   def personaltrading
     #gettime for ajax refresh
+    @pagetitle="自动化运行"
+
     @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategy_norisk=Strategyweb.find_by_strategyid_and_name("010001","无风险套利")
     if @webuser!=nil
@@ -112,21 +116,21 @@ class AutotradeController < ApplicationController
 	if l_rtn<0
 	   puts "insertorder error:#{l_trader.rspinfo.ErrorMsg}"
            l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
-		     render:js => "alert('insertorder error:#{l_str}\\n#{params[:name]},#{params[:disprice]}')"
+		     render :js => "alert('insertorder error:#{l_str}\\n#{params[:name]},#{params[:disprice]}')"
 	else
 	    if l_trader.isrsperror && l_trader.orderinfo.OrderStatus != nil
 		puts " order process error:#{l_trader.rspinfo.ErrorMsg}"
                 l_str = Iconv.iconv('UTF-8','GB2312', l_trader.rspinfo.ErrorMsg)
-		         render:js => "alert('order process error:#{l_trader.rspinfo.ErrorMsg}\\n#{params[:name]},#{params[:disprice]}')"
+		         render :js => "alert('order process error:#{l_trader.rspinfo.ErrorMsg}\\n#{params[:name]},#{params[:disprice]}')"
 	    else
 		puts "orderinsert successful!"
-		         render:js => "alert('orderinsert successful!ordestatus:#{l_trader.orderinfo.OrderStatus}\\n#{params[:name]},#{params[:disprice]}')"
+		         render :js => "alert('orderinsert successful!ordestatus:#{l_trader.orderinfo.OrderStatus}\\n#{params[:name]},#{params[:disprice]}')"
 	    end
 	    puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
 	end
 	      puts "ordestatus:#{l_trader.orderinfo.OrderStatus}"
       rescue => e
-        render:js => "alert('failed:#{e}')"
+        render :js => "alert('failed:#{e}')"
       end
 	  
       pairname=params[:name].slice(params[:name].index(" ")+1,params[:name].size).tr("&","-")
@@ -201,15 +205,15 @@ class AutotradeController < ApplicationController
 
             puts l_lines.join("\n")
             l_msgstr = l_lines.join('\n')
-            render:js => "alert('#{l_msgstr}')"
+            render :js => "alert('#{l_msgstr}')"
         else
             puts "results:#{l_ordernum}"
-            render:js => "alert('results:#{l_ordernum}')"
+            render :js => "alert('results:#{l_ordernum}')"
 	    end
 
       rescue => e
         #l_str = Iconv.iconv('UTF-8','GB2312', e)
-        render:js => "alert('failed:#{e}')"
+        render :js => "alert('failed:#{e}')"
       end
     end
     #skip saved redirect back(session)
@@ -327,6 +331,7 @@ class AutotradeController < ApplicationController
   end
 
   def aboutautotrade
+    @pagetitle="关于自动化交易"
 
   end
 

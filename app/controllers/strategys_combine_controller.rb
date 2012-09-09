@@ -5,6 +5,8 @@ require 'rexml/document'
 include REXML
 class StrategysCombineController < ApplicationController
   def strategy_s1
+    @pagetitle="策略组合"
+
     @url_1="/strategys_combine/strategy_s1"
     @url_2="javascript:void(0)"
     @url_3="javascript:void(0)"
@@ -55,6 +57,8 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s2
+    @pagetitle="策略组合"
+
     @url_1="/strategys_combine/strategy_s1"
     @url_2="/strategys_combine/strategy_s2"
     @url_3="javascript:void(0)"
@@ -102,6 +106,8 @@ class StrategysCombineController < ApplicationController
   end
 
   def strategy_s3
+    @pagetitle="策略组合"
+
     @url_1="/strategys_combine/strategy_s1"
     @url_2="/strategys_combine/strategy_s2"
     @url_3="javascript:void(0)"
@@ -150,6 +156,8 @@ class StrategysCombineController < ApplicationController
   end
 
   def individual
+    @pagetitle="策略配置"
+
     @hash_commodityid=Hash["ag","白银","CF","棉花","ER","早籼稻","ME","甲醇","RO","菜籽油","SR","白糖","TA","精对苯二甲酸","WS","强麦",
                            "WT","硬麦","PM","普麦","IF","股指","a","黄大豆","al","铝","au","黄金","b","黄豆二","c","玉米",
                            "cu","铜","fu","燃料油","j","焦炭","l","聚乙烯","m","豆粕","p","棕榈油","pb","铅","rb","螺纹钢",
@@ -219,6 +227,7 @@ class StrategysCombineController < ApplicationController
   end
 
   def reportshow
+
     if params[:stgtype]==nil
       @url_1="/strategys_combine/individual"
       @url_2="/strategys_combine/reportshow"

@@ -134,6 +134,7 @@ class WebusersController < ApplicationController
 
   # GET /webusers/1/edit
   def edit
+    @pagetitle="个人信息管理"
     @webuser = Webuser.find(params[:id])
     webuser_now=Webuser.find_by_name(session[:webuser_name])
     if webuser_now!=nil

@@ -7,6 +7,8 @@ include REXML
 class UsermanagementController < ApplicationController
 
 def my_subscribe
+  @pagetitle="订阅的策略"
+
   @webuser = Webuser.find(params[:id])
   @sub_stg=Array.new
   if @webuser!=nil
@@ -96,6 +98,7 @@ end
   end
 
   def collection
+    @pagetitle="收藏的策略"
     @webuser = Webuser.find(params[:id])
     @collect_stg=Array.new
     if @webuser!=nil
