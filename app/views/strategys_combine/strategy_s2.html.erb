@@ -69,7 +69,7 @@
   <form id="form_s2">
       <% for i in 0..@strategy_params.size-1 %>
           <%= @strategy_params[i].paramname  %>(<a href="[name='#<%=@strategy_params[i].paramname%>']" class="login-window">?</a>)
-        <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" />参数范围：<%= @strategy_params[i].strategy_para_range %><br><br>
+        <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" value="<%= @strategy_params[i].strategy_para_default %>" onclick="this.value=''"/>参数范围：<%= @strategy_params[i].strategy_para_range %><br><br>
       <div name="#<%=@strategy_params[i].paramname%>" id="strategy_buy_confirm" class="login-popup">
     <div class="popup_2buttons_pattern">
       <div class="popup_content">

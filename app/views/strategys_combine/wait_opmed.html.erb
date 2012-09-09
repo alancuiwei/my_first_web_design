@@ -20,10 +20,9 @@
         idiv.innerHTML=Math.round(iWidth)+"%";
         if(iWidth==99){
             clearInterval(timer); //停止执行
-            filecheck();
            }
     },1200); //每过20毫秒，执行函数
-
+    filecheck();
   function filecheck(){
     $.get("<%=params[:id]%>",{wait:1},function(data,status){
         if(data=="error"){
