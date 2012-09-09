@@ -4,7 +4,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 
 
-
 <div class="frame_norisk">
 <div class="pagedomain">
   <a onclick="showintro()" href="javascript:void(0)"><h1>无风险套利策略</h1></a>
@@ -48,11 +47,19 @@
   <div id="norisktitle"><h2>策略实时运行中:</h2></div>
 <!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
 <div id=checkbox>
+    <% if @webuser==nil %>
+        <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" onclick="mychecked_1(this)" />主力套利对</label>
+        <% else %>
+        <% if (@norisk_havesub!=nil &&@norisk_havesub!=-1)||(@norisk_havetry!=nil &&@norisk_havetry!=-1)%>
       <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
+            <% else %>
+            <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox"  onclick="mychecked_1(this)" />主力套利对</label>
+        <% end %>
+   <% end %>
       <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
 </div>
-</div>
 
+</div>
 <script type="text/javascript">
     function showintro(){
         $(document).ready(function() {
@@ -87,15 +94,52 @@
            	});
            //
     }
+    <% if @webuser==nil%>
+    var mychecked_f=99;
+    <% else%>
+    <% if (@norisk_havesub!=nil &&@norisk_havesub!=-1)||(@norisk_havetry!=nil &&@norisk_havetry!=-1)%>
     var mychecked_f=1;
+    <% else%>
+    var mychecked_f=99;
+    <% end%>
+    <% end%>
     var mychecked_s;
     function mychecked_1(para){
+    <% if @webuser==nil%>
+
+           // Getting the variable's value from a link
+     		var loginBox = "#login-box";
+            if (loginBox=="#login-box")
+            clickflag="login" ;
+          else
+                clickflag="regedit";
+     		//Fade in the Popup and add close button
+     		$(loginBox).fadeIn(300);
+
+     		//Set the center alignment padding + border
+     		var popMargTop = ($(loginBox).height() + 24) / 2;
+     		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+     		$(loginBox).css({
+     			'margin-top' : -popMargTop,
+     			'margin-left' : -popMargLeft
+     		});
+
+     		// Add the mask to body
+     		$('body').append('<div id="mask"></div>');
+     		$('#mask').fadeIn(300);
+    para.checked=null;
+        <% elsif (@norisk_havesub!=nil &&@norisk_havesub!=-1)||(@norisk_havetry!=nil &&@norisk_havetry!=-1) %>
         if(para.checked){
-            mychecked_f=1
+        mychecked_f=1;
         }
         else{
-            mychecked_f=0;
+        mychecked_f=0
         }
+ <% else %>
+box("#msg-box");
+para.checked=null;
+    <%end%>
     }
     function mychecked_2(para){
         <% if @webuser==nil%>
@@ -122,7 +166,7 @@
          		$('body').append('<div id="mask"></div>');
          		$('#mask').fadeIn(300);
         para.checked=null;
-            <% elsif @norisk_havesub!=nil &&@norisk_havesub!=-1 %>
+    <% elsif (@norisk_havesub!=nil &&@norisk_havesub!=-1)||(@norisk_havetry!=nil &&@norisk_havetry!=-1) %>
         if(para.checked){
             mychecked_s=1;
         }
@@ -270,6 +314,7 @@
                         getAjax();
         });
     }
+
     var ajax_watchdog=0;
      function getAjax(){
          $.get(document.location.href.substring(0,document.location.href.indexOf(window.document.location.pathname))+"/assets/CSpreadCostStrRunOnTime.xml",function(data){
@@ -306,6 +351,13 @@
                          computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
                                  *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]-computearbfee[i])*365/(funds[i]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7])
                          if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
+                             if(mychecked_f==99){
+                               if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)=="TA")
+                                   tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
+                                            (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
+                                             parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+
+                             }
                              if(mychecked_f==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
@@ -594,7 +646,7 @@ function iFrameHeight() {
         <div id="msg-box" class="login-popup">
         <div class="popup_2buttons_pattern">
           <div class="popup_content">
-		<p>您还不是收费用户，请先订阅策略</p>
+		<p>您还不是收费用户/试用用户，请先订阅/试用策略</p>
           </div>
         <div class="popup_2buttons_confirm">
           <a href="/strategys/subscribe/1">订阅</a>

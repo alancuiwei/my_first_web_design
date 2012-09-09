@@ -30,7 +30,7 @@ class S010001Controller < ApplicationController
           end
       #try and subscribe
       if @webuser.tryid!=nil
-        @tryid=@webuser.tryid.scan(/\d/)
+        @tryid=@webuser.tryid.split("|")
        if @tryid!=nil
          @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.trydate.to_s(:db),"%Y-%m-%d").to_i)/86400
          for i in 0..@tryid.size-1
@@ -48,7 +48,7 @@ class S010001Controller < ApplicationController
        end
       end
       if @webuser.subid!=nil
-        @subid=@webuser.subid.scan(/\d/)
+        @subid=@webuser.subid.split("|")
        if @subid!=nil
          @days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(@webuser.subdate.to_s(:db),"%Y-%m-%d").to_i)/86400
          for i in 0..@subid.size-1
