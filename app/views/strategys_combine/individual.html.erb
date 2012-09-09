@@ -1,31 +1,37 @@
 ﻿<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
-<%= javascript_include_tag "jquery.autocomplete.js" %>
-<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+<%= javascript_include_tag "Hashtable.js" %>
 <%= render "side" %>
 <div class="centerframe">
   <div class="strategy_config">
     <h2>策略配置</h2>
   <div class="strategy_config_selecting">
+
+    <h3>策略类型选择</h3>
+      <select onchange="flite(this.options[this.selectedIndex].value)">
+        <option>点击选择策略类型</option>
+        <option value="0" id="c_0">套利</option>
+        <option value="1" id="c_1">单边</option>
+      </select>
     <h3>策略选择：</h3>
 
       <form id="form1" runat="server">
+
       <div>
+
         <% if params[:id]==nil %>
             <select onchange="location.href=this.options[this.selectedIndex].value;">
               <option value="javascript:void(0)">点击我 选择策略</option>
               <% for i in 0..@strategywebs.size-1%>
-                  <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
+                  <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
-
             </select>
             <% else %>
 
             <select onchange="location.href=this.options[this.selectedIndex].value;">
               <option value="javascript:void(0)">策略选择成功</option>
               <% for i in 0..@strategywebs.size-1%>
-                  <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
                   <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
 
@@ -41,6 +47,25 @@
   </div>
 
 <script type="text/javascript">
+    function flite(num){
+        if(num=="1"){
+        <% for i in 0..@strategywebs.size-1 do%>
+            var stg_t= '<%= @strategywebs[i].strategyid%>'.substr(0,2);
+            $("#s_<%= @strategywebs[i].id%>").show();
+            if(stg_t=="01"||stg_t=="02"||stg_t=="03")
+                $("#s_<%= @strategywebs[i].id%>").hide();
+        <% end%>
+        }
+        else{
+        <% for i in 0..@strategywebs.size-1 do%>
+            var stg_t= '<%= @strategywebs[i].strategyid%>'.substr(0,2);
+            $("#s_<%= @strategywebs[i].id%>").show();
+            if(stg_t=="04")
+                $("#s_<%= @strategywebs[i].id%>").hide();
+        <% end%>
+        }
+
+    }
   function side_2(){
       alert("请选择的策略！")
   }
@@ -51,7 +76,19 @@
       alert("请选择的策略！")
   }
   <% if params[:id]!=nil%>
-    $("#s_<%= params[:id]%>").attr("selected",true)
+    $("#s_<%= params[:id]%>").attr("selected",true) ;
+    var hash_stg = new Hashtable();
+    <% for i in 0..@strategywebs.size-1 do%>
+    hash_stg.add(<%= @strategywebs[i].id%>,'<%= @strategywebs[i].strategyid%>');
+    <% end%>
+    if(hash_stg.items(<%= params[:id]%>).substr(0,2)=="04"){
+        $("#c_1").attr("selected",true) ;
+        flite("1");
+    }
+    else{
+        $("#c_0").attr("selected",true) ;
+        flite("0");
+    }
 <% end%>
 </script>
 <% if params[:id]!=nil %>

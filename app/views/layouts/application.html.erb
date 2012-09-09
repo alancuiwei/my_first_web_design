@@ -122,7 +122,14 @@
             <div class="menuMain" >
               <ul>
                 <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
-                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/strategywebs"><span><span><span>策略库</span></span></span></a></li>
+                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略库</span></span></span></a>
+                <div class="level">
+                  <ul>
+                    <li><a href="/strategywebs">策略库首页</a></li>
+                    <li><a href="/strategywebs/stgwebdata/data">策略库数据</a></li>
+                  </ul>
+                </div>
+                </li>
                 <% if @webuser==nil %>
                     <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>个性化策略</span></span></span></a>
                     <div class="level">
