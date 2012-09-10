@@ -1,5 +1,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+<%= render "side" %>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
@@ -8,6 +9,8 @@
         } );}
      );
 </script>
+
+<div class="centerrightframe">
 <h2>策略库数据</h2>
 <table class="display" id="traderecordtable" >
 <thead>
@@ -32,3 +35,4 @@
 <% end %>
 </tbody>
 </table>
+</div>
