@@ -97,20 +97,22 @@
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
     <% for i in 0..@strategy_params.size-1 %>
-        <%= @strategy_params[i].paramname  %>(<a href="[name='#<%=@strategy_params[i].paramname%>']" class="login-window">?</a>)
-      <input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" value="<%= @strategy_params[i].strategy_para_default %>" onclick="this.value=''"/><% if @strategy_params[i].strategy_para_range%>参数范围：<%= @strategy_params[i].strategy_para_range %><% end %><br><br>
+        <p><%= @strategy_params[i].strategy_para_name  %>(<a href="[name='#<%=@strategy_params[i].paramname%>']" class="login-window">?</a>)</p>
+        <p><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" value="<%= @strategy_params[i].strategy_para_default %>" onclick="this.value=''"/> (参数范围：<%= @strategy_params[i].strategy_para_range %>)</p>
+
     <div name="#<%=@strategy_params[i].paramname%>" id="strategy_buy_confirm" class="login-popup">
+
   <div class="popup_2buttons_pattern">
     <div class="popup_content">
-      <p>参数简介：
-            <% for i in 0..@strategy_params.size-1 %> <br>
-                  参数名称：<%= @strategy_params[i].paramname %>(<%= @strategy_params[i].strategy_para_name %>)<br>
-                  参数简介：<%= @strategy_params[i].strategy_para_description %> <br>
-            <% if @strategy_params[i].strategy_para_range%>参数范围：<%= @strategy_params[i].strategy_para_range %> <br> <% end %>
-                  参数默认值：<%= @strategy_params[i].strategy_para_default %> <br>
+                <% for i in 0..@strategy_params.size-1 %>
+                      <p>名称：<%= @strategy_params[i].strategy_para_name %></p>
+                      <p>简介：<%= @strategy_params[i].strategy_para_description %></p>
+<!--                      <p>参数范围：<%= @strategy_params[i].strategy_para_range %> </p>
+                      <p>参数默认值：<%= @strategy_params[i].strategy_para_default %></p>     -->
             <% end %>
-            </p>
+
     </div>
+
     <div class="popup_2buttons_confirm"><a class="close">确定</a></div>
     <div class="popup_2buttons_cancel"><a class="close">取消</a></div>
   </div>
@@ -226,31 +228,28 @@
 
 
 </div>
-
 <div class="rightframe">
 <% if params[:id]!=nil %>
 
    <h3><%= @strategyweb.name %></h3>
-        <p>策略描述：</p>
-        <p>建仓条件描述：<%= @strategyweb.open_position_conditions %></p>
-        <p>平仓条件描述：<%= @strategyweb.close_position_conditions %></p>
-        <p>止损平仓条件：<%= @strategyweb.stop_conditions %></p>
+      <h4>建仓条件描述：</h4><p><%= @strategyweb.open_position_conditions %></p>
+      <h4>平仓条件描述：</h4><p><%= @strategyweb.close_position_conditions %></p>
+      <h4>参数简介：</h4><p><%= @strategyweb.strategy_para_description %></p>
+<!--
+      <h4>止损平仓条件：</h4><p><%= @strategyweb.stop_conditions %></p>
         <p>止赢平仓条件：<%= @strategyweb.winstop_conditions %></p>
         <p>加仓条件描述：<%= @strategyweb.add_position_conditions %></p>
-        <br>
-      <p>参数介绍：</p>
-        <p>参数简介：<%= @strategyweb.strategy_para_description %></p>
-        <p>
-        <% for i in 0..@strategy_params.size-1 %> <br>
-              参数名称：<%= @strategy_params[i].paramname %>(<%= @strategy_params[i].strategy_para_name %>)<br>
-              参数简介：<%= @strategy_params[i].strategy_para_description %> <br>
-              参数范围：<%= @strategy_params[i].strategy_para_range %> <br>
-              参数默认值：<%= @strategy_params[i].strategy_para_default %> <br>
+      <h4>参数简介：</h4><p><%= @strategyweb.strategy_para_description %></p>
+      <% for i in 0..@strategy_params.size-1 %>
+            <h4>参数名称：</h4><p><%= @strategy_params[i].paramname %>(<%= @strategy_params[i].strategy_para_name %>)</p>
+            <h4>参数简介：</h4><p><%= @strategy_params[i].strategy_para_description %> </p>
+            <h4>参数范围：</h4><p><%= @strategy_params[i].strategy_para_range %> </p>
+            <h4>参数默认值：</h4><p><%= @strategy_params[i].strategy_para_default %> </p>
         <% end %>
-        </p><br>
+-->
 
-        <p>策略图形介绍：<%=image_tag("#{@strategyweb.strategy_img_description}")  %></p>
-        <p>策略指标引用：<%= @strategyweb.strategy_reference %></p>
+<!--      <h4>策略图形介绍：</h4><%=image_tag("#{@strategyweb.strategy_img_description}")  %>     -->
+<!--      <p>策略指标引用：<%= @strategyweb.strategy_reference %></p>  -->
  <% end %>
 </div>
 
