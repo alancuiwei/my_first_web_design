@@ -2,7 +2,7 @@
 class StrategywebsController < ApplicationController
 
   def index
-    @pagetitle="策略库首页"
+    @pagetitle="策略集合"
     @strat_profit=200000
 
     #@strategyreferences=StrategyreferenceT.where("rightid like '%000000' and strategyid is not null and ((avedaytrades > 0 and avedaytrades<0.05) or (avedaytrades>=0.2 and avedaytrades<1))").all.size
