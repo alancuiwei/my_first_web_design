@@ -63,7 +63,20 @@
         });
     });
 </script>
+<div class="strategy_report_action">
+<!--      <a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>">您还不满意？</a>   -->
+      <div class="button_confirm_3"><a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>" class="login-window">不满意</a></div>
+      <div class="button_confirm_2"><a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>" class="login-window">收藏</a></div>
+<!--      <a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>">收藏</a>  -->
+      <% if params[:stgtype]=="d" %>
+      <div class="button_confirm_2"><a href="/strategys_combine/strategy_s1" class="login-window">取消</a></div>
 
+<!--          <a href="/strategys_combine/strategy_s1">取消</a> -->
+      <% else %>
+      <div class="button_confirm_2"><a href="/strategys_combine/individual" class="login-window">取消</a></div>
+<!--          <a href="/strategys_combine/individual">取消</a>  -->
+      <% end %>
+</div>
 <h2>年化收益率表</h2>
 <p>所有数据都需要和最新实时行情结合</p>
 <div class="annual_profit_display" id="container_profit"></div>​
@@ -185,15 +198,9 @@
 
 <% end %>
   <% end %>
-  <br><br>   <br><br>
-  <a href="/strategys_combine/optimizedmethod?stgtype=<%= params[:stgtype]%>">您还不满意？</a>
-  <a href="/strategys_combine/mysubmit?stgtype=<%= params[:stgtype]%>">收藏</a>
-    <% if params[:stgtype]=="d" %>
-      <a href="/strategys_combine/strategy_s1">取消</a>
-        <% else %>
-      <a href="/strategys_combine/individual">取消</a>
-        <% end %>
-  <br><br><br><br>
-</div> <% else %>
-      <a href="#login-box" class="login-window" id="re_login">您还没有登录！</a>
+
+</div>
+
+  <% else %>
+  <a href="#login-box" class="login-window" id="re_login">您还没有登录！</a>
 <% end %>
