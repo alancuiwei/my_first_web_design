@@ -34,9 +34,9 @@ class StrategywebsController < ApplicationController
     end
 
     if params[:shownum]==nil
-    @strategywebs = Strategyweb.find(:all, :limit => 5)
+    @strategywebs = Strategyweb.find(:all, :limit => 5,:order =>"updated_at DESC")
     else
-      @strategywebs = Strategyweb.find(:all, :limit =>params[:shownum].to_i)
+      @strategywebs = Strategyweb.find(:all, :limit =>params[:shownum].to_i,:order =>"updated_at DESC")
     end
 
     @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
