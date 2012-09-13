@@ -23,7 +23,7 @@
 <% for i in 0..@commoditys.size-1 %>
 <tr>
     <td><%= @hash_commoditys[@commoditys[i].commodityid][0] %></td>
-    <td><%= @hash_commodityid[@commoditys[i].commodityid] %></td>
+    <td><%= @hash_commodityid[@commoditys[i].commodityid] %>（<%=@commoditys[i].commodityid%>）</td>
   <% if @hash_commoditys[@commoditys[i].commodityid][1]==nil%>
        <td>文件不存在</td>
       <td>文件不存在</td>

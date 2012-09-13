@@ -21,22 +21,23 @@
       <div>
 
         <% if params[:id]==nil %>
-            <select onchange="location.href=this.options[this.selectedIndex].value;">
-              <option value="javascript:void(0)">点击我 选择策略</option>
+            <select id="select_hide" onchange="location.href=this.options[this.selectedIndex].value;">
+              <option value="javascript:void(0)"  id="s_0">点击我 选择策略</option>
               <% for i in 0..@strategywebs.size-1%>
                   <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
             </select>
             <% else %>
 
-            <select onchange="location.href=this.options[this.selectedIndex].value;">
-              <option value="javascript:void(0)">策略选择成功</option>
+            <select id="select_hide" onchange="location.href=this.options[this.selectedIndex].value;">
+              <option value="javascript:void(0)"  id="s_0">点击我 选择策略</option>
               <% for i in 0..@strategywebs.size-1%>
                   <option value="/strategys_combine/individual/<%= @strategywebs[i].id%>" id="s_<%= @strategywebs[i].id%>"><%= @strategywebs[i].name%></option>
              <% end%>
 
             </select>
         <% end %>
+        <select id="select" onchange="location.href=this.options[this.selectedIndex].value;"></select>
       </div>
       </form>
     <% if params[:id]!=nil %>
@@ -47,24 +48,28 @@
   </div>
 
 <script type="text/javascript">
+    $("#select").hide();
     function flite(num){
-        if(num=="1"){
+        $("#select").empty();
+        $("#s_0").clone().appendTo($("#select"));
+        if(num=="0"){
         <% for i in 0..@strategywebs.size-1 do%>
             var stg_t= '<%= @strategywebs[i].strategyid%>'.substr(0,2);
-            $("#s_<%= @strategywebs[i].id%>").show();
-            if(stg_t=="01"||stg_t=="02"||stg_t=="03")
-                $("#s_<%= @strategywebs[i].id%>").hide();
+            if(stg_t=="01"||stg_t=="02"||stg_t=="03"){
+                $("#s_<%= @strategywebs[i].id%>").clone().appendTo($("#select"));
+            }
         <% end%>
         }
         else{
         <% for i in 0..@strategywebs.size-1 do%>
             var stg_t= '<%= @strategywebs[i].strategyid%>'.substr(0,2);
-            $("#s_<%= @strategywebs[i].id%>").show();
-            if(stg_t=="04")
-                $("#s_<%= @strategywebs[i].id%>").hide();
+            if(stg_t=="04"){
+                $("#s_<%= @strategywebs[i].id%>").clone().appendTo($("#select"));
+            }
         <% end%>
         }
-
+        $("#select_hide").hide();
+        $("#select").show();
     }
   function side_2(){
       alert("请选择的策略！")
@@ -76,7 +81,7 @@
       alert("请选择的策略！")
   }
   <% if params[:id]!=nil%>
-    $("#s_<%= params[:id]%>").attr("selected",true) ;
+    //$("#s_<%= params[:id]%>").attr("selected",true) ;
     var hash_stg = new Hashtable();
     <% for i in 0..@strategywebs.size-1 do%>
     hash_stg.add(<%= @strategywebs[i].id%>,'<%= @strategywebs[i].strategyid%>');
@@ -89,6 +94,7 @@
         $("#c_0").attr("selected",true) ;
         flite("0");
     }
+    $("#select option[value='/strategys_combine/individual/<%= params[:id]%>']").attr("selected",true);
 <% end%>
 </script>
 <% if params[:id]!=nil %>

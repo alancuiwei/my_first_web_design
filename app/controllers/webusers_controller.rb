@@ -82,6 +82,8 @@ class WebusersController < ApplicationController
       w.level=0
       w.save
     end
+    @strategyparam=StrategyparamT.find_by_username(params[:regedit_name])
+    if @strategyparam==nil
     StrategyparamT.new do |s|
       s.strategyid="010001"
       s.paramname="returnrate"
@@ -89,6 +91,13 @@ class WebusersController < ApplicationController
       s.username=params[:regedit_name]
       s.save
     end
+    else
+      @strategyparam.strategyid="010001"
+      @strategyparam.paramname="returnrate"
+      @strategyparam.paramvalue=0.1
+      @strategyparam.username=params[:regedit_name]
+      @strategyparam.save
+      end
     #new usercommodiy
     @usercommodity=UsercommodityT.find_all_by_userid("tester1")
     i=0

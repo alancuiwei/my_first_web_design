@@ -9,7 +9,7 @@ class UsermanagementController < ApplicationController
 def my_subscribe
   @pagetitle="订阅的策略"
 
-  @webuser = Webuser.find(params[:id])
+  @webuser = Webuser.find_by_name(session[:webuser_name])
   @sub_stg=Array.new
   if @webuser!=nil
     if @webuser.subid!=nil
@@ -24,7 +24,6 @@ def my_subscribe
         end
       end
     end
-
   end
 end
 
@@ -99,7 +98,7 @@ end
 
   def collection
     @pagetitle="收藏的策略"
-    @webuser = Webuser.find(params[:id])
+    @webuser = Webuser.find_by_name(session[:webuser_name])
     @collect_stg=Array.new
     if @webuser!=nil
       if @webuser.collect!=nil
