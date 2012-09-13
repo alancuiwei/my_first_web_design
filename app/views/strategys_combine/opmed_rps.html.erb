@@ -12,7 +12,9 @@
   <% for i in 0..@opt_title.size-1%>
       <input id="<%=@opt_title[i]  %>" name="<%=@opt_title[i]  %>" value="<%=@opt_data[@opt_data.size-1][i] %>" type="hidden">
   <% end %>
+  <% if params[:stgtype]=="d" %>
   <input id="stgtype" name="stgtype" value="d" type="hidden">
+  <% end %>
 
 </form>
 
@@ -46,7 +48,7 @@
     $(function(){
         $("#datatables").dataTable({
             "aaSorting": [[2,"desc"]],//排序
-            "bPaginate":false ,//禁用分页
+            "bPaginate":false //禁用分页
         });
     });
     <%if params[:stgtype]!="d"%>

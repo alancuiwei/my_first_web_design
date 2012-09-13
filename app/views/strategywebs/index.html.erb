@@ -391,7 +391,11 @@
       </div>  <!-- div of s_performance -->
         <div class="s_footer" >
             <div class="s_type">
+              <% if strategyweb.strategytype=="future" %>
+                  <p>策略种类：期货</p>
+                  <% else %>
               <p>策略种类：<%= strategyweb.strategytype %></p>
+                  <% end %>
             </div>
             <div class="s_details">
                    <p>策略开始时间：<%=  strategyweb.startdate.to_s(:db) %></p>
