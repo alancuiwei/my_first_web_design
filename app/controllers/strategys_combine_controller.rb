@@ -528,7 +528,7 @@ class StrategysCombineController < ApplicationController
           end
           @notice="策略保存成功！"
         else
-          @notice="策略已存在！"
+          @notice="该策略您以前已配置保存过了！"
           for i in 0..@g_strategyparams_arr.size-1
             @stgp_arr[i]=StrategyparamT.find_all_by_strategyid_and_username_and_paramname(@strategyparams.elements.to_a("//strategyid")[0].text,session[:webuser_name],@g_strategyparams_arr[i])
           end
