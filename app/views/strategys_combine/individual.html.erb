@@ -103,6 +103,7 @@
 <div class="strategy_config_para">
 <h3>策略参数配置:</h3>
     <% for i in 0..@strategy_params.size-1 %>
+      <% if @strategy_params[i].paramname!="J"%>
         <p><%= @strategy_params[i].strategy_para_name  %>(<a href="[name='#<%=@strategy_params[i].paramname%>']" class="login-window">?</a>)</p>
         <p><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" value="<%= @strategy_params[i].strategy_para_default %>" onclick="this.value=''"/> (参数范围：<%= @strategy_params[i].strategy_para_range %>)</p>
 
@@ -110,12 +111,10 @@
 
   <div class="popup_2buttons_pattern">
     <div class="popup_content">
-                <% for i in 0..@strategy_params.size-1 %>
                       <p>名称：<%= @strategy_params[i].strategy_para_name %></p>
                       <p>简介：<%= @strategy_params[i].strategy_para_description %></p>
 <!--                      <p>参数范围：<%= @strategy_params[i].strategy_para_range %> </p>
                       <p>参数默认值：<%= @strategy_params[i].strategy_para_default %></p>     -->
-            <% end %>
 
     </div>
 
@@ -123,6 +122,7 @@
     <div class="popup_2buttons_cancel"><a class="close">取消</a></div>
   </div>
 </div>
+     <% end %>
      <% end %>
 </div>
    <div class="strategy_config_commodity">
@@ -265,6 +265,7 @@
           //e.preventDefault();
           var submit_flag=0;
           <% for i in 0..@strategy_params.size-1 %>
+          <% if @strategy_params[i].paramname!="J"%>
           var value_t=$("#<%= @strategy_params[i].paramname %>").attr("value");
           if(value_t!=""){
           if(parseFloat(value_t)<<%= @hash_params[@strategy_params[i].paramname].split("-")[0].to_f %>||parseFloat(value_t)><%= @hash_params[@strategy_params[i].paramname].split("-")[1].to_f %>){
@@ -274,6 +275,7 @@
           }
           else
           submit_flag=1;
+          <% end %>
           <% end %>
           if(submit_flag!=0){
           e.preventDefault();

@@ -33,7 +33,9 @@ class StrategysCombineController < ApplicationController
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
 
         for i in 0..@strategy_params.size-1
+          if @strategy_params[i].paramname!="J"
           @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+        end
         end
         @XMLfile.elements.to_a("//objecttype")[0].text="future"
         @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
@@ -82,7 +84,9 @@ class StrategysCombineController < ApplicationController
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
         for i in 0..@strategy_params.size-1
+          if @strategy_params[i].paramname!="J"
           @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+        end
         end
         @XMLfile.elements.to_a("//objecttype")[0].text="future"
         @XMLfile.elements.to_a("//userid")[0].text=@webuser.id
@@ -194,7 +198,9 @@ class StrategysCombineController < ApplicationController
       if @webuser!=nil&&params[:startdate]!=nil
         @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
         for i in 0..@strategy_params.size-1
+          if @strategy_params[i].paramname!="J"
           @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]
+        end
         end
         #@XMLfile.elements.to_a("//period")[0].text=params[:period]
         #@XMLfile.elements.to_a("//losses")[0].text=params[:losses]
