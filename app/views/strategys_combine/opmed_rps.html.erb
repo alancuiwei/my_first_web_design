@@ -1,13 +1,15 @@
 <%= render "side" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
-
-最佳参数 <br>
+<div class="centerrightframe">
+<h2>策略优化参数结果</h2>
+  <h3>最佳参数</h3>
+  <p>
 <% for i in 0..@opt_data[@opt_data.size-1].size-1%>
     <%=@opt_title[i]  %>：<%=@opt_data[@opt_data.size-1][i] %>&nbsp;
 <% end %>
-<br>
-确定要使用这对参数重新进行测试？<br>
+    </p>
+<h3>您是否需要用最佳参数重新测试？</h3>
 <form id="opt">
   <% for i in 0..@opt_title.size-1%>
       <input id="<%=@opt_title[i]  %>" name="<%=@opt_title[i]  %>" value="<%=@opt_data[@opt_data.size-1][i] %>" type="hidden">
@@ -18,7 +20,7 @@
 
 </form>
 
-<a href="javascript:void(0)" onclick="$('#opt').submit();">重新测试</a><br>
+<a href="javascript:void(0)" onclick="$('#opt').submit();">重新测试</a>
 <%if params[:stgtype]!="d"%>
 <a href="/strategys_combine/reportshow">返回原来测试结果</a>
   <% else %>
@@ -44,6 +46,7 @@
   <% end %>
   </tbody>
 </table>
+</div>
 <script>
     $(function(){
         $("#datatables").dataTable({

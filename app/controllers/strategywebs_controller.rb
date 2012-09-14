@@ -147,6 +147,41 @@ class StrategywebsController < ApplicationController
     end
 
   end
+
+  def stgwebtable
+    @webuser = Webuser.find_by_name(session[:webuser_name])
+    @strategywebs = Strategyweb.find(:all,:order =>"updated_at DESC")
+    @allmaxreturnrate=ArbcostmaxreturnrateT.find(:all, :order =>"returnrate DESC",:limit => 1)
+
+    @hash_reference=Hash.new
+    @reference=Array.new
+    @reference_title=["minmarginaccount","totalnetprofit","grossprofit","grossloss",
+                "avemonthreturn","aveyearreturn","toaltradingdays","totaltrades",
+                "avedaytrades","numwintrades","numlosstrades","percentprofitable",
+                "largestwintrade","largestlosstrade","avewintrade","avelosstrade",
+                "avetrade","expectvalue", "maxdrawdown","maxdrawdowndays"]
+    i=0
+    @strategywebs.each do |strategyweb|
+      if strategyweb.strategyid.size>6
+        @reference[i]= StrategyreferenceT.find_by_strategyid_and_userid_and_ordernum_and_rightid(strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,strategyweb.strategyid.slice(0,6)+"000000-"+strategyweb.strategyid.slice(7,6)+"000000")
+      else
+      @reference[i]= StrategyreferenceT.find_by_strategyid_and_userid_and_ordernum_and_rightid(strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,strategyweb.strategyid+"000000")
+      end
+      if @reference[i]!=nil
+       @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,
+           [@reference[i].minmarginaccount,@reference[i].totalnetprofit,@reference[i].grossprofit,@reference[i].grossloss,
+            @reference[i].avemonthreturn,@reference[i].aveyearreturn,@reference[i].toaltradingdays,@reference[i].totaltrades,
+            @reference[i].avedaytrades,@reference[i].numwintrades,@reference[i].numlosstrades,@reference[i].percentprofitable,
+            @reference[i].largestwintrade,@reference[i].largestlosstrade,@reference[i].avewintrade,@reference[i].avelosstrade,
+            @reference[i].avetrade,@reference[i].expectvalue, @reference[i].maxdrawdown,@reference[i].maxdrawdowndays])
+      else
+        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil])
+      end
+      i=i+1
+    end
+    @hash_reference.store("01000100",["无","无",@allmaxreturnrate[0].returnrate,"无","无","无","无","无","无","无","无","无","无","无","无","无","无","无","无","无"])
+  end
+
   def download
     send_file "app/assets/historydatadownload/"+params[:filename] unless params[:filename].blank?
   end

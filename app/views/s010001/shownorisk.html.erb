@@ -255,9 +255,9 @@ para.checked=null;
 
 <script type="text/javascript">
     //table data storage (2D array)
-    var tabledata= new Array([0,0,0,0,0,0,0]);
+    var tabledata= new Array([0,0,0,0,0,0]);
     tabledata=[];
-    var tabledata_f= new Array([0,0,0,0,0,0,0]);
+    var tabledata_f= new Array([0,0,0,0,0,0]);
     tabledata_f=[];
     //xml array
     var xml_arr=new Array();
@@ -354,33 +354,29 @@ para.checked=null;
                              if(mychecked_f==99){
                                if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)=="TA")
                                    tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                            (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
                                              parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
-
                              }
                              if(mychecked_f==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                 (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
                                          parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_f==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
-                                     tabledata[i]=[0,0,0,0,0,0,0];
+                                     tabledata[i]=[0,0,0,0,0,0];
                              }
                              if(mychecked_s==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                         (parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])),
                                          parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_s==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
-                                     tabledata[i]=[0,0,0,0,0,0,0];
+                                     tabledata[i]=[0,0,0,0,0,0];
                              }
                          }
                          else
-                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--","--"];
+                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--"];
 							}
                              for(var k=0,s=0;k<tabledata.length;k++){
                                  if(tabledata[k]!=null&&tabledata[k][0]!=0){
@@ -390,10 +386,10 @@ para.checked=null;
                              }
                                  $('#rtpricetable').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="default"></table>');
                                  $('#default').dataTable( {
-                                 "aaData": tabledata_f,"aaSorting": [[5,"desc"]],"bPaginate": false,
+                                 "aaData": tabledata_f,"aaSorting": [[4,"desc"]],"bPaginate": false,
                                         "aoColumns": [
                                      { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月价格", "sClass": "center" },
-                                     { "sTitle": "远月价格", "sClass": "center" },{ "sTitle": "最新价差", "sClass": "center" },
+                                     { "sTitle": "远月价格", "sClass": "center" },
                                              { "sTitle": "持仓成本", "sClass": "center" },
                                      { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
                                                          var sReturn = obj.aData[ obj.iDataColumn ];

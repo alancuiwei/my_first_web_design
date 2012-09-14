@@ -1,10 +1,18 @@
-﻿
+﻿<%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= render "side" %>
-
+<script>
+    $(document).ready(function() {
+        $('#admin_op').dataTable( {
+            "aaSorting": [[0,"desc"]]
+        } );
+    } );
+</script>
   <div class="centerrightframe">
   <h2>用户管理</h2>
 
-<table>
+<table class="display" id="admin_op">
+  <thead>
   <tr>
     <th>用户名</th>
     <th>电子邮箱</th>
@@ -15,7 +23,8 @@
     <th>编辑用户</th>
     <th>删除用户</th>
   </tr>
-
+  </thead>
+  <tbody>
 <% @webusers.each do |webuser| %>
   <tr>
     <td><%= webuser.name %></td>
@@ -28,6 +37,7 @@
     <td><%= button_to "删除", webuser, :method=> :delete %></td>
 	</tr>
 <% end %>
+  </tbody>
 </table>
 
 <br />
