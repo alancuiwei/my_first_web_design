@@ -2,296 +2,211 @@
 <div class="centerframe">
 <% if @webuser!=nil %>
 
-<script type="text/javascript">
-function loadnext(divout,divin){
-$(".autotrade_setup_step" + divout).hide();
-$(".autotrade_setup_step" + divin).fadeIn("fast");
-}
-</script>
-
 <%= form_tag do %>
 
 <div id="wizardwrapper">
-
   <div class="autotrade_setup_step1">
-<!--
-    <ul id="mainNav" class="fiveStep">
-      <li class="current"><a title="">第一步</a></li>
-      <li><a title="">第二步</a></li>
-      <li><a title="">第三步</a></li>
-      <li><a title="">第四步</a></li>
-    </ul>
-      -->
     <h2>确定交易品种</h2>
-    <div id="wizardcontent">
-      <%= radio_button_tag "radio_p", "s1" %>
-      期货交易
-    </div>
-    <script type="text/javascript">
-
-      function myop1(){
-        //if($("#test").attr("checked")==true)
-             if ($("#radio_p_s1").attr("checked")=="checked")
-                loadnext(1,2);
-          else
-             alert("请选择内容！")
-      }
-      function myop2(){
-        //if($("#test").attr("checked")==true)
-             if ($("#radio_p2_s1").attr("checked")=="checked"){
-                 if($("#account").attr("value")==""||$("#password_s").attr("value")==""){
-                    alert("账号或者密码为空！")
-                 }
-
-                 else{
-                     if($("#account").attr("value").length!=8||$("#account").attr("value").substr(0,3)!="118"||$("#account").attr("value").substr(3,5).match(/\D/)!=null){
-                                         alert("您的华泰长城帐号输入错误！")
-                                      }
-                 else{
-
-                         $.get("/autotrade/autotrade_s1/1",{account:$("#account").attr("value"),password_s:$("#password_s").attr("value")},function(data){
-                             if(data=="0"){
-                                 //$("#showtable").html("提交成功！") ;
-                                 loadnext(2,3);
-
-                             }
-                             else if(data=="99"){
-                                 box("#errormsg-box");
-                                 $("#errormsg-show").html("无法连接交易服务器！") ;
-
-                             }
-                             else{
-                                 box("#errormsg-box");
-                                 $("#errormsg-show").html(data) ;
-
-                             }
-
-                         })
-
- }
-                 }
-             }
-
-          else
-             alert("请选择内容！")
-      }
-      function myop3(){
-          if($("#returnrate").attr("value")==""){
-              alert("年化收益率不能为空！")
-          }
-          else{
-          loadnext(3,4);
-          $("#show_t").html($("#returnrate").attr("value")) ;
-          }
-      }
-    </script>
+    <div id="wizardcontent"><%= radio_button_tag "radio_p", "s1" %>期货交易</div>
     <div class="buttons">
 	<div class="frameprevious">
       <a  href="javascript:void(0)" class="previous" disabled="disabled"> 返回 </a>
-	  </div>
-	  	<div class="button_confirm_3">
-      <a  href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 </a>
-	    </div>
+	</div>
+      <div class="button_confirm_3">
+      <a href="javascript:void(0)" class="next" onclick="myop1()"> 下一步 </a>
+      </div>
     </div>
     <div style="clear:both"></div>
   </div>
 
   <div id="wizardpanel" class="autotrade_setup_step2">
-
-    <!--
-    <ul id="mainNav" class="fiveStep">
-      <li class="lastDone"><a href="#" title="">第一步</a></li>
-      <li class="current"><a title="">第二步</a></li>
-      <li><a title="">第三步</a></li>
-      <li><a title="">第四步</a></li>
-    </ul>
-    -->
     <h2>设置期货公司</h2>
     <div id="wizardcontent">
-     <div id="huatai"> <%= radio_button_tag "radio_p2", "s1"%>
-      华泰长城期货交易公司</div>
+     <div id="huatai">
+       <%= radio_button_tag "radio_p2", "s1"%>华泰长城期货交易公司<br>
+       <%= radio_button_tag "radio_p2", "s2"%>瑞龙期货交易公司
+      </div>
       <div id="ctp_account_setup">
-        <p>您的华泰长城交易帐号:
-        <input type="text" value="" id="account" size="20"></p>
-         <p>您的交易密码:
-        <input type="password" value="" id="password_s" size="20"></p><!-- <br>
-        <a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=0e11d7eb43fbb81a96a1aef9dfd5628aa2e342e0575cedfc">没有该期货公司的帐号？请点击开展开户手续。</a> -->
+        <p>您的<scan class="ctp_account_setup_1"></scan>交易帐号:<input type="text" value="" id="account" size="20"></p>
+        <p>您的<scan class="ctp_account_setup_1"></scan>交易密码:<input type="password" value="" id="password_s" size="20"></p>
       </div>
     </div>
    <div class="buttons" id="s2_1">
-	<div class="frameprevious">
-	
-      <a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);;"> 返回 </a>
-	  </div>
-	  	<div class="button_confirm_3">
-      <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
-	    </div>
+	<div class="frameprevious"><a  href="javascript:void(0)" class="previous" onclick="loadnext(2,1);;"> 返回 </a></div>
+     <div class="button_confirm_3"><a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a></div>
     </div>
     <div class="buttons" id="s2_2">
-	<div class="frameprevious">
-	
-      <a  href="javascript:void(0)" class="previous" onclick="myop_retrun(2,1);"> 返回 </a>
-	  </div>
-	  	<div class="button_confirm_3">
-      <a  href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a>
-	    </div>
+	<div class="frameprevious"><a  href="javascript:void(0)" class="previous" onclick="myop_retrun(2,1);"> 返回 </a></div>
+      <div class="button_confirm_3"><a href="javascript:void(0)" class="next" onclick="myop2()"> 下一步 </a></div>
     </div>
   </div>
 
-
   <div id="wizardpanel" class="autotrade_setup_step3">
-
-    <!--
-    <ul id="mainNav" class="fiveStep">
-      <li class="done"><a href="#" title="">第一步</a></li>
-      <li class="lastDone"><a href="#" title="">第二步</a></li>
-      <li class="current"><a title="">第三步</a></li>
-      <li><a title="">第四步</a></li>
-    </ul>
-    -->
     <h2>设置交易参数</h2>
     <div id="wizardcontent3">
-      <ul>
-       <li> 年化收益率定制：</li>
+      <ul><li> 年化收益率定制：</li>
 		<li class="pianyou">您当前的期望年化收益率是<% if @strategyparam!=nil%><%= @strategyparam.paramvalue*100%><%else%>无<%end%>%。</li>
        <li class="pianyou"> 请修改<%= text_field_tag :paramvalue, params[:paramvalue],:size=>10 ,:id=>"returnrate"%>%</li>
-  </ul>
+      </ul>
     </div>
     <div class="buttons">
-	<div class="frameprevious">
-	
-      <a  href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> 返回 </a>
-	  </div>
-	  	<div class="button_confirm_3">
-      <a  href="javascript:void(0)" class="next" onclick="myop3()"> 下一步 </a>
-	    </div>
+	  <div class="frameprevious"><a  href="javascript:void(0)" class="previous" onclick="loadnext(3,2);"> 返回 </a></div>
+      <div class="button_confirm_3"><a  href="javascript:void(0)" class="next" onclick="myop3()"> 下一步 </a></div>
     </div>
   </div>
 
   <div id="wizardpanel" class="autotrade_setup_step4">
-    <!--
-    <ul id="mainNav" class="fiveStep">
-      <li class="done"><a href="#" title="">第一步</a></li>
-      <li class="done"><a href="#" title="">第二步</a></li>
-      <li class="lastDone"><a href="#" title="">第三步</a></li>
-      <li class="current"><a title="">第四步</a></li>
-    </ul>
-    -->
     <h2>确认您的设置</h2>
-        <div id="wizardcontent4">
-<ul>
+    <div id="wizardcontent4">
+      <ul>
          <li> 您将在期货市场应用<span>无风险套利策略</span></li><li>您的开户公司是<span>华泰长城期货公司</span>,</li>
           <li>当市场上出现收益率超过<span id="show_t"></span>%时，您将下单1手进行投资。</li>
-</ul>
-        </div>
+      </ul>
+    </div>
     <div class="buttons">
-	<div class="frameprevious">
-	
-      <a  href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> 返回 </a>
-	  </div>
-	  	<div class="button_confirm_2">
-            <%= submit_tag "确认"%>
-	    </div>
+	 <div class="frameprevious"><a href="javascript:void(0)" class="previous" onclick="loadnext(4,3);"> 返回 </a></div>
+	  <div class="button_confirm_2"><%= submit_tag "确认"%></div>
     </div>
   </div>
+</div>
+<% end %>
+<% end %>
+
+<div id="errormsg-box" class="login-popup">
+  <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
+  <div style="width: 200px;height: 200px;background: white" id="errormsg-show"></div>
+</div>
 
 </div>
 
-
-
-<% end %>
-    <% else %>
-    <script type="text/javascript">
-                 		// Getting the variable's value from a link
-         		var loginBox = "#login-box";
-                if (loginBox=="#login-box")
-                clickflag="login" ;
-              else
-                    clickflag="regedit";
-         		//Fade in the Popup and add close button
-         		$(loginBox).fadeIn(300);
-
-         		//Set the center alignment padding + border
-         		var popMargTop = ($(loginBox).height() + 24) / 2;
-         		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-         		$(loginBox).css({
-         			'margin-top' : -popMargTop,
-         			'margin-left' : -popMargLeft
-         		});
-
-         		// Add the mask to body
-         		$('body').append('<div id="mask"></div>');
-         		$('#mask').fadeIn(300);
-    </script>
-<% end %>
-<script type="text/javascript">
-  function myop_retrun(s1,s2){
-    $("#ctp_account_setup").hide();
-      $("#huatai").show();
-      $("#radio_p2_s1").attr('checked',false);
-  }
-    $("#ctp_account_setup").hide();
-  $("#s2_2").hide();
-    $("#radio_p2_s1").click(function(){
-        $("#huatai").hide();
-        $("#s2_1").hide();
-        $("#s2_2").show();
-            $("#ctp_account_setup").show();
-    });
-
-        function box(id){
-            var loginBox = id;
-          		//Fade in the Popup and add close button
-          		$(loginBox).fadeIn(300);
-
-          		//Set the center alignment padding + border
-          		var popMargTop = ($(loginBox).height() + 24) / 2;
-          		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-          		$(loginBox).css({
-          			'margin-top' : -popMargTop,
-          			'margin-left' : -popMargLeft
-          		});
-
-          		// Add the mask to body
-          		$('body').append('<div id="mask"></div>');
-          		$('#mask').fadeIn(300);
-        }
-</script>
-<br>
-
-<!--
-<div class="container">
-	<div id="content">
-	-->
-        <div id="errormsg-box" class="login-popup">
-        <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-        <div style="width: 200px;height: 200px;background: white" id="errormsg-show">
-        </div>
-        </div>
-    </div>
-<!--</div>
-</div>
--->
 <div class="rightframe">
   <div class="framer">
   <div id="wenti"><h2>常见问题</h2></div>
 
   <div id="wentineir">
-  <ul>
-  <li><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a></li>
-  <li><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_2')">  自动化交易如何工作的?</a> </li>
-  <li ><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_4')">   我如果开展自动化交易,需要额外付钱吗? </a></li>
-  <li class="tworow"><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_3')"> 我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> </li>
+    <ul>
+      <li><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_1')"> 什么是自动化交易？</a></li>
+      <li><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_2')">  自动化交易如何工作的?</a> </li>
+      <li ><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_4')">   我如果开展自动化交易,需要额外付钱吗? </a></li>
+      <li class="tworow"><a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_3')"> 我如果要开展自动化交易，会有安全问题，会有人盗用我的帐号金额吗？</a> </li>
+      <li class="tworow"> <a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a></li><br><br>
+    </ul>
+  </div>
+<div class="clr"></div>
+  </div>
+  <div id="intro_1">
+       华泰介绍
+  </div>
+  <div id="intro_2">
+    瑞龙介绍
+  </div>
 
-  <li class="tworow"> <a href="javascript:void(0)" onclick="window.open('/autotrade/aboutautotrade#about_5')">  我所在的期货公司支持这项业务吗?如果不支持的话，我该怎么办？</a></li><br><br>
-  </ul></div>
-
-  <div class="clr"></div>
-    </div>
   <div class="framerimg"></div>
-
-
 </div>
 
+<script type="text/javascript">
+  <% if @webuser==nil%>
+    box("#login-box");
+  <% end %>
+
+    function myop1(){
+        if ($("#radio_p_s1").attr("checked")=="checked")
+            loadnext(1,2);
+        else
+            alert("请选择内容！")
+    }
+
+    function myop_retrun(s1,s2){
+        $("#ctp_account_setup,#intro_1,#intro_2").hide();
+        $("#huatai,.framer").show();
+        $("#radio_p2_s1").attr('checked',false);
+    }
+
+    $("#ctp_account_setup,#s2_2,#intro_1,#intro_2").hide();
+    $(".framer").show();
+
+    $("#radio_p2_s1").click(function(){
+        $(".ctp_account_setup_1").html("华泰长城")
+        $("#huatai,.framer,#s2_1").hide();
+        $("#intro_1,#s2_2,#ctp_account_setup").show();
+    });
+    $("#radio_p2_s2").click(function(){
+        $(".ctp_account_setup_1").html("瑞龙")
+        $("#huatai,.framer,#s2_1").hide();
+        $("#intro_2,#s2_2,#ctp_account_setup").show();
+    });
+
+    function box(id){
+        var loginBox = id;
+        //Fade in the Popup and add close button
+        $(loginBox).fadeIn(300);
+
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+    }
+
+    function loadnext(divout,divin){
+        $(".autotrade_setup_step" + divout).hide();
+        $(".autotrade_setup_step" + divin).fadeIn("fast");
+    }
+
+
+    function myop2(){
+        //if($("#test").attr("checked")==true)
+        if ($("#radio_p2_s1").attr("checked")=="checked"){
+            if($("#account").attr("value")==""||$("#password_s").attr("value")==""){
+                alert("账号或者密码为空！")
+            }
+
+            else{
+                if($("#account").attr("value").length!=8||$("#account").attr("value").substr(0,3)!="118"||$("#account").attr("value").substr(3,5).match(/\D/)!=null){
+                    alert("您的华泰长城帐号输入错误！")
+                }
+                else{
+
+                    $.get("/autotrade/autotrade_s1/1",{account:$("#account").attr("value"),password_s:$("#password_s").attr("value")},function(data){
+                        if(data=="0"){
+                            //$("#showtable").html("提交成功！") ;
+                            loadnext(2,3);
+
+                        }
+                        else if(data=="99"){
+                            box("#errormsg-box");
+                            $("#errormsg-show").html("无法连接交易服务器！") ;
+
+                        }
+                        else{
+                            box("#errormsg-box");
+                            $("#errormsg-show").html(data) ;
+
+                        }
+
+                    })
+
+                }
+            }
+        }
+
+        else
+            alert("请选择内容！")
+    }
+    function myop3(){
+        if($("#returnrate").attr("value")==""){
+            alert("年化收益率不能为空！")
+        }
+        else{
+            loadnext(3,4);
+            $("#show_t").html($("#returnrate").attr("value")) ;
+        }
+    }
+</script>
