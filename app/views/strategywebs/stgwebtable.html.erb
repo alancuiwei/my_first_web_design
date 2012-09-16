@@ -5,12 +5,11 @@
 <div class="centerrightframe">
 <h2>策略库表格</h2>
   <div>
-    <a href="javascript:void(0)" onclick="sh_op('.t_1')">策略名</a>
     <% for i in 0..@reference_title.size-1 %><%=@reference_title[i] %>
         <input checked="checked" type="checkbox" onclick="sh_op('.t_<%=i+2 %>')">
     <% end %>
   </div>
-<table class="display" id="traderecordtable" >
+<table class="display" id="traderecordtable" style="width: 600px;">
 <thead>
 
 <tr>
@@ -36,14 +35,20 @@
     $(document).ready(function() {
         $('#traderecordtable').dataTable( {
             "bPaginate":false ,//禁用分页
-            "aaSorting": [[0,"desc"]]
-        } );}
+            "aaSorting": [[0,"desc"]] ,
+            "sScrollX": "100%" //表格的宽度
+        } );
+                $(".display").css("width","700px");
+                $(".centerrightframe").css("width","700px");
+                $(".dataTables_wrapper").css("width","700px");
+            }
      );
+
   function sh_op(myclass){
       if($(myclass).is( ":hidden "))
-          $(myclass).show();
+          $(myclass).fadeIn(300);
       else
-          $(myclass).hide();
+          $(myclass).fadeOut(300);
   }
 
 </script>

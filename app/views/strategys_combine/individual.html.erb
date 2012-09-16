@@ -142,8 +142,9 @@
    </div>
 
     <div class="strategy_config_startdate">
-    <h3>评估开始时间：</h3>
-    <%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
+    <h3>策略测试日期设置</h3>
+    <p>开始日期：</p><%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
+    <p>结束日期：</p><%= text_field_tag :enddate, params[:enddate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"enddate",:name=>"enddate",:title=>" 策略结束时间"%><br>
     </div>
 
     <div class="button_confirm_2"><a href="#ensure_test" class="login-window">提交</a></div>
@@ -216,9 +217,29 @@
                  .require();
              $("#startdate")
                  .require();
+             $("#enddate")
+                .require();
          });
      });
+    function DateDiff(sDate1, sDate2){ //sDate1和sDate2是2002-12-18格式
+        var aDate, oDate1, oDate2, iDays
+        aDate = sDate1.split("-")
+        oDate1 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0]) //转换为12-18-2002格式
+        aDate = sDate2.split("-")
+        oDate2 = new Date(aDate[1] + '-' + aDate[2] + '-' + aDate[0])
+        iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 /24) //把相差的毫秒数转换为天数
+        return iDays
+    }
+    $("#individual_form").submit(function(e){
+        var diff=DateDiff($("#enddate").attr("value"),$("#startdate").attr("value"))
+        if(diff<91){
+            alert("间隔天数必须大于3个月！");
+            $('#mask , .login-popup').fadeOut(300 , function() {
+                $('#mask').remove(); });
+            e.preventDefault();
+        }
 
+    });
    function side_2(){
        alert("提交选择的策略！")
    }

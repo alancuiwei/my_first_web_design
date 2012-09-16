@@ -2,7 +2,7 @@ class AddSessionsTable < ActiveRecord::Migration
   def up
     create_table :session do |t|
       t.string :session_id, :null => false
-      t.text :data,:null => false
+      t.text :data , :null => false
       t.timestamps
     end
 

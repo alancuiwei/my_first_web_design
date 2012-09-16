@@ -84,17 +84,12 @@
 <br />
 <!-- <h2>个性化交易 - 无风险套利 </h2> -->
     <div id="showtime"></div>
-    <% if @norisk_havesub!=nil &&@norisk_havesub!=-1%>
         <div id="order_status">
               <a href="javascript:void(0)" onclick="show_all()">全部</a>&nbsp;&nbsp;
               <a href="javascript:void(0)" onclick="show_none()">未下单</a>&nbsp;&nbsp;
               <a href="javascript:void(0)" onclick="show_done()">已下单</a>
         </div>
     <div id="rtpricetable_user"></div>
-
-        <% else %>
-        <h2>您还不是收费用户，不能查看个性化交易。</h2>
-<% end %>
 <% end %>
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
@@ -632,12 +627,10 @@
 	})
   	}
     <% if @webuser!=nil%>
-    <% if @webuser.level!=0%>
 	var g_MKDataState=new MKDataState(3600000,true);
     var stream_flag=0;
 	checktimeMKTime();
     setTimeout(listen_ajax_watchdog,10000) ;
-    <% end %>
     <% end %>
 </script>
 </div>

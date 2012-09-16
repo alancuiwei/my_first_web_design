@@ -197,6 +197,7 @@ class StrategysCombineController < ApplicationController
 
       if @webuser!=nil&&params[:startdate]!=nil
         @XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
+        @XMLfile.elements.to_a("//enddate")[0].text=params[:enddate]
         for i in 0..@strategy_params.size-1
           if @strategy_params[i].paramname!="J"
           @XMLfile.elements.to_a("//#{@strategy_params[i].paramname}")[0].text=params[:"#{@strategy_params[i].paramname}"]

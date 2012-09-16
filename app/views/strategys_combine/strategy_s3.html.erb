@@ -105,8 +105,10 @@
            }
            $("#s3_form").submit(function(e){
                var diff=DateDiff($("#enddate").attr("value"),$("#startdate").attr("value"))
-               if(diff<31){
-                   alert("间隔天数必须大于30天！")
+               if(diff<91){
+                   alert("间隔天数必须大于3个月！");
+                   $('#mask , .login-popup').fadeOut(300 , function() {
+                       $('#mask').remove(); });
                    e.preventDefault();
                }
 
