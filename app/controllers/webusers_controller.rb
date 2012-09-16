@@ -4,10 +4,35 @@ class WebusersController < ApplicationController
   # GET /webusers
   # GET /webusers.json
   def user_lr
+    Thread.new{
+      record_des=ActiveRecord::SessionStore::Session.where("data ='BAh7AA==\n'" ).all
+      record_des.each do |r|
+        r.destroy
+      end
+    }
     if params[:name]!=nil
       if Webuser.authenticate(params[:name], params[:password])
+        @record=ActiveRecord::SessionStore::Session.where("data !='BAh7AA==\n'" ).all
+        @online_user=Hash.new
+        @record.each do |r|
+          if r.data["webuser_name"]!=nil
+            session_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(r.updated_at.to_s(:db),"%Y-%m-%d").to_i)/86400
+            @online_user.store(r.data["webuser_name"],[session_days,r.session_id])
+          end
+        end
+        if @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]==0
+          @test='该用户已经登录！'.to_json
+          render :json => @test
+        elsif @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]>0
+          ActiveRecord::SessionStore::Session.find_by_session_id(@online_user[params[:name]][1]).destroy
         session[:webuser_name] =params[:name]
         render :json =>(params[:name]+"|"+Webuser.find_by_name(session[:webuser_name]).id.to_s).to_json
+      else
+          session[:webuser_name] =params[:name]
+          render :json =>(params[:name]+"|"+Webuser.find_by_name(session[:webuser_name]).id.to_s).to_json
+        end
+
+
       else
         @test='您的用户名或者密码输入错误！'.to_json
       render :json => @test

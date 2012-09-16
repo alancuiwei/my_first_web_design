@@ -155,11 +155,11 @@ class StrategywebsController < ApplicationController
 
     @hash_reference=Hash.new
     @reference=Array.new
-    @reference_title=["minmarginaccount","totalnetprofit","grossprofit","grossloss",
-                "avemonthreturn","aveyearreturn","toaltradingdays","totaltrades",
-                "avedaytrades","numwintrades","numlosstrades","percentprofitable",
-                "largestwintrade","largestlosstrade","avewintrade","avelosstrade",
-                "avetrade","expectvalue", "maxdrawdown","maxdrawdowndays"]
+    @reference_title=["不要的","总盈利额","不要的","不要的",
+                "不要的","年收益率","不要的","总交易次数",
+                "日均交易次数","总盈利交易次数","总亏损交易次数","不要的",
+                "最大单笔盈利金额","最大单笔亏损金额","不要的","不要的",
+                "不要的","不要的", "最大资金回退金额","最大回退天数"]
     i=0
     @strategywebs.each do |strategyweb|
       if strategyweb.strategyid.size>6

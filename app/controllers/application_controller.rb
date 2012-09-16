@@ -9,5 +9,4 @@ class ApplicationController < ActionController::Base
 #		redirect_to login_url, :notice => "Please Log in!"
 #		end
 #	end	
-
 end

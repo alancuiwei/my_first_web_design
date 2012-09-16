@@ -2,14 +2,14 @@
 <%= stylesheet_link_tag "datatables.css" %>
 <%= render "side" %>
 
-<div>
-  <a href="javascript:void(0)" onclick="sh_op('.t_1')">策略名</a>
-  <% for i in 0..@reference_title.size-1 %><%=@reference_title[i] %>
-      <input checked="checked" type="checkbox" onclick="sh_op('.t_<%=i+2 %>')">
-  <% end %>
-</div>
 <div class="centerrightframe">
 <h2>策略库表格</h2>
+  <div>
+    <a href="javascript:void(0)" onclick="sh_op('.t_1')">策略名</a>
+    <% for i in 0..@reference_title.size-1 %><%=@reference_title[i] %>
+        <input checked="checked" type="checkbox" onclick="sh_op('.t_<%=i+2 %>')">
+    <% end %>
+  </div>
 <table class="display" id="traderecordtable" >
 <thead>
 
