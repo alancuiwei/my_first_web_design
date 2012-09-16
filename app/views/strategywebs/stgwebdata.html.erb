@@ -8,8 +8,11 @@
             "aaSorting": [[0,"desc"]]
         } );}
      );
+    <% if @webuser==nil%>
+    box("#login-box");
+    <% end %>
 </script>
-
+<% if @webuser!=nil %>
 <div class="centerrightframe">
 <h2>历史数据下载</h2>
 <table class="display" id="traderecordtable" >
@@ -36,3 +39,4 @@
 </tbody>
 </table>
 </div>
+<% end %>

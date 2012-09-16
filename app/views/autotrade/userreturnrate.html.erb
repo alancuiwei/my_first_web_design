@@ -1,4 +1,10 @@
 <%= render "side" %>
+<script>
+    <% if @webuser==nil%>
+    box("#login-box");
+    <% end %>
+</script>
+<% if @webuser!=nil%>
 <div class="frame">
 <br>
 <%= stylesheet_link_tag "faary.css" %>
@@ -13,3 +19,4 @@
     </p>
 <% end %>
 </div>
+<% end %>

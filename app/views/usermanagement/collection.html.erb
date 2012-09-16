@@ -1,9 +1,7 @@
 <%= render "side" %>
 <div class="centerrightframe">
   <h2>我收藏的策略：</h2>
-<% if session[:webuser_name]==nil%>
-    <a href="#login-box" class="login-window">请先登录</a>
-    <% else %>
+<% if session[:webuser_name]!=nil%>
 
     <% if @collect==[]%>
     您还没有收藏策略！

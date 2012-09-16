@@ -4,9 +4,7 @@
   <a href="/usermanagement/params_set">无风险套利设置</a>
 
   <h2>我订阅的策略：</h2>
-<% if session[:webuser_name]==nil%>
-    <a href="#login-box" class="login-window">请先登录</a>
-    <% else %>
+<% if session[:webuser_name]!=nil%>
 
     <% if @sub==[]||@sub==nil%>
     您还没有订阅策略！

@@ -130,6 +130,7 @@ class StrategywebsController < ApplicationController
   end
   
   def stgwebdata
+    @webuser = Webuser.find_by_name(session[:webuser_name])
     @commoditys=CommodityT.all
     @hash_commoditys={}
     @hash_commodityid=Hash["ag","白银","CF","棉花","ER","早籼稻(改名前)","RI","早籼稻(改名后)","ME","甲醇","RO","菜籽油(改名前)","OI","菜籽油(改名后)","SR","白糖","TA","精对苯二甲酸","WS","强麦(改名前)","WH","强麦(改名后)",

@@ -3,6 +3,7 @@
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= javascript_include_tag "Hashtable.js" %>
 <%= render "side" %>
+<% if @webuser!=nil %>
 <div class="centerframe">
   <div class="strategy_config">
     <h2>策略配置</h2>
@@ -141,11 +142,11 @@
     </input>
    </div>
 
-    <div class="strategy_config_startdate">
+  <div class="strategy_config_startdate">
     <h3>策略测试日期设置</h3>
     <p>开始日期：</p><%= text_field_tag :startdate, params[:startdate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"startdate",:name=>"startdate",:title=>" 策略开始时间"%><br>
     <p>结束日期：</p><%= text_field_tag :enddate, params[:enddate] ,:onClick=>"WdatePicker()",:class=>"Wdate",:id=>"enddate",:name=>"enddate",:title=>" 策略结束时间"%><br>
-    </div>
+  </div>
 
     <div class="button_confirm_2"><a href="#ensure_test" class="login-window">提交</a></div>
      <br>
@@ -303,4 +304,5 @@
           }
       });
 </script>
+<% end %>
 <% end %>

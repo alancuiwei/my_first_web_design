@@ -1,4 +1,10 @@
 ﻿<%= render "side" %>
+<script>
+    <% if @webuser==nil%>
+    box("#login-box");
+    <% end %>
+</script>
+<% if @webuser!=nil%>
 <div class="frame">
     <p>
       <b>期望保证金比例修改为：</b>
@@ -8,3 +14,4 @@
     <%= link_to '返回',:controller=>"strategy" ,:action=>"personaltrading"%>
 
 </div>
+<% end %>

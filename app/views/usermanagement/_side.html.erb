@@ -1,5 +1,10 @@
 ﻿<%= stylesheet_link_tag "datatables.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
+<script>
+    <% if session[:webuser_name]==nil%>
+    box("#login-box");
+    <% end %>
+</script>
 
 <div class="leftframe">
   <div class="pagedomain">

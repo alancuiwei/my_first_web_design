@@ -10,33 +10,38 @@
 
 <script type="text/javascript">
   var redirect;
-
     var clickflag ;
   // document ready
-    $(document).ready(function() {
-    //box
-    $('a.login-window,a.regedit-window,a.autotrade-window').click(function () {
-        // Getting the variable's value from a link
-        redirect=($(this).attr("name"))
-        var loginBox = $(this).attr('href');
-            if (loginBox=="#login-box"){
+  function box(id){
+      if (id=="#login-box"){
                 clickflag="login" ;
             }
             else{
                 clickflag="regedit";
             }
+      var loginBox = id;
             //Fade in the Popup and add close button
             $(loginBox).fadeIn(300);
+
             //Set the center alignment padding + border
        		var popMargTop = ($(loginBox).height() + 24) / 2;
        		var popMargLeft = ($(loginBox).width() + 24) / 2;
+
        		$(loginBox).css({
        			'margin-top' : -popMargTop,
        			'margin-left' : -popMargLeft
-       		});// Add the mask to body
+      });
+
+      // Add the mask to body
        		$('body').append('<div id="mask"></div>');
        		$('#mask').fadeIn(300);
-            return false;
+  }
+    $(document).ready(function() {
+    //box
+    $('a.login-window,a.regedit-window,a.autotrade-window').click(function () {
+        // Getting the variable's value from a link
+        box($(this).attr('value'));
+        redirect=($(this).attr("name"))
        	});
        	// When clicking on the button close or the mask layer the popup closed
        	$('a.close, #mask').live('click', function() {
@@ -91,13 +96,13 @@
         <!-- user hasn't login yet -->  
             <% if session[:webuser_name]==nil%>
             <div class="register">
-                  <a href="#regedit-box" class="regedit-window">注册</a>
+                  <a value="#regedit-box" href="javascript:void(0)"  class="regedit-window">注册</a>
             </div>
 
             <img src="/assets/logreg.gif">
             
             <div class="login">
-                  <a href="#login-box" class="login-window">登录</a>
+                  <a value="#login-box" href="javascript:void(0)" class="login-window">登录</a>
             </div>
 
             <!-- user had logined in -->
@@ -129,8 +134,8 @@
                       <ul>
                         <li><a href="/strategywebs">策略集</a></li>
                         <li><a href="/S010001/shownorisk">无风险套利</a></li>
-                        <li><a href="#login-box" class="login-window" name="/strategywebs/stgwebdata/data">历史数据下载</a></li>
-                        <li><a href="#login-box" class="login-window" name="/strategywebs/stgwebtable/table">策略库表格</a></li>
+                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebdata/data">历史数据下载</a></li>
+                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebtable/table">策略库表格</a></li>
                       </ul>
                     </div>
                     </li>
@@ -151,8 +156,8 @@
                     <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>个性化策略</span></span></span></a>
                     <div class="level">
                       <ul>
-                        <li><a href="#login-box" class="login-window" name="/strategys_combine/individual">策略配置</a></li>
-                        <li><a href="#login-box" class="login-window" name="/strategys_combine/strategy_s1">策略组合</a></li>
+                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/individual">策略配置</a></li>
+                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/strategy_s1">策略组合</a></li>
                       </ul>
                     </div>
                     </li>
@@ -170,11 +175,11 @@
                   <div class="level">
                     <ul>
                       <% if @webuser==nil %>
-                          <li class="begin"><a href="#login-box" class="login-window" id="redirect_autotrade" name="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a href="#login-box" class="login-window" name="/autotrade/personaltrading">自动化执行</a></li>
+                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" id="redirect_autotrade" name="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
+                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/autotrade/personaltrading">自动化执行</a></li>
                       <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
                           <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a href="#autotrade-box"  class="autotrade-window">自动化执行</a></li>
+                          <li><a value="#autotrade-box" href="javascript:void(0)"  class="autotrade-window">自动化执行</a></li>
                       <% else %>
                           <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
                           <li><a href="/autotrade/personaltrading">自动化执行</a></li>
@@ -195,9 +200,9 @@
                           <li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"my_subscribe") %></li>
                           <li><%= link_to("收藏的策略",:controller=>"usermanagement" ,:action=>"collection") %></li>
                       <% else %>
-                          <li class="begin"><a href="#login-box" class="login-window" name="account_1">个人信息管理</a></li>
-                          <li><a href="#login-box" class="login-window" name="account_2">订阅的策略</a></li>
-                          <li><a href="#login-box" class="login-window" name="account_3">收藏的策略</a></li>
+                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_1">个人信息管理</a></li>
+                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_2">订阅的策略</a></li>
+                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_3">收藏的策略</a></li>
                       <% end %>
                     </ul>
                   </div>
@@ -298,7 +303,7 @@
                             <input type="checkbox" />
                           <p>记住我</p>
                           <p>您没有账号？</p>
-                            <a href="#regedit-box" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" >注册</a>
+                            <a value="#regedit-box" href="javascript:void(0)" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" >注册</a>
 
                         </div>
                         <div class="login_submit">
@@ -342,7 +347,7 @@
                         <p>
                         您已有账号？
                         </p>
-                        <a href="#login-box" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">登入</a>
+                        <a value="#login-box" href="javascript:void(0)" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">登入</a>
                       </div>
                       <div class="regedit_submit">
                         <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>

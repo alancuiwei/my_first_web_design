@@ -2,6 +2,7 @@
 <%= javascript_include_tag "jQuery.validity.min.js" %>
 <%= stylesheet_link_tag "jquery.validity.css" %>
 <%= render "side" %>
+<% if @webuser!=nil %>
 <div class="centerframe">
 
     <% if params[:id]!=nil %>
@@ -130,4 +131,4 @@
  <% end %>
 
 </div>
-
+<%end%>

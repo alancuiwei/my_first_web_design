@@ -1,9 +1,7 @@
-﻿
-<%= render "side" %>
+﻿<%= render "side" %>
 <div class="centerrightframe">
 <%= stylesheet_link_tag "faary.css" %>
 <% if session[:webuser_name]!=nil %>
-<br />
 <%= form_for(@webuser, :html=>{:class=>"iform"}) do |f| %>
 
 	<h2>修改</h2>
@@ -26,10 +24,12 @@
     <br >
 
 <% end %>
-<% else %>
-<a href="#login-box" class="login-window">请先登录</a>
 <% end %>
 <script type="text/javascript">
+    <% if session[:webuser_name]==nil%>
+    box("#login-box");
+    <% end %>
+
     function mysubmit(){
     <% if params[:fp]==nil %>
         if($("#oldpassword").attr("value")==""){
@@ -65,4 +65,4 @@
     }
 
 </script>
-</div
+</div>
