@@ -155,11 +155,8 @@ class StrategywebsController < ApplicationController
 
     @hash_reference=Hash.new
     @reference=Array.new
-    @reference_title=["不要的","总盈利额","不要的","不要的",
-                "不要的","年收益率","不要的","总交易次数",
-                "日均交易次数","总盈利交易次数","总亏损交易次数","不要的",
-                "最大单笔盈利金额","最大单笔亏损金额","不要的","不要的",
-                "不要的","不要的", "最大资金回退金额","最大回退天数"]
+    @reference_title=["总盈利额","年收益率","总交易次数","日均交易次数","总盈利交易次数",
+                      "总亏损交易次数","最大单笔盈利金额","最大单笔亏损金额", "最大资金回退金额","最大回退天数"]
     i=0
     @strategywebs.each do |strategyweb|
       if strategyweb.strategyid.size>6
@@ -168,18 +165,18 @@ class StrategywebsController < ApplicationController
       @reference[i]= StrategyreferenceT.find_by_strategyid_and_userid_and_ordernum_and_rightid(strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,strategyweb.strategyid+"000000")
       end
       if @reference[i]!=nil
+        format_str="%.2f"
        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,
-           [@reference[i].minmarginaccount,@reference[i].totalnetprofit,@reference[i].grossprofit,@reference[i].grossloss,
-            @reference[i].avemonthreturn,@reference[i].aveyearreturn,@reference[i].toaltradingdays,@reference[i].totaltrades,
-            @reference[i].avedaytrades,@reference[i].numwintrades,@reference[i].numlosstrades,@reference[i].percentprofitable,
-            @reference[i].largestwintrade,@reference[i].largestlosstrade,@reference[i].avewintrade,@reference[i].avelosstrade,
-            @reference[i].avetrade,@reference[i].expectvalue, @reference[i].maxdrawdown,@reference[i].maxdrawdowndays])
+           [format(format_str, @reference[i].totalnetprofit),format(format_str, @reference[i].aveyearreturn),format(format_str, @reference[i].totaltrades),
+            format(format_str, @reference[i].avedaytrades),format(format_str, @reference[i].numwintrades),format(format_str, @reference[i].numlosstrades),
+            format(format_str, @reference[i].largestwintrade),format(format_str, @reference[i].largestlosstrade),
+            format(format_str, @reference[i].maxdrawdown),format(format_str, @reference[i].maxdrawdowndays)])
       else
-        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil,nil])
+        @hash_reference.store(strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s,[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil])
       end
       i=i+1
     end
-    @hash_reference.store("01000100",["无","无",@allmaxreturnrate[0].returnrate,"无","无","无","无","无","无","无","无","无","无","无","无","无","无","无","无","无"])
+    @hash_reference.store("01000100",["无","无",@allmaxreturnrate[0].returnrate,"无","无","无","无","无","无","无"])
   end
 
   def download

@@ -4,12 +4,7 @@ class WebusersController < ApplicationController
   # GET /webusers
   # GET /webusers.json
   def user_lr
-    Thread.new{
-      record_des=ActiveRecord::SessionStore::Session.where("data ='BAh7AA==\n'" ).all
-      record_des.each do |r|
-        r.destroy
-      end
-    }
+
     if params[:name]!=nil
       if Webuser.authenticate(params[:name], params[:password])
         @record=ActiveRecord::SessionStore::Session.where("data !='BAh7AA==\n'" ).all
@@ -275,5 +270,15 @@ class WebusersController < ApplicationController
       des.decrypt
       des.update(str) + des.final
     end
+
+  #session 清理？
+  def cleardb
+    record_des=ActiveRecord::SessionStore::Session.where("data ='BAh7AA==\n'" ).all
+    Thread.new{
+      record_des.each do |r|
+        r.destroy
+      end
+    }
+  end
 
 end
