@@ -493,16 +493,16 @@ para.checked=null;
   <% if session[:webuser_name]==nil %>
       <div id="title-top">
         <ul>
-        <li><a class="login-window" href="#login-box" >订阅</a></li>
-        <li><a class="login-window" href="#login-box" >试用</a></li>
+        <li><a class="login-window" value="#login-box" href="javascript:void(0)" >订阅</a></li>
+        <li><a class="login-window" value="#login-box" href="javascript:void(0)">试用</a></li>
         </ul>
       </div>
   <% else %>
       <% if @norisk_istry==nil&&@norisk_issub==nil %>
       <div id="title-top">
         <ul>
-        <li><a class="login-window" href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-        <li><a class="login-window" href="/strategys/try/<%=@strategy_norisk.id%>" >试用</a></li>
+        <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+        <li><a href="/strategys/try/<%=@strategy_norisk.id%>" >试用</a></li>
         </ul>
       </div>
       <% else %>
@@ -510,7 +510,7 @@ para.checked=null;
          <div id="title-top1">
          <div class="top1left">
             <ul>
-            <li><a class="login-window" href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+            <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
             </ul>
          </div>
          <div class="top1right">
@@ -528,7 +528,7 @@ para.checked=null;
               <div id="title-top1">
                 <div class="top1left">
                 <ul>
-                  <li><a class="login-window" href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
+                  <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
 </ul> </div>
 <div class="top1right">
 <ul>
