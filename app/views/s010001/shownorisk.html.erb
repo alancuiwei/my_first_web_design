@@ -350,16 +350,21 @@ para.checked=null;
                                  //年化收益率计算
                          computerateofreturn[i]=((parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])-parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice']))
                                  *hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]-computearbfee[i])*365/(funds[i]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7])
+                                 var computerateofreturn_temp;
+                                 if (hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]==0)
+                                 computerateofreturn_temp="none";
+                                 else
+                                     computerateofreturn_temp=(computerateofreturn[i]*100).toFixed(1)
                          if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
                              if(mychecked_f==99){
                                if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)=="TA")
                                    tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                             parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                                             parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_f==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                                         parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_f==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
@@ -368,7 +373,7 @@ para.checked=null;
                              if(mychecked_s==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                         parseFloat(computearbfee[i]).toFixed(1),(computerateofreturn[i]*100).toFixed(1), rtxml_arr['pairstrade']['pair'][i]['time']];
+                                         parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_s==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
@@ -394,6 +399,7 @@ para.checked=null;
                                      { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
                                                          var sReturn = obj.aData[ obj.iDataColumn ];
                                           if ( sReturn >=0 )sReturn = "<font color='red'>"+sReturn+"%</font>";
+                                          else if( sReturn =="none" ) sReturn = "<font color='red'>无</font>";
                                           else sReturn = "<font color='green'>"+sReturn+"%</font>";
                                           return sReturn;}
                                              },
