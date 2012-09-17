@@ -12,6 +12,7 @@ class StrategysCombineController < ApplicationController
     @url_3="javascript:void(0)"
     @url_4="javascript:void(0)"
     @url_5="javascript:void(0)"
+    @webuser = Webuser.find_by_name(session[:webuser_name])
 
     @strategywebs = Strategyweb.where("(strategyid like '0407%' or strategyid like '0408%') and userid=0 and ordernum=0").all
 
@@ -27,7 +28,6 @@ class StrategysCombineController < ApplicationController
 
       @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
 
-      @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
 
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
@@ -68,7 +68,7 @@ class StrategysCombineController < ApplicationController
     @url_5="javascript:void(0)"
 
     @strategywebs = Strategyweb.where("strategyid like '0407%' and userid=0 and ordernum=0").all
-
+    @webuser = Webuser.find_by_name(session[:webuser_name])
     if params[:id]!=nil
       @strategyweb = Strategyweb.find(params[:id])
       @strategy_params=StrategyparamT.find_all_by_strategyid_and_ordernum_and_userid(@strategyweb.strategyid,0,0)
@@ -80,7 +80,6 @@ class StrategysCombineController < ApplicationController
       end
       @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile'+@strategyweb.strategyid+'.xml'))
 
-      @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:"#{@strategy_params[0].paramname}"]!=nil
         #@XMLfile.elements.to_a("//startdate")[0].text=params[:startdate]
         for i in 0..@strategy_params.size-1
@@ -117,6 +116,7 @@ class StrategysCombineController < ApplicationController
     @url_3="javascript:void(0)"
     @url_4="javascript:void(0)"
     @url_5="javascript:void(0)"
+    @webuser = Webuser.find_by_name(session[:webuser_name])
 
     if params[:id]!=nil
       @strategyweb = Strategyweb.find(params[:id])
@@ -128,7 +128,6 @@ class StrategysCombineController < ApplicationController
         @rightids_arr_d[i]=@commodityrights[i].firstcommodityid
       end
 
-      @webuser = Webuser.find_by_name(session[:webuser_name])
       if @webuser!=nil&&params[:startdate]!=nil
         @XMLfile = Document.new(File.new('app/assets/xmls/g_XMLfile-'+@webuser.id.to_s+'.xml'))
 
@@ -155,6 +154,7 @@ class StrategysCombineController < ApplicationController
   end
 
   def showall
+    @webuser = Webuser.find_by_name(session[:webuser_name])
     @strategyweb = Strategyweb.find(params[:id])
     @traderecord_all=StrategypositionrecordT.find(:all, :order =>"openposdate DESC",:conditions =>["strategyid=? and userid=? and ordernum=? ",@strategyweb.strategyid,@strategyweb.userid,@strategyweb.ordernum])
   end
