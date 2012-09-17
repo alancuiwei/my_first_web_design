@@ -9,6 +9,10 @@
 <%= javascript_include_tag "easySlider1.5.js" %>
 
 <script type="text/javascript">
+    setInterval(session_ajax,10000) //毫秒
+    function session_ajax(){
+        $.get("/webusers/session_ajax/none")
+    }
   var redirect;
     var clickflag ;
   // document ready
@@ -247,8 +251,9 @@
                       }
                       else{
 /*                         $("#errormsg_position").css({"padding": "89px 0 0 30px"})    */
+                          $("#login_errormsg").hide();
                          $("#login_errormsg").html(data.toString());
-
+                          $("#login_errormsg").fadeIn(300);
 
                       }
                   });

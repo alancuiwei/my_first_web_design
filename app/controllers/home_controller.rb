@@ -37,7 +37,6 @@ class HomeController < ApplicationController
 
     @strategywebs.each do |strategyweb|
       profit=Profitchart.find(:all,:conditions =>["strategyid=? and userid=? and ordernum=? and id%30=?",strategyweb.strategyid,strategyweb.userid,strategyweb.ordernum,0], :order =>"dateint ASC")
-      @test=profit
     if  profit!=nil
       @profitchart_arr=[]
       @profitchart_arr_day=[]

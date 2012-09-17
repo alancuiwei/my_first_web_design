@@ -4,21 +4,20 @@ class WebusersController < ApplicationController
   # GET /webusers
   # GET /webusers.json
   def user_lr
-
     if params[:name]!=nil
       if Webuser.authenticate(params[:name], params[:password])
         @record=ActiveRecord::SessionStore::Session.where("data !='BAh7AA==\n'" ).all
         @online_user=Hash.new
         @record.each do |r|
           if r.data["webuser_name"]!=nil
-            session_days=(DateTime.strptime(Time.now.to_s(:db),"%Y-%m-%d").to_i-DateTime.strptime(r.updated_at.to_s(:db),"%Y-%m-%d").to_i)/86400
+            session_days=(Time.now.to_i-r.updated_at.to_i)
             @online_user.store(r.data["webuser_name"],[session_days,r.session_id])
           end
         end
-        if @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]==0
+        if @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]<12
           @test='该用户已经登录！'.to_json
           render :json => @test
-        elsif @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]>0
+        elsif @online_user[params[:name]]!=nil&&@online_user[params[:name]][0]>=12
           ActiveRecord::SessionStore::Session.find_by_session_id(@online_user[params[:name]][1]).destroy
         session[:webuser_name] =params[:name]
         render :json =>(params[:name]+"|"+Webuser.find_by_name(session[:webuser_name]).id.to_s).to_json
@@ -247,6 +246,13 @@ class WebusersController < ApplicationController
       @notice="链接已过期！"
 
     end
+  end
+
+  def session_ajax
+    if session[:webuser_name]!=nil
+      session[:time]=Time.now
+    end
+    render :json=>"none"
   end
 
   protected
