@@ -6,7 +6,7 @@
 <%= render "side" %>
 <div class="frame">
 <% if session[:webuser_name]==nil %>
-    <a href="#login-box" class="login-window">定制</a>
+    <a value="#login-box" href="javascript:void(0)" class="login-window">定制</a>
     <% else %>
 <a href="/strategys_combine/individual/<%= @strategyweb.id %>">定制</a>
     <% end %>

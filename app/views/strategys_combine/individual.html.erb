@@ -105,7 +105,7 @@
 <h3>策略参数配置:</h3>
     <% for i in 0..@strategy_params.size-1 %>
       <% if @strategy_params[i].paramname!="J"%>
-        <p><%= @strategy_params[i].strategy_para_name  %>(<a href="[name='#<%=@strategy_params[i].paramname%>']" class="login-window">?</a>)</p>
+        <p><%= @strategy_params[i].strategy_para_name  %>(<a value="[name='#<%=@strategy_params[i].paramname%>']" href="javascript:void(0)" class="login-window">?</a>)</p>
         <p><input id="<%= @strategy_params[i].paramname  %>" name="<%= @strategy_params[i].paramname  %>"  type="text" value="<%= @strategy_params[i].strategy_para_default %>" onclick="this.value=''"/> (参数范围：<%= @strategy_params[i].strategy_para_range %>)</p>
 
     <div name="#<%=@strategy_params[i].paramname%>" id="strategy_buy_confirm" class="login-popup">

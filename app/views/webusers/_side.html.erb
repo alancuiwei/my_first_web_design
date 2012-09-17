@@ -7,9 +7,9 @@
 	<ul>
 
         <% if @webuser==nil %>
-            <li> <a href="#login-box" class="login-window">我的信息</a></li>
-            <li>  <a href="#login-box" class="login-window">我订阅的策略</a></li>
-          <li>  <a href="#login-box" class="login-window">我收藏的策略</a></li>
+            <li> <a value="#login-box" href="javascript:void(0)" class="login-window">我的信息</a></li>
+            <li>  <a value="#login-box" href="javascript:void(0)" class="login-window">我订阅的策略</a></li>
+          <li>  <a value="#login-box" href="javascript:void(0)" class="login-window">我收藏的策略</a></li>
      <% else %>
             <% if @webuser.name=="administrator" %>
                 <li><%= link_to "我的信息",:controller=>"admin" %></li>

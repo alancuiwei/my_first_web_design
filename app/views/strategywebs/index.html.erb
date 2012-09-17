@@ -318,7 +318,7 @@
       <% if @sub_hash[strategyweb.strategyid+strategyweb.ordernum.to_s+strategyweb.userid.to_s]!=nil %>
               <a><img src="/assets/chelan2.gif" />已订购</a>
       <% else %>
-          <a href="[name='#<%=strategyweb.id%>']" class="login-window"><img src="/assets/chelan.gif" />订购</a>
+          <a value="[name='#<%=strategyweb.id%>']" href="javascript:void(0)" class="login-window"><img src="/assets/chelan.gif" />订购</a>
           <div name="#<%=strategyweb.id%>" id="strategy_buy_confirm" class="login-popup">
             <div class="popup_2buttons_pattern">
               <div class="popup_content">
