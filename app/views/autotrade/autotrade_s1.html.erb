@@ -22,9 +22,9 @@
   <div id="wizardpanel" class="autotrade_setup_step2">
     <h2>设置期货公司</h2>
     <div id="wizardcontent">
-     <div id="huatai">
-       <%= radio_button_tag "radio_p2", "s1"%>华泰长城期货交易公司<br>
-       <%= radio_button_tag "radio_p2", "s2"%>瑞龙期货交易公司
+     <div id="IB_selection">
+       <p><%= radio_button_tag "radio_p2", "s1"%>华泰长城期货交易公司 </p>
+       <p><%= radio_button_tag "radio_p2", "s2"%>瑞龙期货交易公司   </p>
       </div>
       <div id="ctp_account_setup">
         <p>您的<scan class="ctp_account_setup_1"></scan>交易帐号:<input type="text" value="" id="account" size="20"></p>
@@ -138,7 +138,7 @@
 
     function myop_retrun(s1,s2){
         $("#ctp_account_setup,#intro_1,#intro_2").hide();
-        $("#huatai,.framer").show();
+        $("#IB_selection,.framer").show();
         $("#radio_p2_s1").attr('checked',false);
     }
 
@@ -147,12 +147,12 @@
 
     $("#radio_p2_s1").click(function(){
         $(".ctp_account_setup_1").html("华泰长城")
-        $("#huatai,.framer,#s2_1").hide();
+        $("#IB_selection,.framer,#s2_1").hide();
         $("#intro_1,#s2_2,#ctp_account_setup").show();
     });
     $("#radio_p2_s2").click(function(){
         $(".ctp_account_setup_1").html("瑞龙")
-        $("#huatai,.framer,#s2_1").hide();
+        $("#IB_selection,.framer,#s2_1").hide();
         $("#intro_2,#s2_2,#ctp_account_setup").show();
     });
 
