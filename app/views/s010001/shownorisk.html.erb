@@ -36,12 +36,12 @@
 	<ul><li>
       <% if @webuser!=nil %>
       <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-	<a href="#autotrade-box"  class="autotrade-window"> 自动化交易</a>
+	<a value="#autotrade-box"  href="javascript:void(0)" class="autotrade-window"> 自动化交易</a>
           <% else %>
           <a href="/autotrade/personaltrading"> 自动化交易</a>
           <% end %>
       <% else %>
-      <a value="#ensure_test" href="javascript:void(0)" class="login-window"> 自动化交易</a>
+      <a value="#login-box" href="javascript:void(0)" class="login-window"> 自动化交易</a>
       <% end %>
     </li></ul></div>
   <div id="norisktitle"><h2>策略实时运行中:</h2></div>
