@@ -30,6 +30,31 @@
   </div>
 
 <script type="text/javascript">
+    function unique(data){
+        data = data || [];
+        var a = {};
+        for (var i=0; i<data.length; i++) {
+            var v = data[i];
+            if (typeof(a[v]) == 'undefined'){
+                a[v] = 1;
+            }
+        };
+        data.length=0;
+        for (var i in a){
+            data[data.length] = i;
+        }
+        return data;
+    }
+    function compare(str){
+        var str_arr=unique(str.match(/\w+/g));
+        for(var i=0;i<str_arr.length;i++){
+            str=str.replace(eval("/"+str_arr[i]+"/g"),"parseFloat($('#"+str_arr[i]+"').attr('value'))");
+        }
+        if(str.match(">")||str.match("<"))
+        return str;
+        else
+        return 1;
+    }
      function side_3(){
         alert("请选择策略2！")
     }
@@ -45,6 +70,7 @@
 </script>
 
 <% if params[:id]!=nil%>
+      <div id="compare_dbstr" value='<%=@strategyweb.strategy_para_description%>'></div>
       <script>
           function side_3(){
               alert("提交选择的策略2！")
@@ -133,6 +159,11 @@
 <script>
       $("#form_s2").submit(function(e){
           //e.preventDefault();
+          if(eval(compare($("#compare_dbstr").attr("value")))==false){
+              alert("值间的大小错误！");
+              $('#mask , .login-popup').fadeOut(300 , function() {
+                  $('#mask').remove(); });
+          }
           var submit_flag=0;
           <% for i in 0..@strategy_params.size-1 %>
           <% if @strategy_params[i].paramname!="J"%>
@@ -147,7 +178,7 @@
           submit_flag=1;
           <% end %>
           <% end %>
-          if(submit_flag!=0){
+          if(submit_flag!=0||eval(compare($("#compare_dbstr").attr("value")))==false){
           e.preventDefault();
           }
       });
