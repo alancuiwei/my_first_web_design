@@ -275,7 +275,7 @@ para.checked=null;
     //hash table
     var hash_db = new Hashtable();
     <% for i in 0..@dbnum-1 do%>
-        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>],<%= @db[i].tradechargetype%>);
+        hash_db.add('<%= @db[i].commodityid%>',[<%= @db[i].lendrate%>,<%= @db[i].tradecharge%>,<%= @db[i].trademargingap%>,<%= @db[i].tradechargetype%>]);
     <% end%>
     var hash_table = new Hashtable();
 	function MKDataState(mtcounter, isgetMKData){ 
@@ -355,7 +355,7 @@ para.checked=null;
                                  computerateofreturn_temp="none";
                                  else
                                      computerateofreturn_temp=(computerateofreturn[i]*100).toFixed(1)
-                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
+                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])){
                              if(mychecked_f==99){
                                if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)=="TA")
                                    tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
@@ -380,8 +380,8 @@ para.checked=null;
                                      tabledata[i]=[0,0,0,0,0,0];
                              }
                          }
-                         else
-                                     tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--"];
+                         else                                    
+<!--  tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--"]; -->
 							}
                              for(var k=0,s=0;k<tabledata.length;k++){
                                  if(tabledata[k]!=null&&tabledata[k][0]!=0){
