@@ -133,48 +133,13 @@
                 <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
 
                 <% if @webuser==nil %>
-                    <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>策略库</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a href="/strategywebs">策略集</a></li>
-                        <li><a href="/S010001/shownorisk">无风险套利</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebdata/data">历史数据下载</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebtable/table">策略库表格</a></li>
-                      </ul>
-                    </div>
+                    <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/S010001/shownorisk" ><span><span><span>无风险套利</span></span></span></a>
                     </li>
                 <% else %>
-                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略库</span></span></span></a>
-                <div class="level">
-                  <ul>
-                    <li><a href="/strategywebs">策略集</a></li>
-                    <li><a href="/S010001/shownorisk">无风险套利</a></li>
-                    <li><a href="/strategywebs/stgwebdata/data">历史数据下载</a></li>
-                    <li><a href="/strategywebs/stgwebtable/table">策略库表格</a></li>
-                  </ul>
-                </div>
+                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/S010001/shownorisk"><span><span><span>无风险套利</span></span></span></a>
                 </li>
                 <% end %>
 
-                <% if @webuser==nil %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>个性化策略</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/individual">策略配置</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/strategy_s1">策略组合</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                <% else %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>个性化策略</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a href="/strategys_combine/individual">策略配置</a></li>
-                        <li><a href="/strategys_combine/strategy_s1">策略组合</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                <% end %>
                 <% if params[:controller]=="autotrade"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
                   <div class="level">
                     <ul>
@@ -189,25 +154,6 @@
                           <li><a href="/autotrade/personaltrading">自动化执行</a></li>
                       <% end %>
                       <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <% if params[:controller]=="webusers"||params[:controller]=="admin"||params[:controller]=="usermanagement"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <% if @webuser!=nil %>
-                          <% if @webuser.name=="administrator" %>
-                              <li class="begin"><a href="/admin" >个人信息管理</a></li>
-                          <% else %>
-                              <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
-                          <% end %>
-                          <li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"my_subscribe") %></li>
-                          <li><%= link_to("收藏的策略",:controller=>"usermanagement" ,:action=>"collection") %></li>
-                      <% else %>
-                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_1">个人信息管理</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_2">订阅的策略</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_3">收藏的策略</a></li>
-                      <% end %>
                     </ul>
                   </div>
                 </li>

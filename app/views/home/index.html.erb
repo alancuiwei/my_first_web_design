@@ -1,16 +1,4 @@
-<%= stylesheet_link_tag "jquery.noty.css" %>
-<%= stylesheet_link_tag "noty_theme_growl.css" %>
-<%= javascript_include_tag "jquery.noty.js" %>
-<%= javascript_include_tag "highcharts.js" %>
-<%= javascript_include_tag "Hashtable.js" %>
-
 <body>
-  <div class="slider_set">
-
-
-    <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
-    <div class="slice_background">
-      <div id="slider">
         <ul>
           <li>
 			  <div id="banner3">
@@ -19,35 +7,12 @@
 			  超过200多组合约对，<br />
 			  捕捉所有盈利机会。</p></a>
             </div>
-			  <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller => "S010001",:action => "shownorisk") %></p>
+			  <p class="homepage_slide_img"><%= link_to(image_tag("img02.jpg"),:controller => "S010001",:action => "shownorisk") %></p>
           </li>
 
-          <li>
-			 <div id="banner2">
-               <a href="/strategywebs"><p>单边：趋势策略，震荡策略；<br>套利：跨期，跨产品，跨市场策略</p> </a>
-            </div>
-              <p class="homepage_slide_img"><%= link_to(image_tag("img02.jpg"),:controller =>"strategywebs",:action =>"index") %></p>
-              
-              
-          </li>
-
-          <li>
-			 <div id="banner1">
-               <a href="/strategys_combine/individual"><p>简单上手，<br />
-			  定制您自己的交易策略，<br />
-			  免费帮您测试。</p>   </a>
-            </div>
-              <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller =>"strategys_combine",:action =>"individual") %></p>
-              
-          </li>
         </ul>
-      </div>
-      </div>
 
-    <img src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
-  </div>
   <div class="quicklink_strategyshow">
-  <div class="quicklink_set">
 
     <div class="quicklink_instance">
       <a href="/S010001/shownorisk">
@@ -65,44 +30,6 @@
     </div>
 
   <div class="quicklink_instance">
-    <a href="/strategys_combine/strategy_s1">
-      <img class="qs_image" src="/assets/celuezuhe.jpg" alt="quicklink_trend_strategy_config">
-    </a>
-    <div class="qs_content">
-      <a href="/strategys_combine/strategy_s1"><h2>策略组合</h2></a>
-      <a href="/strategys_combine/strategy_s1">
-        <p>主要针对单边策略，根据顺大势确定方向，逆小势确定入场的思想而实现，可以自行配置元策略参数，直观快捷的查看策略性能指标。</p>
-      </a>
-    </div>
-
-  </div>
-    <div class="quicklink_instance">
-      <a href="/strategys_combine/individual">
-        <img class="qs_image" src="/assets/celuepeizhi.jpg" alt="quicklink_arbitrage_strategy_config">
-      </a>
-      <div class="qs_content">
-        <a href="/strategys_combine/individual"><h2>策略配置</h2></a>
-        <a href="/strategys_combine/individual">
-          <p>主要针对套利策略，引用日本羽根英树先生的策略思想而实现，具体策略详细介绍可参考《价差交易入门》一书。</p>
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="quicklink_instance">
-      <img class="qs_image" src="/assets/celueyouhua.jpg" alt="quicklink_strategy_optimization">
-
-      <div class="qs_content">
-        <h2>策略优化</h2>
-        <p>通过登山，模拟退火，路径优先，遗传等优化算法，让您快速的获得符合您策略的最佳参数，从而获得最高的回报率。</p>
-
-      </div>
-
-    </div>
-
-    <div class="quicklink_instance">
       <a href="/autotrade/aboutautotrade">
         <img class="qs_image" src="/assets/zidonghuajiaoyi.jpg" alt="quicklink_autotrade">
       </a>
@@ -111,17 +38,6 @@
         <a href="/autotrade/aboutautotrade">
           <p>自动化交易就是您设置好交易品种范围，交易规模，系统根据您的策略自动完成开仓，平仓的交易。当前仅支持无风险套利策略。</p>
         </a>
-      </div>
-
-    </div>
-
-    <div class="quicklink_instance">
-      <img class="qs_image" src="/assets/tongtianshundashi.jpg" alt="quicklink_tongtianshun_master">
-
-      <div class="qs_content">
-        <h2>通天顺大师</h2>
-        <p>通天顺大师帮助您了解您的个性特征，从而分析交易习惯，得出比较适合您的交易策略。</p>
-
       </div>
 
     </div>
@@ -139,41 +55,6 @@
 
     </div>
 
-  </div>
-
-  <div class="strategy_status_set">
-    <img class="strategy_set_left_decoration" src="/assets/strategy_set_left_decoration.gif" alt="strategy_set_left_decoration">
-    <img class="strategy_set_right_decoration" src="/assets/strategy_set_right_decoration.gif" alt="strategy_set_right_decoration">
-    <div class="strategy_set_title_module">
-    <h2>策略动态</h2>
-    </div>
-    <p>图表皆基于历史数据的评测。</p>
-    <h3>新增策略</h3>
-    <div class="strategy_status_module">
-    <% @strategywebs.each do |strategyweb| %>
-    <div class="strategy_status_instance">
-    <div class="strategy_graph_display" id="<%= strategyweb.id%>">
-    </div>
-    <div class="strategy_text_display">
-        <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h4><%= strategyweb.name %></h4></a>
-        <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]==nil || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]==nil ||@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]==nil%>
-            <p>年收益率：稍候刷新</p>
-<!--            <p>最大回退金额：稍候刷新</p>
-            <p>胜率：稍候刷新 </p>     -->
-
-            <% else %>
-
-            <p>年收益率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]*100) %>% </p>
-<!--            <p>最大回退金额：</p><p><%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </p>
-            <p>胜率：</p><p><%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></p>  -->
-            <% end %>
-
-            <p>更新时间：</p><p><%=  strategyweb.updated_at.to_s(:stamp) %></p>
-    </div>
-    </div>
-    <%end%>
-    </div>
-  </div>
 
   </div>
 
@@ -186,88 +67,3 @@
       </p>
 </div>
 </html>
-
-<script type="text/javascript">
-  function show_version(){
-    $(document).ready(function(){
-      var title = '<table><tr><th>current_version_id</th><th>current_comments</th><th>update_date</th></tr>'+
-              ' <% @versions_all.each do |version| %><tr><td><%= version.current_version_id %></td><td><%= version.current_comments %></td>'+
-              '<td><%= version.update_date.to_s(:db) %></td></tr><% end %></table>';
-     noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
-    });
-  }
-
-    var profitchart_data_hash=new Hashtable();
-    var profitchart_day_hash=new Hashtable();
-    <% @strategywebs.each do |strategyweb| %>
-    highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
-    <% if @profitchart_hash[strategyweb.id]!=nil%>
-    var profitchart_arr_day=new Array();
-    var profitchart_arr_data=new Array();
-    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
-      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
-    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
-    <% end %>
-    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
-    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
-    <% end %>
-    <% end %>
-    function highcharts(id,stgname) {
-
-        var chart;
-        $(document).ready(function() {
-            chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: id,
-                    type: 'line',
-                    width: 100,
-                    height: 100
-                },
-                title: {
-                    enabled: false
-                },
-                subtitle: {
-                    enabled: false
-                },
-                xAxis: {
-                    categories: profitchart_day_hash.items(id),
-                    title:{
-                        enabled: false
-                    } ,
-                    labels: {
-                        enabled: false
-                    }
-                },
-                yAxis: {
-                    title:{
-                        enabled: false
-                    } ,
-                    labels: {
-                        enabled: false
-                    }
-                },
-                plotOptions: {
-                    line: {
-                        //pointStart: 1940,
-                        marker: {
-                            enabled: false,
-                            symbol: 'circle',
-                            radius: 2,
-                            states: {
-                                hover: {
-                                    enabled: false
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    name: '收益',
-                    data:profitchart_data_hash.items(id)
-                }]
-            });
-
-            $(".highcharts-legend").remove()
-        });
-    }
-</script>

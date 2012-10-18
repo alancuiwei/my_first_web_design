@@ -17,4 +17,12 @@ class ContactusController < ApplicationController
   def hire
     @pagetitle="招聘信息"
   end
+
+  def cuiweiintro
+    @pagetitle="公司人员"
+  end
+
+  def wukangintro
+    @pagetitle="公司人员"
+  end
 end
