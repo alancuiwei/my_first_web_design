@@ -35,11 +35,7 @@
     <div class="ironbars">
 	<ul><li>
       <% if @webuser!=nil %>
-      <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-	<a value="#autotrade-box"  href="javascript:void(0)" class="autotrade-window"> 自动化交易</a>
-          <% else %>
           <a href="/autotrade/personaltrading"> 自动化交易</a>
-          <% end %>
       <% else %>
       <a value="#login-box" href="javascript:void(0)" class="login-window"> 自动化交易</a>
       <% end %>
@@ -380,7 +376,7 @@ para.checked=null;
                                      tabledata[i]=[0,0,0,0,0,0];
                              }
                          }
-                         else                                    
+                                 <!--else-->
 <!--  tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--"]; -->
 							}
                              for(var k=0,s=0;k<tabledata.length;k++){

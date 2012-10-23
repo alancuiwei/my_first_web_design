@@ -1,13 +1,17 @@
 ﻿<%= javascript_include_tag "Date.js" %>
 <%= javascript_include_tag "Hashtable.js" %>
+<%= javascript_include_tag "jquery.noty.js" %>
+<%= stylesheet_link_tag "jquery.noty.css" %>
+<%= stylesheet_link_tag "noty_theme_growl.css" %>
+<%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "xml2array.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= render "side" %>
 <div class="frame">
  <% if @webuser==nil %>
     <script type="text/javascript">
         box("#login-box");
     </script>
-    <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-        <%= button_to "请先设置参数",:controller=>"autotrade" ,:action=>"autotrade_s1" ,:id=>Strategyweb.find_by_name("无风险套利").id %>
 <% else %>
 
 <script type="text/javascript">
@@ -82,8 +86,7 @@
         document.getElementById("showchart").innerHTML="<br>精确计算套利成本→<a href='../usermanagement/trademanageindex'><font size='3'> 手续费等设置</font></a>→<a href='userreturnrate'><font size='3'>年化收益率设置</font></a>→<a href='shownorisk'><font size='3'>查看符合您的交易机会</font></a>";
     }
     else{
-        document.getElementById("showchart").innerHTML=
-                "	<br /><svg height='300' width='1024' xmlns='http://www.w3.org/2000/svg'>" +
+        document.getElementById("showchart").innerHTML="<br /><svg height='300' width='1024' xmlns='http://www.w3.org/2000/svg'>" +
                         "<marker id='bigArrow' viewBox='0 0 20 20' refX='0' refY='10'  markerUnits='strokeWidth' markerWidth='3' markerHeight='10' orient='auto'>" +
                         "<path d='M 0 0 L 20 10 L 0 20 z' fill='purple' stroke='black'/>" +
                         "</marker>" +
