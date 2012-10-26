@@ -1,69 +1,92 @@
+<%= stylesheet_link_tag "bootstrap.css" %>
+<%= stylesheet_link_tag "page.css" %>
+<%= stylesheet_link_tag "main.css" %>
+<%= stylesheet_link_tag "layerslider.css" %>
+<%= stylesheet_link_tag "styles.css" %>
+<%= stylesheet_link_tag "welcome.css" %>
+
 <body>
-        <ul>
-          <li>
-			  <div id="banner3">
-
-                <a href="/S010001/shownorisk"><p>500毫秒刷新行情，<br />
-			  超过200多组合约对，<br />
-			  捕捉所有盈利机会。</p></a>
+	    <div class='main-content'>
+		 <div class='trow'>
+		  <div class='main-body'>
+		   <div class='content'>
+		    <div class='group'>
+		     <div class='inner-contents' id='ic-0'>
+		      <div class='padder'>
+		       <div class='fthb'>
+		        <div class='bordered' width=100%>
+		<table class='body-container' cellspacing=0 cellpadding=0 border=0>
+		<tbody>
+		<tr>
+		<td class="body-content">
+		<div class='body-content-wrapper'>
+	        <div id='slider-container' class="video">
+			    <img class="ls-s2" id='s-glow' src='/assets/glow.png'  />
+				<img class="ls-s2" id='s-glow2' src='/assets/img02.jpg' />		        
+		        <h1 id='s-title'>商品期货市场<br/> 无风险套利<br/>资产增值</h1>
+			    <h2 id='s-subtitle'>
+                    <a onClick='getStarted();'><button class='btn btn-success'>免费试用</button></a>
+                    <b>无风险套利</b> ：在商品期货市场中，捕捉套利机会，无风险，稳定年收益率10%左右。
+                </h2>
+	        </div>
+		 <div id='welcome-content'>
+		     <div class="press">
+                <h2><b>无风险套利</b> 合作机构:</h2>
+                <a><img width="1050" src="/assets/press_logos.gif"/></a> 
+                <div align="right" style="padding:15px 0 10px 0;"> <a href="/page/press" style="font-style: italic; font-family: georgia;">查看所有</a></div>
+             </div>
+			 <div class='hsw'>
+			   <table width=100%>
+			    <tr>
+                    <td colspan=2>
+                        <h1><b>无风险套利</b> 为您提供些什么？</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='left'>
+                        <img src="/assets/analysis.gif" />
+                    </td>
+                    <td class='right'>
+                        <h2>精确计算</h2>
+                        根据客户特定的手续费，保证金比例，贷款利
+						率等进行个性化计算，达到更加精确的机会捕捉。
+                   </td>
+                </tr>
+                <tr>
+                    <td class='left'>
+                        <img src="/assets/piggy.gif" />
+                    </td>
+                    <td class='right'>
+                        <h2>实时捕捉所有机会</h2>
+                        市场上有200多个活跃商品合约，实时动态计算
+						各套利对成本价差，捕捉获利机会。
+                   </td>
+                </tr>
+                <tr>
+                    <td class='left'>
+                        <img src="/assets/graph.gif" />
+                    </td>
+                    <td class='right'>
+                    <h2>自动化交易</h2>
+                    客户只需提出您的年收益率要求，其他都交给程序来做。
+                   </td>
+                </tr>
+			  </table>
+			 </div>
+		 </div>
+		</div>
+		</td>
+		</tr>
+		</tbody>
+		</table>
+		        </div>
             </div>
-			  <p class="homepage_slide_img"><%= link_to(image_tag("img02.jpg"),:controller => "S010001",:action => "shownorisk") %></p>
-          </li>
-
-        </ul>
-
-  <div class="quicklink_strategyshow">
-
-    <div class="quicklink_instance">
-      <a href="/S010001/shownorisk">
-        <img class="qs_image" src="/assets/kuaisutongdao.jpg" alt="quicklink_norisk_strategy">
-      </a>
-
-      <div class="qs_content">
-        <a href="/S010001/shownorisk"><h2>无风险套利</h2></a>
-        <a href="/S010001/shownorisk">
-          <p>商品期货市场的无风险套利是当前市场中最稳健的获利策略，他真正意义上实现了保本无风险投资。</p>
-        </a>
-
+			   <br/>           
       </div>
-
     </div>
-
-  <div class="quicklink_instance">
-      <a href="/autotrade/aboutautotrade">
-        <img class="qs_image" src="/assets/zidonghuajiaoyi.jpg" alt="quicklink_autotrade">
-      </a>
-      <div class="qs_content">
-        <a href="/autotrade/aboutautotrade"><h2>自动化交易</h2></a>
-        <a href="/autotrade/aboutautotrade">
-          <p>自动化交易就是您设置好交易品种范围，交易规模，系统根据您的策略自动完成开仓，平仓的交易。当前仅支持无风险套利策略。</p>
-        </a>
       </div>
-
     </div>
-
-    <div class="quicklink_instance">
-      <a href="/contactus/hire">
-        <img class="qs_image" src="/assets/chengpingyingcai.jpg" alt="quicklink_hire_information">
-      </a>
-      <div class="qs_content">
-        <a href="/contactus/hire"><h2>诚聘人才</h2></a>
-        <a href="/contactus/hire">
-        <p>招聘Javascript, Matlab软件程序员。</p>
-        </a>
       </div>
-
     </div>
-
-
   </div>
-
 </body>
-
-<!-- <img class="homepage_bottom_decoration" src="/assets/dibu_dise.gif" alt="homepage_bottom_decoration"> -->
-
-<div class="footer">
-    <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
-      </p>
-</div>
-</html>

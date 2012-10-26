@@ -3,324 +3,75 @@
 <head>
 <title>通天顺金融策略网 --<%=@pagetitle%></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<%= stylesheet_link_tag "reset.css" %>
-<%= stylesheet_link_tag "style.css" %>
-<%= javascript_include_tag "jquery.js" %>
-<%= javascript_include_tag "easySlider1.5.js" %>
-
+<%= stylesheet_link_tag "bootstrap.css" %>
+<%= stylesheet_link_tag "page.css" %>
+<%= stylesheet_link_tag "main.css" %>
+<%= stylesheet_link_tag "layerslider.css" %>
+<%= stylesheet_link_tag "styles.css" %>
+<%= stylesheet_link_tag "welcome.css" %>
+<%= javascript_include_tag "DD_belatedPNG.js" %>
+<!--[if IE 6]>   
+  <script type="text/javascript" src="js/DD_belatedPNG.js" ></script>  
 <script type="text/javascript">
-    setInterval(session_ajax,10000) //毫秒
-    function session_ajax(){
-        $.get("/webusers/session_ajax/none")
-    }
-  var redirect;
-    var clickflag ;
-  // document ready
-  function box(id){
-      if (id=="#login-box"){
-                clickflag="login" ;
-            }
-            else{
-                clickflag="regedit";
-            }
-      var loginBox = id;
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
-
-            //Set the center alignment padding + border
-       		var popMargTop = ($(loginBox).height() + 24) / 2;
-       		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-       		$(loginBox).css({
-       			'margin-top' : -popMargTop,
-       			'margin-left' : -popMargLeft
-      });
-
-      // Add the mask to body
-       		$('body').append('<div id="mask"></div>');
-       		$('#mask').fadeIn(300);
-  }
-    $(document).ready(function() {
-    //box
-    $('a.login-window,a.regedit-window,a.autotrade-window').click(function () {
-        // Getting the variable's value from a link
-        box($(this).attr('value'));
-        redirect=($(this).attr("name"))
-       	});
-       	// When clicking on the button close or the mask layer the popup closed
-       	$('a.close, #mask').live('click', function() {
-       	  $('#mask , .login-popup').fadeOut(300 , function() {
-       		$('#mask').remove();
-       	});
-       	return false;
-       	});
-        //easySlider
-        $("#slider").easySlider({
-       		controlsBefore:	'<p id="controls">',
-       		controlsAfter:	'</p>',
-       		auto: true,
-       		continuous: true
-       	});
-        //menu
-        $('.menu > li').bind('mouseover', openSubMenu);
-        $('.menu > li').bind('mouseout', closeSubMenu);
-        function openSubMenu() {
-            $(this).find('ul').css('visibility', 'visible');
-            $(this).find('ul').css('z-index', '99');
-        };
-        function closeSubMenu() {
-            $(this).find('ul').css('visibility', 'hidden');
-        };
-  });
-   //google-analytics
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-30084381-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
+   DD_belatedPNG.fix('#s-glow,img');
 </script>
+<![endif]-->
 </head>
-<!-- ruby code -->
-<% @webuser = Webuser.find_by_name(session[:webuser_name]) %>
-<% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
-<!-- body -->
-<body onkeydown="enterkey()">
-    <div class="logo_welcome_nav">
-        <div class="pagedingbu">
-        </div>
-        <div class="block_header">
-            <div class="logoimage">
-            <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
-            </div>
 
-            <div class="welcomeuser">
-        <!-- user hasn't login yet -->  
-            <% if session[:webuser_name]==nil%>
-            <div class="register">
-                  <a value="#regedit-box" href="javascript:void(0)"  class="regedit-window">注册</a>
-            </div>
-
-            <img src="/assets/logreg.gif">
+<body>
+    <div id='popup-overlay' style="display: none; position: fixed; top: 0px; left: 0px; width: 3000px; height: 5000px; z-index: 25000; background-color: #fff; opacity: 0.9"></div>
             
-            <div class="login">
-                  <a value="#login-box" href="javascript:void(0)" class="login-window">登录</a>
+	<div id='top-bar'></div>
+	<div id='main' class='welcome'>
+        <div class='main-header'>
+            <div class='content' id='header'>
+		        <div class='hdr-contents'>
+		            <a href='http://www.tongtianshun.com' class='full' name='header-logo'>
+					    <div id='logo' style="background: url(/assets/logo.jpg) 0px 0px no-repeat;"></div>
+                    </a>
+					<div id='beta'>无风险，持续，资产增值</div>
             </div>
-
-            <!-- user had logined in -->
-            <% else %>
-            <div class="register">  
-                <a href="javascript:void(0)" onclick="logout()">退出</a>
             </div>
-            <div class="login">
-                <p>用户：<%= session[:webuser_name] %></p>
             </div>
-            <img src="/assets/yonghutouxiang.gif">
-            <% end %>
-
-            <div class="weiboblock">
-                <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
-            </div>
-            
-        </div>  <!-- end of welcomeuser -->
-
-            <div class="clr"></div>
-
-            <div class="menuMain" >
-              <ul>
-                <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
-
-                <% if @webuser==nil %>
-                    <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/S010001/shownorisk" ><span><span><span>无风险套利</span></span></span></a>
-                    </li>
-                <% else %>
-                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="/S010001/shownorisk"><span><span><span>无风险套利</span></span></span></a>
-                </li>
-                <% end %>
-
-                <% if params[:controller]=="autotrade"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <% if @webuser==nil %>
-                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" id="redirect_autotrade" name="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/autotrade/personaltrading">自动化执行</a></li>
-                      <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-                          <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a value="#autotrade-box" href="javascript:void(0)"  class="autotrade-window">自动化执行</a></li>
-                      <% else %>
-                          <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a href="/autotrade/personaltrading">自动化执行</a></li>
-                      <% end %>
-                      <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <% if params[:controller]=="contactus"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>关于我们</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <li><a href="/contactus/companyintro">公司介绍</a></li>
-                      <li><a href="/contactus/personintro">公司员工</a></li>
-                      <li><a href="/contactus/productintro">公司产品</a></li>
-                      <li><a href="/contactus/hire">招聘信息</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-
-        </div>    <!-- end of menumain -->
-
-            <script type="text/javascript">
-              //login
-              function login(){
-                  $.get("/webusers/user_lr/1", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
-                      data=data.split("|");
-                      if(data[0]==$("#name").attr("value")) {
-                          if(redirect=="account_1"){
-                               if(data[0]=="administrator")
-                                   location.href="/admin";
-                              else
-                                   location.href="/webusers/edit/"+data[1];
-                          }
-                          else if(redirect=="account_2"){
-                              location.href="/usermanagement/my_subscribe/"+data[1];
-                          }
-                          else if(redirect=="account_3"){
-                              location.href="/usermanagement/collection/"+data[1];
-                          }
-                          else if(redirect==null){
-                              location.reload()
-                          }
-                          else
-                          location.href=redirect;
-                      }
-                      else{
-/*                         $("#errormsg_position").css({"padding": "89px 0 0 30px"})    */
-                          $("#login_errormsg").hide();
-                         $("#login_errormsg").html(data.toString());
-                          $("#login_errormsg").fadeIn(300);
-
-                      }
-                  });
-              }
-              //logout
-              function logout(){
-                  $.get("/webusers/user_lr/1", { logout:"logout"}, function (data,status){
-                      if(data=="logout") {
-                          location.reload();
-                      }
-                  });
-              }
-            //regedit
-              function regedit(){
-                  $.get("/webusers/user_lr/1", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
-                      regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
-                      if(data==$("#regedit_name").attr("value")) {
-                          location.href="/webusers/regeditconfirm/1?"+("regedit_name="+$("#regedit_name").attr("value")+"&regedit_email="+encodeURIComponent($("#regedit_email").attr("value"))+"&regedit_password="+($("#regedit_password").attr("value")));
-                      }
-                      else{
-                          $("#regeditmsg_position").css({"padding": "93px 0 0 30px"});
-                          $("#regedit_errormsg").html(data.toString());
-                      }
-                  });
-              }
-            //enterkey
-              function enterkey(){
-                  if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="login" )
-                       $(".clicksubmit_login").click();
-                  if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="regedit" )
-                       $(".clicksubmit_regedit").click();
-              }
-        </script>
-
-              <!--login-box -->
-              <div id="login-box" class="login-popup">
-                <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <form class="signin">
-                      <div id="login_errormsg"></div>
-
-                        <div class="login_username">
-                          <label id="label_login">用户名:</label>
-                          <%= text_field_tag :name, params[:name],:class =>"name-input" %>
-                        </div>
-                        <div class="login_password">
-                          <label id="label_login">密码:</label>
-                          <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
-                          <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
-                        </div>
-
-                        <div class="login_comment">
-                            <input type="checkbox" />
-                          <p>记住我</p>
-                          <p>您没有账号？</p>
-                            <a value="#regedit-box" href="javascript:void(0)" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" >注册</a>
-
-                        </div>
-                        <div class="login_submit">
-                          <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
-                        </div>
-
-                </form>
-              </div>
-
-              <!--regedit-box -->
-              <div id="regedit-box" class="login-popup">
-                <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnrg_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <form class="registerin">
-
-                      <div id="regedit_errormsg"></div>
-
-                        <div class="regedit_username">
-                          <label id="label_register">用户名:</label>
-                          <%= text_field_tag :regedit_name, params[:regedit_name] %>
-                        </div>
-
-
-                        <div class="regedit_email">
-                          <label id="label_register">电子邮件:</label>
-                          <%= email_field_tag :regedit_email, params[:regedit_email] %>
-                        </div>
-
-
-                        <div class="regedit_password">
-                          <label id="label_register">设置密码:</label>
-                          <%= password_field_tag :regedit_password, params[:regedit_password] %>
-                        </div>
-
-
-                        <div class="regedit_confirm_password">
-                          <label id="label_register">密码确认:</label>
-                          <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
-                        </div>
-
-                      <div class="regedit_comment">
-                        <p>
-                        您已有账号？
-                        </p>
-                        <a value="#login-box" href="javascript:void(0)" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">登入</a>
-                      </div>
-                      <div class="regedit_submit">
-                        <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
-                      </div>
-                </form>
-              </div>
-
-              <!--autotrade-box -->
-              <div id="autotrade-box" class="login-popup">
-                <h3>请先设置参数！</h3>
-                <div class="login-popupop_sub_a">
-                  <a id="popupop_sub_config" href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
-                  <a id="popupop_sub_cancell" class="close" href="javascript:void(0)" style="text-decoration:none;">取消</a>
-                </div>
-              </div>
-
-        </div>    <!-- block_header end -->
-
-    </div>   <!-- end of logo_welcome_nav-->
-<!-- main end -->
-    <div class="framework">
         <%= yield %>
+	    <div class='main-footer'>
+		    <div class='content'>
+			<div class='table'>
+			<div class='trow'>
+                <div class='tcol last copyright'>
+                    <h3>通天顺金融策略网</h3>
+                    <div class='separator'></div>
+                    <a href='/page/terms' class='full'>关于我们</a>
+                    <a href='/page/privacy' class='full'>联系我们</a>
+                    <a href='/page/press' class='full last'>创业博客</a>
+            </div>
+                <div class='tcol'>
+                    <h3>自动化交易</h3>
+                    <div class='separator'></div>
+                    <a href='/page/press' class='full last'>无风险套利</a>
+                  </div>
+                <div class='tcol'>
+                    <h3>无风险套利</h3>
+                    <div class='separator'></div>
+                    <a href='/page/about' class='full'>捕捉机会</a>
+                    <a href='/page/about#contact' class='full'>套利设置</a>
+                    <a href='/page/press' class='full last'>常见疑问</a>
+                  </div>
+                <div class='tcol'>
+                    <h3>合作机构</h3>
+                    <div class='separator'></div>
+                    <a href='/page/press' class='full last'>期货公司</a>
+                        </div>
+                        </div>
+                        </div>
+			<br/><br/>                
+                        </div>
+                        </div>
+
+                        </div>
+	<div class='footer'>
+	    <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@2011-2012南京重人软件有限公司 版权所有<br>
+                        </p>
     </div>
 </body>
 </html>
