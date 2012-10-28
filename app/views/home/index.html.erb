@@ -1,4 +1,4 @@
-<%= stylesheet_link_tag "jquery.noty.css" %>
+﻿<%= stylesheet_link_tag "jquery.noty.css" %>
 <%= stylesheet_link_tag "noty_theme_growl.css" %>
 <%= javascript_include_tag "jquery.noty.js" %>
 <%= javascript_include_tag "highcharts.js" %>
@@ -7,8 +7,8 @@
 <body>
   <div class="slider_set">
 
+        <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
 
-    <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
     <div class="slice_background">
       <div id="slider">
         <ul>
@@ -44,7 +44,8 @@
       </div>
       </div>
 
-    <img src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
+    <img id="homepage_slice_right_decoration" src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
+
   </div>
   <div class="quicklink_strategyshow">
   <div class="quicklink_set">
@@ -115,7 +116,7 @@
 
     </div>
 
-    <div class="quicklink_instance">
+    <div class="quicklink_instance" style="margin-bottom: 20px;">
       <img class="qs_image" src="/assets/tongtianshundashi.jpg" alt="quicklink_tongtianshun_master">
 
       <div class="qs_content">
@@ -188,6 +189,10 @@
 </html>
 
 <script type="text/javascript">
+   $(document).ready(function(){
+       $('.quicklink_instance>a').css("float","left");
+       $('.quicklink_instance>img').css("float","left");
+   });
   function show_version(){
     $(document).ready(function(){
       var title = '<table><tr><th>current_version_id</th><th>current_comments</th><th>update_date</th></tr>'+

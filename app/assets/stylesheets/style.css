@@ -5,6 +5,7 @@ body {
     height:100%;
     width:100%;
     padding:0;
+    behavior:url(/assets/csshover.htc);/*IE 6 has bug with :hover, use this hack to solve it*/
 }
 
 h2 {
@@ -387,16 +388,18 @@ h2 {
     background:url(banner_text3.jpg) no-repeat;
     float:left;
     height:133px;
-    width:260px;
-    margin:70px 0 0 42px;
+    width:240px;
+    margin:70px 0 0 40px;
+    display: inline;
 }
 
 #banner2 {
     background:url(banner_text2.jpg) no-repeat;
     float:left;
     height:133px;
-    width:260px;
-    margin:70px 0 0 45px;
+    width:240px;
+    margin:70px 0 0 40px;
+    display: inline;
 }
 
 #banner1 {
@@ -405,6 +408,7 @@ h2 {
     height:133px;
     width:240px;
     margin:70px 0 0 40px;
+    display: inline;
 }
 
 #banner3 p,#banner2 p,#banner1 p{
@@ -412,7 +416,7 @@ h2 {
     float:left;
     ont:normal 16px Microsoft Yahei, "Times New Roman", Times, serif;
     padding:150px 0 0 8px;
-
+    text-decoration: none;
 }
 
 
@@ -420,6 +424,7 @@ h2 {
     float:left;
     margin:0 0 0 40px;
     padding:40px 0 0;
+    display: inline;
 }
 
 p.clr,.clr {
@@ -466,6 +471,7 @@ p#controls {
     height:130px;
     float:left;
     margin:10px;
+    display:inline;
 }
 
 .qs_image{
@@ -477,7 +483,7 @@ p#controls {
     width: 155px;
     height:120px;
     float:right;
-    margin:0px;
+
 }
 
 .qs_content h2{
@@ -2138,18 +2144,24 @@ html,.footer  img {
 #homepage_slice_left_decoration{
     float:left;
 }
+#homepage_slice_right_decoration{
+    float:left;
+}
 
 #mask {
+    /*
     background:#000;
+    opacity:0.3;
+    */
     display:none;
     height:100%;
     left:0;
-    opacity:0.3;
     position:fixed;
     top:0;
     width:100%;
     z-index:999;
 }
+
 
 #mask_wait {
     background:#000;
