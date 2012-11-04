@@ -323,7 +323,7 @@ para.checked=null;
                                              //交割费用
                              deliverfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]*2;
                                              //存储费用
-                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
+                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
                                              //交易费用
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13]==1){
                                  computetransfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
