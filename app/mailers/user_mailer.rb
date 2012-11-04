@@ -19,4 +19,11 @@ class UserMailer < ActionMailer::Base
 
     mail(:to => myemail,:subject=>"通天顺用户："+username+"的注册确认邮件")
   end
+
+  def tryapply(myemail,reseturl,username)
+    @username=username
+    @reseturl=reseturl
+
+    mail(:to => myemail,:subject=>"通天顺用户："+username+"的试用申请确认邮件")
+  end
 end
