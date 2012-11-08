@@ -331,7 +331,7 @@ para.checked=null;
                                  else
                              computetransfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
                                              //总资金
-                             funds[i]=(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])+(parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[10]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])))*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
+                             funds[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3];
                                              //交易保证金占用成本
                              if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[11]==1)
                                  trademarginfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[9]+hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[2])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[0]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8]/365
