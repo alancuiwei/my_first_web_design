@@ -1,18 +1,19 @@
-﻿<%= javascript_include_tag "Hashtable.js" %>
+﻿<%= javascript_include_tag "jquery.noty.js" %>
+<%= javascript_include_tag "topLeft.js" %>
+<%= javascript_include_tag "Hashtable.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+<%= stylesheet_link_tag "jquery.noty.css" %>
+<%= stylesheet_link_tag "noty_theme_growl.css" %>
 <%= javascript_include_tag "xml2array.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 
 
 <div class="frame_norisk">
-<div class="pagedomain">
-  <a onclick="showintro()" href="javascript:void(0)"><h1>无风险套利策略</h1></a>
 
-</div>
-
-<div id="showintro" class="login-popup" style="width: 348px;" >
-<a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnpp_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-<p>无风险套利属于跨期套利的一种，
+    <div class='txt' style="text-align: justify; font-size: 18px; line-height: 26px; color: #666">
+        <h1 style='margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000'>无风险套利</h1>
+		<p>我们为您提供最低风险，最高回报的商品套利投资策略。</p>
+        无风险套利属于跨期套利的一种，
 而跨期套利是指在同一种商品不同交割月份合约之间的价差出现异常变化时，
 在同一期货商品的不同合约月份建立数量相等、
 方向相反的持仓如何把握主力持仓量,并以对冲或交割方式结束交易的一种操作方式。
@@ -20,44 +21,11 @@
 ，因为建立在严格的持仓成本和持仓条件基础上，
 一般不会受市场行情波动的影响。当然，
 满足这样条件的“无风险”同时又有稳健收益的套利机会并不多见，
-一旦发生,往往会吸引资金积极参与。</p>
-
-<p>无风险套利模型归纳为：当实际价差>套利成本时，跨期利润=实际价差-套利成本。当利润达到一定程度的时候，进行获利平仓。
-  当两合约价差逆向走高时，到期可进行交割，获取稳定套利利润，达到无风险套利目的。
-  当然，无风险套利的机会不可能经常出现，但一旦出现，将是一种最稳健的获取收益的方法。
-</p>
+        一旦发生,往往会吸引资金积极参与。
+        <br/><br/><br/>
 </div>
-
-<img id="norisk_leftline" src="/assets/leftline.gif" alt="noriskframe left decoration">
-<img id="norisk_rightline" src="/assets/rightline.gif" alt="noriskframe right decoration">
-
 <div class="strategyRTtitle">
-    <div class="ironbars">
-	<ul><li>
-      <% if @webuser!=nil %>
-      <% if @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-	<a value="#autotrade-box"  href="javascript:void(0)" class="autotrade-window"> 自动化交易</a>
-          <% else %>
-          <a href="/autotrade/personaltrading"> 自动化交易</a>
-          <% end %>
-      <% else %>
-      <a value="#login-box" href="javascript:void(0)" class="login-window"> 自动化交易</a>
-      <% end %>
-    </li></ul></div>
-  <div id="norisktitle"><h2>策略实时运行中:</h2></div>
-<!--  <div id = "noriskluntan"><a href="#remarks">我想提点意见</a></div> -->
-<div id=checkbox>
-    <% if @webuser==nil %>
-        <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" onclick="mychecked_1(this)" />主力套利对</label>
-        <% else %>
-        <% if (@norisk_havesub!=nil &&@norisk_havesub!=-1)||(@norisk_havetry!=nil &&@norisk_havetry!=-1)%>
-      <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox" checked="true" onclick="mychecked_1(this)" />主力套利对</label>
-            <% else %>
-            <label class="label_check" for="checkbox-01"><input name="sample-checkbox-01" id="checkbox-01" value="1" type="checkbox"  onclick="mychecked_1(this)" />主力套利对</label>
-        <% end %>
-   <% end %>
-      <label class="label_check" for="checkbox-02"><input name="sample-checkbox-02" id="checkbox-02" value="2" type="checkbox" onclick="mychecked_2(this)"/>逐月套利对</label>
-</div>
+  <div id="norisktitle"><h2>捕捉盈利机会:</h2></div>
 
 </div>
 <script type="text/javascript">
@@ -207,52 +175,8 @@ para.checked=null;
 <!-- default table -->
 <div id ="rtpricetable">
 </div> 
-<script type="text/javascript">
-    jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
-    /* Remove any formatting */
-        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
-        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
-        /* Parse and return */
-        return parseFloat(x) - parseFloat(y);
-    };
-    jQuery.fn.dataTableExt.oSort['formatted-num-desc'] = function(a,b) {
-        var x = a.match(/\d/) ? a.replace( /[^\d\-\.]/g, "" ) : 0;
-        var y = b.match(/\d/) ? b.replace( /[^\d\-\.]/g, "" ) : 0;
-        return parseFloat(y) - parseFloat(x);
-    };
-    $(function(){
-        $("#datatables").dataTable({
-            "aaSorting": [[4,"desc"]],
-            "aoColumns": [
-                { "sTitle": "套利对名称", "sClass": "center" },
-                { "sTitle": "近月价格", "sClass": "center" },
-                { "sTitle": "近月价格", "sClass": "center" },
-                { "sTitle": "成本", "sClass": "center" },
-                { "sTitle": "年化收益率",  "sType": "formatted-num","sClass": "center" },
-                { "sTitle": "历史时间", "sClass": "center" }
-        ]
-        });
-    });
-</script>
-<div id="strategyHistorytitle">
-<h2 class="wenzi"> 历史最佳套利机会: </h2></div>
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="datatables">
-	  <tbody>
-        <% @allmaxreturnrate.each do |maxreturnrate|
-           if ((maxreturnrate.firstprice>0)&&(maxreturnrate.secondprice>0)) then%>
-              <tr>
-                <td class="center"><%= maxreturnrate.pairname %></td>
-                <td class="center"><%= maxreturnrate.firstprice %></td>
-                <td class="center"><%= maxreturnrate.secondprice %></td>
-                <td class="center"><%= maxreturnrate.cost %></td>
-                <td class="center" type="formatted-num"><%= format("%.1f",maxreturnrate.returnrate*100) %>%</td>
-                <td class="center"><%= maxreturnrate.currenttime.strftime("%Y.%m.%d. %H:%M:%S") %></td>
-              </tr>
-            <% end %>
-        <% end %>
-	   </tbody>
-</table>
-
+  <script type="text/javascript" src="jquery.noty.js"></script>
+  <script type="text/javascript" src="topLeft.js"></script>
 <script type="text/javascript">
     //table data storage (2D array)
     var tabledata= new Array([0,0,0,0,0,0]);
@@ -282,6 +206,15 @@ para.checked=null;
 	  this.mtcounter = mtcounter; 
 	  this.isgetMKData = isgetMKData; 
 	}	 
+	var hash_click = new Hashtable();
+	function  myclick(s){
+    //alert(hash_click.items(s));
+		$(document).ready(function(){
+          var content = hash_click.items(s);
+          var title = '<div class="header"><center></center></div>';
+         noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title+content,timeout : false });
+        });
+    }
     //formatted-num
     jQuery.fn.dataTableExt.oSort['formatted-num-asc'] = function(a,b) {
     /* Remove any formatting */
@@ -327,7 +260,7 @@ para.checked=null;
                                              //交割费用
                              deliverfee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[5]*2;
                                              //存储费用
-                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
+                             storagefee[i]=hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[6]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[7]-hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[8])
                                              //交易费用
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[13]==1){
                                  computetransfee[i]=parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[3]*hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[1]*2;
@@ -355,16 +288,18 @@ para.checked=null;
                                  computerateofreturn_temp="none";
                                  else
                                      computerateofreturn_temp=(computerateofreturn[i]*100).toFixed(1)
-                         if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])){
+						hash_click.add(i,[rtxml_arr['pairstrade']['pair'][i]['name']+"持仓成本明细 <br> 当前价差"+[rtxml_arr['pairstrade']['pair'][i]['secondprice']-rtxml_arr['pairstrade']['pair'][i]['firstprice']]+"<br>仓存费用"+storagefee[i]+"<br>手续费用"+""+"<br>交割手续费用"+deliverfee[i]+"<br>增值税费"+vatfee[i]+"<br>交割保证金占用费用"+""+"<br>交易保证金占用费用"+""+"<br>总持有成本费用："+""]);			 
+                         mychecked_f=1;
+						 if(parseFloat(rtxml_arr['pairstrade']['pair'][i]['firstprice'])&&parseFloat(rtxml_arr['pairstrade']['pair'][i]['secondprice'])>0){
                              if(mychecked_f==99){
                                if(rtxml_arr['pairstrade']['pair'][i]['name'].substr(0,2)=="TA")
                                    tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                             parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
+                                             computerateofreturn_temp,'<a href="#" onclick="myclick('+i+')">计算成本快照</a>', rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_f==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                         parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
+                                         computerateofreturn_temp,'<a href="#" onclick="myclick('+i+')">计算成本快照</a>', rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_f==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==2)
@@ -373,14 +308,14 @@ para.checked=null;
                              if(mychecked_s==1){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
                                      tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],rtxml_arr['pairstrade']['pair'][i]['firstprice'],rtxml_arr['pairstrade']['pair'][i]['secondprice'],
-                                         parseFloat(computearbfee[i]).toFixed(1),computerateofreturn_temp, rtxml_arr['pairstrade']['pair'][i]['time']];
+                                         computerateofreturn_temp,'<a href="#" onclick="myclick('+i+')">计算成本快照</a>', rtxml_arr['pairstrade']['pair'][i]['time']];
                              }
                              if(mychecked_s==0){
                                  if(hash_table.items(rtxml_arr['pairstrade']['pair'][i]['name'])[12]==1)
                                      tabledata[i]=[0,0,0,0,0,0];
                              }
                          }
-                         else                                    
+                                 <!--else-->
 <!--  tabledata[i]=[rtxml_arr['pairstrade']['pair'][i]['name'],"--","--","--","--","--"]; -->
 							}
                              for(var k=0,s=0;k<tabledata.length;k++){
@@ -393,16 +328,16 @@ para.checked=null;
                                  $('#default').dataTable( {
                                  "aaData": tabledata_f,"aaSorting": [[4,"desc"]],"bPaginate": false,
                                         "aoColumns": [
-                                     { "sTitle": "套利合约对名", "sClass": "center" },{ "sTitle": "近月价格", "sClass": "center" },
+                                     { "sTitle": "合约对", "sClass": "center" },
+									 { "sTitle": "近月价格", "sClass": "center" },
                                      { "sTitle": "远月价格", "sClass": "center" },
-                                             { "sTitle": "持仓成本", "sClass": "center" },
-                                     { "sTitle": "年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
+                                     { "sTitle": "保底年化收益率", "sType": "formatted-num","sClass": "center","fnRender":function(obj){
                                                          var sReturn = obj.aData[ obj.iDataColumn ];
                                           if ( sReturn >=0 )sReturn = "<font color='red'>"+sReturn+"%</font>";
                                           else if( sReturn =="none" ) sReturn = "<font color='red'>无</font>";
                                           else sReturn = "<font color='green'>"+sReturn+"%</font>";
                                           return sReturn;}
-                                             },
+                                             },{ "sTitle": "计算检查", "sClass": "center" },
                                              { "sTitle": "更新时间", "sClass": "center" }
                                          ] ,
                                  "bFilter": false//, "bStateSave": true
@@ -431,12 +366,12 @@ para.checked=null;
            setTimeout(ajax_restart,10000);
         }
 						}
-	function refreshMKData(){
-		if (g_MKDataState.isgetMKData){
-            ajax_watchdog=0;
-		   getAjax();
-		}	 	
-		}	 	
+	//function refreshMKData(){
+	//	if (g_MKDataState.isgetMKData){
+    //        ajax_watchdog=0;
+	// 	  getAjax();
+	//	}	 	
+	//	}	 	
 	function checktimeMKTime(){
         $.getJSON("shownorisk",{gettime:"gettime"},
           function (data,status){
@@ -487,178 +422,4 @@ para.checked=null;
     setTimeout(listen_ajax_watchdog,10000) ;
 
 </script>
-</div>
-<div class="frame_norisk_comment" >
-
-  <% if session[:webuser_name]==nil %>
-      <div id="title-top">
-        <ul>
-        <li><a class="login-window" value="#login-box" href="javascript:void(0)" >订阅</a></li>
-        <li><a class="login-window" value="#login-box" href="javascript:void(0)">试用</a></li>
-        </ul>
-      </div>
-  <% else %>
-      <% if @norisk_istry==nil&&@norisk_issub==nil %>
-      <div id="title-top">
-        <ul>
-        <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-        <li><a href="/strategys/try/<%=@strategy_norisk.id%>" >试用</a></li>
-        </ul>
-      </div>
-      <% else %>
-      <%if @norisk_issub==nil%>
-         <div id="title-top1">
-         <div class="top1left">
-            <ul>
-            <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-            </ul>
-         </div>
-         <div class="top1right">
-                  <ul>
-                    <li><p>您是试用用户，</p></li>
-                    <% if @norisk_havetry==-1 %>
-                        <li><p>试用过期，不能再试用！</p></li>
-                    <% else %>
-                        <li><p>还有<%= @norisk_havetry.to_i  %>天的试用天数！</p></li>
-<% end %>
-                  </ul>
-                </div></div>
-              <% else %>
-          <% if @norisk_havesub==-1 %>
-              <div id="title-top1">
-                <div class="top1left">
-                <ul>
-                  <li><a href="/strategys/subscribe/<%=@strategy_norisk.id%>" >订阅</a></li>
-</ul> </div>
-<div class="top1right">
-<ul>
-                    <li><p>您是订阅用户，</p></li>
-                        <li><p>已过订阅天数！</p></li>
-            	</ul>
-                </div></div>
-<% else %>
-              <div id="title-top1">
-                <div class="top1left">
-                <ul><li><a href="javascript:void(0)" onclick="issubscribe()">已订阅</a></li> </ul></div>
-<div class="top1right">
-<ul>
-            	<li><p>您是订阅用户，<br>还有<%= @norisk_havesub.to_i  %>天的使用天数！</p></li>
-            	</ul>
-</div>
-</div>
-<% end %>
-<% end %>
-<% end %>
-  <% end %>
-
-<div id="psubscribe">
-<p>该策略的定价为<%= Strategyweb.find_by_strategyid("010001").price%>元每月，您将有<%= Strategyweb.find_by_strategyid("010001").trydays%>天的免费试用期。
-<p>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>
-</div>
-
-  <div id="menuop"></div>
-<div id="celuojieshao">
-<h3>策略介绍:</h3>
-<div id="celuojieshaol">
-<p>交易品种</p>
-<p>策略类型</p>
-<p>系统开始时间</p>
-<p>系统开发者</p>
-</div>
-<div class="celuojieshaom">
-</div>
-<div id="celuojieshaor">
-<p><%= @strategy_norisk.strategytype  %></p>
-<p><%= @strategy_norisk.strategyattr  %></p>
-<p><%= @strategy_norisk.startdate  %></p>
-<p><%= @strategy_norisk.developer  %></p>
-</div>
-
-</div>
-<div id="tiyijian">
-<h3>提点意见</h3>
-<div class ="remarkslist">
-<iframe id ="remarkslist" onLoad="iFrameHeight()" name="iframe_index" src="/noriskmessages" width="250" scrolling="no" height=auto marginheight="0" marginwidth="0" style="border:none"></iframe>
-</div>
-</div>
-
-<div class="adverise">
-<h3>您的意见</h3>
-</div>
-
-<div class = "newremark">
-<iframe src="/noriskmessages/new" frameborder="0" scrolling="no" height="300" width="250" marginheight="0" marginwidth="0" style="margin-top: 0px\9"></iframe>
-</div>
-
-</div>
- <!-- <%= button_to "订阅" %> -->
-  <script type="text/javascript">
-      $("#menuop").hide();
-      $("#subscribe").click(function(){ <!--点击按钮触发-->
-          if($("#menuop").is(":hidden")){
-              $("#menuop").show();
-              $("#menuop").html("<p id='psubscribe'>订阅后，该策略将向您提供主力次主力，跨月套利对的无风险套利。</p>");
-          }
-          else
-          $("#menuop").hide();
-     });
-
-      function issubscribe(){
-          if(confirm('您好，您已经订购成功了过了')){
-              location.href=("/strategys/subscribe/<%=@strategy_norisk.id%>")
-          }
-      }
-      function havetry(){
-          alert("您已经在试用了！")
-      }
-      function havedtry(){
-          alert("您已经试用过了！")
-      }
-
-      function box(id){
-          var loginBox = id;
-        		//Fade in the Popup and add close button
-        		$(loginBox).fadeIn(300);
-
-        		//Set the center alignment padding + border
-        		var popMargTop = ($(loginBox).height() + 24) / 2;
-        		var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        		$(loginBox).css({
-        			'margin-top' : -popMargTop,
-        			'margin-left' : -popMargLeft
-        		});
-          $('body').append('<div id="mask"></div>');
-        		$('#mask').fadeIn(300);
-      }
-
-
-function iFrameHeight() {
-     var ifm= document.getElementById("remarkslist");
-     var subWeb = document.frames ? document.frames["remarkslist"].document : ifm.contentDocument;
-     if(ifm != null && subWeb != null) {
-     ifm.height = subWeb.body.scrollHeight;
-     }
-     }
-      //window.setInterval("iFrameHeight()", 200);
-  </script>
-<!--<div class="container">
-	<div id="content">
-	-->
-        <div id="msg-box" class="login-popup">
-        <div class="popup_2buttons_pattern">
-          <div class="popup_content">
-		<p>您还不是收费用户/试用用户，请先订阅/试用策略</p>
-          </div>
-        <div class="popup_2buttons_confirm">
-          <a href="/strategys/subscribe/1">订阅</a>
-        </div>
-        <div class="popup_2buttons_cancel">
-           <a href="javascript:void(0)" class="close">取消</a>
-        </div>
-        </div>
-<!--
-</div>
-</div>
-    -->
 </div>

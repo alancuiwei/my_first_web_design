@@ -30,6 +30,65 @@
  * DataTables features
  */
 
+ .txt h1 {
+    color: rgb(255, 255, 255);
+    font: 20px Microsoft Yahei,"Times New Roman",Times,serif;
+    padding-top: 10px;
+    font-size: 1.625em;
+}
+
+ .txt p {
+    font-size: 1.2em;
+	padding: 0 0 10px 0;
+}
+
+.frame_norisk {
+    float: left;
+    height: auto;
+    width: 630px;
+	margin-left: 20%;
+	margin-bottom:2cm;
+}
+
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+    margin: 0px;
+    padding: 0px;
+    border: 0px none;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+.strategyRTtitle {
+    float: left;
+    height: 50px;
+    width: 600px;
+}
+
+.ironbars {
+    float: right;
+    height: 16px;
+    width: 60px;
+    margin: -28px 30px 0px 0px;
+}
+
+#norisktitle {
+    float: left;
+    height: 30px;
+    width: 140px;
+    margin: 6px 0px 0px 18px;
+}
+
+#rtpricetable {
+    float: left;
+    margin-top: 5px;
+    width: 600px;
+}
+
+#norisktitle h2 {
+    color: rgb(176, 71, 71);
+    font: 18px Microsoft Yahei,Helvetica,sans-serif;
+}
+
 .body h2 { font:normal 15px Microsoft Yahei, "Times New Roman", Times, serif; color:#b04747; padding:4px; 
 margin-top:2px;clear:both;
 
@@ -269,39 +328,6 @@ th:active {
  * DataTables row classes
  */
 
-/* 
-table.display tr.odd.gradeA {
-	background-color: #ddffdd;
-}
-
-table.display tr.even.gradeA {
-	background-color: #eeffee;
-}
-
-table.display tr.odd.gradeC {
-	background-color: #ddddff;
-}
-
-table.display tr.even.gradeC {
-	background-color: #eeeeff;
-}
-
-table.display tr.odd.gradeX {
-	background-color: #ffdddd;
-}
-
-table.display tr.even.gradeX {
-	background-color: #ffeeee;
-}
-
-table.display tr.odd.gradeU {
-	background-color: #ddd;
-}
-
-table.display tr.even.gradeU {
-	background-color: #eee;
-}
-*/
 
 tr.odd {
 	background-color: #ececec;
@@ -421,218 +447,3 @@ table.display tr.odd.row_selected td {
 	background-color: #9FAFD1;
 }
 
-
-/*
- * Sorting classes for columns
- */
-/* For the standard odd/even */
-tr.odd td.sorting_1 {
-	background-color: #e1c2c0;
-}
-
-tr.odd td.sorting_2 {
-	background-color: #DADCFF;
-}
-
-tr.odd td.sorting_3 {
-	background-color: #E0E2FF;
-}
-
-tr.even td.sorting_1 {
-	background-color: #f1e3e3;
-}
-
-tr.even td.sorting_2 {
-	background-color: #F2F3FF;
-}
-
-tr.even td.sorting_3 {
-	background-color: #F9F9FF;
-}
-
-
-/* For the Conditional-CSS grading rows */
-/*
- 	Colour calculations (based off the main row colours)
-  Level 1:
-		dd > c4
-		ee > d5
-	Level 2:
-	  dd > d1
-	  ee > e2
- */
-tr.odd.gradeA td.sorting_1 {
-	background-color: #c4ffc4;
-}
-
-tr.odd.gradeA td.sorting_2 {
-	background-color: #d1ffd1;
-}
-
-tr.odd.gradeA td.sorting_3 {
-	background-color: #d1ffd1;
-}
-
-tr.even.gradeA td.sorting_1 {
-	background-color: #d5ffd5;
-}
-
-tr.even.gradeA td.sorting_2 {
-	background-color: #e2ffe2;
-}
-
-tr.even.gradeA td.sorting_3 {
-	background-color: #e2ffe2;
-}
-
-tr.odd.gradeC td.sorting_1 {
-	background-color: #c4c4ff;
-}
-
-tr.odd.gradeC td.sorting_2 {
-	background-color: #d1d1ff;
-}
-
-tr.odd.gradeC td.sorting_3 {
-	background-color: #d1d1ff;
-}
-
-tr.even.gradeC td.sorting_1 {
-	background-color: #d5d5ff;
-}
-
-tr.even.gradeC td.sorting_2 {
-	background-color: #e2e2ff;
-}
-
-tr.even.gradeC td.sorting_3 {
-	background-color: #e2e2ff;
-}
-
-tr.odd.gradeX td.sorting_1 {
-	background-color: #ffc4c4;
-}
-
-tr.odd.gradeX td.sorting_2 {
-	background-color: #ffd1d1;
-}
-
-tr.odd.gradeX td.sorting_3 {
-	background-color: #ffd1d1;
-}
-
-tr.even.gradeX td.sorting_1 {
-	background-color: #ffd5d5;
-}
-
-tr.even.gradeX td.sorting_2 {
-	background-color: #ffe2e2;
-}
-
-tr.even.gradeX td.sorting_3 {
-	background-color: #ffe2e2;
-}
-
-tr.odd.gradeU td.sorting_1 {
-	background-color: #c4c4c4;
-}
-
-tr.odd.gradeU td.sorting_2 {
-	background-color: #d1d1d1;
-}
-
-tr.odd.gradeU td.sorting_3 {
-	background-color: #d1d1d1;
-}
-
-tr.even.gradeU td.sorting_1 {
-	background-color: #d5d5d5;
-}
-
-tr.even.gradeU td.sorting_2 {
-	background-color: #e2e2e2;
-}
-
-tr.even.gradeU td.sorting_3 {
-	background-color: #e2e2e2;
-}
-
-
-/*
- * Row highlighting example
- */
-.ex_highlight #example tbody tr.even:hover, #example tbody tr.even td.highlighted {
-	background-color: #ECFFB3;
-}
-
-.ex_highlight #example tbody tr.odd:hover, #example tbody tr.odd td.highlighted {
-	background-color: #E6FF99;
-}
-
-.ex_highlight_row #example tr.even:hover {
-	background-color: #ECFFB3;
-}
-
-.ex_highlight_row #example tr.even:hover td.sorting_1 {
-	background-color: #DDFF75;
-}
-
-.ex_highlight_row #example tr.even:hover td.sorting_2 {
-	background-color: #E7FF9E;
-}
-
-.ex_highlight_row #example tr.even:hover td.sorting_3 {
-	background-color: #E2FF89;
-}
-
-.ex_highlight_row #example tr.odd:hover {
-	background-color: #E6FF99;
-}
-
-.ex_highlight_row #example tr.odd:hover td.sorting_1 {
-	background-color: #D6FF5C;
-}
-
-.ex_highlight_row #example tr.odd:hover td.sorting_2 {
-	background-color: #E0FF84;
-}
-
-.ex_highlight_row #example tr.odd:hover td.sorting_3 {
-	background-color: #DBFF70;
-}
-
-
-/*
- * KeyTable
- */
-table.KeyTable td {
-	border: 3px solid transparent;
-}
-
-table.KeyTable td.focus {
-	border: 3px solid #3366FF;
-}
-
-table.display tr.gradeA {
-	background-color: #eeffee;
-}
-
-table.display tr.gradeC {
-	background-color: #ddddff;
-}
-
-table.display tr.gradeX {
-	background-color: #ffdddd;
-}
-
-table.display tr.gradeU {
-	background-color: #ddd;
-}
-
-div.box {
-	height: 100px;
-	padding: 10px;
-	overflow: auto;
-	border: 1px solid #8080FF;
-	background-color: #E5E5FF;
-}
