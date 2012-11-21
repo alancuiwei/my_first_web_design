@@ -1,0 +1,96 @@
+<%= stylesheet_link_tag "general.min.gz.css" %>
+<%= stylesheet_link_tag "fthb.css" %>
+<%= @num%>
+<div id="main" class="" xmlns="http://www.w3.org/1999/html">
+
+  <div class="main-content">
+    <div class="trow">
+      <div class="main-inputs">
+        <div id="inputs" class="content">
+
+
+          <div id="inputs-container">
+
+            <div class="padded">
+              <h3>投资回报要求：</h3>
+            </div>
+
+            <div id="overlay-inputs-income" class="overlay" style="display: block; ">
+              <div class="inputs-block">
+
+                <div class="form-horizontal" style="margin: none; padding: none;">
+                  通天顺投机1号
+
+                  成立于2012年5月底。<img class="ls-s2" id='s-glow' src='/assets/a.jpg'  />
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="main-body">
+        <div class="content">
+          <a href="/home">首页</a>   >   <a href="/myaccount/investrecord">我们的服务</a>
+
+          <div id="showindex">
+            <p>投资账号</p><br>
+            欢迎<br>
+            您可以点击右侧项目简介，得到基金详细的运行内容。
+          </div>
+          <br><br>
+
+          <div style="float: left;">
+          总回报金额:  <br>
+            ￥ <span style="color: red;"><%= @allinvest %> 元</span><br>
+            <img class="ls-s2" id='s-glow' src='/assets/a.jpg'  />
+          </div>
+
+            <div style="float: left;">
+              投入本金： <br>
+              ￥ <span style="color: red;"><%= @allfund %> 元</span> <br>
+             认购记录：
+          <table>
+            <tr><td>日期</td><td>金额</td></tr>
+            <% @funds.each do |f| %>
+               <tr><td><%= f.date.to_s(:db)%></td><td><%= f.recordvalue%></td></tr>
+            <% end %>
+          </table>
+              <p style="float: right;color: #ff0000;"><%= @allfund %></p>
+            </div>
+
+             <br><br><br><br><br><br><br><br>
+          <div style="float: left;">
+                已付利息： <br>
+                ￥ <span style="color: red;"><%= @allinterest %> 元</span>
+                <br>
+            下一次提取利息时间：<br>
+                支付利息记录：
+                <table>
+                  <tr><td>日期</td><td>金额</td></tr>
+                  <% @interests.each do |i| %>
+                      <tr><td><%= i.date.to_s(:db)%></td><td><%= i.recordvalue%></td></tr>
+                  <% end %>
+                </table>
+            <p style="float: right;color: #ff0000;"><%= @allinterest %></p>
+          </div>
+
+        </div>
+      </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
