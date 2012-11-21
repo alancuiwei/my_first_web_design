@@ -1,0 +1,2 @@
+class MyaccountController < ApplicationController
+end

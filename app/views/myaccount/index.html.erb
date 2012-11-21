@@ -1,0 +1,378 @@
+<%= stylesheet_link_tag "general.min.gz.css" %>
+<%= stylesheet_link_tag "fthb.css" %>
+
+<div class="main-header">
+  <div class="content" id="header">
+    <div class="hdr-contents">
+      <div id="table-container">
+        <table border="0">
+            <tbody><tr>
+                <td>                 
+               <div class="" id="link-box">
+                      <a onmouseover="loginPageShowHeader('#main-login');" onclick="loginPageShowHeader('#main-login');" class="top" id="hdr-icon-save">登陆</a>
+                           
+                        <div class="clear"></div>                      
+                        <div id="login-header" style="display: none;">
+                            <div style="display: none;" id="login-form">
+    <div id="main-login" class="login-container" style="display: block;">
+
+        <div id="signin-message" style="margin-bottom: 5px;" >
+            登陆
+        </div>
+        
+        <div>
+            <input id="emaillogin-field" class="input-field" size="16" placeholder="姓名" type="text">
+            <div id="email-validation" class="validation-message" style="display: none">
+                Email Validation Text
+            </div>
+        </div>    
+        <div>
+            <input id="passwordlogin-field" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+            <div id="password-validation" class="validation-message" style="display: none">
+                Password Validation Text
+            </div>
+            <div style="text-align: left">
+                <a href="" onclick='loginPageShowSection(this, "#forgot-login"); return false' id="forgot-message">忘记密码？</a>
+            </div>
+        </div>
+        
+        <div style="text-align: right">
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
+            &nbsp; 
+            <button onclick="userLogin(this)" id="login-field-button" class="btn btn-success">登陆</button>
+        </div>
+    </div>
+
+    
+    <div id="forgot-login" class="login-container" style="display: none">
+        
+        <div id="forgotinfo-message">
+            Forgot your password? <span style="font-weight: normal">No problem, I just need your email address.</span>
+        </div>
+        
+        <div class="">
+            <input id="emailforgot-field" class="input-field" size="16" placeholder="Email address" type="text">
+            <div id="emailforgot-validation" class="validation-message" style="display: none">
+                Email Validation Text
+            </div>
+        </div>
+        <div style="text-align: right"> 
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">Cancel</span>
+            &nbsp;
+            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">Reset my password</button>
+            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+        </div>  
+        
+    </div>
+    
+    <div id="passwordconf-login" class="login-container" style="display: none">
+        
+        <div id="confinfo-message" class="login-info-message">
+            I just sent you an email with instructions to reset your password.
+        </div>
+        <div style="text-align: right">
+            <button onclick="dismissLoginEvent(this);" id="pwdconfirm-button" class="btn" style="width: 60px">Close</button>
+            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+        </div>
+        
+    </div>
+    
+    <div id="login-skipsection" style="margin-top: 10px" onclick="setSkippedLogin();">
+        <span class="skip-text">
+            <span class="link" style="font-size: 14px">Use anonymously</span>
+            You can always log in later, but if you don't log in your data won't be saved.
+        </span>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                </td> 
+            </tr>
+        </tbody></table>
+    </div>
+
+</div>
+     </div>
+            </div>
+    <div class="main-content">
+        <div class="trow">
+            <div class="main-inputs">
+                <div id="inputs" class="content">
+                    <div id="inputs-container">
+
+<div class="padded">
+    <h3>忘记用户名密码了?</h3>
+    <p>尊敬的用户，我们将为您提供一对一的服务，您可以打电话025-123456，致电重人软件公司查询您的密码。</b></p>
+</div>
+
+    
+    <div style="display: block;" id="overlay-inputs-login" class="overlay">
+                <div id="login-form">
+    <div id="main-login" class="login-container" style="display: block;">
+        <div id="signin-message" style="margin-bottom: 5px;">
+            登陆
+        </div>
+        
+        <div>
+            <input id="emaillogin-field" class="input-field" size="16" placeholder="姓名" type="text">
+            <div id="email-validation" class="validation-message" style="display: none">
+                Email Validation Text
+            </div>
+        </div>    
+        <div>
+            <input id="passwordlogin-field" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+            <div id="password-validation" class="validation-message" style="display: none">
+                Password Validation Text
+            </div>
+            <div style="text-align: left">
+                <a href="" onclick='loginPageShowSection(this, "#forgot-login"); return false' id="forgot-message">忘记密码？</a>
+            </div>
+        </div>
+        
+        <div style="text-align: right">
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
+            &nbsp; 
+            <button onclick="userLogin(this)" id="login-field-button" class="btn btn-success">登陆</button>
+        </div>
+    </div>
+
+    
+    <div id="forgot-login" class="login-container" style="display: none">
+        
+        <div id="forgotinfo-message">
+            Forgot your password? <span style="font-weight: normal">No problem, I just need your email address.</span>
+        </div>
+        
+        <div class="">
+            <input id="emailforgot-field" class="input-field" size="16" placeholder="Email address" type="text">
+            <div id="emailforgot-validation" class="validation-message" style="display: none">
+                Email Validation Text
+            </div>
+        </div>
+        <div style="text-align: right"> 
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">Cancel</span>
+            &nbsp;
+            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">Reset my password</button>
+            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+        </div>  
+        
+    </div>
+    
+    <div id="passwordconf-login" class="login-container" style="display: none">
+        
+        <div id="confinfo-message" class="login-info-message">
+            I just sent you an email with instructions to reset your password.
+        </div>
+        <div style="text-align: right">
+            <button onclick="dismissLoginEvent(this);" id="pwdconfirm-button" class="btn" style="width: 60px; display: none;">Close</button>
+            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+        </div>
+        
+    </div>
+    
+</div>
+
+    </div>
+
+</div>
+                </div>
+            </div>
+            <div class="main-body">
+                <div class="content">
+                    <div class="group">
+                        <div class="inner-contents" id="ic-1">
+						<div class="padder">
+                            <div class="fthb faded">
+                                <div class="bordered" width="100%">
+                                    <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+                                        <tbody>
+										    <tr>
+                                                <td colspan="2">
+                                                    <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
+                                                        <tbody>
+													        <tr>
+                                                                <td class="title">
+                                                                    <div class="crumbs">
+                                                                        <a href="/" class="full first" name="breadcrumb-main-home">首页</a>
+                                                                        <i class="icon-chevron-right"></i>
+															    		<a href="/s010001/shownorisk" class="odd" style="z-index: 100" id="breadcrumb-fthb" customized="sa">我们的服务</a>
+                                                                        <a class="blank"></a>
+                                                                        <div class="clear"></div>
+                                                                    </div>
+                                                                    <h1>投资账号</h1>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+									    		    </table>  
+                                                </td> 
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div id="inputs-income-tip" class="inputs-tip">
+                                                        <div class="inputstip-content">
+                                                            <div id="inputs-income-tiptext" class="inputstip-text">
+                                                                太棒了
+                                                                <br>
+                                                                您需要登陆后才能查看您的投资账号信息。
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+<tr>
+    <td class="body-content">
+        <div class="body-content-wrapper">
+            <!--- data version is 24 --->            
+            <div class="page-interaction">
+                <div class="interaction-overlay">
+                    <table width="100%" height="100%" cellspacing="0" cellpadding="0">
+                        <tbody><tr>
+                            <td valign="middle" align="middle">
+                                <div id="interaction-overlay">
+                                    请登陆后查看账号信息。
+                                </div>
+                            </td>
+                        </tr></tbody>
+					</table>
+                </div>
+    
+    <div class="interaction-content">
+        <div class="ispacer">
+            <table class="block">
+                <tbody><tr>
+                    <td rowspan="2" width="280px">
+                        <h4 class="spaced">总回报金额</h4>
+                        <h5 id="display-hv" class="value"></h5>
+                        <div id="hm-icon" class="home-icon hsprite-green">
+						<img class="ls-s2" id='s-glow' src='/assets/graph.gif'>
+                        </div>
+                        <div id="hm-homevalue">
+                            <span class="infos">
+                                <b>投资模式：<br></b> 保本。（本金不损）<br> 保息。（年收益率8%）<br> 利润返现，周期2个月。
+                            </span>
+                        </div>
+                    </td>
+                    <td class="bleft bbottom arrow">
+                        <div class="arrow">
+                            <div class="arrow-content">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="bbottom">
+                        <h4 style="text-align: left; margin-bottom: 10px">投入本金</h4>
+                        <table class="sub">
+                            <tbody><tr>
+                                <td class="bright" align="right" width="130px">
+                                    <h5 id="display-dp" class="value"></h5>
+                                    <table class="slider">
+                                        <tbody><tr>
+                                            <td class="indicator" onclick="hmAdjustSlider(&quot;slider-downpayment&quot;, -1000)"></td>
+                                            <td width="100%">                                    
+                                                <div class="slider smart-scheme">
+                                                    <div id="slider-downpayment"></div>
+                                                </div>
+                                            </td>
+                                            <td class="right indicator" onclick="hmAdjustSlider(&quot;slider-downpayment&quot;, +1000)"></td>
+                                        </tr>
+                                    </tbody></table>
+                                    <div class="subtext"><b id="display-sub-dp"></b> </div>
+                                </td>
+                                <td width="40%" class="totals">
+                                    <h4>认购记录</h4>
+                                    <div class="spacer s5"></div>
+                                    <table class="totals">
+                                        <tbody><tr>
+                                            <td><br></td>
+                                            <td class="bold right" id="display-cdown"></td>    
+                                        </tr>
+                                        <tr>
+                                            <td><br></td>
+                                            <td class="bold right" id="display-cother"></td>    
+                                        </tr>
+                                        <tr>
+                                            <td class="total right" colspan="2"><b id="display-ctotal"></b></td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bleft arrow">
+                        <div class="arrow">
+                            <div class="arrow-content">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="">
+                        <h4 style="text-align: left; margin-bottom: 10px">Mortgage Value</h4>
+                        <table class="sub">
+                            <tbody><tr>
+                                <td class="bright" align="right" width="60%">
+                                    
+                                    <h5 id="display-mv" class="value">$9,500</h5>
+                                    
+                                    <table class="slider">
+                                        <tbody><tr>
+                                            <td class="indicator" onclick="hmAdjustSlider(&quot;slider-mortgage&quot;, -1000)">-</td>
+                                            <td width="100%">
+                                                <div class="slider smart-scheme">
+                                                    <div id="slider-mortgage"></div>
+                                                </div>
+                                            </td>
+                                            <td class="right indicator" onclick="hmAdjustSlider(&quot;slider-mortgage&quot;, +1000)">+</td>
+                                        </tr>
+                                    </tbody></table>
+
+                                </td>
+                                <td width="40%" class="totals">
+                                    <h4>记录</h4>
+                                    <div class="spacer s5"></div>
+                                    <table class="totals">
+                                        <tbody><tr>
+                                           <td><br></td>
+                                            <td class="right"><b id="display-mrepay"></b></td>    
+                                        </tr>
+                                        <tr>
+                                            <td><br></td>
+                                            <td class="right"><b id="display-mother"></b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="total right" colspan="2"><b id="display-mtotal"></b></td>    
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                        <div style="clear: both; height: 12px;"></div>
+                        <!-- <a id='see-mortgage-link' target="_blank" href='' onClick='trackLenderClick(this)' class='full back'>See Lender Details</a> -->
+                        
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+    </div>
+    <div class="interaction-reset">
+        <a class="button" href="javascript:hmResetValues()">Reset values</a>
+    </div>
+            </div>
+        </div>
+    </td>
+</tr>
+                                        </tbody>
+								    </table>
+                                </div>
+                            </div>
+							<br>
+                            <div id="bottom">
+                            </div>
+                        </div>	
+						</div>
+					</div>
+                </div>
+            </div>               
+        </div>
+    </div>
+
