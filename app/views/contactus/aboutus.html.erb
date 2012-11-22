@@ -1,13 +1,10 @@
-﻿<%= stylesheet_link_tag "aboutus.css" %>
+﻿<%= stylesheet_link_tag "contactus.css" %>
+<%= javascript_include_tag "jquery.js" %>
 
 <div class='main-content'>
     <div class='trow'>
         <div class='main-body'>
             <div class='content'>
-                <div class='group'>
-                    <div class='inner-contents' id='ic-0'>
-                        <div class='padder'>
-                            <div class='fthb inputshidden'>
                                 <div class='bordered' width=100%>
                                     <table class='body-container' style="width: 100%" cellspacing=0 cellpadding=0 border=0>
                                         <tr>
@@ -136,6 +133,16 @@
 																<td class='sp1'></td>
                                                             </tr>   
                                                     </table>
+                                </div>													
+                            </td>
+                        </tr>
+                    </table>
+                </div>                   
+            </div>
+        </div>
+    </div>
+</div>
+
                                                     <script>
                                                     $(function()
                                                     {        
@@ -157,18 +164,27 @@
                                                             }, 500)
                                                         });
                                                     });    
+/**
+ * Use to send a Virtual Page View Event to Google.
+ */
+function googleVPViewEvent(pageKey)
+{
+    var key = pageKey;
+    // if pagekey is null or blank use the href
+    if (pageKey == null || pageKey == "")
+	{
+		key = parseUrl(document.URL);
+        key = key.replace("/page/#", "");
+	}
+    else
+    {
+    key = "/" + pageKey;
+    }
+    
+    if (typeof(_gaq) != "undefined")
+	{
+    //        clog("Sending event "+ "/virtual"+url);
+    _gaq.push(['_trackPageview', "/virtual"+key]);
+    }
+}													
                                                     </script>													
-                                                </div>													
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <br/>  
-                            </div>	               
-						</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

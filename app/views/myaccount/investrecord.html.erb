@@ -1,7 +1,8 @@
+<% if @webuser!=nil %>
+
 <%= stylesheet_link_tag "general.min.gz.css" %>
 <%= stylesheet_link_tag "fthb.css" %>
-<%= @num%>
-<div id="main" class="" xmlns="http://www.w3.org/1999/html">
+<div id="main">
 
   <div class="main-content">
     <div class="trow">
@@ -39,7 +40,7 @@
 
           <div id="showindex">
             <p>投资账号</p><br>
-            欢迎<br>
+            <span style="color: red;"><%=@username%></span><br>
             您可以点击右侧项目简介，得到基金详细的运行内容。
           </div>
           <br><br>
@@ -63,12 +64,11 @@
               <p style="float: right;color: #ff0000;"><%= @allfund %></p>
             </div>
 
-             <br><br><br><br><br><br><br><br>
+             <br><br><br><br><br><br><br><br><br><br>
           <div style="float: left;">
                 已付利息： <br>
                 ￥ <span style="color: red;"><%= @allinterest %> 元</span>
                 <br>
-            下一次提取利息时间：<br>
                 支付利息记录：
                 <table>
                   <tr><td>日期</td><td>金额</td></tr>
@@ -79,6 +79,15 @@
             <p style="float: right;color: #ff0000;"><%= @allinterest %></p>
           </div>
 
+          下一次提取利息时间：<br>
+          <% for i in 0..@remind.keys.size-1%>
+               第<%= @remind[@remind.keys[i]][0] %>次  <%= @remind.keys[i] %>  <%= @remind[@remind.keys[i]][1]  %> <br>
+          <% end %><br>
+          还没有确认支付的利息：<br>
+          <% for i in 0..@confirm.keys.size-1%>
+              第<%= @confirm[@confirm.keys[i]][0]%>次  <%= @confirm.keys[i]  %>  <%= @confirm[@confirm.keys[i]][1]  %> <br>
+          <% end %>
+
         </div>
       </div>
 
@@ -87,6 +96,9 @@
       </div>
     </div>
 
+
+
+<% end %>
 
 
 

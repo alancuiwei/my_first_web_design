@@ -1,0 +1,46 @@
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+<a href="/admin/userconfig/0">新建用户</a>
+<div style="width: 700px;height: 700px;">
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
+    <thead><tr>
+      <th>用户名</th><th>密码</th>
+      <th>联系电话</th><th>通信地址</th>
+      <th>利息返还周期</th><th>年化收益率</th>
+      <th>修改</th><th>删除</th><th>投资信息</th>
+    </tr></thead>
+    <tbody>
+     <% @webusers.each do |w|  %>
+       <tr>
+         <td><%= w.username%></td>
+         <td><%= w.password%></td>
+         <td><%= w.tel%></td>
+         <td><%= w.address%></td>
+         <td><%= w.period%></td>
+         <td><%= w.returnrate%></td>
+         <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
+         <td><a href="javascript:void(0)" onclick="userdelete('<%= w.id %>')">删除</a></td>
+         <td><a href="/myaccount/investrecord/<%= w.id %>">查看</a></td>
+       </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#users').dataTable();
+    });
+    function userdelete(id){
+        $.get("/admin/userdeleteajax/"+id,function(data){
+            if(data=="s"){
+                alert("删除成功！");
+                location.reload();
+            }
+            else{
+                alert("删除失败！");
+                location.reload();
+            }
+        });
+    }
+</script>

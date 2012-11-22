@@ -1,48 +1,184 @@
-div#slider-container {
-    position: relative;
-    width: 100%;
-    height: 440px;
-    background-color: rgb(195, 228, 236);
+
+#main {
+    overflow: visible !important;
 }
 
-h1#s-title {
-    font-family: "Oswald","arial narrow",sans-serif;
-    position: absolute;
-    top: 4%;
-    left: 7%;
-    font-size: 328%;
-    line-height: 1.3em;
-    font-weight: bolder; 
+span.link,
+a 
+{
+	color: #0485b7;
+	font-size: 0.8125em;
+	text-decoration: none;
+}
+
+body {
+    margin: 0px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 18px;
+    color: rgb(51, 51, 51);
+    background-color: rgb(243, 243, 233);
+}
+
+body {
     padding: 0px;
+    background: none repeat scroll 0% 0% rgb(243, 243, 233);
     margin: 0px;
 }
 
-div#slider-container button:hover {
-    border-color: rgb(38, 89, 38);
+a {
+    color: rgb(0, 136, 204);
+    text-decoration: none;
 }
 
-div#slider-container h2#s-subtitle {
-    font-family: arial,helvetica,sans-serif;
-    font-weight: normal;
-    position: absolute;
-    top: 57%;
-    left: 7.2%;
-    width: 23%;
-    font-size: 0.9375em;
-    line-height: 24px;
+#main {
+    padding: 0px 10px;
+    margin: 0px auto;
+    width: 89%;
+    max-width: 1400px;
+    _margin:-14px 30px 0px 50px;
 }
 
-div#slider-container h2#s-subtitle button {
+#main .main-header {
+    position: relative;
     width: 100%;
-    margin-bottom: 15px;
-    font-size: 1.9em;
-    height: 38px;
-    font-family: georgia,serif;
-    font-style: italic;
+    height: 70px;
 }
 
-div#slider-container h2#s-subtitle b {
-    color: rgb(255, 102, 0);
+#main .main-header .content {
+    padding: 0px;
+}
+
+#main .content {
+    padding: 5px 20px;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1199px){
+div#main  div#header div#beta {
+    left: 19%;
+  }
+}
+
+@media only screen and (min-width: 1200px)and (max-width: 1279px){
+div#main  div#header div#beta {
+    left: 17%;
+  }
+}
+
+#top-bar {
+    width: 100%;
+    height: 4px;
+    margin-bottom: 5px;
+}
+
+div#header #logo
+{
+	position: absolute;
+	width: 147px;
+	height: 54px;
+	top: 5px;
+	left: 14px;
+}
+
+div#header div#beta {
+    position: absolute;
+    top: 38.67%;
+    left: 15%;
+    font-size: 0.8125em;
+    text-transform: uppercase;
+}
+
+#main .main-footer {
+    width: 100%;
+}
+
+#main .trow {
+    display: table-row;
+}
+
+#main .main-footer .table {
+    display: table;
+    width: 100%;
+}
+
+#main .main-footer .tcol {
+    width: 17%;
+    padding-right: 25px;
+}
+
+#main .tcol {
+    float:right; 
+}
+
+#main .main-footer h3 {
+    font-family: "Oswald","arial narrow",sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    color: rgb(51, 51, 51);
+
+}
+
+#main .main-footer .separator {
+    width: 100%;
+    border-top: 1px solid rgb(0, 0, 0);
+    margin: 5px 0px 2px;
+    *margin: 5px 0px -13px;
+    _margin: 5px 0px -13px;
+}
+
+#main .main-footer a.last {
+    border-bottom: medium none;
+}
+
+#main .main-footer a {
+    font-size: 0.75em;
+    font-family: georgia;
+    display: block;
+    padding: 5px 0px;
+    border-bottom: 1px solid rgb(153, 153, 153);
+    margin-bottom: 3px;
+}
+
+#main .main-footer .tcol.last {
+    padding-right: 0px;
+}
+
+#main .main-content .main-body {
+    width: 100%;
+    display: table-cell;
+    vertical-align: top;
+    border-left: 1px solid rgb(204, 204, 204);
+    border-right: 1px solid rgb(204, 204, 204);
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    z-index: 40;
+    height: auto;
+    border-width: 2px 1px;
+    border-style: solid;
+    border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+}
+
+#main .main-content {
+    position: relative;
+    width: 100%;
+    display: table;
+}
+
+div.inner-contents {
+    margin-top: 0px;
+}
+
+table.body-container td.body-content {
+    width: 100%;
+}
+
+td.right {
+    text-align: right;
+}
+
+.spacer {
+    display: block;
+    clear: both;
+    height: 0px;
 }
 
 .footer {
@@ -62,14 +198,30 @@ div#slider-container h2#s-subtitle b {
     text-align:center;
 }
 
-div#slider-container img#s-glow2{
-    position: absolute;
-	
-    left: 38.5%;
-    top: 9%;
+.table {
+    width: 100%;
+    margin-bottom: 18px;
 }
 
-div#slider-container img#s-glow{
-    position: absolute;
-    width: 30.3%;
+h3 {
+    font-size: 0.875em;
+}
+
+h1, h2, h3 {
+    font-family: "Oswald","arial narrow",sans-serif;
+    font-weight: normal;
+    margin: 0px;
+}
+
+h3 {
+    font-size: 1.125em;
+    line-height: 27px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0px;
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    text-rendering: optimizelegibility;
 }

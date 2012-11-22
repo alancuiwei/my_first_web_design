@@ -1,0 +1,76 @@
+<div style="width: 700px;height: 700px;">
+  <div>
+    用户名：<input type="text" name="username" id="username" title="用户名"> <br>
+    密码：<input type="password" name="password" id="password" title="密码"> <br>
+    密码确认：<input type="password" name="passwordconfirm" id="passwordconfirm" title="密码确认"> <br>
+    联系电话：<input type="text" name="tel" id="tel" title="联系电话"> <br>
+    通信地址：<input type="text" name="address" id="address" title="通信地址">  <br>
+    邮编：<input type="text" name="postcode" id="postcode" title="邮编"> <br>
+    利息返还周期：<input type="text" name="period" id="period" title="利息返还周期"> <br>
+    年化收益率：<input type="text" name="returnrate" id="returnrate" title="年化收益率"> <br>
+    <a href="javascript:void(0)" id="userconfig">确认</a>
+  </div>
+
+</div>
+  <script type="text/javascript">
+      <% if params[:id]!="0" %>
+      $("#username").attr("value",'<%= @userinfo[0]%>');
+      $("#username").attr("disabled",true);
+      $("#password").attr("value",'<%= @userinfo[1]%>');
+      $("#passwordconfirm").attr("value",'<%= @userinfo[1]%>');
+      $("#tel").attr("value",'<%= @userinfo[2]%>');
+      $("#address").attr("value",'<%= @userinfo[3]%>');
+      $("#postcode").attr("value",'<%= @userinfo[4]%>');
+      $("#period").attr("value",'<%= @userinfo[5]%>');
+      $("#returnrate").attr("value",'<%= @userinfo[6]%>');
+      <% end %>
+
+      $("#userconfig").click(function(e){
+         var o=document.getElementsByTagName("input");
+          var nom_flag=0;
+          for(var i=0;i<o.length;i++)
+          {
+              if(o[i].value==""){
+                  alert(o[i].title+"为空！");
+                  nom_flag=1;
+                  break;
+              }
+          }
+
+          if(nom_flag==0){
+             if($("#password").attr("value")!=$("#passwordconfirm").attr("value")){
+                 alert("两次密码不一致！");
+             }
+              else if($("#password").attr("value")!=$("#passwordconfirm").attr("value")){
+                  alert("两次密码不一致！");
+              }
+             else if($("#tel").attr("value").match(/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/)==null&&$("#tel").attr("value").match(/^1[3458]\d{9}$/)==null){
+                  alert("输入正确的号码！");
+              }
+             else if($("#postcode").attr("value").match(/^[1-9][0-9]{5}$/)==null) {
+                  alert("输入正确的邮编！");
+              }
+              else{
+                  $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),tel: $("#tel").attr("value"),
+                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value"),
+                      period: $("#period").attr("value"),returnrate: $("#returnrate").attr("value")},function(data){
+                      if(data=="f"){
+                          alert("用户名已注册！");
+                      }
+                      else if(data=="s"){
+                          alert("用户注册成功！");
+                          location.href='/admin';
+                      }
+                      else{
+                          alert("修改成功！");
+                          location.href='/admin';
+                      }
+                  });
+              }
+          }
+      });
+
+
+
+
+  </script>
