@@ -3,26 +3,29 @@
 <head>
 <title>通天顺金融策略网</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <%= javascript_include_tag "jquery-1.8.3.min.js" %>
+  <%= javascript_include_tag "GGS.js" %>
 <%= stylesheet_link_tag "styles.css" %>
-<%= javascript_include_tag "GGS.js" %>
 </head>
 
 <body>
+
     <div id='popup-overlay' style="display: none; position: fixed; top: 0px; left: 0px; width: auto; height: auto; z-index: 25000; background-color: #fff; opacity: 0.9"></div>
-            
 	<div id='top-bar'></div>
 	<div id='main' class='welcome'>
         <div class='main-header'>
             <div class='content' id='header'>
 		        <div class='hdr-contents'>
-		            <a href='http://www.tongtianshun.com' class='full' name='header-logo'>
+        <a href='/' class='full' name='header-logo'>
 					    <div id='logo' style="background: url(/assets/logo.jpg) 0px 0px no-repeat;"></div>
                     </a>
 					<div id='beta'>无风险，持续，资产增值</div>
             </div>
             </div>
             </div>
+
         <%= yield %>
+
 	    <div class='main-footer'>
 		    <div class='content'>
 			<div class='table'>
@@ -57,10 +60,11 @@
 			<br/><br/>                
                         </div>
                         </div>
+</div>
 
-                        </div>
 	<div class='footer'>
 	    <p style="@media only screen and (min-width: 480px)"> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@2011-2012南京重人软件有限公司 版权所有<br></p>
     </div>
+
 </body>
 </html>
