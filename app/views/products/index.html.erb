@@ -1,0 +1,94 @@
+<%= javascript_include_tag "highstock.js" %>
+<div style="width: 700px;height: 700px;">
+  <p style="color: red;">基金总值：<%= @product.lastprofits+@product.todayprofit+@interest %></p>
+  年化收益率：<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds )/@funds)*365*100/@diffdate )%>%<br>
+  总盈利额：<%= @product.lastprofits+@product.todayprofit+@interest-@funds %><br>
+  本金：<%= @funds %><br>
+  <p style="color: red;">账面总额：<%= @product.lastprofits+@product.todayprofit%></p>
+  净值分解 <br>
+  上日结存：<%= @product.lastprofits%><br>
+  当日盈亏：<%= @product.todayprofit%><br>
+  <p style="color: red;">已分红值：<%= @interest %></p>
+  <p>分红记录：</p>
+  <% @invest_i.each do |i|%>
+      <%= i.date.to_s(:db)%>
+      <%= i.recordvalue%><br>
+  <% end %>
+
+  <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        // Create the chart
+            window.chart = new Highcharts.StockChart({
+                chart : {
+                    renderTo : 'container'
+                },
+
+
+                title : {
+                    text : 'AAPL Stock Price'
+                },
+
+                series : [{
+                    name : 'AAPL Stock Price',
+                    data : [
+                    /* Dec 2005 */
+                    [1133395200000,71.60],
+                    [1133481600000,72.63],
+                    [1133740800000,71.82],
+                    [1133827200000,74.05],
+                    [1133913600000,73.95],
+                    [1134000000000,74.08],
+                    [1134086400000,74.33],
+                    [1134345600000,74.91],
+                    [1134432000000,74.98],
+                    [1134518400000,72.01],
+                    [1134604800000,72.18],
+                    [1134691200000,71.11],
+                    [1134950400000,71.38],
+                    [1135036800000,72.11],
+                    [1135123200000,73.50],
+                    [1135209600000,74.02],
+                    [1135296000000,73.35],
+                    [1135641600000,74.23],
+                    [1135728000000,73.57],
+                    [1135814400000,71.45],
+                    [1135900800000,71.89],
+                        [1136246400000,74.75],
+                        [1136332800000,74.97],
+                        [1136419200000,74.38],
+                        [1136505600000,76.30],
+                        [1136764800000,76.05],
+                        [1136851200000,80.86],
+                        [1136937600000,83.90],
+                        [1137024000000,84.29],
+                        [1137110400000,85.59],
+                        [1137456000000,84.71],
+                        [1137542400000,82.49],
+                        [1137628800000,79.04],
+                        [1137715200000,76.09],
+                        [1137974400000,77.67],
+                        [1138060800000,76.04],
+                        [1138147200000,74.20],
+                        [1138233600000,72.33],
+                        [1138320000000,72.03],
+                        [1138579200000,75.00],
+                        [1138665600000,75.51]],
+                    marker : {
+                        enabled : true,
+                        radius : 3
+                    },
+                    shadow : true,
+                    tooltip : {
+                        valueDecimals : 2
+                    }
+                }]
+            });
+    })
+
+</script>

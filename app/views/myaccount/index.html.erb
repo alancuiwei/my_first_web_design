@@ -1,7 +1,8 @@
-<%= stylesheet_link_tag "general.min.gz.css" %>
-<%= stylesheet_link_tag "fthb.css" %>
+<%= stylesheet_link_tag "myaccount.css" %>
+<%= javascript_include_tag "fthb.js" %>
+<%= javascript_include_tag "standard.js" %>
 
-<div class="main-header">
+<div class="main-head">
   <div class="content" id="header">
     <div class="hdr-contents">
       <div id="table-container">
@@ -47,20 +48,19 @@
     <div id="forgot-login" class="login-container" style="display: none">
         
         <div id="forgotinfo-message">
-            Forgot your password? <span style="font-weight: normal">No problem, I just need your email address.</span>
+            忘记密码了? <span style="font-weight: normal">没问题，我只需要你的电子邮件地址。</span>
         </div>
         
         <div class="">
-            <input id="emailforgot-field" class="input-field" size="16" placeholder="Email address" type="text">
+            <input id="emailforgot-field" class="input-field" size="16" placeholder="电子邮件" type="text">
             <div id="emailforgot-validation" class="validation-message" style="display: none">
                 Email Validation Text
             </div>
         </div>
         <div style="text-align: right"> 
-            <span onclick="loginPageDismiss();" class="link login-cancel-button">Cancel</span>
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
             &nbsp;
-            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">Reset my password</button>
-            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">找回密码</button>
         </div>  
         
     </div>
@@ -141,20 +141,20 @@
     <div id="forgot-login" class="login-container" style="display: none">
         
         <div id="forgotinfo-message">
-            Forgot your password? <span style="font-weight: normal">No problem, I just need your email address.</span>
+            忘记密码了? <span style="font-weight: normal">没问题，我只需要你的电子邮件地址。</span>
         </div>
         
         <div class="">
-            <input id="emailforgot-field" class="input-field" size="16" placeholder="Email address" type="text">
+            <input id="emailforgot-field" class="input-field" size="16" placeholder="电子邮件" type="text">
             <div id="emailforgot-validation" class="validation-message" style="display: none">
                 Email Validation Text
             </div>
         </div>
         <div style="text-align: right"> 
-            <span onclick="loginPageDismiss();" class="link login-cancel-button">Cancel</span>
+            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
             &nbsp;
-            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">Reset my password</button>
-            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
+            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">找回密码</button>
+            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">返回</span>
         </div>  
         
     </div>
@@ -217,6 +217,9 @@
                                                                 您需要登陆后才能查看您的投资账号信息。
                                                             </div>
                                                         </div>
+														<div class="arrow-container">
+ <div class="arrow"></div>
+ </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -254,42 +257,16 @@
                         </div>
                     </td>
                     <td class="bleft bbottom arrow">
-                        <div class="arrow">
-                            <div class="arrow-content">
-                            </div>
-                        </div>
                     </td>
                     <td class="bbottom">
                         <h4 style="text-align: left; margin-bottom: 10px">投入本金</h4>
                         <table class="sub">
                             <tbody><tr>
-                                <td class="bright" align="right" width="130px">
-                                    <h5 id="display-dp" class="value"></h5>
-                                    <table class="slider">
-                                        <tbody><tr>
-                                            <td class="indicator" onclick="hmAdjustSlider(&quot;slider-downpayment&quot;, -1000)"></td>
-                                            <td width="100%">                                    
-                                                <div class="slider smart-scheme">
-                                                    <div id="slider-downpayment"></div>
-                                                </div>
-                                            </td>
-                                            <td class="right indicator" onclick="hmAdjustSlider(&quot;slider-downpayment&quot;, +1000)"></td>
-                                        </tr>
-                                    </tbody></table>
-                                    <div class="subtext"><b id="display-sub-dp"></b> </div>
-                                </td>
-                                <td width="40%" class="totals">
+                                <td class="bright" align="right" width="130px"></td>
+                                <td width="55%" class="totals">
                                     <h4>认购记录</h4>
-                                    <div class="spacer s5"></div>
                                     <table class="totals">
-                                        <tbody><tr>
-                                            <td><br></td>
-                                            <td class="bold right" id="display-cdown"></td>    
-                                        </tr>
-                                        <tr>
-                                            <td><br></td>
-                                            <td class="bold right" id="display-cother"></td>    
-                                        </tr>
+                                    <div class="spacer s5"></div>
                                         <tr>
                                             <td class="total right" colspan="2"><b id="display-ctotal"></b></td>
                                         </tr>
@@ -302,43 +279,17 @@
                 <tr>
                     <td class="bleft arrow">
                         <div class="arrow">
-                            <div class="arrow-content">
-                            </div>
                         </div>
                     </td>
                     <td class="">
-                        <h4 style="text-align: left; margin-bottom: 10px">Mortgage Value</h4>
                         <table class="sub">
                             <tbody><tr>
-                                <td class="bright" align="right" width="60%">
-                                    
-                                    <h5 id="display-mv" class="value">$9,500</h5>
-                                    
-                                    <table class="slider">
-                                        <tbody><tr>
-                                            <td class="indicator" onclick="hmAdjustSlider(&quot;slider-mortgage&quot;, -1000)">-</td>
-                                            <td width="100%">
-                                                <div class="slider smart-scheme">
-                                                    <div id="slider-mortgage"></div>
-                                                </div>
-                                            </td>
-                                            <td class="right indicator" onclick="hmAdjustSlider(&quot;slider-mortgage&quot;, +1000)">+</td>
-                                        </tr>
-                                    </tbody></table>
-
-                                </td>
-                                <td width="40%" class="totals">
+                                <td class="bright" align="right" width="45%"></td>
+                                <td width="55%" class="totals">
                                     <h4>记录</h4>
                                     <div class="spacer s5"></div>
                                     <table class="totals">
-                                        <tbody><tr>
-                                           <td><br></td>
-                                            <td class="right"><b id="display-mrepay"></b></td>    
-                                        </tr>
-                                        <tr>
-                                            <td><br></td>
-                                            <td class="right"><b id="display-mother"></b></td>
-                                        </tr>
+                                        <tbody>
                                         <tr>
                                             <td class="total right" colspan="2"><b id="display-mtotal"></b></td>    
                                         </tr>
@@ -346,16 +297,10 @@
                                 </td>
                             </tr>
                         </tbody></table>
-                        <div style="clear: both; height: 12px;"></div>
-                        <!-- <a id='see-mortgage-link' target="_blank" href='' onClick='trackLenderClick(this)' class='full back'>See Lender Details</a> -->
-                        
                     </td>
                 </tr>
             </tbody></table>
         </div>
-    </div>
-    <div class="interaction-reset">
-        <a class="button" href="javascript:hmResetValues()">Reset values</a>
     </div>
             </div>
         </div>
@@ -366,7 +311,6 @@
                                 </div>
                             </div>
 							<br>
-                            <div id="bottom">
                             </div>
                         </div>	
 						</div>
@@ -374,5 +318,3 @@
                 </div>
             </div>               
         </div>
-    </div>
-

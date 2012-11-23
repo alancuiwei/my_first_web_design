@@ -13,26 +13,49 @@
      <% @webusers.each do |w|  %>
        <tr>
          <td><%= w.username%></td>
-         <td><%= w.password%></td>
+         <td><%= @hash_password[w.id]%></td>
          <td><%= w.tel%></td>
          <td><%= w.address%></td>
          <td><%= w.period%></td>
          <td><%= w.returnrate%></td>
          <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
-         <td><a href="javascript:void(0)" onclick="userdelete('<%= w.id %>')">删除</a></td>
+         <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
          <td><a href="/myaccount/investrecord/<%= w.id %>">查看</a></td>
        </tr>
     <% end %>
     </tbody>
   </table>
+  <br> <br>
+  <a href="/admin/productconfig/0">添加产品</a>
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="products">
+    <thead><tr>
+      <th>产品名称</th><th>上日结存</th>
+      <th>当日盈亏</th><th>日期</th>
+      <th>修改</th><th>删除</th><th>查看</th>
+    </tr></thead>
+    <tbody>
+    <% @products.each do |p|  %>
+        <tr>
+          <td><%= p.pname%></td>
+          <td><%= p.lastprofits%></td>
+          <td><%= p.todayprofit%></td>
+          <td><%= p.date%></td>
+          <td><a href="/admin/productconfig/<%= p.id %>">修改</a></td>
+          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= p.id %>','productdeleteajax')">删除</a></td>
+          <td><a href="/products/index/<%= p.id %>">查看</a></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
 </div>
 
 <script>
     $(document).ready(function(){
-        $('#users').dataTable();
+        $('#users,#products').dataTable();
     });
-    function userdelete(id){
-        $.get("/admin/userdeleteajax/"+id,function(data){
+    function deleteajax(id,type){
+        $.get("/admin/"+type+"/"+id,function(data){
             if(data=="s"){
                 alert("删除成功！");
                 location.reload();
