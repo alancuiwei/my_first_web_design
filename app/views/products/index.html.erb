@@ -27,7 +27,8 @@
         // Create the chart
             window.chart = new Highcharts.StockChart({
                 chart : {
-                    renderTo : 'container'
+                    renderTo : 'container',
+                    zoomType : "x" //可沿x轴拉伸查看
                 },
 
                 rangeSelector : {
@@ -35,11 +36,11 @@
                 },
 
                 title : {
-                    text : 'AAPL Stock Price'
+                    text : '<%= @product.pname%>基金净值曲线图'
                 },
 
                 series : [{
-                    name : 'AAPL Stock Price',
+                    name : '净值',
                     data : data,
                     marker : {
                         enabled : true,

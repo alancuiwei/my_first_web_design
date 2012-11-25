@@ -36,7 +36,8 @@
   end
 
   def  productconfigajax
-    @product=Product.find_by_pname(params[:pname])
+    pname=params[:pname]
+    @product=Product.find_by_id(params[:id])
 
     if params[:id]=="0"
       if @product==nil
