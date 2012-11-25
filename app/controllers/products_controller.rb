@@ -18,4 +18,16 @@ class ProductsController < ApplicationController
 
   end
 
+  def precordajax
+    @product=Product.find_by_id(params[:id])
+    @precords=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date ASC")
+    recordjson=[]
+    for i in 0..@precords.size-1
+      recordjson[i]=[]
+      recordjson[i][0]=DateTime.strptime(@precords[i].date.to_s,"%Y-%m-%d").to_i*1000
+      recordjson[i][1]=@precords[i].total
+    end
+    render :json => recordjson
+  end
+
 end
