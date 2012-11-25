@@ -17,30 +17,21 @@
                             <div style="display: none;" id="login-form">
     <div id="main-login" class="login-container" style="display: block;">
 
-        <div id="signin-message" style="margin-bottom: 5px;" >
+        <div style="margin-bottom: 5px;" >
             登陆
         </div>
         
         <div>
-            <input id="emaillogin-field" class="input-field" size="16" placeholder="姓名" type="text">
-            <div id="email-validation" class="validation-message" style="display: none">
-                Email Validation Text
-            </div>
+            <input  id="username" class="input-field" size="16" placeholder="姓名" type="text" >
         </div>    
         <div>
-            <input id="passwordlogin-field" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
-            <div id="password-validation" class="validation-message" style="display: none">
-                Password Validation Text
-            </div>
-            <div style="text-align: left">
-                <a href="" onclick='loginPageShowSection(this, "#forgot-login"); return false' id="forgot-message">忘记密码？</a>
-            </div>
+            <input id="password" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
         </div>
         
         <div style="text-align: right">
             <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
             &nbsp; 
-            <button onclick="userLogin(this)" id="login-field-button" class="btn btn-success">登陆</button>
+            <button onclick="userlogin('#username','#password')" id="login" class="btn btn-success">登陆</button>
         </div>
     </div>
 
@@ -115,13 +106,13 @@
         </div>
         
         <div>
-            <input id="emaillogin-field" class="input-field" size="16" placeholder="姓名" type="text">
+            <input id="username2" class="input-field" size="16" placeholder="姓名" type="text">
             <div id="email-validation" class="validation-message" style="display: none">
                 Email Validation Text
             </div>
         </div>    
         <div>
-            <input id="passwordlogin-field" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+            <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
             <div id="password-validation" class="validation-message" style="display: none">
                 Password Validation Text
             </div>
@@ -133,7 +124,7 @@
         <div style="text-align: right">
             <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
             &nbsp; 
-            <button onclick="userLogin(this)" id="login-field-button" class="btn btn-success">登陆</button>
+            <button onclick="userlogin('#username2','#password2')" id="login-field-button" class="btn btn-success">登陆</button>
         </div>
     </div>
 
@@ -318,3 +309,26 @@
                 </div>
             </div>               
         </div>
+<script>
+   function userlogin(uid,pid){
+       if($(uid).attr("value")==""){
+           alert("用户名为空！");
+       }
+       else if($(pid).attr("value")==""){
+           alert("密码为空！");
+       }
+       else{
+           $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
+                if(data=="f"){
+                    alert("登录失败!");
+                }
+                else if(data=="admin"){
+                    location.href="/admin";
+                }
+               else if(data=="s"){
+                    location.href="/myaccount/investrecord/";
+                }
+           })
+       }
+   }
+</script>

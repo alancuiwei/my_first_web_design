@@ -1,11 +1,15 @@
 #encoding: utf-8
  class AdminController < ApplicationController
   def index
+    if session[:webusername]=="admin"
     @webusers=Webuser.all
     @products=Product.all
     @hash_password={}
     @webusers.each do |w|
       @hash_password.store(w.id,decode(w.password))
+    end
+    else
+      redirect_to(:controller=>"home")
     end
   end
 
@@ -131,6 +135,23 @@
        render :json => "f".to_json
      end
    end
+
+  def userlogin
+     @webuser=Webuser.find_by_username(params[:username])
+    if @webuser!=nil
+      if @webuser.password==encode(params[:password])
+        if @webuser.username=="admin"
+        session[:webusername]=@webuser.username
+        render :json => "admin".to_json
+        else
+          session[:webusername]=@webuser.username
+          render :json => "s".to_json
+        end
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
 
 end
 
