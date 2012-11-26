@@ -4,6 +4,7 @@
     if session[:webusername]=="admin"
     @webusers=Webuser.all
     @products=Product.all
+    @investfunds=Investrecord.find_all_by_recordtype("fund")
     @hash_password={}
     @webusers.each do |w|
       @hash_password.store(w.id,decode(w.password))
@@ -36,11 +37,12 @@
       @productinfo[2]=@product.lastprofits
       @productinfo[3]=@product.todayprofit
       @productinfo[4]=@product.date
+      @productinfo[5]=@product.founddate
     end
   end
 
   def  productconfigajax
-    pname=params[:pname]
+
     @product=Product.find_by_id(params[:id])
 
     if params[:id]=="0"
@@ -51,6 +53,7 @@
           p.lastprofits=params[:lastprofits].to_f
           p.todayprofit=params[:todayprofit].to_f
           p.date=params[:date]
+          p.founddate=params[:founddate]
           p.save
         end
         render :json => "s".to_json
@@ -59,9 +62,17 @@
       end
 
     else
-      @product.update_attributes(:pname=>params[:pname],:description=>params[:description],
+      pname=@product.pname
+      @product.update_attributes(:pname=>params[:pname],:description=>params[:description],:founddate=>params[:founddate],
                                  :lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
                                  :date=>params[:date])
+      if pname!=params[:pname]
+        @o_precords=Productrecord.find_all_by_pname(pname)
+        @o_precords.each do |o|
+          o.update_attributes(:pname=>params[:pname])
+        end
+      end
+
       if Productrecord.find_by_pname_and_date(params[:pname],params[:date])==nil
         @invest_f=Investrecord.find_all_by_pid_and_recordtype(params[:id],"fund")
         @invest_i=Investrecord.find_all_by_pid_and_recordtype(params[:id],"interest")
@@ -120,7 +131,15 @@
 
    def productdeleteajax
      @product=Product.find_by_id(params[:id])
+     if @product!=nil
+       @productrecords=Productrecord.find_all_by_pname(@product.pname)
+     end
      if @product.destroy
+       if @productrecords!=nil
+         @productrecords.each do |p|
+           p.destroy
+         end
+       end
      render :json => "s".to_json
      else
        render :json => "f".to_json
@@ -129,7 +148,15 @@
 
    def userdeleteajax
      @webuser=Webuser.find(params[:id])
+     if @webuser!=nil
+       @investrecords=Investrecord.find_all_by_username(@webuser.username)
+     end
      if @webuser.destroy
+       if @investrecords!=nil
+         @investrecords.each do |i|
+           i.destroy
+         end
+       end
      render :json => "s".to_json
      else
        render :json => "f".to_json
@@ -150,6 +177,56 @@
       else
         render :json => "f".to_json
       end
+    end
+  end
+
+  def fundconfig
+    @fundinfo=[]
+    if params[:id]!="0"
+      @investfund=Investrecord.find_by_id(params[:id])
+      @fundinfo[0]=@investfund.username
+      @fundinfo[1]=@investfund.date
+      @fundinfo[2]=@investfund.recordvalue
+    end
+  end
+
+  def  fundconfigajax
+    @investfund=Webuser.find_by_id(params[:id])
+    if params[:id]=="0"
+      if @investfund==nil
+        Investrecord.new do |i|
+          i.username=params[:username]
+          i.date=params[:date]
+          i.recordtype="fund"
+          i.recordvalue=params[:recordvalue].to_f
+          i.save
+        end
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+
+    else
+      @webuser.update_attributes(:username=>params[:username],:date=>params[:date],
+                                 :recordvalue=>params[:recordvalue].to_f)
+      render :json => "s2".to_json
+    end
+  end
+
+  def funddeleteajax
+    @investfund=Investrecord.find_by_id(params[:id])
+    if @investfund!=nil
+      @investinterests=Investrecord.find_all_by_username_and_recordtype_and_ordernum(@investfund.username,"interest",@investfund.ordernum)
+    end
+    if @investfund.destroy
+      if @investinterests!=nil
+        @investinterests.each do |i|
+          i.destroy
+        end
+      end
+      render :json => "s".to_json
+    else
+      render :json => "f".to_json
     end
   end
 

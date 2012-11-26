@@ -3,9 +3,10 @@
   <div>
     产品名称：<input type="text" name="pname" id="pname" title="产品名称"> <br>
     产品简介：<br><textarea cols="20" rows="5" name="description" id="description"  title="产品简介"></textarea> <br>
+    成立日期：<input type="text" name="founddate" id="founddate" title="成立日期" onclick="WdatePicker()" class="Wdate">  <br>
     上日结存：<input type="text" name="lastprofits" id="lastprofits" title="上日结存"> <br>
     当日盈亏：<input type="text" name="todayprofit" id="todayprofit" title="当日盈亏"> <br>
-    日期：<input type="text" name="date" id="date" title="日期" onclick="WdatePicker()" class="Wdate">  <br>
+    更新日期：<input type="text" name="date" id="date" title="日期" onclick="WdatePicker()" class="Wdate">  <br>
     <a href="javascript:void(0)" id="productconfig">确认</a>
   </div>
 </div>
@@ -17,6 +18,7 @@
       $("#lastprofits").attr("value",'<%= @productinfo[2]%>');
       $("#todayprofit").attr("value",'<%= @productinfo[3]%>');
       $("#date").attr("value",'<%= @productinfo[4]%>');
+      $("#founddate").attr("value",'<%= @productinfo[5]%>');
       <% end %>
 
       $("#productconfig").click(function(e){
@@ -32,7 +34,7 @@
           }
 
           if(nom_flag==0){
-                  $.get("/admin/productconfigajax/<%= params[:id] %>",{ pname: $("#pname").attr("value"),description: $("#description").attr("value"),
+                  $.get("/admin/productconfigajax/<%= params[:id] %>",{ pname: $("#pname").attr("value"),description: $("#description").attr("value"),founddate: $("#founddate").attr("value"),
                       lastprofits: $("#lastprofits").attr("value"),todayprofit: $("#todayprofit").attr("value"),date: $("#date").attr("value")},function(data){
                       if(data=="f"){
                           alert("产品已存在！");

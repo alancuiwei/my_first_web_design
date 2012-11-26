@@ -1,24 +1,80 @@
+<% if params[:id]!=nil%>
 <%= javascript_include_tag "highstock.js" %>
-<div style="width: 700px;height: 700px;">
+<%= stylesheet_link_tag "myaccount.css" %>
+<div class="main-content" style="margin-top: 50px;">
+
+  <div class="main-body">
+    <div class="content">
+      <div class="fthb faded">
+
+        <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+
+          <!-- tr head-->
+          <tr><td>
+            <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
+              <tr><td>
+                <div class="crumbs">
+                  <a href="/">首页</a>&nbsp; >&nbsp;
+                  <a href="/products/<%= @product.id%>" ><%= @product.pname%>介绍</a>
+                </div>
+                <h1><%= @product.pname%></h1>
+              </td></tr>
+            </table>
+          </td>
+          </tr>
+
+          <!-- tr body-content-->
+          <tr>
+            <!-- td body-content-->
+            <td class="body-content">
+              <div class="body-content-wrapper">
+                <div class="page-interaction">
+
+                  <!-- div2-->
+                  <div style="border: 2px solid #C3E4EC;">
+                    <!-- main table-->
+                    <table class="block">
+                      <tr>
+                        <td style="width:30%">
+                          <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+                          中国期货保证金监控中心查询
+                        </td>
+                        <td class="bleft">
   <p style="color: red;">基金总值：<%= @product.lastprofits+@product.todayprofit+@interest %></p>
   年化收益率：<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds )/@funds)*365*100/@diffdate )%>%<br>
   总盈利额：<%= @product.lastprofits+@product.todayprofit+@interest-@funds %><br>
   本金：<%= @funds %><br>
+                        </td>
+                        <td class="bleft">
+                          <div style="border-bottom: 2px solid rgb(195, 228, 236);">
   <p style="color: red;">账面总额：<%= @product.lastprofits+@product.todayprofit%></p>
   净值分解 <br>
   上日结存：<%= @product.lastprofits%><br>
   当日盈亏：<%= @product.todayprofit%><br>
+                          </div>
+                          <div>
   <p style="color: red;">已分红值：<%= @interest %></p>
   <p>分红记录：</p>
   <% @invest_i.each do |i|%>
       <%= i.date.to_s(:db)%>
       <%= i.recordvalue%><br>
   <% end %>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
 
-  <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
 </div>
+            </td>
+          </tr>
 
-
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -28,11 +84,13 @@
             window.chart = new Highcharts.StockChart({
                 chart : {
                     renderTo : 'container',
+                    width: 300,
+                    height: 300,
                     zoomType : "x" //可沿x轴拉伸查看
                 },
 
                 rangeSelector : {
-                    selected : 1
+                    enabled : false
                 },
 
                 title : {
@@ -56,3 +114,4 @@
     });
 
 </script>
+<% end %>

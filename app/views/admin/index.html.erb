@@ -1,7 +1,42 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+
+<div class="main-content" style="margin-top: 50px;">
+
+  <div class="main-body">
+    <div class="content">
+      <div class="fthb faded">
+
+        <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+
+          <!-- tr head-->
+          <tr><td>
+            <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
+              <tr><td>
+                <div class="crumbs">
+                  <a href="/">首页</a>&nbsp; >&nbsp;
+                  <a href="/admin/" >admin管理页面</a>
+                </div>
+              </td></tr>
+            </table>
+          </td>
+          </tr>
+
+          <!-- tr body-content-->
+          <tr>
+            <!-- td body-content-->
+            <td class="body-content">
+              <div class="body-content-wrapper">
+                <div class="page-interaction">
+
+                  <!-- div2-->
+                  <div>
+                    <!-- main table-->
+                    <table class="block">
+                      <tr>
+                        <td>
+                          <h2>用户管理</h2><br>
 <a href="/admin/userconfig/0">新建用户</a>
-<div style="width: 700px;height: 700px;">
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
     <thead><tr>
       <th>用户名</th><th>密码</th>
@@ -26,6 +61,40 @@
     </tbody>
   </table>
   <br> <br>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <h2>本金管理</h2><br>
+
+                          <a href="/admin/fundconfig/0">添加本金</a>
+                          <table cellpadding="0" cellspacing="0" border="0" class="display" id="funds">
+                            <thead><tr>
+                              <th>用户名</th><th>本金存入日期</th>
+                              <th>本金金额</th>
+                              <th>修改</th><th>删除</th><th>查看</th>
+                            </tr></thead>
+                            <tbody>
+                            <% @investfunds.each do |i|  %>
+                                <tr>
+                                  <td><%= i.username%></td>
+                                  <td><%= i.date.to_s(:db)%></td>
+                                  <td><%= i.recordvalue%></td>
+                                  <td><a href="/admin/fundconfig/<%= i.id %>">修改</a></td>
+                                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= i.id %>','funddeleteajax')">删除</a></td>
+                                  <td><a href="javascript:void(0)">查看</a></td>
+                                </tr>
+                            <% end %>
+                            </tbody>
+                          </table>
+
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <h2>产品管理</h2><br>
   <a href="/admin/productconfig/0">添加产品</a>
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="products">
     <thead><tr>
@@ -47,12 +116,26 @@
     <% end %>
     </tbody>
   </table>
+                        </td>
+                      </tr>
 
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
     $(document).ready(function(){
-        $('#users,#products').dataTable();
+        $('#users,#products,#funds').dataTable();
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){

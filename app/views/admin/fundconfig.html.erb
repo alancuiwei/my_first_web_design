@@ -1,0 +1,47 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<div style="width: 700px;height: 700px;" xmlns="http://www.w3.org/1999/html">
+  <div>
+    用户名：<input type="text" name="username" id="username" title="用户名"> <br>
+    本金存入日期：<input type="text" name="date" id="date" title="本金存入日期" onclick="WdatePicker()" class="Wdate">  <br>
+    本金金额：<input type="text" name="recordvalue" id="recordvalue" title="本金金额"> <br>
+    <a href="javascript:void(0)" id="fundconfig">确认</a>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      <% if params[:id]!="0" %>
+      $("#username").attr("value",'<%= @fundinfo[0]%>');
+      $("#date").attr("value",'<%= @fundinfo[1]%>');
+      $("#recordvalue").attr("value",'<%= @fundinfo[2]%>');
+      <% end %>
+
+      $("#fundconfig").click(function(e){
+         var o=document.getElementsByTagName("input");
+          var nom_flag=0;
+          for(var i=0;i<o.length;i++)
+          {
+              if(o[i].value==""){
+                  alert(o[i].title+"为空！");
+                  nom_flag=1;
+                  break;
+              }
+          }
+
+          if(nom_flag==0){
+                  $.get("/admin/fundconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),date: $("#date").attr("value"),
+                      recordvalue: $("#recordvalue").attr("value")},function(data){
+                      if(data=="f"){
+                          alert("本金已存在！");
+                      }
+                      else if(data=="s"){
+                          alert("本金添加成功！");
+                          location.href='/admin';
+                      }
+                      else{
+                          alert("修改成功！");
+                          location.href='/admin';
+                      }
+                  });
+          }
+      });
+  </script>
