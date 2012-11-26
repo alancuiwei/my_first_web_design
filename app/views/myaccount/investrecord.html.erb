@@ -1,34 +1,13 @@
 <% if @webuser!=nil %>
+    <%= stylesheet_link_tag "myaccount.css" %>
+    <div class="main-content" style="margin-top: 50px;">
 
-<%= stylesheet_link_tag "general.min.gz.css" %>
-<%= stylesheet_link_tag "fthb.css" %>
-<div id="main">
-
-  <div class="main-content">
-    <div class="trow">
       <div class="main-inputs">
         <div id="inputs" class="content">
-
-
-          <div id="inputs-container">
-
-            <div class="padded">
-              <h3>投资回报要求：</h3>
-            </div>
-
-            <div id="overlay-inputs-income" class="overlay" style="display: block; ">
-              <div class="inputs-block">
-
-                <div class="form-horizontal" style="margin: none; padding: none;">
-                  通天顺投机1号
-
-                  成立于2012年5月底。<img class="ls-s2" id='s-glow' src='/assets/a.jpg'  />
-
-                </div>
-
-              </div>
-            </div>
-
+          <div class="padded">
+            <h3>通天顺投机1号</h3>
+            <p>成立于2012年5月底。</p>
+            <img class="ls-s2" src='/assets/account_1.jpg' width="200px" height="200px">
           </div>
 
         </div>
@@ -36,67 +15,145 @@
 
       <div class="main-body">
         <div class="content">
-          <a href="/home">首页</a>   >   <a href="/myaccount/investrecord">我们的服务</a>
+          <div class="fthb faded">
 
-          <div id="showindex">
-            <p>投资账号</p><br>
-            <span style="color: red;"><%=@username%></span><br>
-            您可以点击右侧项目简介，得到基金详细的运行内容。
-          </div>
-          <br><br>
+            <table class="body-container" cellspacing="0" cellpadding="0" border="0">
 
-          <div style="float: left;">
-          总回报金额:  <br>
-            ￥ <span style="color: red;"><%= @allinvest %> 元</span><br>
-            <img class="ls-s2" id='s-glow' src='/assets/a.jpg'  />
-          </div>
-
-            <div style="float: left;">
-              投入本金： <br>
-              ￥ <span style="color: red;"><%= @allfund %> 元</span> <br>
-             认购记录：
-          <table>
-            <tr><td>日期</td><td>金额</td></tr>
-            <% @funds.each do |f| %>
-               <tr><td><%= f.date.to_s(:db)%></td><td><%= f.recordvalue%></td></tr>
-            <% end %>
-          </table>
-              <p style="float: right;color: #ff0000;"><%= @allfund %></p>
-            </div>
-
-             <br><br><br><br><br><br><br><br><br><br>
-          <div style="float: left;">
-                已付利息： <br>
-                ￥ <span style="color: red;"><%= @allinterest %> 元</span>
-                <br>
-                支付利息记录：
-                <table>
-                  <tr><td>日期</td><td>金额</td></tr>
-                  <% @interests.each do |i| %>
-                      <tr><td><%= i.date.to_s(:db)%></td><td><%= i.recordvalue%></td></tr>
-                  <% end %>
+              <!-- tr head-->
+              <tr><td>
+                <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
+                  <tr><td>
+                    <div class="crumbs">
+                      <a href="/">首页</a>&nbsp; >&nbsp;
+                      <a href="/myaccount" >我的账号</a>
+                    </div>
+                    <h1>投资账号</h1>
+                  </td></tr>
                 </table>
-            <p style="float: right;color: #ff0000;"><%= @allinterest %></p>
+              </td>
+              </tr>
+
+              <!-- tr login-->
+              <tr>
+                <td>
+                  <div id="inputs-income-tip" class="inputs-tip">
+                    <div class="inputstip-content">
+                      <div id="inputs-income-tiptext" class="inputstip-text">
+                        太棒了<br>
+                        您可以点击右侧项目简介，得到基金详细的运行内容。
+                      </div>
+                    </div>
+                    <div class="arrow-container">
+                      <div class="arrow"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- tr body-content-->
+              <tr>
+                <!-- td body-content-->
+                <td class="body-content">
+                  <div class="body-content-wrapper">
+                    <div class="page-interaction">
+
+                      <!-- div2-->
+                      <div style="border: 2px solid #C3E4EC;">
+                        <!-- main table-->
+                        <table class="block">
+                          <tr>
+                            <td style="width:30%">
+                              <h4 class="spaced">
+                                总回报金额:<br>
+                                ￥ <span style="color: red;"><%= @allinvest %> 元</span><br>
+                              </h4>
+                              <h5 id="display-hv" class="value"></h5>
+                              <div id="hm-icon" class="home-icon hsprite-green">
+                                <img class="ls-s2" id='s-glow' src='/assets/account_1.jpg' width="200px" height="200px">
+                              </div>
+                              <div id="hm-homevalue">
+                                  <span class="infos">
+                                    <b>投资模式：<br></b> 保本。（本金不损）<br> 保息。（年收益率8%）<br> 利润返现，周期2个月。
+                                  </span>
+                              </div>
+                            </td>
+                            <td class="bleft">
+                              <table>
+                                <tr>
+                                  <td class="bbottom" style="width: 30%;"><h4 style="text-align: left; margin-bottom: 10px">
+                                    投入本金： <br>
+                                    ￥ <span style="color: red;"><%= @allfund %> 元</span> <br>
+                                  </h4></td>
+                                  <td class="bbottom" style="width: 70%;">
+                                    <table class="sub"><tr>
+                                      <td class="bright" align="right" width="130px"></td>
+                                      <td  class="totals">
+                                        <table>
+                                          <tr><td> <h4>认购时间</h4></td><td><h4>认购金额</h4></td></tr>
+                                          <% @funds.each do |f| %>
+                                              <tr><td><%= f.date.to_s(:db)%></td><td><%= f.recordvalue%></td></tr>
+                                          <% end %>
+                                        </table>
+                                        <table class="totals">
+                                          <div class="spacer s5"></div>
+                                          <tr><td class="total right" colspan="2"><b id="display-ctotal"><p style="float: right;color: #ff0000;"><%= @allfund %></p></b></td></tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                              <table>
+                                <tr>
+                                  <td  style="width: 30%;"><h4 style="text-align: left; margin-bottom: 10px">
+                                    已付利息： <br>
+                                    ￥ <span style="color: red;"><%= @allinterest %> 元</span>
+                                    <br>
+                                  </h4></td>
+                                  <td style="width: 70%;">
+                                    <table class="sub"><tr>
+                                      <td class="bright" align="right" width="130px"></td>
+                                      <td  class="totals">
+                                        <table>
+                                          <tr><td><h4>支付时间</h4></td><td><h4>支付利息</h4></td></tr>
+                                          <% @interests.each do |i| %>
+                                              <tr><td><%= i.date.to_s(:db)%></td><td><%= i.recordvalue%></td></tr>
+                                          <% end %>
+                                        </table>
+                                        <table class="totals">
+                                          <div class="spacer s5"></div>
+                                          <tr><td class="total right" colspan="2"><b id="display-ctotal"><p style="float: right;color: #ff0000;"><%= @allinterest %></p></b></td></tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+                </td>
+              </tr>
+
+            </table>
           </div>
-
-          下一次提取利息时间：<br>
-          <% for i in 0..@remind.keys.size-1%>
-               第<%= @remind[@remind.keys[i]][0] %>次  <%= @remind.keys[i] %>  <%= @remind[@remind.keys[i]][1]  %> <br>
-          <% end %><br>
-          还没有确认支付的利息：<br>
-          <% for i in 0..@confirm.keys.size-1%>
-              第<%= @confirm[@confirm.keys[i]][0]%>次  <%= @confirm.keys[i]  %>  <%= @confirm[@confirm.keys[i]][1]  %> <br>
-          <% end %>
-
-        </div>
-      </div>
-
-
         </div>
       </div>
     </div>
-
-
+    下一次提取利息时间：<br>
+    <% for i in 0..@remind.keys.size-1%>
+        第<%= @remind[@remind.keys[i]][0] %>次  <%= @remind.keys[i] %>  <%= @remind[@remind.keys[i]][1]  %> <br>
+    <% end %><br>
+    还没有确认支付的利息：<br>
+    <% for i in 0..@confirm.keys.size-1%>
+        第<%= @confirm[@confirm.keys[i]][0]%>次  <%= @confirm.keys[i]  %>  <%= @confirm[@confirm.keys[i]][1]  %> <br>
+    <% end %>
 
 <% end %>
 
