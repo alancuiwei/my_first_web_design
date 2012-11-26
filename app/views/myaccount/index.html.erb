@@ -1,96 +1,39 @@
 <%= stylesheet_link_tag "myaccount.css" %>
-<%= javascript_include_tag "fthb.js" %>
-<%= javascript_include_tag "standard.js" %>
 
 <div class="main-head">
-  <div class="content" id="header">
-    <div class="hdr-contents">
-      <div id="table-container">
-        <table border="0">
-            <tbody><tr>
-                <td>                 
-               <div class="" id="link-box">
-                      <a onmouseover="loginPageShowHeader('#main-login');" onclick="loginPageShowHeader('#main-login');" class="top" id="hdr-icon-save">登陆</a>
-                           
-                        <div class="clear"></div>                      
-                        <div id="login-header" style="display: none;">
-                            <div style="display: none;" id="login-form">
-    <div id="main-login" class="login-container" style="display: block;">
+  <table>
+    <tbody><tr><td>
+        <div id="link-box">
+          <a onmouseover="loginPageShowHeader('#main-login');"  onclick="loginPageShowHeader('#main-login');" class="top">登陆</a>
 
-        <div style="margin-bottom: 5px;" >
-            登陆
-        </div>
-        
-        <div>
-            <input  id="username" class="input-field" size="16" placeholder="姓名" type="text" >
-        </div>    
-        <div>
-            <input id="password" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
-        </div>
-        
-        <div style="text-align: right">
-            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
-            &nbsp; 
-            <button onclick="userlogin('#username','#password')" id="login" class="btn btn-success">登陆</button>
-        </div>
-    </div>
-
-    
-    <div id="forgot-login" class="login-container" style="display: none">
-        
-        <div id="forgotinfo-message">
-            忘记密码了? <span style="font-weight: normal">没问题，我只需要你的电子邮件地址。</span>
-        </div>
-        
-        <div class="">
-            <input id="emailforgot-field" class="input-field" size="16" placeholder="电子邮件" type="text">
-            <div id="emailforgot-validation" class="validation-message" style="display: none">
-                Email Validation Text
+          <div id="login-header" style="display: none;" >
+            <div style="display: none;" id="login-form" >
+              <div id="main-login" class="login-container" style="display: block;">
+                <div style="margin-bottom: 5px;" >登陆</div>
+                <div>
+                  <input  id="username" class="input-field" size="16" placeholder="姓名" type="text" >
+                </div>
+                <div>
+                  <input id="password" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+                </div>
+                <div style="text-align: right">
+                  <button onclick="userlogin('#username','#password')" id="login" class="btn btn-success">登陆</button>&nbsp;
+                  <span onclick="loginPageDismiss();" class="btn btn-success">取消</span>
+                </div>
+              </div>
             </div>
+          </div>
+
         </div>
-        <div style="text-align: right"> 
-            <span onclick="loginPageDismiss();" class="link login-cancel-button">取消</span>
-            &nbsp;
-            <button onclick="userForgotPassword(this)" id="forgot-field-button" class="btn btn-success">找回密码</button>
-        </div>  
-        
-    </div>
-    
-    <div id="passwordconf-login" class="login-container" style="display: none">
-        
-        <div id="confinfo-message" class="login-info-message">
-            I just sent you an email with instructions to reset your password.
-        </div>
-        <div style="text-align: right">
-            <button onclick="dismissLoginEvent(this);" id="pwdconfirm-button" class="btn" style="width: 60px">Close</button>
-            <span onclick='loginPageShowSection(this, "#main-login");' class="link login-back-button">Back</span>
-        </div>
-        
-    </div>
-    
-    <div id="login-skipsection" style="margin-top: 10px" onclick="setSkippedLogin();">
-        <span class="skip-text">
-            <span class="link" style="font-size: 14px">Use anonymously</span>
-            You can always log in later, but if you don't log in your data won't be saved.
-        </span>
-    </div>
+      </td></tr></tbody>
+  </table>
 </div>
 
-                        </div>
-                    </div>
-                </td> 
-            </tr>
-        </tbody></table>
-    </div>
+<div class="main-content">
 
-</div>
-     </div>
-            </div>
-    <div class="main-content">
-        <div class="trow">
-            <div class="main-inputs">
-                <div id="inputs" class="content">
-                    <div id="inputs-container">
+<div class="main-inputs">
+  <div id="inputs" class="content">
+    <div id="inputs-container">
 
 <div class="padded">
     <h3>忘记用户名密码了?</h3>
@@ -310,6 +253,26 @@
             </div>               
         </div>
 <script>
+    function loginPageShowHeader(sectionIdentifier){
+        $("#login-header #login-form .login-container").hide();
+        $("#login-header").show();
+        $("#login-header #login-form").show();
+        $("div#link-box").addClass("active");
+        $(sectionIdentifier).show();
+        $(sectionIdentifier+" input").first().focus();
+        $(document).on("mouseup",loginMouseUpHandler);
+    }
+    function loginMouseUpHandler(e){
+        var container=$("#login-form");
+        if(container.has(e.target).length===0){
+            loginPageDismiss();
+        }
+    }
+    function loginPageDismiss(){
+        $("#login-header #login-form").hide();
+        $("div#link-box").removeClass("active");
+        $("#login-header").hide();
+    }
    function userlogin(uid,pid){
        if($(uid).attr("value")==""){
            alert("用户名为空！");
