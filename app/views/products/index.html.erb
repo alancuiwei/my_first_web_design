@@ -1,4 +1,5 @@
 <% if params[:id]!=nil%>
+
 <%= javascript_include_tag "highstock.js" %>
 <%= stylesheet_link_tag "myaccount.css" %>
 <div class="main-content" style="margin-top: 50px;">
@@ -56,7 +57,7 @@
   <p style="color: red;">已分红值：<%= @interest %></p>
   <p>分红记录：</p>
   <% @invest_i.each do |i|%>
-      <%= i.date.to_s(:db)%>
+      <%= i.date.to_s(:stamp)%>
       <%= i.recordvalue%><br>
   <% end %>
                           </div>

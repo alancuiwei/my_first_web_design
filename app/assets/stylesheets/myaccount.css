@@ -2,7 +2,6 @@
   Place all the styles related to the matching controller here.
   They will automatically be included in application.css.
 */
-.btn{display:inline-block;*display:inline;*zoom:1;padding:4px 10px 4px;margin-bottom:0;font-size:13px;line-height:18px;*line-height:20px;color:#333;text-align:center;text-shadow:0 1px 1px rgba(255,255,255,0.75);vertical-align:middle;cursor:pointer;background-color:#f5f5f5;background-image:-moz-linear-gradient(top,#fff,#e6e6e6);background-image:-ms-linear-gradient(top,#fff,#e6e6e6);background-image:-webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));background-image:-webkit-linear-gradient(top,#fff,#e6e6e6);background-image:-o-linear-gradient(top,#fff,#e6e6e6);background-image:linear-gradient(top,#fff,#e6e6e6);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff',endColorstr='#e6e6e6',GradientType=0);border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);*background-color:#e6e6e6;filter:progid:DXImageTransform.Microsoft.gradient(enabled = false);border:1px solid #ccc;*border:0;border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;*margin-left:.3em;-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 1px 2px rgba(0,0,0,.05)}
 
 .btn:hover{color:#333;text-decoration:none;background-color:#e6e6e6;*background-color:#d9d9d9;background-position:0 -15px;-webkit-transition:background-position .1s linear;-moz-transition:background-position .1s linear;-ms-transition:background-position .1s linear;-o-transition:background-position .1s linear;transition:background-position .1s linear}
 
@@ -57,10 +56,11 @@ div#interaction-overlay
 }
 
 table {
-    width: 90%;
+    width: 100%;
     background-color: transparent;
     border-collapse: collapse;
     border-spacing: 0px;
+	_width: 85%;
 }
 table .body-header{
     width: 100%;
@@ -99,10 +99,6 @@ div#link-box {
 div#link-box a.top:first-child {
     background-color: rgb(4, 133, 183);
     color: rgb(255, 255, 255);
-    margin-right: 12px;
-}
-
-div#link-box a.top:first-child {
     margin-right: 0px;
 }
 
@@ -207,32 +203,6 @@ button.btn, input.btn[type="submit"] {
 
 .btn {
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
-
-.btn {
-    display: inline-block;
-    padding: 4px 10px;
-    margin-bottom: 0px;
-    font-size: 13px;
-    line-height: 18px;
-    color: rgb(51, 51, 51);
-    text-align: center;
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-    vertical-align: middle;
-    cursor: pointer;
-    background-color: rgb(245, 245, 245);
-    background-image: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(230, 230, 230));
-    background-repeat: repeat-x;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(179, 179, 179);
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    border-image: none;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .btn {
@@ -410,6 +380,11 @@ div#login-popup .login-cancel-button, #inputs .login-cancel-button {
     border-width: 2px 1px;
     border-style: solid;
     border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+	*left: 209px;
+	*top: -320px;
+	_top: -300px;
+	*width: 81%;
+	*margin-bottom: -300px;
 }
 
 #main.welcome .main-body .content {
@@ -518,10 +493,13 @@ div.inputs-tip .inputstip-text {
 .inputs-tip .arrow-container .arrow {
     position: absolute;
     top: 50%;
+	_top: 55px;
     margin-top: -35px;
     width: 34px;
     height: 69px;
     background: url("bigarrowleft.png") no-repeat scroll 0% 0% transparent;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="/assets/bigarrowleft.png");
+    _background:none;
 }
 
 table.body-container td.body-content {
@@ -571,6 +549,7 @@ td.body-content div.body-content-wrapper {
     font-family: times,timesnewroman,"times new roman",serif;
     font-style: italic;
     color: rgb(51, 51, 51);
+	_margin-top: 190px;
 }
 
 table.block td {
@@ -642,6 +621,14 @@ table.block td.bbottom {
     border-bottom: 2px solid rgb(195, 228, 236);
 	width: 1px;
 }
+
+
+table.block td.bleft h4{
+	*width: 96px;
+}
+table.block td.totals h4{
+	*width: 200px;
+}
 table.block td.bleft {
     border-left: 2px solid rgb(195, 228, 236);
 }
@@ -660,6 +647,7 @@ table.sub td.totals {
     padding-top: 5px;
     color: rgb(85, 85, 85);
 	width: 100%; 
+	*width: 200px; 
 }
 
 table.sub table.totals {
@@ -737,9 +725,10 @@ div#main div#header div#beta {
 .arrow-container2 {
     position: absolute;
     top: 0px;
-    left: 31.2%;
+    left: 31%;
     height: 50%;
     width: 34px;
+	_left: 30.5%;
 }
 
 .arrow-container2 .arrow {
@@ -748,14 +737,19 @@ div#main div#header div#beta {
     margin-top: -35px;
     width: 34px;
     height: 69px;
+	background: url("bigarrowleft.png") no-repeat scroll 0% 0% transparent;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="/assets/bigarrowleft.png");
+    _background:none;
+	_top: 90px;
 }
 
 .arrow-container3 {
     position: absolute;
     top: 50%;
-    left: 31.2%;
+    left: 31%;
     height: 50%;
     width: 34px;
+	_left: 30.5%;
 }
 
 .arrow-container3 .arrow {
@@ -764,4 +758,8 @@ div#main div#header div#beta {
     margin-top: -35px;
     width: 34px;
     height: 69px;
+	background: url("bigarrowleft.png") no-repeat scroll 0% 0% transparent;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="/assets/bigarrowleft.png");
+    _background:none;
+	_top: 90px;
 }

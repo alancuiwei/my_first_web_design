@@ -1,10 +1,11 @@
 require 'date'
 class ProductsController < ApplicationController
+  Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
     @product=Product.find_by_id(params[:id])
 
-    @invest_f=Investrecord.find_all_by_pid_and_recordtype(params[:id],"fund")
-    @invest_i=Investrecord.find_all_by_pid_and_recordtype(params[:id],"interest")
+    @invest_f=Investrecord.find_all_by_recordtype("fund")
+    @invest_i=Investrecord.find_all_by_recordtype("interest")
     @funds=0
     @invest_f.each do |i|
       @funds=@funds+i.recordvalue

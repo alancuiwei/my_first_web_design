@@ -4,11 +4,14 @@
 
       <div class="main-inputs">
         <div id="inputs" class="content">
+          <% @products.each do |p| %>
           <div class="padded">
-            <h3>通天顺投机1号</h3>
-            <p>成立于2012年5月底。</p>
+            <h3><%= p.pname %></h3>
+            <a href="/products/index/<%= p.id%>">查看详细</a>
+            <p><%= p.description %></p>
             <img class="ls-s2" src='/assets/account_1.jpg' width="200px" height="200px">
           </div>
+          <% end %>
 
         </div>
       </div>
@@ -39,7 +42,8 @@
                   <div id="inputs-income-tip" class="inputs-tip">
                     <div class="inputstip-content">
                       <div id="inputs-income-tiptext" class="inputstip-text">
-                        太棒了<br>
+
+                        太棒了<span style="color: red;"> <%= @webuser.username %></span> <br>
                         您可以点击右侧项目简介，得到基金详细的运行内容。
                       </div>
                     </div>
@@ -89,9 +93,9 @@
                                       <td class="bright" align="right" width="130px"></td>
                                       <td  class="totals">
                                         <table>
-                                          <tr><td> <h4>认购时间</h4></td><td><h4>认购金额</h4></td></tr>
+                                          <tr><td> <h4>认购时间</h4></td><td> <h4>认购批次</h4></td><td><h4>认购金额</h4></td></tr>
                                           <% @funds.each do |f| %>
-                                              <tr><td><%= f.date.to_s(:db)%></td><td><%= f.recordvalue%></td></tr>
+                                              <tr><td><%= f.date.to_s(:stamp)%></td><td><%= f.ordernum%></td><td><%= f.recordvalue%></td></tr>
                                           <% end %>
                                         </table>
                                         <table class="totals">
@@ -116,9 +120,9 @@
                                       <td class="bright" align="right" width="130px"></td>
                                       <td  class="totals">
                                         <table>
-                                          <tr><td><h4>支付时间</h4></td><td><h4>支付利息</h4></td></tr>
+                                          <tr><td><h4>支付时间</h4></td><td><h4>支付批次</h4></td><td><h4>支付利息</h4></td></tr>
                                           <% @interests.each do |i| %>
-                                              <tr><td><%= i.date.to_s(:db)%></td><td><%= i.recordvalue%></td></tr>
+                                              <tr><td><%= i.date.to_s(:stamp)%></td><td><%= i.ordernum%></td><td><%= i.recordvalue%></td></tr>
                                           <% end %>
                                         </table>
                                         <table class="totals">
@@ -146,14 +150,6 @@
         </div>
       </div>
     </div>
-    下一次提取利息时间：<br>
-    <% for i in 0..@remind.keys.size-1%>
-        第<%= @remind[@remind.keys[i]][0] %>次  <%= @remind.keys[i] %>  <%= @remind[@remind.keys[i]][1]  %> <br>
-    <% end %><br>
-    还没有确认支付的利息：<br>
-    <% for i in 0..@confirm.keys.size-1%>
-        第<%= @confirm[@confirm.keys[i]][0]%>次  <%= @confirm.keys[i]  %>  <%= @confirm[@confirm.keys[i]][1]  %> <br>
-    <% end %>
 
 <% end %>
 

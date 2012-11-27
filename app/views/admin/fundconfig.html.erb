@@ -1,4 +1,7 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= javascript_include_tag "jquery.autocomplete.js" %>
+<%= stylesheet_link_tag "jquery.autocomplete.css" %>
+
 <div style="width: 700px;height: 700px;" xmlns="http://www.w3.org/1999/html">
   <div>
     用户名：<input type="text" name="username" id="username" title="用户名"> <br>
@@ -30,7 +33,10 @@
           if(nom_flag==0){
                   $.get("/admin/fundconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),date: $("#date").attr("value"),
                       recordvalue: $("#recordvalue").attr("value")},function(data){
-                      if(data=="f"){
+                      if(data=="nouser"){
+                          alert("该用户不存在！");
+                      }
+                      else if(data=="f"){
                           alert("本金已存在！");
                       }
                       else if(data=="s"){
@@ -44,4 +50,29 @@
                   });
           }
       });
+
+      function user(name)
+      {
+          this.name=name;
+      }
+      var username=new Array();
+
+      <% for i in 0..@webusers.size-1%>
+      username[<%=i%>]=new user('<%= @webusers[i].username%>');
+      <% end %>
+
+      $(function() {
+          $('#username').autocomplete(username, {
+              max: 12,    //列表里的条目数
+              minChars: 0,    //自动完成激活之前填入的最小字符
+              width: 150,     //提示的宽度，溢出隐藏
+              scrollHeight: 300,   //提示的高度，溢出显示滚动条
+              matchContains: true,    //包含匹配，就是data参数里的数据，是否只要包含文本框里的数据就显示
+              autoFill: false,    //自动填充
+              formatItem: function(row) {
+                  return row.name;
+              }
+          });
+      });
+
   </script>

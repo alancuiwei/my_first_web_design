@@ -1,14 +1,59 @@
 #encoding: utf-8
  class AdminController < ApplicationController
+   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
     if session[:webusername]=="admin"
     @webusers=Webuser.all
     @products=Product.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
     @hash_password={}
+    @hash_interests={}
+
     @webusers.each do |w|
       @hash_password.store(w.id,decode(w.password))
+      funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",w.username,"fund"],:order =>"date DESC")
+      interests=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",w.username,"interest"],:order =>"date ASC")
+      remind={}
+      confirm={}
+      hash_interest={}
+      period=w.period
+      interests.each do |i|
+        hash_interest.store(i.ordernum,[i.date.to_s(:db),i.recordvalue])
     end
+      for i in 0..funds.size-1
+        interestvalue=format("%.0f",funds[i].recordvalue*w.returnrate*w.period/12)
+        if hash_interest[funds[i].ordernum]!=nil
+          paydate= (Date.parse(hash_interest[funds[i].ordernum][0])>>period)
+          if (paydate-Date.today)> 0
+            remind.store(paydate.to_s,[funds[i].ordernum,interestvalue])
+          else
+            while (paydate-Date.today)< 0
+
+              confirm.store(paydate.to_s,[funds[i].ordernum,interestvalue])
+              paydate=paydate>>period
+
+            end
+          end
+
+        else
+          paydate= (Date.parse(funds[i].date.to_s)>>period)
+          if (paydate-Date.today)> 0
+            remind.store(paydate.to_s,[funds[i].ordernum,interestvalue])
+          else
+            while (paydate-Date.today)< 0
+
+              confirm.store(paydate.to_s,[funds[i].ordernum,interestvalue])
+              paydate=paydate>>period
+
+            end
+          end
+        end
+
+      end
+      @hash_interests.store(w.username,[remind,confirm])
+
+    end
+
     else
       redirect_to(:controller=>"home")
     end
@@ -177,27 +222,41 @@
       else
         render :json => "f".to_json
       end
+    else
+      render :json => "f2".to_json
     end
   end
 
   def fundconfig
     @fundinfo=[]
+    @webusers=Webuser.all
     if params[:id]!="0"
       @investfund=Investrecord.find_by_id(params[:id])
       @fundinfo[0]=@investfund.username
-      @fundinfo[1]=@investfund.date
+      @fundinfo[1]=@investfund.date.to_s(:stamp)
       @fundinfo[2]=@investfund.recordvalue
     end
   end
 
   def  fundconfigajax
-    @investfund=Webuser.find_by_id(params[:id])
+    @investfund=Investrecord.find_by_id(params[:id])
+    @fundordernum=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",params[:username],"fund"],:order =>"ordernum DESC")
+
+    if @fundordernum[0]!=nil
+      ordernum=@fundordernum[0].ordernum+1
+    else
+      ordernum=1
+    end
+
     if params[:id]=="0"
-      if @investfund==nil
+      if Webuser.find_by_username(params[:username])==nil
+        render :json => "nouser".to_json
+      elsif @investfund==nil
         Investrecord.new do |i|
           i.username=params[:username]
           i.date=params[:date]
           i.recordtype="fund"
+          i.ordernum=ordernum
           i.recordvalue=params[:recordvalue].to_f
           i.save
         end
@@ -207,10 +266,14 @@
       end
 
     else
-      @webuser.update_attributes(:username=>params[:username],:date=>params[:date],
+      if Webuser.find_by_username(params[:username])==nil
+        render :json => "nouser".to_json
+        else
+          @investfund.update_attributes(:username=>params[:username],:date=>params[:date],
                                  :recordvalue=>params[:recordvalue].to_f)
       render :json => "s2".to_json
     end
+  end
   end
 
   def funddeleteajax
@@ -229,6 +292,24 @@
       render :json => "f".to_json
     end
   end
+
+   def interestconfirm
+     @interest=Investrecord.find_by_username_and_ordernum_and_date(params[:username],params[:ordernum],params[:date])
+     if @interest==nil
+       Investrecord.new do |i|
+         i.username=params[:username]
+         i.date=params[:date]
+         i.recordtype="interest"
+         i.ordernum=params[:ordernum]
+         i.recordvalue=params[:recordvalue].to_f
+         i.save
+       end
+       render :json => "s".to_json
+     else
+       render :json => "f".to_json
+     end
+
+   end
 
 end
 

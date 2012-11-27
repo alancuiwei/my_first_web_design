@@ -79,12 +79,60 @@
                             <% @investfunds.each do |i|  %>
                                 <tr>
                                   <td><%= i.username%></td>
-                                  <td><%= i.date.to_s(:db)%></td>
+                                <td><%= i.date.to_s(:stamp)%></td>
                                   <td><%= i.recordvalue%></td>
                                   <td><a href="/admin/fundconfig/<%= i.id %>">修改</a></td>
                                   <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= i.id %>','funddeleteajax')">删除</a></td>
-                                  <td><a href="javascript:void(0)">查看</a></td>
+                                <td><a href="/myaccount/investrecord/<%= Webuser.find_by_username(i.username).id%>">查看</a></td>
                                 </tr>
+                            <% end %>
+                            </tbody>
+                          </table>
+
+                        </td>
+                      </tr>
+
+
+                      <tr>
+                        <td>
+                          <h2>利息管理</h2><br>
+                          <h3>下一次提取利息时间：</h3>
+                          <table cellpadding="0" cellspacing="0" border="0" class="display" id="interests_r">
+                            <thead><tr>
+                              <th>用户名</th><th>返还批次</th><th>返还利息日期</th>
+                              <th>返还利息金额</th>
+                            </tr></thead>
+                            <tbody>
+                            <% @webusers.each do |w|  %>
+                                <% for j in 0..@hash_interests[w.username][0].keys.size-1 %>
+                                <tr>
+                                  <td><%= w.username%></td>
+                                  <td><%= @hash_interests[w.username][0][@hash_interests[w.username][0].keys[j]][0] %></td>
+                                  <td><%= @hash_interests[w.username][0].keys[j]%></td>
+                                  <td><%= @hash_interests[w.username][0][@hash_interests[w.username][0].keys[j]][1]%></td>
+                                </tr>
+                                  <% end %>
+                            <% end %>
+                            </tbody>
+                          </table>
+
+                          <br><h3>还没有确认支付的利息：</h3>
+                          <table cellpadding="0" cellspacing="0" border="0" class="display" id="interests_c">
+                            <thead><tr>
+                              <th>用户名</th><th>返还批次</th><th>返还利息日期</th>
+                              <th>返还利息金额</th><th>确认</th>
+                            </tr></thead>
+                            <tbody>
+                            <% @webusers.each do |w|  %>
+                                <% for j in 0..@hash_interests[w.username][1].keys.size-1 %>
+                                    <tr>
+                                      <td><%= w.username%></td>
+                                      <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][0] %></td>
+                                      <td><%= @hash_interests[w.username][1].keys[j]%></td>
+                                      <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][1]%></td>
+                                      <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('<%=w.username%>','<%= @hash_interests[w.username][1].keys[j]%>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][1] %>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][0] %>')">确认</a></td>
+                                    </tr>
+                                <% end %>
                             <% end %>
                             </tbody>
                           </table>
@@ -135,7 +183,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#users,#products,#funds').dataTable();
+        $('#users,#products,#funds,#interests_r,#interests_c').dataTable();
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){
@@ -148,5 +196,19 @@
                 location.reload();
             }
         });
+    }
+
+    function interestconfirm(name,date,value,ordernum){
+        $.get("/admin/interestconfirm",{username:name,date:date,recordvalue:value,ordernum:ordernum},function(data){
+            if(data=="s"){
+                alert("确认成功！");
+                location.reload();
+            }
+            else if(data=="f"){
+                alert("确认失败！");
+                location.reload();
+            }
+
+        })
     }
 </script>

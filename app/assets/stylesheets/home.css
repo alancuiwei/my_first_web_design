@@ -1,7 +1,20 @@
 #main.welcome .main-body .content {
     padding: 0px;
 }
- 
+ #main .main-content .main-body {
+    width: 100%;
+    display: table-cell;
+    vertical-align: top;
+    border-left: 1px solid rgb(204, 204, 204);
+    border-right: 1px solid rgb(204, 204, 204);
+    background-color: rgb(255, 255, 255);
+    position: relative;
+    z-index: 40;
+    height: auto;
+    border-width: 2px 1px;
+    border-style: solid;
+    border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+}
 #main #welcome-content {
     margin-top: 20px;
     width: 85.5%;
@@ -107,10 +120,7 @@ div#slider-container {
   div#header div#beta {
     left: 40%;
   }
-  div#slider-container img#s-glow {
-    position: absolute;
-    width: 45%;
-  }
+
    #main .main-footer .tcol {
     width: 18%;
 	padding-right: 10px;
@@ -161,10 +171,7 @@ width: 180px;
     top:76%;
     left: 6%;
   }
-  div#slider-container img#s-glow {
-    position: absolute;
-    width: 65%;
-}
+
  #main .main-footer .tcol {
     width: 100%;
 	padding-right: 0px;
@@ -212,10 +219,6 @@ div#slider-container{
     top:76%;
     left: 8%;
   }
-  div#slider-container img#s-glow {
-    position: absolute;
-    width: 100%;
- }
  #main .main-footer .tcol {
     width: 100%;
 	padding-right: 0px;
@@ -258,6 +261,12 @@ div#slider-container {
  left: 35px;
 }
 
+ #welcome-content td.img2{
+    width: 44%;
+    padding-left: 1.7%;
+	padding-right: 50px;
+	width: 8%\9;
+}
 #main #welcome-content .hsw table td.right h2 {
     font-size: 1.2em;
     font-weight: 100;
@@ -370,13 +379,14 @@ div#slider-container button:hover {
     line-height: 24px;
 }
 
-div#slider-container h2#s-subtitle button {
+div#slider-container h2#s-subtitle a {
     width: 100%;
     margin-bottom: 15px;
     font-size: 1.9em;
-    height: 38px;
+    height: 25px;
     font-family: georgia,serif;
     font-style: italic;
+	padding-top: 10px;
 }
 
 div#slider-container h2#s-subtitle b {
@@ -385,14 +395,21 @@ div#slider-container h2#s-subtitle b {
 
  img#s-glow2{
     position: absolute;
-	
+	max-width: 640px;
+	padding-right:30px;
     left: 38.5%;
     top: 9%;
 }
 
- img#s-glow{
+ .s-glow{
     position: absolute;
-    width: 30.3%;
+    width: 100%;
+	height: 100%;
+	background: url("glow.png") no-repeat scroll 0% 0% transparent;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true', sizingMethod='scale', src="/assets/glow.png");
+    _background:none;
+	_width: 30%;
+	_height: 280px;
 }
 
 
@@ -429,10 +446,6 @@ button.btn, input.btn[type="submit"] {
 }
 
 .btn {
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-}
-
-.btn {
     display: inline-block;
     padding: 4px 10px;
     margin-bottom: 0px;
@@ -440,57 +453,10 @@ button.btn, input.btn[type="submit"] {
     line-height: 18px;
     color: rgb(51, 51, 51);
     text-align: center;
-    text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75);
-    cursor: pointer;
-    background-color: rgb(245, 245, 245);
-    background-image: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(230, 230, 230));
-    background-repeat: repeat-x;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(179, 179, 179);
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    border-image: none;
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.2) inset, 0px 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.btn-success {
-  background-color: #5bb75b;
-  background-image: -moz-linear-gradient(top, #62c462, #51a351);
-  background-image: -ms-linear-gradient(top, #62c462, #51a351);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#62c462), to(#51a351));
-  background-image: -webkit-linear-gradient(top, #62c462, #51a351);
-  background-image: -o-linear-gradient(top, #62c462, #51a351);
-  background-image: linear-gradient(top, #62c462, #51a351);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62c462', endColorstr='#51a351', GradientType=0);
-  border-color: #51a351 #51a351 #387038;
-  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #51a351;
-  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-}
-
-button.btn::-moz-focus-inner,
-input[type="submit"].btn::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-input, button, select, textarea {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-
-label, input, button, select, textarea {
-    font-size: 0.8125em;
-    font-weight: normal;
-    line-height: 18px;
-}
-
-.btn:hover {
+a:hover {
   color: #333333;
   text-decoration: none;
   background-color: #e6e6e6;
@@ -549,14 +515,21 @@ label, input, button, select, textarea {
 }
 
 #welcome-content td.img1{
-    padding-right: 3%;
+    width: 28%;
+    padding-right: 15px;
+	width: 10%\9;
 }
 
-#welcome-content td.img2{
-    width: 20%;
-    padding-left: 1%;
+ td.img2{
+    width: 24%;
+    padding-left: 1.7%;
+	padding-right: 50px;
+	width: 8%\9;
 }
 
 #welcome-content td.img3{
-    padding-left: 5.3%;
+    width: 28%;
+    padding-left: 1%;
+	width: 10%\9;
+	padding-left: 1px\9;
 }
