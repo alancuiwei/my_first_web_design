@@ -1,5 +1,6 @@
 <% if params[:id]!=nil%>
 
+<%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highstock.js" %>
 <%= stylesheet_link_tag "myaccount.css" %>
 <div class="main-content" style="margin-top: 50px;">
@@ -70,6 +71,16 @@
 </div>
             </td>
           </tr>
+           <br>
+          <tr>
+            <td>
+              <br>
+              <div style="border: 2px solid #C3E4EC;">
+                <div id="pie" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
+              </div>
+
+            </td>
+          </tr>
 
         </table>
       </div>
@@ -113,6 +124,49 @@
             });
         });
     });
+          var pie=[];
+    <% for i in 0..@pie.keys.size-1%>
+    pie[<%= i%>]=['<%=@pie.keys[i]%>',<%=@pie[@pie.keys[i]]%>]
+    <% end %>
+            $(function () {
+                var chart;
+                $(document).ready(function() {
+                    chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'pie',
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: '基金占有图'
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                            percentageDecimals: 1
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    connectorColor: '#000000',
+                                    formatter: function() {
+                                        return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(1) +' %';
+                                    }
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: '基金占有',
+                            data: pie
+                        }]
+                    });
+                });
 
+            });
 </script>
 <% end %>

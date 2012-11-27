@@ -1,4 +1,5 @@
 <% if @webuser!=nil %>
+    <%= javascript_include_tag "highstock.js" %>
     <%= stylesheet_link_tag "myaccount.css" %>
     <div class="main-content" style="margin-top: 50px;">
 
@@ -9,7 +10,69 @@
             <h3><%= p.pname %></h3>
             <a href="/products/index/<%= p.id%>">查看详细</a>
             <p><%= p.description %></p>
-            <img class="ls-s2" src='/assets/account_1.jpg' width="200px" height="200px">
+            <div id="container" style="min-width: 300px; height: 120px; margin: 0 auto;overflow: hidden;"></div>
+            <script type="text/javascript">
+
+                $(function() {
+                    $.getJSON('/products/precordajax/<%=p.id%>', function(data) {
+                        // Create the chart
+                        window.chart = new Highcharts.StockChart({
+                            chart : {
+                                renderTo : 'container',
+                                type: 'line',
+                                width: 160,
+                                height: 200
+                            },
+
+                            rangeSelector : {
+                                enabled : false
+                            },
+
+                            title : {
+                                text : '基金净值曲线图'
+                            },
+                            subtitle: {
+                                enabled: false
+                            },
+                            xAxis: {
+                                title:{
+                                    enabled: false
+                                } ,
+                                labels: {
+                                    enabled: false
+                                }
+                            },
+                            yAxis: {
+                                title:{
+                                    enabled: false
+                                } ,
+                                labels: {
+                                    enabled: false
+                                }
+                            },
+                            plotOptions: {
+                                line: {
+                                    //pointStart: 1940,
+                                    marker: {
+                                        enabled: true,
+                                        symbol: 'circle',
+                                        radius: 2,
+                                        states: {
+                                            hover: {
+                                                enabled: false
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            series : [{
+                                name : '净值',
+                                data : data
+                            }]
+                        });
+                    });
+                });
+            </script>
           </div>
           <% end %>
 
@@ -69,7 +132,7 @@
                             <td style="width:30%">
                               <h4 class="spaced">
                                 总回报金额:<br>
-                                ￥ <span style="color: red;"><%= @allinvest %> 元</span><br>
+                                <span style="color: red;">￥ <%= @allinvest %> 元</span><br>
                               </h4>
                               <h5 id="display-hv" class="value"></h5>
                               <div id="hm-icon" class="home-icon hsprite-green">
@@ -86,7 +149,7 @@
                                 <tr>
                                   <td class="bbottom" style="width: 30%;"><h4 style="text-align: left; margin-bottom: 10px">
                                     投入本金： <br>
-                                    ￥ <span style="color: red;"><%= @allfund %> 元</span> <br>
+                                    <span style="color: red;">￥ <%= @allfund %> 元</span> <br>
                                   </h4></td>
                                   <td class="bbottom" style="width: 70%;">
                                     <table class="sub"><tr>
@@ -112,7 +175,7 @@
                                 <tr>
                                   <td  style="width: 30%;"><h4 style="text-align: left; margin-bottom: 10px">
                                     已付利息： <br>
-                                    ￥ <span style="color: red;"><%= @allinterest %> 元</span>
+                                     <span style="color: red;">￥ <%= @allinterest %> 元</span>
                                     <br>
                                   </h4></td>
                                   <td style="width: 70%;">
