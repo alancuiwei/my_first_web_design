@@ -1,0 +1,53 @@
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="productrecords">
+    <thead><tr>
+      <th>产品名称</th><th>净值</th><th>上日结存</th>
+      <th>当日盈亏</th><th>日期</th>
+    </tr></thead>
+    <tbody>
+    <% @productrecords.each do |p|  %>
+        <tr>
+          <td><%= p.pname%></td>
+          <td><%= p.total%></td>
+          <td><%= p.lastprofits%></td>
+          <td><%= p.todayprofit%></td>
+          <td><%= p.date%></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+
+<script>
+    $(document).ready(function(){
+        $('#productrecords').dataTable();
+    });
+    function deleteajax(id,type){
+        $.get("/admin/"+type+"/"+id,function(data){
+            if(data=="s"){
+                alert("删除成功！");
+                location.reload();
+            }
+            else{
+                alert("删除失败！");
+                location.reload();
+            }
+        });
+    }
+
+    function interestconfirm(name,date,value,ordernum){
+        $.get("/admin/interestconfirm",{username:name,date:date,recordvalue:value,ordernum:ordernum},function(data){
+            if(data=="s"){
+                alert("确认成功！");
+                location.reload();
+            }
+            else if(data=="f"){
+                alert("确认失败！");
+                location.reload();
+            }
+
+        })
+    }
+</script>

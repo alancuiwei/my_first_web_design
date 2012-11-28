@@ -113,6 +113,14 @@
                                 </tr>
                                   <% end %>
                             <% end %>
+                            <% for i in 0..@adminremind.keys.size-1 %>
+                                <tr>
+                                  <td>admin</td>
+                                  <td>admin</td>
+                                  <td><%= @adminremind.keys[i]%></td>
+                                  <td><%= @adminremind[@adminremind.keys[i]]%></td>
+                                </tr>
+                            <% end %>
                             </tbody>
                           </table>
 
@@ -133,6 +141,15 @@
                                       <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('<%=w.username%>','<%= @hash_interests[w.username][1].keys[j]%>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][1] %>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][0] %>')">确认</a></td>
                                     </tr>
                                 <% end %>
+                            <% end %>
+                            <% for i in 0..@adminconfirm.keys.size-1 %>
+                                <tr>
+                                  <td>admin</td>
+                                  <td>0</td>
+                                  <td><%= @adminconfirm.keys[i]%></td>
+                                  <td><%= @adminconfirm[@adminconfirm.keys[i]]%></td>
+                                  <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('admin','<%= @adminconfirm.keys[i]%>','<%= @adminconfirm[@adminconfirm.keys[i]]%>',0)">确认</a></td>
+                                </tr>
                             <% end %>
                             </tbody>
                           </table>
@@ -166,6 +183,10 @@
   </table>
                         </td>
                       </tr>
+
+                      <tr><td>
+                        <a href="/admin/productrecords">查看所有</a>
+                      </td></tr>
 
                     </table>
                   </div>

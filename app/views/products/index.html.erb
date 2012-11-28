@@ -20,7 +20,7 @@
               <tr><td>
                 <div class="crumbs">
                   <a href="/">首页</a>&nbsp; >&nbsp;
-                  <a href="/products/<%= @product.id%>" ><%= @product.pname%>介绍</a>
+                  <a href="/products/index/<%= @product.id%>" >基金产品</a>
                 </div>
                 <h1><%= @product.pname%></h1>
                 <br>
@@ -109,7 +109,7 @@
                   <th></th><th></th>
                 </tr></thead>
                 <tbody>
-                <tr><td>产品名称</td><td>通天顺°山林以号</td></tr>
+                <tr><td>产品名称</td><td>通天顺°山林一号</td></tr>
                 <tr><td>产品类型 </td><td>固定收益型专户理财产品 </td></tr>
                 <tr><td>产品投资范围 </td><td>投资于具有良好流动性的国内上市商品期货品种，股指期货品种。</td></tr>
                 <tr><td>产品特点 </td><td>利用多年投资的趋势策略，中长期，单边趋势投资策略。采用顺长期趋势，逆短中期
@@ -174,7 +174,9 @@
                 title : {
                     text : '<%= @product.pname%>基金净值曲线图'
                 },
-
+                yAxis:{
+                   min:300000
+                },
                 series : [{
                     name : '净值',
                     data : data,
@@ -194,6 +196,7 @@
     <% for i in 0..@pie.keys.size-1%>
     pie[<%= i%>]=['<%=@pie.keys[i]%>',<%=@pie[@pie.keys[i]]%>]
     <% end %>
+   // alert(pie)
             $(function () {
                 var chart;
                 $(document).ready(function() {

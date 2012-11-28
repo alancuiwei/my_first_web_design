@@ -20,7 +20,9 @@ class ProductsController < ApplicationController
       for j in 0..userfund.size-1
         pie=pie+userfund[j].recordvalue
       end
+      if pie!=0
       @pie.store(@webusers[i].username,pie)
+    end
     end
     @funds=0
     @invest_f.each do |i|

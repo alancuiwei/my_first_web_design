@@ -12,6 +12,8 @@
 </div>
 
   <script type="text/javascript">
+
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
       <% if params[:id]!="0" %>
       $("#pname").attr("value",'<%= @productinfo[0]%>');
       $("#description").attr("value",'<%= @productinfo[1]%>');
@@ -31,6 +33,14 @@
                   nom_flag=1;
                   break;
               }
+          }
+          if( numfor.test($("#lastprofits").attr("value"))==false){
+              alert("上日结存必须为数字！");
+              nom_flag=1;
+          }
+          else if(numfor.test($("#todayprofit").attr("value"))==false){
+              alert("当日盈亏必须为数字！");
+              nom_flag=1;
           }
 
           if(nom_flag==0){
