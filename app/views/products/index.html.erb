@@ -3,6 +3,8 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
+    <%= javascript_include_tag "jquery.dataTables.min.js" %>
+    <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "myaccount.css" %>
 <div class="main-content" style="margin-top: 50px;">
 
@@ -92,7 +94,11 @@
             <br>  <%= @product.pname%>简介
             <div style="border: 2px solid #C3E4EC;">
 
-              <table>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="product">
+                <thead><tr>
+                  <th></th><th></th>
+                </tr></thead>
+                <tbody>
                 <tr><td>产品名称</td><td>通天顺°山林以号</td></tr>
                 <tr><td>产品类型 </td><td>固定收益型专户理财产品 </td></tr>
                 <tr><td>产品投资范围 </td><td>投资于具有良好流动性的国内上市商品期货品种，股指期货品种。</td></tr>
@@ -121,6 +127,7 @@
 
                   时，趋势跟踪策略的有效性可能受到较大影响。
                 </td></tr>
+                </tbody>
               </table>
             </div>
           </td></tr>
@@ -132,6 +139,12 @@
 </div>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        $('#product').dataTable({
+            "bPaginate":false ,//禁用分页
+            "bFilter": false
+        });
+    });
 
     $(function() {
         $.getJSON('/products/precordajax/<%=params[:id]%>', function(data) {
@@ -246,7 +259,7 @@
 
                     yAxis: [{
                         min: 0,
-                        max: 1000,
+                        max: 100,
                         minorTickPosition: 'outside',
                         tickPosition: 'outside',
                         labels: {

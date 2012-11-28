@@ -2,6 +2,18 @@
 require 'date'
 class MyaccountController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
+
+  def index
+    if session[:webusername]!=nil
+      if session[:webusername]=="admin"
+        redirect_to(:controller=>"admin")
+      else
+        redirect_to(:controller=>"myaccount",:action=>"investrecord")
+      end
+
+    end
+  end
+
   def investrecord
 
       if session[:webusername]=="admin"
@@ -16,6 +28,7 @@ class MyaccountController < ApplicationController
 
       if @webuser!=nil
         @products=Product.all
+        @product=Product.find_by_id(@products[0].id)
 
         @username=@webuser.username
         @funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",@username,"fund"],:order =>"date DESC")
