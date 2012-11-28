@@ -23,18 +23,23 @@
                   <a href="/products/<%= @product.id%>" ><%= @product.pname%>介绍</a>
                 </div>
                 <h1><%= @product.pname%></h1>
+                <br>
+
               </td></tr>
             </table>
+            <%= @product.description%><br><br>
           </td>
           </tr>
 
           <!-- tr body-content-->
           <tr>
+
             <!-- td body-content-->
-            <td class="body-content">
+            <td>
               <div class="body-content-wrapper">
                 <div class="page-interaction">
-
+                  <h2 >基金净值</h2><br>
+                  <div style="border-bottom: 2px solid rgb(0, 0, 0);"></div>  <br>
                   <!-- div2-->
                   <div style="border: 2px solid #C3E4EC;">
                     <!-- main table-->
@@ -74,10 +79,13 @@
 </div>
             </td>
           </tr>
+
            <br>
           <tr>
             <td>
               <br>
+              <h2 >基金资金</h2><br>
+              <div style="border-bottom: 2px solid rgb(0, 0, 0);"></div>  <br>
               <div style="border: 2px solid #C3E4EC;">
                 <table>
                   <tr>
@@ -91,7 +99,9 @@
             </td>
           </tr>
           <tr><td>
-            <br>  <%= @product.pname%>简介
+
+            <br><h2 ><%= @product.pname%>简介</h2><br>
+            <div style="border-bottom: 2px solid rgb(0, 0, 0);"></div>  <br>
             <div style="border: 2px solid #C3E4EC;">
 
               <table cellpadding="0" cellspacing="0" border="0" class="display" id="product">
