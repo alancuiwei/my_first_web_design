@@ -6,6 +6,7 @@
     <%= javascript_include_tag "jquery.dataTables.min.js" %>
     <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "myaccount.css" %>
+<%= stylesheet_link_tag "products.css" %>
 <div class="main-content" style="margin-top: 50px;">
 
   <div class="main-body">
@@ -43,32 +44,47 @@
                   <!-- div2-->
                   <div style="border: 2px solid #C3E4EC;">
                     <!-- main table-->
+					<div class="arrow-container2">
+                      <div class="arrow"></div>
+                    </div>				  
+					<div class="arrow-container3">
+                      <div class="arrow"></div>
+                    </div>
                     <table class="block">
                       <tr>
                         <td style="width:30%">
-                          <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div>
-                          中国期货保证金监控中心查询
+                          <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div><br>
+                          <a class="back mortgage-button full back" id="see-mortgage-link" href="" onclick="showMortgagePopup(); return false">中国期货保证金监控中心查询</a>
                         </td>
                         <td class="bleft">
-  <p style="color: red;">基金总值：<%= @product.lastprofits+@product.todayprofit+@interest %></p>
-  年化收益率：<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds )/@funds)*365*100/@diffdate )%>%<br>
-  总盈利额：<%= @product.lastprofits+@product.todayprofit+@interest-@funds %><br>
-  本金：<%= @funds %><br>
+  <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit+@interest %></p>
+  <p style="color: black;padding-top: 10px;">年化收益率<br></p><p><%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds )/@funds)*365*100/@diffdate )%>%<br></p>
+  <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= @product.lastprofits+@product.todayprofit+@interest-@funds %><br></p>
+  <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= @funds %><br></p>
                         </td>
                         <td class="bleft">
-                          <div style="border-bottom: 2px solid rgb(195, 228, 236);">
-  <p style="color: red;">账面总额：<%= @product.lastprofits+@product.todayprofit%></p>
-  净值分解 <br>
-  上日结存：<%= @product.lastprofits%><br>
-  当日盈亏：<%= @product.todayprofit%><br>
+                          <div style="border-bottom: 2px solid rgb(195, 228, 236);height: 220px">
+  <p style="color: black;padding-top: 10px;">账面总额<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit%></p>
+  <table>
+  <tr><td>日期</td><td><%= @product.date%></td></tr>
+  <tr><td>上日结存</td><td>￥<%= @product.lastprofits%></td><td></td></tr>
+  <tr><td>当日盈亏</td><td>￥<%= @product.todayprofit%></td><td></td></tr>
+  <tr><td></td><td><hr style="size: 1;width: 100%;"></td><td></td></tr>
+  <tr><td></td><td>￥<%= @product.lastprofits+@product.todayprofit%></td><td></td></tr>
+  </table>
                           </div>
                           <div>
-  <p style="color: red;">已分红值：<%= @interest %></p>
-  <p>分红记录：</p>
+  <p style="color: black;padding-top: 10px;">已分红值<br></p><p style="color: black;">￥<%= @interest %></p>
+  <table>
+  <tr><td>日期</td><td>分红金额</td><td></td></tr>
+  <% allinterest=0%>
   <% @invest_i.each do |i|%>
-      <%= i.date.to_s(:stamp)%>
-      <%= i.recordvalue%><br>
+  <% allinterest=allinterest+i.recordvalue%>
+      <tr><td><%= i.date.to_s(:stamp)%></td><td>￥<%= i.recordvalue%></td><td></td></tr>
   <% end %>
+  <tr><td></td><td><hr style="size: 1;width: 100%;"></td><td></td></tr>
+  <tr><td></td><td>￥<%= allinterest%></td><td></td></tr>
+  </table>
                           </div>
                         </td>
                       </tr>
@@ -89,8 +105,12 @@
               <div style="border: 2px solid #C3E4EC;">
                 <table>
                   <tr>
+				    <td style="width: 50%;text-align: center;padding-top: 30px;">资金来源</td>
+					<td style="width: 50%;padding: 30px 0 0 120px;">资金规模</td>
+				  </tr>
+                  <tr>
                     <td style="width: 50%;"><div id="pie" style="min-width: 300px; height: 300px; margin: 0 auto"></div></td>
-                    <td style="width: 50%;"><div id="chart" style="min-width: 300px; height: 300px; margin: 0 auto"></div></td>
+                    <td style="width: 50%;"><div id="chart" style="min-width: 300px; height: 300px; margin: 0 auto;padding-top: 60px"></div></td>
                   </tr>
                 </table>
 
@@ -126,7 +146,7 @@
                 <tr><td>操作期限 </td><td>以一年为一个操作周期  </td></tr>
                 <tr><td>账户操作人 </td><td>南京重人软件科技有限公司  </td></tr>
                 <tr><td>账号经纪机构 </td><td>指定期货公司  </td></tr>
-                <tr><td>风险提示  </td><td>投资者最小投资额为10万元任民币  </td></tr>
+                <tr><td>风险提示  </td><td>投资者最小投资额为10万元人民币  </td></tr>
                 <tr><td>出资额限制 </td><td>
                   市场风险：期货市场价格因受各种因素的影响而引起的波动，将使计划资产面临潜在的风险；
                    <br>
@@ -208,7 +228,7 @@
                             plotShadow: false
                         },
                         title: {
-                            text: '资金来源'
+                            text: ''
                         },
                         tooltip: {
                             pointFormat: '{series.name}: <b>{point.percentage}%</b>',
@@ -259,14 +279,14 @@
                     },
 
                     title: {
-                        text: '资金规模'
+                        text: ''
                     },
 
                     pane: [{
                         startAngle: -45,
                         endAngle: 45,
                         background: null,
-                        center: ['50%', '145%'],
+                        center: ['50%', '130%'],
                         size: 300
                     }],
 
