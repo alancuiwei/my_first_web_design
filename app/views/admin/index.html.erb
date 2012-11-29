@@ -1,8 +1,9 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+<%= stylesheet_link_tag "myaccount.css" %>
 
 <div class="main-content" style="margin-top: 50px;">
-
+ <%= %>
   <div class="main-body">
     <div class="content">
       <div class="fthb faded">
@@ -71,7 +72,7 @@
                           <a href="/admin/fundconfig/0">添加本金</a>
                           <table cellpadding="0" cellspacing="0" border="0" class="display" id="funds">
                             <thead><tr>
-                              <th>用户名</th><th>本金存入日期</th>
+                              <th>用户名</th><th>投资产品</th><th>本金存入日期</th>
                               <th>本金金额</th>
                               <th>修改</th><th>删除</th><th>查看</th>
                             </tr></thead>
@@ -79,6 +80,7 @@
                             <% @investfunds.each do |i|  %>
                                 <tr>
                                   <td><%= i.username%></td>
+                                  <td><%= i.pname%></td>
                                 <td><%= i.date.to_s(:stamp)%></td>
                                   <td><%= i.recordvalue%></td>
                                   <td><a href="/admin/fundconfig/<%= i.id %>">修改</a></td>
@@ -127,7 +129,7 @@
                           <br><h3>还没有确认支付的利息：</h3>
                           <table cellpadding="0" cellspacing="0" border="0" class="display" id="interests_c">
                             <thead><tr>
-                              <th>用户名</th><th>返还批次</th><th>返还利息日期</th>
+                              <th>用户名</th><th>返还产品</th><th>返还批次</th><th>返还利息日期</th>
                               <th>返还利息金额</th><th>确认</th>
                             </tr></thead>
                             <tbody>
@@ -135,8 +137,9 @@
                                 <% for j in 0..@hash_interests[w.username][1].keys.size-1 %>
                                     <tr>
                                       <td><%= w.username%></td>
+                                      <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][3] %></td>
                                       <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][0] %></td>
-                                      <td><%= @hash_interests[w.username][1].keys[j]%></td>
+                                      <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][2] %></td>
                                       <td><%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][1]%></td>
                                       <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('<%=w.username%>','<%= @hash_interests[w.username][1].keys[j]%>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][1] %>','<%= @hash_interests[w.username][1][@hash_interests[w.username][1].keys[j]][0] %>')">确认</a></td>
                                     </tr>
@@ -145,9 +148,10 @@
                             <% for i in 0..@adminconfirm.keys.size-1 %>
                                 <tr>
                                   <td>admin</td>
+                                  <td><%= @adminconfirm[@adminconfirm.keys[i]][0]%></td>
                                   <td>0</td>
-                                  <td><%= @adminconfirm.keys[i]%></td>
-                                  <td><%= @adminconfirm[@adminconfirm.keys[i]]%></td>
+                                  <td><%= @adminconfirm[@adminconfirm.keys[i]][1]%></td>
+                                  <td><%= @adminconfirm[@adminconfirm.keys[i]][2]%></td>
                                   <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('admin','<%= @adminconfirm.keys[i]%>','<%= @adminconfirm[@adminconfirm.keys[i]]%>',0)">确认</a></td>
                                 </tr>
                             <% end %>
@@ -160,12 +164,37 @@
                       <tr>
                         <td>
                           <h2>产品管理</h2><br>
-  <a href="/admin/productconfig/0">添加产品</a>
-  <table cellpadding="0" cellspacing="0" border="0" class="display" id="products">
+                          <h3>产品基本信息</h3>
+                          <a href="/admin/productconfig/0?optype=edit">添加产品</a>
+                          <table cellpadding="0" cellspacing="0" border="0" class="display" id="products">
+                            <thead><tr>
+                              <th>产品名称</th><th>成立日期</th><th>分红方式</th>
+                              <th>分红值</th><th>分红周期</th><th>承受风险</th>
+                              <th>修改</th><th>删除</th><th>查看</th>
+                            </tr></thead>
+                            <tbody>
+                            <% @products.each do |p|  %>
+                                <tr>
+                                  <td><%= p.pname%></td>
+                                  <td><%= p.founddate%></td>
+                                  <td><%= p.dividendtype%></td>
+                                  <td><%= p.dividendvalue%></td>
+                                  <td><%= p.period%></td>
+                                  <td><%= p.riskvalue%></td>
+                                  <td><a href="/admin/productconfig/<%= p.id %>?optype=edit">修改</a></td>
+                                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= p.id %>','productdeleteajax')">删除</a></td>
+                                  <td><a href="/products/index/<%= p.id %>?optype=edit">查看</a></td>
+                                </tr>
+                            <% end %>
+                            </tbody>
+                          </table>
+                          <h3>产品净值更新表</h3>
+
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="productsupdate">
     <thead><tr>
       <th>产品名称</th><th>上日结存</th>
-      <th>当日盈亏</th><th>日期</th>
-      <th>修改</th><th>删除</th><th>查看</th>
+      <th>当日盈亏</th><th>更新日期</th>
+      <th>更新</th><th>查看全部记录</th>
     </tr></thead>
     <tbody>
     <% @products.each do |p|  %>
@@ -174,9 +203,8 @@
           <td><%= p.lastprofits%></td>
           <td><%= p.todayprofit%></td>
           <td><%= p.date%></td>
-          <td><a href="/admin/productconfig/<%= p.id %>">修改</a></td>
-          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= p.id %>','productdeleteajax')">删除</a></td>
-          <td><a href="/products/index/<%= p.id %>">查看</a></td>
+          <td><a href="/admin/productconfig/<%= p.id %>?optype=update">添加/更新</a></td>
+          <td> <a href="/admin/productrecords/<%= p.id %>">查看所有</a></td>
         </tr>
     <% end %>
     </tbody>
@@ -185,7 +213,7 @@
                       </tr>
 
                       <tr><td>
-                        <a href="/admin/productrecords">查看所有</a>
+
                       </td></tr>
 
                     </table>
@@ -204,7 +232,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#users,#products,#funds,#interests_r,#interests_c').dataTable();
+        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate').dataTable();
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){

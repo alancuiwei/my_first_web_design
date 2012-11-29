@@ -4,39 +4,55 @@
   def index
     if session[:webusername]=="admin"
     @webusers=Webuser.all
-    returnrate={}
-    @webusers.each do |w|
-       returnrate.store(w.username,w.returnrate)
-    end
+
     @products=Product.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
-    funds=0
-    interests=0
-    @investfunds.each do |i|
-      funds=funds+i.recordvalue
-      interests=interests+i.recordvalue*returnrate[i.username]/6
+    @adminremind={}
+    @adminconfirm={}
+    @products.each do |p|
+      date=Investrecord.find(:all,:conditions =>["recordtype=? and pname=?","fund",p.pname],:order =>"date ASC")
+
+      if date[0]!=nil
+
+        admininterests=Investrecord.find(:all,:conditions =>["recordtype=? and username=? and pname=?","interest","admin",p.pname],:order =>"date DESC")
+
+        if admininterests[0]==nil
+          startdate=Date.parse(date[0].date.to_s(:db)) >> p.period
+        else
+          startdate=Date.parse(admininterests[0].date.to_s(:db))>> p.period
+        end
+        if startdate!=nil
+          if (startdate-Date.today)> 0
+            @adminremind.store(startdate.to_s,"不可预估")
+          else
+          while (startdate-Date.today)<0
+            profit=Productrecord.find_by_date(startdate)
+            if profit==nil
+              abort("Productrecord中没有#{p.pname}|#{startdate}的基金记录！")
+            else
+            if p.dividendtype=="fix"
+              #interests
+              investfunds=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",p.pname,"fund",startdate])
+              interests=0
+              investfunds.each do |i|
+                if p.dividendtype=="fix"
+                  interests=interests+i.recordvalue*p.dividendvalue*p.period/12
+                end
+              end
+             @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,format("%.0f",profit.lastprofits+profit.todayprofit-profit.capital-interests)])
+            else
+              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,format("%.0f",(profit.lastprofits+profit.todayprofit-profit.capital)*0.2)])
+            end
+            startdate=startdate>>p.period
+            end
+          end
+          end
+        end
+
+      end
+
     end
 
-    date=Investrecord.find(:all,:conditions =>["recordtype=?","fund"],:order =>"date ASC")
-    if date[0]!=nil
-
-       admininterests=Investrecord.find(:all,:conditions =>["recordtype=? and username=?","interest","admin"],:order =>"date DESC")
-       @adminremind={}
-       @adminconfirm={}
-       if admininterests[0]==nil
-         startdate=Date.parse(date[0].date.to_s(:db)) >>2
-       else
-         startdate=Date.parse(admininterests[0].date.to_s(:db))>>2
-       end
-       if startdate!=nil
-         while (startdate-Date.today)< 0
-
-           @adminconfirm.store(startdate.to_s,format("%.0f",Productrecord.find_by_date(startdate).total-funds-interests))
-           startdate=startdate>>2
-       end
-         end
-
-    end
 
 
     @hash_password={}
@@ -44,30 +60,34 @@
 
     @webusers.each do |w|
       @hash_password.store(w.id,decode(w.password))
-      funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",w.username,"fund"],:order =>"date DESC")
-      interests=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",w.username,"interest"],:order =>"date ASC")
+
+      @products.each do |p|
+      funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=?",w.username,"fund",p.pname],:order =>"date DESC")
+      interests=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=?",w.username,"interest",p.pname],:order =>"date ASC")
       remind={}
       confirm={}
       hash_interest={}
-      period=w.period
       interests.each do |i|
-        hash_interest.store(i.ordernum,[i.date.to_s(:db),i.recordvalue])
-    end
+        hash_interest.store(i.ordernum.to_s+p.pname,[i.date.to_s(:db),i.recordvalue])
+      end
       for i in 0..funds.size-1
-        interestvalue=format("%.0f",funds[i].recordvalue*w.returnrate*w.period/12)
-        if hash_interest[funds[i].ordernum]!=nil
-          paydate= (Date.parse(hash_interest[funds[i].ordernum][0])>>period)
+        interestvalue=0
+        if p.dividendtype=="fix"
+        interestvalue=format("%.0f",funds[i].recordvalue*p.dividendvalue*p.period/12)
+        end
+        if hash_interest[funds[i].ordernum.to_s+p.pname]!=nil
+          paydate= (Date.parse(hash_interest[funds[i].ordernum.to_s+p.pname][0])>>p.period)
           else
-          paydate= (Date.parse(funds[i].date.to_s)>>period)
-            end
+          paydate= (Date.parse(funds[i].date.to_s)>>p.period)
+        end
         if paydate!=nil
           if (paydate-Date.today)> 0
-            remind.store(paydate.to_s,[funds[i].ordernum,interestvalue])
+            remind.store(paydate.to_s+p.pname,[funds[i].ordernum,interestvalue,paydate,p.pname])
           else
             while (paydate-Date.today)< 0
 
-              confirm.store(paydate.to_s,[funds[i].ordernum,interestvalue])
-              paydate=paydate>>period
+              confirm.store(paydate.to_s+p.pname,[funds[i].ordernum,interestvalue,paydate,p.pname])
+              paydate=paydate>>p.period
 
             end
           end
@@ -76,6 +96,7 @@
       end
       @hash_interests.store(w.username,[remind,confirm])
 
+      end
     end
 
     else
@@ -108,78 +129,86 @@
       @product=Product.find_by_id(params[:id])
       @productinfo[0]=@product.pname
       @productinfo[1]=@product.description
-      @productinfo[2]=@product.lastprofits
-      @productinfo[3]=@product.todayprofit
-      @productinfo[4]=@product.date
-      @productinfo[5]=@product.founddate
+      @productinfo[2]=@product.founddate
+      @productinfo[3]=@product.dividendtype
+      @productinfo[4]=@product.dividendvalue
+      @productinfo[5]=@product.period
+      @productinfo[6]=@product.riskvalue
     end
   end
 
   def  productconfigajax
-
     @product=Product.find_by_id(params[:id])
+    if params[:optype]=="update"
 
-    if params[:id]=="0"
-      if @product==nil
-        Product.new do |p|
-          p.pname=params[:pname]
-          p.description=params[:description]
-          p.lastprofits=params[:lastprofits].to_f
-          p.todayprofit=params[:todayprofit].to_f
-          p.date=params[:date]
-          p.founddate=params[:founddate]
-          p.save
-        end
-        render :json => "s".to_json
-      else
-        render :json => "f".to_json
-      end
-
-    else
-      pname=@product.pname
-      @product.update_attributes(:pname=>params[:pname],:description=>params[:description],:founddate=>params[:founddate],
-                                 :lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
+      @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
                                  :date=>params[:date])
-      if pname!=params[:pname]
-        @o_precords=Productrecord.find_all_by_pname(pname)
-        @o_precords.each do |o|
-          o.update_attributes(:pname=>params[:pname])
-        end
+      @invest_f=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@product.pname,"fund",Date.parse(params[:date])])
+      @invest_i=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@product.pname,"interest",Date.parse(params[:date])])
+      funds=0
+      @invest_f.each do |i|
+        funds=funds+i.recordvalue
       end
-
-
-        @invest_f=Investrecord.find_all_by_pid_and_recordtype(params[:id],"fund")
-        @invest_i=Investrecord.find_all_by_pid_and_recordtype(params[:id],"interest")
-        funds=0
-        @invest_f.each do |i|
-          funds=funds+i.recordvalue
-        end
-        interest=0
-        @invest_i.each do |i|
-          interest=interest+i.recordvalue
-        end
-      productrecord=Productrecord.find_by_pname_and_date(params[:pname],params[:date])
+      interest=0
+      @invest_i.each do |i|
+        interest=interest+i.recordvalue
+      end
+      productrecord=Productrecord.find_by_pname_and_date(@product.pname,params[:date])
       if productrecord==nil
-       Productrecord.new do |pr|
-        pr.pname=params[:pname]
-        pr.total=params[:lastprofits].to_f+params[:todayprofit].to_f+interest
-        pr.yreturnrate=1
-        pr.allprofits=params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds
-        pr.capital=funds
-        pr.lastprofits=params[:lastprofits].to_f
-        pr.todayprofit=params[:todayprofit].to_f
-        pr.date=params[:date]
-        pr.save
-       end
+        Productrecord.new do |pr|
+          pr.pname=@product.pname
+          pr.total=params[:lastprofits].to_f+params[:todayprofit].to_f+interest
+          pr.allprofits=params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds
+          pr.capital=funds
+          pr.lastprofits=params[:lastprofits].to_f
+          pr.todayprofit=params[:todayprofit].to_f
+          pr.date=params[:date]
+          pr.save
+        end
+        render :json => "us1".to_json
       else
-        productrecord.update_attributes(:pname=>params[:pname],:total=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest,
-                                        :yreturnrate=>1,:allprofits=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds,
+        productrecord.update_attributes(:total=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest,
+                                        :allprofits=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds,
                                         :capital=>funds,:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
-                                   :date=>params[:date])
+                                        :date=>params[:date])
+        render :json => "us2".to_json
       end
 
-      render :json => "s2".to_json
+    else  #edit
+      if params[:id]=="0"
+        if @product==nil
+          Product.new do |p|
+            p.pname=params[:pname]
+            p.description=params[:description]
+            p.founddate=params[:founddate]
+            p.dividendtype=params[:dividendtype]
+            p.dividendvalue=params[:dividendvalue].to_f
+            p.period=params[:period].to_f
+            p.riskvalue=params[:riskvalue].to_f
+            p.save
+          end
+          render :json => "es".to_json
+        else
+          render :json => "ef".to_json
+        end
+
+      else  #edit edit
+        pname=@product.pname
+        if pname!=params[:pname]
+          @o_precords=Productrecord.find_all_by_pname(pname)
+          @o_precords.each do |o|
+            o.update_attributes(:pname=>params[:pname])
+          end
+        end
+        @product.update_attributes(:pname=>params[:pname],:description=>params[:description],:founddate=>params[:founddate],
+                                   :dividendtype=>params[:dividendtype],:dividendvalue=>params[:dividendvalue].to_f,
+            :period=>params[:period].to_f,:riskvalue=>params[:riskvalue].to_f)
+        render :json => "es2".to_json
+      end
+
+
     end
+
   end
 
   def  userconfigajax
@@ -269,14 +298,15 @@
     if params[:id]!="0"
       @investfund=Investrecord.find_by_id(params[:id])
       @fundinfo[0]=@investfund.username
-      @fundinfo[1]=@investfund.date.to_s(:stamp)
-      @fundinfo[2]=@investfund.recordvalue
+      @fundinfo[1]=@investfund.pname
+      @fundinfo[2]=@investfund.date.to_s(:stamp)
+      @fundinfo[3]=@investfund.recordvalue
     end
   end
 
   def  fundconfigajax
     @investfund=Investrecord.find_by_id(params[:id])
-    @fundordernum=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",params[:username],"fund"],:order =>"ordernum DESC")
+    @fundordernum=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=?",params[:username],"fund",params[:pname]],:order =>"ordernum DESC")
 
     if @fundordernum[0]!=nil
       ordernum=@fundordernum[0].ordernum+1
@@ -287,9 +317,12 @@
     if params[:id]=="0"
       if Webuser.find_by_username(params[:username])==nil
         render :json => "nouser".to_json
+      elsif Product.find_by_pname(params[:pname])==nil
+        render :json => "noproduct".to_json
       elsif @investfund==nil
         Investrecord.new do |i|
           i.username=params[:username]
+          i.pname=params[:pname]
           i.date=params[:date]
           i.recordtype="fund"
           i.ordernum=ordernum
@@ -348,7 +381,8 @@
    end
 
    def productrecords
-     @productrecords=Productrecord.find(:all, :order =>"date DESC");
+     product=Product.find_by_id(params[:id])
+     @productrecords=Productrecord.find(:all,:conditions =>["pname=?",product.pname], :order =>"date DESC");
    end
 
 end
