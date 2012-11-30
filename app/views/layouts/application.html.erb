@@ -44,9 +44,9 @@
                 <div class='tcol'>
                 <h3>基金产品</h3>
                     <div class='separator'></div>
-                
-                <a href='/products/index/<%= Product.all[0].id%>' class='full last'>山林一号</a>
-                        </div>
+					<% Product.all.each do |p|%>
+                <a href='/products/index/<%= p.id%>' class='full last'><%= p.pname%></a>
+                     <%end%>   </div>
 
                         </div>
                         </div>
