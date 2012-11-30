@@ -41,8 +41,7 @@
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
     <thead><tr>
       <th>用户名</th><th>密码</th>
-      <th>联系电话</th><th>通信地址</th>
-      <th>利息返还周期</th><th>年化收益率</th>
+      <th>联系电话</th><th>邮编</th><th>通信地址</th>
       <th>修改</th><th>删除</th><th>投资信息</th>
     </tr></thead>
     <tbody>
@@ -51,9 +50,8 @@
          <td><%= w.username%></td>
          <td><%= @hash_password[w.id]%></td>
          <td><%= w.tel%></td>
+         <td><%= w.postcode%></td>
          <td><%= w.address%></td>
-         <td><%= w.period%></td>
-         <td><%= w.returnrate%></td>
          <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
          <td><a href="/myaccount/investrecord/<%= w.id %>">查看</a></td>
@@ -139,8 +137,12 @@
                                   <td><%= @hash_confirm[@hash_confirm.keys[i]][1]%></td>
                                   <td><%= @hash_confirm[@hash_confirm.keys[i]][2]%></td>
                                   <td><%= @hash_confirm[@hash_confirm.keys[i]][3]%></td>
-                                  <td><%= @hash_confirm[@hash_confirm.keys[i]][4]%></td>
+                                  <td><input id="<%= @hash_confirm.keys[i]%>" style="display: none;" value="<%= @hash_confirm[@hash_confirm.keys[i]][4]%>"><div id="d<%= @hash_confirm.keys[i]%>"><%= @hash_confirm[@hash_confirm.keys[i]][4]%></div></td>
+                                      <% if /^[-+]?[0-9]+(\.[0-9]+)?$/.match(@hash_confirm[@hash_confirm.keys[i]][4])!=nil%>
                                   <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('<%= @hash_confirm[@hash_confirm.keys[i]][0]%>','<%= @hash_confirm[@hash_confirm.keys[i]][3]%>','<%= @hash_confirm[@hash_confirm.keys[i]][4]%>','<%= @hash_confirm[@hash_confirm.keys[i]][2]%>','<%= @hash_confirm[@hash_confirm.keys[i]][1]%>')">确认</a></td>
+                                      <% else %>
+                                          <td><a href="javascript:void(0)" onclick="alert('不可确认！')">确认</a></td>
+                                   <% end %>
                                     </tr>
                                 <% end %>
                             <% for i in 0..@adminconfirm.keys.size-1 %>
@@ -150,7 +152,11 @@
                                   <td>0</td>
                                   <td><%= @adminconfirm[@adminconfirm.keys[i]][1]%></td>
                                   <td><%= @adminconfirm[@adminconfirm.keys[i]][2]%></td>
+                                  <% if /^[-+]?[0-9]+(\.[0-9]+)?$/.match(@adminconfirm[@adminconfirm.keys[i]][2])!=nil%>
                                   <td><a href="javascript:void(0)" onclick="if(confirm('确认已经支付？'))interestconfirm('admin','<%= @adminconfirm[@adminconfirm.keys[i]][1]%>','<%= @adminconfirm[@adminconfirm.keys[i]][1]%>',0,'<%= @adminconfirm[@adminconfirm.keys[i]][0]%>')">确认</a></td>
+                                  <% else %>
+                                      <td><a href="javascript:void(0)" onclick="alert('不可确认！')">确认</a></td>
+                                  <% end %>
                                 </tr>
                             <% end %>
                             </tbody>
@@ -181,7 +187,7 @@
                                   <td><%= p.riskvalue%></td>
                                   <td><a href="/admin/productconfig/<%= p.id %>?optype=edit">修改</a></td>
                                   <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= p.id %>','productdeleteajax')">删除</a></td>
-                                  <td><a href="/products/index/<%= p.id %>?optype=edit">查看</a></td>
+                                  <td><a href="/products/index/<%= p.id %>">查看</a></td>
                                 </tr>
                             <% end %>
                             </tbody>

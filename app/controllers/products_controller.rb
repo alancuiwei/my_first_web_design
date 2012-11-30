@@ -5,13 +5,13 @@ class ProductsController < ApplicationController
   def index
     @product=Product.find_by_id(params[:id])
 
-    @invest_f=Investrecord.find_all_by_recordtype("fund")
-    @invest_i=Investrecord.find_all_by_recordtype("interest")
+    @invest_f=Investrecord.find_all_by_recordtype_and_pname("fund",@product.pname)
+    @invest_i=Investrecord.find_all_by_recordtype_and_pname("interest",@product.pname)
     piefunds={}
     @pie={}
     @webusers=Webuser.all
     @webusers.each do |w|
-      piefunds.store(w.username,[Investrecord.find_all_by_username_and_recordtype(w.username,"fund")])
+      piefunds.store(w.username,[Investrecord.find_all_by_username_and_recordtype_and_pname(w.username,"fund",@product.pname)])
     end
     for i in 0..@webusers.size-1
 
@@ -33,7 +33,17 @@ class ProductsController < ApplicationController
       @interest=@interest+i.recordvalue
     end
 
-    @diffdate=Date.today-Date.parse("2012-5-1")
+    @diffdate=Date.today-@product.founddate
+
+    interests=Investrecord.find_all_by_recordtype_and_pname_and_date("interest",@product.pname,@product.date)
+    if interests==nil
+      @dividend=0
+    else
+      @dividend=0
+      interests.each do |i|
+        @dividend=@dividend+i.recordvalue
+      end
+    end
 
   end
 

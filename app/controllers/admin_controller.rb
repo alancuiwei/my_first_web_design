@@ -30,7 +30,7 @@
             profit=Productrecord.find_by_date(startdate)
             if profit==nil
               #abort("Productrecord中没有#{p.pname}|#{startdate}的基金记录！")
-              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,"Productrecord中没有#{p.pname}|#{startdate}的基金记录！"])
+              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,"没有#{p.pname}|#{startdate}的基金记录！"])
             else
             if p.dividendtype=="fix"
               #interests
@@ -96,7 +96,7 @@
                     interestvalue=format("%.0f",(profituser.lastprofits+profituser.todayprofit-profituser.capital)*p.dividendvalue/oldfundsnum)
                     else
                       #abort("Productrecord中没有#{p.pname}|#{paydate}的基金记录！(user)")
-                      interestvalue="Productrecord中没有#{p.pname}|#{paydate}的基金记录！(user)"
+                      interestvalue="没有#{p.pname}|#{paydate}的基金记录！"
                     end
                   end
                   @hash_confirm.store(paydate.to_s+w.username+p.pname+funds[i].ordernum.to_s,[w.username,p.pname,funds[i].ordernum,paydate,interestvalue])
