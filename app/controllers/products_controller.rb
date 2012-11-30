@@ -33,7 +33,7 @@ class ProductsController < ApplicationController
       @interest=@interest+i.recordvalue
     end
 
-    @diffdate=Date.today-@product.founddate
+    @diffdate=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date-@product.founddate
 
     interests=Investrecord.find_all_by_recordtype_and_pname_and_date("interest",@product.pname,@product.date)
     if interests==nil
@@ -45,6 +45,20 @@ class ProductsController < ApplicationController
       end
     end
 
+    @invest_date=Investrecord.find(:all,:conditions =>["pname=? and recordtype=?",@product.pname,"interest"],:order =>"date ASC")
+    date=Date.parse(@invest_date[0].date.to_s)
+    datevalue=0
+    @interestdate={}
+    for i in 0..@invest_date.size-1
+       if date==Date.parse(@invest_date[i].date.to_s)
+         datevalue=datevalue+@invest_date[i].recordvalue
+       else
+         @interestdate.store(date,datevalue)
+         date=Date.parse(@invest_date[i].date.to_s)
+         datevalue=@invest_date[i].recordvalue
+       end
+    end
+    @interestdate.store(date,datevalue)
   end
 
   def precordajax

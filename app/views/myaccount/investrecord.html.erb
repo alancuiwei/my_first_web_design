@@ -7,16 +7,16 @@
 
       <div class="main-inputs">
         <div id="inputs" class="content">
-          <% @products.each do |p| %>
+
           <div class="padded">
-            <h3><%= p.pname %></h3>
-            <a href="/products/index/<%= p.id%>">查看详细</a>
-            <p><%= p.description %></p><br>
-            <a href="/products/index/<%= p.id%>"><div id="container" style="min-width: 160px; height: 120px; margin: 0 auto;overflow: hidden;position:relative;"></div></a>
+            <h3><%= @product.pname %></h3>
+            <a href="/products/index/<%= @product.id%>">查看详细</a>
+            <p><%= @product.description %></p><br>
+            <a href="/products/index/<%= @product.id%>"><div id="container" style="min-width: 160px; height: 120px; margin: 0 auto;overflow: hidden;position:relative;"></div></a>
             <script type="text/javascript">
 
                 $(function() {
-                    $.getJSON('/products/precordajax/<%=p.id%>', function(data) {
+                    $.getJSON('/products/precordajax/<%=@product.id%>', function(data) {
                         // Create the chart
                         window.chart = new Highcharts.StockChart({
                             chart : {
@@ -76,7 +76,6 @@
                 });
             </script>
           </div>
-          <% end %>
 
         </div>
       </div>
@@ -160,7 +159,7 @@
                                         <table>
                                           <tr><td> <h4>认购时间</h4></td><td> <h4>认购产品</h4></td><td><h4>认购金额</h4></td></tr>
                                           <% @funds.each do |f| %>
-                                              <tr><td><%= f.date.to_s(:stamp)%></td><td><%= @product.pname%></td><td><%= f.recordvalue%></td></tr>
+                                              <tr><td><%= f.date.to_s(:stamp)%></td><td><%= f.pname%></td><td><%= f.recordvalue%></td></tr>
                                           <% end %>
                                         </table>
                                         <table class="totals">
@@ -187,7 +186,7 @@
                                         <table>
                                           <tr><td><h4>支付时间</h4></td><td><h4>支付产品</h4></td><td><h4>支付利息</h4></td></tr>
                                           <% @interests.each do |i| %>
-                                              <tr><td><%= i.date.to_s(:stamp)%></td><td><%= @product.pname%></td><td><%= i.recordvalue%></td></tr>
+                                              <tr><td><%= i.date.to_s(:stamp)%></td><td><%= i.pname%></td><td><%= i.recordvalue%></td></tr>
                                           <% end %>
                                         </table>
                                         <table class="totals">
@@ -212,7 +211,7 @@
                           <tr class="mortgage-details">
                             <td colspan="5" class="find-mortgage">
                               我所投资的基金产品信息
-                              <a class="back mortgage-button full back" id="see-mortgage-link" href="" onclick="showMortgagePopup(); return false">查看基金</a>
+                              <a class="back mortgage-button full back" id="see-mortgage-link" href="/products/index/<%= @product.id%>">查看基金</a>
                             </td>
                           </tr>
                         </table>

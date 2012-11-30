@@ -1,5 +1,4 @@
 <% if params[:id]!=nil%>
-
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
@@ -53,13 +52,13 @@
                           <a class="back mortgage-button full back" id="see-mortgage-link" href="" onclick="showMortgagePopup(); return false">中国期货保证金监控中心查询</a>
                         </td>
                         <td class="bleft">
-  <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit+@interest %></p>
-  <p style="color: black;padding-top: 10px;">年化收益率<br></p><p>&nbsp;&nbsp;&nbsp;<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds )/@funds)*365*100/@diffdate )%>%<br></p>
-  <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= @product.lastprofits+@product.todayprofit+@interest-@funds %><br></p>
+  <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend %></p>
+  <p style="color: black;padding-top: 10px;">年化收益率<br></p><p>&nbsp;&nbsp;&nbsp;<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%<br></p>
+  <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend-@funds %><br></p>
   <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= @funds %><br></p>
                         </td>
                         <td class="bleft">
-                          <div style="border-bottom: 2px solid rgb(195, 228, 236);height: 220px">
+                          <div style="border-bottom: 2px solid rgb(195, 228, 236);">
   <p style="color: black;padding-top: 10px;">账面总额<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit-@dividend%></p>
   <table>
   <tr><td>日期</td><td><%= @product.date%></td></tr>
@@ -76,13 +75,11 @@
   <p style="color: black;padding-top: 10px;">已分红值<br></p><p style="color: black;">￥<%= @interest %></p>
   <table>
   <tr><td>日期</td><td>分红金额</td><td></td></tr>
-  <% allinterest=0%>
-  <% @invest_i.each do |i|%>
-  <% allinterest=allinterest+i.recordvalue%>
-      <tr><td><%= i.date.to_s(:stamp)%></td><td>￥<%= i.recordvalue%></td><td></td></tr>
+  <% for i in 0..@interestdate.keys.size-1%>
+      <tr><td><%= @interestdate.keys[i].to_s(:stamp)%></td><td>￥<%= @interestdate[@interestdate.keys[i]]%></td><td></td></tr>
   <% end %>
   <tr><td></td><td><hr style="size: 1;width: 100%;"></td><td></td></tr>
-  <tr><td></td><td>￥<%= allinterest%></td><td></td></tr>
+  <tr><td></td><td>￥<%= @interest%></td><td></td></tr>
   </table>
                           </div>
                         </td>
