@@ -126,8 +126,6 @@
       @userinfo[2]=@webuser.tel
       @userinfo[3]=@webuser.address
       @userinfo[4]=@webuser.postcode
-      @userinfo[5]=@webuser.period
-      @userinfo[6]=@webuser.returnrate
     end
   end
 
@@ -235,8 +233,6 @@
         w.tel=params[:tel]
         w.address=params[:address]
         w.postcode=params[:postcode]
-        w.period=params[:period].to_f
-        w.returnrate=params[:returnrate].to_f
         w.save
       end
     render :json => "s".to_json
@@ -246,8 +242,7 @@
 
     else
       @webuser.update_attributes(:password=>password,:tel=>params[:tel],
-                                 :address=>params[:address],:postcode=>params[:postcode],:period=>params[:period].to_f,
-      :returnrate=>params[:returnrate].to_f)
+                                 :address=>params[:address],:postcode=>params[:postcode])
       render :json => "s2".to_json
     end
   end

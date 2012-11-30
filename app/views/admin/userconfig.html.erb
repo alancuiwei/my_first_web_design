@@ -6,8 +6,6 @@
     联系电话：<input type="text" name="tel" id="tel" title="联系电话"> <br>
     通信地址：<input type="text" name="address" id="address" title="通信地址">  <br>
     邮编：<input type="text" name="postcode" id="postcode" title="邮编"> <br>
-    利息返还周期：<input type="text" name="period" id="period" title="利息返还周期"> <br>
-    年化收益率：<input type="text" name="returnrate" id="returnrate" title="年化收益率"> <br>
     <a href="javascript:void(0)" id="userconfig">确认</a>
   </div>
 </div>
@@ -21,8 +19,6 @@
       $("#tel").attr("value",'<%= @userinfo[2]%>');
       $("#address").attr("value",'<%= @userinfo[3]%>');
       $("#postcode").attr("value",'<%= @userinfo[4]%>');
-      $("#period").attr("value",'<%= @userinfo[5]%>');
-      $("#returnrate").attr("value",'<%= @userinfo[6]%>');
       <% end %>
 
       $("#userconfig").click(function(e){
@@ -52,8 +48,8 @@
               }
               else{
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),tel: $("#tel").attr("value"),
-                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value"),
-                      period: $("#period").attr("value"),returnrate: $("#returnrate").attr("value")},function(data){
+                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value")
+                  },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");
                       }

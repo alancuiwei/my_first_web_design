@@ -1,4 +1,5 @@
 <% if params[:id]!=nil%>
+
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highstock.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
@@ -39,23 +40,23 @@
                   <!-- div2-->
                   <div style="border: 2px solid #C3E4EC;">
                     <!-- main table-->
-					<div class="arrow-container2">
-                      <div class="arrow"></div>
-                    </div>				  
-					<div class="arrow-container3">
-                      <div class="arrow"></div>
-                    </div>
                     <table class="block">
                       <tr>
                         <td style="width:30%">
                           <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div><br>
-                          <a class="back mortgage-button full back" id="see-mortgage-link" href="" onclick="showMortgagePopup(); return false">中国期货保证金监控中心查询</a>
+                          <a class="back mortgage-button full back" id="see-mortgage-link" href="javascript:void(0)" onclick="window.open('https://investorservice.cfmmc.com/')">中国期货保证金监控中心查询</a>
+                                                </td>
+						<td class="arrows" style="width: 1px;">
                         </td>
                         <td class="bleft">
   <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend %></p>
   <p style="color: black;padding-top: 10px;">年化收益率<br></p><p>&nbsp;&nbsp;&nbsp;<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%<br></p>
   <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend-@funds %><br></p>
   <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= @funds %><br></p>
+                        </td>
+						<td class="arrow2">
+							<div class="arrow"><div class="arrow-content right"></div></div>
+							<div class="arrow"><div class="arrow-content right2"></div></div>
                         </td>
                         <td class="bleft">
                           <div style="border-bottom: 2px solid rgb(195, 228, 236);">
