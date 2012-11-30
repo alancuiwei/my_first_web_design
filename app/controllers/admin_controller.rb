@@ -23,29 +23,31 @@
         end
         if startdate!=nil
           if (startdate-Date.today)> 0
-            @adminremind.store(startdate.to_s,"不可预估")
+            @adminremind.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,"无法预估(需要当日基金值)"])
           else
+
           while (startdate-Date.today)<0
             profit=Productrecord.find_by_date(startdate)
             if profit==nil
-              abort("Productrecord中没有#{p.pname}|#{startdate}的基金记录！")
+              #abort("Productrecord中没有#{p.pname}|#{startdate}的基金记录！")
+              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,"Productrecord中没有#{p.pname}|#{startdate}的基金记录！"])
             else
             if p.dividendtype=="fix"
               #interests
               investfunds=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",p.pname,"fund",startdate])
               interests=0
               investfunds.each do |i|
-                if p.dividendtype=="fix"
                   interests=interests+i.recordvalue*p.dividendvalue*p.period/12
                 end
-              end
              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,format("%.0f",profit.lastprofits+profit.todayprofit-profit.capital-interests)])
             else
-              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,format("%.0f",(profit.lastprofits+profit.todayprofit-profit.capital)*0.2)])
+              @adminconfirm.store(startdate.to_s+p.pname,[p.pname,startdate.to_s,format("%.0f",(profit.lastprofits+profit.todayprofit-profit.capital)*(1-p.dividendvalue))])
+            end
+
             end
             startdate=startdate>>p.period
             end
-          end
+
           end
         end
 
@@ -53,40 +55,51 @@
 
     end
 
-
-
+    #user
     @hash_password={}
-    @hash_interests={}
+    @hash_remind={}
+    @hash_confirm={}
 
     @webusers.each do |w|
       @hash_password.store(w.id,decode(w.password))
 
       @products.each do |p|
+        firstfund=Investrecord.find(:all,:conditions =>["recordtype=? and pname=?","fund",p.pname],:order =>"date ASC")
+        if firstfund[0]!=nil
+          firstfunddate=firstfund[0].date
       funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=?",w.username,"fund",p.pname],:order =>"date DESC")
-      interests=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=?",w.username,"interest",p.pname],:order =>"date ASC")
-      remind={}
-      confirm={}
-      hash_interest={}
-      interests.each do |i|
-        hash_interest.store(i.ordernum.to_s+p.pname,[i.date.to_s(:db),i.recordvalue])
+          for i in 0..funds.size-1
+
+            userinterest=Investrecord.find(:all,:conditions =>["username=? and recordtype=? and pname=? and ordernum=?",w.username,"interest",p.pname,funds[i].ordernum],:order =>"date DESC")
+            if userinterest[0]==nil
+              paydate= Date.parse(firstfunddate.to_s(:db)) >> p.period
+            else
+              paydate= Date.parse(userinterest[0].date.to_s(:db)) >> p.period
       end
-      for i in 0..funds.size-1
-        interestvalue=0
+
+            if paydate!=nil
+              if (paydate-Date.today)> 0
         if p.dividendtype=="fix"
         interestvalue=format("%.0f",funds[i].recordvalue*p.dividendvalue*p.period/12)
-        end
-        if hash_interest[funds[i].ordernum.to_s+p.pname]!=nil
-          paydate= (Date.parse(hash_interest[funds[i].ordernum.to_s+p.pname][0])>>p.period)
           else
-          paydate= (Date.parse(funds[i].date.to_s)>>p.period)
+                   interestvalue="无法预估(需要当日基金值)"
         end
-        if paydate!=nil
-          if (paydate-Date.today)> 0
-            remind.store(paydate.to_s+p.pname,[funds[i].ordernum,interestvalue,paydate,p.pname])
+                @hash_remind.store(paydate.to_s+w.username+p.pname+funds[i].ordernum.to_s,[w.username,p.pname,funds[i].ordernum,paydate,interestvalue])
           else
             while (paydate-Date.today)< 0
-
-              confirm.store(paydate.to_s+p.pname,[funds[i].ordernum,interestvalue,paydate,p.pname])
+                  if p.dividendtype=="fix"
+                    interestvalue=format("%.0f",funds[i].recordvalue*p.dividendvalue*p.period/12)
+                  else
+                    profituser=Productrecord.find_by_date(paydate)
+                    if profituser!=nil
+                    oldfundsnum=Investrecord.find(:all,:conditions =>["recordtype=? and pname=? and date<?","fund",p.pname,paydate],:order =>"date DESC").size
+                    interestvalue=format("%.0f",(profituser.lastprofits+profituser.todayprofit-profituser.capital)*p.dividendvalue/oldfundsnum)
+                    else
+                      #abort("Productrecord中没有#{p.pname}|#{paydate}的基金记录！(user)")
+                      interestvalue="Productrecord中没有#{p.pname}|#{paydate}的基金记录！(user)"
+                    end
+                  end
+                  @hash_confirm.store(paydate.to_s+w.username+p.pname+funds[i].ordernum.to_s,[w.username,p.pname,funds[i].ordernum,paydate,interestvalue])
               paydate=paydate>>p.period
 
             end
@@ -94,10 +107,10 @@
         end
 
       end
-      @hash_interests.store(w.username,[remind,confirm])
+      end
+      end
 
       end
-    end
 
     else
       redirect_to(:controller=>"home")
@@ -363,7 +376,7 @@
   end
 
    def interestconfirm
-     @interest=Investrecord.find_by_username_and_ordernum_and_date(params[:username],params[:ordernum],params[:date])
+     @interest=Investrecord.find_by_username_and_ordernum_and_date_and_pname(params[:username],params[:ordernum],params[:date],params[:pname])
      if @interest==nil
        Investrecord.new do |i|
          i.username=params[:username]
@@ -371,6 +384,7 @@
          i.recordtype="interest"
          i.ordernum=params[:ordernum]
          i.recordvalue=params[:recordvalue].to_f
+         i.pname=params[:pname]
          i.save
        end
        render :json => "s".to_json
