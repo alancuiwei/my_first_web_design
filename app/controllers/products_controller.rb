@@ -2,6 +2,7 @@
 require 'date'
 class ProductsController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
+  Date::DATE_FORMATS[:cstamp] = '%Y年%m月%d日'
   def index
     @product=Product.find_by_id(params[:id])
 
@@ -33,8 +34,12 @@ class ProductsController < ApplicationController
       @interest=@interest+i.recordvalue
     end
 
-    @diffdate=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date-@product.founddate
-
+    lastdate=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0]
+    if lastdate!=nil
+      @diffdate=lastdate.date-@product.founddate
+    else
+      @diffdate=Date.today-@product.founddate
+    end
     interests=Investrecord.find_all_by_recordtype_and_pname_and_date("interest",@product.pname,@product.date)
     if interests==nil
       @dividend=0
@@ -46,9 +51,11 @@ class ProductsController < ApplicationController
     end
 
     @invest_date=Investrecord.find(:all,:conditions =>["pname=? and recordtype=?",@product.pname,"interest"],:order =>"date ASC")
+    @interestdate={}
+    if @invest_date[0]!=nil
     date=Date.parse(@invest_date[0].date.to_s)
     datevalue=0
-    @interestdate={}
+
     for i in 0..@invest_date.size-1
        if date==Date.parse(@invest_date[i].date.to_s)
          datevalue=datevalue+@invest_date[i].recordvalue
@@ -59,6 +66,7 @@ class ProductsController < ApplicationController
        end
     end
     @interestdate.store(date,datevalue)
+  end
   end
 
   def precordajax

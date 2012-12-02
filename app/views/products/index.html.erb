@@ -24,7 +24,7 @@
                 <h1 class="body-header"><%=@product.pname%></h1>
                 <b class="txt">
 				我们根据三重门程序化交易系统，做空股指期货，已从上证指数2361点做空至今，战果累累。<br><br></b>
-            <%= @product.description%><br><br>
+            <%=@product.pname%>基金成立于<%=@product.founddate.to_s(:cstamp)%>，至今年化收益率为<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%。<%= @product.description%><br><br>
           </td>
           </tr>
 
@@ -43,7 +43,7 @@
                     <table class="block">
                       <tr>
                         <td style="width:30%">
-                          <div id="container" style="min-width: 300px; height: 300px; margin: 0 auto"></div><br>
+                          <div id="container" style="min-width: 300px; height: 300px;overflow: hidden;"></div><br>
                           <a class="back mortgage-button full back" id="see-mortgage-link" href="javascript:void(0)" onclick="window.open('https://investorservice.cfmmc.com/')">中国期货保证金监控中心查询</a>
                                                 </td>
 						<td class="arrows" style="width: 1px;">
@@ -133,12 +133,11 @@
                   进场策略，对流动性好的商品品种，股指期货品种进行投资。收益曲线较稳定，风险
                   可控。 </td></tr>
                 <tr><td>产品规模</td><td>产品规模上限100万元人民币，30万元人民币起成立。 </td></tr>
-                <tr><td>预期回报率</td><td>预期年收益率8% </td></tr>
-                <tr><td>风险分配</td><td>客户不承担任何风险，账号发生亏损全部由操作人承担。一旦总账户金额低于出资人
-                  出资金额108%时，投资人有权终止投资合作。 </td></tr>
-                <tr><td>收益分配 </td><td> 按双月支付年化收益率8%的利息，除去利息外的利润全部归账户操作人所有。 </td></tr>
+                <tr><td>预期回报率</td><td>预期年收益率10% </td></tr>
+                <tr><td>风险分配</td><td>客户不承担任何风险，账号发生亏损全部由操作人承担。</td></tr>
+                <tr><td>收益分配 </td><td> 按一个季度支付年化收益率6%的利息，除去利息外的利润分成参见具体理财合同书。 </td></tr>
                 <tr><td>投资者类型 </td><td>不愿承担风险或承担较低风险的投资者 </td></tr>
-                <tr><td>出资额限制 </td><td>投资者最小投资额为10万元任民币  </td></tr>
+                <tr><td>出资额限制 </td><td>投资者最小投资额为30万元任民币  </td></tr>
                 <tr><td>运作类型  </td><td>人为监管下的程序化自动交易   </td></tr>
                 <tr><td>操作期限 </td><td>以一年为一个操作周期  </td></tr>
                 <tr><td>账户操作人 </td><td>南京重人软件科技有限公司  </td></tr>
@@ -180,7 +179,7 @@
                 chart : {
                     renderTo : 'container',
                     width: 300,
-                    height: 300,
+                    height: 370,
                     zoomType : "x" //可沿x轴拉伸查看
                 },
 
