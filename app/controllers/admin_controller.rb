@@ -151,9 +151,11 @@
   def  productconfigajax
     @product=Product.find_by_id(params[:id])
     if params[:optype]=="update"
-
+      lastdate=Product.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date
+      if params[:date].to_date-lastdate>0
       @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
                                  :date=>params[:date])
+      end
       @invest_f=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@product.pname,"fund",Date.parse(params[:date])])
       @invest_i=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@product.pname,"interest",Date.parse(params[:date])])
       funds=0
@@ -171,6 +173,7 @@
           pr.total=params[:lastprofits].to_f+params[:todayprofit].to_f+interest
           pr.allprofits=params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds
           pr.capital=funds
+          pr.predividend=interest
           pr.lastprofits=params[:lastprofits].to_f
           pr.todayprofit=params[:todayprofit].to_f
           pr.date=params[:date]
@@ -181,7 +184,7 @@
         productrecord.update_attributes(:total=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest,
                                         :allprofits=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds,
                                         :capital=>funds,:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
-                                        :date=>params[:date])
+                                        :date=>params[:date],:predividend=>interest)
         render :json => "us2".to_json
       end
 
@@ -390,8 +393,64 @@
    end
 
    def productrecords
-     product=Product.find_by_id(params[:id])
-     @productrecords=Productrecord.find(:all,:conditions =>["pname=?",product.pname], :order =>"date DESC");
+     @product=Product.find_by_id(params[:id])
+     @productrecords=Productrecord.find(:all,:conditions =>["pname=?",@product.pname], :order =>"date DESC")
+   end
+
+   def productrecordajax
+     if params[:type]=="edit"
+       @productrecord=Productrecord.find_by_id(params[:id])
+     if @productrecord.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
+                                         :total=>params[:total].to_f,:capital=>params[:capital].to_f,
+                                         :predividend=>params[:predividend].to_f,:allprofits=>params[:allprofits].to_f)
+       render :json => "s".to_json
+     else
+       render :json => "f".to_json
+     end
+
+     elsif params[:type]=="delete"
+       if Productrecord.find_by_id(params[:id]).destroy
+         render :json => "s".to_json
+       else
+         render :json => "f".to_json
+        end
+     end
+
+     end
+
+   def interestrecords
+     @pname=Product.find_by_id(params[:id]).pname
+     @interests=Investrecord.find_all_by_recordtype_and_pname("interest",@pname)
+   end
+
+   def interestrecordajax
+     if params[:type]=="edit"
+     @interestrecord=Investrecord.find_by_id(params[:id])
+     if @interestrecord.update_attributes(:recordvalue=>params[:recordvalue].to_f)
+       render :json => "s".to_json
+     else
+       render :json => "f".to_json
+     end
+
+     elsif params[:type]=="new"
+       @interest=Investrecord.find_by_username_and_ordernum_and_date_and_pname(params[:username],params[:ordernum],params[:date],params[:pname])
+       if @interest==nil
+         Investrecord.new do |i|
+           i.username=params[:username]
+           i.date=params[:date]
+           i.recordtype="interest"
+           i.ordernum=params[:ordernum]
+           i.recordvalue=params[:recordvalue].to_f
+           i.pname=params[:pname]
+           i.save
+         end
+         render :json => "s".to_json
+       else
+         render :json => "f".to_json
+       end
+
+     end
+
    end
 
 end

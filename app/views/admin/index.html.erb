@@ -198,7 +198,7 @@
     <thead><tr>
       <th>产品名称</th><th>上日结存</th>
       <th>当日盈亏</th><th>更新日期</th>
-      <th>更新</th><th>查看全部记录</th>
+      <th>更新</th><th>查看净值记录</th><th>查看分红记录</th>
     </tr></thead>
     <tbody>
     <% @products.each do |p|  %>
@@ -208,7 +208,8 @@
           <td><%= p.todayprofit%></td>
           <td><%= p.date%></td>
           <td><a href="/admin/productconfig/<%= p.id %>?optype=update">添加/更新</a></td>
-          <td> <a href="/admin/productrecords/<%= p.id %>">查看所有</a></td>
+          <td> <a href="/admin/productrecords/<%= p.id %>">查看净值</a></td>
+          <td> <a href="/admin/interestrecords/<%= p.id %>">查看分红</a></td>
         </tr>
     <% end %>
     </tbody>

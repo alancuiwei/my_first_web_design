@@ -1,19 +1,44 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 
+<a onclick="$('#newproductrecord').fadeOut(300);$('#newproductrecord').fadeIn(300);" href="javascript:void(0)">添加</a>
+<table id="newproductrecord" style="display: none;">
+  <thead><tr>
+    <th>产品名称</th><th>日期</th><th>上日结存</th>
+    <th>当日盈亏</th>
+    <th>修改</th><th>删除</th>
+  </tr></thead>
+  <tbody>
+  <tr>
+    <td><%= @product.pname  %></td>
+    <td><input type="text" id="new_date" size='6' onclick="WdatePicker()" class="Wdate"></td>
+    <td><input type="text" id="new_lastprofits" size='6'></td>
+    <td><input type="text" id="new_todayprofit" size='6'></td>
+    <td><a onclick="newproductrcd()" href="javascript:void(0)">确认</a></td>
+    <td><a onclick="$('#newproductrecord').fadeOut(300);" href="javascript:void(0)">取消</a></td>
+  </tr>
+  </tbody>
+</table>
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="productrecords">
     <thead><tr>
-      <th>产品名称</th><th>净值</th><th>上日结存</th>
-      <th>当日盈亏</th><th>日期</th>
+    <th>产品名称</th><th>日期</th><th>上日结存</th>
+    <th>当日盈亏</th><th>净值</th><th>本金</th><th>之前分红</th><th>所有赢利</th>
+    <th>修改</th><th>删除</th>
     </tr></thead>
     <tbody>
     <% @productrecords.each do |p|  %>
         <tr>
           <td><%= p.pname%></td>
-          <td><%= p.total%></td>
-          <td><%= p.lastprofits%></td>
-          <td><%= p.todayprofit%></td>
           <td><%= p.date%></td>
+          <td><input type="text" value="<%= p.lastprofits%>" id="edit<%= p.id%>_lastprofits" size='6' style="display: none;"><div id="show<%= p.id%>_lastprofits"><%= p.lastprofits%></div></td>
+          <td><input type="text" value="<%= p.todayprofit%>" id="edit<%= p.id%>_todayprofit" size='6' style="display: none;"><div id="show<%= p.id%>_todayprofit"><%= p.todayprofit%></div></td>
+          <td><input type="text" value="<%= p.total%>" id="edit<%= p.id%>_total" size='6' style="display: none;"><div id="show<%= p.id%>_total"><%= p.total%></div></td>
+          <td><input type="text" value="<%= p.capital%>" id="edit<%= p.id%>_capital" size='6' style="display: none;"><div id="show<%= p.id%>_capital"><%= p.capital%></div></td>
+          <td><input type="text" value="<%= p.predividend%>" id="edit<%= p.id%>_predividend" size='6' style="display: none;"><div id="show<%= p.id%>_predividend"><%= p.predividend%></div></td>
+          <td><input type="text" value="<%= p.allprofits%>" id="edit<%= p.id%>_allprofits" size='6' style="display: none;"><div id="show<%= p.id%>_allprofits"><%= p.allprofits%></div></td>
+          <td><a onclick="editop('<%= p.id%>')" href="javascript:void(0)" id="clickedit<%= p.id%>">修改</a><a href="javascript:void(0)" onclick="ajaxedit('<%= p.id%>')" id="finish<%= p.id%>" style="display: none;">完成</a></td>
+          <td><a onclick="if(confirm('确认要删除？'))productrecorddelete('<%= p.id%>')" href="javascript:void(0)">删除</a></td>
         </tr>
     <% end %>
     </tbody>
@@ -21,8 +46,73 @@
 
 
 <script>
+  function productrecorddelete(id){
+      $.get("/admin/productrecordajax/"+id,{type:"delete"},function(data){
+          if(data=="s"){
+              alert("删除成功！");
+              location.reload();
+          }
+          else if(data=="f"){
+              alert("删除失败！")
+          }
+      })
+  }
+  function newproductrcd(){
+      if($("#new_date").attr("value")==""||$("#new_lastprofits").attr("value")==""||$("#new_todayprofit").attr("value")==""||$("#new_total").attr("value")==""||$("#new_capital").attr("value")==""||$("#new_predividend").attr("value")==""||$("#new_allprofits").attr("value")==""){
+          alert("有项目为空！");
+      }
+      else if(/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#lastprofits").attr("value"))==false||/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#todayprofit").attr("value"))==false){
+          alert("必须为数字！");
+      }
+      else{
+      $.get("/admin/productconfigajax/<%= @product.id  %>",{optype:"update",date:$("#new_date").attr("value")
+          ,lastprofits:$("#new_lastprofits").attr("value"),todayprofit:$("#new_todayprofit").attr("value")},function(data){
+          if(data=="us1"){
+              alert("添加成功！");
+              location.reload();
+          }
+          else if(data=="us2"){
+              alert("记录更新成功！");
+              location.reload();
+          }
+      })
+      }
+  }
+  function editop(id){
+      $("#edit"+id+"_lastprofits,"+"#edit"+id+"_todayprofit,"+"#edit"+id+"_total,"+"#edit"+id+"_capital,"+"#edit"+id+"_predividend,"+"#edit"+id+"_allprofits").show();
+      $("#show"+id+"_lastprofits,"+"#show"+id+"_todayprofit,"+"#show"+id+"_total,"+"#show"+id+"_capital,"+"#show"+id+"_predividend,"+"#show"+id+"_allprofits").hide();
+      $("#clickedit"+id).hide();
+      $("#finish"+id).show();
+  }
+  function ajaxedit(id){
+      $.get("/admin/productrecordajax/"+id,{type:"edit",lastprofits:$("#edit"+id+"_lastprofits").attr("value"),todayprofit:$("#edit"+id+"_todayprofit").attr("value"),total:$("#edit"+id+"_total").attr("value"),
+          capital:$("#edit"+id+"_capital").attr("value"),predividend:$("#edit"+id+"_predividend").attr("value"),allprofits:$("#edit"+id+"_allprofits").attr("value")},function(data){
+          if(data=="s"){
+              $("#edit"+id+"_lastprofits,"+"#edit"+id+"_todayprofit,"+"#edit"+id+"_total,"+"#edit"+id+"_capital,"+"#edit"+id+"_predividend,"+"#edit"+id+"_allprofits").hide();
+              $("#show"+id+"_lastprofits,"+"#show"+id+"_todayprofit,"+"#show"+id+"_total,"+"#show"+id+"_capital,"+"#show"+id+"_predividend,"+"#show"+id+"_allprofits").show();
+              $("#show"+id+"_lastprofits").html($("#edit"+id+"_lastprofits").attr("value"));
+              $("#show"+id+"_todayprofit").html($("#edit"+id+"_todayprofit").attr("value"));
+              $("#show"+id+"_total").html($("#edit"+id+"_total").attr("value"));
+              $("#show"+id+"_capital").html($("#edit"+id+"_capital").attr("value"));
+              $("#show"+id+"_predividend").html($("#edit"+id+"_predividend").attr("value"));
+              $("#show"+id+"_allprofits").html($("#edit"+id+"_allprofits").attr("value"));
+              $("#clickedit"+id).show();
+              $("#finish"+id).hide();
+          }
+          else{
+              alert("修改失败！");
+              $("#edit"+id+"_lastprofits,"+"#edit"+id+"_todayprofit,"+"#edit"+id+"_total,"+"#edit"+id+"_capital,"+"#edit"+id+"_predividend,"+"#edit"+id+"_allprofits").hide();
+              $("#show"+id+"_lastprofits,"+"#show"+id+"_todayprofit,"+"#show"+id+"_total,"+"#show"+id+"_capital,"+"#show"+id+"_predividend,"+"#show"+id+"_allprofits").show();
+              $("#clickedit"+id).show();
+              $("#finish"+id).hide();
+          }
+      })
+  }
     $(document).ready(function(){
-        $('#productrecords').dataTable();
+        $('#productrecords').dataTable({
+            "bPaginate":false,
+            "aaSorting": [[1,"desc"]]
+        });
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){
