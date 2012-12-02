@@ -61,7 +61,7 @@
       if($("#new_date").attr("value")==""||$("#new_lastprofits").attr("value")==""||$("#new_todayprofit").attr("value")==""||$("#new_total").attr("value")==""||$("#new_capital").attr("value")==""||$("#new_predividend").attr("value")==""||$("#new_allprofits").attr("value")==""){
           alert("有项目为空！");
       }
-      else if(/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#lastprofits").attr("value"))==false||/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#todayprofit").attr("value"))==false){
+      else if((/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#new_todayprofit").attr("value"))&&/^[-+]?[0-9]+(\.[0-9]+)?$/.test($("#new_lastprofits").attr("value")))==false){
           alert("必须为数字！");
       }
       else{
