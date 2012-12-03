@@ -151,7 +151,7 @@
   def  productconfigajax
     @product=Product.find_by_id(params[:id])
     if params[:optype]=="update"
-      lastdate=Product.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date
+      lastdate=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date
       if params[:date].to_date-lastdate>0
       @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
                                  :date=>params[:date])
@@ -400,6 +400,12 @@
    def productrecordajax
      if params[:type]=="edit"
        @productrecord=Productrecord.find_by_id(params[:id])
+       @product=Product.find_by_pname(@productrecord.pname)
+       lastdate=Productrecord.find(:all,:conditions =>["pname=?",@productrecord.pname],:order =>"date DESC")[0].date
+       if  @productrecord.date.to_date-lastdate>=0
+         @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
+                                    :date=>params[:date])
+       end
        @invest_f=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"fund",@productrecord.date])
        @invest_i=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"interest",@productrecord.date])
        funds=0
