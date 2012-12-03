@@ -145,6 +145,7 @@
       @productinfo[4]=@product.dividendvalue
       @productinfo[5]=@product.period
       @productinfo[6]=@product.riskvalue
+      @productinfo[7]=@product.descriptions
     end
   end
 
@@ -194,6 +195,7 @@
           Product.new do |p|
             p.pname=params[:pname]
             p.description=params[:description]
+            p.descriptions=params[:descriptions]
             p.founddate=params[:founddate]
             p.dividendtype=params[:dividendtype]
             p.dividendvalue=params[:dividendvalue].to_f
@@ -214,7 +216,7 @@
             o.update_attributes(:pname=>params[:pname])
           end
         end
-        @product.update_attributes(:pname=>params[:pname],:description=>params[:description],:founddate=>params[:founddate],
+        @product.update_attributes(:pname=>params[:pname],:description=>params[:description],:descriptions=>params[:descriptions],:founddate=>params[:founddate],
                                    :dividendtype=>params[:dividendtype],:dividendvalue=>params[:dividendvalue].to_f,
             :period=>params[:period].to_f,:riskvalue=>params[:riskvalue].to_f)
         render :json => "es2".to_json
@@ -404,7 +406,7 @@
        lastdate=Productrecord.find(:all,:conditions =>["pname=?",@productrecord.pname],:order =>"date DESC")[0].date
        if  @productrecord.date.to_date-lastdate>=0
          @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
-                                    :date=>params[:date])
+                                    :date=>@productrecord.date)
        end
        @invest_f=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"fund",@productrecord.date])
        @invest_i=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"interest",@productrecord.date])

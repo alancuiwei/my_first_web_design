@@ -72,7 +72,10 @@
     <div style="width: 700px;height: 700px;" xmlns="http://www.w3.org/1999/html">
       <div>
         产品名称：<input type="text" name="pname" id="pname" title="产品名称"> <br>
-        产品简介：<br><textarea cols="20" rows="5" name="description" id="description"  title="产品简介"></textarea> <br>
+        产品简介：<br><textarea cols="60" rows="6" name="description" id="description"  title="产品简介"></textarea> <br>
+        格式：简介上的黑体字|简介<br>
+        产品详细：<br><textarea cols="80" rows="15" name="description" id="descriptions"  title="产品简介"></textarea> <br>
+        格式：项目1:******|项目2:*******(英文冒号)(需要分行的放在最后，用#号隔开)<br>
         成立日期：<input type="text" name="founddate" id="founddate" title="成立日期" onclick="WdatePicker()" class="Wdate">  <br>
         分红方式：
         <input type="radio" name="dividendtype" id="fix" value="fix" checked="true">固定
@@ -89,6 +92,7 @@
         <% if params[:id]!="0" %>
         $("#pname").attr("value",'<%= @productinfo[0]%>');
         $("#description").attr("value",'<%= @productinfo[1]%>');
+        $("#descriptions").attr("value",'<%= @productinfo[7]%>');
         $("#founddate").attr("value",'<%= @productinfo[2]%>');
         $("#<%= @productinfo[3]%>").attr("checked",true);
         $("#dividendvalue").attr("value",'<%= @productinfo[4]%>');
@@ -130,9 +134,9 @@
             }
             }
             if(nom_flag==0){
-                $.get("/admin/productconfigajax/<%= params[:id] %>?optype=edit",{ pname: $("#pname").attr("value"),description: $("#description").attr("value"),founddate: $("#founddate").attr("value"),
+                $.post("/admin/productconfigajax/<%= params[:id] %>?optype=edit",{ pname: $("#pname").attr("value"),description: $("#description").attr("value"),founddate: $("#founddate").attr("value"),
                     dividendtype: dividendtype,dividendvalue: $("#dividendvalue").attr("value"),period: $("#period").attr("value"),
-                    riskvalue: $("#riskvalue").attr("value")},function(data){
+                    riskvalue: $("#riskvalue").attr("value"),descriptions: $("#descriptions").attr("value")},function(data){
                     if(data=="ef"){
                         alert("产品已存在！");
                     }

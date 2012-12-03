@@ -5,7 +5,14 @@ class ProductsController < ApplicationController
   Date::DATE_FORMATS[:cstamp] = '%Y年%m月%d日'
   def index
     @product=Product.find_by_id(params[:id])
-
+    @pdescription=[]
+    @pdescriptions=[]
+    if @product.description!=nil
+    @pdescription=@product.description.split("|")
+    end
+    if @product.descriptions!=nil
+    @pdescriptions=@product.descriptions.split("|")
+    end
     @invest_f=Investrecord.find_all_by_recordtype_and_pname("fund",@product.pname)
     @invest_i=Investrecord.find_all_by_recordtype_and_pname("interest",@product.pname)
     piefunds={}

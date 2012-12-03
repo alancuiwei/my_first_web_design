@@ -23,8 +23,8 @@
                 </div>
                 <h1 class="body-header"><%=@product.pname%></h1>
                 <b class="txt">
-				我们根据三重门程序化交易系统，做空股指期货，已从上证指数2361点做空至今，战果累累。<br><br></b>
-            <%=@product.pname%>基金成立于<%=@product.founddate.to_s(:cstamp)%>，至今年化收益率为<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%。<%= @product.description%><br><br>
+                  <%=@pdescription[0]%><br><br></b>
+            <%=@product.pname%>基金成立于<%=@product.founddate.to_s(:cstamp)%>，至今年化收益率为<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%。<%= @pdescription[1]%><br><br>
           </td>
           </tr>
 
@@ -126,32 +126,17 @@
                   <th></th><th></th>
                 </tr></thead>
                 <tbody>
-                <tr><td>产品名称</td><td>通天顺°山林一号</td></tr>
-                <tr><td>产品类型 </td><td>固定收益型专户理财产品 </td></tr>
-                <tr><td>产品投资范围 </td><td>投资于具有良好流动性的国内上市商品期货品种，股指期货品种。</td></tr>
-                <tr><td>产品特点 </td><td>利用多年投资的趋势策略，中长期，单边趋势投资策略。采用顺长期趋势，逆短中期
-                  进场策略，对流动性好的商品品种，股指期货品种进行投资。收益曲线较稳定，风险
-                  可控。 </td></tr>
-                <tr><td>产品规模</td><td>产品规模上限100万元人民币，30万元人民币起成立。 </td></tr>
-                <tr><td>预期回报率</td><td>预期年收益率10% </td></tr>
-                <tr><td>风险分配</td><td>客户不承担任何风险，账号发生亏损全部由操作人承担。</td></tr>
-                <tr><td>收益分配 </td><td> 按一个季度支付年化收益率6%的利息，除去利息外的利润分成参见具体理财合同书。 </td></tr>
-                <tr><td>投资者类型 </td><td>不愿承担风险或承担较低风险的投资者 </td></tr>
-                <tr><td>出资额限制 </td><td>投资者最小投资额为30万元任民币  </td></tr>
-                <tr><td>运作类型  </td><td>人为监管下的程序化自动交易   </td></tr>
-                <tr><td>操作期限 </td><td>以一年为一个操作周期  </td></tr>
-                <tr><td>账户操作人 </td><td>南京重人软件科技有限公司  </td></tr>
-                <tr><td>账号经纪机构 </td><td>指定期货公司  </td></tr>
-                <tr><td>风险提示  </td><td>投资者最小投资额为10万元人民币  </td></tr>
-                <tr><td>出资额限制 </td><td>
-                  市场风险：期货市场价格因受各种因素的影响而引起的波动，将使计划资产面临潜在的风险；
-                   <br>
-                  管理风险：在实际操作过程中，资产管理人的研究水平，投资管理水平直接影响委托财产收益水平。
-                  <br>
-                  趋势跟踪策略的风险：趋势跟踪策略在市场出现快速上涨或下跌过程中可能存在一定
-                  的反应时滞，影响策略的有效性。同时，在市场出现频繁波动（行情处于震荡市中）
-
-                  时，趋势跟踪策略的有效性可能受到较大影响。
+                <% for i in 0..@pdescriptions.size-2 %>
+                <tr><td><%= @pdescriptions[i].split(":")[0]%></td><td><%= @pdescriptions[i].split(":")[1]%></td></tr>
+                <% end %>
+                <% if @pdescriptions[@pdescriptions.size-1]!=nil%>
+                <tr><td><%= @pdescriptions[@pdescriptions.size-1].split(":")[0]%></td><td>
+                  <% if @pdescriptions[@pdescriptions.size-1].split(":")[0]!=nil%>
+                  <% @pdescriptions[@pdescriptions.size-1].split(":")[1].split("#").each do |pd|  %>
+                    <%= pd %><br>
+                  <% end %>
+                  <% end %>
+                 <% end %>
                 </td></tr>
                 </tbody>
               </table>
