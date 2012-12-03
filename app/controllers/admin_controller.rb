@@ -400,10 +400,27 @@
    def productrecordajax
      if params[:type]=="edit"
        @productrecord=Productrecord.find_by_id(params[:id])
-     if @productrecord.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
-                                         :total=>params[:total].to_f,:capital=>params[:capital].to_f,
-                                         :predividend=>params[:predividend].to_f,:allprofits=>params[:allprofits].to_f)
-       render :json => "s".to_json
+       @invest_f=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"fund",@productrecord.date])
+       @invest_i=Investrecord.find(:all,:conditions =>["pname=? and recordtype=? and date<?",@productrecord.pname,"interest",@productrecord.date])
+       funds=0
+       @invest_f.each do |i|
+         funds=funds+i.recordvalue
+       end
+       interest=0
+       @invest_i.each do |i|
+         interest=interest+i.recordvalue
+       end
+       jsondate=[]
+       jsondate[0]=params[:lastprofits].to_f+params[:todayprofit].to_f+interest
+       jsondate[1]=funds
+       jsondate[2]=interest
+       jsondate[3]=params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds
+     if @productrecord.update_attributes(:total=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest,
+                                       :allprofits=>params[:lastprofits].to_f+params[:todayprofit].to_f+interest-funds,
+                                       :capital=>funds,:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
+                                       :predividend=>interest)
+
+       render :json => jsondate
      else
        render :json => "f".to_json
      end
@@ -449,6 +466,13 @@
          render :json => "f".to_json
        end
 
+       elsif  params[:type]=="delete"
+         @interestrecord=Investrecord.find_by_id(params[:id])
+       if  @interestrecord.destroy
+         render :json => "s".to_json
+       else
+         render :json => "f".to_json
+       end
      end
 
    end

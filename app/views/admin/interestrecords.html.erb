@@ -28,7 +28,7 @@
           <td><input type="text" value="<%= i.recordvalue%>" id="edit<%= i.id%>_recordvalue" size='6' style="display: none;"><div id="show<%= i.id%>_recordvalue"><%= i.recordvalue%></div></td>
           <td><%= i.ordernum%></td>
           <td><a onclick="editop('<%= i.id%>')" href="javascript:void(0)" id="clickedit<%= i.id%>">修改</a><a href="javascript:void(0)" onclick="ajaxedit('<%= i.id%>')" id="finish<%= i.id%>" style="display: none;">完成</a></td>
-          <td>删除</td>
+          <td><a onclick="if(confirm('确认要删除？'))interestdelete('<%= i.id%>')" href="javascript:void(0)">删除</a></td>
         </tr>
     <% end %>
     </tbody>
@@ -36,6 +36,17 @@
 
 
 <script>
+  function interestdelete(id){
+      $.get("/admin/interestrecordajax/"+id,{type:"delete"},function(data){
+          if(data=="s"){
+              alert("删除成功！");
+              location.reload();
+          }
+          else if(data=="f"){
+              alert("删除失败！")
+          }
+      })
+  }
   function newinterest(){
       if($("#new_uername").attr("value")==""||$("#new_date").attr("value")==""||$("#new_recordvalue").attr("value")==""||$("#new_ordernum").attr("value")==""){
           alert("有项目为空！");
