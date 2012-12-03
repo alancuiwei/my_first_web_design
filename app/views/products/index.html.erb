@@ -44,15 +44,20 @@
                       <tr>
                         <td style="width:30%">
                           <div id="container" style="min-width: 300px; height: 300px;overflow: hidden;"></div><br>
+						  <div class="ad lr highlightable" onclick="delayedAdClick(&quot;left-rail&quot;, &quot;credit&quot;, &quot;fthb-process-page&quot;, false, &quot;/link/go/cc?loc=left-rail&amp;page=fthb-process-page&quot;)">
+                            <div class="ct">
+                              我怎么知道上面的基金净值是实盘交易数据呢？中国期货保证金监控中心是经国务院同意、中国证监会决定设立，为期货投资者提供有关期货账号余额查询、结算信息等服务。
+                            </div>
+                          </div><br>
                           <a class="back mortgage-button full back" id="see-mortgage-link" href="javascript:void(0)" onclick="window.open('https://investorservice.cfmmc.com/')">中国期货保证金监控中心查询</a>
                                                 </td>
 						<td class="arrows" style="width: 1px;">
                         </td>
                         <td class="bleft">
-  <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend %></p>
+  <p style="color: black;padding-top: 10px;">基金总净值<br></p><p style="color: black;">￥<%= format("%.0f",@product.lastprofits+@product.todayprofit+@interest-@dividend) %></p>
   <p style="color: black;padding-top: 10px;">年化收益率<br></p><p>&nbsp;&nbsp;&nbsp;<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%<br></p>
-  <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= @product.lastprofits+@product.todayprofit+@interest-@dividend-@funds %><br></p>
-  <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= @funds %><br></p>
+  <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= format("%.0f",@product.lastprofits+@product.todayprofit+@interest-@dividend-@funds) %><br></p>
+  <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= format("%.0f",@funds) %><br></p>
                         </td>
 						<td class="arrow2">
 							<div class="arrow"><div class="arrow-content right"></div></div>
@@ -60,27 +65,27 @@
                         </td>
                         <td class="bleft">
                           <div style="border-bottom: 2px solid rgb(195, 228, 236);">
-  <p style="color: black;padding-top: 10px;">账面总额<br></p><p style="color: black;">￥<%= @product.lastprofits+@product.todayprofit-@dividend%></p>
+  <p style="color: black;padding-top: 10px;">账面总额<br></p><p style="color: black;">￥<%= format("%.0f",@product.lastprofits+@product.todayprofit-@dividend)%></p>
   <table>
   <tr><td>日期</td><td><%= @product.date%></td></tr>
-  <tr><td>上日结存</td><td>￥<%= @product.lastprofits%></td><td></td></tr>
-  <tr><td>当日盈亏</td><td>￥<%= @product.todayprofit%></td><td></td></tr>
+  <tr><td>上日结存</td><td>￥<%= format("%.0f",@product.lastprofits)%></td><td></td></tr>
+  <tr><td>当日盈亏</td><td>￥<%= format("%.0f",@product.todayprofit)%></td><td></td></tr>
     <% if @dividend!=0 %>
-   <tr><td>当日分红</td><td>￥<%= @dividend%></td><td></td></tr>
+   <tr><td>当日分红</td><td>￥<%= format("%.0f",@dividend)%></td><td></td></tr>
      <% end %>
   <tr><td></td><td><hr style="size: 1;width: 100%;"></td><td></td></tr>
-  <tr><td></td><td>￥<%= @product.lastprofits+@product.todayprofit-@dividend%></td><td></td></tr>
+  <tr><td></td><td>￥<%= format("%.0f",@product.lastprofits+@product.todayprofit-@dividend)%></td><td></td></tr>
   </table>
                           </div>
                           <div>
-  <p style="color: black;padding-top: 10px;">已分红值<br></p><p style="color: black;">￥<%= @interest %></p>
+  <p style="color: black;padding-top: 10px;">已分红值<br></p><p style="color: black;">￥<%=format("%.0f", @interest) %></p>
   <table>
   <tr><td>日期</td><td>分红金额</td><td></td></tr>
   <% for i in 0..@interestdate.keys.size-1%>
-      <tr><td><%= @interestdate.keys[i].to_s(:stamp)%></td><td>￥<%= @interestdate[@interestdate.keys[i]]%></td><td></td></tr>
+      <tr><td><%= @interestdate.keys[i].to_s(:stamp)%></td><td>￥<%= format("%.0f",@interestdate[@interestdate.keys[i]])%></td><td></td></tr>
   <% end %>
   <tr><td></td><td><hr style="size: 1;width: 100%;"></td><td></td></tr>
-  <tr><td></td><td>￥<%= @interest%></td><td></td></tr>
+  <tr><td></td><td>￥<%= format("%.0f",@interest)%></td><td></td></tr>
   </table>
                           </div>
                         </td>
@@ -126,16 +131,13 @@
                   <th></th><th></th>
                 </tr></thead>
                 <tbody>
-                <% for i in 0..@pdescriptions.size-2 %>
-                <tr><td><%= @pdescriptions[i].split(":")[0]%></td><td><%= @pdescriptions[i].split(":")[1]%></td></tr>
-                <% end %>
-                <% if @pdescriptions[@pdescriptions.size-1]!=nil%>
-                <tr><td><%= @pdescriptions[@pdescriptions.size-1].split(":")[0]%></td><td>
-                  <% if @pdescriptions[@pdescriptions.size-1].split(":")[0]!=nil%>
-                  <% @pdescriptions[@pdescriptions.size-1].split(":")[1].split("#").each do |pd|  %>
+                <% for i in 0..@pdescriptions.size-1 %>
+                <tr><td><%= @pdescriptions[i].split(":")[0]%></td><td>
+                  <% if @pdescriptions[i].split(":")[1]!=nil%>
+                      <% @pdescriptions[i].split(":")[1].split("#").each do |pd|  %>
                     <%= pd %><br>
                   <% end %>
-                  <% end %>
+                  <% end %></td></tr>
                  <% end %>
                 </td></tr>
                 </tbody>
@@ -221,7 +223,7 @@
                                     color: '#000000',
                                     connectorColor: '#000000',
                                     formatter: function() {
-                                        return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(1) +' %';
+                                        return '<b>'+ this.point.name +'</b>: '+ this.percentage.toFixed(0) +' %';
                                     }
                                 }
                             }
