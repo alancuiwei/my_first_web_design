@@ -152,7 +152,7 @@
     @product=Product.find_by_id(params[:id])
     if params[:optype]=="update"
       lastdate=Productrecord.find(:all,:conditions =>["pname=?",@product.pname],:order =>"date DESC")[0].date
-      if params[:date].to_date-lastdate>0
+      if params[:date].to_date-lastdate>=0
       @product.update_attributes(:lastprofits=>params[:lastprofits].to_f,:todayprofit=>params[:todayprofit].to_f,
                                  :date=>params[:date])
       end
