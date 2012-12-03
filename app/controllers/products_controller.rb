@@ -88,4 +88,7 @@ class ProductsController < ApplicationController
     render :json => recordjson
   end
 
+  def report
+
+  end
 end

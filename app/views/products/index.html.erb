@@ -21,7 +21,8 @@
                   <a href="/">首页</a>&nbsp; >&nbsp;
                   <a href="/products/index/<%= @product.id%>" >私募基金</a>
                 </div>
-                <h1 class="body-header"><%=@product.pname%></h1>
+                <h1 class="body-header"><%=@product.pname%>  <a href="/products/report">询问投资详情</a></h1>
+
                 <b class="txt">
                   <%=@pdescription[0]%><br><br></b>
             <%=@product.pname%>基金成立于<%=@product.founddate.to_s(:cstamp)%>，至今年化收益率为<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%。<%= @pdescription[1]%><br><br>
