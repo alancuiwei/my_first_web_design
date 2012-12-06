@@ -46,7 +46,7 @@
                     <table class="block">
                       <tr>
                         <td style="width:30%">
-                          <div id="container" style="min-width: 300px; height: 300px;overflow: hidden;"></div><br>
+                          <div id="container" style="min-width: 300px; height: 300px;overflow: hidden;position: relative;"></div><br>
 						  <div class="ad lr highlightable">
                             <div class="ct">
                               提问：基金净值曲线图是真实可信的吗？<br>回答：可去中国期货保证金监控中心查询，他是经国务院同意、中国证监会决定设立，为期货投资者提供有关期货账号余额查询、结算信息等服务。
@@ -61,7 +61,7 @@
   <p style="color: black;padding-top: 10px;">年化收益率<br></p><p>&nbsp;&nbsp;&nbsp;<%= format("%.2f",((@product.lastprofits+@product.todayprofit+@interest-@funds-@dividend )/@funds)*365*100/@diffdate )%>%<br></p>
   <p style="color: black;padding-top: 10px;">总盈利额<br></p><p>￥<%= format("%.0f",@product.lastprofits+@product.todayprofit+@interest-@dividend-@funds) %><br></p>
   <p style="color: black;padding-top: 10px;">本金<br></p><p style="color: black;">￥<%= format("%.0f",@funds) %><br></p>
-  <p style="color: black;padding-top: 10px;">基金成立时间<br></p><p style="color: black;">320 天<br></p>
+  <p style="color: black;padding-top: 10px;">基金成立时间<br></p><p style="color: black;"><%= (Date.today-@product.founddate).to_i%><br></p>
                         </td>
 						<td class="arrow2">
 							<div class="arrow"><div class="arrow-content right"></div></div>
