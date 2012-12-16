@@ -502,11 +502,8 @@
    end
 
    def bankfinanceconfigajax
+
      if params[:id]=="0"
-       @bankfinance=Bankfinance.find_by_bname(params[:bname])
-       if @bankfinance
-         render :json => "f1".to_json
-       else
          Bankfinance.new do |b|
            b.bname=params[:bname]
            b.currencytype=params[:currencytype]
@@ -520,7 +517,6 @@
            b.save
          end
          render :json => "s1".to_json
-       end
 
      else
        @bankfinance=Bankfinance.find_by_id(params[:id])
