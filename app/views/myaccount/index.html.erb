@@ -1,5 +1,7 @@
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "myaccount.css" %>
-<%= javascript_include_tag "jquery.min.js" %>
+
 <div class="main-head">
   <table>
     <tbody><tr><td>
@@ -57,12 +59,6 @@
       </div>
     </div>
   </div>
-  <div class="ad lr highlightable">
-    <div class="ct">
-       帮忙做个调查问卷？<br><br>
-	   <a class="back mortgage-button full back" href="/usersurvey/index">开始</a><br>
-    </div>
-  </div>
 </div>
 
   <div class="main-body">
@@ -73,31 +69,10 @@
 
               <!-- tr head-->
               <tr><td>
-                  <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
-                    <tr><td>
                         <div class="crumbs">
                           <a href="/">首页</a>&nbsp; >&nbsp;
                           <a href="/myaccount" >贵宾服务</a>
                         </div>
-                        <h1>投资账号</h1>
-                      </td></tr>
-                  </table>
-                </td>
-              </tr>
-
-              <!-- tr login-->
-              <tr>
-                <td>
-                  <div id="inputs-income-tip" class="inputs-tip">
-                    <div class="inputstip-content">
-                      <div id="inputs-income-tiptext" class="inputstip-text">
-                        欢迎您<br>游客请点击下面的基金产品了解详细。
-                      </div>
-                    </div>
-                    <div class="arrow-container">
-                      <div class="arrow"></div>
-                    </div>
-                  </div>
                 </td>
               </tr>
 
@@ -109,10 +84,25 @@
                         <h1>基金产品表</h1>
                       </td></tr>
                   </table>
-				  <div id="compareNinjaTable_17763">
-				  	<img src="http://compareninja.com/public/images/loader_small.gif" style="display: block; width: 18px; margin: 50px auto 0;" />
-				  	<p style="display: none;">Created with Compare Ninja</p>
-				  </div>
+
+                   <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance">
+                     <thead><tr>
+                       <th>发行银行</th><th>预期收益率</th><th>产品类型</th><th>起售价</th>
+                       <th>投资期限</th><th>产品名称</th><th>状态</th>
+                     </tr></thead>
+
+                     <% @bankfinances.each do |b| %>
+                         <tr>
+                           <td><%= b.trustee%></td>
+                           <td><%= b.returnrate%></td>
+                           <td><%= b.btype%></td>
+                           <td><%= b.startvalue%></td>
+                           <td><%= b.investperiod%></td>
+                           <td><%= b.bname%></td>
+                           <td><%= b.status%></td>
+                         </tr>
+                     <% end %>
+                   </table>
 		         </td>
               </tr>
 
@@ -167,12 +157,7 @@
            })
        }
    }
-</script>
-
-<script type="text/javascript">
-    (function() {
-        var cn = document.createElement('script'); cn.type = 'text/javascript';
-        cn.src = 'http://compareninja.com/API/table/17763?cnurl=' + window.location.href;
-        var s = document.getElementsByTagName('head')[0].appendChild(cn);
-    })();
+    $(document).ready(function(){
+        $('#bankfinance').dataTable();
+    });
 </script>

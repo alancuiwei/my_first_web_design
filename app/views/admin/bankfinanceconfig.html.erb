@@ -1,0 +1,71 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<h1>添加产品</h1>
+
+<div style="width: 700px;height: 700px;">
+  <div>
+    产品名称：<input type="text" name="bname" id="bname" title="产品名称"> <br>
+    投资及收益币种：<input type="text" name="currencytype" id="currencytype" title="投资及收益币种"> <br>
+    产品类型：<input type="text" name="btype" id="btype" title="产品类型"> <br>
+    风险等级：<input type="text" name="risklvl" id="risklvl" title="风险等级"> <br>
+    产品募集期：<input type="text" name="collectperiod" id="collectperiod" title="产品募集期">  <br>
+    起售价：<input type="text" name="startvalue" id="startvalue" title="起售价"> <br>
+    投资起始日：<input type="text" name="investstartdate" id="investstartdate" title="投资起始日" onclick="WdatePicker()" class="Wdate"> <br>
+    投资到期日：<input type="text" name="investenddate" id="investenddate" title="投资到期日" onclick="WdatePicker()" class="Wdate"> <br>
+    预期投资期限：<input type="text" name="investperiod" id="investperiod" title="预期投资期限"> <br>
+    预期收益率：<input type="text" name="returnrate" id="returnrate" title="预期收益率"> <br>
+    发行银行：<input type="text" name="trustee" id="trustee" title="发行银行"> <br>
+    状态：<input type="text" name="status" id="status" title="状态"> <br>
+    <a href="javascript:void(0)" id="bankfinanceconfig">确认</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+    <% if params[:id]!="0" %>
+    $("#bname").attr("value",'<%= @bankfinanceinfo[0]%>');
+    $("#currencytype").attr("value",'<%= @bankfinanceinfo[1]%>');
+    $("#btype").attr("value",'<%= @bankfinanceinfo[2]%>');
+    $("#risklvl").attr("value",'<%= @bankfinanceinfo[3]%>');
+    $("#collectperiod").attr("value",'<%= @bankfinanceinfo[4]%>');
+    $("#startvalue").attr("value",'<%= @bankfinanceinfo[5]%>');
+    $("#investstartdate").attr("value",'<%= @bankfinanceinfo[6]%>');
+    $("#investenddate").attr("value",'<%= @bankfinanceinfo[7]%>');
+    $("#investperiod").attr("value",'<%= @bankfinanceinfo[8]%>');
+    $("#returnrate").attr("value",'<%= @bankfinanceinfo[9]%>');
+    $("#trustee").attr("value",'<%= @bankfinanceinfo[10]%>');
+    $("#status").attr("value",'<%= @bankfinanceinfo[11]%>');
+    <% end %>
+
+    $("#bankfinanceconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value==""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.get("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname").attr("value"),currencytype: $("#currencytype").attr("value"),
+                btype: $("#btype").attr("value"),risklvl: $("#risklvl").attr("value"),collectperiod: $("#collectperiod").attr("value"),
+                startvalue: $("#startvalue").attr("value"),investstartdate: $("#investstartdate").attr("value"),
+                investenddate: $("#investenddate").attr("value"),returnrate: $("#returnrate").attr("value"),
+                trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value")
+            },function(data){
+                if(data=="f1"){
+                    alert("产品已存在！");
+                }
+                else if(data=="s1"){
+                    alert("产品创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>

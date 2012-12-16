@@ -4,7 +4,7 @@
   def index
     if session[:webusername]=="admin"
     @webusers=Webuser.all
-
+    @bankfinances=Bankfinance.all
     @products=Product.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
     @adminremind={}
@@ -484,6 +484,73 @@
      end
 
    end
+
+   def bankfinanceconfig
+     @bankfinanceinfo=[]
+     if params[:id]!="0"
+       @bankfinance=Bankfinance.find_by_id(params[:id])
+       @bankfinanceinfo[0]=@bankfinance.bname
+       @bankfinanceinfo[1]=@bankfinance.currencytype
+       @bankfinanceinfo[2]=@bankfinance.btype
+       @bankfinanceinfo[3]=@bankfinance.risklvl
+       @bankfinanceinfo[4]=@bankfinance.collectperiod
+       @bankfinanceinfo[5]=@bankfinance.startvalue
+       @bankfinanceinfo[6]=@bankfinance.investstartdate
+       @bankfinanceinfo[7]=@bankfinance.investenddate
+       @bankfinanceinfo[8]=@bankfinance.investperiod
+       @bankfinanceinfo[9]=@bankfinance.returnrate
+       @bankfinanceinfo[10]=@bankfinance.trustee
+       @bankfinanceinfo[11]=@bankfinance.status
+     end
+   end
+
+   def bankfinanceconfigajax
+     puts "###########"
+     puts params[:btype]
+     if params[:id]=="0"
+       @bankfinance=Bankfinance.find_by_bname(params[:bname])
+       if @bankfinance
+         render :json => "f1".to_json
+       else
+         Bankfinance.new do |b|
+           b.bname=params[:bname]
+           b.currencytype=params[:currencytype]
+           b.btype=params[:btype]
+           b.risklvl=params[:risklvl]
+           b.collectperiod=params[:collectperiod]
+           b.startvalue=params[:startvalue]
+           b.investstartdate=params[:investstartdate]
+           b.investenddate=params[:investenddate]
+           b.investperiod=params[:investperiod]
+           b.returnrate=params[:returnrate]
+           b.trustee=params[:trustee]
+           b.status=params[:status]
+           b.save
+         end
+         render :json => "s1".to_json
+       end
+
+     else
+       @bankfinance=Bankfinance.find_by_id(params[:id])
+       @bankfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],
+                                      :risklvl=>params[:risklvl],:collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
+                                      :investstartdate=>params[:investstartdate],:investenddate=>params[:investenddate],
+                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],:trustee=>params[:trustee],:status=>params[:status])
+       render :json => "s2".to_json
+     end
+
+   end
+
+   def bankfinancedeleteajax
+     @bankfinance=Bankfinance.find_by_id(params[:id])
+     if @bankfinance!=nil
+     if @bankfinance.destroy
+       render :json => "s".to_json
+     else
+       render :json => "f".to_json
+     end
+     end
+     end
 
 end
 

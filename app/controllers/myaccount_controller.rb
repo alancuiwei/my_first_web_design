@@ -4,6 +4,7 @@ class MyaccountController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
 
   def index
+    @bankfinances=Bankfinance.all
     if session[:webusername]!=nil
       if session[:webusername]=="admin"
         redirect_to(:controller=>"admin")
