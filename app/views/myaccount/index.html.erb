@@ -84,8 +84,7 @@
                         <h1>基金产品表</h1>
                       </td></tr>
                   </table>
-
-                   <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance">
+                   <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance" style="text-align:center;">
                      <thead><tr>
                        <th>发行银行</th><th>预期收益率</th><th>产品类型</th><th>起售价</th>
                        <th>投资期限</th><th>产品名称</th><th>状态</th>
@@ -94,7 +93,7 @@
                      <% @bankfinances.each do |b| %>
                          <tr>
                            <td><%= b.trustee%></td>
-                           <td><%= b.returnrate%></td>
+                           <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                            <td><%= b.btype%></td>
                            <td><%= b.startvalue%></td>
                            <td><%= b.investperiod%></td>
