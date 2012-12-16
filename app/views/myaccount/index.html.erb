@@ -2,36 +2,7 @@
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "myaccount.css" %>
 
-<div class="main-head">
-  <table>
-    <tbody><tr><td>
-        <div id="link-box">
-<!--          <a onmouseover="loginPageShowHeader('#main-login');"  onclick="loginPageShowHeader('#main-login');" class="top">登陆</a>    -->
-
-          <div id="login-header" style="display: none;" >
-            <div style="display: none;" id="login-form" >
-              <div id="main-login" class="login-container" style="display: block;">
-                <div style="margin-bottom: 5px;" >登陆</div>
-                <div>
-                  <input  id="username" class="input-field" size="16" placeholder="姓名" type="text" >
-                </div>
-                <div>
-                  <input id="password" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
-                </div>
-                <div style="text-align: right">
-                  <button onclick="userlogin('#username','#password')" id="login" class="btn btn-success">登陆</button>&nbsp;
-                  <span onclick="loginPageDismiss();" class="btn btn-success">取消</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </td></tr></tbody>
-  </table>
-</div>
-
-<div class="main-content">
+<div class="main-content" style="margin-top: 50px;">
 
 <div class="main-inputs">
   <div id="inputs" class="content">
@@ -53,7 +24,7 @@
             <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
           </div>
           <div style="text-align: right">
-            <button onclick="userlogin('#username2','#password2')" id="login-field-button" class="btn btn-success">登陆</button>
+            <a href="javascript:void(userlogin('#username2','#password2'))">登陆</a>
           </div>
         </div>
       </div>
@@ -80,11 +51,13 @@
               <tr>
 			     <td>
 				   <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
-                    <tr><td>
+                    <tr><td style="width: 85%;">
                         <h1>银行理财产品</h1>
-                      </td></tr>
+                      </td>
+                    <td><h1><a class="btn btn-success" href="/usersurvey">问卷调查</a></h1></td>
+                    </tr>
                   </table>
-                   <a class="back mortgage-button full back" href="/usersurvey">问卷调查</a>
+
                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance" style="text-align:center;">
                      <thead><tr>
                        <th>发行银行</th><th>预期收益率</th><th>产品类型</th><th>起售价</th>
@@ -113,26 +86,6 @@
 </div>
 
 <script>
-    function loginPageShowHeader(sectionIdentifier){
-        $("#login-header #login-form .login-container").hide();
-        $("#login-header").show();
-        $("#login-header #login-form").show();
-        $("div#link-box").addClass("active");
-        $(sectionIdentifier).show();
-        $(sectionIdentifier+" input").first().focus();
-        $(document).on("mouseup",loginMouseUpHandler);
-    }
-    function loginMouseUpHandler(e){
-        var container=$("#login-form");
-        if(container.has(e.target).length===0){
-            loginPageDismiss();
-        }
-    }
-    function loginPageDismiss(){
-        $("#login-header #login-form").hide();
-        $("div#link-box").removeClass("active");
-        $("#login-header").hide();
-    }
    function userlogin(uid,pid){
        if($(uid).attr("value")==""){
            alert("用户名为空！");
@@ -158,6 +111,8 @@
        }
    }
     $(document).ready(function(){
-        $('#bankfinance').dataTable();
+        $('#bankfinance').dataTable({
+        "aLengthMenu": [[25,50,100,-1],[25,50,100,"所有"]]
+    });
     });
 </script>
