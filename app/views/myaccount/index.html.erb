@@ -50,11 +50,11 @@
               <!-- tr body-content-->
               <tr>
 			     <td>
-                   <h1>银行理财产品 <a class="btn btn-success" href="/usersurvey">问卷调查</a></h1>
+                   <h1>银行理财产品 <a class="btn btn-success" href="/usersurvey">问卷调查</a><br><p>点击下面表格标题进行排序，例如点击预期收益率，则可从低到高显示理财产品，再点击一次，则可从高到低显示。</p></h1>
                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance" style="text-align:center;">
                      <thead><tr>
-                       <th>发行银行</th><th>预期收益率</th><th>产品类型</th><th>起售价</th>
-                       <th>投资期限</th><th>产品名称</th><th>状态</th>
+                       <th>发行银行</th><th>预期收益率</th><th>产品类型</th><th>起售价(万)</th>
+                       <th>投资期限(天)</th><th>产品名称</th><th>状态</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -62,8 +62,8 @@
                            <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                            <td><%= b.btype%></td>
-                           <td><%= b.startvalue%></td>
-                           <td><%= b.investperiod%></td>
+                           <td><%= format("%0.0f",b.startvalue/10000)%></td>
+                           <td><%= format("%0.0f",b.investperiod)%></td>
                            <td><%= b.bname%></td>
                            <td><%= b.status%></td>
                          </tr>
@@ -103,9 +103,11 @@
            })
        }
    }
+
+
     $(document).ready(function(){
         $('#bankfinance').dataTable({
-            "iDisplayLength": 25
+            "iDisplayLength": 50
     });
     });
 </script>

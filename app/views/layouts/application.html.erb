@@ -3,6 +3,7 @@
 <head>
 <title>通天顺金融策略网</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%= javascript_include_tag "jquery.min.js" %>
 <%= stylesheet_link_tag "styles.css" %>
 </head>
 <script type="text/javascript">
@@ -49,7 +50,7 @@
               <div class='tcol'>
                 <h3>帮助</h3>
                 <div class='separator'></div>
-                <a href='/myaccount/index' class='full last'>产品咨询</a>
+                <a href='javascript:void(0)' class='full last'onclick="question('habla_oplink_a')">产品咨询</a>
               </div>
                 <div class='tcol'>
             <h3>银行服务</h3>
@@ -78,13 +79,25 @@
     /* custom configuration goes here (www.olark.com/documentation) */
     olark.identify('5644-792-10-3841');/*]]>{/literal}*/</script><noscript><a href="https://www.olark.com/site/5644-792-10-3841/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript><!-- end olark code -->
 
-<%= javascript_include_tag "jquery.min.js" %>
 <script type="text/javascript">
     (function() {
         var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
         mf.src = "//cdn.mouseflow.com/projects/459d9d12-066e-43ad-80a7-1f84c6cabfda.js";
         document.getElementsByTagName("head")[0].appendChild(mf);
     })();
+    function question(name)
+    {
+        if(document.all)
+        {
+            document.getElementById(name).click();
+        }
+        else
+        {
+            var evt = document.createEvent("MouseEvents");
+            evt.initEvent("click", true, true);
+            document.getElementById(name).dispatchEvent(evt);
+        }
+    }
 </script>
 </body>
 </html>
