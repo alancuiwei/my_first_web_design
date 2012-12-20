@@ -5,6 +5,7 @@
     if session[:webusername]=="admin"
     @webusers=Webuser.all
     @bankfinances=Bankfinance.all
+    @blogs=Blog.all
     @products=Product.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
     @adminremind={}
@@ -538,6 +539,53 @@
      end
      end
      end
+
+   def blogconfig
+     @bloginfo=[]
+     if params[:id]!="0"
+       @blog=Blog.find_by_id(params[:id])
+       @bloginfo[0]=@blog.btitle
+       @bloginfo[1]=@blog.blname
+       @bloginfo[2]=@blog.publishdate
+       @bloginfo[3]=@blog.barticle
+       @bloginfo[4]=@blog.bcolumn
+       @bloginfo[5]=@blog.imagepath
+     end
+   end
+
+   def blogconfigajax
+
+     if params[:id]=="0"
+       Blog.new do |b|
+         b.btitle=params[:btitle]
+         b.blname=params[:blname]
+         b.publishdate=params[:publishdate]
+         b.barticle=params[:barticle]
+         b.bcolumn=params[:bcolumn]
+         b.imagepath=params[:imagepath]
+         b.save
+       end
+       render :json => "s1".to_json
+
+     else
+       @blog=Blog.find_by_id(params[:id])
+       @blog.update_attributes(:btitle=>params[:btitle],:blname=>params[:blname],:publishdate=>params[:publishdate],
+                                      :barticle=>params[:barticle],:bcolumn=>params[:bcolumn],:imagepath=>params[:imagepath])
+       render :json => "s2".to_json
+     end
+
+   end
+
+   def blogdeleteajax
+     @blog=Blog.find_by_id(params[:id])
+     if @blog!=nil
+       if @blog.destroy
+         render :json => "s".to_json
+       else
+         render :json => "f".to_json
+       end
+     end
+   end
 
 end
 
