@@ -6,7 +6,10 @@
     发表人：<input type="text" name="blname" id="blname" title="发表人"> <br>
     发表时间：<input type="text" name="publishdate" id="publishdate" title="发表时间" onclick="WdatePicker()" class="Wdate"> <br>
     正文：<br><textarea cols="80" rows="15" name="barticle" id="barticle" title="正文"></textarea>  <br>
-    栏目：<input type="text" name="bcolumn" id="bcolumn" title="栏目"> <br>
+    栏目：<select  name="bcolumn" id="bcolumn" title="栏目">
+             <option value="银行理财产品">银行理财产品</option>
+             <option value="创业人生">创业人生</option>
+          </select><br>
     图片：<input type="text" name="imagepath" id="imagepath" title="图片"> <br>
     <a href="javascript:void(0)" id="blogconfig">确认</a>
   </div>
@@ -36,7 +39,7 @@
         }
 
         if(nom_flag==0){
-            $.get("/admin/blogconfigajax/<%= params[:id] %>",{ btitle: $("#btitle").attr("value"),blname: $("#blname").attr("value"),
+            $.post("/admin/blogconfigajax/<%= params[:id] %>",{ btitle: $("#btitle").attr("value"),blname: $("#blname").attr("value"),
                 publishdate: $("#publishdate").attr("value"),barticle: $("#barticle").attr("value"),bcolumn: $("#bcolumn").attr("value"),
                 imagepath: $("#imagepath").attr("value")
             },function(data){
