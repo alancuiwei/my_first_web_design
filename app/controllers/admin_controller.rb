@@ -499,6 +499,8 @@
        @bankfinanceinfo[6]=@bankfinance.returnrate
        @bankfinanceinfo[7]=@bankfinance.trustee
        @bankfinanceinfo[8]=@bankfinance.status
+       @bankfinanceinfo[9]=@bankfinance.sailsstart
+       @bankfinanceinfo[10]=@bankfinance.distributionarea
      end
    end
 
@@ -515,6 +517,8 @@
            b.returnrate=params[:returnrate]
            b.trustee=params[:trustee]
            b.status=params[:status]
+           b.sailsstart=params[:sailsstart]
+           b.distributionarea=params[:distributionarea]
            b.save
          end
          render :json => "s1".to_json
@@ -523,6 +527,7 @@
        @bankfinance=Bankfinance.find_by_id(params[:id])
        @bankfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],
                                       :collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
+                                      :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
                                       :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],:trustee=>params[:trustee],:status=>params[:status])
        render :json => "s2".to_json
      end
