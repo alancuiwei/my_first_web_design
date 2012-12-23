@@ -1,9 +1,92 @@
-<h1>我的账号</h1>
-<a href="/myaccount/index">我的账号</a>
-<h1>银行产品</h1>
-<a href="/bankinvest/index">银行首页</a>
-<h1>私募基金</h1>
-<a href="/privatefund/investrecord">我的私募基金投资信息</a><br>
-<% Product.all.each do |p|%>
-    <a href='/privatefund/index/<%= p.id%>' class='full'><%= p.pname%></a><br>
-<%end%>
+<%= stylesheet_link_tag "home.css" %>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+
+<style>
+    body { background: none repeat scroll 0% 0% rgb(243, 243, 233);}
+    .main-body{padding:10px;}
+</style>
+
+<div class="main-content" style="margin-top: 50px;">
+
+
+  <div class="main-inputs">
+    <div id="inputs" class="content">
+      <div class="padded">
+        <h3>忘记密码了?</h3>
+        <p>尊敬的用户，我们将为您提供一对一的服务，您可以拨打电话025-83428345，致电重人软件公司查询您的密码。</p>
+      </div>
+
+      <div style="display: block;" id="overlay-inputs-login" class="overlay">
+        <div id="login-form">
+          <div id="main-login" class="login-container" style="display: block;">
+            <div id="signin-message" style="margin-bottom: 5px;">
+              登录
+            </div>
+            <div>
+              <input id="username2" class="input-field" size="16" placeholder="姓名" type="text">
+            </div>
+            <div>
+              <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+            </div>
+            <div style="text-align: right">
+              <a href="javascript:void(userlogin('#username2','#password2'))">登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-body">
+    <a href="/">首页</a>
+    <div class="row-fluid header">
+      <div class="span10">
+        <h1>1.银行理财产品</h1>
+      </div>
+      <div class="span2">
+        <p class="text-error">低风险<br>低回报</p>
+      </div>
+    </div>
+    <br>
+    <p>我们为您提供最及时的银行理财产品信息，供你做选择。</p>
+    <p>需要有对银行理财产品更加详细的说明。</p>
+  </div>
+</div>
+
+
+<script>
+
+    function userlogin(uid,pid){
+        if($(uid).attr("value")==""){
+            alert("用户名为空！");
+        }
+        else if($(pid).attr("value")==""){
+            alert("密码为空！");
+        }
+        else{
+            $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
+                if(data=="f"){
+                    alert("登录失败!");
+                }
+                else if(data=="f2"){
+                    alert("找不到该用户");
+                }
+                else if(data=="admin"){
+                    location.href="/admin";
+                }
+                else if(data=="s"){
+                    location.href="/myaccount/investrecord/";
+                }
+            })
+        }
+    }
+    function logout(){
+        $.get('/admin/userlogout',function(data){
+            if(data=="s"){
+                alert("退出成功！");
+                location.href="/home/productindex";
+            }
+        })
+    }
+</script>
+

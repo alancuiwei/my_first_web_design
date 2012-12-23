@@ -31,34 +31,6 @@
 
 <div class="main-content" style="margin-top: 50px;">
 
-<div class="main-inputs">
-  <div id="inputs" class="content">
-      <div class="padded">
-        <h3>忘记密码了?</h3>
-        <p>尊敬的用户，我们将为您提供一对一的服务，您可以拨打电话025-83428345，致电重人软件公司查询您的密码。</p>
-      </div>
-
-    <div style="display: block;" id="overlay-inputs-login" class="overlay">
-      <div id="login-form">
-        <div id="main-login" class="login-container" style="display: block;">
-          <div id="signin-message" style="margin-bottom: 5px;">
-            登录
-          </div>
-          <div>
-            <input id="username2" class="input-field" size="16" placeholder="姓名" type="text">
-          </div>
-          <div>
-            <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
-          </div>
-          <div style="text-align: right">
-            <a href="javascript:void(userlogin('#username2','#password2'))">登录</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
   <div class="main-body">
     <div class="content">
           <div class="fthb faded">
@@ -165,7 +137,7 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
                        <th>发行银行</th><th>预期年化收益率</th><th>计算收益</th><th>产品类型</th><th>起售价(万)</th>
-                       <th>投资期限(天)</th><th>产品名称</th><th>状态</th>
+                       <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -176,7 +148,10 @@
                            <td><%= b.btype%></td>
                            <td><%= format("%0.0f",b.startvalue/10000)%></td>
                            <td><%= format("%0.0f",b.investperiod)%></td>
-                           <td><%= b.bname%></td>
+                           <td><%= b.sailsstart%></td>
+                           <td><%= b.collectperiod%></td>
+                           <td><%= b.distributionarea%></td>
+                           <td class="ctl" title="<%= b.bname%>"><%= b.bname%></td>
                            <td><%= b.status%></td>
                          </tr>
                      <% end %>
@@ -203,36 +178,10 @@
 </div>
 <script>
 
-   function userlogin(uid,pid){
-       if($(uid).attr("value")==""){
-           alert("用户名为空！");
-       }
-       else if($(pid).attr("value")==""){
-           alert("密码为空！");
-       }
-       else{
-           $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
-                if(data=="f"){
-                    alert("登录失败!");
-                }
-                else if(data=="f2"){
-                    alert("找不到该用户");
-                }
-                else if(data=="admin"){
-                    location.href="/admin";
-                }
-               else if(data=="s"){
-                    location.href="/myaccount/investrecord/";
-                }
-           })
-       }
-   }
-
    function checkchick(id){
        if($('#'+id).attr('checked')=='checked')
            doclick(id);
    }
-
    $.fn.dataTableExt.afnFiltering.push(
            function( oSettings, aData, iDataIndex ) {
                var flag1,flag2,flag3,flag4;

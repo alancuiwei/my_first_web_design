@@ -115,32 +115,6 @@ div.clear {
     clear: both;
 }
 
-#login-header #login-form {
-    z-index: 10000;
-    border: 1px solid rgb(204, 204, 204);
-    box-shadow: 2px 2px 2px rgb(238, 238, 238);
-    top: 38px;
-    right: -1px;
-}
-
-div#login-form {
-    background-color: white;
-    position: absolute;
-    padding: 15px;
-    width: auto;
-}
-
-div#login-header div#login-form .input-field {
-    width: 230px;
-}
-
-div#login-form .input-field {
-    border-color: rgb(136, 136, 136);
-    box-shadow: 0px 0px 1px rgb(153, 153, 153);
-    font-size: 13px;
-    width: 168px;
-}
-
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(204, 204, 204);
@@ -248,41 +222,8 @@ div#login-form #login-skipsection {
     display: table-row;
 }
 
-#main .main-content .main-inputs {
-    position: relative;
-    width: 210px;
-    min-width: 210px;
-    max-width: 210px;
-    display: table-cell;
-    vertical-align: top;
-}
-
-#main .main-inputs .content {
-    margin-top: 20px;
-    background-color: rgb(246, 246, 246);
-    border-width: 1px 0px 1px 1px;
-    border-style: solid none solid solid;
-    border-color: rgb(204, 204, 204) -moz-use-text-color rgb(204, 204, 204) rgb(204, 204, 204);
-    -moz-border-top-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    border-image: none;
-    padding: 0px;
-}
-
 #inputs-container {
     position: relative;
-}
-
-#main .main-content .main-inputs .padded {
-    padding: 10px 15px;
-}
-
-#main .main-inputs h3 {
-    font-family: "Oswald","arial narrow",sans-serif;
-    font-weight: 300;
-    font-size: 16px;
 }
 
 h3 {
@@ -308,15 +249,6 @@ h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizelegibility;
 }
 
-#main .main-content .main-inputs p {
-    padding: 0px;
-    margin: 5px 0px 0px;
-    font-size: 13px;
-    line-height: 16px;
-	font-style: italic;
-	color: rgb(102, 102, 102);
-}
-
 p { margin: 0px 0px 9px 200px;
     font-size: 16px;
     font-weight:400;
@@ -324,33 +256,6 @@ p { margin: 0px 0px 9px 200px;
     margin-left: 214px;
 	*margin-left: 233px;
 	_margin-left: 120px;
-}
-
-div#inputs .overlay {
-    padding-top: 15px;
-    background-color: rgb(197, 228, 237);
-    border-bottom: 1px solid rgb(197, 228, 237);
-    border-top: 1px solid rgb(147, 179, 189);
-    display: none;
-}
-
-#inputs div#login-form {
-    padding-top: 0px;
-    background-color: rgb(197, 228, 237);
-    position: relative;
-}
-
-div#login-form {
-    background-color: white;
-    position: absolute;
-    padding: 15px;
-    width: auto;
-}
-
-div#login-form .validation-message {
-    color: rgb(170, 0, 0);
-    font-size: 11px;
-    margin-bottom: 5px;
 }
 
 .btn-success {
@@ -362,14 +267,6 @@ div#login-form .validation-message {
 .btn-primary, .btn-primary:hover, .btn-warning, .btn-warning:hover, .btn-danger, .btn-danger:hover, .btn-success, .btn-success:hover, .btn-info, .btn-info:hover, .btn-inverse, .btn-inverse:hover {
     color: rgb(255, 255, 255);
     text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.25);
-}
-
-div#login-popup .login-cancel-button, #inputs .login-cancel-button {
-    display: none;
-}
-
-#inputs .login-back-button {
-    display: block;
 }
 
 #main .main-content .main-body {
@@ -811,11 +708,19 @@ td p{
     color: #000000;
     font-size: 0.5em;
 }
+
 .well-b {
-    background-color: rgb(243, 243, 233);
-    border: 1px solid rgb(238, 238, 238);
+    background-color: rgb(197, 228, 237);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
     min-height: 75px;
     padding: 20px;
+}
+
+td.ctl{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 2px;
+    max-width: 120px;
 }
