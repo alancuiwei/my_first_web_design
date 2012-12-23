@@ -31,6 +31,39 @@
 
 <div class="main-content" style="margin-top: 50px;">
 
+
+<div class="main-inputs">
+  <% if session[:webusername]==nil%>
+  <div id="inputs" class="content">
+      <div class="padded">
+        <h3>忘记密码了?</h3>
+        <p>尊敬的用户，我们将为您提供一对一的服务，您可以拨打电话025-83428345，致电重人软件公司查询您的密码。</p>
+      </div>
+
+    <div style="display: block;" id="overlay-inputs-login" class="overlay">
+      <div id="login-form">
+        <div id="main-login" class="login-container" style="display: block;">
+          <div id="signin-message" style="margin-bottom: 5px;">
+            登录
+          </div>
+          <div>
+            <input id="username2" class="input-field" size="16" placeholder="姓名" type="text">
+          </div>
+          <div>
+            <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
+          </div>
+          <div style="text-align: right">
+            <a href="javascript:void(userlogin('#username2','#password2'))">登录</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% else %>
+      <%= session[:webusername] %><a onclick="logout()" href="javascript:void(0)">用户注销</a>
+  <% end %>
+</div>
+
   <div class="main-body">
     <div class="content">
           <div class="fthb faded">
@@ -41,125 +74,12 @@
               <tr><td>
                         <div class="crumbs">
                           <a href="/">首页</a>&nbsp; >&nbsp;
-                          <a href="/myaccount" >银行服务</a>
+                          <a href="/myaccount" >我的账号</a>
                         </div>
                 </td>
               </tr>
 
-              <!-- tr body-content-->
-              <tr>
-			     <td>
-                   <h1>银行理财产品 <a class="btn btn-success" href="/usersurvey">问卷调查</a></h1>
-                   <br>
-                   <div class="well-b">
-                     <div class="row" id="returnrate">
-                     <div class="span2">
-                       <h4>预期年收益率（鼠标放在上面有文字说明）</h4>
-                     </div>
-                     <div class="span2 offset1">
-                         <input type="checkbox" name="returnrate" value="r_all" checked="true" id="r_all"> 全部<br><br>
-                         <input type="checkbox" name="returnrate" value="r_45" id="r_45" onclick="checkchick('r_all')"> 4%~5%（含）
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox"  name="returnrate" value="r_3" id="r_3" onclick="checkchick('r_all')"> 3%（含）以下<br><br>
-                         <input type="checkbox" name="returnrate" value="r_5" id="r_5" onclick="checkchick('r_all')"> 5%以上
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="returnrate" value="r_34" id="r_34" onclick="checkchick('r_all')"> 3%~4%（含）
-                     </div>
-                   </div>
 
-                   <br>
-                   <div class="row">
-                     <div class="span2">
-                       <h4>收益类型</h4>
-                     </div>
-                     <div class="span2 offset1">
-                       <div class="controls">
-                           <select id="select01" onchange="myselect()">
-                           <option>请选择</option>
-                             <option>保本、保利</option>
-                             <option>保本、不保利</option>
-                             <option>不保本、不保利</option>
-                         </select>
-                       </div>
-                     </div>
-                   </div>
-
-                   <br>
-                     <div class="row" id="bank">
-                     <div class="span2">
-                       <h4>银行名称</h4>
-                     </div>
-                     <div class="span2 offset1">
-                         <input type="checkbox" name="bank" checked="true" id="b_all"> 全选<br><br>
-                         <input type="checkbox" name="bank" value="交通银行" onclick="checkchick('b_all')"> 交通银行<br><br>
-                         <input type="checkbox" name="bank" value="华夏银行" onclick="checkchick('b_all')"> 华夏银行<br><br>
-                         <input type="checkbox" name="bank" value="兴业银行" onclick="checkchick('b_all')"> 兴业银行
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="bank" value="工商银行" onclick="checkchick('b_all')"> 工商银行<br><br>
-                         <input type="checkbox" name="bank" value="招商银行" onclick="checkchick('b_all')"> 招商银行<br><br>
-                         <input type="checkbox" name="bank" value="光大银行" onclick="checkchick('b_all')"> 光大银行<br><br>
-                         <input type="checkbox" name="bank" value="广发银行" onclick="checkchick('b_all')"> 广发银行
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="bank" value="农业银行" onclick="checkchick('b_all')"> 农业银行<br><br>
-                         <input type="checkbox" name="bank" value="中信银行" onclick="checkchick('b_all')"> 中信银行<br><br>
-                         <input type="checkbox" name="bank" value="浦发银行" onclick="checkchick('b_all')"> 浦发银行<br><br>
-                         <input type="checkbox" name="bank" value="平安银行" onclick="checkchick('b_all')"> 平安银行
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="bank" value="建设银行" onclick="checkchick('b_all')"> 建设银行<br><br>
-                         <input type="checkbox" name="bank" value="中国银行" onclick="checkchick('b_all')"> 中国银行<br><br>
-                         <input type="checkbox" name="bank" value="民生银行" onclick="checkchick('b_all')"> 民生银行<br><br>
-                     </div>
-                   </div>
-                   <br><br>
-                     <div class="row" id="period">
-                     <div class="span2">
-                       <h4>理财期限</h4>
-                     </div>
-                     <div class="span2 offset1">
-                         <input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部<br><br>
-                         <input type="checkbox" name="period" value="p_61" id="p_61" onclick="checkchick('p_all')"> 6个月-1年
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内<br><br>
-                         <input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上
-                     </div>
-                     <div class="span2">
-                         <input type="checkbox" name="period" value="p_36" id="p_36" onclick="checkchick('p_all')"> 3-6个月
-                     </div>
-                   </div>
-
-                     </div>
-
-
-                   <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance" style="text-align:center;">
-                     <thead><tr>
-                       <th>发行银行</th><th>预期年化收益率</th><th>计算收益</th><th>是否保本</th><th>起售价(万)</th>
-                       <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th>
-                     </tr></thead>
-
-                     <% @bankfinances.each do |b| %>
-                         <tr>
-                           <td><%= b.trustee%></td>
-                           <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                           <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/logo.jpg" height="20" width="20"></a></td>
-                           <td><%= b.btype%></td>
-                           <td><%= format("%0.0f",b.startvalue/10000)%></td>
-                           <td><%= format("%0.0f",b.investperiod)%></td>
-                           <td><%= b.sailsstart%></td>
-                           <td><%= b.collectperiod%></td>
-                           <td><%= b.distributionarea%></td>
-                           <td class="ctl" title="<%= b.bname%>"><%= b.bname%></td>
-                           <td><%= b.status%></td>
-                         </tr>
-                     <% end %>
-                   </table>
-		         </td>
-              </tr>
 
             </table>
           </div>
@@ -167,186 +87,40 @@
   </div>
 </div>
 
-<div id='login-box' class='login-popup'>
-  <div style="background-color: #ffffff;height: 300px;width: 300px;">
-    <a class="close" href="javascript:void(0)">关闭</a>
-    投资金额：<input type="text" id="investvalue">元<br>
-    预期收益率：<input type="text" id="prereturnrate">%<br>
-    投资天数：<input type="text" id="preperiod">天<br>
-    收益金额：<span id="ownvalue" style="color: #ff0000;"></span>元<br>
-    总计：<span id="total" style="color: #ff0000;"></span>元<br>
 
-  </div>
-</div>
 <script>
 
-   function checkchick(id){
-       if($('#'+id).attr('checked')=='checked')
-           doclick(id);
-   }
-   $.fn.dataTableExt.afnFiltering.push(
-           function( oSettings, aData, iDataIndex ) {
-               var flag1,flag2,flag3,flag4;
-               var returnrates=document.getElementsByName("returnrate")
-               var t_returnrate=parseFloat(aData[1].replace(/%/,""))
-               for(var i=0;i<returnrates.length;i++){
-                   if( returnrates[i].checked){
-                       if(returnrates[i].value=="r_all"){
-                           flag1=1;
-                       }
-                       else if(returnrates[i].value=="r_3"){
-                           if(t_returnrate<=3){
-                               flag1=1;
-                           }
-                       }
-                       else if(returnrates[i].value=="r_34"){
-                           if(t_returnrate>3&&t_returnrate<=4){
-                               flag1=1;
-                           }
-                       }
-                       else if(returnrates[i].value=="r_45"){
-                           if(t_returnrate>4&&t_returnrate<=5){
-                               flag1=1;
-                           }
-                       }
-                       else if(returnrates[i].value=="r_5"){
-                           if(t_returnrate>5){
-                               flag1=1;
-                           }
-                       }
-                   }
-               }
-
-               if(aData[2]==$("#select01").attr("value")){
-                   flag2=1;
-               }
-               else if($("#select01").attr("value")=="请选择"){
-                   flag2=1;
-               }
-
-               var banks=document.getElementsByName("bank")
-               if($("#b_all").attr("checked")=="checked"){
-                   flag3=1;
-               }
-               else {
-                   for(var i=0;i<banks.length;i++){
-                       if( banks[i].checked&&banks[i].value==aData[0]){
-                           flag3=1;
-                       }
-                   }
-               }
-
-               var periods=document.getElementsByName("period")
-               for(var i=0;i<periods.length;i++){
-                   if( periods[i].checked){
-                       if(periods[i].value=="p_all"){
-                           flag4=1;
-                       }
-                       else if(periods[i].value=="p_3"){
-                           if(aData[4]<=90){
-                               flag4=1;
-                           }
-                       }
-                       else if(periods[i].value=="p_36"){
-                           if(aData[4]>=90&&aData[4]<180){
-                               flag4=1;
-                           }
-                       }
-                       else if(periods[i].value=="p_61"){
-                           if(aData[4]>=180&&aData[4]<=365){
-                               flag4=1;
-                           }
-                       }
-                       else if(periods[i].value=="p_1"){
-                           if(aData[4]>365){
-                               flag4=1;
-                           }
-                       }
-                   }
-               }
-
-              if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
-                  return true;
-              }
-
-           }
-   );
-
-   function doclick(name)
-   {
-       if(document.all)
-       {
-           document.getElementById(name).click();
+   function userlogin(uid,pid){
+       if($(uid).attr("value")==""){
+           alert("用户名为空！");
        }
-       else
-       {
-           var evt = document.createEvent("MouseEvents");
-           evt.initEvent("click", true, true);
-           document.getElementById(name).dispatchEvent(evt);
+       else if($(pid).attr("value")==""){
+           alert("密码为空！");
+       }
+       else{
+           $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
+                if(data=="f"){
+                    alert("登录失败!");
+                }
+                else if(data=="f2"){
+                    alert("找不到该用户");
+                }
+                else if(data=="admin"){
+                    location.reload();
+                }
+               else if(data=="s"){
+                    location.reload();
+                }
+           })
        }
    }
-   function myselect(){
-       $('#bankfinance').dataTable().fnDraw();
-
-   }
-    $(document).ready(function(){
-        $("#investvalue").keyup(function(){
-            if($("#investvalue").attr("value")!=""){
-            var ownvalue=(parseFloat($("#investvalue").attr("value"))*parseFloat($("#prereturnrate").attr("value"))*parseFloat($("#preperiod").attr("value"))/36500).toFixed(1);
-            var total=parseFloat($("#investvalue").attr("value"))+parseFloat(ownvalue);
-            $("#ownvalue").html(ownvalue);
-            $("#total").html(total);
-            }
-            else{
-                $("#ownvalue").html("");
-                $("#total").html("");
+    function logout(){
+        $.get('/admin/userlogout',function(data){
+            if(data=="s"){
+                alert("退出成功！");
+                location.href="/myaccount";
             }
         })
-        $('a.login-window').click(function() {
-            var returnrate=this.title.split("|")[0]*100;
-            var period=parseFloat(this.title.split("|")[1]).toFixed(0)
-            // Getting the variable's value from a link
-            var loginBox = $(this).attr('href');
-
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
-            $("#prereturnrate").attr("value",returnrate);
-            $("#preperiod").attr("value",period)
-            //Set the center alignment padding + border
-            var popMargTop = ($(loginBox).height() + 24) / 2;
-            var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-            $(loginBox).css({
-                'margin-top' : -popMargTop,
-                'margin-left' : -popMargLeft
-            });
-
-            // Add the mask to body
-            $('body').append('<div id="mask"></div>');
-            $('#mask').fadeIn(300);
-
-            return false;
-        });
-
-        // When clicking on the button close or the mask layer the popup closed
-        $('a.close, #mask').live('click', function() {
-            $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();
-                $("#ownvalue").html("");
-                $("#total").html("");
-            });
-            return false;
-        });
-
-
-       /* Initialise datatables */
-       var oTable = $('#bankfinance').dataTable({
-            "iDisplayLength": 50
-    });
-
-       $("#returnrate,#bank,#period").click( function() { oTable.fnDraw(); } );
-
-    });
+    }
 </script>
 
-<script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>

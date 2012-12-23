@@ -1,6 +1,6 @@
 #encoding: utf-8
 require 'date'
-class ProductsController < ApplicationController
+class PrivatefundController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   Date::DATE_FORMATS[:cstamp] = '%Y年%m月%d日'
   def index
@@ -8,10 +8,10 @@ class ProductsController < ApplicationController
     @pdescription=[]
     @pdescriptions=[]
     if @product.description!=nil
-    @pdescription=@product.description.split("|")
+      @pdescription=@product.description.split("|")
     end
     if @product.descriptions!=nil
-    @pdescriptions=@product.descriptions.split("|")
+      @pdescriptions=@product.descriptions.split("|")
     end
     @invest_f=Investrecord.find_all_by_recordtype_and_pname("fund",@product.pname)
     @invest_i=Investrecord.find_all_by_recordtype_and_pname("interest",@product.pname)
@@ -29,8 +29,8 @@ class ProductsController < ApplicationController
         pie=pie+userfund[j].recordvalue
       end
       if pie!=0
-      @pie.store(@webusers[i].username,pie)
-    end
+        @pie.store(@webusers[i].username,pie)
+      end
     end
     @funds=0
     @invest_f.each do |i|
@@ -60,20 +60,20 @@ class ProductsController < ApplicationController
     @invest_date=Investrecord.find(:all,:conditions =>["pname=? and recordtype=?",@product.pname,"interest"],:order =>"date ASC")
     @interestdate={}
     if @invest_date[0]!=nil
-    date=Date.parse(@invest_date[0].date.to_s)
-    datevalue=0
+      date=Date.parse(@invest_date[0].date.to_s)
+      datevalue=0
 
-    for i in 0..@invest_date.size-1
-       if date==Date.parse(@invest_date[i].date.to_s)
-         datevalue=datevalue+@invest_date[i].recordvalue
-       else
-         @interestdate.store(date,datevalue)
-         date=Date.parse(@invest_date[i].date.to_s)
-         datevalue=@invest_date[i].recordvalue
-       end
+      for i in 0..@invest_date.size-1
+        if date==Date.parse(@invest_date[i].date.to_s)
+          datevalue=datevalue+@invest_date[i].recordvalue
+        else
+          @interestdate.store(date,datevalue)
+          date=Date.parse(@invest_date[i].date.to_s)
+          datevalue=@invest_date[i].recordvalue
+        end
+      end
+      @interestdate.store(date,datevalue)
     end
-    @interestdate.store(date,datevalue)
-  end
   end
 
   def precordajax
@@ -91,4 +91,42 @@ class ProductsController < ApplicationController
   def report
 
   end
+
+  def investrecord
+
+    if session[:webusername]=="admin"
+      if params[:id]!=nil
+        @webuser=Webuser.find_by_id(params[:id])
+      else
+        @webuser=Webuser.find_by_username(session[:webusername])
+      end
+    else
+      @webuser=Webuser.find_by_username(session[:webusername])
+    end
+
+    if @webuser!=nil
+      @products=Product.all
+      @product=Product.find_by_id(@products[0].id)
+
+      @username=@webuser.username
+      @funds=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",@username,"fund"],:order =>"date DESC")
+      @interests=Investrecord.find(:all,:conditions =>["username=? and recordtype=?",@username,"interest"],:order =>"date ASC")
+      @hash_interest={}
+      @interests.each do |i|
+        @hash_interest.store(i.ordernum,[i.date.to_s(:db),i.recordvalue])
+      end
+
+      @allfund=0
+      @funds.each do |f|
+        @allfund=@allfund+f.recordvalue
+      end
+      @allinterest=0
+      @interests.each do |i|
+        @allinterest=@allinterest+i.recordvalue
+      end
+      @allinvest=@allfund+@allinterest
+
+    end
+  end
+
 end

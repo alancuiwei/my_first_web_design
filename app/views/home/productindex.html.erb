@@ -1,0 +1,9 @@
+<h1>我的账号</h1>
+<a href="/myaccount/index">我的账号</a>
+<h1>银行产品</h1>
+<a href="/bankinvest/index">银行首页</a>
+<h1>私募基金</h1>
+<a href="/privatefund/investrecord">我的私募基金投资信息</a><br>
+<% Product.all.each do |p|%>
+    <a href='/privatefund/index/<%= p.id%>' class='full'><%= p.pname%></a><br>
+<%end%>
