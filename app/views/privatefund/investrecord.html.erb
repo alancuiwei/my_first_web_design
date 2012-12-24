@@ -10,13 +10,13 @@
 
           <div class="padded">
             <h3><%= @product.pname %></h3>
-            <a href="/products/index/<%= @product.id%>">查看详细</a>
+            <a href="/privatefund/index/<%= @product.id%>">查看详细</a>
             <p><%= @product.description %></p><br>
-            <a href="/products/index/<%= @product.id%>"><div id="container" style="min-width: 160px; height: 120px; margin: 0 auto;overflow: hidden;position:relative;"></div></a>
+            <a href="/privatefund/index/<%= @product.id%>"><div id="container" style="min-width: 160px; height: 120px; margin: 0 auto;overflow: hidden;position:relative;"></div></a>
             <script type="text/javascript">
 
                 $(function() {
-                    $.getJSON('/products/precordajax/<%=@product.id%>', function(data) {
+                    $.getJSON('/privatefund/precordajax/<%=@product.id%>', function(data) {
                         // Create the chart
                         window.chart = new Highcharts.StockChart({
                             chart : {
@@ -209,7 +209,7 @@
                           <tr class="mortgage-details">
                             <td colspan="5" class="find-mortgage">
                               我所投资的基金产品信息
-                              <a class="back mortgage-button full back" id="see-mortgage-link" href="/products/index/<%= @product.id%>">查看基金</a>
+                              <a class="back mortgage-button full back" id="see-mortgage-link" href="/publishdate/index/<%= @product.id%>">查看基金</a>
                             </td>
                           </tr>
                         </table>

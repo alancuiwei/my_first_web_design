@@ -1,7 +1,7 @@
 #encoding: utf-8
 class BlogController < ApplicationController
   def index
-    @blogs=Blog.find_by_sql('select * from blog order by id desc')
+    @blogs=Blog.find_by_sql('select * from blog order by publishdate desc')
   end
 
   def blogarticle
@@ -18,10 +18,10 @@ class BlogController < ApplicationController
   end
 
   def blogbusinesslife
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="创业人生" order by id desc')
+    @blogs=Blog.find_by_sql('select * from blog where bcolumn="创业人生" order by publishdate desc')
   end
 
   def blogbankfinance
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品" order by id desc')
+    @blogs=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品" order by publishdate desc')
   end
 end

@@ -22,7 +22,7 @@
                   <a href="/products/index/<%= @product.id%>" >私募基金</a>
                 </div>
                 <h1 class="body-header"><%=@product.pname%>  
-				  <a class="back mortgage-button full back" href="/products/report/<%= params[:id]%>">询问投资详情</a>
+				  <a class="back mortgage-button full back" href="/privatefund/report/<%= params[:id]%>">询问投资详情</a>
 				</h1>
 
                 <b class="txt">
@@ -164,7 +164,7 @@
     });
 
     $(function() {
-        $.getJSON('/products/precordajax/<%=params[:id]%>', function(data) {
+        $.getJSON('/privatefund/precordajax/<%=params[:id]%>', function(data) {
         // Create the chart
             window.chart = new Highcharts.StockChart({
                 chart : {
