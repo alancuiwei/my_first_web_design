@@ -1,6 +1,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
-<%= stylesheet_link_tag "myaccount.css" %>
+<%= stylesheet_link_tag "bankinvest.css" %>
 <%= stylesheet_link_tag "bootstrap.min.css" %>
 
 <style>
@@ -30,27 +30,10 @@
     #main .main-footer a {font-size: 0.9em; }
 </style>
 
-<div class="main-content" style="margin-top: 50px;">
-
-  <div class="main-body">
-    <div class="content">
-          <div class="fthb faded">
-
-            <table class="body-container" cellspacing="0" cellpadding="0" border="0">
-
-              <!-- tr head-->
-              <tr><td>
-                        <div class="crumbs">
+<div class="main-content">
                           <a href="/">首页</a>&nbsp; >&nbsp;
-                          <a href="/myaccount" >银行服务</a>
-                        </div>
-                </td>
-              </tr>
-
-              <!-- tr body-content-->
-              <tr>
-			     <td>
-                   <h1>银行理财产品 <a class="btn btn-success" href="/usersurvey">问卷调查</a></h1>
+    <a href="/bankinvest" >银行服务</a>
+  <h1>银行理财产品 <a class="btn btn-success" href="/usersurvey" style="margin-left: 3%;">问卷调查</a></h1>
                    <br>
                    <div class="well-b">
                      <div class="row" id="returnrate">
@@ -145,25 +128,18 @@
                          <tr>
                            <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                           <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/logo.jpg" height="20" width="20"></a></td>
+          <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/logo.jpg" width="100%"></a></td>
                            <td><%= b.btype%></td>
                            <td><%= format("%0.0f",b.startvalue/10000)%></td>
                            <td><%= format("%0.0f",b.investperiod)%></td>
                            <td><%= b.sailsstart%></td>
                            <td><%= b.collectperiod%></td>
                            <td><%= b.distributionarea%></td>
-                           <td class="ctl" title="<%= b.bname%>"><%= b.bname%></td>
+          <td title="<%= b.bname%>"><p class="ctl"><%= b.bname%></p></td>
                            <td><%= b.status%></td>
                          </tr>
                      <% end %>
                    </table>
-		         </td>
-              </tr>
-
-            </table>
-          </div>
-    </div>
-  </div>
 </div>
 
 <div id='login-box' class='login-popup'>
