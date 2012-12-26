@@ -120,7 +120,7 @@
 
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-                       <th>发行银行</th><th>预期年化收益率</th><th>计算收益</th><th>产品类型</th><th>起售价(万)</th>
+                       <th>发行银行</th><th>年化收益率</th><th>计算收益</th><th>产品类型</th><th>起售价(万)</th>
                        <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th>
                      </tr></thead>
 
@@ -128,7 +128,7 @@
                          <tr>
                            <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-          <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg" width="40%"></a></td>
+          <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
                            <td><%= b.btype%></td>
                            <td><%= format("%0.0f",b.startvalue/10000)%></td>
                            <td><%= format("%0.0f",b.investperiod)%></td>
