@@ -1,4 +1,11 @@
 <%= stylesheet_link_tag "blog.css" %>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+
+<style>
+    body { background: none repeat scroll 0% 0% rgb(243, 243, 233); font-family: Microsoft YaHei;}
+    .main-body{padding: 20px;}
+    #main .main-footer a {font-size: 0.9em; }
+</style>
 
 <div  class='main-content'>
   <table class="body-container" cellpadding="0" cellspacing="0">
@@ -8,9 +15,9 @@
           <tbody>
           <tr>
             <td class="left-cell">
-              <p class="sociable">分享这篇博客</p>
               <!-- AddThis Button BEGIN -->
-              <div class="addthis_toolbox addthis_floating_style addthis_32x32_style" style="left:70px;top:250px;">
+              <div class="addthis_toolbox addthis_floating_style addthis_32x32_style">
+              <p class="sociable">分享这篇博客</p>
                 <a class="addthis_button_preferred_1"></a>
                 <a class="addthis_button_preferred_2"></a>
                 <a class="addthis_button_preferred_3"></a>
@@ -21,10 +28,10 @@
               <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50d962e2259daff3"></script>
             </td>
             <td class="post-cell">
-              <h2 class="entry-title"><%= @bloginfo[0]%></h2>
-              <div class="eday"><a href="" class="a"><%= @bloginfo[1]%></a>发表于<a href="" class="a"><%= @bloginfo[2]%></a></div>
-              <div style="white-space: pre-line;">
-                <p><img class="alignleft size-medium "  src="/assets/<%= @bloginfo[5]%>" width="200px">
+              <h2 class="entry-title post"><%= @bloginfo[0]%></h2>
+              <div class="eday"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= @bloginfo[2]%></a></div>
+              <div class="article">
+                <p><img class="alignleft size-medium "  src="/assets/<%= @bloginfo[5]%>">
                   <%= @bloginfo[3]%>
                 </p>
               </div>
