@@ -138,14 +138,31 @@
 
 <div id='login-box' class='login-popup'>
   <div class="popup">
-    <a class="close" href="javascript:void(0)">关闭</a>
-    投资金额：<input type="text" id="investvalue">元<br>
-    预期收益率：<input type="text" id="prereturnrate">%<br>
-    投资天数：<input type="text" id="preperiod">天<br>
-    收益金额：<span id="ownvalue" style="color: #ff0000;"></span>元<br>
-    总计：<span id="total" style="color: #ff0000;"></span>元<br>
+    <table>
+    <tr><td colspan="2">
+    <a class="btn btn-success close" href="javascript:void(0)">关闭</a>
+      </td></tr>
+      <tr><td class="pull-right">投资金额：</td><td>
+        <div class="input-append">
+          <input type="text" class="investvalue" id="appendedInput"><span class="add-on">元</span>
+  </div>
+      </td></tr>
+      <tr><td class="pull-right">预期收益率：</td><td>
+        <div class="input-append"><input type="text" class="prereturnrate" id="appendedInput"><span class="add-on">%</span>
+        </div>
+      </td></tr>
+      <tr><td class="pull-right">投资天数：</td><td>
+        <div class="input-append"><input type="text" class="preperiod" id="appendedInput"><span class="add-on">元</span>
+</div>
+      </td></tr>
+      <tr><td class="pull-right">收益金额：</td><td>
+        <span id="ownvalue" style="color: #ff0000;"></span>元
+      </td></tr>
+      <tr><td class="pull-right">总计：</td><td><span id="total" style="color: #ff0000;"></span>元</td></tr>
+        </table>
   </div>
 </div>
+
 <script>
 
    function checkchick(id){
@@ -266,10 +283,10 @@
 
    }
     $(document).ready(function(){
-        $("#investvalue").keyup(function(){
-            if($("#investvalue").attr("value")!=""){
-            var ownvalue=(parseFloat($("#investvalue").attr("value"))*parseFloat($("#prereturnrate").attr("value"))*parseFloat($("#preperiod").attr("value"))/36500).toFixed(1);
-            var total=parseFloat($("#investvalue").attr("value"))+parseFloat(ownvalue);
+        $(".investvalue").keyup(function(){
+            if($(".investvalue").attr("value")!=""){
+            var ownvalue=(parseFloat($(".investvalue").attr("value"))*parseFloat($(".prereturnrate").attr("value"))*parseFloat($(".preperiod").attr("value"))/36500).toFixed(1);
+            var total=parseFloat($(".investvalue").attr("value"))+parseFloat(ownvalue);
             $("#ownvalue").html(ownvalue);
             $("#total").html(total);
             }
@@ -286,8 +303,8 @@
 
             //Fade in the Popup and add close button
             $(loginBox).fadeIn(300);
-            $("#prereturnrate").attr("value",returnrate);
-            $("#preperiod").attr("value",period)
+            $(".prereturnrate").attr("value",returnrate);
+            $(".preperiod").attr("value",period)
             //Set the center alignment padding + border
             var popMargTop = ($(loginBox).height() + 24) / 2;
             var popMargLeft = ($(loginBox).width() + 24) / 2;
