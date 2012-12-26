@@ -3,9 +3,21 @@
 <head>
 <title>通天顺金融策略网</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <%= javascript_include_tag "jquery.min.js" %>
+  <%= stylesheet_link_tag "bootstrap.min.css" %>
+  <%= stylesheet_link_tag "bootstrap-responsive.min.css" %>
 <%= stylesheet_link_tag "styles.css" %>
 </head>
+
+<style>
+    body {
+        font-family: Microsoft YaHei;
+        background: none repeat scroll 0% 0% rgb(243, 243, 233);
+    }
+    .main-body{padding: 20px;}
+</style>
+
 <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -20,50 +32,34 @@
 
 </script>
 <body>
-
-    <div id='popup-overlay' style="display: none; position: fixed; top: 0px; left: 0px; width: auto; height: auto; z-index: 25000; background-color: #fff; opacity: 0.9"></div>
-	<div id='top-bar'></div>
-	<div id='main' class='welcome'>
-        <div class='main-header'>
-            <div class='content' id='header'>
-		        <div class='hdr-contents'>
-        <a href='/' class='full' name='header-logo'>
-					    <div id='logo' style="background: url(/assets/logo.jpg) 0px 0px no-repeat;"></div>
-                    </a>
-        <div class="beta">专心为您服务的理财专家</div>
+<div id='main' class='welcome' style="width: 100%;">
+  <div class='row-fluid beta'>
+     <div class="span2">
+       <a href="/"><img src="/assets/logo.jpg"></a>
             </div>
+     <div class="span10">
+        <h4>专心为您服务的理财专家</h4>
             </div>
             </div>
 
         <%= yield %>
 
-	    <div class='main-footer'>
-		    <div class='content'>
-			<div class='table'>
-			<div class='trow'>
-                <div class='tcol last copyright'>
-                    <h3>帮助</h3>
-                    <div class='separator'></div>
-                    <a href='javascript:void(0)' class='full'onclick="question('habla_oplink_a')">咨询</a>
-                  <p> 苏JCP备12035521<br>@2012南京重人软件科技有限公司。<br></p>
+  <div class="row-fluid main-footer">
+    <div class="span2 offset6">
+      <h4 class="tcol">我们的服务</h4>
+      <a href='/home/productindex' class='full'>产品展示</a>
+      <a href='/blog/blogbankfinance' class='full'>产品介绍</a>
             </div>
-              <div class='tcol'>
-                    <h3>通天顺金融策略网</h3>
-                    <div class='separator'></div>
+    <div class="span2">
+      <h4 class="tcol">通天顺金融策略网</h4>
                     <a href='/contactus/aboutus' class='full'>关于我们</a>
                     <a href='/contactus/aboutus#联系我们' class='full'>联系我们</a>
                 <a href='/blog/blogbusinesslife' class='full'>创业人生</a>
               </div>
-                <div class='tcol'>
-                <h3>我们的服务</h3>
-                    <div class='separator'></div>
-                <a href='/home/productindex' class='full'>产品展示</a>
-                <a href='/blog/blogbankfinance' class='full'>产品介绍</a>
-                  </div>
-
-                        </div>
-                        </div>
-			<br/><br/>                
+    <div class="span2">
+      <h4 class="tcol">帮助</h4>
+      <a href='javascript:void(0)' class='full'onclick="question('habla_oplink_a')">咨询</a>
+      <p> 苏JCP备12035521<br>@2012南京重人软件科技有限公司。<br></p>
                         </div>
                         </div>
 </div>

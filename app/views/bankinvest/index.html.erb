@@ -1,11 +1,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
-<%= stylesheet_link_tag "bootstrap.min.css" %>
-
-<style>
-    body { background: none repeat scroll 0% 0% rgb(243, 243, 233);}
-</style>
 
 <style type=text/css>
     .login-popup{
@@ -27,7 +22,6 @@
         opacity: 0.3;
         z-index: 999;
     }
-    #main .main-footer a {font-size: 0.9em; }
 </style>
 
 <div class="main-content">
@@ -135,7 +129,7 @@
                            <td><%= b.sailsstart%></td>
                            <td><%= b.collectperiod%></td>
                            <td>南京</td>
-          <td title="<%= b.bname%>"><p class="ctl"><%= b.bname%></p></td>
+                           <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
                            <td><%= b.status%></td>
                          </tr>
                      <% end %>
@@ -143,14 +137,13 @@
 </div>
 
 <div id='login-box' class='login-popup'>
-  <div style="background-color: #ffffff;height: 300px;width: 300px;">
+  <div class="popup">
     <a class="close" href="javascript:void(0)">关闭</a>
     投资金额：<input type="text" id="investvalue">元<br>
     预期收益率：<input type="text" id="prereturnrate">%<br>
     投资天数：<input type="text" id="preperiod">天<br>
     收益金额：<span id="ownvalue" style="color: #ff0000;"></span>元<br>
     总计：<span id="total" style="color: #ff0000;"></span>元<br>
-
   </div>
 </div>
 <script>
