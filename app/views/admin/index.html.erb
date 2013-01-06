@@ -245,6 +245,14 @@
                       </td></tr>
 
                       <tr><td>
+                        <h1>上传图片</h1>
+                        <%= form_tag({:action => 'create'}, :multipart => true) %>
+                        选择图片: <%= file_field("file", "file") %><br><br>
+                        <%= submit_tag("上传图片") %>
+                        </form>
+                      </td></tr>
+
+                      <tr><td>
                         <h1>博客</h1>
                         <a href="/admin/blogconfig/0">添加</a>
                         <table cellpadding="0" cellspacing="0" border="0" class="display" id="blog">

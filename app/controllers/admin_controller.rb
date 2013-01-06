@@ -592,6 +592,44 @@
      end
    end
 
+   def upload_file(file)
+     if !file.original_filename.empty?
+       @filename=file.original_filename
+       File.open("#{Rails.root}/app/assets/images/#{@filename}", "wb") do |f|
+         f.write(file.read)
+       end
+       return @filename
+     end
+   end
+
+   def get_file_name(filename)
+     if !filename.nil?
+       Time.now.strftime("%Y%m%d%H%M%S") + '_' + filename
+     end
+   end
+
+   def save_file
+     unless request.get?
+       if filename=upload_file(params[:file]['file'])
+         return filename
+       end
+     end
+   end
+   #==============================
+   # 修改create方法：
+   def create
+     @photo = Photo.new(params[:photo])
+     @filename=save_file   #调用save_file方法，返回文件名
+     @photo.url="/images/#{@filename}"   #保存文件路径字段
+     @photo.name=@filename   #保存文件名字段
+     if @photo.save
+       flash[:notice] = 'Photo was successfully created.'
+       redirect_to :action => 'index'
+     else
+       render :action => 'index'
+     end
+   end
+
 end
 
  require 'openssl'
