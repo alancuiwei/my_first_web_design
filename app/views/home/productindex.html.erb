@@ -5,29 +5,21 @@
     <tr>
       <td>
   <div class="main-inputs">
-    <div id="inputs" class="content">
-      <div class="padded">
-        <h3>忘记密码了?</h3>
-        <p>尊敬的用户，我们将为您提供一对一的服务，您可以拨打电话025-83428345，致电重人软件公司查询您的密码。</p>
-      </div>
+    <div class="ad lr highlightable">
+      <div class="ct">
+        <h3>邮件订阅</h3>
+        <div class="spacer s5"></div>
+        <ul>
+          <br>
+          <li>特供银行理财产品 <br>最快推荐</li>
+          <br>
+          <li>银行理财产品文章 <br>精挑细选</li>
+          <br>
+          <li>最新网站服务功能 <br>及时通知</li>
+        </ul>
 
-      <div style="display: block;" id="overlay-inputs-login" class="overlay">
-        <div id="login-form">
-          <div id="main-login" class="login-container" style="display: block;">
-            <div id="signin-message" style="margin-bottom: 5px;">
-              登录
-            </div>
-            <div>
-              <input id="username2" class="input-field" size="16" placeholder="姓名" type="text">
-            </div>
-            <div>
-              <input id="password2" style="margin-bottom: 2px" class="input-field" size="16" placeholder="密码" type="password">
-            </div>
-            <div style="text-align: right">
-              <a href="javascript:void(userlogin('#username2','#password2'))">登录</a>
-            </div>
-          </div>
-        </div>
+        <div class="spacer s5"></div>
+        <a class="btn btn-info pull-right" href="http://eepurl.com/tonoL">订阅</a>
       </div>
     </div>
   </div>
@@ -99,42 +91,4 @@
     </tr>
   </table>
 </div>
-
-
-
-<script>
-
-    function userlogin(uid,pid){
-        if($(uid).attr("value")==""){
-            alert("用户名为空！");
-        }
-        else if($(pid).attr("value")==""){
-            alert("密码为空！");
-        }
-        else{
-            $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
-                if(data=="f"){
-                    alert("登录失败!");
-                }
-                else if(data=="f2"){
-                    alert("找不到该用户");
-                }
-                else if(data=="admin"){
-                    location.href="/admin";
-                }
-                else if(data=="s"){
-                    location.href="/privatefund/investrecord/";
-                }
-            })
-        }
-    }
-    function logout(){
-        $.get('/admin/userlogout',function(data){
-            if(data=="s"){
-                alert("退出成功！");
-                location.href="/home/productindex";
-            }
-        })
-    }
-</script>
 
