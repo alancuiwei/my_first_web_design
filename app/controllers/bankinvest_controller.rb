@@ -8,6 +8,10 @@ class BankinvestController < ApplicationController
     @client_ip=request.remote_ip
   end
 
+  def specialfinance
+    @specialfinances=Specialfinance.all
+  end
+
   def investrecord
 
     if session[:webusername]=="admin"
