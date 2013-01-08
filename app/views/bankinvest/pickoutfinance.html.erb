@@ -1,0 +1,62 @@
+<%= javascript_include_tag "jquery.min.js" %>
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<div class="main-contents">
+  <table>
+    <tr>
+      <td class="left">
+        <div class="main-inputs">
+          <div id="inputs" class="content">
+            <h1>1. 银行</h1>
+            <p>您现在资金是在哪家银行</p>
+            <div class="controls">
+              <label class="radio"><input name="optionsRadios" value="中行" type="radio">中行</label>
+              <label class="radio"><input name="optionsRadios" value="工行" type="radio">工行</label>
+              <label class="radio"><input name="optionsRadios" value="交行" type="radio">交行</label>
+              <label class="radio"><input name="optionsRadios" value="农行" type="radio">农行</label>
+              <label class="radio"><input name="optionsRadios" value="建行" type="radio">建行</label>
+              <label class="radio"><input name="optionsRadios" value="招商银行" type="radio">招商银行</label>
+              <label class="radio"><input name="optionsRadios" value="中信银行" type="radio">中信银行</label>
+              <label class="radio"><input name="optionsRadios" value="华夏银行" type="radio">华夏银行</label>
+              <label class="radio"><input name="optionsRadios" value="兴业银行" type="radio">兴业银行</label>
+              <label class="radio"><input name="optionsRadios" value="光大银行" type="radio">光大银行</label>
+              <label class="radio"><input name="optionsRadios" value="广发银行" type="radio">广发银行</label>
+              <label class="radio"><input name="optionsRadios" value="浦发银行" type="radio">浦发银行</label>
+              <label class="radio"><input name="optionsRadios" value="民生银行" type="radio">民生银行</label>
+              <label class="radio"><input name="optionsRadios" value="平安银行" type="radio">平安银行</label>
+              <button class="btn btn-info pull-right" onclick ="checkradio()">确定</button>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="main-body">
+          <a href="/">首页</a>&nbsp; >&nbsp;
+          <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
+          <a href="" >个性化推荐</a>
+          <h1>四步挑选产品</h1>
+          <div class="inputs-tip">
+            <div class="inputstip-content">
+              <h2>第一步： 银行</h2>
+              <p>您准备用哪家银行的账号来购买银行理财产品？ </p>
+              <div class="arrow-container">
+                <div class="arrow"></div>
+              </div>
+            </div>
+          </div>
+          <p>您的资金是在：<input id="finance" type="text"></p>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script language="javascript" type="text/javascript">
+    function checkradio()
+    {
+        $("input:radio").each(function(){
+            if(this.checked){$("#finance").val(this.value);}
+        });
+    }
+</script>
+
