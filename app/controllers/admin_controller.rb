@@ -5,7 +5,6 @@
     if session[:webusername]=="admin"
     @webusers=Webuser.all
     @bankfinances=Bankfinance.all
-    @specialfinances=Specialfinance.all
     @blogs=Blog.all
     @products=Product.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
@@ -502,6 +501,7 @@
        @bankfinanceinfo[8]=@bankfinance.status
        @bankfinanceinfo[9]=@bankfinance.sailsstart
        @bankfinanceinfo[10]=@bankfinance.distributionarea
+       @bankfinanceinfo[11]=@bankfinance.ispickout
      end
    end
 
@@ -520,6 +520,7 @@
            b.status=params[:status]
            b.sailsstart=params[:sailsstart]
            b.distributionarea=params[:distributionarea]
+           b.ispickout=params[:ispickout]
            b.save
          end
          render :json => "s1".to_json
@@ -529,7 +530,8 @@
        @bankfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],
                                       :collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
                                       :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
-                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],:trustee=>params[:trustee],:status=>params[:status])
+                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],
+                                      :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout])
        render :json => "s2".to_json
      end
 
@@ -545,65 +547,6 @@
      end
      end
      end
-
-   def specialfinanceconfig
-     @specialfinanceinfo=[]
-     if params[:id]!="0"
-       @specialfinance=Specialfinance.find_by_id(params[:id])
-       @specialfinanceinfo[0]=@specialfinance.bname
-       @specialfinanceinfo[1]=@specialfinance.currencytype
-       @specialfinanceinfo[2]=@specialfinance.btype
-       @specialfinanceinfo[3]=@specialfinance.collectperiod
-       @specialfinanceinfo[4]=@specialfinance.startvalue
-       @specialfinanceinfo[5]=@specialfinance.investperiod
-       @specialfinanceinfo[6]=@specialfinance.returnrate
-       @specialfinanceinfo[7]=@specialfinance.trustee
-       @specialfinanceinfo[8]=@specialfinance.status
-       @specialfinanceinfo[9]=@specialfinance.sailsstart
-       @specialfinanceinfo[10]=@specialfinance.distributionarea
-     end
-   end
-
-   def specialfinanceconfigajax
-
-     if params[:id]=="0"
-       Specialfinance.new do |b|
-         b.bname=params[:bname]
-         b.currencytype=params[:currencytype]
-         b.btype=params[:btype]
-         b.collectperiod=params[:collectperiod]
-         b.startvalue=params[:startvalue]
-         b.investperiod=params[:investperiod]
-         b.returnrate=params[:returnrate]
-         b.trustee=params[:trustee]
-         b.status=params[:status]
-         b.sailsstart=params[:sailsstart]
-         b.distributionarea=params[:distributionarea]
-         b.save
-       end
-       render :json => "s1".to_json
-
-     else
-       @specialfinance=Specialfinance.find_by_id(params[:id])
-       @specialfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],
-                                      :collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
-                                      :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
-                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],:trustee=>params[:trustee],:status=>params[:status])
-       render :json => "s2".to_json
-     end
-
-   end
-
-   def specialfinancedeleteajax
-     @specialfinance=Specialfinance.find_by_id(params[:id])
-     if @specialfinance!=nil
-       if @specialfinance.destroy
-         render :json => "s".to_json
-       else
-         render :json => "f".to_json
-       end
-     end
-   end
 
    def blogconfig
      @bloginfo=[]

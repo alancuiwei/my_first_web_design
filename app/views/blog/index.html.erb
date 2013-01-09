@@ -42,7 +42,10 @@
 				<h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%= b.btitle%></a></h2>
 				<div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
 				<div class="entry-content">
-					<p><img class="alignleft size-medium " style='width: 200px;'  src="/assets/<%= b.imagepath%>"><%= b.barticle%></p>
+					<p>
+						<img class="alignleft size-medium " style="width: 200px;" src="/assets/<%= b.imagepath%>">
+						<div style="width: 698px; float: auto;"><%=raw b.barticle%></div>
+					</p>
 				</div>
 				<p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">详细内容<span class="meta-nav">»</span></a></p>
 				<div class="entry-utility">

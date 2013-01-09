@@ -9,7 +9,7 @@ class BankinvestController < ApplicationController
   end
 
   def specialfinance
-    @specialfinances=Specialfinance.all
+    @specialfinances=Bankfinance.find_by_sql('select * from bankfinance where ispickout=1')
   end
 
   def investrecord
