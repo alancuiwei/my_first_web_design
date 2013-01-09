@@ -141,3 +141,82 @@
   </table>
 </div>
 
+
+<script type="text/javascript">
+    function isPlaceHolder(){  //判断浏览器是否支持placeholder
+        var input = document.createElement("input");
+        return "placeholder" in input;
+    }
+    if(!isPlaceHolder()){
+        function placeHolder(obj){
+            if(!obj){return;}
+            this.input = obj;
+            this.label = document.createElement("label");
+            this.label.innerHTML = obj.getAttribute("placeholder");
+            this.label.className = "placeholder";
+            if(obj.value != ""){
+                this.label.style.display = "none";
+            }
+            this.init();
+        }
+        placeHolder.prototype = {
+            getxy : function(obj){
+                if(document.documentElement.getBoundingClientRect){
+                    var st=document.documentElement.scrollTop||document.body.scrollTop,
+                            sl=document.documentElement.scrollLeft||document.body.scrollLeft,
+                            ct=document.documentElement.clientTop||document.body.clientTop,
+                            cl=document.documentElement.clientLeft||document.body.clientLeft
+                    return {left:obj.getBoundingClientRect().left+sl-cl,top:obj.getBoundingClientRect().top+st-ct};
+                }
+                else{
+                    var l=t=0;
+                    while(obj){
+                        l+=obj.offsetLeft;
+                        t+=obj.offsetTop;
+                        obj=obj.offsetParent;
+                    }
+                    return {top:t,left:l}
+                }
+            },
+            getwh : function(obj){
+                return {w:obj.offsetWidth,h:obj.offsetHeight}
+            },
+            setStyles : function(obj,styles){
+                for(var p in styles){
+                    obj.style[p] = styles[p]+'px';
+                }
+            },
+            init : function(){
+                var label = this.label,
+                        input = this.input,
+                        xy = this.getxy(input),
+                        wh = this.getwh(input);
+                this.setStyles(label,{'width':wh.w,'height':wh.h,'lineHeight':wh.h,'left':xy.left,'top':xy.top});
+                document.body.appendChild(this.label);
+                //label.setAttribute("for",input.id);
+                label.onclick = function(){
+                    this.style.display = "none";
+                    input.focus();
+                }
+                input.onfocus = function(){
+                    label.style.display = "none";
+                };
+                input.onblur = function(){
+                    if(this.value == ""){
+                        label.style.display = "";
+                    }
+                };
+            }
+        }
+        function init(){
+            var inps = document.getElementsByTagName("input");
+            for(var i=0,len=inps.length;i<len;i++){
+                if(inps[i].getAttribute("placeholder")){
+                    new placeHolder(inps[i]);
+                }
+            }
+        }
+        window.onload = init;
+    }
+</script>
+
