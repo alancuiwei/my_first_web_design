@@ -8,51 +8,53 @@
         <table class="content-table" id="blog">
           <tbody>
           <% @blogs.each do |b| %>
-              <tr>
-			    <td class="left-cell">
-					<div class="sociable">
-						<div class="sociable_tagline">分享</div>
-						<ul class="clearfix"></ul>
-					</div>
-					<!-- Baidu Button BEGIN -->
-					<div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare" style="padding:10px 0 0 5px;" data="{'url':'http://www.tongtianshun.com/blog/blogarticle/<%= b.id%>'}">
-						<a class="bds_tsina" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
-						<a class="bds_copy" style="padding:0 15px 8px 0; float: left"></a>
-						<span class="bds_more" style="padding:0 15px 10px 0; clear: both; float: left"></span>
-					</div>
-				
-					<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
-					<script type="text/javascript" id="bdshell_js"></script>
-					<script type="text/javascript">
-						document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
-					</script>
-					<!-- Baidu Button END -->
-				</td>
-                <td class="post-cell">
-                  <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%= b.btitle%></a></h2>
-                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
-                  <div class="entry-content">
-                    <p><img class="alignleft size-medium " style='width: 200px;'  src="/assets/<%= b.imagepath%>"><%= b.barticle%></p>
+            <tr>
+    			    <td class="left-cell">
+    					<div class="sociable">
+    						<div class="sociable_tagline">分享</div>
+    						<ul class="clearfix"></ul>
+    					</div>
+    					<!-- Baidu Button BEGIN -->
+    					 <div class="baidubtn">
+                  <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;" data="{'url':'http://www.tongtianshun.com/blog/blogarticle/<%= b.id%>'}">
+                    <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+                    <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+                    <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+                    <span class="bds_more" style="padding:0 15px 10px 0; clear: both; float: left"></span>
                   </div>
-                  <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link b">详细内容<span class="meta-nav">»</span></a></p>
-                  <div class="entry-utility">
-                    <span class="cat-links">
-                      发表于<a href=""  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>栏目
-                    </span>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2"><p class="back"></p></td>
-              </tr>
+              </div>
+    				
+    					<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
+    					<script type="text/javascript" id="bdshell_js"></script>
+    					<script type="text/javascript">
+    						document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+    					</script>
+    					<!-- Baidu Button END -->
+    				</td>
+            <td class="post-cell">
+              <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%= b.btitle%></a></h2>
+              <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
+              <div class="entry-content">
+                <p><img class="alignleft size-medium " style='width: 200px;'  src="/assets/<%= b.imagepath%>"><%= b.barticle%></p>
+              </div>
+              <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link b">详细内容<span class="meta-nav">»</span></a></p>
+              <div class="entry-utility">
+                <span class="cat-links">
+                  发表于<a href=""  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>栏目
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><p class="back"></p></td>
+          </tr>
           <% end %>
           </tbody>
         </table>
