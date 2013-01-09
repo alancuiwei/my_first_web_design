@@ -1,0 +1,55 @@
+<%= javascript_include_tag "jquery.min.js" %>
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<div class="main-contents">
+  <table>
+    <tr>
+      <td class="left">
+        <div class="main-inputs">
+          <div id="inputs" class="content2">
+            <div class="padded">
+              <h1>关于银行理财产品</h1>
+              <p>这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。
+                <span>这种类型的产品风险极低。</span></p>
+            </div>
+            <div class="overlay">
+              <h1>4. 风险性</h1>
+              <form name="form1" action="" method="post" onsubmit="return checkinput()">
+                <div class="controls">
+                  <label class="radio"><input name="optionsRadios" value="绝对不能亏损本金" type="radio">绝对不能亏损本金</label>
+                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承担本金亏损</label>
+                  <a class="btn btn-info pull-right" onclick ="checkradio()">确定</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="main-body">
+          <a href="/">首页</a>&nbsp; >&nbsp;
+          <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
+          <a href="" >个性化推荐</a>
+          <h1>四步挑选产品</h1>
+          <div class="inputs-tip">
+            <div class="inputstip-content">
+              <h2>第四步： 风险性</h2>
+              <p>您能承受本金出现亏损吗？<br>我们推荐您选择“可以承担本金亏损”一项，理由如下</p>
+              <div class="arrow-container">
+                <div class="arrow"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bordered">
+            <p>从投资标的上看，银行理财产品一般分为两种，票据类理财产品和信托类理财产品。
+              这里只介绍比较适合普通大众购买的票据类理财产品。</p>
+            <p>从收益语气上看，银行理财产品分为保本和非保本，固定收益和浮动收益。下面这句话是重点，请大家注意理解：</p>
+            <p>“一般来说，票据类理财产品说明书中的预期收益，实际收益都可以达到。收益到账后，按照预期收益计算实际收益，一分不差。
+              自己购买理财产品多年，十几个主流商业银行的理财产品都买过，都是如此。”</p>
+            <p>但是，非保本和浮动收益理财产品，产品说明书和理财经理不会给出类似上面的承诺。这是监管要求和职业操守的问题。虽然理财经理们也心知肚明。</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,63 @@
+<%= javascript_include_tag "jquery.min.js" %>
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<div class="main-contents">
+  <table>
+    <tr>
+      <td class="left">
+        <div class="main-inputs">
+          <div id="inputs" class="content2">
+            <div class="padded">
+              <h1>关于银行理财产品</h1>
+              <p>这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。
+                <span>这种类型的产品风险极低。</span></p>
+            </div>
+            <div class="overlay">
+              <h1>3. 投资期限</h1>
+              <form name="form1" action="/bankinvest/fourthpickout" method="post" onsubmit="return checkinput()">
+              <div class="input-append">
+                <span class="add-on">我至少投资</span>
+                <input class="input-mini" name="day" type="text" placeholder="enter">
+                <span class="add-on">天</span>
+              </div>
+              <a class="btn btn-info pull-right" id ="checkinput" type="submit">确定</a>
+               </form>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div class="main-body">
+          <a href="/">首页</a>&nbsp; >&nbsp;
+          <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
+          <a href="" >个性化推荐</a>
+          <h1>四步挑选产品</h1>
+          <div class="inputs-tip">
+            <div class="inputstip-content">
+              <h2>第三步： 投资期限</h2>
+              <p>您和您的家庭短期内需要用到这笔钱吗？</p>
+              <div class="arrow-container">
+                <div class="arrow"></div>
+              </div>
+            </div>
+          </div>
+          <div class="bordered third">
+            <p>1天 我随时有可能结婚。<br>5天 我要戒指。<br>10天 我要装修。<br>60天 我要买房。</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script language="javascript" type="text/javascript">
+    $("#checkinput").click(function(e){
+        if(document.form1.day.value=="")
+        {
+            alert("请输入天数!");
+            this.form1.day.focus();
+            return false;
+        }
+        else form1.submit();
+    });
+</script>

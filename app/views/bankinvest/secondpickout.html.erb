@@ -9,14 +9,17 @@
           <div id="inputs" class="content2">
             <div class="padded">
               <h1>关于银行理财产品</h1>
-              <p>分好多种，我们这里介绍的主要是票据型银行理财产品。</p>
+              <p>这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。
+                <span>这种类型的产品风险极低。</span></p>
             </div>
             <div class="overlay">
               <h1>2. 投资金额</h1>
-              <div class="input-append"><input class="input-medium" type="text" placeholder="请输入投资金额"><span class="add-on">万元</span>
+              <form name="form1" action="/bankinvest/thirdpickout" method="post" onsubmit="return checkinput()">
+              <div class="input-append"><input class="input-medium" name="money" type="text" placeholder="请输入投资金额"><span class="add-on">万元</span>
               </div>
               <p>最少投资金额为五万元。</p>
-              <a class="btn btn-info pull-right" href="/bankinvest/thirdpickout">确定</a>
+              <a class="btn btn-info pull-right"  id ="checkinput" type="submit">确定</a>
+              </form>
             </div>
           </div>
         </div>
@@ -52,3 +55,21 @@
     </tr>
   </table>
 </div>
+
+<script language="javascript" type="text/javascript">
+    $("#checkinput").click(function(e){
+        if(document.form1.money.value=="")
+        {
+            alert("请输入投资金额!");
+            this.form1.money.focus();
+            return false;
+        }
+        else if(document.form1.money.value<5)
+        {
+            alert("最小投资金额为5万!");
+            this.form1.money.focus();
+            return false;
+        }
+        else form1.submit();
+    });
+</script>
