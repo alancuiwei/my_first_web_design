@@ -1,4 +1,5 @@
-<%= javascript_include_tag "jquery.min.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
 
 <div class="main-contents">
@@ -13,43 +14,81 @@
                 <span>这种类型的产品风险极低。</span></p>
             </div>
             <div class="overlay">
-              <h1>4. 风险性</h1>
-              <form name="form1" action="" method="post" onsubmit="return checkinput()">
-                <div class="controls">
-                  <label class="radio"><input name="optionsRadios" value="绝对不能亏损本金" type="radio">绝对不能亏损本金</label>
-                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承担本金亏损</label>
-                  <a class="btn btn-info pull-right" onclick ="checkradio()">确定</a>
-                </div>
-              </form>
+              <p class="group">银行</p>
+              <input class="input-medium" type="text" name="bcolumn" value="<%= cookies[:bcolumn] %>">
+              <p class="group">投入资金</p>
+              <input class="input-medium" type="text" name="amount" value="<%= cookies[:amount] %>">
+              <p class="group">投资期限</p>
+              <input class="input-medium" type="text" name="deadline" value="<%= cookies[:deadline] %>">
+              <p class="group">风险性</p>
+              <input class="input-medium" type="text" name="risk" value="<%= cookies[:optionsRadios] %>">
             </div>
           </div>
         </div>
       </td>
       <td>
         <div class="main-body">
-          <a href="/">首页</a>&nbsp; >&nbsp;
-          <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
-          <a href="/bankinvest/pickoutfinance" >个性化推荐</a>
-          <h1>四步挑选产品</h1>
-          <div class="inputs-tip">
-            <div class="inputstip-content">
-              <h2>第四步： 风险性</h2>
-              <p>您能承受本金出现亏损吗？<br>我们推荐您选择“可以承担本金亏损”一项，理由如下</p>
-              <div class="arrow-container">
-                <div class="arrow"></div>
-              </div>
-            </div>
-          </div>
-          <div class="bordered">
-            <p>从投资标的上看，银行理财产品一般分为两种，票据类理财产品和信托类理财产品。
-              这里只介绍比较适合普通大众购买的票据类理财产品。</p>
-            <p>从收益语气上看，银行理财产品分为保本和非保本，固定收益和浮动收益。下面这句话是重点，请大家注意理解：</p>
-            <p>“一般来说，票据类理财产品说明书中的预期收益，实际收益都可以达到。收益到账后，按照预期收益计算实际收益，一分不差。
-              自己购买理财产品多年，十几个主流商业银行的理财产品都买过，都是如此。”</p>
-            <p>但是，非保本和浮动收益理财产品，产品说明书和理财经理不会给出类似上面的承诺。这是监管要求和职业操守的问题。虽然理财经理们也心知肚明。</p>
-          </div>
+          <a href="/">首页</a>
+          <h2>欢迎</h2>
+          <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
+            请您再做仔细筛选：</p>
+          <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
+            <thead><tr>
+              <th>发行银行</th><th>产品名称</th><th>投资期限</th><th>当天买的年化收益率</th><th>计算收益金额</th><th>操作</th>
+            </tr></thead>
+
+            <% @bankfinances.each do |b| %>
+                <tr>
+                  <td><%= b.trustee%></td>
+                  <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
+                  <td><%= format("%0.0f",b.investperiod)%>天</td>
+                  <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                  <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
+                  <td>查看详情</td>
+                </tr>
+            <% end %>
+          </table>
+          <br><br>
+          <p>同样三个月，一个是预期年化收益4%和4.5%，这里的区别在哪里？<br>A: 直接买4.5%的</p>
         </div>
       </td>
     </tr>
   </table>
 </div>
+
+<script>
+    $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
+                var flag1,flag2,flag3,flag4;
+                var bcolumn= "<%= cookies[:bcolumn] %>";
+                var deadline= "<%= cookies[:deadline] %>";
+                if(bcolumn==aData[0]){
+                    flag1=1;
+                }
+
+                if(deadline=="%u77E"&&aData[2]<14){
+                    flag2=1;
+                }
+                else if(deadline=="中期投资 (小于一年)"&&aData[2]>=14&&aData[2]<365){
+                    flag2=1;
+                }
+                else if(deadline=="长期投资 (一年及以上)"&&aData[2]>=365){
+                    flag2=1;
+                }
+
+                if(flag1==1){
+                    return true;
+                }
+
+            }
+    );
+    $(document).ready(function(){
+        /* Initialise datatables */
+        var oTable = $('#bankfinance').dataTable({
+            "iDisplayLength": 50
+        });
+
+        $("#returnrate,#bank,#period,#optionsRadios").click( function() { oTable.fnDraw(); } );
+
+    });
+</script>

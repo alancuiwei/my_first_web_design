@@ -13,14 +13,13 @@
                 <span>这种类型的产品风险极低。</span></p>
             </div>
             <div class="overlay">
-              <h1>3. 投资期限</h1>
+              <h1>3. 风险性</h1>
               <form name="form1" action="/bankinvest/fourthpickout" method="post" onsubmit="return checkinput()">
-              <div class="input-append">
-                <span class="add-on">我至少投资</span>
-                <input class="input-mini" name="day" type="text" placeholder="enter">
-                <span class="add-on">天</span>
+                <div class="controls">
+                  <label class="radio"><input name="optionsRadios" value="绝对不能亏损本金" type="radio">绝对不能亏损本金</label>
+                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承担本金亏损</label>
+                  <a class="btn btn-info pull-right"  id ="checkinput" type="submit">确定</a>
               </div>
-              <a class="btn btn-info pull-right" id ="checkinput" type="submit">确定</a>
                </form>
             </div>
           </div>
@@ -31,18 +30,21 @@
           <a href="/">首页</a>&nbsp; >&nbsp;
           <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
           <a href="/bankinvest/pickoutfinance" >个性化推荐</a>
-          <h1>四步挑选产品</h1>
+          <h1>三步挑选产品</h1>
           <div class="inputs-tip">
             <div class="inputstip-content">
-              <h2>第三步： 投资期限</h2>
-              <p>您和您的家庭短期内需要用到这笔钱吗？</p>
+              <h2>欢迎</h2>
+              <p>在整个过程中，你不需要输入任何您的个人身份信息，所以你不要担心您的个人隐私被泄露，因为您从来都不需要输入。</p>
               <div class="arrow-container">
                 <div class="arrow"></div>
               </div>
             </div>
           </div>
-          <div class="bordered third">
-            <p>1天 我随时有可能结婚。<br>5天 我要戒指。<br>10天 我要装修。<br>60天 我要买房。</p>
+          <div class="bordered">
+            <p>从收益预期上看，银行理财产品分为保本和非保本。下面这句话是重点，请大家注意理解：</p>
+            <p>“一般来说，票据类(<span>我们网站介绍的全部属于票据类</span>)理财产品说明书中的预期收益，实际收益都可以达到。收益到账后，按照预期收益计算实际收益，一分不差。
+              自己购买理财产品多年，十几个主流商业银行的理财产品都买过，都是如此。”</p>
+            <p><span>但再度重申，上述只是经验之谈，不愿承受风险的最好是选择“绝对不能亏损本金”，因为这是100%的保证本金的。</span></p>
           </div>
         </div>
       </td>
@@ -52,12 +54,6 @@
 
 <script language="javascript" type="text/javascript">
     $("#checkinput").click(function(e){
-        if(document.form1.day.value=="")
-        {
-            alert("请输入天数!");
-            this.form1.day.focus();
-            return false;
-        }
-        else form1.submit();
+        form1.submit();
     });
 </script>

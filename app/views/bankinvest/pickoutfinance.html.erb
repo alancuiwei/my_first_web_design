@@ -13,8 +13,9 @@
                 <span>这种类型的产品风险极低。</span></p>
             </div>
             <div class="overlay">
-            <h1>1. 银行</h1>
-            <p class="group">您现在资金是在哪家银行</p>
+              <form name="form1" action="/bankinvest/secondpickout" method="post" onsubmit="return checkinput()">
+                <h1>1. 银行和资金</h1>
+                <p class="group">选择您的银行</p>
             <select  name="bcolumn" id="bcolumn">
               <option value="中行">中行</option>
               <option value="工行">工行</option>
@@ -31,7 +32,20 @@
               <option value="民生银行">民生银行</option>
               <option value="平安银行">平安银行</option>
             </select>
-            <a class="btn btn-info pull-right" href='/bankinvest/secondpickout' onclick ="checkradio()">确定</a>
+                <p class="group">资金投入</p>
+                <div class="input-append">
+                  <select  name="amount" id="amount">
+                    <option value="5万-10万">5万-10万</option>
+                    <option value="10万-20万">10万-20万</option>
+                    <option value="20万-50万">20万-50万</option>
+                    <option value="50万-100万">50万-100万</option>
+                    <option value=">100万">>100万</option>
+                  </select>
+                  <span class="add-on">万元</span>
+                </div>
+                <p>最少投资金额为五万元。</p>
+                <a class="btn btn-info pull-right"  id ="checkinput" type="submit">确定</a>
+              </form>
             </div>
             <!--
             <div class="controls">
@@ -60,25 +74,20 @@
           <a href="/">首页</a>&nbsp; >&nbsp;
           <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
           <a href="" >个性化推荐</a>
-          <h1>四步挑选产品</h1>
+          <h1>三步挑选产品</h1>
           <div class="inputs-tip">
             <div class="inputstip-content">
-              <h2>第一步： 银行</h2>
-              <p>您准备用哪家银行的账号来购买银行理财产品？ </p>
+              <h2>欢迎</h2>
+              <p>在整个过程中，你不需要输入任何您的个人身份信息，所以你不要担心您的个人隐私被泄露，因为您从来都不需要输入。</p>
               <div class="arrow-container">
                 <div class="arrow"></div>
               </div>
             </div>
           </div>
-          <div class="bordered">
-            <h3>工商银行理财产品介绍</h3>
-            <p>工行银行行理财产品主要为：工银财富，保本型理财产品，灵通快线，步步为赢，高净值挂钩黄金保本浮动收益理财产品，高净值客户专属N天人民币理财产品。</p>
-            <p>注意：</p>
-            <p>1.高净值挂钩黄金保本浮动收益理财产品 的到期收益率计算公式为浮动，（1、如果在观察期内挂钩标的始终保持在边界水平之下，则
-              到期收益率=3.65% 2、如果在观察期内挂钩标的曾经高于或者等于边界水平，则到期收益率=1.30%）我们认为该产品区间变动过大，挂钩
-              标判断标准不明确，而且最高收益率也不是特别吸引人，所以不予推荐。<br>
-              2. 净值客户专属N天人民币理财产品，这类产品的特征是N天内资金不允许挪动，N正常情况下大于30天，他的优点在于N天后可以随
-              时提现，我们认为这样的情况下不如直接购买30天左右的理财产品，而且收益率还比这类产品普通要高，所以我们认为该类产品性比不高，不予推荐</p>
+          <div class="bordered first">
+            <h3>小知识:</h3>
+            <p>资金投入和利益回报率肯定是成正比的。</p>
+            <p>投入资金越高，个躬选择的产品越多，收益率越高。</p>
             <!--<p>您的资金是在：<input id="finance" type="text"></p> -->
           </div>
         </div>
@@ -97,3 +106,9 @@
     }
 </script>
 -->
+
+<script language="javascript" type="text/javascript">
+    $("#checkinput").click(function(e){
+        form1.submit();
+    });
+</script>

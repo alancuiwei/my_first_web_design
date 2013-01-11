@@ -12,6 +12,20 @@ class BankinvestController < ApplicationController
     @specialfinances=Bankfinance.find_by_sql('select * from bankfinance where ispickout=1')
   end
 
+  def secondpickout
+  cookies[:bcolumn] = params[:bcolumn]
+  cookies[:amount] = params[:amount]
+  end
+
+  def thirdpickout
+    cookies[:deadline] = params[:deadline]
+  end
+
+  def fourthpickout
+    @bankfinances=Bankfinance.all
+    cookies[:optionsRadios] = params[:optionsRadios]
+  end
+
   def investrecord
 
     if session[:webusername]=="admin"
