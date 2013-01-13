@@ -5,7 +5,6 @@ class BankinvestController < ApplicationController
 
   def index
     @bankfinances=Bankfinance.all
-    @client_ip=request.remote_ip
   end
 
   def specialfinance

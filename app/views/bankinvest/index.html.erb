@@ -27,7 +27,6 @@
 <div class="main-content">
                           <a href="/">首页</a>&nbsp; >&nbsp;
     <a href="/home/productindex" >产品展示</a>
-  <!-- <p> Your IP address is <%= @client_ip %> </p>   -->
   <h1>银行理财产品 <a class="btn btn-primary" href="/usersurvey" style="margin-left: 3%;">问卷调查</a></h1>
                    <br>
                    <div class="well-b">
@@ -115,7 +114,7 @@
                            <td><%= format("%0.0f",b.investperiod)%></td>
                            <td><%= b.sailsstart%></td>
                            <td><%= b.collectperiod%></td>
-                           <td>南京</td>
+                           <td><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
           <td><%= b.status%></td>
                          </tr>
@@ -320,7 +319,10 @@
 
        /* Initialise datatables */
        var oTable = $('#bankfinance').dataTable({
-            "iDisplayLength": 50
+           "iDisplayLength": 50,
+           "oSearch": {
+               "sSearch": remote_ip_info["city"]
+           }
     });
 
         $("#returnrate,#bank,#period,#optionsRadios").click( function() { oTable.fnDraw(); } );
@@ -328,4 +330,5 @@
     });
 </script>
 
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 <script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>
