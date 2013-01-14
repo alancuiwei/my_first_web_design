@@ -15,13 +15,13 @@
             </div>
             <div class="overlay">
               <p class="group">银行</p>
-              <input class="input-medium" type="text" name="bcolumn" value="<%= cookies[:bcolumn] %>">
+              <input class="input-medium" type="text" name="bcolumn" readOnly="true" value="<%= cookies[:bcolumn] %>">
               <p class="group">投入资金</p>
-              <input class="input-medium" type="text" name="amount" value="<%= cookies[:amount] %>">
+              <input class="input-medium" type="text" name="amount" readOnly="true" value="<%= cookies[:amount] %>">
               <p class="group">投资期限</p>
-              <input class="input-medium" type="text" name="deadline" value="<%= cookies[:deadline] %>">
+              <input class="input-medium" type="text" name="deadline" readOnly="true" value="<%= cookies[:deadline] %>">
               <p class="group">风险性</p>
-              <input class="input-medium" type="text" name="risk" value="<%= cookies[:optionsRadios] %>">
+              <input class="input-medium" type="text" name="risk" readOnly="true" value="<%= cookies[:optionsRadios] %>">
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
             请您再做仔细筛选：</p>
           <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
-              <th>发行银行</th><th>产品名称</th><th>投资期限</th><th>起售价</th><th>当天买的年化收益率</th><th>产品类型</th><th>计算收益金额</th><th>操作</th>
+              <th>发行银行</th><th>产品名称</th><th>投资期限</th><th>起售价</th><th>当天买的年化收益率</th><th>产品类型</th><th>是否开放</th><th>计算收益金额</th><th>操作</th>
             </tr></thead>
 
             <% @bankfinances.each do |b| %>
@@ -45,6 +45,7 @@
                   <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                   <td><%= b.btype%></td>
+                  <td><%= b.ispatent%></td>
                   <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
                   <td>查看详情</td>
                 </tr>
@@ -71,13 +72,13 @@
                 }
 
                 aData[2] =aData[2].replace(/天/, "");
-                if(deadline=="短期投资 (小于两周)"&&aData[2]<14){
+                if(deadline=="短期投资 (1个月内)"&&aData[6]=="true"){
                     flag2=1;
                 }
-                else if(deadline=="中期投资 (小于一年)"&&aData[2]>=14&&aData[2]<365){
+                else if(deadline=="中期投资 (3个月内)"&&aData[2]<=95&&aData[6]=="false"){
                     flag2=1;
                 }
-                else if(deadline=="长期投资 (一年及以上)"&&aData[2]>=365){
+                else if(deadline=="长期投资 (3个月以上)"&&aData[2]>95&&aData[6]=="false"){
                     flag2=1;
                 }
 
