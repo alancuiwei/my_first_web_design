@@ -8,7 +8,7 @@
           <div id="inputs" class="content2">
             <div class="padded">
               <h1>关于银行理财产品</h1>
-              <p>这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。
+              <p>银行理财产品是由银行自行设计并发行，而不是作为销售渠道，销售其他金融机构的产品。
                 <span>这种类型的产品风险极低。</span></p>
             </div>
             <div class="overlay">
@@ -42,7 +42,7 @@
                   <span class="add-on">元</span>
                 </div>
                 <p>资金投入越高，可供选择的高收益率产品越多。</p>
-                <a class="btn btn-info pull-right"  id ="checkinput" type="submit">确定</a>
+                <a class="btn btn-primary pull-right"  id ="checkinput" type="submit">确定</a>
               </form>
             </div>
             <!--
@@ -73,6 +73,9 @@
           <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
           <a href="" >个性化推荐</a>
           <h1>三步挑选产品</h1>
+          <table>
+            <tr>
+              <td class="left2">
           <div class="inputs-tip">
             <div class="inputstip-content">
               <h2>欢迎</h2>
@@ -122,14 +125,55 @@
                 <div class="tip">
                   <li  class="widget-container">
                     <h3>常见问答</h3>
-                    <a href="" class="a">1. 银行理财产品适合我购买吗？</a><br>
-                    <a href="" class="a">2. 如果我的资金不足5万元，又不甘心将资金放活期、定期怎么办？</a><br>
+                    <a href="http://www.tongtianshun.com/blog/blogarticle/37" target="_blank" class="a">1. 如果我的资金不足5万元，又不甘心将资金放活期、定期怎么办？</a><br>
                   </li>
                 </div>
               </div>
             </div>
             <!--<p>您的资金是在：<input id="finance" type="text"></p> -->
           </div>
+              </td>
+              <td class="right2">
+                <div class="ad lr highlightable">
+                <div class="ct">
+                  <!-- Begin MailChimp Signup Form -->
+                  <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+                  <style type="text/css">
+                      #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                          /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+         We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                  </style>
+                  <div id="mc_embed_signup">
+                    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                      <label for="mce-EMAIL">邮件订阅</label>
+                      <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
+                      <div class="clear"><input type="submit" value="订阅" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                    </form>
+                  </div>
+
+                  <!--End mc_embed_signup-->
+
+                  <h3>邮件提供哪些内容？</h3>
+                  <div class="spacer s5"></div>
+                  <a href="http://eepurl.com/tpHAf" target="_blank">查看历史邮件</a>
+
+                  <ul>
+                    <br>
+                    <li>特供银行理财产品 </li>
+
+                    <li>银行理财产品文章 </li>
+
+                    <li>最新网站服务功能 </li>
+                  </ul>
+                  <!--
+                  <div class="spacer s5"></div>
+                  <a class="btn btn-info pull-right" href="http://eepurl.com/tonoL">订阅</a>
+                  -->
+                </div>
+                    </div>
+              </td>
+            </tr>
+          </table>
         </div>
       </td>
     </tr>
@@ -151,4 +195,42 @@
     $("#checkinput").click(function(e){
         form1.submit();
     });
+
+    //placeholder IE8
+    var _placeholderSupport = function() {
+        var t = document.createElement("input");
+        t.type = "text";
+        return (typeof t.placeholder !== "undefined");
+    }();
+
+    window.onload = function() {
+        var arrInputs = document.getElementsByTagName("input");
+        for (var i = 0; i < arrInputs.length; i++) {
+            var curInput = arrInputs[i];
+            if (!curInput.type || curInput.type == "" || curInput.type == "text")
+                HandlePlaceholder(curInput);
+        }
+    };
+
+    function HandlePlaceholder(oTextbox) {
+        if (!_placeholderSupport) {
+            var curPlaceholder = oTextbox.getAttribute("placeholder");
+            if (curPlaceholder && curPlaceholder.length > 0) {
+                oTextbox.value = curPlaceholder;
+                oTextbox.setAttribute("old_color", oTextbox.style.color);
+                oTextbox.style.color = "#c0c0c0";
+                oTextbox.onfocus = function() {
+                    this.style.color = this.getAttribute("old_color");
+                    if (this.value === curPlaceholder)
+                        this.value = "";
+                };
+                oTextbox.onblur = function() {
+                    if (this.value === "") {
+                        this.style.color = "#c0c0c0";
+                        this.value = curPlaceholder;
+                    }
+                }
+            }
+        }
+    }
 </script>
