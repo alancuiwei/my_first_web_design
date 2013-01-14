@@ -1,3 +1,4 @@
+<%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
 
 <div class="main-contents">
@@ -7,16 +8,17 @@
         <div class="main-inputs">
           <div id="inputs" class="content2">
             <div class="padded">
-              <h1>关于银行理财产品</h1>
-              <p>这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。
-                <span>这种类型的产品风险极低。</span></p>
+              <h1>个人隐私信息</h1>
+              <p>在整个过程中，你不需要输入任何您的身份信息。
+                <span>你完全无需担心您的个人家庭财务信息被泄露。</span></p>
             </div>
             <div class="overlay">
               <h1>3. 风险性</h1>
               <form name="form1" action="/bankinvest/fourthpickout" method="post" onsubmit="return checkinput()">
                 <div class="controls">
-                  <label class="radio"><input name="optionsRadios" checked  value="绝对不能亏损本金" type="radio">绝对不能亏损本金</label>
-                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承担本金亏损</label>
+                  <label class="radio"><input name="optionsRadios" checked  value="绝对不能亏损本金" type="radio">本金不能亏损</label>
+
+                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承受本金亏损</label>
                   <a class="btn btn-primary pull-right"  id ="checkinput" type="submit">确定</a>
               </div>
                </form>
@@ -28,23 +30,98 @@
         <div class="main-body">
           <a href="/">首页</a>&nbsp; >&nbsp;
           <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
-          <a href="/bankinvest/pickoutfinance" >个性化推荐</a>
+          <a href="/bankinvest/pickoutfinance" >三步精选产品</a>
           <h1>三步挑选产品</h1>
+          <table>
+            <tr>
+              <td class="left2">
           <div class="inputs-tip">
             <div class="inputstip-content">
-              <h2>欢迎</h2>
-              <p>在整个过程中，你不需要输入任何您的个人身份信息，所以你不要担心您的个人隐私被泄露，因为您从来都不需要输入。</p>
+              <h2>最后一步了！</h2>
+              <p>请根据您个人家庭情况，选择相应的选项。</p>
               <div class="arrow-container">
                 <div class="arrow"></div>
               </div>
             </div>
           </div>
           <div class="bordered">
-            <p>从收益预期上看，银行理财产品分为保本和非保本。下面这句话是重点，请大家注意理解：</p>
-            <p>“一般来说，票据类(<span>我们网站介绍的全部属于票据类</span>)理财产品说明书中的预期收益，实际收益都可以达到。收益到账后，按照预期收益计算实际收益，一分不差。
-              自己购买理财产品多年，十几个主流商业银行的理财产品都买过，都是如此。”</p>
-            <p><span>但再度重申，上述只是经验之谈，不愿承受风险的最好是选择“绝对不能亏损本金”，因为这是100%的保证本金的。</span></p>
+            <h4>风险性与个人家庭情况</h4>
+
+            <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>个人家庭情况</th>
+                      <th>产品类型</th>
+                      <th>风险承担者</th>
+                      <th>我们的建议</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>本金不能亏损</td>
+                      <td>保本型</td>
+                      <td>完全由银行承担。</td>
+                      <td>资金绝对安全，收益率相对较低。</td>
+                    </tr>
+                    <tr>
+                      <td>可以承受本金亏损</td>
+                      <td>不保本</td>
+                      <td>由投资者自己承担。</td>
+                      <td>资金相对安全，收益率相对较高。</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <td class="right2">
+                <div class="tip2">
+                  <li  class="widget-container">
+                    <h3>常见问答</h3>
+                    <a href="" class="a">1. 银行理财产品适合我购买吗？</a><br>
+                    <a href="" class="a">2. 如果我的资金不足5万元，又不甘心将资金放活期、定期怎么办？</a><br>
+                  </li>
+                </div>
+                <br>
+                <div class="ad lr highlightable">
+                  <div class="ct">
+                    <!-- Begin MailChimp Signup Form -->
+                    <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+                    <style type="text/css">
+                        #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+                            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+           We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                    </style>
+                    <div id="mc_embed_signup">
+                      <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <label for="mce-EMAIL">邮件订阅</label>
+                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
+                        <div class="clear"><input type="submit" value="订阅" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                      </form>
           </div>
+
+                    <!--End mc_embed_signup-->
+
+                    <h3>邮件提供哪些内容？</h3>
+                    <div class="spacer s5"></div>
+                    <a href="http://eepurl.com/tpHAf" target="_blank">查看历史邮件</a>
+
+                    <ul>
+                      <br>
+                      <li>特供银行理财产品 </li>
+
+                      <li>银行理财产品文章 </li>
+
+                      <li>最新网站服务功能 </li>
+                    </ul>
+                    <!--
+                    <div class="spacer s5"></div>
+                    <a class="btn btn-info pull-right" href="http://eepurl.com/tonoL">订阅</a>
+                    -->
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
       </td>
     </tr>

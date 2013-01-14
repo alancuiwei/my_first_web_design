@@ -2,6 +2,10 @@
 
 <div style="width: 700px;height: 700px;">
   <div>
+    是否具有开放性：<select  name="ispatent" id="ispatent" title="是否具有开放性">
+    <option value="1">是</option>
+    <option value="0">否</option>
+  </select><br>
     是否特供：<select  name="ispickout" id="ispickout" title="是否特供">
     <option value="1">是</option>
     <option value="0">否</option>
@@ -39,6 +43,7 @@
     $("#sailsstart").attr("value",'<%= @bankfinanceinfo[9]%>');
     $("#distributionarea").attr("value",'<%= @bankfinanceinfo[10]%>');
     $("#ispickout").attr("value",'<%= @bankfinanceinfo[11]%>');
+    $("#ispatent").attr("value",'<%= @bankfinanceinfo[12]%>');
     <% end %>
 
     $("#bankfinanceconfig").click(function(e){
@@ -73,7 +78,8 @@
                 btype: $("#btype").attr("value"),collectperiod: $("#collectperiod").attr("value"),
                 startvalue: $("#startvalue").attr("value"),returnrate: $("#returnrate").attr("value"),
                 trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value"),
-                sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),ispickout: $("#ispickout").attr("value")
+                sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),
+                ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value")
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");

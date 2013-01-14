@@ -222,8 +222,8 @@
             <a href="/admin/bankfinanceconfig/0">添加</a>
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance">
               <thead><tr>
-                <th>发行银行</th><th>预期收益率</th><th>是否保本</th><th>起售价</th>
-                <th>投资期限</th><th>产品名称</th><th>状态</th>
+                <th>发行银行</th><th>预期收益率</th><th>是否保本</th><th>是否特供</th><th>是否开放</th>
+                <th>投资期限</th><th>产品名称</th>
                 <th>修改</th><th>删除</th><th>查看</th>
               </tr></thead>
 
@@ -232,10 +232,10 @@
                     <td><%= b.trustee%></td>
                     <td><%= b.returnrate%></td>
                     <td><%= b.btype%></td>
-                    <td><%= b.startvalue%></td>
+                    <td><%= b.ispickout%></td>
+                    <td><%= b.ispatent%></td>
                     <td><%= b.investperiod%></td>
                     <td><%= b.bname%></td>
-                    <td><%= b.status%></td>
                     <td><a href="/admin/bankfinanceconfig/<%= b.id %>?optype=edit">修改</a></td>
                     <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','bankfinancedeleteajax')">删除</a></td>
                     <td><a href="">查看</a></td>

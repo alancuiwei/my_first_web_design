@@ -502,6 +502,7 @@
        @bankfinanceinfo[9]=@bankfinance.sailsstart
        @bankfinanceinfo[10]=@bankfinance.distributionarea
        @bankfinanceinfo[11]=@bankfinance.ispickout
+       @bankfinanceinfo[12]=@bankfinance.ispatent
      end
    end
 
@@ -521,6 +522,7 @@
            b.sailsstart=params[:sailsstart]
            b.distributionarea=params[:distributionarea]
            b.ispickout=params[:ispickout]
+           b.ispatent=params[:ispatent]
            b.save
          end
          render :json => "s1".to_json
@@ -531,7 +533,8 @@
                                       :collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
                                       :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
                                       :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],
-                                      :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout])
+                                      :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout],
+                                      :ispatent=>params[:ispatent])
        render :json => "s2".to_json
      end
 
