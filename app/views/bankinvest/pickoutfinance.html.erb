@@ -1,3 +1,4 @@
+<%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
 
 <div class="main-contents">
@@ -7,9 +8,8 @@
         <div class="main-inputs">
           <div id="inputs" class="content2">
             <div class="padded">
-              <h1>关于银行理财产品</h1>
-              <p>银行理财产品是由银行自行设计并发行，而不是作为销售渠道，销售其他金融机构的产品。
-                <span>这种类型的产品风险极低。</span></p>
+              <h1>个人隐私信息</h1>
+              <p>在整个过程中，你不需要输入任何您的身份信息.<br><span>你完全无需担心您的个人家庭财务信息被泄露。</span></p>
             </div>
             <div class="overlay">
               <form name="form1" action="/bankinvest/secondpickout" method="post" onsubmit="return checkinput()">
@@ -72,14 +72,16 @@
           <a href="/">首页</a>&nbsp; >&nbsp;
           <a href="/bankinvest/index" >银行理财产品</a>&nbsp; >&nbsp;
           <a href="" >个性化推荐</a>
-          <h1>三步挑选产品</h1>
+          <h1>三步精选产品</h1>
           <table>
             <tr>
               <td class="left2">
           <div class="inputs-tip">
             <div class="inputstip-content">
-              <h2>欢迎</h2>
-              <p>在整个过程中，你不需要输入任何您的个人身份信息，所以你不要担心您的个人隐私被泄露。</p>
+              <h2>何为三步精选产品？</h2>
+              <p>产品：这里的银行理财产品是由银行自行设计并发行，而不是作为销售渠道，和信托、基金、保险等金融机构合作的产品。 这种类型的产品风险极低。</p>
+              <p>三步：通过资金量、流动性、风险性三步骤来挑选产品。</p>
+              <p>精选：所有产品都经过我们金融专家逐字阅读银行理财产品说明书，明确投资范围，投资规模等专业属性，从而推荐的。</p>
               <div class="arrow-container">
                 <div class="arrow"></div>
               </div>
@@ -195,42 +197,4 @@
     $("#checkinput").click(function(e){
         form1.submit();
     });
-
-    //placeholder IE8
-    var _placeholderSupport = function() {
-        var t = document.createElement("input");
-        t.type = "text";
-        return (typeof t.placeholder !== "undefined");
-    }();
-
-    window.onload = function() {
-        var arrInputs = document.getElementsByTagName("input");
-        for (var i = 0; i < arrInputs.length; i++) {
-            var curInput = arrInputs[i];
-            if (!curInput.type || curInput.type == "" || curInput.type == "text")
-                HandlePlaceholder(curInput);
-        }
-    };
-
-    function HandlePlaceholder(oTextbox) {
-        if (!_placeholderSupport) {
-            var curPlaceholder = oTextbox.getAttribute("placeholder");
-            if (curPlaceholder && curPlaceholder.length > 0) {
-                oTextbox.value = curPlaceholder;
-                oTextbox.setAttribute("old_color", oTextbox.style.color);
-                oTextbox.style.color = "#c0c0c0";
-                oTextbox.onfocus = function() {
-                    this.style.color = this.getAttribute("old_color");
-                    if (this.value === curPlaceholder)
-                        this.value = "";
-                };
-                oTextbox.onblur = function() {
-                    if (this.value === "") {
-                        this.style.color = "#c0c0c0";
-                        this.value = curPlaceholder;
-                    }
-                }
-            }
-        }
-    }
 </script>
