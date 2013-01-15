@@ -27,32 +27,46 @@
         </div>
       </td>
       <td>
-        <div class="main-body">
+        <div class="main-body pickout">
           <a href="/">首页</a>
           <h1>欢迎</h1>
           <div class="lf-box">
           <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
             请您再做仔细筛选：</p>
           </div>
+          <table>
+            <tr>
+              <td class="left2">
           <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
-              <th>发行银行</th><th>产品名称</th><th>投资期限</th><th>起售价</th><th>当天买的年化收益率</th><th>产品类型</th><th>是否开放</th><th>计算收益金额</th><th>操作</th>
+              <th class="hide">发行银行</th><th>产品名称</th><th>投资期限</th>
+              <th class="hide">起售价</th><th>当天买的年化收益率</th><th class="hide">产品类型</th>
+              <th class="hide">是否开放</th><th>计算收益金额</th>
             </tr></thead>
 
             <% @bankfinances.each do |b| %>
                 <tr>
-                  <td><%= b.trustee%></td>
-                  <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
+                  <td class="hide"><%= b.trustee%></td>
+                  <td><%= b.bname%></td>
                   <td><%= format("%0.0f",b.investperiod)%>天</td>
-                  <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+                  <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                  <td><%= b.btype%></td>
-                  <td><%= b.ispatent %>
-                  </td>
+                  <td class="hide"><%= b.btype%></td>
+                  <td class="hide"><%= b.ispatent %></td>
                   <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
-                  <td>查看详情</td>
                 </tr>
             <% end %>
+          </table>
+              </td>
+              <td class="right2">
+                <div class="tip2">
+                  <li  class="widget-container">
+                    <h3>常见问答</h3>
+                    <a href="http://www.tongtianshun.com/blog/blogarticle/38" target="_blank" class="a">1. 我想提前赎回银行理财产品可以吗？</a><br>
+                  </li>
+                </div>
+              </td>
+            </tr>
           </table>
           <br><br>
         </div>
@@ -119,7 +133,10 @@
     $(document).ready(function(){
         /* Initialise datatables */
         var oTable = $('#bankfinance').dataTable({
-            "iDisplayLength": 50
+            "iDisplayLength": 50,
+            "oLanguage": {
+                "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
+            }
         });
 
         $("#returnrate,#bank,#period,#optionsRadios").click( function() { oTable.fnDraw(); } );
