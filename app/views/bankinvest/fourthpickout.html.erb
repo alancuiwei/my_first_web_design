@@ -17,7 +17,7 @@
               <p class="group">银行</p>
               <input class="input-medium" type="text" name="bcolumn" readOnly="true" value="<%= cookies[:bcolumn] %>">
               <p class="group">投入资金</p>
-              <input class="input-medium" type="text" name="amount" readOnly="true" value="<%= cookies[:amount] %>">
+              <input class="input-medium" type="text" name="amount" id="amount" readOnly="true">
               <p class="group">投资期限</p>
               <input class="input-medium" type="text" name="deadline" readOnly="true" value="<%= cookies[:deadline] %>">
               <p class="group">风险性</p>
@@ -29,9 +29,11 @@
       <td>
         <div class="main-body">
           <a href="/">首页</a>
-          <h2>欢迎</h2>
+          <h1>欢迎</h1>
+          <div class="lf-box">
           <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
             请您再做仔细筛选：</p>
+          </div>
           <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
               <th>发行银行</th><th>产品名称</th><th>投资期限</th><th>起售价</th><th>当天买的年化收益率</th><th>产品类型</th><th>是否开放</th><th>计算收益金额</th><th>操作</th>
@@ -45,8 +47,9 @@
                   <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                   <td><%= b.btype%></td>
-                  <td><%= b.ispatent%></td>
-                  <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
+                  <td><%= b.ispatent %>
+                  </td>
+                  <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
                   <td>查看详情</td>
                 </tr>
             <% end %>
@@ -83,17 +86,21 @@
                 }
 
                 aData[3] =aData[3].replace(/万/, "");
-                if(amount=="5万-10万"&&aData[3]>=5&&aData[3]<=10){
+                if(amount<=100000&&aData[3]>=5&&aData[3]<=10){
                     flag3=1;
+                    $("#amount").val("5万-10万");
                 }
-                else if(amount=="10万-20万"&&aData[3]>10&&aData[3]<=20){
+                else if(amount>100000&&amount<=200000&&aData[3]>10&&aData[3]<=20){
                     flag3=1;
+                    $("#amount").val("10万-20万");
                 }
-                else if(amount=="20万-50万"&&aData[3]>20&&aData[3]<=50){
+                else if(amount>200000&&amount<=500000&&aData[3]>20&&aData[3]<=50){
                     flag3=1;
+                    $("#amount").val("20万-50万");
                 }
-                else if(amount=="50万以上"&&aData[3]>50){
+                else if(amount>500000&&aData[3]>50){
                     flag3=1;
+                    $("#amount").val("50万以上");
                 }
 
                 if(optionsRadios=="绝对不能亏损本金"&&aData[5]=="保本"){

@@ -33,12 +33,7 @@
             </select>
                 <p class="group">资金投入</p>
                 <div class="input-append">
-                  <select  name="amount" id="amount">
-                    <option value="5万-10万">5万-10万</option>
-                    <option value="10万-20万">10万-20万</option>
-                    <option value="20万-50万">20万-50万</option>
-                    <option value="50万以上">50万以上</option>
-                  </select>
+                  <input class="input-medium" name="amount" id="amount" type="text" placeholder="请输入投资金额">
                   <span class="add-on">元</span>
                 </div>
                 <p>最低投入资金为50000元。</p>
@@ -195,6 +190,18 @@
 
 <script language="javascript" type="text/javascript">
     $("#checkinput").click(function(e){
-        form1.submit();
+        if(document.form1.amount.value=="")
+        {
+            alert("请输入投资金额!");
+            this.form1.amount.focus();
+            return false;
+        }
+        else if(document.form1.amount.value<50000)
+        {
+            alert("最小投资金额为5万!");
+            this.form1.amount.focus();
+            return false;
+        }
+        else form1.submit();
     });
 </script>
