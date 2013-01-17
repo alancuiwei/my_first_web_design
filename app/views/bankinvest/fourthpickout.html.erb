@@ -17,15 +17,14 @@
             <div id="myTabContent" class="tab-content">
               <div class="overlay tab-pane fade in active" id="fourth">
               <p class="group">银行</p>
-                <input class="input-medium" type="text" name="bcolumn" href="#first" data-toggle="tab" readonly="true" id="bcolumn" value="<%= cookies[:bcolumn] %>">
+                <input class="input-medium" type="text" name="bcolumn" href="#first" data-toggle="tab" id="bcolumn" value="<%= cookies[:bcolumn] %>">
               <p class="group">投入资金</p>
-                <input class="input-medium" type="text" name="amount" href="#first" data-toggle="tab" readonly="true" id="amount">
+                <input class="input-medium" type="text" name="amount" href="#first" data-toggle="tab" id="amount" value="<%= cookies[:amount] %>元">
               <p class="group">投资期限</p>
-                <input class="input-medium" type="text" name="deadline" href="#second" data-toggle="tab" readonly="true" id="deadline" value="<%= cookies[:deadline] %>">
+                <input class="input-medium" type="text" name="deadline" href="#second" data-toggle="tab" id="deadline" value="<%= cookies[:deadline] %>">
               <p class="group">风险性</p>
-                <input class="input-medium" type="text" name="risk" href="#third" data-toggle="tab" readonly="true" id="risk" value="<%= cookies[:optionsRadios] %>">
+                <input class="input-medium" type="text" name="risk" href="#third" data-toggle="tab" id="risk" value="<%= cookies[:optionsRadios] %>">
               </div>
-              <!--
               <div class="overlay tab-pane fade" id="first">
                 <form name="form1" action="" method="post" onsubmit="return checkinput1()">
                   <h1>1. 银行和资金</h1>
@@ -52,7 +51,7 @@
                     <span class="add-on">元</span>
                   </div>
                   <p>最低投入资金为50000元。</p>
-                  <a class="btn btn-primary pull-right" href="#fourth"  data-toggle="tab" id ="checkinput1" type="submit">确定</a>
+                  <a class="btn btn-primary pull-right" href="#fourth"  data-toggle="tab" id ="checkinput1" onclick="javascript:window.top.location.reload()" type="submit">确定</a>
                 </form>
               </div>
               <div class="overlay tab-pane fade" id="second">
@@ -64,7 +63,7 @@
                     <option value="短期投资 (1个月内)">短期投资 (1个月内)</option>
                     <option value="长期投资 (3个月以上)">长期投资 (3个月以上)</option>
                   </select>
-                  <a class="btn btn-primary pull-right" href="#fourth" data-toggle="tab" id ="checkinput2" type="submit">确定</a>
+                  <a class="btn btn-primary pull-right" href="#fourth" data-toggle="tab" id ="checkinput2" onclick="javascript:window.top.location.reload()" type="submit">确定</a>
                 </form>
               </div>
               <div class="overlay tab-pane fade" id="third">
@@ -74,11 +73,10 @@
                     <label class="radio"><input name="optionsRadios" checked  value="绝对不能亏损本金" type="radio">本金不能亏损</label>
 
                     <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承受本金亏损</label>
-                    <a class="btn btn-primary pull-right" href="#fourth" data-toggle="tab" id ="checkinput3" type="submit">确定</a>
+                    <a class="btn btn-primary pull-right" href="#fourth" data-toggle="tab" id ="checkinput3" onclick="javascript:window.top.location.reload()" type="submit">确定</a>
                   </div>
                 </form>
               </div>
-              -->
             </div>
           </div>
         </div>
@@ -98,8 +96,8 @@
           <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
               <th class="hide">发行银行</th><th>产品名称</th><th>投资期限</th>
-              <th class="hide">起售价</th><th>当天买的年化收益率</th><th class="hide">产品类型</th>
-              <th class="hide">是否开放</th><th>计算收益金额</th>
+              <th>起售价</th><th>年化收益率</th><th>产品类型</th>
+              <th class="hide">是否开放</th><th class="hide">计算收益金额</th>
             </tr></thead>
 
             <% @bankfinances.each do |b| %>
@@ -107,11 +105,11 @@
                   <td class="hide"><%= b.trustee%></td>
                   <td><%= b.bname%></td>
                   <td><%= format("%0.0f",b.investperiod)%>天</td>
-                  <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
+                  <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                  <td class="hide"><%= b.btype%></td>
+                  <td><%= b.btype%></td>
                   <td class="hide"><%= b.ispatent %></td>
-                  <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
+                  <td class="hide"><p id="count" title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
                 </tr>
             <% end %>
           </table>
@@ -134,14 +132,13 @@
 </div>
 
 <script>
-
     $.fn.dataTableExt.afnFiltering.push(
             function( oSettings, aData, iDataIndex ) {
                 var flag1,flag2,flag3,flag4;
-                var bcolumn= "<%= cookies[:bcolumn] %>";
-                var deadline= "<%= cookies[:deadline] %>";
-                var amount= "<%= cookies[:amount] %>";
-                var optionsRadios= "<%= cookies[:optionsRadios] %>";
+                var bcolumn= document.getElementsByName("bcolumn")[0].value;
+                var deadline= document.getElementsByName("deadline")[0].value;
+                var amount= document.getElementsByName("amount")[0].value;
+                var optionsRadios= document.getElementsByName("risk")[0].value;
 
                 if(bcolumn==aData[0]){
                     flag1=1;
@@ -159,21 +156,18 @@
                 }
 
                 aData[3] =aData[3].replace(/万/, "");
+                amount =amount.replace(/元/, "");
                 if(amount<=100000&&aData[3]>=5&&aData[3]<=10){
                     flag3=1;
-                    $("#amount").val("5万-10万");
                 }
                 else if(amount>100000&&amount<=200000&&aData[3]>10&&aData[3]<=20){
                     flag3=1;
-                    $("#amount").val("10万-20万");
                 }
                 else if(amount>200000&&amount<=500000&&aData[3]>20&&aData[3]<=50){
                     flag3=1;
-                    $("#amount").val("20万-50万");
                 }
                 else if(amount>500000&&aData[3]>50){
                     flag3=1;
-                    $("#amount").val("50万以上");
                 }
 
                 if(optionsRadios=="绝对不能亏损本金"&&aData[5]=="保本"){
@@ -221,7 +215,7 @@
             return false;
         }
         else {
-            $("#amount").val(document.form1.amounts.value);
+            $("#amount").val(document.form1.amounts.value+"元");
             $("#bcolumn").val(document.form1.bcolumns.value);
         }
     });
@@ -231,7 +225,8 @@
     });
 
     $("#checkinput3").click(function(e){
-        alert(document.form3.optionsRadios.value);
-        $("#risk").val(document.form3.optionsRadios.value);
+        $("input:radio").each(function(){
+            if(this.checked){$("#risk").val(this.value);}
+        });
     });
 </script>
