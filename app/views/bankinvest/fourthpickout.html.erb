@@ -1,5 +1,5 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
-<%= stylesheet_link_tag "datatables.css" %>
+<!--<%= stylesheet_link_tag "datatables.css" %>-->
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= javascript_include_tag "bootstrap.js" %>
 
@@ -111,15 +111,15 @@
           <h1>欢迎</h1>
           <table>
             <tr>
-              <td class="left2">
+              <td class="left2 side">
           <div class="lf-box">
           <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
             请您再做仔细筛选：</p>
           </div>
 
-          <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
+                <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
-              <th class="hide">发行银行</th><th>产品名称</th><th>投资期限</th>
+                    <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
               <th>起售价</th><th>年化收益率</th><th>产品类型</th>
               <th class="hide">是否开放</th><th class="hide">计算收益金额</th>
             </tr></thead>
@@ -127,7 +127,7 @@
             <% @bankfinances.each do |b| %>
                 <tr>
                   <td class="hide"><%= b.trustee%></td>
-                  <td><%= b.bname%></td>
+                        <td class="name"><%= b.bname%></td>
                   <td><%= format("%0.0f",b.investperiod)%>天</td>
                   <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
@@ -181,16 +181,7 @@
 
                 aData[3] =aData[3].replace(/万/, "");
                 amount =amount.replace(/元/, "");
-                if(amount<=100000&&aData[3]>=5&&aData[3]<=10){
-                    flag3=1;
-                }
-                else if(amount>100000&&amount<=200000&&aData[3]>10&&aData[3]<=20){
-                    flag3=1;
-                }
-                else if(amount>200000&&amount<=500000&&aData[3]>20&&aData[3]<=50){
-                    flag3=1;
-                }
-                else if(amount>500000&&aData[3]>50){
+                if(amount>=aData[3]*10000){
                     flag3=1;
                 }
 
