@@ -186,40 +186,7 @@
                 var amount= document.getElementsByName("amount")[0].value;
                 var optionsRadios= document.getElementsByName("risk")[0].value;
 
-                if(oSettings.nTable.id == "bankfinance"){
-                if(bcolumn==aData[0]){
-                    flag1=1;
-                }
 
-                aData[2] =aData[2].replace(/天/, "");
-                if(deadline=="短期投资 (1个月内)"&&aData[6]=="true"){
-                    flag2=1;
-                }
-                else if(deadline=="中期投资 (3个月内)"&&aData[2]<=95&&aData[6]=="false"){
-                    flag2=1;
-                }
-                else if(deadline=="长期投资 (3个月以上)"&&aData[2]>95&&aData[6]=="false"){
-                    flag2=1;
-                }
-
-                aData[3] =aData[3].replace(/万/, "");
-                amount =amount.replace(/元/, "");
-                if(amount>=aData[3]*10000){
-                    flag3=1;
-                }
-
-                if(optionsRadios=="绝对不能亏损本金"&&aData[5]=="保本"){
-                    flag4=1;
-                }
-                else if(optionsRadios=="可以承担本金亏损"){
-                    flag4=1;
-                }
-
-                if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
-                    return true;
-                }
-            }
-                else{
                     if(bcolumn==aData[0]){
                         flag1=1;
                     }
@@ -254,6 +221,12 @@
                         flag4=0;
                     }
 
+                if(oSettings.nTable.id == "bankfinance"){
+                    if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
+                        return true;
+                    }
+                }
+                else{
                     if(flag1==1&&flag3==1&&(flag2==0||flag4==0)){
                         return true;
                     }
