@@ -1,5 +1,9 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
-<%= stylesheet_link_tag "datatables.css" %>
+
+<%= javascript_include_tag "FixedHeader.min.js" %>
+<%= stylesheet_link_tag "demo_page.css" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
+<%= stylesheet_link_tag "jquery-ui-1.8.4.custom.css" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
 <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 
@@ -120,14 +124,15 @@
       </div>
                    </div>
                      </div>
+  <br>
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-                       <th>发行银行</th><th>年化收益率</th><th>计算收益</th><th>产品类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th><th class="hide">发行地区</th>
+                       <th>发行银行</th><th>年化收益率</th><th>收益额</th><th>类型</th><th>起售价(万)</th>
+      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>状态</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
-                         <tr>
+                         <tr class="gradeA">
                            <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
@@ -136,7 +141,7 @@
                            <td><%= format("%0.0f",b.investperiod)%></td>
                            <td><%= b.sailsstart%></td>
                            <td><%= b.collectperiod%></td>
-                           <td><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+                           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
           <td><%= b.status%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
@@ -339,24 +344,29 @@
             return false;
         });
 
-
        /* Initialise datatables */
        var oTable = $('#bankfinance').dataTable({
            "iDisplayLength": 50,
+           "bJQueryUI": true,
+           "sPaginationType": "full_numbers",
            "oSearch": {
                "sSearch": remote_ip_info["city"]
            },
            "oLanguage": {
+               "sSearch":"发行地区:",
                "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
-           }
+           },
+           "aaSorting": [[ 1, "desc" ]]
     });
-
+        new FixedHeader(oTable);
         $("#returnrate,#bank,#period,#optionsRadios").click( function() { oTable.fnDraw(); } );
     });
    function area(){
        var length=$("#bankfinance").find("tr").size();
        for(i=0;i<length;i++){
-           $("#bankfinance tr:eq("+i+") td:eq(8)").html($("#bankfinance_filter input").val()+$("#bankfinance tr:eq("+i+") td:eq(11)").html())
+           if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
+           $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
+           }
        }
    };
    window.onload=function(){
