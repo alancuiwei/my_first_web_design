@@ -1,6 +1,7 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 
 <style type=text/css>
     .login-popup{
@@ -24,7 +25,7 @@
     }
 </style>
 
-<div class="main-content">
+<div class="main-content" onkeyup="area()" onclick="area()" onload="">
                           <a href="/">首页</a>&nbsp; >&nbsp;
     <a href="/home/productindex" >产品展示</a>
   <h1>银行理财产品</h1>
@@ -123,7 +124,7 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
                        <th>发行银行</th><th>年化收益率</th><th>计算收益</th><th>产品类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th>
+      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th>发行地区</th><th>产品名称</th><th>状态</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -139,6 +140,7 @@
                            <td><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
           <td><%= b.status%></td>
+                           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                          </tr>
                      <% end %>
                    </table>
@@ -272,8 +274,8 @@
               if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
                   return true;
               }
-
            }
+
    );
 
    function doclick(name)
@@ -351,9 +353,17 @@
     });
 
         $("#returnrate,#bank,#period,#optionsRadios").click( function() { oTable.fnDraw(); } );
-
     });
+   function area(){
+       var length=$("#bankfinance").find("tr").size();
+       for(i=0;i<length;i++){
+           $("#bankfinance tr:eq("+i+") td:eq(8)").html($("#bankfinance_filter input").val()+$("#bankfinance tr:eq("+i+") td:eq(11)").html())
+       }
+   };
+   window.onload=function(){
+       area();
+   }
 </script>
 
-<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
+
 <script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>

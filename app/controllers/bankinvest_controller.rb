@@ -13,7 +13,11 @@ class BankinvestController < ApplicationController
 
   def secondpickout
   cookies[:bcolumn] = params[:bcolumn]
+  if  params[:amounts] != nil
+    cookies[:amount] = params[:amounts]
+  else
   cookies[:amount] = params[:amount]
+  end
   end
 
   def thirdpickout
@@ -23,6 +27,7 @@ class BankinvestController < ApplicationController
   def fourthpickout
     @bankfinances=Bankfinance.all
     cookies[:optionsRadios] = params[:optionsRadios]
+
   end
 
   def investrecord
