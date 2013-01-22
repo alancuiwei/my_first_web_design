@@ -1,4 +1,5 @@
 <%= javascript_include_tag "placeholder.js" %>
+<%= javascript_include_tag "bootstrap.js" %>
 <%= stylesheet_link_tag "home.css" %>
 
 <div class="main-content">
@@ -6,24 +7,35 @@
     <tr>
       <td class="left">
   <div class="main-inputs">
-    <div class="ad lr highlightable">
-      <div class="ct">
-        <h1 class="h1">我为什么要注册？</h1>
-        <ul>
-          <li>产品预订</li>
-          <li>银行开户服务</li>
-          <li>购买指导</li>
-        </ul>
-        <h1 class="h1">注册</h1>
+            <div id="inputs" class="content">
+            <div class="padded">
+              <h1>我为什么要注册</h1>
+              <p>产品预订<br>银行开户服务<br>购买指导</p>
+            </div>
+    <div id="myTabContent" class="tab-content">
+      <div class="overlay tab-pane fade" id="create">
+	    <h1>注册</h1>
         <form>
-          <input type="text" name="name" class="input-medium" placeholder="姓名">
-          <input type="text" name="password" class="input-medium" placeholder="密码">
-          <input type="text" name="fhone" class="input-medium" placeholder="联系电话">
-          <input type="submit" value="注册" class="btn btn-primary pull-right sub">
-          <div class="clearfix"></div>
+        <input id="username" class="input_menum" placeholder="姓名" type="text">
+        <input id="password" class="input_menum" placeholder="密码" type="password">
+        <input id="tel" class="input_menum" placeholder="联系电话" type="text">
+          <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password','#tel'))" type="submit">注册</a>
+          <div class="or-text"><div><b>or</b></div></div>
+          <a class="chear btn btn-primary" href="#login" data-toggle="tab" type="submit">登录</a>
+        </form>
+      </div>
+      <div class="overlay tab-pane fade in active" id="login">
+        <h1>登录</h1>
+        <form>
+          <input id="username2" class="input_menum" placeholder="姓名" type="text">
+          <input id="password2" class="input_menum" placeholder="密码" type="password">
+          <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2'))" type="submit">登录</a>
+          <div class="or-text"><div><b>or</b></div></div>
+          <a class="chear btn btn-primary" href="#create" data-toggle="tab" type="submit">注册</a>
         </form>
       </div>
     </div>
+  </div>
   </div>
       </td>
       <td>
@@ -125,3 +137,81 @@
   </table>
 </div>
 
+<script>
+
+    function userconfig(uid,pid,tid){
+        if($(uid).attr("value")==""){
+            alert("用户名为空！");
+        }
+        else if($(pid).attr("value")==""){
+            alert("密码为空！");
+        }
+        else if(!Checkreg($(tid).attr("value"))){
+        }
+        else{
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:$(tid).attr("value"),address: 1,postcode: 1},function(data){
+                if(data=="f"){
+                    alert("用户名已注册！");
+                }
+                else if(data=="s"){
+                    alert("用户注册成功！");
+                    location.href='/home/productindex';
+                }
+            })
+        }
+    }
+
+    function userlogin(uid,pid){
+        if($(uid).attr("value")==""){
+            alert("用户名为空！");
+        }
+        else if($(pid).attr("value")==""){
+            alert("密码为空！");
+        }
+        else{
+            $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
+                if(data=="f"){
+                    alert("登录失败!");
+                }
+                else if(data=="f2"){
+                    alert("找不到该用户");
+                }
+                else if(data=="admin"){
+                    location.href="/admin";
+                }
+                else if(data=="s"){
+                    location.href="/privatefund/investrecord/";           // 登录成功后的操作？？
+                }
+            })
+        }
+    }
+
+    function Checkreg(phonenum)
+    {
+        //var photo = /^(\d{3,4}\-)?\d{7,8}$/i;   //座机格式是 010-98909899
+        //var photo = /^0(([1-9]\d)|([3-9]\d{2}))\d{8}$/; 没有中间那段 -的 座机格式是 01098909899
+        var photo =/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;//座机(0开头)
+        var photo1 =/^1[358]\d{9}$/;//手机(13,15,18)
+        var value = phonenum.substring(0,1);
+        if(phonenum==""){
+            alert("联系电话为空！");
+            return false;
+        }
+        if(value==0){
+            if(!photo.test(phonenum)){
+                alert("座机号码错误(0(2或者3位)-(7或者8位)!");
+                return false;
+            }
+        }else if(value==1){
+            if(!photo1.test(phonenum)){
+                alert("手机号码错误(1(3或者5或者8)后面9位)!");
+                return false;
+            }
+        }else
+        {
+            alert("电话号码错误!");
+            return false;
+        }
+        return true;
+    }
+</script>
