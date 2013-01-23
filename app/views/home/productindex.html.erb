@@ -21,7 +21,7 @@
         <input id="tel" class="input_menum" placeholder="联系电话" type="text">
           <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password','#tel'))" type="submit">注册</a>
           <div class="or-text"><div><b>或</b></div></div>
-          <a class="chear btn btn-primary" href="#login" data-toggle="tab" type="submit">登录</a>
+          <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
         </form>
       </div>
       <div class="overlay tab-pane fade in active" id="login">
@@ -31,7 +31,7 @@
           <input id="password2" class="input_menum" placeholder="密码" type="password">
           <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2'))" type="submit">登录</a>
           <div class="or-text"><div><b>或</b></div></div>
-          <a class="chear btn btn-primary" href="#create" data-toggle="tab" type="submit">注册</a>
+          <a class="chear see info-button" href="#create" data-toggle="tab" type="submit">注册</a>
         </form>
       </div>
     </div>
@@ -155,6 +155,7 @@
                 }
                 else if(data=="s"){
                     alert("用户注册成功！");
+                    $.get("/admin/create",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){alert(1);})
                     location.href='/home/productindex';
                 }
             })

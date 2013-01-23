@@ -1,0 +1,71 @@
+<%= javascript_include_tag "placeholder.js" %>
+<%= stylesheet_link_tag "sales.css" %>
+
+<div class="main-content">
+  <h1>
+    预订
+    <p>预订后，我们将尽快和银行理财经理联系，确认该款产品在您所属银行网点是否可以销售的。</p>
+  </h1>
+  <table class="table table-striped" id="per">
+    <thead>
+    <tr>
+      <th>产品名</th>
+      <th>银行名</th>
+      <th>预期年收益率</th>
+      <th>投资期限</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+  <p>检查用户要购买的银行理财产品所在银行是不是客户信息填写的银行，如果不一致的话，需要在这里提醒客户。</p>
+  <p>您要购买的金额：<input placeholder="200000" type="text"></p>
+  <a class="btn">预订</a>
+</div>
+
+
+<script>
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+    function per(){
+        var length=$("#per").find("tr").size();
+        for(i=0;i<length;i++){
+            $("#per tr:eq("+i+") td:eq(0)").html(Request("bname"));
+            $("#per tr:eq("+i+") td:eq(1)").html(Request("trustee"));
+            $("#per tr:eq("+i+") td:eq(2)").html(Request("returnrate")+"%");
+            $("#per tr:eq("+i+") td:eq(3)").html(Request("investperiod")+"天");
+        }
+    }
+    per();
+</script>

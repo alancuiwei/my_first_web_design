@@ -128,12 +128,12 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
                        <th>发行银行</th><th>年化收益率</th><th>收益额</th><th>类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>状态</th><th class="hide">发行地区</th>
+      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>操作</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
                          <tr class="gradeA">
-                           <td><%= b.trustee%></td>
+          <td><p class="ctl2"><%= b.trustee%></p></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
                            <td><%= b.btype%></td>
@@ -143,7 +143,7 @@
                            <td><%= b.collectperiod%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
-          <td><%= b.status%></td>
+          <td><a href="/sales/index?bname=<%= b.bname%>&trustee=<%= b.trustee%>&returnrate=<%= format("%0.1f",b.returnrate*100)%>&investperiod=<%= format("%0.0f",b.investperiod)%>">购买</a></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                          </tr>
                      <% end %>

@@ -253,6 +253,11 @@
     end
   end
 
+   def create
+       UserMailer.confirm.deliver
+       redirect_to users_path
+   end
+
    def productdeleteajax
      @product=Product.find_by_id(params[:id])
      if @product!=nil
