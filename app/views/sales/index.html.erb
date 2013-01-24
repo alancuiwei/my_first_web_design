@@ -1,24 +1,33 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "sales.css" %>
 
-<div class="main-content">
+<div class="main-content" onkeyup="per()">
   <h1>预订</h1>
-  <dl>
-    <dt>买不到紧销产品？</dt>
-    <dd>我们发现您所挑选的属于同类产品中性价比很好的产品，正常这样的产品很容易被销售一空，您很难能购买到，通过我们帮你和银行联系预订，您将有轻松购买该产品。</dd>
-    <dt>想得到更多实惠？</dt>
-    <dd>通过我们和银行理财经理预订，有时能享受到团购优惠，不妨试试。</dd>
-  </dl>
-
-  <table class="table table-striped" id="per">
+  <p class="content">
+    <b>预订后，我们将在一个小时内给您答复。</b><br><br>
+    买不到紧销产品？<br>
+    我们发现您所挑选的属于同类产品中性价比很好的产品，正常这样的产品很容易被销售一空，您很难能购买到，通过我们帮你和银行联系预订，您将有轻松购买该产品。<br>
+    想得到更多实惠？<br>
+    通过我们和银行理财经理预订，有时能享受到团购优惠，不妨试试。
+  </p>
+  <br>
+  <div class="controls controls-row">
+    <p class="span2">您要购买的金额：</p>
+    <div class="input-prepend input-append">
+      <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
+    </div>
+  </div>
+  <br>
+  <table class="table table-striped table-bordered" id="per">
     <thead>
     <tr>
       <th class="bname">银行理财产品名</th>
       <th>银行名</th>
       <th>产品类型</th>
-      <th>起购金额</th>
+      <th>起购价</th>
       <th>预期年收益率</th>
       <th>投资期限</th>
+      <th>收益金额</th>
     </tr>
     </thead>
     <tbody>
@@ -29,11 +38,12 @@
       <td></td>
       <td></td>
       <td></td>
+      <td>0</td>
     </tr>
     </tbody>
   </table>
-  <p>您要购买的金额：<input placeholder="200000" type="text" id="investamount"></p>
-  <a class="btn" href="javascript:void(0)" id="reserveconfig">预订</a>
+
+<a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a> <br>
 </div>
 
 
@@ -71,9 +81,10 @@
             $("#per tr:eq("+i+") td:eq(0)").html(Request("bname"));
             $("#per tr:eq("+i+") td:eq(1)").html(Request("trustee"));
             $("#per tr:eq("+i+") td:eq(2)").html(Request("btype"));
-            $("#per tr:eq("+i+") td:eq(3)").html(Request("sailsstart"));
+            $("#per tr:eq("+i+") td:eq(3)").html(Request("startvalue"));
             $("#per tr:eq("+i+") td:eq(4)").html(Request("returnrate")+"%");
             $("#per tr:eq("+i+") td:eq(5)").html(Request("investperiod")+"天");
+            $("#per tr:eq("+i+") td:eq(6)").html($("#investamount").attr("value")*parseFloat(Request("returnrate"))*parseFloat(Request("investperiod"))/36500);
         }
     }
     per();

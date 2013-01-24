@@ -119,20 +119,17 @@
 
                 <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
             <thead><tr>
-                    <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
-                    <th class="hide">起售价</th><th>年化收益率</th><th>产品类型</th>
-                    <th class="hide">是否开放</th><th>计算收益金额</th>
+                    <th class="name">产品名称</th><th>投资期限</th>
+                    <th>年化收益率</th><th>产品类型</th>
+                    <th>计算收益金额</th>
             </tr></thead>
 
             <% @bankfinances.each do |b| %>
                 <tr>
-                  <td class="hide"><%= b.trustee%></td>
                         <td class="name"><%= b.bname%></td>
                   <td><%= format("%0.0f",b.investperiod)%>天</td>
-                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
                   <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                   <td><%= b.btype%></td>
-                  <td class="hide"><%= b.ispatent %></td>
                         <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
                       </tr>
                   <% end %>
@@ -143,20 +140,17 @@
                 </div>
                 <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance2" id="bankfinance2"  style="text-align:center;">
                   <thead><tr>
-                    <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
-                    <th class="hide">起售价</th><th>年化收益率</th><th>产品类型</th>
-                    <th class="hide">是否开放</th><th>计算收益金额</th>
+                    <th class="name">产品名称</th><th>投资期限</th>
+                    <th>年化收益率</th><th>产品类型</th>
+                    <th>计算收益金额</th>
                   </tr></thead>
 
                   <% @bankfinances.each do |b| %>
                       <tr>
-                        <td class="hide"><%= b.trustee%></td>
                         <td class="name"><%= b.bname%></td>
                         <td><%= format("%0.0f",b.investperiod)%>天</td>
-                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
                         <td><%= format("%0.1f",b.returnrate*100)%>%</td>
                         <td><%= b.btype%></td>
-                        <td class="hide"><%= b.ispatent %></td>
                         <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
                 </tr>
             <% end %>
@@ -298,11 +292,11 @@
     function bank(){
         var length=$("#bankfinance").find("tr").size();
         for(i=0;i<length;i++){
-            $("#bankfinance tr:eq("+i+") td:eq(7)").html(parseInt(parseFloat($("#bankfinance tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
+            $("#bankfinance tr:eq("+i+") td:eq(4)").html(parseInt(parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(1)").html())*document.form1.amounts.value/36500)+"元")
         }
         var length=$("#bankfinance2").find("tr").size();
         for(i=0;i<length;i++){
-            $("#bankfinance2 tr:eq("+i+") td:eq(7)").html(parseInt(parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
+            $("#bankfinance2 tr:eq("+i+") td:eq(4)").html(parseInt(parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(1)").html())*document.form1.amounts.value/36500)+"元")
         }
     };
 </script>
