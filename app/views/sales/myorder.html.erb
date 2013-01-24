@@ -1,0 +1,26 @@
+<%= stylesheet_link_tag "sales.css" %>
+
+<div class="main-content">
+  <a href="/">首页</a>&nbsp;>&nbsp;
+  <a href="">用户管理</a>
+  <h1 class="h1">我的订单</h1>
+
+  <table cellpadding="0" cellspacing="0" border="0" class="display table" id="reserve">
+    <thead><tr>
+      <th class="bname">产品名称</th><th>预期收益率</th><th>产品类型</th><th>购买金额</th><th>投资期限</th>
+      <th>到期日期</th><th>状态</th>
+    </tr></thead>
+
+    <% @reserve.each do |b| %>
+        <tr>
+          <td class="bname"><%= b.bname%></td>
+          <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+          <td><%= b.btype%></td>
+          <td><%= b.investamount%></td>
+          <td><%= b.investperiod%>天</td>
+          <td><%= b.collectperiod%></td>
+          <td><%= b.state%></td>
+        </tr>
+    <% end %>
+  </table>
+</div>

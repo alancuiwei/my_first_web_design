@@ -7,6 +7,7 @@
     @bankfinances=Bankfinance.all
     @blogs=Blog.all
     @products=Product.all
+    @reserves=Reserve.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
     @adminremind={}
     @adminconfirm={}
@@ -641,6 +642,70 @@
      end
    end
 
+   def reserveconfig
+     @reserveinfo=[]
+     if params[:id]!="0"
+       @reserve=Reserve.find_by_id(params[:id])
+       @reserveinfo[0]=@reserve.bname
+       @reserveinfo[1]=@reserve.trustee
+       @reserveinfo[2]=@reserve.btype
+       @reserveinfo[3]=@reserve.bankbranch
+       @reserveinfo[4]=@reserve.collectperiod
+       @reserveinfo[5]=@reserve.investperiod
+       @reserveinfo[6]=@reserve.returnrate
+       @reserveinfo[7]=@reserve.investamount
+       @reserveinfo[8]=@reserve.username
+       @reserveinfo[9]=@reserve.tel
+       @reserveinfo[10]=@reserve.managername
+       @reserveinfo[11]=@reserve.managertel
+       @reserveinfo[12]=@reserve.state
+     end
+   end
+
+   def reserveconfigajax
+
+     if params[:id]=="0"
+       Reserve.new do |b|
+         b.bname=params[:bname]
+         b.trustee=params[:trustee]
+         b.btype=params[:btype]
+         b.bankbranch=params[:bankbranch]
+         b.collectperiod=params[:collectperiod]
+         b.investperiod=params[:investperiod]
+         b.returnrate=params[:returnrate]
+         b.investamount=params[:investamount]
+         b.username=params[:username]
+         b.tel=params[:tel]
+         b.managername=params[:managername]
+         b.managertel=params[:managertel]
+         b.state=params[:state]
+         b.save
+       end
+       render :json => "s1".to_json
+
+     else
+       @reserve=Reserve.find_by_id(params[:id])
+       @reserve.update_attributes(:bname=>params[:bname],:trustee=>params[:trustee],:btype=>params[:btype],
+                                      :bankbranch=>params[:bankbranch],:collectperiod=>params[:collectperiod],
+                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],
+                                      :investamount=>params[:investamount],:username=>params[:username],
+                                      :tel=>params[:tel],:managername=>params[:managername],:managertel=>params[:managertel],
+                                      :state=>params[:state])
+       render :json => "s2".to_json
+     end
+
+
+     def reservedeleteajax
+       @reserve=Reserve.find_by_id(params[:id])
+       if @reserve!=nil
+         if @reserve.destroy
+           render :json => "s".to_json
+         else
+           render :json => "f".to_json
+         end
+       end
+     end
+   end
 end
 
  require 'openssl'

@@ -1,0 +1,95 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+
+<div style="width: 700px;height: 700px;">
+  <div>
+    产品名称：<input type="text" name="bname" id="bname" title="产品名称"> <br>
+    发行银行：<input type="text" name="trustee" id="trustee" title="发行银行"> <br>
+    是否保本：<select  name="btype" id="btype" title="是否保本">
+    <option value="保本">保本</option>
+    <option value="不保本">不保本</option>
+  </select><br>
+    银行支行：<input type="text" name="bankbranch" id="bankbranch" title="银行支行"> <br>
+    销售结束：<input type="text" name="collectperiod" id="collectperiod" title="销售结束" onclick="WdatePicker()" class="Wdate">  <br>
+    预期投资期限：<input type="text" name="investperiod" id="investperiod" title="预期投资期限">天<br>
+    预期收益率：<input type="text" name="returnrate" id="returnrate" title="预期收益率"> <br>
+    投资金额：<input type="text" name="investamount" id="investamount" title="投资金额"> <br>
+    用户名：<input type="text" name="username" id="username" title="用户名"> <br>
+    用户电话：<input type="text" name="tel" id="tel" title="用户电话"> <br>
+    客户经理姓名：<input type="text" name="managername" id="managername" title="客户经理姓名"> <br>
+    客户经理电话：<input type="text" name="managertel" id="managertel" title="客户经理电话"> <br>
+    状态：<select  name="state" id="state" title="状态">
+    <option value="预订申请">预订申请</option>
+  </select><br>
+    <a href="javascript:void(0)" id="reserveconfig">确认</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+    <% if params[:id]!="0" %>
+    $("#bname").attr("value",'<%= @reserveinfo[0]%>');
+    $("#trustee").attr("value",'<%= @reserveinfo[1]%>');
+    $("#btype").attr("value",'<%= @reserveinfo[2]%>');
+    $("#bankbranch").attr("value",'<%= @reserveinfo[3]%>');
+    $("#collectperiod").attr("value",'<%= @reserveinfo[4]%>');
+    $("#investperiod").attr("value",'<%= @reserveinfo[5]%>');
+    $("#returnrate").attr("value",'<%= @reserveinfo[6]%>');
+    $("#investamount").attr("value",'<%= @reserveinfo[7]%>');
+    $("#username").attr("value",'<%= @reserveinfo[8]%>');
+    $("#tel").attr("value",'<%= @reserveinfo[9]%>');
+    $("#managername").attr("value",'<%= @reserveinfo[10]%>');
+    $("#managertel").attr("value",'<%= @reserveinfo[11]%>');
+    $("#state").attr("value",'<%= @reserveinfo[12]%>');
+    <% end %>
+
+    $("#reserveconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value==""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            if( numfor.test($("#investperiod").attr("value"))==false){
+                alert("预期投资期限必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#returnrate").attr("value"))==false){
+                alert("预期收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#investamount").attr("value"))==false){
+                alert("投资金额必须为数字！");
+                nom_flag=1;
+            }
+        }
+
+        if(nom_flag==0){
+            $.get("/admin/reserveconfigajax/<%= params[:id] %>",{ bname: $("#bname").attr("value"),trustee: $("#trustee").attr("value"),
+                btype: $("#btype").attr("value"),bankbranch: $("#bankbranch").attr("value"),
+                collectperiod: $("#collectperiod").attr("value"),investperiod: $("#investperiod").attr("value"),
+                returnrate: $("#returnrate").attr("value"),investamount: $("#investamount").attr("value"),
+                username: $("#username").attr("value"),tel: $("#tel").attr("value"),
+                managername: $("#managername").attr("value"),managertel: $("#managertel").attr("value"),
+                state: $("#state").attr("value")
+            },function(data){
+                if(data=="f1"){
+                    alert("产品已存在！");
+                }
+                else if(data=="s1"){
+                    alert("产品创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>

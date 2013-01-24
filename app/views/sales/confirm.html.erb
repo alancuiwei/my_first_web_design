@@ -1,0 +1,56 @@
+<%= stylesheet_link_tag "sales.css" %>
+
+<div class="main-content">
+  <h1>预订确认</h1>
+    <p>您已成功提交购买<span id="bname"></span>产品的预订。</p>
+    <p>我们将在1个小时内给你电话反馈</p>
+    <p>您的预订内容如下：</p>
+    <p>购买<span id="investamount"></span>元。</p>
+    <p>预期年化收益率<span id="returnrate"></span>%</p>
+    <p>预期收益金额<span id="income"></span>元</p>
+    <p>产品起息日期：<span id="sailsstart"></span></p>
+    <p>产品结束日期：<span id="collectperiod"></span></p>
+    <a class="btn" href="/bankinvest">返回</a>
+    <a class="btn" href="/sales/myorder">查看我的订单</a>
+</div>
+
+
+<script>
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+
+    function per(){
+            $("#bname").html(Request("bname"));
+            $("#investamount").html(Request("investamount"));
+            $("#returnrate").html(Request("returnrate"));
+            $("#sailsstart").html(Request("sailsstart"));
+            $("#collectperiod").html(Request("collectperiod"));
+            $("#income").html(parseFloat(Request("investamount"))*parseFloat(Request("returnrate"))*parseFloat(Request("investperiod"))/36500);
+    }
+    per();
+</script>

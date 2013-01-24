@@ -12,6 +12,12 @@
               <h1>我为什么要注册</h1>
               <p>预订紧销银行理财产品;<br>银行特供理财产品信息通知;<br>产品优惠及时通知;</p>
             </div>
+            <% if @webuser!=nil %>
+                <div class="overlay" id="login2">
+                  <p>欢迎您，<%= @webuser.username %></p>
+                  <a onclick="logout()" href="javascript:void(0)">用户注销</a>
+                </div>
+            <% else %>
     <div id="myTabContent" class="tab-content">
       <div class="overlay tab-pane fade" id="create">
 	    <h1>注册</h1>
@@ -29,12 +35,14 @@
         <form>
           <input id="username2" class="input_menum" placeholder="姓名" type="text">
           <input id="password2" class="input_menum" placeholder="密码" type="password">
+
           <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2'))" type="submit">登录</a>
           <div class="or-text"><div><b>或</b></div></div>
           <a class="chear see info-button" href="#create" data-toggle="tab" type="submit">注册</a>
         </form>
       </div>
     </div>
+            <% end %>
   </div>
   </div>
       </td>
@@ -181,7 +189,7 @@
                     location.href="/admin";
                 }
                 else if(data=="s"){
-                    location.href="/privatefund/investrecord/";           // 登录成功后的操作？？
+                    location.href="/home/productindex";
                 }
             })
         }
@@ -214,5 +222,14 @@
             return false;
         }
         return true;
+    }
+
+    function logout(){
+        $.get('/admin/userlogout',function(data){
+            if(data=="s"){
+                alert("退出成功！");
+                location.href="/home/productindex";
+            }
+        })
     }
 </script>

@@ -219,6 +219,33 @@
                         </td>
                       </tr>
                        -->
+
+                    <tr><td>
+                      <h1>产品预订</h1>
+                      <table cellpadding="0" cellspacing="0" border="0" class="display" id="reserve">
+                        <thead><tr>
+                          <th>产品名</th><th>银行名</th><th>银行支行</th><th>投资金额</th><th>用户名</th>
+                          <th>用户电话</th><th>客户经理名字</th><th>客户经理电话</th><th>状态</th>
+                          <th>修改</th>
+                        </tr></thead>
+
+                        <% @reserves.each do |b| %>
+                            <tr>
+                              <td><%= b.bname%></td>
+                              <td><%= b.trustee%></td>
+                              <td><%= b.bankbranch%></td>
+                              <td><%= b.investamount%></td>
+                              <td><%= b.username%></td>
+                              <td><%= b.tel%></td>
+                              <td><%= b.managername%></td>
+                              <td><%= b.managertel%></td>
+                              <td><%= b.state%></td>
+                              <td><a href="/admin/reserveconfig/<%= b.id %>?optype=edit">修改</a></td>
+                            </tr>
+                        <% end %>
+                      </table>
+                    </td></tr>
+
                       <tr><td>
             <h1>银行理财产品</h1>
             <a href="/admin/bankfinanceconfig/0">添加</a>
@@ -294,7 +321,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog').dataTable();
+        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog,#reserve').dataTable();
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){
