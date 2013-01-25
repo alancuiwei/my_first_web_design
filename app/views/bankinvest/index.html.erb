@@ -1,5 +1,5 @@
+<%= javascript_include_tag "placeholder.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
-
 <%= javascript_include_tag "FixedHeader.min.js" %>
 <%= stylesheet_link_tag "demo_page.css" %>
 <%= stylesheet_link_tag "demo_table_jui.css" %>
@@ -299,11 +299,12 @@
     });
    function area(){
        var length=$("#bankfinance").find("tr").size();
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
        for(i=0;i<length;i++){
            if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
            $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
            }
-            if($("#investamount").val()!=""){
+            if($("#investamount").val()!=""&&numfor.test($("#investamount").val())==true){
                 $("#bankfinance tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(1)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(5)").html())/36500))
             }
             else{
@@ -318,14 +319,31 @@
 
     function AddElement(mytype){
         var mytype,TemO=document.getElementById("bankfinance_length");
+        var p= document.createElement("div");
+        p.id="input1";
+        p.className="input-prepend input-append";
+        TemO.appendChild(p);
+        var mytype,TemO=document.getElementById("input1");
+        var p= document.createElement("span");
+        p.className="add-on aa";
+        TemO.appendChild(p);
+        $(".aa").html("￥");
         var newInput = document.createElement("input");
         newInput.type=mytype;
         newInput.name="input1";
         newInput.id="investamount";
         newInput.placeholder="请输入投资金额：";
         TemO.appendChild(newInput);
+        var p= document.createElement("span");
+        p.className="add-on ab";
+        TemO.appendChild(p);
+        $(".ab").html("元");
         var newline= document.createElement("br");
         TemO.appendChild(newline);
+        $(function() {
+            $("input").inputTip();  // 调用inputTip方法
+            $("input[type='button']").focus();  // 页面打开后焦点置于button上，也可置于别处。否则IE上刷新页面后焦点在第一个输入框内造成placeholder文字后紧跟光标现象
+        });
     }
 </script>
 
