@@ -29,7 +29,7 @@
     }
 </style>
 
-<div class="main-content" onkeyup="area()" onclick="area()" onload="">
+<div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
                           <a href="/">首页</a>&nbsp; >&nbsp;
     <a href="/home/productindex" >产品展示</a>
   <h1>银行理财产品</h1>
@@ -125,17 +125,27 @@
                    </div>
                      </div>
   <br>
+  <!--
+  <dl class="dl-horizontal">
+    <dt>投资金额：</dt>
+    <dd>
+      <div class="input-prepend input-append">
+        <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount" placeholder="5000"><span class="add-on">元</span>
+      </div>
+    </dd>
+  </dl>
+   -->
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-                       <th>发行银行</th><th>年化收益率</th><th>收益额</th><th>类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>操作</th><th class="hide">发行地区</th>
+                       <th>发行银行</th><th>收益率<br>(年化)</th><th>盈利金额</th><th>类型</th><th>起售价<br>(万)</th>
+      <th>投资期限<br>(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>操作</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
                          <tr class="gradeA">
           <td class="ctl2"><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-          <td><a href="#login-box" class='login-window'title="<%= b.returnrate%>|<%= b.investperiod%>"><img src="/assets/calculator.jpg"></a></td>
+          <td></td>
                            <td><%= b.btype%></td>
                            <td><%= format("%0.0f",b.startvalue/10000)%></td>
                            <td><%= format("%0.0f",b.investperiod)%></td>
@@ -148,33 +158,6 @@
                          </tr>
                      <% end %>
                    </table>
-</div>
-
-<div id='login-box' class='login-popup'>
-  <div class="popup">
-    <table>
-    <tr><td colspan="2">
-    <a class="btn close" href="javascript:void(0)">关闭</a>
-      </td></tr>
-      <tr><td class="pull-right">投资金额：</td><td>
-        <div class="input-append">
-          <input type="text" class="investvalue" id="appendedInput"><span class="add-on">元</span>
-  </div>
-      </td></tr>
-      <tr><td class="pull-right">预期收益率：</td><td>
-        <div class="input-append"><input type="text" class="prereturnrate" id="appendedInput"><span class="add-on">%</span>
-        </div>
-      </td></tr>
-      <tr><td class="pull-right">投资天数：</td><td>
-        <div class="input-append"><input type="text" class="preperiod" id="appendedInput"><span class="add-on">天</span>
-</div>
-      </td></tr>
-      <tr><td class="pull-right">收益金额：</td><td>
-        <span id="ownvalue" style="color: #ff0000;"></span>元
-      </td></tr>
-      <tr><td class="pull-right">总计：</td><td><span id="total" style="color: #ff0000;"></span>元</td></tr>
-        </table>
-  </div>
 </div>
 
 <script>
@@ -296,53 +279,6 @@
        }
    }
     $(document).ready(function(){
-        $(".investvalue").keyup(function(){
-            if($(".investvalue").attr("value")!=""){
-            var ownvalue=(parseFloat($(".investvalue").attr("value"))*parseFloat($(".prereturnrate").attr("value"))*parseFloat($(".preperiod").attr("value"))/36500).toFixed(1);
-            var total=parseFloat($(".investvalue").attr("value"))+parseFloat(ownvalue);
-            $("#ownvalue").html(ownvalue);
-            $("#total").html(total);
-            }
-            else{
-                $("#ownvalue").html("");
-                $("#total").html("");
-            }
-        })
-        $('a.login-window').click(function() {
-            var returnrate=this.title.split("|")[0]*100;
-            var period=parseFloat(this.title.split("|")[1]).toFixed(0)
-            // Getting the variable's value from a link
-            var loginBox = $(this).attr('href');
-
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
-            $(".prereturnrate").attr("value",returnrate);
-            $(".preperiod").attr("value",period)
-            //Set the center alignment padding + border
-            var popMargTop = ($(loginBox).height() + 24) / 2;
-            var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-            $(loginBox).css({
-                'margin-top' : -popMargTop,
-                'margin-left' : -popMargLeft
-            });
-
-            // Add the mask to body
-            $('body').append('<div id="mask"></div>');
-            $('#mask').fadeIn(300);
-
-            return false;
-        });
-
-        // When clicking on the button close or the mask layer the popup closed
-        $('a.close, #mask').live('click', function() {
-            $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();
-                $("#ownvalue").html("");
-                $("#total").html("");
-            });
-            return false;
-        });
 
        /* Initialise datatables */
        var oTable = $('#bankfinance').dataTable({
@@ -367,12 +303,30 @@
            if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
            $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
            }
+            if($("#investamount").val()!=""){
+                $("#bankfinance tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(1)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(5)").html())/36500))
+            }
+            else{
+                $("#bankfinance tr:eq("+i+") td:eq(2)").html(0)
+            }
        }
    };
    window.onload=function(){
+     AddElement('text');
        area();
    }
-</script>
 
+    function AddElement(mytype){
+        var mytype,TemO=document.getElementById("bankfinance_length");
+        var newInput = document.createElement("input");
+        newInput.type=mytype;
+        newInput.name="input1";
+        newInput.id="investamount";
+        newInput.placeholder="请输入投资金额：";
+        TemO.appendChild(newInput);
+        var newline= document.createElement("br");
+        TemO.appendChild(newline);
+    }
+</script>
 
 <script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>

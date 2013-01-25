@@ -74,7 +74,7 @@
             $("#per tr:eq("+i+") td:eq(2)").html("<%= @banfinance.btype %>");
             $("#per tr:eq("+i+") td:eq(3)").html(Request("investamount"));
             $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.startvalue %>");
-            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.returnrate*100 %>%");
+            $("#per tr:eq("+i+") td:eq(5)").html("<%= format("%0.1f",@banfinance.returnrate*100) %>%");
             $("#per tr:eq("+i+") td:eq(6)").html("<%= @banfinance.investperiod %>天");
             $("#per tr:eq("+i+") td:eq(7)").html(Request("income"));
         }
