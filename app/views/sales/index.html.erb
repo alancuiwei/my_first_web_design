@@ -105,8 +105,8 @@
         if(nom_flag==0){
             $.get("/admin/reserveconfigajax/0",{ bname: Request("bname"),trustee: Request("trustee"),
                 returnrate: parseFloat(Request("returnrate"))/100,investperiod: Request("investperiod"),
-                investamount: $("#investamount").attr("value"),username: <%= @webuser.username %>,
-                tel: <%= @webuser.tel %>,state: states,btype:Request("btype"),collectperiod:Request("collectperiod")
+                investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
+                tel: "<%= @webuser.tel %>",state: states,btype:Request("btype"),collectperiod:Request("collectperiod")
             },function(data){
                 if(data=="s1"){
                     location.href=link;
