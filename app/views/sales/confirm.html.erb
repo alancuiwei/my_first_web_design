@@ -66,16 +66,16 @@
     }
 
     function per(){
-            $("#bname").html(Request("bname"));
+        $("#bname").html("<%= @banfinance.bname %>");
         var length=$("#per").find("tr").size();
         for(i=0;i<length;i++){
-            $("#per tr:eq("+i+") td:eq(0)").html(Request("bname"));
-            $("#per tr:eq("+i+") td:eq(1)").html(Request("trustee"));
-            $("#per tr:eq("+i+") td:eq(2)").html(Request("btype"));
+            $("#per tr:eq("+i+") td:eq(0)").html("<%= @banfinance.bname %>");
+            $("#per tr:eq("+i+") td:eq(1)").html("<%= @banfinance.trustee %>");
+            $("#per tr:eq("+i+") td:eq(2)").html("<%= @banfinance.btype %>");
             $("#per tr:eq("+i+") td:eq(3)").html(Request("investamount"));
-            $("#per tr:eq("+i+") td:eq(4)").html(Request("startvalue"));
-            $("#per tr:eq("+i+") td:eq(5)").html(Request("returnrate")+"%");
-            $("#per tr:eq("+i+") td:eq(6)").html(Request("investperiod")+"天");
+            $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.startvalue %>");
+            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.returnrate*100 %>%");
+            $("#per tr:eq("+i+") td:eq(6)").html("<%= @banfinance.investperiod %>天");
             $("#per tr:eq("+i+") td:eq(7)").html(Request("income"));
         }
     }

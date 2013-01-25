@@ -9,13 +9,17 @@ class SalesController < ApplicationController
   end
     else
       @webuser=Webuser.find_by_username(session[:webusername])
+    end
       @banfinance=Bankfinance.find_by_id(params[:bid])
     end
-  end
 
   def myorder
     if session[:webusername]!="admin"
       @reserve=Reserve.find_all_by_username(session[:webusername])
     end
+  end
+
+  def confirm
+    @banfinance=Bankfinance.find_by_id(params[:bid])
   end
 end

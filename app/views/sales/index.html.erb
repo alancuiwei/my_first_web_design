@@ -80,42 +80,48 @@
     function per(){
         var length=$("#per").find("tr").size();
         for(i=0;i<length;i++){
-            $("#per tr:eq("+i+") td:eq(0)").html(Request("bname"));
-            $("#per tr:eq("+i+") td:eq(1)").html(Request("trustee"));
-            $("#per tr:eq("+i+") td:eq(2)").html(Request("btype"));
-            $("#per tr:eq("+i+") td:eq(3)").html(Request("startvalue"));
-            $("#per tr:eq("+i+") td:eq(4)").html(Request("returnrate")+"%");
-            $("#per tr:eq("+i+") td:eq(5)").html(Request("investperiod")+"天");
-            $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat(Request("returnrate"))*parseFloat(Request("investperiod"))/36500));
+            $("#per tr:eq("+i+") td:eq(0)").html("<%= @banfinance.bname %>");
+            $("#per tr:eq("+i+") td:eq(1)").html("<%= @banfinance.trustee %>");
+            $("#per tr:eq("+i+") td:eq(2)").html("<%= @banfinance.btype %>");
+            $("#per tr:eq("+i+") td:eq(3)").html("<%= @banfinance.startvalue %>");
+            $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.returnrate*100 %>%");
+            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.investperiod %>天");
+            $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+        }
+
+        if(Request("investamount")){
+            $("#investamount").val(Request("investamount"));
+            var length=$("#per").find("tr").size();
+            for(i=0;i<length;i++){
+                $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+            }
         }
     }
     per();
 
     $("#reserveconfig").click(function(e){
-        <% if @webuser!=nil %>
         var nom_flag=0;
         var states="预订申请";
-        var link="/sales/confirm?bname="+Request("bname")+"&trustee="+Request("trustee")+"&income="+$(".income").html()+"&startvalue="+Request("startvalue")
-                +"&returnrate="+Request("returnrate")+"&btype="+Request("btype")+"&investperiod="+Request("investperiod")+"&investamount="+$("#investamount").attr("value");
         if($("#investamount").attr("value")==""){
             alert("请输入购买金额！");
             nom_flag=1;
         }
-
+        <% if @webuser!=nil %>
         if(nom_flag==0){
-            $.get("/admin/reserveconfigajax/0",{ bname: Request("bname"),trustee: Request("trustee"),
-                returnrate: parseFloat(Request("returnrate"))/100,investperiod: Request("investperiod"),
+            $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
+                returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
                 investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
-                tel: "<%= @webuser.tel %>",state: states,btype:Request("btype"),collectperiod:Request("collectperiod")
+                tel: "<%= @webuser.tel %>",state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>"
             },function(data){
                 if(data=="s1"){
-                    location.href=link;
+                    location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
                 }
             });
         }
         <% else%>
-        alert("请先登录");
-        location.href='/home/productindex';
+        if(nom_flag==0){
+        location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value");
+        }
         <% end %>
     });
 </script>
