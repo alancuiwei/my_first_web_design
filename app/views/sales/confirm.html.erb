@@ -1,17 +1,38 @@
 <%= stylesheet_link_tag "sales.css" %>
 
 <div class="main-content">
-  <h1>预订确认</h1>
-    <p>您已成功提交购买<span id="bname"></span>产品的预订。</p>
-    <p>我们将在1个小时内给你电话反馈</p>
+  <h1>申请处理中</h1>
+    <p class="content">您已申请<span id="bname"></span>的预订。我们将在1个小时内给你电话反馈。</p>
     <p>您的预订内容如下：</p>
-    <p>购买<span id="investamount"></span>元。</p>
-    <p>预期年化收益率<span id="returnrate"></span>%</p>
-    <p>预期收益金额<span id="income"></span>元</p>
-    <p>产品起息日期：<span id="sailsstart"></span></p>
-    <p>产品结束日期：<span id="collectperiod"></span></p>
-    <a class="btn" href="/bankinvest">返回</a>
-    <a class="btn" href="/sales/myorder">查看我的订单</a>
+  <table class="table table-striped table-bordered" id="per">
+    <thead>
+    <tr>
+      <th class="bname">银行理财产品名</th>
+      <th>银行名</th>
+      <th>产品类型</th>
+      <th>购买金额</th>
+      <th>起购价</th>
+      <th>预期年收益率</th>
+      <th>投资期限</th>
+      <th>收益金额</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td class="bname"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>0</td>
+    </tr>
+    </tbody>
+  </table>
+    <a class="btn btn-primary pull-right" href="/sales/myorder">查看我的订单</a>
+    <a class="btn pull-right back" href="/bankinvest">返回</a>
+  <br>
 </div>
 
 
@@ -46,11 +67,17 @@
 
     function per(){
             $("#bname").html(Request("bname"));
-            $("#investamount").html(Request("investamount"));
-            $("#returnrate").html(Request("returnrate"));
-            $("#sailsstart").html(Request("sailsstart"));
-            $("#collectperiod").html(Request("collectperiod"));
-            $("#income").html(parseFloat(Request("investamount"))*parseFloat(Request("returnrate"))*parseFloat(Request("investperiod"))/36500);
+        var length=$("#per").find("tr").size();
+        for(i=0;i<length;i++){
+            $("#per tr:eq("+i+") td:eq(0)").html(Request("bname"));
+            $("#per tr:eq("+i+") td:eq(1)").html(Request("trustee"));
+            $("#per tr:eq("+i+") td:eq(2)").html(Request("btype"));
+            $("#per tr:eq("+i+") td:eq(3)").html(Request("investamount"));
+            $("#per tr:eq("+i+") td:eq(4)").html(Request("startvalue"));
+            $("#per tr:eq("+i+") td:eq(5)").html(Request("returnrate")+"%");
+            $("#per tr:eq("+i+") td:eq(6)").html(Request("investperiod")+"天");
+            $("#per tr:eq("+i+") td:eq(7)").html(Request("income"));
+        }
     }
     per();
 </script>
