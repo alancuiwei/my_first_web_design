@@ -38,12 +38,12 @@ Ver01::Application.configure do
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
-      :address => "smtp.gmail.com",
-      :port => "587",
-      :domain => "gmail.com",
+      :address => "smtp.ym.163.com",
+      :port => "25",
+      :domain => "tongtianshun.com",
       :authentication => "plain",
-      :user_name => "firefox.cui@gmail.com",
-      :password => "asb#1234",
+      :user_name => "info@tongtianshun.com",
+      :password => "zhongren#1234",
       :enable_starttls_auto => true
    }
 end

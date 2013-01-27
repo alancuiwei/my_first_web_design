@@ -254,11 +254,15 @@
                 }
                 else if(data=="s"){
                     alert("用户注册成功！");
-                 //   $.get("/admin/create",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){alert(1);})
                     location.href='/home/productindex';
+                    email('#username','#tel');
                 }
             })
         }
+    }
+
+    function email(uid,tid){
+        $.get("/admin/email",{username:$(uid).attr("value"),tel:$(tid).attr("value")},function(data){})
     }
 
     function userlogin(uid,pid){

@@ -243,6 +243,7 @@
         w.save
       end
     render :json => "s".to_json
+        # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
       render :json => "f".to_json
     end
@@ -254,10 +255,9 @@
     end
   end
 
-   def create
-       UserMailer.confirm.deliver
-       redirect_to users_path
-   end
+  def email
+      UserMailer.confirm(params[:username],params[:tel]).deliver
+  end
 
    def productdeleteajax
      @product=Product.find_by_id(params[:id])

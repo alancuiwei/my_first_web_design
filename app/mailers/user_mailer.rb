@@ -6,9 +6,9 @@ class UserMailer < ActionMailer::Base
   #
   #   en.user_mailer.confirm.subject
   #
-  def confirm
-    @greeting = "Hi"
-
-    mail to: "992776686@qq.com"
+  def confirm(usename,tel)
+    @usename = usename
+    @tel = tel
+    mail to: "cuiwei@tongtianshun.com"
   end
 end
