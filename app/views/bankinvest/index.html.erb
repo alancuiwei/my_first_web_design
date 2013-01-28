@@ -124,20 +124,19 @@
 
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-      <th>发行银行</th><th>年化收益率</th><th>收益额</th><th>类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th>
+      <th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
+      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
                          <tr class="gradeA">
-          <td class="ctl2"><%= b.trustee%></td>
+          <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td></td>
                            <td><%= b.btype%></td>
                            <td><%= format("%0.0f",b.startvalue/10000)%></td>
                            <td><%= format("%0.0f",b.investperiod)%></td>
-                           <td><%= b.sailsstart%></td>
-                           <td><%= b.collectperiod%></td>
+          <td><%= b.status%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
           <% if b.trustee =="北京银行" %>

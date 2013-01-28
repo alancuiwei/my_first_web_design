@@ -79,10 +79,15 @@
                 }
                 else if(data=="s"){
                     alert("用户注册成功！");
-                    location.href='/sales/login?bid='+Request("bid")+"&investamount="+Request("investamount");
+                    userlogin(uid,pid);
+                    email('#username');
                 }
             })
         }
+    }
+
+    function email(uid){
+        $.get("/admin/email",{username:$(uid).attr("value")},function(data){})
     }
 
     function userlogin(uid,pid){

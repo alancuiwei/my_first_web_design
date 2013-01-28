@@ -5,7 +5,7 @@
   <h1>预订</h1>
   <div class="content">
     <p>预订后，我们将在一个小时内给您答复。</p>
-    <h2>为什么要预订？</h2>
+    <h2><span class="text">1.</span>为什么要预订？</h2>
     <dl>
       <dt>买不到紧销产品？</dt>
       <dd>每次购买收拾您亲自电话预订，有时订不到？我们来帮您。</dd>
@@ -13,7 +13,7 @@
       <dd>我们帮您预订，享受实实在在的优惠。</dd>
     </dl>
   </div>
-  <h2 class="gift">产品及赠品</h2>
+  <h2 class="gift"><span class="text">2.</span>产品及赠品</h2>
   <table class="table table-striped table-bordered" id="per">
     <thead>
     <tr>
@@ -21,6 +21,8 @@
       <th>银行名</th>
       <th>产品类型</th>
       <th>起购价</th>
+      <th>销售起始</th>
+      <th>销售结束</th>
       <th>预期年收益率</th>
       <th>投资期限</th>
       <th>收益金额</th>
@@ -29,6 +31,8 @@
     <tbody>
     <tr>
       <td class="bname"></td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -62,7 +66,7 @@
       </tbody>
     </table>
   </div>
-  <h2>预订资料填写</h2>
+  <h2><span class="text">3.</span>预订资料填写</h2>
   <table>
     <tr><td><p>购买金额：</p></td>
       <td><div class="input-prepend input-append">
@@ -74,7 +78,7 @@
       <td><input class="input-large" type="text" id="email"></td></tr>
     <tr><td><p>手机*：</p></td>
       <td><input class="input-large" type="text" id="tel"></td><td>（方便客服联系您）</td></tr>
-    <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" onclick="">我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
+    <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
     <tr><td></td><td><a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a></td></tr>
   </table>
 </div>
@@ -115,29 +119,31 @@
             $("#per tr:eq("+i+") td:eq(1)").html("<%= @banfinance.trustee %>");
             $("#per tr:eq("+i+") td:eq(2)").html("<%= @banfinance.btype %>");
             $("#per tr:eq("+i+") td:eq(3)").html("<%= @banfinance.startvalue %>");
-            $("#per tr:eq("+i+") td:eq(4)").html("<%= format("%0.1f",@banfinance.returnrate*100) %>%");
-            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.investperiod %>天");
-            $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+            $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.sailsstart %>");
+            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.collectperiod %>");
+            $("#per tr:eq("+i+") td:eq(6)").html("<%= format("%0.1f",@banfinance.returnrate*100) %>%");
+            $("#per tr:eq("+i+") td:eq(7)").html("<%= @banfinance.investperiod %>天");
+            $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
         }
 
         if(Request("investamount")){
             $("#investamount").val(Request("investamount"));
             var length=$("#per").find("tr").size();
             for(i=0;i<length;i++){
-                $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+                $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
             }
         }
 
         if(Request("favourable")!=1){
             document.getElementById("hide").style.display="none";
-            $(".gift").html("产品");
+            $(".gift").html("<span class='text'>2.</span>产品");
         }
     }
     per();
 
     $("#reserveconfig").click(function(e){
         var nom_flag=0;
-        var isuser="否";
+        var isuser="是";
         var states="预订申请";
         if($("#investamount").attr("value")==""){
             alert("请输入购买金额！");
@@ -157,7 +163,7 @@
         }
         var isusers=document.getElementsByName("isuser")
         if(isusers[0].checked){
-            isuser="是";
+            isuser="否";
         }
 
         <% if @webuser!=nil %>
