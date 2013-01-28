@@ -44,12 +44,14 @@
             <td><h4>预期年收益率</h4></td>
             <td><h4>收益类型</h4></td>
             <td><h4>理财期限</h4></td>
+                  <td><h4>优惠活动</h4></td>
                     <td colspan="3"><h4>银行名称</h4></td>
                   </tr>
                   <tr>
             <td><label class="checkbox"><input type="checkbox" name="returnrate" value="r_all" checked="true" id="r_all"> 全部</label></td>
             <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
             <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
+                  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">赠品</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" checked="true" id="b_all"> 全选</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="建设银行" onclick="checkchick('b_all')"> 建设银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="光大银行" onclick="checkchick('b_all')"> 光大银行</label></td>
@@ -58,6 +60,7 @@
             <td><label class="checkbox"><input type="checkbox"  name="returnrate" value="r_3" id="r_3" onclick="checkchick('r_all')"> 3%（含）以下</label></td>
             <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
+                  <td></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="中国银行" onclick="checkchick('b_all')"> 中国银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="招商银行" onclick="checkchick('b_all')"> 招商银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="广发银行" onclick="checkchick('b_all')"> 广发银行</label></td>
@@ -66,6 +69,7 @@
             <td><label class="checkbox"><input type="checkbox" name="returnrate" value="r_34" id="r_34" onclick="checkchick('r_all')"> 3%~4%（含）</label></td>
             <td><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_36" id="p_36" onclick="checkchick('p_all')"> 3-6个月</label></td>
+                  <td></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="工商银行" onclick="checkchick('b_all')"> 工商银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="中信银行" onclick="checkchick('b_all')"> 中信银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="浦发银行" onclick="checkchick('b_all')"> 浦发银行</label></td>
@@ -74,6 +78,7 @@
             <td><label class="checkbox"><input type="checkbox" name="returnrate" value="r_45" id="r_45" onclick="checkchick('r_all')"> 4%~5%（含）</label></td>
             <td></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_61" id="p_61" onclick="checkchick('p_all')"> 6个月-1年</label></td>
+                  <td></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="交通银行" onclick="checkchick('b_all')"> 交通银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="华夏银行" onclick="checkchick('b_all')"> 华夏银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="民生银行" onclick="checkchick('b_all')"> 民生银行</label></td>
@@ -82,6 +87,7 @@
             <td><label class="checkbox"><input type="checkbox" name="returnrate" value="r_5" id="r_5" onclick="checkchick('r_all')"> 5%以上</label></td>
             <td></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
+                  <td></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="农业银行" onclick="checkchick('b_all')"> 农业银行</label></td>
                     <td><label class="checkbox"><input type="checkbox" name="bank" value="兴业银行" onclick="checkchick('b_all')"> 兴业银行</label></td>
                     <td><label class="checkbox"> <input type="checkbox" name="bank" value="平安银行" onclick="checkchick('b_all')"> 平安银行</label></td>
@@ -119,7 +125,7 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
       <th>发行银行</th><th>年化收益率</th><th>收益额</th><th>类型</th><th>起售价(万)</th>
-      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>操作</th><th class="hide">发行地区</th>
+      <th>投资期限(天)</th><th>销售起始</th><th>销售结束</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -134,7 +140,13 @@
                            <td><%= b.collectperiod%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                            <td><p class="ctl" title="<%= b.bname%>"><%= b.bname%></p></td>
+          <% if b.trustee =="北京银行" %>
+          <td><img src="/assets/121021.jpg" title="苏垦特产 林下散养草鸡蛋 福临门 非转基因 玉米食用油"></td>
+          <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">购买</a></td>
+          <% else %>
+          <td></td>
                            <td><a href="/sales/index?bid=<%= b.id%>">购买</a></td>
+          <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
                          </tr>
                      <% end %>
@@ -149,7 +161,7 @@
    }
    $.fn.dataTableExt.afnFiltering.push(
            function( oSettings, aData, iDataIndex ) {
-               var flag1,flag2,flag3,flag4;
+                var flag1,flag2,flag3,flag4,flag5;
                 var returnrates=document.getElementsByName("returnrate");
                 var t_returnrate=parseFloat(aData[1].replace(/%/,""));
                 var Sys = {};
@@ -239,7 +251,19 @@
                        }
                    }
                }
-              if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
+
+                var favourables=document.getElementsByName("favourable")
+                if( favourables[0].checked){
+                  //  alert(aData[10])
+                    if(aData[0]=="北京银行"){
+                        flag5=1;
+                    }
+                }
+                else{
+                    flag5=1;
+                }
+
+                if(flag1==1&&flag2==1&&flag3==1&&flag4==1&&flag5==1){
                   return true;
               }
            }

@@ -256,8 +256,8 @@
   end
 
   def email
-      UserMailer.confirm(params[:username],params[:tel]).deliver
-  end
+      UserMailer.confirm(params[:username]).deliver
+   end
 
    def productdeleteajax
      @product=Product.find_by_id(params[:id])
@@ -679,6 +679,8 @@
          b.managername=params[:managername]
          b.managertel=params[:managertel]
          b.state=params[:state]
+         b.email=params[:email]
+         b.isuser=params[:isuser]
          b.save
        end
        render :json => "s1".to_json

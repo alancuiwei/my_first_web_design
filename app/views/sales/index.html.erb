@@ -1,25 +1,19 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "sales.css" %>
 
-<div class="main-content" onkeyup="per()">
+<div class="main-content body-content" onkeyup="per()">
   <h1>预订</h1>
   <div class="content">
     <p>预订后，我们将在一个小时内给您答复。</p>
+    <h2>为什么要预订？</h2>
     <dl>
       <dt>买不到紧销产品？</dt>
-      <dd>我们发现您所挑选的属于同类产品中性价比很好的产品，正常这样的产品很容易被销售一空，您很难能购买到，通过我们帮你和银行联系预订，您将有轻松购买该产品。</dd>
+      <dd>每次购买收拾您亲自电话预订，有时订不到？我们来帮您。</dd>
       <dt>想得到更多实惠？</dt>
-      <dd>通过我们和银行理财经理预订，有时能享受到团购优惠，不妨试试。</dd>
+      <dd>我们帮您预订，享受实实在在的优惠。</dd>
     </dl>
   </div>
-  <br>
-  <div class="controls controls-row">
-    <p class="span2">您要购买的金额：</p>
-    <div class="input-prepend input-append">
-      <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
-    </div>
-  </div>
-  <br>
+  <h2 class="gift">产品及赠品</h2>
   <table class="table table-striped table-bordered" id="per">
     <thead>
     <tr>
@@ -44,8 +38,45 @@
     </tr>
     </tbody>
   </table>
-
-<a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a> <br>
+  <div id="hide">
+    <p>赠品数量有限，预订从速。。。</p>
+    <table class="table table-striped table-bordered">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>赠品</th>
+        <th>数量</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>1</td>
+        <td>苏垦特产林下散养草鸡蛋</td>
+        <td>10个</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>福临门 非转基因 玉米食用油</td>
+        <td>900毫升</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <h2>预订资料填写</h2>
+  <table>
+    <tr><td><p>购买金额：</p></td>
+      <td><div class="input-prepend input-append">
+        <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
+      </div></td></tr>
+    <tr><td><p>银行：</p></td>
+      <td><input class="input-large" type="text" id="trustee" readonly="true" value="<%= @banfinance.trustee %>"></td></tr>
+    <tr><td><p>电子邮件*：</p></td>
+      <td><input class="input-large" type="text" id="email"></td></tr>
+    <tr><td><p>手机*：</p></td>
+      <td><input class="input-large" type="text" id="tel"></td><td>（方便客服联系您）</td></tr>
+    <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" onclick="">我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
+    <tr><td></td><td><a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a></td></tr>
+  </table>
 </div>
 
 
@@ -96,29 +127,50 @@
                 $("#per tr:eq("+i+") td:eq(6)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
             }
         }
+
+        if(Request("favourable")!=1){
+            document.getElementById("hide").style.display="none";
+            $(".gift").html("产品");
+        }
     }
     per();
 
     $("#reserveconfig").click(function(e){
         var nom_flag=0;
+        var isuser="否";
         var states="预订申请";
         if($("#investamount").attr("value")==""){
             alert("请输入购买金额！");
+            nom_flag=1;
+        }
+        else if($("#email").attr("value")==""){
+            alert("请输入电子邮件！");
+            nom_flag=1;
+        }
+        else if($("#tel").attr("value")==""){
+            alert("请输入联系方式！");
             nom_flag=1;
         }
         else if($("#investamount").attr("value")<parseInt("<%= @banfinance.startvalue %>")){
             alert("该产品最低购买金额为<%= @banfinance.startvalue %>元！");
             nom_flag=1;
         }
+        var isusers=document.getElementsByName("isuser")
+        if(isusers[0].checked){
+            isuser="是";
+        }
+
         <% if @webuser!=nil %>
         if(nom_flag==0){
             $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
                 returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
                 investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
-                tel: "<%= @webuser.tel %>",state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>"
+                tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
+                email: $("#email").attr("value"),isuser: isuser
             },function(data){
                 if(data=="s1"){
                     location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
+                    email("<%= @webuser.username %>",'#tel');
                 }
             });
         }
@@ -128,4 +180,8 @@
         }
         <% end %>
     });
+
+    function email(uid,tid){
+        $.get("/admin/reserve",{username:1,tel:$(tid).attr("value")},function(data){ alert(1);})
+    }
 </script>

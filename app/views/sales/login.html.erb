@@ -12,10 +12,8 @@
           <dd><input id="username" class="input_menum" placeholder="姓名" type="text"></dd>
           <dt>密码 *:</dt>
           <dd><input id="password" class="input_menum" placeholder="密码" type="password"></dd>
-          <dt>联系电话 *:</dt>
-          <dd><input id="tel" class="input_menum" placeholder="联系电话" type="text"></dd>
         </dl>
-        <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password','#tel'))" type="submit">注册</a>
+        <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password'))" type="submit">注册</a>
         <div class="or-text"><div><b>或</b></div></div>
         <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
       </form>
@@ -67,17 +65,15 @@
         sURL=null;//destroy String
     }
 
-    function userconfig(uid,pid,tid){
+    function userconfig(uid,pid){
         if($(uid).attr("value")==""){
             alert("用户名为空！");
         }
         else if($(pid).attr("value")==""){
             alert("密码为空！");
         }
-        else if(!Checkreg($(tid).attr("value"))){
-        }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:$(tid).attr("value"),address: 1,postcode: 1},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1},function(data){
                 if(data=="f"){
                     alert("用户名已注册！");
                 }
@@ -108,12 +104,17 @@
                     location.href="/admin";
                 }
                 else if(data=="s"){
+                    if(Request("bid")>0){
                     location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
+                }
+                    else{
+                        location.href="/home/productindex";
+                    }
                 }
             })
         }
     }
-
+ /*
     function Checkreg(phonenum)
     {
         //var photo = /^(\d{3,4}\-)?\d{7,8}$/i;   //座机格式是 010-98909899
@@ -142,7 +143,7 @@
         }
         return true;
     }
-
+  */
 </script>
 
 

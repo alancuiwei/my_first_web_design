@@ -40,7 +40,7 @@ Ver01::Application.configure do
   config.action_mailer.smtp_settings = {
       :address => "smtp.ym.163.com",
       :port => "25",
-      :domain => "tongtianshun.com",
+#      :domain => "tongtianshun.com",
       :authentication => "plain",
       :user_name => "info@tongtianshun.com",
       :password => "zhongren#1234",
