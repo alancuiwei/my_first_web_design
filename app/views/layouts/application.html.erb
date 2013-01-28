@@ -40,8 +40,13 @@
         <h4>银行理财产品推荐</h4>
             </div>
     <div class="span2">
+      <% if session[:webusername]!=nil %>
+          <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
+          <a class="pull-right rounder" href="/sales/myorder">我的订单</a>
+      <% else %>
       <a class="pull-right rounder" href="/sales/login#create"  data-toggle="tab">注册</a>
       <a class="pull-right rounder" href="/sales/login">登陆</a>
+      <% end %>
     </div>
             </div>
 
@@ -49,7 +54,7 @@
 
   <div class="row-fluid main-footer">
 
-    <div class="span2 offset6">
+    <div class="span2 offset4">
       <h4 class="tcol">我们的服务</h4>
       <a href='/bankinvest/pickoutfinance' class='full'>帮您挑选</a>
       <a href='/bankinvest/index' class='full'>产品展示</a>
@@ -63,6 +68,14 @@
                     <a href='/contactus/aboutus#联系我们' class='full'>联系我们</a>
                 <a href='/blog/blogbusinesslife' class='full'>创业人生</a>
               </div>
+    <div class="span2">
+      <h4 class="tcol">我的帐号</h4>
+      <% if session[:webusername]!=nil %>
+      <a class="full" href="/sales/myorder">我的订单</a>
+      <% else %>
+      <a class="full" href="/sales/login">我的订单</a>
+      <% end %>
+    </div>
     <div class="span2">
       <h4 class="tcol">帮助</h4>
       <a href='javascript:void(0)' class='full'onclick="question('habla_oplink_a')">咨询</a>
@@ -92,6 +105,15 @@
                 document.getElementById(name).dispatchEvent(evt);
             }
         }
+
+    function logout(){
+        $.get('/admin/userlogout',function(data){
+            if(data=="s"){
+                alert("退出成功！");
+                location.reload();
+            }
+        })
+    }
     </script>
 <!--
      <script type="text/javascript">
