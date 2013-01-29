@@ -259,6 +259,13 @@
       UserMailer.confirm(params[:username]).deliver
    end
 
+   def reserve
+     UserMailer.reserve(params[:username],params[:tel],params[:email],params[:bname],params[:trustee],
+                        params[:btype],params[:startvalue],params[:investamount],params[:returnrate],
+                        params[:investperiod],params[:sailsstart],params[:collectperiod]).deliver
+     render :json => "s".to_json
+   end
+
    def productdeleteajax
      @product=Product.find_by_id(params[:id])
      if @product!=nil

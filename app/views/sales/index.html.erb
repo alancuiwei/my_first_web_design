@@ -125,7 +125,13 @@
             $("#per tr:eq("+i+") td:eq(7)").html("<%= @banfinance.investperiod %>天");
             $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
         }
-
+        $("#trustee").val("<%= @banfinance.trustee %>");
+        if(Request("favourable")!=1){
+            document.getElementById("hide").style.display="none";
+            $(".gift").html("<span class='text'>2.</span>产品");
+        }
+    }
+    function invest(){
         if(Request("investamount")){
             $("#investamount").val(Request("investamount"));
             var length=$("#per").find("tr").size();
@@ -133,12 +139,8 @@
                 $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
             }
         }
-
-        if(Request("favourable")!=1){
-            document.getElementById("hide").style.display="none";
-            $(".gift").html("<span class='text'>2.</span>产品");
-        }
     }
+    invest();
     per();
 
     $("#reserveconfig").click(function(e){
@@ -175,9 +177,15 @@
                 email: $("#email").attr("value"),isuser: isuser
             },function(data){
                 if(data=="s1"){
-                    location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
-                    email("<%= @webuser.username %>",'#tel');
+                    email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
+                            $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
                 }
+            });
+        }
+        function email(uid,tid,eid,bid,tru,bty,str,inv,ret,per,sat,col){
+            $.get("/admin/reserve",{username:"<%= @webuser.username %>",tel:$(tid).attr("value"),email:$(eid).attr("value"),bname:bid,trustee:tru,btype:bty,
+                startvalue:str,investamount:inv,returnrate:ret,investperiod:per,sailsstart:sat,collectperiod:col},function(data){
+                location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
             });
         }
         <% else%>
@@ -186,8 +194,4 @@
         }
         <% end %>
     });
-
-    function email(uid,tid){
-        $.get("/admin/reserve",{username:1,tel:$(tid).attr("value")},function(data){ alert(1);})
-    }
 </script>
