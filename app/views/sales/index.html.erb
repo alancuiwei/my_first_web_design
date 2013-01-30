@@ -49,7 +49,7 @@
       <tr>
         <th>#</th>
         <th>赠品</th>
-        <th>数量</th>
+        <th class="num">数量</th>
       </tr>
       </thead>
       <tbody>
@@ -69,15 +69,15 @@
   <h2><span class="text">3.</span>预订资料填写</h2>
   <table>
     <tr><td><p>购买金额：</p></td>
-      <td><div class="input-prepend input-append">
+      <td class="right"><div class="input-prepend input-append">
         <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
       </div></td></tr>
     <tr><td><p>银行：</p></td>
-      <td><input class="input-large" type="text" id="trustee" readonly="true" value="<%= @banfinance.trustee %>"></td></tr>
+      <td class="right"><input class="input-large" type="text" id="trustee" readonly="true" value="<%= @banfinance.trustee %>"></td></tr>
     <tr><td><p>电子邮件*：</p></td>
-      <td><input class="input-large" type="text" id="email"></td></tr>
+      <td class="right"><input class="input-large" type="text" id="email"></td></tr>
     <tr><td><p>手机*：</p></td>
-      <td><input class="input-large" type="text" id="tel"></td><td></td></tr>
+      <td class="right"><input class="input-large" type="text" id="tel"></td><td></td></tr>
     <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
     <tr><td></td><td><a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a></td></tr>
   </table>
@@ -157,13 +157,14 @@
             alert("请输入电子邮件！");
             nom_flag=1;
         }
-        else if($("#tel").attr("value")==""){
-            alert("请输入联系方式！");
-            nom_flag=1;
-        }
         else if($("#investamount").attr("value")<parseInt("<%= @banfinance.startvalue %>")){
             alert("该产品最低购买金额为<%= @banfinance.startvalue %>元！");
             nom_flag=1;
+        }
+        else if(!Checkreg($("#tel").attr("value"))){
+            nom_flag=1;
+        }
+        else if(!test()){
         }
         var isusers=document.getElementsByName("isuser")
         if(isusers[0].checked){
@@ -196,4 +197,44 @@
         }
         <% end %>
     });
+
+    function Checkreg(phonenum)
+    {
+        //var photo = /^(\d{3,4}\-)?\d{7,8}$/i;   //座机格式是 010-98909899
+        //var photo = /^0(([1-9]\d)|([3-9]\d{2}))\d{8}$/; 没有中间那段 -的 座机格式是 01098909899
+        var photo =/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;//座机(0开头)
+        var photo1 =/^1[358]\d{9}$/;//手机(13,15,18)
+        var value = phonenum.substring(0,1);
+        if(phonenum==""){
+            alert("联系电话为空！");
+            return false;
+        }
+        if(value==0){
+            if(!photo.test(phonenum)){
+                alert("座机号码错误(0(2或者3位)-(7或者8位)!");
+                return false;
+            }
+        }else if(value==1){
+            if(!photo1.test(phonenum)){
+                alert("手机号码错误(1(3或者5或者8)后面9位)!");
+                return false;
+            }
+        }else
+        {
+            alert("电话号码错误!");
+            return false;
+        }
+        return true;
+    }
+    function test(){
+        var temp = document.getElementById("email");
+        //对电子邮件的验证
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+        if(!myreg.test(temp.value))
+        {
+            alert('提示\n\n请输入有效的E_mail！');
+            myreg.focus();
+            return false;
+        }
+    }
 </script>

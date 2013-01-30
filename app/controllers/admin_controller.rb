@@ -242,6 +242,10 @@
         w.postcode=params[:postcode]
         w.save
       end
+#      session[:webusername]=params[:username]
+      Thread.new{
+        UserMailer.confirm(params[:username]).deliver
+      }
     render :json => "s".to_json
         # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
@@ -255,9 +259,9 @@
     end
   end
 
-  def email
-      UserMailer.confirm(params[:username]).deliver
-   end
+ # def email
+ #     UserMailer.confirm(params[:username]).deliver
+ #  end
 
    def reserve
      Thread.new{
