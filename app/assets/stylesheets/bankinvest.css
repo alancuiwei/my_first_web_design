@@ -23,6 +23,31 @@ h1 {
     display: inline-block;
     width: 120px;
     margin: 0;
+    font-weight: normal;
+}
+
+/*Tooltips*/
+.tooltips{
+    position:relative; /*这个是关键*/
+    z-index:2;
+}
+.tooltips:hover{
+    z-index:3;
+    background:none; /*没有这个在IE中不可用*/
+}
+.tooltips span{
+    display: none;
+}
+.tooltips:hover span{ /*span 标签仅在 :hover 状态时显示*/
+    display:block;
+    position:absolute;
+    top:21px;
+    left:9px;
+    width:15em;
+    border:1px solid black;
+    background-color:#ccFFFF;
+    padding: 3px;
+    color:black;
 }
 
 .ctl2 {
@@ -595,3 +620,5 @@ label {
 .pop #bankfinance_filter label{
     display: none;
 }
+
+div#container { width: 280px; }

@@ -1,6 +1,7 @@
 #encoding: utf-8
 class SalesController < ApplicationController
   def index
+    @banfinance=Bankfinance.find_by_id(params[:bid])
     if session[:webusername]=="admin"
       if params[:id]!=nil
         @webuser=Webuser.find_by_id(params[:id])
@@ -10,7 +11,6 @@ class SalesController < ApplicationController
     else
       @webuser=Webuser.find_by_username(session[:webusername])
     end
-      @banfinance=Bankfinance.find_by_id(params[:bid])
     end
 
   def myorder

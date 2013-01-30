@@ -77,7 +77,7 @@
     <tr><td><p>电子邮件*：</p></td>
       <td><input class="input-large" type="text" id="email"></td></tr>
     <tr><td><p>手机*：</p></td>
-      <td><input class="input-large" type="text" id="tel"></td><td>（方便客服联系您）</td></tr>
+      <td><input class="input-large" type="text" id="tel"></td><td></td></tr>
     <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
     <tr><td></td><td><a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a></td></tr>
   </table>
@@ -134,6 +134,8 @@
     function invest(){
         if(Request("investamount")){
             $("#investamount").val(Request("investamount"));
+            $("#email").val(Request("email"));
+            $("#tel").val(Request("tel"));
             var length=$("#per").find("tr").size();
             for(i=0;i<length;i++){
                 $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
@@ -190,7 +192,7 @@
         }
         <% else%>
         if(nom_flag==0){
-        location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value");
+        location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value")+"&email="+$("#email").attr("value")+"&tel="+$("#tel").attr("value");
         }
         <% end %>
     });
