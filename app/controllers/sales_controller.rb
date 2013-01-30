@@ -2,6 +2,9 @@
 class SalesController < ApplicationController
   def index
     @banfinance=Bankfinance.find_by_id(params[:bid])
+    if @banfinance==nil
+      redirect_to(:controller=>"bankinvest", :action=>"index")
+    end
     if session[:webusername]=="admin"
       if params[:id]!=nil
         @webuser=Webuser.find_by_id(params[:id])
