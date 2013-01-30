@@ -7,4 +7,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
+
+    //增加行距设置
+    config.extraPlugins += (config.extraPlugins ? ',lineheight': 'lineheight');
+
 };
+
