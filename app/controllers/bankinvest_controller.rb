@@ -3,6 +3,32 @@ require 'date'
 class BankinvestController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
 
+  def compare
+    @compareid=session[:compareid].split("|")
+    @compareid.delete("")
+    for i in 0..@compareid.size-1
+        for j in i+1..@compareid.size-1
+            if  @compareid[i]==@compareid[j]
+              @compareid.delete_at(j)
+            end
+        end
+    end
+    @compareobj=[]
+    for i in 0..@compareid.size-1
+      @compareobj[i]= Bankfinance.find(@compareid[i]);
+    end
+  end
+  def comparesession
+    if params[:comparenum]=='0'
+      session[:compareid]=""
+    end
+    if params[:type]=="deleteid"
+      session[:compareid]=session[:compareid].gsub(params[:compareid],"")
+      else
+     session[:compareid]=session[:compareid]+"|"+params[:compareid]
+    end
+     render :json => "s".to_json
+  end
   def index
     @bankfinances=Bankfinance.all
   end

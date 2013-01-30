@@ -123,11 +123,11 @@
     </dd>
   </dl>
    -->
-
+                  <div style="float: right;"><a href="/bankinvest/compare">对比</a></div>
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
       <th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
-      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th>
+      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th><th>对比</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -149,15 +149,62 @@
                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-          <td class="hide"><%= b.collectperiod%></td>
+          <td class="hide"><%= b.collectperiod%></td><td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
+
                          </tr>
                      <% end %>
                    </table>
+</div>
+<style type="text/css">
+    .shape{width:200px; height: 140px; position:fixed!important; position:absolute; left:5px; bottom:5px!important; bottom:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight));}
+    .shape .con{width:200px; height:140px; background: url(http://static.l99.com/skin/default/images/versus/pk_vote_record.gif) no-repeat;}
+    .shape .btn{width:200px; height:40px; background: url(http://static.l99.com/skin/default/images/versus/pk_vote_record.gif) no-repeat 0 -100px;}
+    .height{height:1300px;}
+</style>
+</head>
+<body>
+<div class="shape" id="shape_control">
+  <div class="con"></div>
+  <div class="btn">对比框</div>
 </div>
 
 
 <script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
+    var flag;
+    var comparenum=0;
+    var session_compare;
+    var height=document.getElementsByClassName("con").height;
+    $('#shape_control').hide();
+    <%session[:compareid]=""%>
+    function check_chose(name,id){
+        havecheck("chose");
+        if(flag==1){
+            $('#shape_control').show();
+        }
+        if($("#chose"+id).attr("checked")=="checked"){
+       $("<div id=comparetitle"+id+"><b>"+name+"</b><br></div>").appendTo(".con");
+        $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum});
+        comparenum=comparenum+1;
+        }
+        else
+        {
+           $("#comparetitle"+id).remove();
+            $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum,type:'deleteid'});
+            comparenum=comparenum-1;
+        }
+    }
+
+    function $N(name){return document.getElementsByName(name);}
+    function havecheck(name){ //v当前要设置的值true/false;name要设置的checkbox组的name,如果省略则默认为所有的checkbox
+        o=name?$N(name):$N("input");
+        //alert(o.length)
+        for(i=0;i<o.length;i++)
+            if(o[i].type=="checkbox"){
+                flag=1;
+                break;
+            };
+    }
 
    function checkchick(id){
        if($('#'+id).attr('checked')=='checked')
