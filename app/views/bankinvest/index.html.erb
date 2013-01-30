@@ -57,7 +57,7 @@
                     <form>
                       <div id="container">
                         <div class="side-by-side clearfix">
-                          <div>
+                          <div class="grade">
                             <select data-placeholder="请选择：可选多项" style="width:350px;" id="bank" class="chzn-select" multiple tabindex="6">
                               <option value=""></option>
                               <optgroup label="银行名称">
@@ -241,7 +241,7 @@
                     }
                 }
                 var arr = new Array();
-                var banks=document.getElementsByName("bank");
+                var banks=document.getElementsByTagName("option");
                 var bank=document.getElementById("bank");
                 if(bank.value==""){
                    flag3=1;

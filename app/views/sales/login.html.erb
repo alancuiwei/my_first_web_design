@@ -29,7 +29,7 @@
         </dl>
         <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2'))" type="submit">登录</a>
         <div class="or-text"><div><b>或</b></div></div>
-        <a class="chear see info-button" href="#create" data-toggle="tab" type="submit">注册</a>
+        <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
       </form>
     </div>
   </div>
@@ -37,6 +37,22 @@
 
 
 <script>
+    function question(name)
+    {
+        if(document.all)
+        {
+            document.getElementById(name).click();
+        }
+        else
+        {
+            var evt = document.createEvent("MouseEvents");
+            evt.initEvent("click", true, true);
+            document.getElementById(name).dispatchEvent(evt);
+        }
+    }
+    <% if params[:logintype] == "creat"%>
+    question("change_creat");
+    <% end %>
     function Request(sName)
     {
         var sURL = new String(window.location);
