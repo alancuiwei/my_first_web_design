@@ -17,7 +17,7 @@
             <div id="myTabContent" class="tab-content">
               <div class="overlays tab-pane fade in active" id="fourth">
                 <div class="input-group active">
-              <p class="group">银行</p>
+                  <p class="group">银行</p>
                   <div class="input-prepend input-append">
                     <span class="add-on"><div class="indicator-icon custom small"></div></span>
                     <input class="input-small" type="text" name="bcolumn" href="#first" data-toggle="tab" id="bcolumn" value="<%= cookies[:bcolumn] %>">
@@ -25,7 +25,7 @@
                   </div>
                 </div>
                 <div class="input-group active">
-              <p class="group">投入资金</p>
+                  <p class="group">投入资金</p>
                   <div class="input-prepend input-append">
                     <span class="add-on"><div class="indicator-icon custom small"></div></span>
                     <input class="input-small" type="text" name="amount" href="#first" data-toggle="tab" id="amount" value="<%= cookies[:amount] %>元">
@@ -33,7 +33,7 @@
                   </div>
                 </div>
                 <div class="input-group active">
-              <p class="group">投资期限</p>
+                  <p class="group">投资期限</p>
                   <div class="input-prepend input-append">
                     <span class="add-on"><div class="indicator-icon custom small"></div></span>
                     <input class="input-small" type="text" name="deadline" href="#second" data-toggle="tab" id="deadline" value="<%= cookies[:deadline] %>">
@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div class="input-group active">
-              <p class="group">风险性</p>
+                  <p class="group">风险性</p>
                   <div class="input-prepend input-append">
                     <span class="add-on"><div class="indicator-icon custom small"></div></span>
                     <input class="input-small" type="text" name="risk" href="#third" data-toggle="tab" id="risk" value="<%= cookies[:optionsRadios] %>">
@@ -112,40 +112,16 @@
           <table>
             <tr>
               <td class="left2 sides">
-          <div class="lf-box">
-          <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
-            请您再做仔细筛选：</p>
-          </div>
+                <div class="lf-box">
+                  <p>我们将根据您输入的实际情况来分析觉得如下几种银行理财产品可能会适合您。<br>
+                    请您再做仔细筛选：</p>
+                </div>
 
                 <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
-            <thead><tr>
-                    <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
-                    <th class="hide">起售价</th><th>年化收益率</th><th>产品类型</th>
-                    <th class="hide">是否开放</th><th>计算收益金额</th>
-            </tr></thead>
-
-            <% @bankfinances.each do |b| %>
-                <tr>
-                        <td class="hide"><%= b.trustee%></td>
-                        <td class="name"><%= b.bname%></td>
-                  <td><%= format("%0.0f",b.investperiod)%>天</td>
-                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
-                  <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                  <td><%= b.btype%></td>
-                        <td class="hide"><%= b.ispatent %></td>
-                        <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
-                      </tr>
-                  <% end %>
-                </table>
-               <br><br><br>
-                <div class="lf-box lf">
-                  <p>下面的理财产品和您的要求相似，供您参考</p>
-                </div>
-                <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance2" id="bankfinance2"  style="text-align:center;">
                   <thead><tr>
                     <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
-                    <th class="hide">起售价</th><th>年化收益率</th><th>产品类型</th>
-                    <th class="hide">是否开放</th><th>计算收益金额</th>
+                    <th class="hide">起售价</th><th>年化收益率</th><th>计算收益金额</th>
+                    <th class="hide">是否开放</th><th>产品类型</th><th>操作</th>
                   </tr></thead>
 
                   <% @bankfinances.each do |b| %>
@@ -155,12 +131,46 @@
                         <td><%= format("%0.0f",b.investperiod)%>天</td>
                         <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
                         <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                        <td><%= b.btype%></td>
-                        <td class="hide"><%= b.ispatent %></td>
                         <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
-                </tr>
-            <% end %>
-          </table>
+                        <td class="hide"><%= b.ispatent %></td>
+                        <td><%= b.btype%></td>
+                        <% if b.trustee =="北京银行" %>
+                            <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
+                        <% else %>
+                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+                        <% end %>
+                      </tr>
+                  <% end %>
+                </table>
+                <br><br><br>
+                <div class="lf-box lf">
+                  <p>下面的理财产品和您的要求相似，供您参考</p>
+                </div>
+                <table class="table table-striped" cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance2" id="bankfinance2"  style="text-align:center;">
+                  <thead><tr>
+                    <th class="hide">发行银行</th><th class="name">产品名称</th><th>投资期限</th>
+                    <th class="hide">起售价</th><th>年化收益率</th><th>计算收益金额</th>
+                    <th class="hide">是否开放</th><th>产品类型</th><th>操作</th>
+                  </tr></thead>
+
+                  <% @bankfinances.each do |b| %>
+                      <tr>
+                        <td class="hide"><%= b.trustee%></td>
+                        <td class="name"><%= b.bname%></td>
+                        <td><%= format("%0.0f",b.investperiod)%>天</td>
+                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
+                        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                        <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
+                        <td class="hide"><%= b.ispatent %></td>
+                        <td><%= b.btype%></td>
+                        <% if b.trustee =="北京银行" %>
+                            <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
+                        <% else %>
+                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+                        <% end %>
+                      </tr>
+                  <% end %>
+                </table>
               </td>
               <td class="right2">
                 <div class="tip2">
@@ -189,39 +199,39 @@
                 var optionsRadios= document.getElementsByName("risk")[0].value;
 
 
-                    if(bcolumn==aData[0]){
-                        flag1=1;
-                    }
+                if(bcolumn==aData[0]){
+                    flag1=1;
+                }
 
-                    aData[2] =aData[2].replace(/天/, "");
-                    if(deadline=="短期投资 (1个月内)"&&aData[6]=="true"){
-                        flag2=1;
-                    }
-                    else if(deadline=="中期投资 (3个月内)"&&aData[2]<=95&&aData[6]=="false"){
-                        flag2=1;
-                    }
-                    else if(deadline=="长期投资 (3个月以上)"&&aData[2]>95&&aData[6]=="false"){
-                        flag2=1;
-                    }
-                    else{
-                        flag2=0;
-                    }
+                aData[2] =aData[2].replace(/天/, "");
+                if(deadline=="短期投资 (1个月内)"&&aData[6]=="true"){
+                    flag2=1;
+                }
+                else if(deadline=="中期投资 (3个月内)"&&aData[2]<=95&&aData[6]=="false"){
+                    flag2=1;
+                }
+                else if(deadline=="长期投资 (3个月以上)"&&aData[2]>95&&aData[6]=="false"){
+                    flag2=1;
+                }
+                else{
+                    flag2=0;
+                }
 
-                    aData[3] =aData[3].replace(/万/, "");
-                    amount =amount.replace(/元/, "");
-                    if(amount>=aData[3]*10000){
-                        flag3=1;
-                    }
+                aData[3] =aData[3].replace(/万/, "");
+                amount =amount.replace(/元/, "");
+                if(amount>=aData[3]*10000){
+                    flag3=1;
+                }
 
-                    if(optionsRadios=="绝对不能亏损本金"&&aData[5]=="保本"){
-                        flag4=1;
-                    }
-                    else if(optionsRadios=="可以承担本金亏损"){
-                        flag4=1;
-                    }
-                    else{
-                        flag4=0;
-                    }
+                if(optionsRadios=="绝对不能亏损本金"&&aData[7]=="保本"){
+                    flag4=1;
+                }
+                else if(optionsRadios=="可以承担本金亏损"){
+                    flag4=1;
+                }
+                else{
+                    flag4=0;
+                }
 
                 if(oSettings.nTable.id == "bankfinance"){
                     if(flag1==1&&flag2==1&&flag3==1&&flag4==1){
@@ -298,11 +308,11 @@
     function bank(){
         var length=$("#bankfinance").find("tr").size();
         for(i=0;i<length;i++){
-            $("#bankfinance tr:eq("+i+") td:eq(7)").html(parseInt(parseFloat($("#bankfinance tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
+            $("#bankfinance tr:eq("+i+") td:eq(5)").html(parseInt(parseFloat($("#bankfinance tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
         }
         var length=$("#bankfinance2").find("tr").size();
         for(i=0;i<length;i++){
-            $("#bankfinance2 tr:eq("+i+") td:eq(7)").html(parseInt(parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
+            $("#bankfinance2 tr:eq("+i+") td:eq(5)").html(parseInt(parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(4)").html())*parseFloat($("#bankfinance2 tr:eq("+i+") td:eq(2)").html())*document.form1.amounts.value/36500)+"元")
         }
     };
 </script>

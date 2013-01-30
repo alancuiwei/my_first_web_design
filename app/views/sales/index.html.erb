@@ -12,7 +12,7 @@
     <h2><span class="text">1.</span>为什么要预订？</h2>
     <dl>
       <dt>买不到紧销产品？</dt>
-      <dd>每次购买收拾您亲自电话预订，有时订不到？我们来帮您。</dd>
+      <dd>每次购买都是您亲自电话预订，有时订不到？我们来帮您。</dd>
       <dt>想得到更多实惠？</dt>
       <dd>我们帮您预订，享受实实在在的优惠。</dd>
     </dl>
@@ -23,26 +23,24 @@
     <tr>
       <th class="bname">银行理财产品名</th>
       <th>银行名</th>
-      <th>产品类型</th>
-      <th>起购价</th>
-      <th>销售起始</th>
-      <th>销售结束</th>
+      <th>收益金额</th>
       <th>预期年收益率</th>
       <th>投资期限</th>
-      <th>收益金额</th>
+      <th>产品类型</th>
+      <th>销售起始</th>
+      <th>销售结束</th>
     </tr>
     </thead>
     <tbody>
     <tr>
       <td class="bname"></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td class="income">0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     </tbody>
   </table>
@@ -83,7 +81,11 @@
     <tr><td><p>手机*：</p></td>
       <td class="right"><input class="input-large" type="text" id="tel"></td><td></td></tr>
     <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
-    <tr><td></td><td><a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a></td></tr>
+    <tr><td></td><td>
+      <br>
+      <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a>
+      <a class="btn pull-right" href="/bankinvest/index" >返回</a>
+    </td></tr>
   </table>
 </div>
 
@@ -121,13 +123,12 @@
         for(i=0;i<length;i++){
             $("#per tr:eq("+i+") td:eq(0)").html("<%= @banfinance.bname %>");
             $("#per tr:eq("+i+") td:eq(1)").html("<%= @banfinance.trustee %>");
-            $("#per tr:eq("+i+") td:eq(2)").html("<%= @banfinance.btype %>");
-            $("#per tr:eq("+i+") td:eq(3)").html("<%= @banfinance.startvalue %>");
-            $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.sailsstart %>");
-            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.collectperiod %>");
-            $("#per tr:eq("+i+") td:eq(6)").html("<%= format("%0.1f",@banfinance.returnrate*100) %>%");
-            $("#per tr:eq("+i+") td:eq(7)").html("<%= @banfinance.investperiod %>天");
-            $("#per tr:eq("+i+") td:eq(8)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+            $("#per tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
+            $("#per tr:eq("+i+") td:eq(3)").html("<%= format("%0.1f",@banfinance.returnrate*100) %>%");
+            $("#per tr:eq("+i+") td:eq(4)").html("<%= @banfinance.investperiod %>天");
+            $("#per tr:eq("+i+") td:eq(5)").html("<%= @banfinance.btype %>");
+            $("#per tr:eq("+i+") td:eq(6)").html("<%= @banfinance.sailsstart %>");
+            $("#per tr:eq("+i+") td:eq(7)").html("<%= @banfinance.collectperiod %>");
         }
         $("#trustee").val("<%= @banfinance.trustee %>");
         if(Request("favourable")!=1){

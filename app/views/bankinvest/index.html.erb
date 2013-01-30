@@ -42,13 +42,13 @@
             <div>
         <table class="space table table-striped" id="returnrate">
                   <tr>
-                  <td><h4>优惠活动</h4></td>
+                  <td><h4>独家特惠</h4></td>
             <td><h4>收益类型</h4></td>
             <td><h4>理财期限</h4></td>
                   <td><h4>发行机构</h4></td>
                   </tr>
                   <tr>
-                  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">赠品</label></td>
+                  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">有赠品</label></td>
             <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
             <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
                   <td rowspan="4">
@@ -56,9 +56,10 @@
                       <div id="container">
                         <div class="side-by-side clearfix">
                           <div class="grade">
-                            <select data-placeholder="请选择：可选多项" style="width:350px;" id="bank" class="chzn-select" multiple tabindex="6">
+                            <select data-placeholder="可点击选择多家银行" style="width:300px;" id="bank" class="chzn-select" multiple tabindex="6">
                               <option value=""></option>
                               <optgroup label="银行名称">
+                                <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
                                 <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
                                 <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
                                 <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
@@ -82,7 +83,7 @@
                   </td>
                   </tr>
                   <tr>
-                  <td></td>
+                  <td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息">明日起息</label></td>
             <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
                   </tr>
@@ -111,7 +112,7 @@
       </div>
                    </div>
                      </div>
-  <br>
+
   <!--
   <dl class="dl-horizontal">
     <dt>投资金额：</dt>
@@ -126,7 +127,7 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
       <th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
-      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th>
+      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -148,6 +149,7 @@
                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+          <td class="hide"><%= b.collectperiod%></td>
                          </tr>
                      <% end %>
                    </table>
@@ -175,6 +177,27 @@
                     length_s=0;
                 else
                     length_s=1;
+
+                today=new Date();
+                var year = today.getFullYear();
+                var month = today.getMonth()+1;
+                var date = today.getDate();
+                d1Arr=aData[12].split('-');
+            //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
+            //    v2=new Date(year,month,date);
+                var tom=document.getElementsByName("opt");
+                if(tom[0].checked){
+                    if(d1Arr[0]==year){
+                        if(d1Arr[1]==month){
+                            if(d1Arr[2]==date){
+                                flag1=1;
+                            }
+                        }
+                    }
+                }
+                else{
+                    flag1=1;
+                }
 
                 var rtype=document.getElementsByName("optionsRadios");
                 for(var i=length_s;i<rtype.length;i++){
@@ -236,7 +259,7 @@
                     flag5=1;
                 }
 
-                if(flag2==1&&flag3==1&&flag4==1&&flag5==1){
+                if(flag1==1&&flag2==1&&flag3==1&&flag4==1&&flag5==1){
                   return true;
               }
            }

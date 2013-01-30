@@ -27,7 +27,9 @@ class BankinvestController < ApplicationController
   def fourthpickout
     @bankfinances=Bankfinance.all
     cookies[:optionsRadios] = params[:optionsRadios]
-
+    if @bankfinances==nil
+      redirect_to(:controller=>"bankinvest", :action=>"fourthpickout")
+    end
   end
 
   def investrecord
