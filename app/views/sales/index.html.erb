@@ -3,6 +3,9 @@
 
 <style>
     .main-footer{ display: none; }
+    <% if @banfinance.trustee=="北京银行" %>
+    #reserveconfig{ margin-right: 50px;}
+    <% end %>
 </style>
 
 <div class="main-content body-content" onkeyup="per()" onload="">
@@ -70,6 +73,13 @@
   </div>
   <h2><span class="text">3.</span>预订资料填写</h2>
   <table>
+    <tr><td colspan="2"><label class="checkbox" style="display:inline;padding-left: 20px;">
+      <input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label>
+      <% if @banfinance.trustee=="北京银行" %>
+      <a onclick="adjust()">为礼品办张新卡合算吗？</a>
+      <% end %>
+      <br><br></td>
+    </tr>
     <tr><td><p>购买金额：</p></td>
       <td class="right"><div class="input-prepend input-append">
         <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
@@ -80,7 +90,6 @@
       <td class="right"><input class="input-large" type="text" id="email"></td></tr>
     <tr><td><p>手机*：</p></td>
       <td class="right"><input class="input-large" type="text" id="tel"></td><td></td></tr>
-    <tr><td colspan="2"><label class="checkbox"><input type="checkbox" name="isuser" checked>我目前还不是<%= @banfinance.trustee %>的客户。</label></td></tr>
     <tr><td></td><td>
       <br>
       <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig">预订</a>
@@ -118,6 +127,11 @@
         return sURL.slice(iStart,iTemp ) ;
         sURL=null;//destroy String
     }
+
+    function adjust(){
+        location.href="/sales/adjust?bid="+Request("bid");
+    }
+
     function per(){
         var length=$("#per").find("tr").size();
         for(i=0;i<length;i++){
