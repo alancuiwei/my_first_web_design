@@ -22,11 +22,14 @@ class BankinvestController < ApplicationController
     if params[:comparenum]=='0'
       session[:compareid]=""
     end
-    if params[:type]=="deleteid"
+    if  params[:type]=="clearid"
+      session[:compareid]=""
+    else if params[:type]=="deleteid"
       session[:compareid]=session[:compareid].gsub(params[:compareid],"")
       else
      session[:compareid]=session[:compareid]+"|"+params[:compareid]
     end
+   end
      render :json => "s".to_json
   end
   def index
