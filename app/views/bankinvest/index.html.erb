@@ -40,7 +40,7 @@
         <div id="optionsRadios">
           <div id="period">
             <div>
-        <table class="space table table-striped" id="returnrate">
+              <table class="space table table-striped" id="returnrate">
                   <tr>
                   <td><h4>独家特惠</h4></td>
             <td><h4>收益类型</h4></td>
@@ -123,15 +123,15 @@
     </dd>
   </dl>
    -->
-                  <div style="float: right;"><a href="/bankinvest/compare">对比</a></div>
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-      <th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
-      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th><th>对比</th>
+      <th>对比</th><th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
+      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
                          <tr class="gradeA">
+          <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
           <td><%= b.trustee%></td>
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td></td>
@@ -149,32 +149,27 @@
                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-          <td class="hide"><%= b.collectperiod%></td><td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
-
+          <td class="hide"><%= b.collectperiod%></td>
                          </tr>
                      <% end %>
                    </table>
 </div>
 <style type="text/css">
-    .shape{width:200px; height: 140px; position:fixed!important; position:absolute; left:5px; bottom:5px!important; bottom:auto; top: expression(eval(document.compatMode && document.compatMode=='CSS1Compat') ? documentElement.scrollTop+(documentElement.clientHeight - this.clientHeight):document.body.scrollTop+(document.body.clientHeight - this.clientHeight));}
-    .shape .con{width:200px; height:140px; background: url(http://static.l99.com/skin/default/images/versus/pk_vote_record.gif) no-repeat;}
-    .shape .btn{width:200px; height:40px; background: url(http://static.l99.com/skin/default/images/versus/pk_vote_record.gif) no-repeat 0 -100px;}
-    .height{height:1300px;}
-</style>
-</head>
-<body>
-<div class="shape" id="shape_control">
-  <div class="con"></div>
-  <div class="btn">对比框</div>
-</div>
 
+</style>
+
+<div class="shape" id="shape_control">
+  <p>您已经选择的理财产品</p>
+  <div class="con"></div>
+  <div class="btns"><a class="btn pull-left" href="/bankinvest/compare">对比</a></div>
+</div>
 
 <script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
     var flag;
     var comparenum=0;
-    var session_compare;
-    var height=document.getElementsByClassName("con").height;
+   // var session_compare;
+   // var height=document.getElementsByClassName("con").height;
     $('#shape_control').hide();
     <%session[:compareid]=""%>
     function check_chose(name,id){
@@ -214,7 +209,7 @@
            function( oSettings, aData, iDataIndex ) {
                 var flag1,flag2,flag3,flag4,flag5;
                 var returnrates=document.getElementsByName("returnrate");
-                var t_returnrate=parseFloat(aData[1].replace(/%/,""));
+                var t_returnrate=parseFloat(aData[2].replace(/%/,""));
                 var Sys = {};
                 var ua = navigator.userAgent.toLowerCase();
                 if (window.ActiveXObject)
@@ -229,7 +224,7 @@
                 var year = today.getFullYear();
                 var month = today.getMonth()+1;
                 var date = today.getDate();
-                d1Arr=aData[12].split('-');
+                d1Arr=aData[13].split('-');
             //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
             //    v2=new Date(year,month,date);
                 var tom=document.getElementsByName("opt");
@@ -252,7 +247,7 @@
                         if(rtype[i].value=="全部"){
                    flag2=1;
                }
-                        else if(rtype[i].value==aData[3]){
+                        else if(rtype[i].value==aData[4]){
                    flag2=1;
                }
                     }
@@ -265,7 +260,7 @@
                }
                else {
                     for(var i=0;i<banks.length;i++){
-                        if( banks[i].selected&&banks[i].value==aData[0]){
+                        if( banks[i].selected&&banks[i].value==aData[1]){
                            flag3=1;
                        }
                    }
@@ -278,17 +273,17 @@
                            flag4=1;
                        }
                        else if(periods[i].value=="p_3"){
-                            if(aData[5]<=90){
+                            if(aData[6]<=90){
                                flag4=1;
                            }
                        }
                        else if(periods[i].value=="p_312"){
-                            if(aData[5]>=90&&aData[5]<365){
+                            if(aData[6]>=90&&aData[6]<365){
                                flag4=1;
                            }
                        }
                        else if(periods[i].value=="p_1"){
-                            if(aData[5]>365){
+                            if(aData[6]>365){
                                flag4=1;
                            }
                        }
@@ -298,7 +293,7 @@
                 var favourables=document.getElementsByName("favourable")
                 if( favourables[0].checked){
                   //  alert(aData[10])
-                    if(aData[0]=="北京银行"){
+                    if(aData[1]=="北京银行"){
                         flag5=1;
                     }
                 }
@@ -357,7 +352,7 @@
                "sSearch":"发行地区:",
                "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
            },
-           "aaSorting": [[ 1, "desc" ]]
+            "aaSorting": [[ 2, "desc" ]]
     });
         new FixedHeader(oTable);
         AddElement('text');
@@ -375,10 +370,10 @@
         //        $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
         //    }
             if($("#investamount").val()!=""&&numfor.test($("#investamount").val())==true){
-                $("#bankfinance tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(1)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(5)").html())/36500))
+                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(6)").html())/36500))
             }
             else{
-                $("#bankfinance tr:eq("+i+") td:eq(2)").html(0)
+                $("#bankfinance tr:eq("+i+") td:eq(3)").html(0)
             }
        }
    };

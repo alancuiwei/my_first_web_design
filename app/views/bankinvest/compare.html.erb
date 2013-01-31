@@ -1,7 +1,54 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<div class="main-content">
+  <h1>理财产品比较</h1>
+  <table class="table table-striped table-bordered">
+    <tr>
+      <td class="trust">发行银行</td>
 <% for i in 0..@compareobj.size-1%>
-    <%=@compareobj[i].trustee%><br>
-    <%=@compareobj[i].bname%><br><br>
+          <td><%=@compareobj[i].trustee%></td>
 <% end %>
-<table>
-  <tr><td></td></tr>
-</table>
+    </tr>
+    <tr>
+      <td>预期收益率</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=format("%0.1f",@compareobj[i].returnrate*100)%>%</td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>类型</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=@compareobj[i].btype%></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>起售价</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=format("%0.0f",@compareobj[i].startvalue)%>元</td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>投资期限</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=format("%0.0f",@compareobj[i].investperiod)%>天</td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>可售</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=@compareobj[i].status%></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>产品名称</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=@compareobj[i].bname%></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>发行地区</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%=@compareobj[i].distributionarea%></td>
+      <% end %>
+    </tr>
+</table></div>
