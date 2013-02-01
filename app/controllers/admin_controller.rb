@@ -694,6 +694,7 @@
          b.state=params[:state]
          b.email=params[:email]
          b.isuser=params[:isuser]
+         b.bankcardnum=params[:bankcardnum]
          b.save
        end
        render :json => "s1".to_json
