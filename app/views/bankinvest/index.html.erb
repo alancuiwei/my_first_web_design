@@ -174,12 +174,9 @@
         if(flag==1){
             $('#shape_control').show();
         }
-        var o=document.getElementsByClassName("comparetitle")
-        if(o.length==0){
-            comparenum=0;
-        }
+
         if($("#chose"+id).attr("checked")=="checked"){
-            $("<div class='comparetitle' id=comparetitle"+id+"><p>"+(comparenum+1)+"、"+name+"</p></div>").appendTo(".con");
+            $("<div class='comparetitle' id=comparetitle"+id+"><p><ul><li>"+name+"</li></ul></p></div>").appendTo(".con");
         $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum});
         comparenum=comparenum+1;
         }
