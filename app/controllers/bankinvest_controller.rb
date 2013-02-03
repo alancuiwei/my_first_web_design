@@ -3,6 +3,11 @@ require 'date'
 class BankinvestController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
 
+  def details
+    @bankproducts=Bankproducts_t.find_by_productkeywords(params[:key])
+    @banfinance=Bankfinance.find_by_id(params[:bid])
+  end
+
   def compare
     @compareid=session[:compareid].split("|")
     @compareid.delete("")

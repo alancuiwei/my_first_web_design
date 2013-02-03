@@ -62,6 +62,7 @@
   <br> <br>
                         </td>
                       </tr>
+
                       <!--
                       <tr>
                         <td>
@@ -247,12 +248,13 @@
                     </td></tr>
 
                       <tr><td>
-            <h1>银行理财产品</h1>
+  <h1>银行销售产品管理</h1>
             <a href="/admin/bankfinanceconfig/0">添加</a>
+  <label class="checkbox"><input type="checkbox" name="keywords" id="keywords">产品关键词为空的产品。</label>
             <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankfinance">
               <thead><tr>
-                <th>发行银行</th><th>预期收益率</th><th>是否保本</th><th>是否特供</th><th>是否开放</th>
-                <th>投资期限</th><th>产品名称</th>
+      <th>发行银行</th><th>预期收益率</th><th>是否保本</th>
+      <th>投资期限</th><th>产品名称</th><th>产品关键词</th>
                 <th>修改</th><th>删除</th><th>查看</th>
               </tr></thead>
 
@@ -261,10 +263,9 @@
                     <td><%= b.trustee%></td>
                     <td><%= b.returnrate%></td>
                     <td><%= b.btype%></td>
-                    <td><%= b.ispickout%></td>
-                    <td><%= b.ispatent%></td>
                     <td><%= b.investperiod%></td>
                     <td><%= b.bname%></td>
+          <td><%= b.productkeywords%></td>
                     <td><a href="/admin/bankfinanceconfig/<%= b.id %>?optype=edit">修改</a></td>
                     <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','bankfinancedeleteajax')">删除</a></td>
                     <td><a href="">查看</a></td>
@@ -272,6 +273,36 @@
               <% end %>
             </table>
                       </td></tr>
+
+<tr>
+  <td>
+    <h2>银行大类产品管理</h2><br>
+    <a href="/admin/bankproductsconfig/0">添加产品类</a>
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankproducts">
+      <thead><tr>
+        <th>银行</th><th>产品名称</th><th>产品代码</th>
+        <th>产品类型</th><th>产品风险评级</th>
+        <th>适合的投资者</th><th>产品关键字</th><th>修改</th><th>删除</th>
+      </tr></thead>
+      <tbody>
+      <% @bankproducts.each do |w|  %>
+          <tr>
+            <td><%= w.trustee%></td>
+            <td><%= w.bname%></td>
+            <td><%= w.bcode%></td>
+            <td><%= w.btype%></td>
+            <td><%= w.risk%></td>
+            <td><%= w.forinvestors%></td>
+            <td><%= w.productkeywords%></td>
+            <td><a href="/admin/bankproductsconfig/<%= w.id %>">修改</a></td>
+            <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','bankproductsdeleteajax')">删除</a></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <br> <br>
+  </td>
+</tr>
 
                       <tr><td>
                         <h1>上传图片</h1>
@@ -320,8 +351,34 @@
 </div>
 
 <script>
+    $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
+                if(oSettings.nTable.id == "bankfinance"){
+                    var flag1;
+                    var tom=document.getElementsByName("keywords");
+                    if(tom[0].checked){
+                        if(aData[5]==""){
+                            flag1=1;
+                        }
+                    }
+                    else{
+                        flag1=1;
+                    }
+
+                    if(flag1==1){
+                        return true;
+                    }
+                }
+                else{
+                    return true;
+                }
+            }
+    );
+
     $(document).ready(function(){
-        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog,#reserve').dataTable();
+        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog,#reserve,#bankproducts').dataTable();
+        var oTable = $('#bankfinance').dataTable();
+        $("#keywords").click( function() { oTable.fnDraw(); } );
     });
     function deleteajax(id,type){
         $.get("/admin/"+type+"/"+id,function(data){

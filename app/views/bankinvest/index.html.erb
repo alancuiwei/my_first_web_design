@@ -65,7 +65,7 @@
                       <div id="container">
                         <div class="side-by-side clearfix">
                           <div class="grade">
-                                <select data-placeholder="可点击选择多家银行" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
+                                <select data-placeholder="点击选择多家银行" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
                               <option value=""></option>
                               <optgroup label="银行名称">
                                 <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
@@ -156,11 +156,11 @@
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td><p class="tooltips" href="#tooltips"><b class="ctl"><%= b.bname%></b><span><%= b.bname%></span></p></td>
           <% if b.trustee =="北京银行" %>
-              <td><p class="tooltips" href="#tooltips"><img src="/assets/121021.jpg"><span>苏垦特产草鸡蛋, 福临门玉米食用油</span></p></td>
-          <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
+              <td><p class="tooltips" href="#tooltips"><img src="/assets/121021.gif"><span>苏垦特产草鸡蛋, 福临门玉米食用油</span></p></td>
+              <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a><br><a href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>">产品详情</a></td>
           <% else %>
           <td></td>
-                           <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+              <td><a href="/sales/index?bid=<%= b.id%>">预订</a><br><a href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>">产品详情</a></td>
           <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td class="hide"><%= b.collectperiod%></td>

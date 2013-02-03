@@ -8,6 +8,7 @@
     @blogs=Blog.all
     @products=Product.all
     @reserves=Reserve.all
+      @bankproducts=Bankproducts_t.all
     @investfunds=Investrecord.find_all_by_recordtype("fund")
     @adminremind={}
     @adminconfirm={}
@@ -709,7 +710,7 @@
                                       :state=>params[:state])
        render :json => "s2".to_json
      end
-
+  end
 
      def reservedeleteajax
        @reserve=Reserve.find_by_id(params[:id])
@@ -721,8 +722,114 @@
          end
        end
      end
+
+  def bankproductsconfig
+    @bankproducts=[]
+    if params[:id]!="0"
+      @products=Bankproducts_t.find_by_id(params[:id])
+      @bankproducts[0]=@products.bname
+      @bankproducts[1]=@products.bcode
+      @bankproducts[2]=@products.currencytype
+      @bankproducts[3]=@products.btype
+      @bankproducts[4]=@products.risk
+      @bankproducts[5]=@products.forinvestors
+      @bankproducts[6]=@products.praisingscale
+      @bankproducts[7]=@products.firststartinvest
+      @bankproducts[8]=@products.sailsstart
+      @bankproducts[9]=@products.collectperiod
+      @bankproducts[10]=@products.pclosedperiod
+      @bankproducts[11]=@products.openperiod
+      @bankproducts[12]=@products.workday
+      @bankproducts[13]=@products.daytradetime
+      @bankproducts[14]=@products.fiscalrevenue
+      @bankproducts[15]=@products.investperiod
+      @bankproducts[16]=@products.perearing
+      @bankproducts[17]=@products.formula
+      @bankproducts[18]=@products.returnstartday
+      @bankproducts[19]=@products.calculationdate
+      @bankproducts[20]=@products.earlyaccountday
+      @bankproducts[21]=@products.manualadjustment
+      @bankproducts[22]=@products.psubscription
+      @bankproducts[23]=@products.ppurchase
+      @bankproducts[24]=@products.earlytermination
+      @bankproducts[25]=@products.assetscustodian
+      @bankproducts[26]=@products.productcost
+      @bankproducts[27]=@products.pledge
+      @bankproducts[28]=@products.tax
+      @bankproducts[29]=@products.trustee
+      @bankproducts[30]=@products.productkeywords
+    end
+  end
+
+  def bankproductsconfigajax
+
+    if params[:id]=="0"
+      Bankproducts_t.new do |b|
+        b.bname=params[:bname]
+        b.bcode=params[:bcode]
+        b.currencytype=params[:currencytype]
+        b.btype=params[:btype]
+        b.risk=params[:risk]
+        b.forinvestors=params[:forinvestors]
+        b.praisingscale=params[:praisingscale]
+        b.firststartinvest=params[:firststartinvest]
+        b.sailsstart=params[:sailsstart]
+        b.collectperiod=params[:collectperiod]
+        b.pclosedperiod=params[:pclosedperiod]
+        b.openperiod=params[:openperiod]
+        b.workday=params[:workday]
+        b.daytradetime=params[:daytradetime]
+        b.fiscalrevenue=params[:fiscalrevenue]
+        b.investperiod=params[:investperiod]
+        b.perearing=params[:perearing]
+        b.formula=params[:formula]
+        b.returnstartday=params[:returnstartday]
+        b.calculationdate=params[:calculationdate]
+        b.earlyaccountday=params[:earlyaccountday]
+        b.manualadjustment=params[:manualadjustment]
+        b.psubscription=params[:psubscription]
+        b.ppurchase=params[:ppurchase]
+        b.earlytermination=params[:earlytermination]
+        b.assetscustodian=params[:assetscustodian]
+        b.productcost=params[:productcost]
+        b.pledge=params[:pledge]
+        b.tax=params[:tax]
+        b.trustee=params[:trustee]
+        b.productkeywords=params[:productkeywords]
+        b.save
    end
+      render :json => "s1".to_json
+
+    else
+      @products=Bankproducts_t.find_by_id(params[:id])
+      @products.update_attributes(:bname=>params[:bname],:bcode=>params[:bcode],:currencytype=>params[:currencytype],
+                              :btype=>params[:btype],:risk=>params[:risk],:forinvestors=>params[:forinvestors],
+                              :praisingscale=>params[:praisingscale],:firststartinvest=>params[:firststartinvest],:sailsstart=>params[:sailsstart],
+                              :collectperiod=>params[:collectperiod],:pclosedperiod=>params[:pclosedperiod],:openperiod=>params[:openperiod],
+                              :workday=>params[:workday],:daytradetime=>params[:daytradetime],:fiscalrevenue=>params[:fiscalrevenue],
+                              :investperiod=>params[:investperiod],:perearing=>params[:perearing],:formula=>params[:formula],
+                              :returnstartday=>params[:returnstartday],:calculationdate=>params[:calculationdate],:earlyaccountday=>params[:earlyaccountday],
+                              :manualadjustment=>params[:manualadjustment],:psubscription=>params[:psubscription],:ppurchase=>params[:ppurchase],
+                              :earlytermination=>params[:earlytermination],:assetscustodian=>params[:assetscustodian],:productcost=>params[:productcost],
+                              :pledge=>params[:pledge],:tax=>params[:tax],:trustee=>params[:trustee],
+                              :productkeywords=>params[:productkeywords])
+      render :json => "s2".to_json
 end
+
+  end
+
+  def bankproductsdeleteajax
+    @products=Bankproducts_t.find_by_id(params[:id])
+    if @products!=nil
+      if @products.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+end
+
 
  require 'openssl'
  require 'base64'
