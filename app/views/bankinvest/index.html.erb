@@ -168,13 +168,13 @@
                            <td><%= format("%0.0f",b.investperiod)%></td>
           <td><%= b.status%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-          <td><p class="tooltips" href="#tooltips"><b class="ctl"><%= b.bname%></b><span><%= b.bname%></span></p></td>
+          <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
           <% if b.trustee =="北京银行" %>
-              <td><p class="tooltips" href="#tooltips"><img src="/assets/121021.gif"><span>苏垦特产草鸡蛋, 福临门玉米食用油</span></p></td>
-              <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a><br><a href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>">产品详情</a></td>
+              <td><img src="/assets/121021.gif" class="demo-tip-yellowsimple" title="苏垦特产草鸡蛋, 福临门玉米食用油"></td>
+              <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
           <% else %>
           <td></td>
-              <td><a href="/sales/index?bid=<%= b.id%>">预订</a><br><a href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>">产品详情</a></td>
+              <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <% end %>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td class="hide"><%= b.collectperiod%></td>
