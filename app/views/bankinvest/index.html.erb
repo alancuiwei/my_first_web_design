@@ -1,4 +1,7 @@
 <%= javascript_include_tag "placeholder.js" %>
+<%= javascript_include_tag "jquery-1.js" %>
+<%= javascript_include_tag "jquery.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "FixedHeader.min.js" %>
 <%= stylesheet_link_tag "demo_page.css" %>
@@ -52,12 +55,12 @@
                       </dd>
                     </dl>
                   </td>
-                  <td class="con2"><h4>独家特惠</h4></td>
-                  <td class="con3"><h4>收益类型</h4></td>
-                  <td class="con4"><h4>理财期限</h4></td>
+                  <td><h4>独家特惠</h4></td>
+                  <td><h4>收益类型</h4></td>
+                  <td><h4>理财期限</h4></td>
                   </tr>
                   <tr>
-                  <td rowspan="2">
+                  <td rowspan="2" class="banks">
                     <dl class="dl-horizontal">
                       <dt><h4>发行机构：</h4></dt>
                       <dd>
@@ -97,7 +100,7 @@
                   <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
                   </tr>
                   <tr>
-                  <td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息">明日起息</label></td>
+                  <td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息"><p class="demo-tip-yellowsimple" title="理财产品一般有产品募集期，募集期结束后才会正式开始起息。需留意该产品是否会因为募集期过长，缩水理财产品的实际收益。所以，明日起息的产品，将会是很合算的。">明日起息</p></label></td>
             <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
             <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
                   </tr>
@@ -139,8 +142,19 @@
 
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-      <th>对比</th><th>发行银行</th><th>收益率<br>(年化)</th><th>收益额<br>（元）</th><th>类型</th><th>起售价<br>(万)</th>
-      <th>投资期限<br>(天)</th><th>可售</th><th class="hide">发行地区</th><th>产品名称</th><th>优惠</th><th>操作</th><th class="hide">发行地区</th><th class="hide">销售结束</th>
+      <th>对比</th><th>发行银行</th>
+      <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
+      <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额<br>（元）</p></th>
+      <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
+      <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价<br>(万)</p></th>
+      <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限<br>(天)</p></th>
+      <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
+      <th class="hide">发行地区</th>
+      <th>产品名称</th>
+      <th><p class="demo-tip-yellowsimple" title="通过我们网站预订，享受团购优惠，专享礼品赠送。">优惠</p></th>
+      <th>操作</th>
+      <th class="hide">发行地区</th>
+      <th class="hide">销售结束</th>
                      </tr></thead>
 
                      <% @bankfinances.each do |b| %>
@@ -403,6 +417,61 @@
    window.onload=function(){
        area();
    }
+    $(function(){
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'center',
+            offsetY: 5,
+            allowTipHover: false
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
+    });
   /*
     function AddElement(mytype){
         var mytype,TemO=document.getElementById("bankfinance_length");

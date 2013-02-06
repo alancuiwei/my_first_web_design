@@ -264,6 +264,15 @@
  #     UserMailer.confirm(params[:username]).deliver
  #  end
 
+  def emptykeyword
+    @bankfinance=Bankfinance.find_by_productkeywords("newproduct")
+    if @bankfinance!=nil
+      Thread.new{
+        UserMailer.emptykeyword.deliver
+      }
+    end
+  end
+
    def reserve
      Thread.new{
      UserMailer.reserve(params[:username],params[:tel],params[:email],params[:bname],params[:trustee],

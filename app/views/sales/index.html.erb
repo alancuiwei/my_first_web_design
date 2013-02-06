@@ -1,11 +1,15 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "sales.css" %>
+<%= javascript_include_tag "jquery-1.js" %>
+<%= javascript_include_tag "jquery.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
 <style>
     .main-footer{ display: none; }
 </style>
-
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 <div class="main-content body-content" onkeyup="per()" onload="">
+  <div id="nj">
   <h1>预订申请</h1>
   <div class="content">
     <p>预订后，我们将在一个小时内给您答复。</p>
@@ -93,14 +97,14 @@
         <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
       </div></td></tr>
     <tr><td><p>电子邮件*：</p></td>
-      <td class="right"><input class="input-large" type="text" id="email"></td></tr>
+        <td class="right"><input class="input-large demo-form-name" type="text" id="email" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
     <tr><td><p>手机*：</p></td>
-      <td class="right"><input class="input-large" type="text" id="tel"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name" type="text" id="tel" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
 
     <tr class="customer"><td><p>银行卡号*：</p></td>
-      <td class="right"><input class="input-large" type="text" id="card"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name" type="text" id="card" title="通过银行卡号帮您进行产品预订。"></td><td></td></tr>
     <tr class="customer"><td><p>分行名*：</p></td>
-      <td class="right"><input class="input-large" type="text" id="bankbranch"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name" type="text" id="bankbranch" title="我们要根据您的分行联系您的理财经理。"></td><td></td></tr>
 
     <tr><td></td><td>
       <br>
@@ -108,6 +112,11 @@
       <a class="btn pull-right" href="/bankinvest/index" >返回</a>
     </td></tr>
   </table>
+</div>
+  <div id="other">
+    <h2>很抱歉，您所在地区暂时不支持预订功能。</h2>
+    <a class="btn pull-left" href="/bankinvest/index" >返回</a>
+  </div>
 </div>
 
 
@@ -179,6 +188,14 @@
     }
     per();
     window.onload=function(){
+        if(remote_ip_info["city"]=="南京"){
+            $('#other').hide();
+            $('#nj').show();
+        }
+        else{
+            $('#nj').hide();
+            $('#other').show();
+        }
     invest();
     isuser();
     }
@@ -308,4 +325,60 @@
               $('.customer').show();
           }
     }
+
+    $(function(){
+        $('.demo-form-name').poshytip({
+            className: 'tip-yellowsimple',
+            showOn: 'focus',
+            alignTo: 'target',
+            alignX: 'right',
+            alignY: 'center',
+            offsetX: 5
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
+    });
 </script>
