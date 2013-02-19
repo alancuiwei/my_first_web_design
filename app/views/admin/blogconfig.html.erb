@@ -1,19 +1,28 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
 <%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
 
 <div style="width: 700px;height: 700px;">
   <div>
-    博客标题：<input type="text" name="btitle" id="btitle" title="博客标题"> <br>
+    <% if params[:id]!="0" %>
+        博客标题：<input type="text" name="btitle" id="btitle" title="博客标题" value="<%=raw @bloginfo[0]%>"> <br>
+    <% else %>
+        博客标题：<input type="text" name="btitle" id="btitle" title="博客标题"> <br>
+    <% end %>
     发表人：<input type="text" name="blname" id="blname" title="发表人"> <br>
     发表时间：<input type="text" name="publishdate" id="publishdate" title="发表时间" onclick="WdatePicker()" class="Wdate"> <br>
-    正文：<br><textarea class="ckeditor" cols="80" rows="15" name="barticle" id="barticle" title="正文"></textarea>
+    <% if params[:id]!="0" %>
+        正文：<br><textarea class="ckeditor" cols="80" rows="15" name="barticle" id="barticle" title="正文"><%= @bloginfo[3]%></textarea>
+      <% else %>
+        正文：<br><textarea class="ckeditor" cols="80" rows="15" name="barticle" id="barticle" title="正文"></textarea>
+    <% end %>
 		<script type="text/javascript">
 			CKEDITOR.replace('barticle', {
 				toolbar : 'Full',
 				uiColor : '#c6e4ee'
 			});
 		</script><br>
-	
+
     栏目：<select  name="bcolumn" id="bcolumn" title="栏目">
              <option value="银行理财产品">银行理财产品</option>
              <option value="创业人生">创业人生</option>
@@ -26,10 +35,8 @@
 <script type="text/javascript">
 
     <% if params[:id]!="0" %>
-    $("#btitle").attr("value",'<%= @bloginfo[0]%>');
     $("#blname").attr("value",'<%= @bloginfo[1]%>');
     $("#publishdate").attr("value",'<%= @bloginfo[2]%>');
-    $("#barticle").attr("value",'<%= @bloginfo[3]%>');
     $("#bcolumn").attr("value",'<%= @bloginfo[4]%>');
     $("#imagepath").attr("value",'<%= @bloginfo[5]%>');
     <% end %>
@@ -39,7 +46,7 @@
 			CKEDITOR.instances[instance].updateElement();
 		}
 	}
-	
+
     $("#blogconfig").click(function(e){
         var o=document.getElementsByTagName("input");
         var nom_flag=0;
@@ -53,7 +60,7 @@
         }
 
 		CKupdate();
-		
+
         if(nom_flag==0){
             $.post("/admin/blogconfigajax/<%= params[:id] %>",{ btitle: $("#btitle").attr("value"),blname: $("#blname").attr("value"),
                 publishdate: $("#publishdate").attr("value"),barticle: $("#barticle").attr("value"),bcolumn: $("#bcolumn").attr("value"),

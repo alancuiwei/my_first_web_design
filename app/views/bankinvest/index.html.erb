@@ -1,4 +1,4 @@
-<%= javascript_include_tag "placeholder.js" %>
+﻿<%= javascript_include_tag "placeholder.js" %>
 <%= javascript_include_tag "jquery.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
@@ -30,11 +30,30 @@
         opacity: 0.3;
         z-index: 999;
     }
+    @media print{
+        .hide,.pop .dataTables_length label,.pop #bankfinance_filter label,.ui-corner-tl,.chzn-drop{display:none;}
+        h1,.beta,.print,#returnrate,.main-footer,.ui-corner-br{display:none;}
+        .FixedHeader_Cloned th {display: none;}
+        .ctl {position: relative;text-overflow: ellipsis;overflow: hidden;white-space: nowrap; padding: 7px 2px;
+            display: inline-block; width: 120px; margin: 0;font-weight: normal;}
+        table.display tr.odd.gradeA {background-color: #ddffdd;}
+        table.display tr.even.gradeA {background-color: #eeffee;}
+        tr.odd.gradeA td.sorting_1 {background-color: #c4ffc4;}
+        tr.even.gradeA td.sorting_1 {background-color: #d5ffd5;}
+        #optionsRadios {border: 1px solid rgb(170, 170, 170);background-color: rgb(204, 204, 204);
+            color: rgb(34, 34, 34);font-weight: bold;border-top-left-radius: 4px;
+            border-top-right-radius: 4px;padding-left: 20px;}
+        table.display thead th {padding: 3px 0px 3px 10px;cursor: pointer;}
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            border: 1px solid #d3d3d3;background: #e6e6e6 url(/assets/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+            font-weight: normal;color: #555555;}
+        body {background: #ffffff;-webkit-print-color-adjust: exact;}
+    }
 </style>
 
 <div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
-                          <a href="/">首页</a>&nbsp; >&nbsp;
-    <a href="/home/productindex" >产品展示</a>
+                          <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
+    <a href="/home/productindex" class="print">产品展示</a>
   <h1>银行理财产品</h1>
                    <div class="well-b">
     <div class="row-fluid">

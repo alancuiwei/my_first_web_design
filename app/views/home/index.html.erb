@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "home.css" %>
+<%= javascript_include_tag "swfobject.js" %>
 
 <div class="welcomes">
   <div class="hero-unit"> <!--主角单元-->
@@ -9,16 +10,49 @@
           <br>
           <p><a class="btn btn-success"  href='/bankinvest/index'><em>进来挑选</em></a></p>
           <p class="description">站在中立，客观的角度 <br>
-                      为您提供私人理财建议；<br>
-                      为您提供最新理财产品信息供您选择；<br>
-                      为您省心省力，贴心打理您的财富。</p>
-	        </div>
+            为您提供私人理财建议；<br>
+            为您提供最新理财产品信息供您选择；<br>
+            为您省心省力，贴心打理您的财富。</p>
+        </div>
         <div class="span8">
-          <img class="pull-left" src="/assets/img02.jpg">
-			 </div>
-		 </div>
-		        </div>
-            </div>
+          <!--
+          <embed src='assets/flvplayer.swf?file=audio.mp4' quality="high"
+                 width="640" height="360" align="middle" allowscriptaccess="samedomain" type="application/x-shockwave-flash">
+          <object type="application/x-shockwave-flash" width="640" height="360"
+                  wmode="transparent" data="assets/flvplayer.swf?file=audio.mp4">
+          <param name="movie" value="assets/flvplayer.swf?file=audio.mp4" />
+          <param name="wmode" value="transparent" />
+          </object> -->
+          <!--
+          <object type="application/x-shockwave-flash" data="http://static.youku.com/v1.0.0303/v/swf/loader.swf" id="movie_player" height="100%" width="100%"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><param name="flashvars" value="VideoIDS=XNTE1NzQ4ODM2&amp;ShowId=0&amp;category=103&amp;Cp=0&amp;Light=on&amp;THX=off&amp;unCookie=0&amp;frame=0&amp;pvid=13611835955691mS&amp;Tid=0&amp;isAutoPlay=true&amp;Version=/v1.0.0836&amp;show_ce=1&amp;winType=interior&amp;embedid=AjEyODkzNzIwOQJpLnlvdWt1LmNvbQIvdS92aWRlb3M=&amp;vext=bc%3D%26pid%3D%26unCookie%3D0%26frame%3D0%26type%3D0%26svt%3D0%26emb%3DAjEyODkzNzIwOQJpLnlvdWt1LmNvbQIvdS92aWRlb3M%3D%26dn%3D%E7%BD%91%E9%A1%B5%26hwc%3D1%26mtype%3Doth"><param name="movie" value="http://static.youku.com/v1.0.0303/v/swf/loader.swf"><div class="player_html5"><div class="picture" style="height:100%"><div style="line-height:460px;"><span style="font-size:18px">您还没有安装flash播放器,请点击<a href="http://www.adobe.com/go/getflash" target="_blank">这里</a>安装</span></div></div></div></object>
+
+          <OBJECT CLASSID="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" WIDTH="640"HEIGHT="360" CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab">
+            <PARAM name="SRC" VALUE="assets/audio.mp4">
+            <PARAM name="AUTOPLAY" VALUE="true">
+            <PARAM name="CONTROLLER" VALUE="false">
+            <EMBED SRC="assets/audio.mp4" WIDTH="640" HEIGHT="360" AUTOPLAY="true" CONTROLLER="false" PLUGINSPAGE="http://www.apple.com/quicktime/download/">
+            </EMBED>
+          </OBJECT>-->
+          <font id=player1>&nbsp;</font>
+          <script type=text/javascript>
+              var s1 = new SWFObject("assets/flvplayer.swf","","640","360","7");
+              s1.addParam("allowfullscreen","true");
+              s1.addVariable("file","audio.mp4");
+              s1.addVariable("width","640");
+              s1.addVariable("height","360");
+              s1.addVariable("loop","true");
+              s1.addVariable("repeat", "flase");
+              s1.addVariable("fontcolor","0XFFFFFF");
+              s1.addVariable("autoscroll","true");
+              s1.addVariable("logo","");
+              s1.addVariable("autostart","false");
+              s1.addVariable("smoothing","true");
+              s1.write("player1");
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="welcme-content">
     <h2 class="press">提供&nbsp;<a class="bankfinance" href="/bankinvest/index">银行理财产品</a>&nbsp;的服务</h2>
     <br><br>
@@ -35,7 +69,6 @@
         </a>
       </div>
     </div >
-
 
     <br><br>
     <div class="row-fluid">
@@ -58,11 +91,11 @@
       </div>
       <div class="span7">
         <a href="http://eepurl.com/tonoL" target="_blank" class='full'>
-        <h3>邮件订阅</h3>
-        <p class="leader">订阅邮件，将定期发送<span class="h3">银行理财产品</span>文章，普及理财基本知识，最新产品功能及时推荐。
-        并将在每周发送创业日记，会给您职场带来一些帮助和思考。</p>
+          <h3>邮件订阅</h3>
+          <p class="leader">订阅邮件，将定期发送<span class="h3">银行理财产品</span>文章，普及理财基本知识，最新产品功能及时推荐。
+            并将在每周发送创业日记，会给您职场带来一些帮助和思考。</p>
         </a>
       </div>
     </div >
   </div>
-      </div>
+</div>
