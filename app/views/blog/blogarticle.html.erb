@@ -53,6 +53,40 @@
 				  <div id="blogContent"></div>
                 </p>
               </div>
+              <br>
+              <% if @comments.length>0 %>
+                  <strong>评论</strong>
+                  <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+                    <% @comments.each do |b| %>
+                        <tr>
+                          <td>
+                            <p><%= b.username%> 说：</p>
+                          </td>
+                          <td class="pull-right">
+                           <p> <%= b.time%> </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            <%= b.comments%>
+                            <hr>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </table>
+              <% end %>
+              <strong>发表评论</strong>
+              <br><br>
+              <form id="commentform">
+                <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
+                  <input id="author" name="author" value="" size="30" aria-required="true" type="text" title="姓名"></p>
+                <p class="comment-form-email"><label for="email">邮件 <span class="required">*</span></label>
+                  <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="邮件"></p>
+                <p class="comment-form-comment"><label for="comment">评论</label>
+                  <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
+                <input name="submit" id="submit" value="发表" type="button">
+                </p>
+              </form>
             </td>
           </tr>
           </tbody>
@@ -77,3 +111,43 @@
     </tr>
   </table>
 </div>
+
+<script type="text/javascript">
+
+    $("#submit").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/blog/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
+                comments: $("#comment").attr("value"),blogid: <%= @bloginfo[6]%>,time:time
+            },function(data){
+                if(data=="s1"){
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>

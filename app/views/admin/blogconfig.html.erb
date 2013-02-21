@@ -4,6 +4,7 @@
 
 <div style="width: 700px;height: 700px;">
   <div>
+
     <% if params[:id]!="0" %>
         博客标题：<input type="text" name="btitle" id="btitle" title="博客标题" value="<%=raw @bloginfo[0]%>"> <br>
     <% else %>
@@ -27,12 +28,21 @@
              <option value="银行理财产品">银行理财产品</option>
              <option value="创业人生">创业人生</option>
           </select><br>
-    图片：<input type="text" name="imagepath" id="imagepath" title="图片"> <br>
+
+    <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+      选择图片: <input id="file_file" name="file[file]" type="file"><br><br>
+      <input name="commit" id="create" value="上传图片" type="submit">
+    </form>
+    图片名称：<input type="text" name="imagepath" id="imagepath" title="图片"> <br>
     <a href="javascript:void(0)" id="blogconfig">确认</a>
   </div>
 </div>
 
 <script type="text/javascript">
+
+    $("#create").click(function(e){
+        $("#imagepath").attr("value",'<%= cookies[:filename]%>');
+    });
 
     <% if params[:id]!="0" %>
     $("#blname").attr("value",'<%= @bloginfo[1]%>');
@@ -52,7 +62,7 @@
         var nom_flag=0;
         for(var i=0;i<o.length;i++)
         {
-            if(o[i].value==""){
+            if(o[i].value=="" && o[i].title!=""){
                 alert(o[i].title+"为空！");
                 nom_flag=1;
                 break;

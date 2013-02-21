@@ -303,7 +303,7 @@
     <br> <br>
   </td>
 </tr>
-
+       <!--
                       <tr><td>
                         <h1>上传图片</h1>
                         <%= form_tag({:action => 'create'}, :multipart => true) %>
@@ -311,7 +311,7 @@
                         <%= submit_tag("上传图片") %>
                         </form>
                       </td></tr>
-
+           -->
                       <tr><td>
                         <h1>博客</h1>
                         <a href="/admin/blogconfig/0">添加</a>
@@ -323,7 +323,7 @@
 
                           <% @blogs.each do |b| %>
                               <tr>
-                                <td><%= b.btitle%></td>
+                                <td><%=raw b.btitle%></td>
                                 <td><%= b.blname%></td>
                                 <td><%= b.publishdate%></td>
                                 <td><%= b.bcolumn%></td>

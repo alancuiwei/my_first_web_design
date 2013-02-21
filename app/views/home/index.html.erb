@@ -33,22 +33,26 @@
             <EMBED SRC="assets/audio.mp4" WIDTH="640" HEIGHT="360" AUTOPLAY="true" CONTROLLER="false" PLUGINSPAGE="http://www.apple.com/quicktime/download/">
             </EMBED>
           </OBJECT>-->
+          <div id="login-box" class='login-popup'>
+            <a class="btn close pull-right" href="javascript:void(0)">关闭</a>
           <font id=player1>&nbsp;</font>
           <script type=text/javascript>
-              var s1 = new SWFObject("assets/flvplayer.swf","","640","360","7");
+              var s1 = new SWFObject("assets/flvplayer.swf","","1280","720","7");
               s1.addParam("allowfullscreen","true");
               s1.addVariable("file","audio.mp4");
-              s1.addVariable("width","640");
-              s1.addVariable("height","360");
+              s1.addVariable("width","1280");
+              s1.addVariable("height","720");
               s1.addVariable("loop","true");
               s1.addVariable("repeat", "flase");
               s1.addVariable("fontcolor","0XFFFFFF");
               s1.addVariable("autoscroll","true");
               s1.addVariable("logo","");
-              s1.addVariable("autostart","false");
+              s1.addVariable("autostart","true");
               s1.addVariable("smoothing","true");
               s1.write("player1");
           </script>
+        </div>
+          <a href="#login-box" class='login-window'><img src="/assets/mov.jpg" width="640" height="360"></a>
         </div>
       </div>
     </div>
@@ -99,3 +103,40 @@
     </div >
   </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('a.login-window').click(function() {
+            // Getting the variable's value from a link
+            var loginBox = $(this).attr('href');
+
+            //Fade in the Popup and add close button
+            $(loginBox).fadeIn(300);
+            //Set the center alignment padding + border
+            var popMargTop = ($(loginBox).height() + 24) / 2;
+            var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+            $(loginBox).css({
+                'margin-top' : -popMargTop,
+                'margin-left' : -popMargLeft
+            });
+
+            // Add the mask to body
+            $('body').append('<div id="mask"></div>');
+            $('#mask').fadeIn(300);
+
+            return false;
+        });
+
+        // When clicking on the button close or the mask layer the popup closed
+        $('a.close, #mask').live('click', function() {
+          /*  $('#mask , .login-popup').fadeOut(300 , function() {
+                $('#mask').remove();
+                $("#ownvalue").html("");
+                $("#total").html("");
+            });   */
+            location.reload();
+            return false;
+        });
+    });
+</script>

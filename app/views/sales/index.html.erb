@@ -78,6 +78,7 @@
   </div>
   <h2><span class="text">2.</span>预订资料填写</h2>
   <table>
+      <tr><td colspan="2"><div id="errormsg"></div></td></tr>
       <% if @banfinance.trustee=="北京银行" %>
         <tr><td colspan="2">
       <a onclick="adjust()">为礼品办张新卡合算吗？</a>
@@ -202,7 +203,20 @@
     $("#reserveconfig").click(function(e){
         var nom_flag=0;
         var isuser="是";
+        if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
+            isuser="否";
+        }
         var states="预订申请";
+    /*    $.get("/sales/reserve/1", { investamount:$("#investamount").attr("value"),email:$("#email").attr("value"),startvalue:<%= @banfinance.startvalue %>,
+            tel:$("#tel").attr("value"),card:$("#card").attr("value"),bankbranch:$("#bankbranch").attr("value"),isuser:isuser}, function (data,status){
+            if(data=="s") {
+                $("#errormsg").hide();
+             }
+            else{
+                nom_flag=1;
+                $("#errormsg").html(data.toString());
+            }
+        });    */
         if($("#investamount").attr("value")==""){
             alert("请输入购买金额！");
             nom_flag=1;
@@ -228,9 +242,6 @@
         else if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"&&$("#bankbranch").attr("value")==""){
             alert("请输入分行名！");
             nom_flag=1;
-        }
-        if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
-            isuser="否";
         }
 
         <% if @webuser!=nil %>

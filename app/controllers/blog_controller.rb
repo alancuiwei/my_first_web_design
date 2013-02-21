@@ -6,6 +6,7 @@ class BlogController < ApplicationController
 
   def blogarticle
     @bloginfo=[]
+    @comments=Comments.order("id desc").find_all_by_bid(params[:id])
     if params[:id]!="0"
       @blog=Blog.find_by_id(params[:id])
       @bloginfo[0]=@blog.btitle
@@ -14,7 +15,20 @@ class BlogController < ApplicationController
       @bloginfo[3]=@blog.barticle
       @bloginfo[4]=@blog.bcolumn
       @bloginfo[5]=@blog.imagepath
+      @bloginfo[6]=@blog.id
     end
+  end
+
+  def commentconfigajax
+    Comments.new do |b|
+      b.username=params[:username]
+      b.email=params[:email]
+      b.comments=params[:comments]
+      b.bid=params[:blogid]
+      b.time=params[:time]
+      b.save
+    end
+    render :json => "s1".to_json
   end
 
   def blogbusinesslife

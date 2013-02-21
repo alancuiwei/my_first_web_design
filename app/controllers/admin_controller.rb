@@ -655,11 +655,12 @@
    def create
      @photo = Photo.new(params[:photo])
      @filename=save_file   #调用save_file方法，返回文件名
+     cookies[:filename] = @filename
      @photo.url="/images/#{@filename}"   #保存文件路径字段
      @photo.name=@filename   #保存文件名字段
      if @photo.save
        flash[:notice] = 'Photo was successfully created.'
-       redirect_to :action => 'index'
+       redirect_to "/assets/"+@filename
      else
        render :action => 'index'
      end
