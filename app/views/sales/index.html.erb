@@ -1,7 +1,7 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "sales.css" %>
 <%= javascript_include_tag "jquery-1.js" %>
-<%= javascript_include_tag "jquery.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
 <style>
@@ -78,7 +78,6 @@
   </div>
   <h2><span class="text">2.</span>预订资料填写</h2>
   <table>
-      <tr><td colspan="2"><div id="errormsg"></div></td></tr>
       <% if @banfinance.trustee=="北京银行" %>
         <tr><td colspan="2">
       <a onclick="adjust()">为礼品办张新卡合算吗？</a>
@@ -95,18 +94,17 @@
     </tr>
     <tr><td><p>购买金额：</p></td>
       <td class="right"><div class="input-prepend input-append">
-        <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount"><span class="add-on">元</span>
+        <span class="add-on">￥</span><input class="input-medium nuser" type="text" id="investamount" valType="NUMBER" msg="<font color=red>*</font>购买金额只能是数字,且不能低于<%= @banfinance.startvalue %>元"><span class="add-on">元</span>
       </div></td></tr>
     <tr><td><p>电子邮件*：</p></td>
-        <td class="right"><input class="input-large demo-form-name" type="text" id="email" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="email" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
     <tr><td><p>手机*：</p></td>
-        <td class="right"><input class="input-large demo-form-name" type="text" id="tel" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="tel" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
 
     <tr class="customer"><td><p>银行卡号*：</p></td>
-        <td class="right"><input class="input-large demo-form-name" type="text" id="card" title="通过银行卡号帮您进行产品预订。"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name" type="text" id="card" valType="BANKNO" msg="<font color=red>*</font>请输入银行卡号" title="通过银行卡号帮您进行产品预订。"></td><td></td></tr>
     <tr class="customer"><td><p>分行名*：</p></td>
-        <td class="right"><input class="input-large demo-form-name" type="text" id="bankbranch" title="我们要根据您的分行联系您的理财经理。"></td><td></td></tr>
-
+        <td class="right"><input class="input-large demo-form-name" type="text" id="bankbranch" valType="BANKNA" msg="<font color=red>*</font>请输入分行名" title="我们要根据您的分行联系您的理财经理。"></td><td></td></tr>
     <tr><td></td><td>
       <br>
       <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig"> 预订 </a>
@@ -200,135 +198,14 @@
     invest();
     isuser();
     }
-    $("#reserveconfig").click(function(e){
-        var nom_flag=0;
-        var isuser="是";
-        if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
-            isuser="否";
-        }
-        var states="预订申请";
-    /*    $.get("/sales/reserve/1", { investamount:$("#investamount").attr("value"),email:$("#email").attr("value"),startvalue:<%= @banfinance.startvalue %>,
-            tel:$("#tel").attr("value"),card:$("#card").attr("value"),bankbranch:$("#bankbranch").attr("value"),isuser:isuser}, function (data,status){
-            if(data=="s") {
-                $("#errormsg").hide();
-             }
-            else{
-                nom_flag=1;
-                $("#errormsg").html(data.toString());
-            }
-        });    */
-        if($("#investamount").attr("value")==""){
-            alert("请输入购买金额！");
-            nom_flag=1;
-        }
-        else if($("#email").attr("value")==""){
-            alert("请输入电子邮件！");
-            nom_flag=1;
-        }
-        else if($("#investamount").attr("value")<parseInt("<%= @banfinance.startvalue %>")){
-            alert("该产品最低购买金额为<%= @banfinance.startvalue %>元！");
-            nom_flag=1;
-        }
-        else if(!Checkreg($("#tel").attr("value"))){
-            nom_flag=1;
-        }
-        else if(!test()){
-            nom_flag=1;
-        }
-        else if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户" && $("#card").attr("value")==""){
-            alert("请输入银行卡号！");
-            nom_flag=1;
-        }
-        else if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"&&$("#bankbranch").attr("value")==""){
-            alert("请输入分行名！");
-            nom_flag=1;
-        }
 
-        <% if @webuser!=nil %>
-        if(nom_flag==0){
-            if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"){
-            $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
-                returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
-                investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
-                tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
-                email: $("#email").attr("value"),isuser: isuser,bankbranch:$("#bankbranch").attr("value"),bankcardnum:$("#card").attr("value")
-            },function(data){
-                if(data=="s1"){
-                    email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
-                            $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
-                }
-            });
-            }
-            else{
-            $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
-                returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
-                investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
-                tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
-                email: $("#email").attr("value"),isuser: isuser
-            },function(data){
-                if(data=="s1"){
-                    email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
-                            $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
-                }
-            });
-        }
-        }
-        function email(uid,tid,eid,bid,tru,bty,str,inv,ret,per,sat,col){
-            $.get("/admin/reserve",{username:"<%= @webuser.username %>",tel:$(tid).attr("value"),email:$(eid).attr("value"),bname:bid,trustee:tru,btype:bty,
-                startvalue:str,investamount:inv,returnrate:ret,investperiod:per,sailsstart:sat,collectperiod:col},function(data){
-                location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
-            });
-        }
-        <% else%>
-        if(nom_flag==0){
-        location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value")+"&email="+$("#email").attr("value")+"&tel="+$("#tel").attr("value")+"&bankbranch="+$("#bankbranch").attr("value")+"&card="+$("#card").attr("value");
-        }
-        <% end %>
+    $(function(e) {
+        var vali=new Validators();
+        $("#reserveconfig").bind("click", vali.subByJs);
     });
 
-    function Checkreg(phonenum)
-    {
-        //var photo = /^(\d{3,4}\-)?\d{7,8}$/i;   //座机格式是 010-98909899
-        //var photo = /^0(([1-9]\d)|([3-9]\d{2}))\d{8}$/; 没有中间那段 -的 座机格式是 01098909899
-        var photo =/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;//座机(0开头)
-        var photo1 =/^1[358]\d{9}$/;//手机(13,15,18)
-        var value = phonenum.substring(0,1);
-        if(phonenum==""){
-            alert("联系电话为空！");
-            return false;
-        }
-        if(value==0){
-            if(!photo.test(phonenum)){
-                alert("座机号码错误(0(2或者3位)-(7或者8位)!");
-                return false;
-            }
-        }else if(value==1){
-            if(!photo1.test(phonenum)){
-                alert("手机号码错误(1(3或者5或者8)后面9位)!");
-                return false;
-            }
-        }else
-        {
-            alert("电话号码错误!");
-            return false;
-        }
-        return true;
-    }
-    function test(){
-        var temp = document.getElementById("email");
-        //对电子邮件的验证
-        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-        if(!myreg.test(temp.value))
-        {
-            alert('提示\n\n请输入有效的E_mail！');
-            myreg.focus();
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
     function isuser(){
+        $("[valType]").poshytip('hide');
           if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
               $('.customer').hide();
           }
@@ -337,59 +214,204 @@
           }
     }
 
-    $(function(){
-        $('.demo-form-name').poshytip({
-            className: 'tip-yellowsimple',
-            showOn: 'focus',
-            alignTo: 'target',
-            alignX: 'right',
-            alignY: 'center',
-            offsetX: 5
-        });
-        var flickrFeedsCache = {};
-        $('#demo-async-flickr > a').poshytip({
-            className: 'tip-darkgray',
-            bgImageFrameSize: 11,
-            alignY: 'bottom',
-            content: function(updateCallback) {
-                var rel = $(this).attr('rel');
-                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
-                    return flickrFeedsCache[rel].container;
-                if (!flickrFeedsCache[rel]) {
-                    flickrFeedsCache[rel] = { container: null };
-                    var tagsComma = rel.substring(4).replace('-', ',');
-                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
-                            function(data) {
-                                var container = $('<div/>').addClass('flickr-thumbs');
-                                $.each(data.items, function(i, item) {
-                                    $('<a/>')
-                                            .attr('href', item.link)
-                                            .append($('<img/>').attr('src', item.media.m))
-                                            .appendTo(container)
-                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
-                                    if (i == 4)
-                                        return false;
-                                });
-                                // add tips for the images inside the main tip
-                                container.find('a').poshytip({
-                                    content: function(){return $(this).data('tip');},
-                                    className: 'tip-yellowsimple',
-                                    showTimeout: 100,
-                                    alignTo: 'target',
-                                    alignX: 'center',
-                                    alignY: 'bottom',
-                                    offsetY: 5,
-                                    allowTipHover: false,
-                                    hideAniDuration: 0
-                                });
-                                // call the updateCallback function to update the content in the main tooltip
-                                // and also store the content in the cache
-                                updateCallback(flickrFeedsCache[rel].container = container);
-                            }
-                    );
+    //submit之前对所有表单进行验证
+    function beforeSubmit() {
+        var flag=true;
+        //alert($("[valType]").length);
+        var b;
+        if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
+            b=".nuser";
+        }
+        else{
+            b="[valType]";
+        }
+        $.each($(b),function(i, n) {
+            //清除可能已有的提示信息
+            $(n).poshytip('hide');
+            if($(n).attr("valType")=='required') {//对不能为空的文本框进行验证
+                if($(n).val()=='') {
+                    //显示tips
+                    $(n).poshytip('show');
+                    flag=false;
                 }
-                return 'Loading images...';
+            }
+            else if($(n).attr("valType")=='OTHER') {//对自定义的文本框进行验证
+                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')}))) {
+                    $(n).poshytip('show');
+                    flag=false;
+                }
+            }
+            else {//对使用已定义规则的文本框进行验证
+                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'),reg:$(this).attr('id')}))) {
+                    $(n).poshytip('show');
+                    flag=false;
+                }
             }
         });
+        return flag;
+    }
+    $(function(){
+        //拦截form,在form提交前进行验证
+        $('form').bind('submit',beforeSubmit);
+
+        //为带有valType属性的元素初始化提示信息并注册onblur事件
+        $.each($("[valType]"),function(i, n) {
+            $(n).poshytip({
+                className: 'tip-yellowsimple',
+                content: $(n).attr('msg'),
+                showOn: 'none',
+                alignTo: 'target',
+                alignX: 'right',
+                alignY: 'center',
+                offsetX: 5,
+                offsetY: 10
+            });
+            $(n).bind('blur',validateBefore);
+
+        });
+
+        //定义一个验证器
+        $.Validator=function(para) {
+        }
+
+        $.Validator.ajaxValidate=function() {
+            var nom_flag=0;
+            var isuser="是";
+            if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
+                isuser="否";
+            }
+            var states="预订申请";
+
+            if(!beforeSubmit()){
+                nom_flag=1;
+            }
+            <% if @webuser!=nil %>
+            if(nom_flag==0){
+                if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"){
+                    $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
+                        returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
+                        investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
+                        tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
+                        email: $("#email").attr("value"),isuser: isuser,bankbranch:$("#bankbranch").attr("value"),bankcardnum:$("#card").attr("value")
+                    },function(data){
+                        if(data=="s1"){
+                            email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
+                                    $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
+                        }
+                    });
+                }
+                else{
+                    $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
+                        returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
+                        investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
+                        tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
+                        email: $("#email").attr("value"),isuser: isuser
+                    },function(data){
+                        if(data=="s1"){
+                            email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
+                                    $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
+                        }
+                    });
+                }
+            }
+            function email(uid,tid,eid,bid,tru,bty,str,inv,ret,per,sat,col){
+                $.get("/admin/reserve",{username:"<%= @webuser.username %>",tel:$(tid).attr("value"),email:$(eid).attr("value"),bname:bid,trustee:tru,btype:bty,
+                    startvalue:str,investamount:inv,returnrate:ret,investperiod:per,sailsstart:sat,collectperiod:col},function(data){
+                    location.href="/sales/confirm?income="+$(".income").html()+"&investamount="+$("#investamount").attr("value")+"&bid="+Request("bid");
+                });
+            }
+            <% else%>
+            if(nom_flag==0){
+                location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value")+"&email="+$("#email").attr("value")+"&tel="+$("#tel").attr("value")+"&bankbranch="+$("#bankbranch").attr("value")+"&card="+$("#card").attr("value");
+            }
+            <% end %>
+        }
+
+        //验证的方法
+        $.Validator.match=function(para) {
+            //定义默认的验证规则
+            var defaultVal = {
+                NUMBER : "^[0-9]*$",
+                TEL : "^0(10|2[0-5789]|\\d{3})-\\d{7,8}$",
+                IP : "^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$",
+                MOBILE : "^1(3[0-9]|5[0-35-9]|8[0235-9])\\d{8}$",
+                MAIL : "^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$",
+                IDENTITY : "((11|12|13|14|15|21|22|23|31|32|33|34|35|36|37|41|42|43|44|45|46|50|51|52|53|54|61|62|63|64|65|71|81|82|91)\\d{4})((((19|20)(([02468][048])|([13579][26]))0229))|((20[0-9][0-9])|(19[0-9][0-9]))((((0[1-9])|(1[0-2]))((0[1-9])|(1\\d)|(2[0-8])))|((((0[1,3-9])|(1[0-2]))(29|30))|(((0[13578])|(1[02]))31))))((\\d{3}(x|X))|(\\d{4}))",
+                CHINESE : "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$",
+                URL : "^http[s]?://[\\w\\.\\-]+$" ,
+                BANKNO: "^.*$",          //银行卡
+                BANKNA : "^.*$"          //银行名
+            };
+            var flag=false;
+            if(para.rule=='OTHER') {//自定义的验证规则匹配
+                flag=new RegExp(para.regString).test(para.data);
+            }
+            else {
+                if(para.rule in defaultVal) {//默认的验证规则匹配
+                    flag=new RegExp(defaultVal[para.rule]).test(para.data);
+                }
+            }
+            if(para.reg=='investamount'){
+               if(para.data<<%= @banfinance.startvalue %>){
+                    flag=false;
+               }
+            }
+            return flag;
+        }
+
+        //为jquery扩展一个doValidate方法，对所有带有valType的元素进行表单验证，可用于ajax提交前自动对表单进行验证
+        $.extend({
+            doValidate: function() {
+                return $.Validator.ajaxValidate();
+            }
+        });
+
     });
+
+    //输入框焦点离开后对文本框的内容进行格式验证
+    function validateBefore() {
+        //验证通过标识
+        var flag=true;
+        //获取验证类型
+        var valType=$(this).attr('valType');
+        //获取验证不通过时的提示信息
+        var msg=$(this).attr('msg');
+        //自定义的验证字符串
+        var regString;
+
+        if(valType=='OTHER') {//如果类型是自定义，则获取自定义的验证字符串
+            regString=$(this).attr('regString');
+            flag=$(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')});
+        }
+        else {//如果类型不是自定义，则匹配默认的验证规则进行验证
+            if($(this).attr('valType')=='required') {//不能为空的判断
+                if($(this).val()=='') {
+                    flag=false;
+                }
+            }
+            else {//已定义规则的判断
+                flag=$(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType')});
+            }
+        }
+        //先清除原来的tips
+        $(this).poshytip('hide');
+        //如果验证没有通过，显示tips
+        if(!flag) {
+            $(this).poshytip('show');
+        }
+    }
+
+
+    //下面是测试代码，不属于验证器的功能代码之内
+    //用原型的方式来模拟js的类
+    function Validators() {
+
+    }
+
+    Validators.prototype.subByJs=function(e) {
+        if($.doValidate()) {
+            alert('验证通过');
+            //todo
+        }
+    }
 </script>

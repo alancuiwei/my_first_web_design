@@ -1,5 +1,5 @@
 ﻿<%= javascript_include_tag "placeholder.js" %>
-<%= javascript_include_tag "jquery.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "FixedHeader.min.js" %>
@@ -160,12 +160,15 @@
 
               <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
                      <thead><tr>
-      <th>对比</th><th>发行银行</th>
+      <th>对比</th>
+      <th>发行银行</th>
       <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
-      <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额<br>（元）</p></th>
+      <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>
       <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
-      <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价<br>(万)</p></th>
-      <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限<br>(天)</p></th>
+      <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
+      <th class="hide"></th>
+      <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限</p></th>
+      <th class="hide"></th>
       <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
       <th class="hide">发行地区</th>
       <th>产品名称</th>
@@ -182,8 +185,10 @@
                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td></td>
                            <td><%= b.btype%></td>
-                           <td><%= format("%0.0f",b.startvalue/10000)%></td>
-                           <td><%= format("%0.0f",b.investperiod)%></td>
+          <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
+          <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+          <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
+          <td><%= format("%0.0f",b.investperiod)%>天</td>
           <td><%= b.status%></td>
                            <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
@@ -279,7 +284,7 @@
                 var year = today.getFullYear();
                 var month = today.getMonth()+1;
                 var date = today.getDate();
-                d1Arr=aData[13].split('-');
+                d1Arr=aData[15].split('-');
             //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
             //    v2=new Date(year,month,date);
                 var tom=document.getElementsByName("opt");
@@ -328,17 +333,17 @@
                            flag4=1;
                        }
                        else if(periods[i].value=="p_3"){
-                            if(aData[6]<=90){
+                            if(aData[7]<=90){
                                flag4=1;
                            }
                        }
                        else if(periods[i].value=="p_312"){
-                            if(aData[6]>=90&&aData[6]<365){
+                            if(aData[7]>=90&&aData[7]<365){
                                flag4=1;
                            }
                        }
                        else if(periods[i].value=="p_1"){
-                            if(aData[6]>365){
+                            if(aData[7]>365){
                                flag4=1;
                            }
                        }
@@ -425,10 +430,10 @@
         //        $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
         //    }
             if($("#investamount").val()!=""&&numfor.test($("#investamount").val())==true){
-                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(6)").html())/36500))
+                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
             }
             else{
-                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt(50000*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(6)").html())/36500))
+                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt(50000*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
             }
        }
    };
