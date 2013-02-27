@@ -9,27 +9,9 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= stylesheet_link_tag "chosen.css" %>
 <%= javascript_include_tag "chosen.jquery.js" %>
+<%= javascript_include_tag "swfobject.js" %>
 <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 <style type=text/css>
-    .login-popup{
-        display:none;
-        padding: 10px;
-        border: 0px solid white;
-        float: left;
-        font-size: 1.2em;
-        position: fixed;
-        top: 50%; left: 50%;
-        z-index: 99999;
-        width:430px
-    }
-    #mask {
-        display: none;
-        background: #000;
-        position: fixed; left: 0; top: 0;
-        width: 100%; height: 100%;
-        opacity: 0.3;
-        z-index: 999;
-    }
     @media print{
         .hide,.pop .dataTables_length label,.pop #bankfinance_filter label,.ui-corner-tl,.chzn-drop{display:none;}
         h1,.beta,.print,#returnrate,.main-footer,.ui-corner-br{display:none;}
@@ -76,6 +58,28 @@
                   <td><h4>独家特惠</h4></td>
                   <td><h4>收益类型</h4></td>
                   <td><h4>理财期限</h4></td>
+                  <td rowspan="5">
+                    <div id="login-box" class='login-popup'>
+                      <a class="btn close pull-right" href="javascript:void(0)">关闭</a>
+                      <font id=player1>&nbsp;</font>
+                      <script type=text/javascript>
+                          var s1 = new SWFObject("../assets/flvplayer.swf","","1280","720","7");
+                          s1.addParam("allowfullscreen","true");
+                          s1.addVariable("file","audio.mp4");
+                          s1.addVariable("width","1280");
+                          s1.addVariable("height","720");
+                          s1.addVariable("loop","true");
+                          s1.addVariable("repeat", "flase");
+                          s1.addVariable("fontcolor","0XFFFFFF");
+                          s1.addVariable("autoscroll","true");
+                          s1.addVariable("logo","");
+                          s1.addVariable("autostart","true");
+                          s1.addVariable("smoothing","true");
+                          s1.write("player1");
+                      </script>
+                    </div>
+                    <a href="#login-box" class='login-window'><img src="/assets/mov.jpg" width="320" height="180"></a>
+                  </td>
                   </tr>
                   <tr>
                   <td rowspan="2" class="banks">
@@ -144,17 +148,6 @@
           </div>
         </div>
       </div>
-      <!--
-      <div class="span3 b">
-        <div class="tip">
-          <li  class="widget-container">
-            <h3>常见问答</h3>
-            <a href="http://www.tongtianshun.com/blog/blogarticle/36" target="_blank" class="a">1. 保本型银行理财产品真的没有风险吗？</a><br>
-            <a href="http://www.tongtianshun.com/blog/blogarticle/29" target="_blank" class="a">2. 现在是购买银行理财产品的最佳时机吗？</a><br>
-          </li>
-        </div>
-      </div>
-      -->
                    </div>
                      </div>
 
@@ -420,6 +413,39 @@
         $("#global_filter").val(remote_ip_info["city"])
         $("#global_filter").keyup( fnFilterGlobal );
         fnFilterGlobal();
+
+        $('a.login-window').click(function() {
+            // Getting the variable's value from a link
+            var loginBox = $(this).attr('href');
+
+            //Fade in the Popup and add close button
+            $(loginBox).fadeIn(300);
+            //Set the center alignment padding + border
+            var popMargTop = ($(loginBox).height() + 24) / 2;
+            var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+            $(loginBox).css({
+                'margin-top' : -popMargTop,
+                'margin-left' : -popMargLeft
+            });
+
+            // Add the mask to body
+            $('body').append('<div id="mask"></div>');
+            $('#mask').fadeIn(300);
+
+            return false;
+        });
+
+        // When clicking on the button close or the mask layer the popup closed
+        $('a.close, #mask').live('click', function() {
+            /*  $('#mask , .login-popup').fadeOut(300 , function() {
+             $('#mask').remove();
+             $("#ownvalue").html("");
+             $("#total").html("");
+             });   */
+            location.reload();
+            return false;
+        });
     });
 
    function area(){
@@ -495,42 +521,6 @@
             }
         });
     });
-  /*
-    function AddElement(mytype){
-        var mytype,TemO=document.getElementById("bankfinance_length");
-        var p= document.createElement("div");
-        p.id="input1";
-        p.className="input-prepend input-append";
-        TemO.appendChild(p);
-        var mytype,TemO=document.getElementById("input1");
-        var p= document.createElement("span");
-        p.className="add-on aa";
-        TemO.appendChild(p);
-        $(".aa").html("￥");
-        var newInput = document.createElement("input");
-        newInput.type=mytype;
-        newInput.name="input1";
-        newInput.id="investamount";
-        newInput.placeholder="请输入投资金额：";
-        TemO.appendChild(newInput);
-        var p= document.createElement("span");
-        p.className="add-on ab";
-        TemO.appendChild(p);
-        $(".ab").html("元");
-        var newline= document.createElement("br");
-        TemO.appendChild(newline);
-        var mytype,TemO=document.getElementById("bankfinance_filter");
-        var newInput = document.createElement("input");
-        var p= document.createElement("b");
-        p.className="ar";
-        TemO.appendChild(p);
-        $(".ar").html("发行地区：");
-        newInput.type="text";
-        newInput.name="global_filter";
-        newInput.id="global_filter";
-        TemO.appendChild(newInput);
-    }
-    */
 </script>
 <!--
 <script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>

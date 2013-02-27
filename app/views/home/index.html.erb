@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag "home.css" %>
-<%= javascript_include_tag "swfobject.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
+<%= javascript_include_tag "highcharts.js" %>
 
 <div class="welcomes">
   <div class="hero-unit"> <!--主角单元-->
@@ -14,50 +15,69 @@
             为您提供最新理财产品信息供您选择；<br>
             为您省心省力，贴心打理您的财富。</p>
         </div>
-        <div class="span8">
-          <!--
-          <embed src='assets/flvplayer.swf?file=audio.mp4' quality="high"
-                 width="640" height="360" align="middle" allowscriptaccess="samedomain" type="application/x-shockwave-flash">
-          <object type="application/x-shockwave-flash" width="640" height="360"
-                  wmode="transparent" data="assets/flvplayer.swf?file=audio.mp4">
-          <param name="movie" value="assets/flvplayer.swf?file=audio.mp4" />
-          <param name="wmode" value="transparent" />
-          </object> -->
-          <!--
-          <object type="application/x-shockwave-flash" data="http://static.youku.com/v1.0.0303/v/swf/loader.swf" id="movie_player" height="100%" width="100%"><param name="allowFullScreen" value="true"><param name="allowscriptaccess" value="always"><param name="flashvars" value="VideoIDS=XNTE1NzQ4ODM2&amp;ShowId=0&amp;category=103&amp;Cp=0&amp;Light=on&amp;THX=off&amp;unCookie=0&amp;frame=0&amp;pvid=13611835955691mS&amp;Tid=0&amp;isAutoPlay=true&amp;Version=/v1.0.0836&amp;show_ce=1&amp;winType=interior&amp;embedid=AjEyODkzNzIwOQJpLnlvdWt1LmNvbQIvdS92aWRlb3M=&amp;vext=bc%3D%26pid%3D%26unCookie%3D0%26frame%3D0%26type%3D0%26svt%3D0%26emb%3DAjEyODkzNzIwOQJpLnlvdWt1LmNvbQIvdS92aWRlb3M%3D%26dn%3D%E7%BD%91%E9%A1%B5%26hwc%3D1%26mtype%3Doth"><param name="movie" value="http://static.youku.com/v1.0.0303/v/swf/loader.swf"><div class="player_html5"><div class="picture" style="height:100%"><div style="line-height:460px;"><span style="font-size:18px">您还没有安装flash播放器,请点击<a href="http://www.adobe.com/go/getflash" target="_blank">这里</a>安装</span></div></div></div></object>
-
-          <OBJECT CLASSID="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" WIDTH="640"HEIGHT="360" CODEBASE="http://www.apple.com/qtactivex/qtplugin.cab">
-            <PARAM name="SRC" VALUE="assets/audio.mp4">
-            <PARAM name="AUTOPLAY" VALUE="true">
-            <PARAM name="CONTROLLER" VALUE="false">
-            <EMBED SRC="assets/audio.mp4" WIDTH="640" HEIGHT="360" AUTOPLAY="true" CONTROLLER="false" PLUGINSPAGE="http://www.apple.com/quicktime/download/">
-            </EMBED>
-          </OBJECT>-->
-          <div id="login-box" class='login-popup'>
-            <a class="btn close pull-right" href="javascript:void(0)">关闭</a>
-          <font id=player1>&nbsp;</font>
-          <script type=text/javascript>
-              var s1 = new SWFObject("assets/flvplayer.swf","","1280","720","7");
-              s1.addParam("allowfullscreen","true");
-              s1.addVariable("file","audio.mp4");
-              s1.addVariable("width","1280");
-              s1.addVariable("height","720");
-              s1.addVariable("loop","true");
-              s1.addVariable("repeat", "flase");
-              s1.addVariable("fontcolor","0XFFFFFF");
-              s1.addVariable("autoscroll","true");
-              s1.addVariable("logo","");
-              s1.addVariable("autostart","true");
-              s1.addVariable("smoothing","true");
-              s1.write("player1");
-          </script>
+        <div class="span3">
+          <dl class="dl-horizontal">
+            <dt><div class="numeral">1</div></dt>
+            <dd>
+              <p>投资金额</p>
+              <div class="input-prepend input-append">
+                <span class="add-on">￥</span><input class="input-medium" id="investamount" placeholder="50000" type="text"><span class="add-on">元</span>
+              </div>
+              <div id="minimum-note">
+                最小投资金额<br>￥50000元
+              </div>
+            </dd>
+          </dl>
+          <dl class="dl-horizontal">
+            <dt><div class="numeral">2</div></dt>
+            <dd>
+              <p>您的年纪</p>
+              <button id="age-decrease" class="light-gray" tabindex="-1" onclick="redrawchart()">−</button>
+              <input id="age" name="age" value="30" type="text">
+              <button id="age-increase" class="light-gray" tabindex="-1" onclick="redrawchart()">+</button>
+            </dd>
+          </dl>
         </div>
-          <a href="#login-box" class='login-window'><img src="/assets/mov.jpg" width="640" height="360"></a>
+        <div class="span5">
+           <h2>您的资产组合</h2>
+           <h3>默认组合是为<span class="ages">30</span>岁家庭资产组合</h3>
+          <div id="container" style="min-width: 250px; height: 200px; margin: 0 auto"></div>
+          <div class="row-fluid link">
+              <div class="span2">
+                <input id="fee" name="fee" value="0" type="text">
+              </div>
+            <div class="span2">
+              <div id="advisory-fee-label">
+            <p class="flabel">咨询费</p>
+              每年
+            </div>
+            </div>
+            <div class="span4 offset2">
+              <a class="btn" href='/home/questions'>详细测评建议<span id="personalize-chevron">»</span></a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="welcme-content">
+  <div class="welcme-content img">
+    <div class="pres">
+      <h2>他们的员工也在使用我们的服务</h2>
+      <div class="row-fluid">
+        <div class="span3 img1">
+          <a href=""><img src="/assets/shbe.jpg"></a>
+        </div>
+        <div class="span3 img2">
+          <a href=""><img src="/assets/zx.jpg"></a>
+        </div>
+        <div class="span2 img3">
+          <a href=""><img src="/assets/ericsson.png"></a>
+        </div>
+        <div class="span2 img4">
+          <a href=""><img src="/assets/trend.jpg"></a>
+        </div>
+      </div>
+    </div>
     <h2 class="press">提供&nbsp;<a class="bankfinance" href="/bankinvest/index">银行理财产品</a>&nbsp;的服务</h2>
     <br><br>
 
@@ -104,39 +124,117 @@
   </div>
 </div>
 
-<script>
-    $(document).ready(function(){
-        $('a.login-window').click(function() {
-            // Getting the variable's value from a link
-            var loginBox = $(this).attr('href');
+<script type="text/javascript">
+    var chart=null;
+    var dataArray= [
+        ['开发式银行理财产品',20],
+        ['封闭式银行理财产品',20],
+        ['股票型基金',20],
+        ['保险',30],
+        ['P2P信贷',30]
+    ];
+    $(function () {
+        $(document).ready(function () {
 
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
-            //Set the center alignment padding + border
-            var popMargTop = ($(loginBox).height() + 24) / 2;
-            var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-            $(loginBox).css({
-                'margin-top' : -popMargTop,
-                'margin-left' : -popMargLeft
+            // Build the chart
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    events: {
+                        load: function() {
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function() {
+                                var data = [];
+                                data.push(['开发式银行理财产品',parseInt($('#age').val())]);
+                                data.push(['封闭式银行理财产品', 20]);
+                                data.push(['股票型基金', 20]);
+                                data.push(['保险', 30]);
+                                data.push(['P2P信贷', 30]);
+                                series.setData(data);
+                            }, 200);
+                        }
+                    }
+                },
+                title: {
+                    text: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
+                    percentageDecimals: 1
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true,
+                        size: 180,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '比例',
+                    data: dataArray
+                }],
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -10,
+                    y: 10,
+                    borderWidth: 0
+              //      labelFormatter: function() { return this.name+this.percentage+'%'}
+                },
+                credits: {
+                    enabled: false
+                }
             });
-
-            // Add the mask to body
-            $('body').append('<div id="mask"></div>');
-            $('#mask').fadeIn(300);
-
-            return false;
         });
+        Highcharts.theme = {
+            colors: ['#567e7b', '#47be7f', '#dbe67b', '#57afb7', '#95d3d8', '#b5ca34'],
+            chart: {
+                backgroundColor: {
+                    linearGradient: [0, 0, 500, 500],
+                    stops: [
+                        [0, 'rgb(195, 228, 236)'],
+                        [1, 'rgb(195, 228, 236)']
+                    ]
+                }
+            }
+        };
 
-        // When clicking on the button close or the mask layer the popup closed
-        $('a.close, #mask').live('click', function() {
-          /*  $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();
-                $("#ownvalue").html("");
-                $("#total").html("");
-            });   */
-            location.reload();
-            return false;
-        });
+// Apply the theme
+        var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
     });
+
+    $("#age-decrease,#age-increase").click( function() {
+        if(this.id=='age-decrease') {
+            delta=-1;
+        }
+        else{
+            delta=1;
+        }
+        $("#age").val(parseInt(document.getElementById('age').value)+delta)
+        $(".ages").html(parseInt(document.getElementById('age').value))
+    } );
+  /*
+    function redrawchart(){
+        dataArray=[
+            ['开发式银行理财产品',parseInt($('#age').val())],
+            [ '封闭式银行理财产品',20],
+            [ '股票型基金',20],
+            ['保险',30],
+            ['P2P信贷',30]
+        ];
+        this.chart.series[0].setData(dataArray);
+        this.chart.series[0].redraw();
+    }
+    */
 </script>

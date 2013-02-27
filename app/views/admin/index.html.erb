@@ -1,6 +1,6 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
-<%= stylesheet_link_tag "myaccount.css" %>
+<%= stylesheet_link_tag "admin.css" %>
 
 <div class="main-content">
  <%= %>
@@ -36,7 +36,7 @@
                     <table class="block">
                       <tr>
                         <td>
-                          <h2>用户管理</h2><br>
+                          <h1>用户管理</h1><br>
 <a href="/admin/userconfig/0">新建用户</a>
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
     <thead><tr>
@@ -276,7 +276,7 @@
 
 <tr>
   <td>
-    <h2>银行大类产品管理</h2><br>
+    <h1>银行大类产品管理</h1><br>
     <a href="/admin/bankproductsconfig/0">添加产品类</a>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankproducts">
       <thead><tr>
@@ -357,7 +357,7 @@
                     var flag1;
                     var tom=document.getElementsByName("keywords");
                     if(tom[0].checked){
-                        if(aData[5]==""){
+                        if(aData[5]=="newproduct"){
                             flag1=1;
                         }
                     }
