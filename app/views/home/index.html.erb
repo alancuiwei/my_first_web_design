@@ -1,20 +1,159 @@
+<%= stylesheet_link_tag "common.css" %>
+<%= stylesheet_link_tag "homepage.css" %>
 <%= stylesheet_link_tag "home.css" %>
 <%= javascript_include_tag "jquery.min.js" %>
-<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "plan.js" %>
+<%= javascript_include_tag "reactive.js" %>
+<%= javascript_include_tag "charting.js" %>
+<%= javascript_include_tag "homepage.js" %>
+<%= javascript_include_tag "charts.js" %>
 
 <div class="welcomes">
   <div class="hero-unit"> <!--主角单元-->
     <div class="slide">
       <div class="row-fluid">
         <div class="span4">
-          <h1>帮您挑选<br/>最合适的<br/>银行理财产品</h1>
-          <br>
-          <p><a class="btn btn-success"  href='/bankinvest/index'><em>进来挑选</em></a></p>
+          <h1>为您提供<br/>家庭资产配置<br/>金融服务</h1>
+         <!-- <p><a class="btn btn-success"  href='/bankinvest/index'><em>进来挑选</em></a></p>      -->
           <p class="description">站在中立，客观的角度 <br>
             为您提供私人理财建议；<br>
             为您提供最新理财产品信息供您选择；<br>
             为您省心省力，贴心打理您的财富。</p>
         </div>
+        <div class="span8">
+
+          <div id="page-wrapper">
+            <div id="page-content">
+              <section id="vprops-section">
+                <div id="value-props">
+                  <div class="td center">
+                    <div id="vprop-container">
+                      <div style="display: block;" id="vprop-plan-selection" class="vprop active with-transitions">
+                        <div style="left: 0px;" class="copy">	<div id="plan-widget">
+                          <div class="td" id="plan-controls">
+                            <div id="amount-control">
+                              <div class="td numeral-col">
+                                <div class="numeral">1</div>
+                              </div>
+                              <div class="td control-col">
+                                <label for="amount">投资金额</label>
+                                <span style="position:relative;font-size:13px"><span class="dollar-prefix" style="margin-top: -3px;">￥</span><input id="amount" name="amount" style="margin-left: 5px;"  s value="50,000" type="text"></span>
+                                <div id="minimum-note">
+                                  最小投资金额<br>
+                                  ￥50000 元
+                                </div>
+                              </div>
+                            </div>
+                            <div id="age-control">
+                              <div class="td numeral-col">
+                                <div class="numeral">2</div>
+                              </div>
+                              <div class="td control-col">
+                                <label for="age">您的年纪</label>
+                                <button id="age-decrease" class="light-gray" tabindex="-1">−</button><input id="age" name="age" value="28" type="text"><button id="age-increase" class="light-gray" tabindex="-1">+</button>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="td" id="plan-result">
+                            <h3>您的资产组合</h3>
+                            <h4>
+                              默认组合是为 <span id="years">28</span> 岁家庭资产组合
+                            </h4>
+                            <div style="display:table;" class="SAA201210">
+                              <div class="tr">
+                                <div id="plan-pie" class="td" style="vertical-align:top;">
+                                  <svg id="plan-pie-svg" style="width: 167px; height: 167px"><g transform="translate(83.5,83.5)"><path d="M5.1129003864401995e-15,-83.5A83.5,83.5 0 0,1 3.7237510120222708,83.41692680985355L0,0Z" class="segment US_STOCKS" data-pie-slice-id="US_STOCKS"></path><path d="M3.7237510120222708,83.41692680985355A83.5,83.5 0 0,1 -56.118891632365084,61.82976631004572L0,0Z" class="segment INTL_DEVELOPED" data-pie-slice-id="INTL_DEVELOPED"></path><path d="M-56.118891632365084,61.82976631004572A83.5,83.5 0 0,1 -83.49919237157378,0.36725099715878606L0,0Z" class="segment INTL_EMERGING" data-pie-slice-id="INTL_EMERGING"></path><path d="M-83.49919237157378,0.36725099715878606A83.5,83.5 0 0,1 -49.08006856642152,-67.5529190303081L0,0Z" class="segment REAL_ESTATE" data-pie-slice-id="REAL_ESTATE"></path><path d="M-49.08006856642152,-67.5529190303081A83.5,83.5 0 0,1 -25.80291903030812,-79.41321911064531L0,0Z" class="segment COMMODITIES" data-pie-slice-id="COMMODITIES"></path><path d="M-25.80291903030812,-79.41321911064531A83.5,83.5 0 0,1 -1.53387011593206e-14,-83.5L0,0Z" class="segment BONDS" data-pie-slice-id="BONDS"></path></g></svg>
+                                </div>
+                                <div class="td legend-column" style="vertical-align:middle;">
+                                  <table class="allocation-table">
+                                    <tbody><tr class="legend-row ROW_US_STOCKS" data-category="US_STOCKS">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize US_STOCKS"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-US Stocks"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >指数型基金</a></span>
+                                    </td><td class="legend-data">49%</td></tr>
+                                    <tr class="legend-row ROW_INTL_DEVELOPED" data-category="INTL_DEVELOPED">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize INTL_DEVELOPED"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-Foreign Stocks"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >股票型基金</a></span>
+                                    </td><td class="legend-data">12%</td></tr>
+                                    <tr class="legend-row ROW_INTL_EMERGING" data-category="INTL_EMERGING">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize INTL_EMERGING"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-Emerging Markets"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >P2P信贷</a></span>
+                                    </td><td class="legend-data">13%</td></tr>
+                                    <tr class="legend-row ROW_REAL_ESTATE" data-category="REAL_ESTATE">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize REAL_ESTATE"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-Real Estate"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >贵金属产品</a></span>
+                                    </td><td class="legend-data">15%</td></tr>
+                                    <tr class="legend-row ROW_COMMODITIES" data-category="COMMODITIES">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize COMMODITIES"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-Natural Resources"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >资源投资产品</a></span>
+                                    </td><td class="legend-data">5%</td></tr>
+                                    <tr class="legend-row ROW_BONDS" data-category="BONDS">
+                                      <td class="legend-color-cell">
+                                        <div class="colorize BONDS"></div>
+                                      </td><td class="legend-label">
+                                      <span class="ktip-link topleft" id="why-allocate-Bonds"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="330px" >银行保本理财产品</a></span>
+                                    </td><td class="legend-data">5%</td></tr>
+                                    </tbody></table>
+
+                                </div>
+                              </div>
+                             <!--
+                              <div class="tr">
+                                <div class="td" style="padding-top: 24px;">
+                                  <div class="advisor-fee-color" id="advisory-fee">0.25%</div>
+                                  <div id="advisory-fee-label">
+                                    <span class="ktip-link left" id="advisory-fee-tip"><a target="_top" class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="260px" data-d="400">Advisory Fee</a></span>
+                                    <br>
+                                    per year
+                                  </div>
+                                </div>
+                                <div class="td legend-column" style="vertical-align: bottom;">
+                                  <a tabindex="-1" target="_top" id="personalize-button" href="https://www.wealthfront.com/questions" class="orange-button big-button">Get Started <span id="personalize-chevron">»</span></a>
+                                </div>
+                              </div>
+                             -->
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div style="display: block;" id="vprop-lower-fees" class="vprop with-transitions">
+                        <figure style="left: 1068px;" id="lower-fees-widget">
+                          <div id="fee-widget-controls">
+                            <div id="fee-amt-to-invest-prefix" data-width="170" data-text="Amount to invest must be &lt;b&gt;at least $5,000&lt;/b&gt;." class="fee-input-text round-left">$</div><input autocomplete="off" id="fee-amt-to-invest" value="50,000" class="round-right" type="text">
+
+                            <label>Wealthfront Advisory Fee</label>
+                            <div id="fee-wf-fee" class="fee-input-text round-left">0.25</div><div class="fee-input-text round-right">% per year</div><span id="wf-fee-info" class="fee-info icon-info-sign" data-title="Wealthfront Advisory Fee" data-height="195px" data-text="&lt;p&gt;Advisory fee waived on your first $10,000.&lt;/p&gt;&lt;p&gt;To help early savers get started, we only charge our advisory fee on the portion of an account over $10,000.&lt;/p&gt;&lt;p id=fee-widget-tip-fee-so&gt;Over 20 years, the advisory fee for &lt;span class=fee-widget-tip-amt&gt;&lt;/span&gt; investment is effectively reduced from 0.25% to &lt;b class=advisory-fee-amount&gt;&lt;/b&gt;%.&lt;/p&gt;"></span>
+
+                            <label>Avg. Financial Advisor Fee</label>
+                            <input autocomplete="off" id="fee-fa-fee" class="round-left" value="1.31" data-width="160px" data-text="Please enter a number between &lt;b&gt;0&lt;/b&gt; and &lt;b&gt;10&lt;/b&gt;." data-direction="left" type="text"><div class="fee-input-text round-right">% per year</div><span id="fa-fee-info" class="fee-info icon-info-sign" data-title="Average Financial Advisor Fee" data-text="A &lt;a target=_blank rel='external nofollow' href=http://www.pricemetrix.com/cms/wp-content/uploads/PriceMetrix_whitepapers_Fee-and-Managed-Asset-Pricing_English.pdf&gt;survey&lt;/a&gt; published by Pricemetrix in 2011 found the average financial advisory fee to be &lt;b&gt;1.31%&lt;/b&gt;."></span>
+
+                            <label>Projected Annual Return</label>
+                            <input autocomplete="off" id="fee-return" data-width="160px" data-text="Please enter a number between &lt;b&gt;0&lt;/b&gt; and &lt;b&gt;30&lt;/b&gt;." class="round-left" value="6.79" type="text"><div class="fee-input-text round-right">% per year</div>
+
+                          </div>
+
+                        </figure>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+        <!--
         <div class="span3">
           <dl class="dl-horizontal">
             <dt><div class="numeral">1</div></dt>
@@ -32,9 +171,9 @@
             <dt><div class="numeral">2</div></dt>
             <dd>
               <p>您的年纪</p>
-              <button id="age-decrease" class="light-gray" tabindex="-1" onclick="redrawchart()">−</button>
-              <input id="age" name="age" value="30" type="text">
-              <button id="age-increase" class="light-gray" tabindex="-1" onclick="redrawchart()">+</button>
+              <button id="age-decrease" class="light-gray" tabindex="-1">−</button>
+              <input id="age" name="age" value="30" type="text" readonly>
+              <button id="age-increase" class="light-gray" tabindex="-1">+</button>
             </dd>
           </dl>
         </div>
@@ -57,6 +196,7 @@
             </div>
           </div>
         </div>
+        -->
       </div>
     </div>
   </div>
@@ -75,6 +215,9 @@
         </div>
         <div class="span2 img4">
           <a href=""><img src="/assets/trend.jpg"></a>
+        </div>
+        <div class="span2 img3">
+          <a href=""><img src="/assets/hw.jpg"></a>
         </div>
       </div>
     </div>
@@ -109,6 +252,9 @@
     </div >
 
     <br><br>
+
+
+    <br><br>
     <div class="row-fluid">
       <div class="span4 offset1">
         <a href="/home/productindex"><img class="pull-left hsw" src="/assets/analysis.gif"></a>
@@ -124,15 +270,246 @@
   </div>
 </div>
 
+<script>
+    t0=new Date
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
+
+<script>
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview", "/"]];
+    w.requestId = "0294607220";
+    w.eventUri = "/event";
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80159", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>try{(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));} catch(e) {w.trackJsError(e); throw e;}</script><script>try{!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");} catch(e) {w.trackJsError(e); throw e;}</script><script>try{
+    var taxableModel = {"name":"SAA201210","allocations":{"US_STOCKS":[0.0573,0.0669,0.0744,0.0804,0.0864,0.0909,0.0954,0.1,0.1045,0.109,0.112,0.115,0.1195,0.1225,0.1255,0.1301,0.1326,0.1351,0.1376,0.1401,0.1425,0.145,0.1475,0.15,0.1524,0.1549,0.1574,0.1598,0.1623,0.1636,0.166,0.1685,0.171,0.1734,0.1759,0.1772,0.1796,0.1821,0.1846,0.1858,0.1883,0.1922,0.1942,0.1979,0.2016,0.2053,0.2072,0.2109,0.2146,0.2165,0.2295,0.2388,0.2482,0.2576,0.2671,0.2766,0.2861,0.2956,0.305,0.3126,0.3221,0.3316,0.3411,0.3505,0.3581,0.3676,0.3771,0.3866,0.3941,0.4036,0.4131,0.4207,0.4302,0.4397,0.4472,0.4567,0.4662,0.4738,0.4833,0.4929,0.5006,0.5084,0.5161,0.5219,0.5297,0.5355,0.5348,0.5336,0.5324,0.5312,0.53,0.5292,0.52,0.5113,0.4983,0.4896,0.4766,0.4679,0.4592,0.4505],"INTL_DEVELOPED":[0.05,0.0583,0.0649,0.0701,0.0754,0.0793,0.0833,0.0872,0.0911,0.0951,0.0977,0.1003,0.1043,0.1069,0.1095,0.1134,0.1157,0.1179,0.12,0.1222,0.1243,0.1265,0.1286,0.1308,0.133,0.1351,0.1373,0.1394,0.1416,0.1427,0.1448,0.147,0.1491,0.1513,0.1535,0.1545,0.1567,0.1588,0.161,0.1621,0.1642,0.1651,0.1654,0.1651,0.1648,0.1644,0.1643,0.164,0.1636,0.1635,0.1624,0.1616,0.1607,0.1597,0.1587,0.1576,0.1566,0.1556,0.1546,0.1538,0.1527,0.1517,0.1507,0.1497,0.1489,0.1478,0.1468,0.1458,0.145,0.144,0.143,0.1421,0.1411,0.1401,0.1393,0.1383,0.1372,0.1364,0.1354,0.1244,0.111,0.0976,0.0842,0.0742,0.0608,0.0508,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.0509,0.0519,0.0528,0.0532,0.0542,0.0551,0.0555,0.0588,0.0611,0.0634,0.0656,0.0679,0.0702,0.0724,0.0747,0.077,0.0788,0.0811,0.0834,0.0856,0.0879,0.0897,0.092,0.0943,0.0965,0.0984,0.1006,0.1029,0.1047,0.107,0.1093,0.1111,0.1134,0.1156,0.1175,0.1197,0.132,0.1465,0.1609,0.1753,0.1861,0.2006,0.2114,0.2214,0.2314,0.2414,0.2513,0.2613,0.268,0.28,0.2887,0.3017,0.3104,0.3234,0.3321,0.3408,0.3495],"REAL_ESTATE":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.0512,0.0527,0.0541,0.0556,0.0571,0.0586,0.06,0.0615,0.063,0.0645,0.0659,0.0674,0.0689,0.0696,0.0711,0.0726,0.074,0.0755,0.077,0.0777,0.0792,0.0807,0.0821,0.0829,0.0843,0.0855,0.0861,0.0871,0.0881,0.089,0.0895,0.0905,0.0915,0.092,0.0954,0.0978,0.1002,0.1025,0.1048,0.1071,0.1093,0.1116,0.1139,0.1157,0.118,0.1203,0.1226,0.1249,0.1267,0.129,0.1313,0.1336,0.1354,0.1377,0.14,0.1418,0.1441,0.1464,0.1482,0.1505,0.1528,0.1546,0.1569,0.1507,0.1419,0.1331,0.1243,0.1178,0.109,0.1024,0.0938,0.085,0.0762,0.0674,0.0587,0.0528,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"COMMODITIES":[0.0653,0.0699,0.0694,0.0691,0.0687,0.0684,0.0682,0.0679,0.0676,0.0674,0.0672,0.067,0.0668,0.0666,0.0664,0.0661,0.0657,0.0651,0.0646,0.064,0.0635,0.0629,0.0623,0.0618,0.0612,0.0607,0.0601,0.0596,0.059,0.0588,0.0582,0.0577,0.0571,0.0566,0.056,0.0557,0.0552,0.0546,0.0541,0.0538,0.0533,0.0531,0.053,0.0528,0.0526,0.0524,0.0523,0.052,0.0518,0.0517,0.0509,0.0503,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"BONDS":[0.7274,0.705,0.6913,0.6804,0.6695,0.6613,0.6531,0.6449,0.6368,0.6286,0.6231,0.6176,0.6095,0.604,0.5985,0.5904,0.5848,0.5793,0.5737,0.5682,0.5626,0.5571,0.5515,0.5459,0.5404,0.5348,0.5293,0.5237,0.5182,0.5154,0.5098,0.5043,0.4987,0.4932,0.4876,0.4849,0.4793,0.4738,0.4682,0.4654,0.4599,0.4541,0.4512,0.4462,0.4411,0.436,0.4335,0.4284,0.4234,0.4208,0.4031,0.3904,0.3776,0.3646,0.3516,0.3385,0.3255,0.3125,0.2995,0.2891,0.2761,0.263,0.25,0.237,0.2266,0.2136,0.2005,0.1875,0.1771,0.1641,0.1511,0.1407,0.1276,0.1146,0.1042,0.0912,0.0782,0.0678,0.0547,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05]},"granularity":10.0,"model_number":4,"max_risk":10,"min_risk":0.1};
+    var nonTaxableModel = {"name":"SAA201210","allocations":{"US_STOCKS":[0.0573,0.0669,0.0744,0.0804,0.0864,0.0909,0.0954,0.1,0.1045,0.109,0.112,0.115,0.1195,0.1225,0.1255,0.1301,0.1326,0.1351,0.1376,0.1401,0.1425,0.145,0.1475,0.15,0.1524,0.1549,0.1574,0.1598,0.1623,0.1636,0.166,0.1685,0.171,0.1734,0.1759,0.1772,0.1796,0.1821,0.1846,0.1858,0.1883,0.1922,0.1942,0.1979,0.2016,0.2053,0.2072,0.2109,0.2146,0.2165,0.2295,0.2388,0.2482,0.2576,0.2671,0.2766,0.2861,0.2956,0.305,0.3126,0.3221,0.3316,0.3411,0.3505,0.3581,0.3676,0.3771,0.3866,0.3941,0.4036,0.4131,0.4207,0.4302,0.4397,0.4472,0.4567,0.4662,0.4738,0.4833,0.4929,0.5006,0.5084,0.5161,0.5219,0.5297,0.5355,0.5348,0.5336,0.5324,0.5312,0.53,0.5292,0.52,0.5113,0.4983,0.4896,0.4766,0.4679,0.4592,0.4505],"INTL_DEVELOPED":[0.05,0.0583,0.0649,0.0701,0.0754,0.0793,0.0833,0.0872,0.0911,0.0951,0.0977,0.1003,0.1043,0.1069,0.1095,0.1134,0.1157,0.1179,0.12,0.1222,0.1243,0.1265,0.1286,0.1308,0.133,0.1351,0.1373,0.1394,0.1416,0.1427,0.1448,0.147,0.1491,0.1513,0.1535,0.1545,0.1567,0.1588,0.161,0.1621,0.1642,0.1651,0.1654,0.1651,0.1648,0.1644,0.1643,0.164,0.1636,0.1635,0.1624,0.1616,0.1607,0.1597,0.1587,0.1576,0.1566,0.1556,0.1546,0.1538,0.1527,0.1517,0.1507,0.1497,0.1489,0.1478,0.1468,0.1458,0.145,0.144,0.143,0.1421,0.1411,0.1401,0.1393,0.1383,0.1372,0.1364,0.1354,0.1244,0.111,0.0976,0.0842,0.0742,0.0608,0.0508,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.0509,0.0519,0.0528,0.0532,0.0542,0.0551,0.0555,0.0588,0.0611,0.0634,0.0656,0.0679,0.0702,0.0724,0.0747,0.077,0.0788,0.0811,0.0834,0.0856,0.0879,0.0897,0.092,0.0943,0.0965,0.0984,0.1006,0.1029,0.1047,0.107,0.1093,0.1111,0.1134,0.1156,0.1175,0.1197,0.132,0.1465,0.1609,0.1753,0.1861,0.2006,0.2114,0.2214,0.2314,0.2414,0.2513,0.2613,0.268,0.28,0.2887,0.3017,0.3104,0.3234,0.3321,0.3408,0.3495],"REAL_ESTATE":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.0512,0.0527,0.0541,0.0556,0.0571,0.0586,0.06,0.0615,0.063,0.0645,0.0659,0.0674,0.0689,0.0696,0.0711,0.0726,0.074,0.0755,0.077,0.0777,0.0792,0.0807,0.0821,0.0829,0.0843,0.0855,0.0861,0.0871,0.0881,0.089,0.0895,0.0905,0.0915,0.092,0.0954,0.0978,0.1002,0.1025,0.1048,0.1071,0.1093,0.1116,0.1139,0.1157,0.118,0.1203,0.1226,0.1249,0.1267,0.129,0.1313,0.1336,0.1354,0.1377,0.14,0.1418,0.1441,0.1464,0.1482,0.1505,0.1528,0.1546,0.1569,0.1507,0.1419,0.1331,0.1243,0.1178,0.109,0.1024,0.0938,0.085,0.0762,0.0674,0.0587,0.0528,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"COMMODITIES":[0.0653,0.0699,0.0694,0.0691,0.0687,0.0684,0.0682,0.0679,0.0676,0.0674,0.0672,0.067,0.0668,0.0666,0.0664,0.0661,0.0657,0.0651,0.0646,0.064,0.0635,0.0629,0.0623,0.0618,0.0612,0.0607,0.0601,0.0596,0.059,0.0588,0.0582,0.0577,0.0571,0.0566,0.056,0.0557,0.0552,0.0546,0.0541,0.0538,0.0533,0.0531,0.053,0.0528,0.0526,0.0524,0.0523,0.052,0.0518,0.0517,0.0509,0.0503,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05],"BONDS":[0.7274,0.705,0.6913,0.6804,0.6695,0.6613,0.6531,0.6449,0.6368,0.6286,0.6231,0.6176,0.6095,0.604,0.5985,0.5904,0.5848,0.5793,0.5737,0.5682,0.5626,0.5571,0.5515,0.5459,0.5404,0.5348,0.5293,0.5237,0.5182,0.5154,0.5098,0.5043,0.4987,0.4932,0.4876,0.4849,0.4793,0.4738,0.4682,0.4654,0.4599,0.4541,0.4512,0.4462,0.4411,0.436,0.4335,0.4284,0.4234,0.4208,0.4031,0.3904,0.3776,0.3646,0.3516,0.3385,0.3255,0.3125,0.2995,0.2891,0.2761,0.263,0.25,0.237,0.2266,0.2136,0.2005,0.1875,0.1771,0.1641,0.1511,0.1407,0.1276,0.1146,0.1042,0.0912,0.0782,0.0678,0.0547,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.05]},"granularity":10.0,"model_number":4,"max_risk":10,"min_risk":0.1};
+    function currentModel() {
+        return $("#acct-type :selected").data('is-taxable') ? taxableModel : nonTaxableModel;
+    }
+} catch(e) {w.trackJsError(e); throw e;}</script>
+<script>try{
+    $(function() {
+        var plan = deserializePlan(w.cookie("asset_allocation") || "4|50000|8|8|28");
+        var $acctType = $("#acct-type").change(function(e) {
+            w.cookie("hp-taxable", $(this).find(":selected").data("isTaxable"));
+            var minimum = getMinimum();
+            var minimumDollars = w.dollarAmount(minimum, 0);
+            var $amountField = $("#amount");
+            var amt = w.parseDollarAmount($amountField.val());
+
+            if (!$amountField[0].value) {
+                $amountField.val(minimum);
+            }
+            $("#amount").trigger('update');
+            $("body").trigger("plan.change", plan);
+            w.trackEvent("homepage2", "account-type", this.value);
+            handleDataChange();
+        });
+
+        var $amt = $("#amount")
+                .on("update", function () {
+                    var val = this.value, amt = val.replace(/[$,]/g, "");
+                    if (amt.match(/^\d+$/) && (amt = +amt) >= getMinimum()) {
+                        $amt.removeClass("invalid");
+                        if (this.selectionStart === val.length) {
+                            this.value = w.formatNum(amt, 0);
+                        }
+                        if (amt !== $amt.data("val")) {
+                            w.trackEvent("homepage2", "amount", "edit", amt);
+                            $amt.data("val", amt);
+                            handleDataChange();
+                        }
+                    } else {
+                        $amt.addClass("invalid");
+                    }
+                })
+                .bind("keypress keyup", function() {
+                    $(this).trigger("update");
+                })
+                .blur(function() {
+                    var amt = this.value.replace(/,/g, "");
+                    if (amt.match(/^\d+$/) && (amt = +amt) > 0) {
+                        this.value = w.formatNum(amt, 0);
+                    }
+                });
+        $amt.data("val", +$amt.val().replace(/,/g, ""));
+
+        var $age = $("#age")
+                .bind("keypress keyup", function(e) {
+                    var val = this.value, age = +val;
+                    if (val.match(/^\d+$/) && age >= 21 && age <= 100) {
+                        $age.removeClass("invalid");
+                        if (age !== $age.data("val")) {
+                            if (e.which) w.trackEvent("homepage2", "age", "edit", age);
+                            $age.data("val", age);
+                            $yrs.text(age);
+                            plan.age = age;
+                            plan.tol = plan.rec = recommend(age);
+                            handleDataChange();
+                        }
+                    } else {
+                        $age.addClass("invalid");
+                    }
+                });
+        $age.data("val", +$age.val());
+
+        $("#age-decrease,#age-increase")
+                .bind("wf:engage", function() {
+                    var limitFn, bound, delta;
+                    if (this.id == "age-decrease") {
+                        w.trackEvent("homepage2", "age", "down");
+                        limitFn = Math.max, bound = 21, delta = -1;
+                    } else {
+                        w.trackEvent("homepage2", "age", "up");
+                        limitFn = Math.min, bound = 100, delta = 1;
+                    }
+                    $age.val(limitFn(bound, $age.data("val") + delta)).triggerHandler("keyup");
+                })
+                .each(bindUpOrDown);
+
+        var $yrs = $("#years");
+
+        var $pieLegend = $("#pie-legend");
+
+        function formatPct(value) {
+            return (value * 100).toFixed(0) + "%";
+        }
+
+        var ordering = {"US_STOCKS":0,"INTL_DEVELOPED":1,"INTL_EMERGING":2,"DIV_STOCKS":3,"REAL_ESTATE":4,"COMMODITIES":5,"BONDS":10,"INFL_BONDS":6,"MUNI_BONDS":7,"CORP_BONDS":8,"EM_BONDS":9};
+        w.homepage.initialize(currentModel(), plan.tol, ordering);
+        w.homepage.pie = new w.charts.Pie("#plan-pie-svg", {sort:true});
+        w.homepage.pie.data.bindTo(w.homepage.allocationPieData);
+        w.homepage.table = $R(function (allocation) {
+            $(".allocation-table .legend-row").each(function() {
+                var $row = $(this);
+                var assetClass = $row.data('category');
+                $row.toggle(!!allocation[assetClass])
+                $row.find(".legend-data").text(formatPct(allocation[assetClass]));
+            });
+        }).bindTo(w.homepage.allocation);
+
+        $("#advisory-fee-tip").bind("tip.create", function() {
+            updateFee(plan.amount);
+            $("body").trigger("plan.change", plan);
+        });
+
+        $("#personalize-button").click(function() {
+            w.cookie("asset_allocation", serializePlan(plan, currentModel().model_number), 14);
+            w.cookie("account_type", $acctType.val(), 14);
+        });
+
+        handleDataChange();
+
+        function handleDataChange() {
+            w.homepage.allocation(plan.tol, currentModel());
+            updateFee(plan.amount = $amt.data("val"));
+            $("body").trigger("plan.change", plan);
+        }
+        function updateFee(amt) {
+            var pct = calcFee(amt) + "%";
+            $("#fee-amount").text(function(amt) {
+                return w.homepage.getArticle(amt) + amt;
+            }(w.dollarAmount(amt,0)));
+        }
+        function calcFee(amt) {
+            return Math.max(0, .25 * (amt - w.freemiumAmount()) / amt).toFixed(2);
+        }
+        function bindUpOrDown() {
+            $(this).mousedown(function() {
+                var $btn = $(this)
+                        .data("t", setTimeout(function() {
+                    $btn.data("i", setInterval($btn.data("x"), 100));
+                }, 500))
+                        .data("x", function() { $btn.triggerHandler("wf:engage"); });
+                $btn.data("x")();
+            }).bind("mouseup mouseleave", function() {
+                        var $btn = $(this);
+                        clearTimeout($btn.data("t"));
+                        clearInterval($btn.data("i"));
+                    }).mouseenter(function() {
+                        var $btn = $(this);
+                        if ($btn.is(":active")) {
+                            $btn.data("i", setInterval($btn.data("x"), 100));
+                        }
+                    }).click(function(e) {
+                        if (e.pageX === 0) { // key-triggered
+                            $(this).triggerHandler("wf:engage");
+                        }
+                    });
+        }
+        function recommend(age) {
+            var a = [[20,8.5],[25,8.2],[30,7.9],[35,7.3],[40,6.7],[45,5.8],[50,5.3],[55,4.6],[60,3.8],[65,3.3],[70,2.7],[75,2.1],[80,1.3]];
+            for (var i = 0; i < a.length; i++) {
+                if (age < a[i][0]) {
+                    if (i) {
+                        var f = (age - a[i-1][0]) / (a[i][0] - a[i-1][0]);
+                        return +((1 - f) * a[i-1][1] + f * a[i][1]).toFixed(1);
+                    } else {
+                        return a[0][1];
+                    }
+                } else if (age == a[i][0]) {
+                    return a[i][1];
+                }
+            }
+            return a[a.length-1][1];
+        }
+        function formatRiskTol(tol) {
+            return tol === 10 ? "10" : tol.toFixed(1);
+        }
+    });
+} catch(e) {w.trackJsError(e); throw e;}
+</script>
+<script>
+    w.trackESP('pageload', location.href.split("?")[0], new Date - t0);
+</script>
+
+ <!--
 <script type="text/javascript">
     var chart=null;
+    var aa=35,bb=15,cc=20,dd=10,ee=20;
     var dataArray= [
-        ['开发式银行理财产品',20],
-        ['封闭式银行理财产品',20],
-        ['股票型基金',20],
-        ['保险',30],
-        ['P2P信贷',30]
+        ['开放式理财产品',15],
+        ['保本型理财产品',20],
+        ['股票型基金',35],
+        ['债券',10],
+        ['P2P信贷',20]
     ];
+    window.onload=function(){
+        chart.series[0].setData(dataArray);
+        chart.isDirtyLegend = true;
+        chart.redraw();
+    }
     $(function () {
         $(document).ready(function () {
 
@@ -147,31 +524,69 @@
                         load: function() {
                             // set up the updating of the chart each second
                             var series = this.series[0];
-                            setInterval(function() {
+                            $("#age-decrease,#age-increase").click(function(){
+                                var a, b, c, d,e;
                                 var data = [];
-                                data.push(['开发式银行理财产品',parseInt($('#age').val())]);
-                                data.push(['封闭式银行理财产品', 20]);
-                                data.push(['股票型基金', 20]);
-                                data.push(['保险', 30]);
-                                data.push(['P2P信贷', 30]);
-                                series.setData(data);
-                            }, 200);
+                                if(this.id=='age-decrease') {
+                                    if($('#age').val()<=25 || $('#age').val()>30){a=1;}else{a=-1}
+                                    if($('#age').val()<=35){b=1;}else{b=0}
+                                    if($('#age').val()<=25){c=-2;}else{c=-1}
+                                    d=-1;
+                                    if($('#age').val()<=25 || $('#age').val()>35){e=1;}else if($('#age').val()>25 && $('#age').val()<=30){e=2}else{e=0}
+                                    delta=-1;
+                                    if($('#age').val()<=20){
+                                        delta=0;
+                                        a=b=c=d=e=0;
+                                    }
+                                }
+                                else{
+                                    if($('#age').val()<25 || $('#age').val()>=30){a=-1;}else{a=1}
+                                    if($('#age').val()<35){b=-1;}else{b=0}
+                                    if($('#age').val()<25){c=2;}else{c=1}
+                                    d=1;
+                                    if($('#age').val()<25 || $('#age').val()>=35){e=-1;}else if($('#age').val()>=25 && $('#age').val()<30){e=-2}else{e=0}
+                                    delta=1;
+                                    if($('#age').val()>=50){
+                                        delta=0;
+                                        a=b=c=d=e=0;
+                                    }
+                                }
+                                $("#age").val(parseInt(document.getElementById('age').value)+delta)
+                                $(".ages").html(parseInt(document.getElementById('age').value))
+                                aa=aa+a;bb=bb+b;cc=cc+c;dd=dd+d;ee=ee+e;
+                                data.push(['开放式理财产品',parseInt(bb)]);
+                                data.push(['保本型理财产品', parseInt(cc)]);
+                                data.push(['股票型基金', parseInt(aa)]);
+                                data.push(['债券', parseInt(dd)]);
+                                data.push(['P2P信贷',parseInt(ee)]);
+                                chart.series[0].setData(data);
+                                chart.isDirtyLegend = true;
+                                chart.redraw();
+                            });
                         }
                     }
                 },
                 title: {
                     text: false
                 },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage}%</b>',
-                    percentageDecimals: 1
-                },
+                tooltip: false,
                 plotOptions: {
                     pie: {
-                        allowPointSelect: true,
+                        allowPointSelect: false,
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: false
+                         /*
+                            color: '#000',
+                            distance: -20,//通过设置这个属性，将每个小饼图的显示名称和每个饼图重叠
+                            style: {
+                                fontSize: '10px',
+                                lineHeight: '10px'
+                            },
+                            formatter: function(index) {
+                                return  '<span>' + this.point.name+'<br>'+ parseInt(this.point.percentage) + '%</span>';
+                            }
+                           */
                         },
                         showInLegend: true,
                         size: 180,
@@ -189,8 +604,10 @@
                     verticalAlign: 'top',
                     x: -10,
                     y: 10,
-                    borderWidth: 0
-              //      labelFormatter: function() { return this.name+this.percentage+'%'}
+                    borderWidth: 0,
+                    labelFormatter: function(index) {
+                        return this.name+' '+parseInt(this.percentage) + '%';
+                    }
                 },
                 credits: {
                     enabled: false
@@ -213,28 +630,4 @@
 // Apply the theme
         var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
     });
-
-    $("#age-decrease,#age-increase").click( function() {
-        if(this.id=='age-decrease') {
-            delta=-1;
-        }
-        else{
-            delta=1;
-        }
-        $("#age").val(parseInt(document.getElementById('age').value)+delta)
-        $(".ages").html(parseInt(document.getElementById('age').value))
-    } );
-  /*
-    function redrawchart(){
-        dataArray=[
-            ['开发式银行理财产品',parseInt($('#age').val())],
-            [ '封闭式银行理财产品',20],
-            [ '股票型基金',20],
-            ['保险',30],
-            ['P2P信贷',30]
-        ];
-        this.chart.series[0].setData(dataArray);
-        this.chart.series[0].redraw();
-    }
-    */
-</script>
+</script> -->

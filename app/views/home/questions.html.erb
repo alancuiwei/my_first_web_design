@@ -1,5 +1,456 @@
-<%= stylesheet_link_tag "home.css" %>
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "d3.js" %>
+<%= javascript_include_tag "plan.js" %>
+<%= javascript_include_tag "risk.js" %>
+<%= javascript_include_tag "jquery.effects.core.js" %>
+<script>
+    t0=new Date
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
 
 <div class="welcomes">
+<div class="ofa-funnel-pages">
+  <div id="page-wrapper">
+    <div id="top-tabs">
+      <div class="top-tabs-content">
+        <b>1.</b> <span>Assess Your Risk Tolerance</span>
+        <i class="separator icon-chevron-right disabled"></i>
+        <span class="disabled"><b>2.</b> <span>View Your Plan</span></span>
+        <i class="separator icon-chevron-right disabled"></i>
+        <span class="disabled"><b>3.</b> <span>Open Your Account</span></span>
+      </div>
+    </div>
 
+    <div id="page-content">
+      <div class="clearfix"></div>
+      <h1>
+        Let’s Create Your Plan
+        <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+      </h1>
+
+      <div style="float:right;margin:40px 30px 0 0;position:relative">
+        <div id="risk-meter"></div>
+      </div>
+
+      <div id="questionnaire-view">
+        <form id="questionnaire" action="https://www.wealthfront.com/plan" method="post">
+          <div class="question first">
+            <p class="q-text">The global stock market is often volatile. If your entire investment portfolio lost 10% of its value in a month during a market decline, what would you do?</p>
+            <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>Sell all of your investments</span></label>
+            <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>Sell some</span></label>
+            <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>Keep all</span></label>
+            <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>Buy more</span></label>
+            <div style="clear:both"></div>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" This question evaluates your tolerance for loss. The greater your tolerance, the more risk you are willing to take. &lt;i&gt;Willingness&lt;/i&gt; to take risk and &lt;i&gt;ability&lt;/i&gt; to take risk are each taken into consideration to arrive at your final risk score. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">Which of these three hypothetical investment plans would best suit your current investing needs?</p>
+            <div id="q-portfolio-chart">
+              <div class="q-portfolio-key">
+                <div class="q-portfolio-key-i">
+                  <div class="q-portfolio-key-h">Key</div>
+                  <div class="q-portfolio-key-m">Expected Annual Return</div>
+                  <div class="q-portfolio-key-r">Range of Probable Returns<br>In Any Given Year</div>
+                </div>
+              </div>
+              <div class="q-portfolio-grid"><div class="q-portfolio-gridline" style="top: 120px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 105px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 90px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 75px; border-color: rgb(187, 187, 187);"></div><div class="q-portfolio-gridline" style="top: 60px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 45px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 30px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 15px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 0px; border-color: rgb(230, 230, 230);"></div><span class="q-portfolio-grid-label" style="top: 115px;">-30%</span><span class="q-portfolio-grid-label" style="top: 100px;">-20%</span><span class="q-portfolio-grid-label" style="top: 85px;">-10%</span><span class="q-portfolio-grid-label" style="top: 70px;">0%</span><span class="q-portfolio-grid-label" style="top: 55px;">10%</span><span class="q-portfolio-grid-label" style="top: 40px;">20%</span><span class="q-portfolio-grid-label" style="top: 25px;">30%</span><span class="q-portfolio-grid-label" style="top: 10px;">40%</span><span class="q-portfolio-grid-label" style="top: -5px;">50%</span></div><div class="q-portfolio-ranges"><div class="q-portfolio-range" style="left: 60px; top: 56.69999999999999px; height: 31.650000000000006px;"></div><div class="q-portfolio-range" style="left: 110px; top: 34.94999999999999px; height: 69.75000000000001px;"></div><div class="q-portfolio-range" style="left: 160px; top: 3.75px; height: 120.6px;"></div><b class="q-portfolio-dot" style="top: 71.6px; left: 63px;"></b><span class="q-portfolio-dot-label" style="top: 67.6px; left: 72px;">1.6%</span><b class="q-portfolio-dot" style="top: 68.75px; left: 113px;"></b><span class="q-portfolio-dot-label" style="top: 64.75px; left: 122px;">3.5%</span><b class="q-portfolio-dot" style="top: 63.05px; left: 163px;"></b><span class="q-portfolio-dot-label" style="top: 59.05px; left: 172px;">7.3%</span></div></div>
+            <div class="q-portfolio-choices">
+              <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
+            </div>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" This question evaluates your &lt;i&gt;willingness&lt;/i&gt; to accept volatility in order to earn a greater return. The greater the volatility you are willing to accept, the higher your risk tolerance score. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">When deciding how to invest your money,<br>which do you care about more?</p>
+            <label class="stacked"><input type="radio" name="concern" value="gain" tabindex="-1"><span>Maximizing gains</span></label>
+            <label class="stacked"><input type="radio" name="concern" value="loss" tabindex="-1"><span>Minimizing losses</span></label>
+            <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>Both equally</span></label>
+            <div style="clear:both"></div>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Caring more about maximizing gains requires a greater &lt;i&gt;willingness&lt;/i&gt; to take risk than caring more about minimizing losses. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">Do you have any
+              <span class="ktip-link bottomright" id="stock-options-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="250px" data-tip=" By &lt;i&gt;stock options&lt;/i&gt;, we really mean ownership in a private company, which also includes restricted stock and founders’ shares. " target="_top">stock options</a></span>
+              of private companies that you consider&nbsp;valuable?
+            </p>
+            <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>Yes</span></label> &nbsp;
+            <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>No</span></label>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Individuals with unrealized value from a stake in their employer are typically willing to take greater risk with their investments. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">What is your current age?</p>
+            <input type="text" name="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">years
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" The closer you are to retirement age, the less risk you are generally willing to take with the assets that will ultimately generate your retirement income. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">What is the total value of your cash and
+              <span class="ktip-link bottomright" id="investments-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Please include all freely saleable assets, like mutual funds, ETFs, publicly traded stocks and bonds, money market accounts, savings accounts, CDs, annuities, and limited partner stakes in investment partnerships. Please also include taxable and tax-free accounts like IRAs and 401(k)s, as well as any &lt;em&gt;vested&lt;/em&gt; restricted stock and stock options in &lt;em&gt;public&lt;/em&gt; companies. " target="_top">liquid investments</a></span>
+              <span class="subtext">(e.g. savings, CDs, mutual funds, IRAs, 401(k)s, public stocks)</span>
+            </p>
+            <p>
+              <span class="kform-money"><span class="kform-money-sign">$</span><input type="text" autocomplete="off" name="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+              <span style="padding-left:13px" class="subtext">Account minimum is $5,000.</span>
+            </p>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" We use the current value of your investments to estimate your retirement income and compare it against your estimated retirement spending needs. If your estimated retirement income exceeds your projected retirement spending needs then you have the &lt;i&gt;ability&lt;/i&gt; to take more risk. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">What is your annual after-tax income?
+              <span class="subtext">(your best estimate)</span>
+            </p>
+            <span class="kform-money"><span class="kform-money-sign">$</span><input type="text" name="income" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" We use your current salary to predict your savings over time, which plays an important role in predicting your retirement income. You have the ability to take more risk if your projected retirement income exceeds your retirement spending needs. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">How stable is your current and future income?
+              <span class="subtext">(e.g. salary, social security, pension, interest, rental income)</span>
+            </p>
+            <label class="stacked"><input type="radio" name="stability" value="S" tabindex="-1"><span>Stable (unlikely to decline)</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="s" tabindex="-1"><span>Somewhat Stable</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="u" tabindex="-1"><span>Somewhat Unstable</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="U" tabindex="-1"><span>Unstable</span></label>
+            <div style="clear:both"></div>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" A more stable income flow translates into an increased &lt;i&gt;ability&lt;/i&gt; to take risk. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">Have you ever made an
+              <span class="ktip-link bottomright" id="angel-investment-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="200px" data-tip=" An &lt;i&gt;angel investment&lt;/i&gt; is a personal investment in a private company. " target="_top">angel investment</a></span>
+            </p>
+            <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>Yes, I have</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>I’ve had the opportunity, but decided not to invest</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>I’ve never had the opportunity, but I'd like to invest</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="D" tabindex="-1"><span>I’ve never had the opportunity, and I wouldn’t invest</span></label>
+            <div style="clear:both"></div>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Individuals who have invested in a private company are typically &lt;i&gt;willing&lt;/i&gt; to take greater risk than the population at large. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+          <div class="question">
+            <p class="q-text">Will you need ¼ or more of the money you invest at&nbsp;Wealthfront within 5&nbsp;years?
+              <span class="subtext">(e.g. for a house, for education, etc.)</span>
+            </p>
+            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>Yes</span></label> &nbsp;
+            <label><input type="radio" name="goal" value="false" tabindex="-1"><span>No</span></label>
+            <p class="why-do-we-ask">
+              <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Your investments managed by Wealthfront are intended to be long term in nature. If you need the money sooner, then you are less likely to be willing to incur volatility in your investments. This translates to a lower risk tolerance. " target="_top">Why do we ask?</a></span>
+            </p>
+          </div>
+
+          <input type="hidden" name="rec" value="0.1" tabindex="-1">
+        </form>
+        <div id="q-fade-t"></div>
+        <div id="q-fade-b"></div>
+      </div>
+      <div id="q-buttons">
+        <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>Prev</span>&nbsp;</button>
+        <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;Next &nbsp;►</button>
+        <button class="q-button orange-button big-button" id="q-submit">Create my plan</button>
+
+        <p class="q-privacy">
+          <span class="q-privacy-1">This is <b>anonymous</b>, so you can answer truthfully.</span>
+          We won’t ask you for identifying information unless you decide to invest with us.
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
 </div>
+
+<script>
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
+    w.requestId = "1092152607";
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
+    $(function() {
+        var $qv = $("#questionnaire-view");
+        var $qr = $("#questionnaire");
+        var accountMin = 5000;
+
+        $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+            w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+        });
+
+        $("#q-numbers").delegate(".q-num.past", "click", function() {
+            var $i = $qr.find(".invalid");
+            if ($i.length) {
+                $i.focus().select();
+            } else {
+                showQn($(this).index());
+            }
+        });
+
+        $qr.data("vals", valsFromDom($qr.find("input")))
+                .data("init", function(doCalc) {
+                    $qr.data("init", function() { showQn(0, true); })
+                            .keydown(function(e) {
+                                if ($qr.data("transition")) {
+                                    return false;
+                                }
+                                if (e.keyCode == 9 || e.keyCode == 13 && !e.shiftKey) {
+                                    var $b = $(e.shiftKey ? "#q-back" :
+                                            ("#q-next:visible" + (e.keyCode == 13 ? ",#q-submit:visible" : "")));
+                                    if ($b.is(":enabled")) {
+                                        e.preventDefault();
+                                        $b.triggerHandler("click");
+                                    }
+                                }
+                            })
+                            .find("a[href]").attr("tabindex", "-1").end()
+                            .find("input").attr("tabindex", "-1")
+                            .filter("[type=radio]").click(function(e) {
+                                this.focus();
+                                updateButtons(e, this, true);
+                                if (this.value !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=age]").each(function(){
+                                // jquery does not yet support on input
+                                this.oninput = function(e) {
+                                    $(this).keypress();
+                                }
+                            }).bind("keypress keyup", function(e) {
+                                var raw = this.value, val = ageFromDom(this), done = val != null;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=lnw],[name=income]").bind("keypress keyup", function(e) {
+                                var raw = this.value, val = amountFromDom(this), done = val != null && val >= accountMin;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                                if (done && this.selectionStart === raw.length) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            }).blur(function() {
+                                var val = amountFromDom(this);
+                                if (val != null) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            });
+
+                    $("#q-back,#q-next").click(function(e) {
+                        var back = this.id == "q-back";
+                        if (back) {
+                            w.trackEvent("OFA", "questionnaire_back");
+                        } else {
+                            w.trackEvent("OFA", "questionnaire_next", qPayload());
+                        }
+                        var new_q_num = $qr.data("q") + (back ? -1 : 1);
+                        showQn(new_q_num);
+                    });
+                    $("#q-submit").click(function(e) {
+                        w.trackEvent("OFA", "submit_questionnaire", qPayload());
+                        $qr.submit();
+                    });
+                    function qPayload() {
+                        var $n = $qr.find("input[tabindex=0]").filter(":checked");
+                        if (!$n.length) {
+                            $n = $n.end();
+                        }
+                        return $n.attr("name") + ":" + $n.val();
+                    }
+
+                    $("#q-portfolio-chart").each(function() {
+                        var $c = $(this);
+                        if (!Array.prototype.map) {
+                            $c.empty().append("<div class=q-portfolio-img>");
+                            return;
+                        }
+                        var wd = $c.width(), ht = $c.height();
+                        var y = d3.scale.linear().domain([-30, 50]).range([ht, 0]);
+                        var vis = d3.select($c[0]);
+                        var grid = vis.append("div")
+                                .attr("class", "q-portfolio-grid");
+                        grid.selectAll("div")
+                                .data([-30,-20,-10,0,10,20,30,40,50])
+                                .enter().append("div")
+                                .attr("class", "q-portfolio-gridline")
+                                .style("top", function(d) { return y(d) + "px"; })
+                                .style("border-color", function(d) { return d ? "#e6e6e6" : "#bbb"; })
+                                .each(function(d) {
+                                    grid.append("span")
+                                            .attr("class", "q-portfolio-grid-label")
+                                            .style("top", y(d) - 5 + "px")
+                                            .text(d + "%");
+                                });
+                        var ranges = vis.append("div")
+                                .attr("class", "q-portfolio-ranges");
+                        ranges.selectAll("div")
+                                .data([[-8.9,1.6,12.2], [-19.8,3.5,26.7], [-32.9,7.3,47.5]])
+                                .enter().append("div")
+                                .attr("class", "q-portfolio-range")
+                                .style("left", function(d, i) { return 60 + 50 * i + "px"; })
+                                .style("top", function(d) { return y(d[2]) + "px"; })
+                                .style("height", function(d) { return y(d[0]) - y(d[2]) + "px"; })
+                                .each(function(d, i) {
+                                    var r = d3.select(this.parentNode);
+                                    r.append("b")
+                                            .attr("class", "q-portfolio-dot")
+                                            .style("top", y(d[1]) - 1 + "px")
+                                            .style("left", 63 + 50 * i + "px");
+                                    r.append("span")
+                                            .attr("class", "q-portfolio-dot-label")
+                                            .style("top", y(d[1]) - 5 + "px")
+                                            .style("left", 72 + 50 * i + "px")
+                                            .text(d[1] + "%");
+                                });
+                        $(ranges.node()).children().click(function() {
+                            var i = $(this).prevAll().length;
+                            $(this).closest(".question").find("[name=portfolio]").eq(i).click();
+                        });
+                    });
+
+                    showQn(0);
+                    if (doCalc) {
+                        calculateRiskTol();
+                    }
+                });
+
+        function showQn(i, immediately) {
+            var $qns = $qr.children(".question");
+            var $qn = $qns.eq(i);
+            if (i >= 0 && $qn.length) {
+                $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
+
+                $qr.data({q: i, transition: true});
+                var newTop = -i * $qn.height() + "px";
+                if (immediately) {
+                    $qr.css("top", newTop);
+                }
+                if (immediately || $qr.css("top") === newTop) {
+                    setTimeout(onAtQn, 5);
+                } else {
+                    $qr.animate({"top": newTop}, onAtQn);
+                }
+                $("#q-back span").text(i === 0 ? "Prev" : "Prev");
+                $("#q-back").attr("disabled", i == 0);
+
+                var isLastQn = i == $qns.length - 1;
+                $("#q-buttons").toggleClass("q-submit", isLastQn);
+
+                var $i = $qn.find("input");
+                var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
+                $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
+
+                $qr.trigger("qr:nav", i);
+
+                w.trackEvent("OFA", "question_display", (i+1) + "." + $i.attr("name"));
+            }
+
+            function onAtQn() {
+                $qr.removeData("transition");
+                $qn.find("input").attr("tabindex", "0")
+                        .filter("[checked=true],input:first").focus().select();
+            }
+        }
+
+        function updateButtons(e, inputEl, isDone) {
+            if (e.keyCode == 9 || e.keyCode == 13) {
+                return;
+            }
+            var $i = $(inputEl), $q = $i.closest(".question");
+            var isLastQn = $q.nextAll(".question:first").length == 0;
+            $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !isDone);
+            $("#q-back").attr("disabled", $i.hasClass("invalid") || $q.is(".first"));
+        }
+
+        function calculateRiskTol() {
+            var min = 0.1;
+            var max = 10;
+            var granularity = 10.0;
+            var $i = $qr.find("input");
+            var vals = valsFromDom($i);
+            var tol = recommendRiskTolerance2(vals, min, max, granularity);
+            var rec = tol.toFixed(1);
+            $i.filter("[name=rec]").val(rec);
+            vals.rec = +rec;
+            $qr.data("vals", vals);
+            $qr.triggerHandler("qr:change", +rec);
+        }
+    });
+</script>
+<script>
+    $(function() {
+        var currentModelNumber = "4"; //SAA201210
+        var moveMeter = attachRiskMeter("#risk-meter");
+        var $n = $("#q-numbers"), $qr = $("#questionnaire"), $qs = $qr.find(".question");
+        $n.find(".q-num").each(function(i) {
+            if ($qs.eq(i).find("input").filter(function() {return this.type == "radio" ? this.checked : !!this.value}).length) {
+                $(this).addClass("past");
+            } else {
+                return false;
+            }
+        });
+        $qr.bind("qr:nav", function(e, i) {
+            var $n = $("#q-numbers");
+            $n.children(".q-num.curr").removeClass("curr").addClass("past");
+            $n.children().eq(i).removeClass("past").addClass("curr");
+        })
+                .bind("qr:change", function(e, tol) {
+                    moveMeter(tol / 10);
+                })
+                .submit(function(e) {
+                    e.preventDefault();
+                    var $qr = $(this);
+                    if (!$qr.data("submitted")) {
+                        $qr.data("submitted", true);
+                        var cookieName = "asset_allocation";
+                        var o = deserializePlan(w.cookie(cookieName)) || {};
+                        $.each($qr.serializeArray(), function(i,v) {
+                            o[v.name] = v.value.replace(/[$,]/g, "");
+                        });
+                        o.tol = o.rec;
+                        o.amount = o.amount || o.lnw;
+                        w.cookie(cookieName, serializePlan(o, currentModelNumber), 14);
+                        location = $qr.attr("action");
+                    }
+                })
+                .data("init")(true);
+    });
+</script>
