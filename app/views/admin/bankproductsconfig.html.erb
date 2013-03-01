@@ -1,16 +1,27 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
-<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+
+<style>
+ textarea {
+        width: 450px;
+    }
+</style>
+
 <div style="width: 700px;height: 1300px;">
   <div>
     银行：<input type="text" name="trustee" id="trustee" title="银行"> <br>
-    产品名称：<input type="text" name="bname" id="bname" title="产品名称"> <br>
     投资币种：<input type="text" name="currencytype" id="currencytype" title="投资币种"> <br>
     收益类型：<input type="text" name="btype" id="btype" title="收益类型"> <br>
     是否保本：<input type="text" name="risk" id="risk" title="是否保本"> <br>
     投资标的：<input type="text" name="invsetsubject" id="invsetsubject" title="投资标的"> <br>
-    投资方向说明：<input type="text" name="investdirection" id="investdirection" title="投资方向说明"> <br>
-    收益计算方法：<input type="text" name="formula" id="formula" title="收益计算方法"> <br>
-    风险提示：<input type="text" name="risktip" id="risktip" title="风险提示"> <br>
+    <% if params[:id]!="0" %>
+    投资方向说明：<br><br><textarea class="ckeditor" cols="180" rows="15" name="investdirection" id="investdirection" title="投资方向说明"><%= @bankproducts[6]%></textarea> <br>
+    收益计算方法：<br><br><textarea class="ckeditor" cols="180" rows="15" name="formula" id="formula" title="收益计算方法"><%= @bankproducts[7]%></textarea> <br>
+    风险提示：<br><br><textarea class="ckeditor" cols="180" rows="15" name="risktip" id="risktip" title="风险提示"><%= @bankproducts[8]%></textarea> <br>
+    <% else %>
+        投资方向说明：<br><br><textarea class="ckeditor" cols="180" rows="15" name="investdirection" id="investdirection" title="投资方向说明"></textarea> <br>
+        收益计算方法：<br><br><textarea class="ckeditor" cols="180" rows="15" name="formula" id="formula" title="收益计算方法"></textarea> <br>
+        风险提示：<br><br><textarea class="ckeditor" cols="180" rows="15" name="risktip" id="risktip" title="风险提示"></textarea> <br>
+    <% end %>
     产品关键字：<input type="text" name="productkeywords" id="productkeywords" title="产品关键字"> <br>
     <a href="javascript:void(0)" id="bankproductsconfig">确认</a>
   </div>
@@ -20,14 +31,10 @@
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
     <% if params[:id]!="0" %>
     $("#trustee").attr("value",'<%= @bankproducts[0]%>');
-    $("#bname").attr("value",'<%= @bankproducts[1]%>');
     $("#currencytype").attr("value",'<%= @bankproducts[2]%>');
     $("#btype").attr("value",'<%= @bankproducts[3]%>');
     $("#risk").attr("value",'<%= @bankproducts[4]%>');
     $("#invsetsubject").attr("value",'<%= @bankproducts[5]%>');
-    $("#investdirection").attr("value",'<%= @bankproducts[6]%>');
-    $("#formula").attr("value",'<%= @bankproducts[7]%>');
-    $("#risktip").attr("value",'<%= @bankproducts[8]%>');
     $("#productkeywords").attr("value",'<%= @bankproducts[9]%>');
     <% end %>
 
@@ -44,7 +51,7 @@
         }
 
         if(nom_flag==0){
-            $.get("/admin/bankproductsconfigajax/<%= params[:id] %>",{ trustee: $("#trustee").attr("value"),bname: $("#bname").attr("value"),
+            $.post("/admin/bankproductsconfigajax/<%= params[:id] %>",{ trustee: $("#trustee").attr("value"),
                 currencytype: $("#currencytype").attr("value"),btype: $("#btype").attr("value"),
                 risk: $("#risk").attr("value"),invsetsubject: $("#invsetsubject").attr("value"),
                 investdirection: $("#investdirection").attr("value"),formula: $("#formula").attr("value"),risktip: $("#risktip").attr("value"),

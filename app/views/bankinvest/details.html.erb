@@ -1,8 +1,8 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
 
-<div class="main-content">
+<div class="main-content details">
   <a href="/">首页</a><br><br>
-  <%= @banfinance.bname%>
+  <h1><%= @banfinance.bname%></h1>
   <% if @banfinance.trustee =="北京银行" %>
       <a class="btn btn-primary pull-right" href="/sales/index?bid=<%= @banfinance.id%>&favourable=1">预订</a>
   <% else %>
@@ -10,46 +10,42 @@
   <% end %>
   <br><br>
   <table class="table table-striped table-bordered">
-    <tr>
-      <td>产品名称</td>
-      <td><%= @banfinance.bname%></td>
-    </tr>
     <% if @bankproducts %>
         <tr>
-          <td>投资币种</td>
-          <td><%= @bankproducts.currencytype%></td>
+          <td class="left">投资币种</td>
+          <td class="right"><%= @bankproducts.currencytype%></td>
         </tr>
         <tr>
-          <td>收益类型</td>
-          <td><%= @bankproducts.btype%></td>
+          <td class="left">收益类型</td>
+          <td class="right"><%= @bankproducts.btype%></td>
         </tr>
         <tr>
-          <td>是否保本</td>
-          <td><%= @bankproducts.risk%></td>
+          <td class="left">是否保本</td>
+          <td class="right"><%= @bankproducts.risk%></td>
         </tr>
         <tr>
-          <td>投资标的</td>
-          <td><%= @bankproducts.invsetsubject%></td>
+          <td class="left">投资标的</td>
+          <td class="right"><%= @bankproducts.invsetsubject%></td>
         </tr>
         <tr>
-          <td>投资方向说明</td>
-          <td><%= @bankproducts.investdirection%></td>
+          <td class="left">投资方向说明</td>
+          <td class="right"><%= @bankproducts.investdirection%></td>
         </tr>
         <tr>
-          <td>收益计算方法</td>
-          <td><%= @bankproducts.formula%></td>
+          <td class="left">收益计算方法</td>
+          <td class="right"><%= @bankproducts.formula%></td>
         </tr>
         <tr>
-          <td>风险提示</td>
-          <td><%= @bankproducts.risktip%></td>
+          <td class="left">风险提示</td>
+          <td class="right"><%= @bankproducts.risktip%></td>
         </tr>
         <tr>
-          <td>产品关键字</td>
-          <td><%= @bankproducts.productkeywords%></td>
+          <td class="left">产品关键字</td>
+          <td class="right"><%= @bankproducts.productkeywords%></td>
         </tr>
         <tr>
-          <td>其他</td>
-          <td></td>
+          <td class="left">其他</td>
+          <td class="right"></td>
         </tr>
     <% end %>
   </table>

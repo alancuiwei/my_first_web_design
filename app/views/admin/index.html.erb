@@ -281,7 +281,7 @@
     <a href="/admin/bankproductsconfig/0">添加产品类</a>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankproducts">
       <thead><tr>
-        <th>银行</th><th>产品名称</th><th>投资币种</th>
+        <th>银行</th><th>投资币种</th>
         <th>收益类型</th><th>是否保本</th><th>投资标的</th>
         <th>风险提示</th><th>产品关键字</th><th>修改</th><th>删除</th>
       </tr></thead>
@@ -289,7 +289,6 @@
       <% @bankproducts.each do |w|  %>
           <tr>
             <td><%= w.trustee%></td>
-            <td><%= w.bname%></td>
             <td><%= w.currencytype%></td>
             <td><%= w.btype%></td>
             <td><%= w.risk%></td>

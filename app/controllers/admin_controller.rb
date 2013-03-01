@@ -755,7 +755,6 @@
     if params[:id]!="0"
       @products=Bankproducts_t.find_by_id(params[:id])
       @bankproducts[0]=@products.trustee
-      @bankproducts[1]=@products.bname
       @bankproducts[2]=@products.currencytype
       @bankproducts[3]=@products.btype
       @bankproducts[4]=@products.risk
@@ -774,7 +773,6 @@
     if params[:id]=="0"
       Bankproducts_t.new do |b|
         b.trustee=params[:trustee]
-        b.bname=params[:bname]
         b.currencytype=params[:currencytype]
         b.btype=params[:btype]
         b.risk=params[:risk]
@@ -789,7 +787,7 @@
 
     else
       @products=Bankproducts_t.find_by_id(params[:id])
-      @products.update_attributes(:trustee=>params[:trustee],:bname=>params[:bname],:currencytype=>params[:currencytype],
+      @products.update_attributes(:trustee=>params[:trustee],:currencytype=>params[:currencytype],
                               :btype=>params[:btype],:risk=>params[:risk],:invsetsubject=>params[:invsetsubject],
                               :investdirection=>params[:investdirection],:formula=>params[:formula],:risktip=>params[:risktip],
                               :productkeywords=>params[:productkeywords])
