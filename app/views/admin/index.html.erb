@@ -34,6 +34,7 @@
                   <div>
                     <!-- main table-->
                     <table class="block">
+                    <% if session[:webusername]=='admin' %>
                       <tr>
                         <td>
                           <h1>用户管理</h1><br>
@@ -280,19 +281,20 @@
     <a href="/admin/bankproductsconfig/0">添加产品类</a>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="bankproducts">
       <thead><tr>
-        <th>银行</th><th>产品名称</th><th>产品代码</th>
-        <th>产品类型</th><th>产品风险评级</th>
-        <th>适合的投资者</th><th>产品关键字</th><th>修改</th><th>删除</th>
+        <th>银行</th><th>产品名称</th><th>投资币种</th>
+        <th>收益类型</th><th>是否保本</th><th>投资标的</th>
+        <th>风险提示</th><th>产品关键字</th><th>修改</th><th>删除</th>
       </tr></thead>
       <tbody>
       <% @bankproducts.each do |w|  %>
           <tr>
             <td><%= w.trustee%></td>
             <td><%= w.bname%></td>
-            <td><%= w.bcode%></td>
+            <td><%= w.currencytype%></td>
             <td><%= w.btype%></td>
             <td><%= w.risk%></td>
-            <td><%= w.forinvestors%></td>
+            <td><%= w.invsetsubject%></td>
+            <td><%= w.risktip%></td>
             <td><%= w.productkeywords%></td>
             <td><a href="/admin/bankproductsconfig/<%= w.id %>">修改</a></td>
             <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','bankproductsdeleteajax')">删除</a></td>
@@ -303,6 +305,7 @@
     <br> <br>
   </td>
 </tr>
+                    <% end%>
        <!--
                       <tr><td>
                         <h1>上传图片</h1>

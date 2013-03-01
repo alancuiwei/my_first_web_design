@@ -2,7 +2,7 @@
  class AdminController < ApplicationController
    Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
-    if session[:webusername]=="admin"
+    if session[:webusername]=="admin" || session[:webusername]=="blog"
     @webusers=Webuser.all
     @bankfinances=Bankfinance.all
     @blogs=Blog.all
@@ -138,6 +138,7 @@
    end
 
   def productconfig
+    if session[:webusername]!=nil
     @productinfo=[]
     if params[:id]!="0"
       @product=Product.find_by_id(params[:id])
@@ -150,6 +151,9 @@
       @productinfo[6]=@product.riskvalue
       @productinfo[7]=@product.descriptions
     end
+  else
+    redirect_to(:controller=>"home")
+  end
   end
 
   def  productconfigajax
@@ -320,7 +324,7 @@
      @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
-        if @webuser.username=="admin"
+        if @webuser.username=="admin" || @webuser.username=="blog"
         session[:webusername]=@webuser.username
         render :json => "admin".to_json
         else
@@ -516,6 +520,7 @@
    end
 
    def bankfinanceconfig
+     if session[:webusername]!=nil
      @bankfinanceinfo=[]
      if params[:id]!="0"
        @bankfinance=Bankfinance.find_by_id(params[:id])
@@ -532,11 +537,14 @@
        @bankfinanceinfo[10]=@bankfinance.distributionarea
        @bankfinanceinfo[11]=@bankfinance.ispickout
        @bankfinanceinfo[12]=@bankfinance.ispatent
+       @bankfinanceinfo[13]=@bankfinance.productkeywords
      end
+   else
+     redirect_to(:controller=>"home")
+   end
    end
 
    def bankfinanceconfigajax
-
      if params[:id]=="0"
          Bankfinance.new do |b|
            b.bname=params[:bname]
@@ -552,6 +560,7 @@
            b.distributionarea=params[:distributionarea]
            b.ispickout=params[:ispickout]
            b.ispatent=params[:ispatent]
+           b.productkeywords=params[:productkeywords]
            b.save
          end
          render :json => "s1".to_json
@@ -563,7 +572,7 @@
                                       :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
                                       :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],
                                       :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout],
-                                      :ispatent=>params[:ispatent])
+                                      :ispatent=>params[:ispatent],:productkeywords=>params[:productkeywords])
        render :json => "s2".to_json
      end
 
@@ -581,6 +590,7 @@
      end
 
    def blogconfig
+     if session[:webusername]!=nil
      @bloginfo=[]
      if params[:id]!="0"
        @blog=Blog.find_by_id(params[:id])
@@ -591,10 +601,12 @@
        @bloginfo[4]=@blog.bcolumn
        @bloginfo[5]=@blog.imagepath
      end
+     else
+       redirect_to(:controller=>"home")
+     end
    end
 
    def blogconfigajax
-
      if params[:id]=="0"
        Blog.new do |b|
          b.btitle=params[:btitle]
@@ -613,7 +625,6 @@
                                       :barticle=>params[:barticle],:bcolumn=>params[:bcolumn],:imagepath=>params[:imagepath])
        render :json => "s2".to_json
      end
-
    end
 
    def blogdeleteajax
@@ -655,6 +666,7 @@
    def create
      @photo = Photo.new(params[:photo])
      @filename=save_file   #调用save_file方法，返回文件名
+     cookies.delete(:filename )
      cookies[:filename] = @filename
      @photo.url="/images/#{@filename}"   #保存文件路径字段
      @photo.name=@filename   #保存文件名字段
@@ -667,6 +679,7 @@
    end
 
    def reserveconfig
+     if session[:webusername]!=nil
      @reserveinfo=[]
      if params[:id]!="0"
        @reserve=Reserve.find_by_id(params[:id])
@@ -683,6 +696,9 @@
        @reserveinfo[10]=@reserve.managername
        @reserveinfo[11]=@reserve.managertel
        @reserveinfo[12]=@reserve.state
+     end
+     else
+       redirect_to(:controller=>"home")
      end
    end
 
@@ -734,77 +750,38 @@
      end
 
   def bankproductsconfig
+    if session[:webusername]!=nil
     @bankproducts=[]
     if params[:id]!="0"
       @products=Bankproducts_t.find_by_id(params[:id])
-      @bankproducts[0]=@products.bname
-      @bankproducts[1]=@products.bcode
+      @bankproducts[0]=@products.trustee
+      @bankproducts[1]=@products.bname
       @bankproducts[2]=@products.currencytype
       @bankproducts[3]=@products.btype
       @bankproducts[4]=@products.risk
-      @bankproducts[5]=@products.forinvestors
-      @bankproducts[6]=@products.praisingscale
-      @bankproducts[7]=@products.firststartinvest
-      @bankproducts[8]=@products.sailsstart
-      @bankproducts[9]=@products.collectperiod
-      @bankproducts[10]=@products.pclosedperiod
-      @bankproducts[11]=@products.openperiod
-      @bankproducts[12]=@products.workday
-      @bankproducts[13]=@products.daytradetime
-      @bankproducts[14]=@products.fiscalrevenue
-      @bankproducts[15]=@products.investperiod
-      @bankproducts[16]=@products.perearing
-      @bankproducts[17]=@products.formula
-      @bankproducts[18]=@products.returnstartday
-      @bankproducts[19]=@products.calculationdate
-      @bankproducts[20]=@products.earlyaccountday
-      @bankproducts[21]=@products.manualadjustment
-      @bankproducts[22]=@products.psubscription
-      @bankproducts[23]=@products.ppurchase
-      @bankproducts[24]=@products.earlytermination
-      @bankproducts[25]=@products.assetscustodian
-      @bankproducts[26]=@products.productcost
-      @bankproducts[27]=@products.pledge
-      @bankproducts[28]=@products.tax
-      @bankproducts[29]=@products.trustee
-      @bankproducts[30]=@products.productkeywords
+      @bankproducts[5]=@products.invsetsubject
+      @bankproducts[6]=@products.investdirection
+      @bankproducts[7]=@products.formula
+      @bankproducts[8]=@products.risktip
+      @bankproducts[9]=@products.productkeywords
     end
+  else
+    redirect_to(:controller=>"home")
+  end
   end
 
   def bankproductsconfigajax
-
     if params[:id]=="0"
       Bankproducts_t.new do |b|
+        b.trustee=params[:trustee]
         b.bname=params[:bname]
-        b.bcode=params[:bcode]
         b.currencytype=params[:currencytype]
         b.btype=params[:btype]
         b.risk=params[:risk]
-        b.forinvestors=params[:forinvestors]
-        b.praisingscale=params[:praisingscale]
-        b.firststartinvest=params[:firststartinvest]
-        b.sailsstart=params[:sailsstart]
-        b.collectperiod=params[:collectperiod]
-        b.pclosedperiod=params[:pclosedperiod]
-        b.openperiod=params[:openperiod]
-        b.workday=params[:workday]
-        b.daytradetime=params[:daytradetime]
-        b.fiscalrevenue=params[:fiscalrevenue]
-        b.investperiod=params[:investperiod]
-        b.perearing=params[:perearing]
+        b.invsetsubject=params[:invsetsubject]
+        b.investdirection=params[:investdirection]
         b.formula=params[:formula]
-        b.returnstartday=params[:returnstartday]
-        b.calculationdate=params[:calculationdate]
-        b.earlyaccountday=params[:earlyaccountday]
-        b.manualadjustment=params[:manualadjustment]
-        b.psubscription=params[:psubscription]
-        b.ppurchase=params[:ppurchase]
-        b.earlytermination=params[:earlytermination]
-        b.assetscustodian=params[:assetscustodian]
-        b.productcost=params[:productcost]
-        b.pledge=params[:pledge]
-        b.tax=params[:tax]
-        b.trustee=params[:trustee]
+        b.risktip=params[:risktip]
         b.productkeywords=params[:productkeywords]
         b.save
    end
@@ -812,16 +789,9 @@
 
     else
       @products=Bankproducts_t.find_by_id(params[:id])
-      @products.update_attributes(:bname=>params[:bname],:bcode=>params[:bcode],:currencytype=>params[:currencytype],
-                              :btype=>params[:btype],:risk=>params[:risk],:forinvestors=>params[:forinvestors],
-                              :praisingscale=>params[:praisingscale],:firststartinvest=>params[:firststartinvest],:sailsstart=>params[:sailsstart],
-                              :collectperiod=>params[:collectperiod],:pclosedperiod=>params[:pclosedperiod],:openperiod=>params[:openperiod],
-                              :workday=>params[:workday],:daytradetime=>params[:daytradetime],:fiscalrevenue=>params[:fiscalrevenue],
-                              :investperiod=>params[:investperiod],:perearing=>params[:perearing],:formula=>params[:formula],
-                              :returnstartday=>params[:returnstartday],:calculationdate=>params[:calculationdate],:earlyaccountday=>params[:earlyaccountday],
-                              :manualadjustment=>params[:manualadjustment],:psubscription=>params[:psubscription],:ppurchase=>params[:ppurchase],
-                              :earlytermination=>params[:earlytermination],:assetscustodian=>params[:assetscustodian],:productcost=>params[:productcost],
-                              :pledge=>params[:pledge],:tax=>params[:tax],:trustee=>params[:trustee],
+      @products.update_attributes(:trustee=>params[:trustee],:bname=>params[:bname],:currencytype=>params[:currencytype],
+                              :btype=>params[:btype],:risk=>params[:risk],:invsetsubject=>params[:invsetsubject],
+                              :investdirection=>params[:investdirection],:formula=>params[:formula],:risktip=>params[:risktip],
                               :productkeywords=>params[:productkeywords])
       render :json => "s2".to_json
 end

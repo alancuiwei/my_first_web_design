@@ -4,7 +4,6 @@
 
 <div style="width: 700px;height: 700px;">
   <div>
-
     <% if params[:id]!="0" %>
         博客标题：<input type="text" name="btitle" id="btitle" title="博客标题" value="<%=raw @bloginfo[0]%>"> <br>
     <% else %>
@@ -25,8 +24,12 @@
 		</script><br>
 
     栏目：<select  name="bcolumn" id="bcolumn" title="栏目">
+    <% if session[:webusername]=='admin' %>
              <option value="银行理财产品">银行理财产品</option>
              <option value="创业人生">创业人生</option>
+    <% else%>
+        <option value="银行理财产品">银行理财产品</option>
+    <% end%>
           </select><br>
 
     <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
@@ -41,6 +44,10 @@
 <script type="text/javascript">
 
     $("#create").click(function(e){
+        if(document.getElementById('file_file').value==''){
+           alert('请选择您所要上传的图片');
+            return false;
+        }
         $("#imagepath").attr("value",'<%= cookies[:filename]%>');
     });
 

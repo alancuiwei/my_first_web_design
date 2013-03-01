@@ -24,6 +24,7 @@
     发行银行：<input type="text" name="trustee" id="trustee" title="发行银行"> <br>
     状态：<input type="text" name="status" id="status" title="状态" value="在售"> <br>
     发行地区：<input type="text" name="status" id="distributionarea" title="状态"> <br>
+    产品关键词：<input type="text" name="status" id="productkeywords" title="状态"> <br>
     <a href="javascript:void(0)" id="bankfinanceconfig">确认</a>
   </div>
 </div>
@@ -44,6 +45,7 @@
     $("#distributionarea").attr("value",'<%= @bankfinanceinfo[10]%>');
     $("#ispickout").attr("value",'<%= @bankfinanceinfo[11]%>');
     $("#ispatent").attr("value",'<%= @bankfinanceinfo[12]%>');
+    $("#productkeywords").attr("value",'<%= @bankfinanceinfo[13]%>');
     <% end %>
 
     $("#bankfinanceconfig").click(function(e){
@@ -79,7 +81,7 @@
                 startvalue: $("#startvalue").attr("value"),returnrate: $("#returnrate").attr("value"),
                 trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value"),
                 sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),
-                ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value")
+                ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value"),productkeywords: $("#productkeywords").attr("value")
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");

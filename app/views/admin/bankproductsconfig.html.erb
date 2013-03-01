@@ -2,36 +2,15 @@
 <%= javascript_include_tag "ckeditor/ckeditor.js" %>
 <div style="width: 700px;height: 1300px;">
   <div>
-    产品名称：<input type="text" name="bname" id="bname" title="产品名称"> <br>
-    产品代码：<input type="text" name="bcode" id="bcode" title="产品代码"> <br>
-    投资及收益币种：<input type="text" name="currencytype" id="currencytype" title="投资及收益币种"> <br>
-    产品类型：<input type="text" name="btype" id="btype" title="产品类型"> <br>
-    产品风险评级：<input type="text" name="risk" id="risk" title="产品风险评级"> <br>
-    适合的投资者：<input type="text" name="forinvestors" id="forinvestors" title="适合的投资者"> <br>
-    产品募集规模：<input type="text" name="praisingscale" id="praisingscale" title="产品募集规模"> <br>
-    首次投资起点份额：<input type="text" name="firststartinvest" id="firststartinvest" title="首次投资起点份额"> <br>
-    产品成立日：<input type="text" name="sailsstart" id="sailsstart" title="产品成立日"  onclick="WdatePicker()" class="Wdate"> <br>
-    产品到期日：<input type="text" name="collectperiod" id="collectperiod" title="产品到期日"  onclick="WdatePicker()" class="Wdate"> <br>
-    产品封闭期：<input type="text" name="pclosedperiod" id="pclosedperiod" title="产品封闭期" onclick="WdatePicker()" class="Wdate"> <br>
-    产品开放期：<input type="text" name="openperiod" id="openperiod" title="产品开放期" onclick="WdatePicker()" class="Wdate"> <br>
-    工作日：<input type="text" name="workday" id="workday" title="工作日"> <br>
-    工作日交易时间：<input type="text" name="daytradetime" id="daytradetime" title="工作日交易时间"> <br>
-    理财收益：<input type="text" name="fiscalrevenue" id="fiscalrevenue" title="理财收益"> <br>
-    计算理财收益基础天数：<input type="text" name="investperiod" id="investperiod" title="计算理财收益基础天数"> <br>
-    计算收益单位：<input type="text" name="perearing" id="perearing" title="计算收益单位"> <br>
-    收益计算公式：<input type="text" name="formula" id="formula" title="收益计算公式"> <br>
-    收益计算起始日：<input type="text" name="returnstartday" id="returnstartday" title="收益计算起始日" onclick="WdatePicker()" class="Wdate"> <br>
-    收益计算截止日：<input type="text" name="calculationdate" id="calculationdate" title="收益计算截止日" onclick="WdatePicker()" class="Wdate"> <br>
-    产品收益结转、提前终止的到帐日：<input type="text" name="earlyaccountday" id="earlyaccountday" title="产品收益结转、提前终止的到帐日" onclick="WdatePicker()" class="Wdate"> <br>
-    产品说明书调整：<input type="text" name="manualadjustment" id="manualadjustment" title="产品说明书调整"> <br>
-    产品的认购：<input type="text" name="psubscription" id="psubscription" title="产品的认购"> <br>
-    产品的申购和赎回：<input type="text" name="ppurchase" id="ppurchase" title="产品的申购和赎回"> <br>
-    产品的提前终止：<input type="text" name="earlytermination" id="earlytermination" title="产品的提前终止"> <br>
-    理财资产托管人：<input type="text" name="assetscustodian" id="assetscustodian" title="理财资产托管人"> <br>
-    产品费用：<input type="text" name="productcost" id="productcost" title="产品费用"> <br>
-    质押：<input type="text" name="pledge" id="pledge" title="质押"> <br>
-    税款：<input type="text" name="tax" id="tax" title="税款"> <br>
     银行：<input type="text" name="trustee" id="trustee" title="银行"> <br>
+    产品名称：<input type="text" name="bname" id="bname" title="产品名称"> <br>
+    投资币种：<input type="text" name="currencytype" id="currencytype" title="投资币种"> <br>
+    收益类型：<input type="text" name="btype" id="btype" title="收益类型"> <br>
+    是否保本：<input type="text" name="risk" id="risk" title="是否保本"> <br>
+    投资标的：<input type="text" name="invsetsubject" id="invsetsubject" title="投资标的"> <br>
+    投资方向说明：<input type="text" name="investdirection" id="investdirection" title="投资方向说明"> <br>
+    收益计算方法：<input type="text" name="formula" id="formula" title="收益计算方法"> <br>
+    风险提示：<input type="text" name="risktip" id="risktip" title="风险提示"> <br>
     产品关键字：<input type="text" name="productkeywords" id="productkeywords" title="产品关键字"> <br>
     <a href="javascript:void(0)" id="bankproductsconfig">确认</a>
   </div>
@@ -40,37 +19,16 @@
 <script type="text/javascript">
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
     <% if params[:id]!="0" %>
-    $("#bname").attr("value",'<%= @bankproducts[0]%>');
-    $("#bcode").attr("value",'<%= @bankproducts[1]%>');
+    $("#trustee").attr("value",'<%= @bankproducts[0]%>');
+    $("#bname").attr("value",'<%= @bankproducts[1]%>');
     $("#currencytype").attr("value",'<%= @bankproducts[2]%>');
     $("#btype").attr("value",'<%= @bankproducts[3]%>');
     $("#risk").attr("value",'<%= @bankproducts[4]%>');
-    $("#forinvestors").attr("value",'<%= @bankproducts[5]%>');
-    $("#praisingscale").attr("value",'<%= @bankproducts[6]%>');
-    $("#firststartinvest").attr("value",'<%= @bankproducts[7]%>');
-    $("#sailsstart").attr("value",'<%= @bankproducts[8]%>');
-    $("#collectperiod").attr("value",'<%= @bankproducts[9]%>');
-    $("#pclosedperiod").attr("value",'<%= @bankproducts[10]%>');
-    $("#openperiod").attr("value",'<%= @bankproducts[11]%>');
-    $("#workday").attr("value",'<%= @bankproducts[12]%>');
-    $("#daytradetime").attr("value",'<%= @bankproducts[13]%>');
-    $("#fiscalrevenue").attr("value",'<%= @bankproducts[14]%>');
-    $("#investperiod").attr("value",'<%= @bankproducts[15]%>');
-    $("#perearing").attr("value",'<%= @bankproducts[16]%>');
-    $("#formula").attr("value",'<%= @bankproducts[17]%>');
-    $("#returnstartday").attr("value",'<%= @bankproducts[18]%>');
-    $("#calculationdate").attr("value",'<%= @bankproducts[19]%>');
-    $("#earlyaccountday").attr("value",'<%= @bankproducts[20]%>');
-    $("#manualadjustment").attr("value",'<%= @bankproducts[21]%>');
-    $("#psubscription").attr("value",'<%= @bankproducts[22]%>');
-    $("#ppurchase").attr("value",'<%= @bankproducts[23]%>');
-    $("#earlytermination").attr("value",'<%= @bankproducts[24]%>');
-    $("#assetscustodian").attr("value",'<%= @bankproducts[25]%>');
-    $("#productcost").attr("value",'<%= @bankproducts[26]%>');
-    $("#pledge").attr("value",'<%= @bankproducts[27]%>');
-    $("#tax").attr("value",'<%= @bankproducts[28]%>');
-    $("#trustee").attr("value",'<%= @bankproducts[29]%>');
-    $("#productkeywords").attr("value",'<%= @bankproducts[30]%>');
+    $("#invsetsubject").attr("value",'<%= @bankproducts[5]%>');
+    $("#investdirection").attr("value",'<%= @bankproducts[6]%>');
+    $("#formula").attr("value",'<%= @bankproducts[7]%>');
+    $("#risktip").attr("value",'<%= @bankproducts[8]%>');
+    $("#productkeywords").attr("value",'<%= @bankproducts[9]%>');
     <% end %>
 
     $("#bankproductsconfig").click(function(e){
@@ -86,21 +44,11 @@
         }
 
         if(nom_flag==0){
-            $.get("/admin/bankproductsconfigajax/<%= params[:id] %>",{ bname: $("#bname").attr("value"),bcode: $("#bcode").attr("value"),
+            $.get("/admin/bankproductsconfigajax/<%= params[:id] %>",{ trustee: $("#trustee").attr("value"),bname: $("#bname").attr("value"),
                 currencytype: $("#currencytype").attr("value"),btype: $("#btype").attr("value"),
-                risk: $("#risk").attr("value"),forinvestors: $("#forinvestors").attr("value"),
-                praisingscale: $("#praisingscale").attr("value"),firststartinvest: $("#firststartinvest").attr("value"),sailsstart: $("#sailsstart").attr("value"),
-                collectperiod: $("#collectperiod").attr("value"),pclosedperiod: $("#pclosedperiod").attr("value"),
-                openperiod: $("#openperiod").attr("value"),workday: $("#workday").attr("value"),
-                daytradetime: $("#daytradetime").attr("value"),fiscalrevenue: $("#fiscalrevenue").attr("value"),
-                investperiod: $("#investperiod").attr("value"),perearing: $("#perearing").attr("value"),
-                formula: $("#formula").attr("value"),returnstartday: $("#returnstartday").attr("value"),
-                calculationdate: $("#calculationdate").attr("value"),earlyaccountday: $("#earlyaccountday").attr("value"),
-                manualadjustment: $("#manualadjustment").attr("value"),psubscription: $("#psubscription").attr("value"),
-                ppurchase: $("#ppurchase").attr("value"),earlytermination: $("#earlytermination").attr("value"),
-                assetscustodian: $("#assetscustodian").attr("value"),productcost: $("#productcost").attr("value"),
-                pledge: $("#pledge").attr("value"),tax: $("#tax").attr("value"),
-                trustee: $("#trustee").attr("value"),productkeywords: $("#productkeywords").attr("value")
+                risk: $("#risk").attr("value"),invsetsubject: $("#invsetsubject").attr("value"),
+                investdirection: $("#investdirection").attr("value"),formula: $("#formula").attr("value"),risktip: $("#risktip").attr("value"),
+                productkeywords: $("#productkeywords").attr("value")
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");
