@@ -5,6 +5,7 @@ class BankinvestController < ApplicationController
 
   def organ
     @webuser=Webuser.find_by_username(session[:webusername])
+    @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,session[:webusername])
   end
 
   def details

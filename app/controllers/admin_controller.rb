@@ -566,6 +566,8 @@
            b.ispickout=params[:ispickout]
            b.ispatent=params[:ispatent]
            b.productkeywords=params[:productkeywords]
+           b.isorgan=params[:isorgan]
+           b.name=params[:name]
            b.save
          end
          render :json => "s1".to_json

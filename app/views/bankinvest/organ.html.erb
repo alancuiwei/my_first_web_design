@@ -2,17 +2,31 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 
-<div class="main-content">
+<div class="main-content organ">
   <a href="/">首页</a>
   <% if session[:webusername]!=nil && @webuser.organuser=='1' %>
   <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.name %>&nbsp;管理页面</h1>
-      <h2>1. 产品管理<span style="float: right;"><a href="/admin/bankfinanceconfig/0">添加</a></span></h2>
+      <h2>1. 产品管理<span style="float: right;"><a href="/admin/bankfinanceconfig/0?organ=1">添加产品</a></span></h2>
       <table cellpadding="0" cellspacing="0" border="0" class="display" id="organ">
         <thead><tr>
           <th>发行机构</th><th>产品名称</th><th>年化收益率</th>
           <th>是否保本</th><th>起售价</th><th>理财期限</th>
           <th>起购日期</th><th>结束日期</th><th>更多</th>
         </tr></thead>
+
+        <% @bankfinances.each do |b| %>
+            <tr>
+              <td><%= b.trustee%></td>
+              <td><%= b.bname%></td>
+              <td><%= b.returnrate%></td>
+              <td><%= b.btype%></td>
+              <td><%= b.startvalue%></td>
+              <td><%= b.investperiod%></td>
+              <td><%= b.sailsstart%></td>
+              <td><%= b.collectperiod%></td>
+              <td><a href="/admin/bankfinanceconfig/<%= b.id %>?optype=edit&organ=1">修改</a></td>
+            </tr>
+        <% end %>
       </table>
   <% end %>
 </div>
