@@ -43,14 +43,23 @@
 
 <script type="text/javascript">
 
+    function getFileName(path){
+        var pos1 = path.lastIndexOf('/');
+        var pos2 = path.lastIndexOf('\\');
+        var pos  = Math.max(pos1, pos2)
+        if( pos<0 )
+            return path;
+        else
+            return path.substring(pos+1);
+    }
     $("#create").click(function(e){
         if(document.getElementById('file_file').value==''){
            alert('请选择您所要上传的图片');
             return false;
         }
-        $("#imagepath").attr("value",'<%= cookies[:filename]%>');
+        var name=getFileName(document.getElementById("file_file").value);
+        $("#imagepath").attr("value",name);
     });
-
     <% if params[:id]!="0" %>
     $("#blname").attr("value",'<%= @bloginfo[1]%>');
     $("#publishdate").attr("value",'<%= @bloginfo[2]%>');

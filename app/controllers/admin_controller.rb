@@ -245,6 +245,11 @@
         w.tel=params[:tel]
         w.address=params[:address]
         w.postcode=params[:postcode]
+        w.name=params[:name]
+        w.email=params[:email]
+        w.company=params[:company]
+        w.division=params[:division]
+        w.organuser=params[:organuser]
         w.save
       end
 #      session[:webusername]=params[:username]
@@ -666,8 +671,6 @@
    def create
      @photo = Photo.new(params[:photo])
      @filename=save_file   #调用save_file方法，返回文件名
-     cookies.delete(:filename )
-     cookies[:filename] = @filename
      @photo.url="/images/#{@filename}"   #保存文件路径字段
      @photo.name=@filename   #保存文件名字段
      if @photo.save
