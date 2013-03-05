@@ -10,6 +10,9 @@
 <%= stylesheet_link_tag "chosen.css" %>
 <%= javascript_include_tag "chosen.jquery.js" %>
 <%= javascript_include_tag "swfobject.js" %>
+<%= javascript_include_tag "bootstrap-datepicker.js" %>
+<%= stylesheet_link_tag "http://www.eyecon.ro/bootstrap-datepicker/css/datepicker.css" %>
+<%= stylesheet_link_tag "http://www.eyecon.ro/bootstrap-datepicker/js/google-code-prettify/prettify.css" %>
 <script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
 <style type=text/css>
     @media print{
@@ -34,17 +37,18 @@
 </style>
 
 <div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
-                          <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
-    <a href="/home/productindex" class="print">产品展示</a>
+  <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
+  <a href="/home/productindex" class="print">产品展示</a>
   <h1>银行理财产品</h1>
-                   <div class="well-b">
+  <div class="well-b">
     <div class="row-fluid">
       <div class="span12">
         <div id="optionsRadios">
           <div id="period">
-            <div>
+            <div class="row-fluid">
+              <div class="span8">
               <table class="table" id="returnrate">
-                  <tr>
+                <tr>
                   <td class="con1">
                     <dl class="dl-horizontal">
                       <dt><h4>投资金额：</h4></dt>
@@ -55,7 +59,7 @@
                       </dd>
                     </dl>
                   </td>
-                  <td><h4>独家特惠</h4></td>
+                <!--  <td><h4>独家特惠</h4></td>   -->
                   <td><h4>收益类型</h4></td>
                   <td><h4>理财期限</h4></td>
                  <!--
@@ -82,53 +86,64 @@
                     <a href="#login-box" class='login-window'><img src="/assets/mov.jpg" width="320" height="180"></a>
                   </td>
                   -->
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                   <td rowspan="2" class="banks">
                     <dl class="dl-horizontal">
                       <dt><h4>发行机构：</h4></dt>
                       <dd>
-                    <form>
-                      <div id="container">
-                        <div class="side-by-side clearfix">
-                          <div class="grade">
+                        <form>
+                          <div id="container">
+                            <div class="side-by-side clearfix">
+                              <div class="grade">
                                 <select data-placeholder="点击选择多家银行" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
-                              <option value=""></option>
-                              <optgroup label="银行名称">
-                                <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
-                                <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
-                                <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
-                                <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
-                                <option name="bank" value="招商银行" onclick="checkchick('b_all')">招商银行</option>
-                                <option name="bank" value="广发银行" onclick="checkchick('b_all')">广发银行</option>
-                                <option name="bank" value="工商银行" onclick="checkchick('b_all')">工商银行</option>
-                                <option name="bank" value="中信银行" onclick="checkchick('b_all')">中信银行</option>
-                                <option name="bank" value="浦发银行" onclick="checkchick('b_all')">浦发银行</option>
-                                <option name="bank" value="交通银行" onclick="checkchick('b_all')">交通银行</option>
-                                <option name="bank" value="华夏银行" onclick="checkchick('b_all')">华夏银行</option>
-                                <option name="bank" value="民生银行" onclick="checkchick('b_all')">民生银行</option>
-                                <option name="bank" value="农业银行" onclick="checkchick('b_all')">农业银行</option>
-                                <option name="bank" value="兴业银行" onclick="checkchick('b_all')">兴业银行</option>
-                                <option name="bank" value="平安银行" onclick="checkchick('b_all')">平安银行</option>
-                              </optgroup>
-                            </select>
+                                  <option value=""></option>
+                                  <optgroup label="券商名称">
+                                    <option name="bank" value="华夏证券" onclick="checkchick('b_all')">华夏证券</option>
+                                    <option name="bank" value="海通证券" onclick="checkchick('b_all')">海通证券</option>
+                                    <option name="bank" value="银河证券" onclick="checkchick('b_all')">银河证券</option>
+                                    <option name="bank" value="国信证券" onclick="checkchick('b_all')">国信证券</option>
+                                    <option name="bank" value="中信证券" onclick="checkchick('b_all')">中信证券</option>
+                                    <option name="bank" value="北京证券" onclick="checkchick('b_all')">北京证券</option>
+                                    <option name="bank" value="东吴证券" onclick="checkchick('b_all')">东吴证券</option>
+                                    <option name="bank" value="联合证券" onclick="checkchick('b_all')">联合证券</option>
+                                    <option name="bank" value="国泰君安证券" onclick="checkchick('b_all')">国泰君安证券</option>
+                                    <option name="bank" value="申银万国证券" onclick="checkchick('b_all')">申银万国证券</option>
+                                  </optgroup>
+                                  <optgroup label="银行名称">
+                                    <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
+                                    <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
+                                    <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
+                                    <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
+                                    <option name="bank" value="招商银行" onclick="checkchick('b_all')">招商银行</option>
+                                    <option name="bank" value="广发银行" onclick="checkchick('b_all')">广发银行</option>
+                                    <option name="bank" value="工商银行" onclick="checkchick('b_all')">工商银行</option>
+                                    <option name="bank" value="中信银行" onclick="checkchick('b_all')">中信银行</option>
+                                    <option name="bank" value="浦发银行" onclick="checkchick('b_all')">浦发银行</option>
+                                    <option name="bank" value="交通银行" onclick="checkchick('b_all')">交通银行</option>
+                                    <option name="bank" value="华夏银行" onclick="checkchick('b_all')">华夏银行</option>
+                                    <option name="bank" value="民生银行" onclick="checkchick('b_all')">民生银行</option>
+                                    <option name="bank" value="农业银行" onclick="checkchick('b_all')">农业银行</option>
+                                    <option name="bank" value="兴业银行" onclick="checkchick('b_all')">兴业银行</option>
+                                    <option name="bank" value="平安银行" onclick="checkchick('b_all')">平安银行</option>
+                                  </optgroup>
+                                </select>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </form>
+                        </form>
                       </dd>
                     </dl>
                   </td>
-                  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">有赠品</label></td>
+                <!--  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">有赠品</label></td>  -->
                   <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
                   <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
-                  </tr>
-                  <tr>
-                  <td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息"><p class="demo-tip-yellowsimple" title="理财产品一般有产品募集期，募集期结束后才会正式开始起息。需留意该产品是否会因为募集期过长，缩水理财产品的实际收益。所以，明日起息的产品，将会是很合算的。">明日起息</p></label></td>
-            <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
-            <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
+                  <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
+                  <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
+                </tr>
+                <tr>
                   <td rowspan="2">
                     <dl class="dl-horizontal">
                       <dt><h4>发行地区：</h4></dt>
@@ -137,24 +152,34 @@
                       </dd>
                     </dl>
                   </td>
-                  <td></td>
-            <td><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
+                  <td rowspan="2"><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
                   <td><label class="checkbox"><input type="checkbox" name="period" value="p_312" id="p_312" onclick="checkchick('p_all')"> 3个月-12个月</label></td>
-                  </tr>
-                  <tr>
-                  <td colspan="2"></td>
-            <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
-                  </tr>
-                </table>
-                     </div>
+                </tr>
+                <tr>
+                  <!--<td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息"><p class="demo-tip-yellowsimple" title="理财产品一般有产品募集期，募集期结束后才会正式开始起息。需留意该产品是否会因为募集期过长，缩水理财产品的实际收益。所以，明日起息的产品，将会是很合算的。">明日起息</p></label></td> -->
+                  <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
+                </tr>
+                <tr>
+                  <td>
+                    <dl class="dl-horizontal">
+                      <dt><h4>销售结束：</h4></dt>
+                      <dd>
+                        <input id="dp1" class="span2" type="text" value="">
+                      </dd>
+                    </dl>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-                   </div>
-                     </div>
+    </div>
+  </div>
+  </div>
 
-              <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
-                     <thead><tr>
+  <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
+    <thead><tr>
       <th>对比</th>
       <th>发行银行</th>
       <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
@@ -171,34 +196,34 @@
       <th>操作</th>
       <th class="hide">发行地区</th>
       <th class="hide">销售结束</th>
-                     </tr></thead>
+    </tr></thead>
 
-                     <% @bankfinances.each do |b| %>
-                         <tr class="gradeA">
+    <% @bankfinances.each do |b| %>
+        <tr class="gradeA">
           <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
           <td><%= b.trustee%></td>
-                           <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+          <td><%= format("%0.1f",b.returnrate*100)%>%</td>
           <td></td>
-                           <td><%= b.btype%></td>
+          <td><%= b.btype%></td>
           <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
           <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
           <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
           <td><%= format("%0.0f",b.investperiod)%>天</td>
           <td><%= b.status%></td>
-                           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+          <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
           <% if b.trustee =="北京银行" %>
               <td><img src="/assets/121021.png" class="demo-tip-yellowsimple" title="苏垦特产草鸡蛋, 福临门玉米食用油"></td>
               <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
           <% else %>
-          <td></td>
+              <td></td>
               <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <% end %>
-                           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+          <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td class="hide"><%= b.collectperiod%></td>
-                         </tr>
-                     <% end %>
-                   </table>
+        </tr>
+    <% end %>
+  </table>
 </div>
 
 <div class="shape" id="shape_control">
@@ -209,10 +234,16 @@
 
 <script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
+    $(function(){
+        $('#dp1').datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    });
+
     var flag=0;
     var comparenum=0;
-   // var session_compare;
-   // var height=document.getElementsByClassName("con").height;
+    // var session_compare;
+    // var height=document.getElementsByClassName("con").height;
     $('#shape_control').hide();
     <%session[:compareid]=""%>
     function check_chose(name,id){
@@ -223,19 +254,19 @@
 
         if($("#chose"+id).attr("checked")=="checked"){
             $("<div class='comparetitle' id=comparetitle"+id+"><p><ul><li>"+name+"</li></ul></p></div>").appendTo(".con");
-        $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum});
-        comparenum=comparenum+1;
+            $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum});
+            comparenum=comparenum+1;
         }
         else
         {
-           $("#comparetitle"+id).remove();
+            $("#comparetitle"+id).remove();
             $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum,type:'deleteid'});
             comparenum=comparenum-1;
             if(comparenum==0){
                 $('#shape_control').hide();
             }
         }
-        }
+    }
 
     function check_clear(){
         var txts=document.getElementsByName("chose");
@@ -256,12 +287,12 @@
             };
     }
 
-   function checkchick(id){
-       if($('#'+id).attr('checked')=='checked')
-           doclick(id);
-   }
-   $.fn.dataTableExt.afnFiltering.push(
-           function( oSettings, aData, iDataIndex ) {
+    function checkchick(id){
+        if($('#'+id).attr('checked')=='checked')
+            doclick(id);
+    }
+    $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
                 var flag1,flag2,flag3,flag4,flag5;
                 var returnrates=document.getElementsByName("returnrate");
                 var t_returnrate=parseFloat(aData[2].replace(/%/,""));
@@ -280,13 +311,14 @@
                 var month = today.getMonth()+1;
                 var date = today.getDate();
                 d1Arr=aData[15].split('-');
-            //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
-            //    v2=new Date(year,month,date);
-                var tom=document.getElementsByName("opt");
-                if(tom[0].checked){
-                    if(d1Arr[0]==year){
-                        if(d1Arr[1]==month){
-                            if(d1Arr[2]==date){
+                //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
+                //    v2=new Date(year,month,date);
+                var tom=document.getElementById("dp1");
+                d2Arr=tom.value.split('-');
+                if(tom.value!=''){
+                    if(d1Arr[0]==d2Arr[0]){
+                        if(d1Arr[1]==d2Arr[1]){
+                            if(d1Arr[2]==d2Arr[2]){
                                 flag1=1;
                             }
                         }
@@ -300,54 +332,54 @@
                 for(var i=length_s;i<rtype.length;i++){
                     if( rtype[i].checked){
                         if(rtype[i].value=="全部"){
-                   flag2=1;
-               }
+                            flag2=1;
+                        }
                         else if(rtype[i].value==aData[4]){
-                   flag2=1;
-               }
+                            flag2=1;
+                        }
                     }
                 }
                 var arr = new Array();
                 var banks=document.getElementsByTagName("option");
                 var bank=document.getElementById("bank");
                 if(bank.value==""){
-                   flag3=1;
-               }
-               else {
+                    flag3=1;
+                }
+                else {
                     for(var i=0;i<banks.length;i++){
                         if( banks[i].selected&&banks[i].value==aData[1]){
-                           flag3=1;
-                       }
-                   }
-               }
+                            flag3=1;
+                        }
+                    }
+                }
 
-               var periods=document.getElementsByName("period")
+                var periods=document.getElementsByName("period")
                 for(var i=length_s;i<periods.length;i++){
-                   if( periods[i].checked){
-                       if(periods[i].value=="p_all"){
-                           flag4=1;
-                       }
-                       else if(periods[i].value=="p_3"){
+                    if( periods[i].checked){
+                        if(periods[i].value=="p_all"){
+                            flag4=1;
+                        }
+                        else if(periods[i].value=="p_3"){
                             if(aData[7]<=90){
-                               flag4=1;
-                           }
-                       }
-                       else if(periods[i].value=="p_312"){
+                                flag4=1;
+                            }
+                        }
+                        else if(periods[i].value=="p_312"){
                             if(aData[7]>=90&&aData[7]<365){
-                               flag4=1;
-                           }
-                       }
-                       else if(periods[i].value=="p_1"){
+                                flag4=1;
+                            }
+                        }
+                        else if(periods[i].value=="p_1"){
                             if(aData[7]>365){
-                               flag4=1;
-                           }
-                       }
-                   }
-               }
-
+                                flag4=1;
+                            }
+                        }
+                    }
+                }
+           /*
                 var favourables=document.getElementsByName("favourable")
                 if( favourables[0].checked){
-                  //  alert(aData[10])
+                    //  alert(aData[10])
                     if(aData[1]=="北京银行"){
                         flag5=1;
                     }
@@ -355,27 +387,28 @@
                 else{
                     flag5=1;
                 }
-
+                */
+                flag5=1;
                 if(flag1==1&&flag2==1&&flag3==1&&flag4==1&&flag5==1){
-                  return true;
-              }
-           }
+                    return true;
+                }
+            }
 
-   );
+    );
 
-   function doclick(name)
-   {
-       if(document.all)
-       {
-           document.getElementById(name).click();
-       }
-       else
-       {
-           var evt = document.createEvent("MouseEvents");
-           evt.initEvent("click", true, true);
-           document.getElementById(name).dispatchEvent(evt);
-       }
-   }
+    function doclick(name)
+    {
+        if(document.all)
+        {
+            document.getElementById(name).click();
+        }
+        else
+        {
+            var evt = document.createEvent("MouseEvents");
+            evt.initEvent("click", true, true);
+            document.getElementById(name).dispatchEvent(evt);
+        }
+    }
 
     function fnFilterGlobal ()
     {
@@ -398,19 +431,19 @@
 
     $(document).ready(function(){
 
-       /* Initialise datatables */
-       var oTable = $('#bankfinance').dataTable({
-           "iDisplayLength": 50,
-           "bJQueryUI": true,
-           "sPaginationType": "full_numbers",
-           "oLanguage": {
-               "sSearch":"发行地区:",
-               "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
-           },
+        /* Initialise datatables */
+        var oTable = $('#bankfinance').dataTable({
+            "iDisplayLength": 50,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "oLanguage": {
+                "sSearch":"发行地区:",
+                "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
+            },
             "aaSorting": [[ 2, "desc" ]]
-    });
+        });
         new FixedHeader(oTable);
-    //    AddElement('text');
+        //    AddElement('text');
         $("#returnrate").click( function() { oTable.fnDraw(); } );
         $("#global_filter").val(remote_ip_info["city"])
         $("#global_filter").keyup( fnFilterGlobal );
@@ -451,24 +484,24 @@
 
     });
 
-   function area(){
-       var length=$("#bankfinance").find("tr").size();
+    function area(){
+        var length=$("#bankfinance").find("tr").size();
         var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
-       for(i=0;i<length;i++){
-        //    if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
-        //        $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
-        //    }
+        for(i=0;i<length;i++){
+            //    if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
+            //        $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
+            //    }
             if($("#investamount").val()!=""&&numfor.test($("#investamount").val())==true){
                 $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
             }
             else{
                 $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt(50000*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
             }
-       }
-   };
-   window.onload=function(){
-       area();
-   }
+        }
+    };
+    window.onload=function(){
+        area();
+    }
     $(function(){
         $('.demo-tip-yellowsimple').poshytip({
             className: 'tip-yellowsimple',
