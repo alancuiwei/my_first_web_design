@@ -1,5 +1,9 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
-
+ <style>
+   textarea {
+       width: 450px;
+   }
+ </style>
 <div id="nor">
   <div>
     是否具有开放性：<select  name="ispatent" id="ispatent" title="是否具有开放性">
@@ -52,6 +56,16 @@
     理财期限：<input type="text" name="investperiod2" id="investperiod2" title="理财期限">天<br>
     起购日期：<input type="text" name="sailsstart2" id="sailsstart2" title="起购日期" onclick="WdatePicker()" class="Wdate">  <br>
     结束日期：<input type="text" name="collectperiod2" id="collectperiod2" title="结束日期" onclick="WdatePicker()" class="Wdate">  <br>
+    <% if params[:id]!="0" %>
+        投资标的：<br><br><textarea class="ckeditor" cols="180" rows="15" name="invsetsubject" id="invsetsubject" title="投资标的"><%= @bankfinanceinfo[14]%></textarea> <br>
+        收益计算方法：<br><br><textarea class="ckeditor" cols="180" rows="15" name="formula" id="formula" title="收益计算方法"><%= @bankfinanceinfo[15]%></textarea> <br>
+        风险提示：<br><br><textarea class="ckeditor" cols="180" rows="15" name="risktip" id="risktip" title="风险提示"><%= @bankfinanceinfo[16]%></textarea> <br>
+    <% else %>
+        投资标的：<br><br><textarea class="ckeditor" cols="180" rows="15" name="invsetsubject" id="invsetsubject" title="投资标的"></textarea> <br>
+        收益计算方法：<br><br><textarea class="ckeditor" cols="180" rows="15" name="formula" id="formula" title="收益计算方法"></textarea> <br>
+        风险提示：<br><br><textarea class="ckeditor" cols="180" rows="15" name="risktip" id="risktip" title="风险提示"></textarea> <br>
+    <% end %>
+    产品关键字：默认和产品名一样。<br>
   </div>
 </div>
 <a href="javascript:void(0)" id="bankfinanceconfig">确认</a>
@@ -150,12 +164,13 @@
 
         if(nom_flag==0){
             if(Request("organ")==1){
-                $.get("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname2").attr("value"),currencytype: 1,
+                $.post("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname2").attr("value"),currencytype: 1,
                     btype: $("#btype2").attr("value"),collectperiod: $("#collectperiod2").attr("value"),
                     startvalue: $("#startvalue2").attr("value"),returnrate: $("#returnrate2").attr("value")/100,
                     trustee: $("#trustee2").attr("value"),investperiod: $("#investperiod2").attr("value"),status: '在售',
                     sailsstart: $("#sailsstart2").attr("value"),distributionarea: '南京',
-                    ispickout: 0,ispatent: 0,productkeywords: 1,
+                    ispickout: 0,ispatent: 0,productkeywords: $("#bname2").attr("value"),invsetsubject: $("#invsetsubject").attr("value"),
+                    formula: $("#formula").attr("value"),risktip: $("#risktip").attr("value"),
                     isorgan:1,name:'<%= session[:webusername] %>'
                 },function(data){
                     if(data=="f1"){
@@ -178,7 +193,7 @@
                 trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value"),
                 sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),
                 ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value"),productkeywords: $("#productkeywords").attr("value"),
-                isorgan:0,name:0
+                isorgan:0,name:0,invsetsubject: '',formula: '',risktip: ''
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");

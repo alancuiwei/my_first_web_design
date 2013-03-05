@@ -48,5 +48,31 @@
           <td class="right"></td>
         </tr>
     <% end %>
+    <% if @banfinance.isorgan==true %>
+        <tr>
+          <td class="left">发行机构</td>
+          <td class="right"><%= @banfinance.trustee%></td>
+        </tr>
+        <tr>
+          <td class="left">是否保本</td>
+          <td class="right"><%= @banfinance.btype%></td>
+        </tr>
+        <tr>
+          <td class="left">投资标的</td>
+          <td class="right"><%= @banfinance.invsetsubject%></td>
+        </tr>
+        <tr>
+          <td class="left">收益计算方法</td>
+          <td class="right"><%= @banfinance.formula%></td>
+        </tr>
+        <tr>
+          <td class="left">风险提示</td>
+          <td class="right"><%= @banfinance.risktip%></td>
+        </tr>
+        <tr>
+          <td class="left">产品关键字</td>
+          <td class="right"><%= @banfinance.productkeywords%></td>
+        </tr>
+    <% end %>
   </table>
 </div>

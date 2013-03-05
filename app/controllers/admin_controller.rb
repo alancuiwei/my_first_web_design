@@ -543,6 +543,9 @@
        @bankfinanceinfo[11]=@bankfinance.ispickout
        @bankfinanceinfo[12]=@bankfinance.ispatent
        @bankfinanceinfo[13]=@bankfinance.productkeywords
+       @bankfinanceinfo[14]=@bankfinance.invsetsubject
+       @bankfinanceinfo[15]=@bankfinance.formula
+       @bankfinanceinfo[16]=@bankfinance.risktip
      end
    else
      redirect_to(:controller=>"home")
@@ -568,6 +571,9 @@
            b.productkeywords=params[:productkeywords]
            b.isorgan=params[:isorgan]
            b.name=params[:name]
+           b.invsetsubject=params[:invsetsubject]
+           b.formula=params[:formula]
+           b.risktip=params[:risktip]
            b.save
          end
          render :json => "s1".to_json
@@ -579,7 +585,9 @@
                                       :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
                                       :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],
                                       :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout],
-                                      :ispatent=>params[:ispatent],:productkeywords=>params[:productkeywords])
+                                      :ispatent=>params[:ispatent],:productkeywords=>params[:productkeywords],
+                                      :isorgan=>params[:isorgan],:name=>params[:name],:invsetsubject=>params[:invsetsubject],
+                                      :formula=>params[:formula],:risktip=>params[:risktip])
        render :json => "s2".to_json
      end
 
