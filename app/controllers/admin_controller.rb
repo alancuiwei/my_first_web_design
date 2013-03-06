@@ -327,6 +327,12 @@
 
   def userlogin
      @webuser=Webuser.find_by_username(params[:username])
+     @personalfinance=Personalfinance.find_by_username(params[:username])
+     if @personalfinance
+     session[:personname]=@personalfinance.username
+     else
+       session[:personname]=0
+     end
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
         if  @webuser.organuser=='1'
@@ -337,10 +343,14 @@
         session[:webusername]=@webuser.username
         session[:organuser]='0'
         render :json => "admin".to_json
+        elsif  @personalfinance
+          session[:webusername]=@webuser.username
+          session[:organuser]='0'
+          render :json => "s1".to_json
         else
           session[:webusername]=@webuser.username
           session[:organuser]='0'
-          render :json => "s".to_json
+          render :json => "s2".to_json
         end
       else
         render :json => "f".to_json

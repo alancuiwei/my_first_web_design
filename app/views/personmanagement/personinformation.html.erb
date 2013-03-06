@@ -1,0 +1,96 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= stylesheet_link_tag "personmanagement.css" %>
+<%= stylesheet_link_tag "chosen.css" %>
+<%= javascript_include_tag "chosen.jquery.js" %>
+
+<div class="main-content">
+  <a href="/">首页</a>
+  <h1>个人投资信息添加</h1>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="inputEmail">产品种类*:</label>
+      <div class="controls">
+        <select  name="producttype" id="producttype" title="产品种类">
+          <option value="基金">基金</option>
+          <option value="股票">股票</option>
+          <option value="P2P信贷">P2P信贷</option>
+          <option value="银行理财产品">银行理财产品</option>
+          <option value="期货">期货</option>
+          <option value="保险">保险</option>
+          <option value="信托">信托</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">百分比:</label>
+      <div class="controls">
+        <input type="text" id="percentage" title="百分比" placeholder="百分比">%
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">总金额:</label>
+      <div class="controls">
+        <input type="text" id="investamount" title="总金额" placeholder="总金额">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">已购产品*:</label>
+      <div class="controls">
+        <input type="text" id="purchasproducts" title="已购产品" placeholder="已购产品">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">到期日期:</label>
+      <div class="controls">
+        <input type="text" id="collectperiod" title="到期日期"  placeholder="到期日期" onclick="WdatePicker()" class="Wdate">
+      </div>
+    </div>
+    <br>
+    <label class="control-label" for="inputPassword"></label>
+    <div class="controls">
+      <a type="submit" class="btn" id="personconfig">确认</a>
+    </div>
+  </form>
+  <br><br>
+</div>
+
+<script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
+<script>
+    <% if params[:id]!="0" %>
+    $("#producttype").attr("value",'<%= @personal[0]%>');
+    $("#percentage").attr("value",'<%=format("%0.1f",@personal[1]*100) %>');
+    $("#investamount").attr("value",'<%= @personal[2]%>');
+    $("#purchasproducts").attr("value",'<%= @personal[3]%>');
+    $("#collectperiod").attr("value",'<%= @personal[4]%>');
+    <% end %>
+    $("#personconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            $.post("/personmanagement/personinfoconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',producttype: $("#producttype").attr("value"),
+                percentage: $("#percentage").attr("value")/100,investamount: $("#investamount").attr("value"),purchasproducts: $("#purchasproducts").attr("value"),
+                collectperiod: $("#collectperiod").attr("value")
+            },function(data){
+                if(data=="f1"){
+                    alert("产品已存在！");
+                }
+                else if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/personmanagement/personfinance';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/personmanagement/personfinance';
+                }
+            });
+        }
+    });
+</script>

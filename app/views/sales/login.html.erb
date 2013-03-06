@@ -174,7 +174,7 @@
                 else if(data=="admin" || data=="blog"){
                     location.href="/admin";
                 }
-                else if(data=="s"){
+                else if(data=="s1" || data=="s2"){
                     if(Request("bid")>0){
                         location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount")+"&email="+Request("email")+"&tel="+Request("tel")+"&bankbranch="+Request("bankbranch")+"&card="+Request("card");
                     }
@@ -182,7 +182,12 @@
                         location.href="/sales/myorder"
                     }
                     else{
-                        location.href="/home/productindex";
+                        if(data=='s1')  {
+                            location.href="/personmanagement/personfinance";
+                        }
+                        else if(data=='s2'){
+                            location.href="/personmanagement/personinfo";
+                        }
                     }
                 }
             })

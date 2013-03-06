@@ -1,0 +1,221 @@
+<%= stylesheet_link_tag "personmanagement.css" %>
+<%= stylesheet_link_tag "chosen.css" %>
+<%= javascript_include_tag "chosen.jquery.js" %>
+
+<div class="main-content">
+  <a href="/">首页</a>
+  <h1>个人投资信息设置</h1>
+  <% if session[:webusername]!=nil %>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="inputEmail">年龄*:</label>
+      <div class="controls">
+        <input type="text" id="age" title="年龄" placeholder="年龄">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">公司:</label>
+      <div class="controls">
+        <input type="text" id="company" title="公司" placeholder="公司">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">职务:</label>
+      <div class="controls">
+        <input type="text" id="post" title="职务" placeholder="职务">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">电子邮箱*:</label>
+      <div class="controls">
+        <input type="text" id="email" title="电子邮箱" placeholder="电子邮箱">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">投资资金:</label>
+      <div class="controls">
+        <input type="text" id="investamount" title="投资资金"  placeholder="投资资金">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">投资周期:</label>
+      <div class="controls">
+        <select  name="investcycle" id="investcycle" title="投资周期">
+          <option value="6个月">6个月</option>
+          <option value="3个月">3个月</option>
+          <option value="9个月">9个月</option>
+          <option value="12个月">12个月</option>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">预期年化收益率:</label>
+      <div class="controls">
+        <input type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">%
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">可承担的风险:</label>
+      <div class="controls">
+        <input type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">%
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">当前投资品种:</label>
+      <div class="controls">
+          <select data-placeholder="请选择：可选多项" style="width:350px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
+            <option value=""></option>
+            <optgroup label="">
+              <option name="var" value="基金">基金</option>
+              <option name="var" value="股票">股票</option>
+              <option name="var" value="P2P信贷">P2P信贷</option>
+              <option name="var" value="银行理财产品">银行理财产品</option>
+              <option name="var" value="期货">期货</option>
+              <option name="var" value="保险">保险</option>
+              <option name="var" value="信托">信托</option>
+            </optgroup>
+          </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">希望得到哪个品种的信息:</label>
+      <div class="controls">
+        <select data-placeholder="请选择：可选多项" style="width:350px;"  name="wbreedinfo" id="wbreedinfo" title="希望得到哪个品种的信息" class="chzn-select" multiple tabindex="6">
+          <option value=""></option>
+          <optgroup label="">
+            <option name="info" value="基金">基金</option>
+            <option name="info" value="股票">股票</option>
+            <option name="info" value="P2P信贷">P2P信贷</option>
+            <option name="info" value="银行理财产品">银行理财产品</option>
+            <option name="info" value="期货">期货</option>
+            <option name="info" value="保险">保险</option>
+            <option name="info" value="信托">信托</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">希望得到哪个品种产品推荐:</label>
+      <div class="controls">
+        <select data-placeholder="请选择：可选多项" style="width:350px;"  name="wprecommend" id="wprecommend" title="希望得到哪个品种产品推荐" class="chzn-select" multiple tabindex="6">
+          <option value=""></option>
+          <optgroup label="">
+            <option name="recommend" value="基金">基金</option>
+            <option name="recommend" value="股票">股票</option>
+            <option name="recommend" value="P2P信贷">P2P信贷</option>
+            <option name="recommend" value="银行理财产品">银行理财产品</option>
+            <option name="recommend" value="期货">期货</option>
+            <option name="recommend" value="保险">保险</option>
+            <option name="recommend" value="信托">信托</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" name='period' id="contact"> 是否愿意接受经纪人直接联系您？
+    </label>
+    <br>
+    <label class="control-label" for="inputPassword"></label>
+    <div class="controls">
+      <a type="submit" class="btn" id="personconfig">确认</a>
+    </div>
+  </form>
+  <% end %>
+  <br><br>
+</div>
+
+<script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
+<script>
+    <% if params[:id]!="0" %>
+    $("#age").attr("value",'<%= @personal[0]%>');
+    $("#company").attr("value",'<%=@personal[1] %>');
+    $("#post").attr("value",'<%= @personal[2]%>');
+    $("#email").attr("value",'<%= @personal[3]%>');
+    $("#investamount").attr("value",'<%= @personal[4]%>');
+    $("#investcycle").attr("value",'<%= @personal[5]%>');
+    $("#returnrate").attr("value",'<%= format("%0.1f",@personal[6]*100)%>');
+    $("#riskrate").attr("value",'<%= format("%0.1f",@personal[7]*100)%>');
+    <% end %>
+    $("#personconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        var flag='';
+        var vars=document.getElementsByName("var");
+        var var2=document.getElementById("investvarieties");
+        if(var2.value==""){
+            flag='无';
+        }
+        else {
+            for(var i=0;i<vars.length;i++){
+                if( vars[i].selected){
+                    if(flag==''){
+                        flag=vars[i].value;
+                    }
+                    else {
+                        flag=flag+','+vars[i].value;
+                    }
+                }
+            }
+        }
+        var flag2='';
+        var infos=document.getElementsByName("info");
+        var info=document.getElementById("wbreedinfo");
+        if(info.value==""){
+            flag2='无';
+        }
+        else {
+            for(var i=0;i<infos.length;i++){
+                if(infos[i].selected){
+                    if(flag2==''){
+                        flag2=infos[i].value;
+                    }
+                    else {
+                        flag2=flag2+','+infos[i].value;
+                    }
+                }
+            }
+        }
+        var flag3='';
+        var recommends=document.getElementsByName("recommend");
+        var recommend=document.getElementById("wprecommend");
+        if(recommend.value==""){
+            flag3='无';
+        }
+        else {
+            for(var i=0;i<recommends.length;i++){
+                if(recommends[i].selected){
+                    if(flag3==''){
+                        flag3=recommends[i].value;
+                    }
+                    else {
+                        flag3=flag3+','+recommends[i].value;
+                    }
+                }
+            }
+        }
+        var contact='否';
+        var periods=document.getElementsByName("period")
+        if( periods[0].checked){
+            contact='是';
+        }
+        if(nom_flag==0){
+            $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
+                company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
+                investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
+                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:flag3,contact:contact
+            },function(data){
+                if(data=="s1"){
+                    location.href='/personmanagement/personfinance';
+                }
+            });
+        }
+    });
+</script>
