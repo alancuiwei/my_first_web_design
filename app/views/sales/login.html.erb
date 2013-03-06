@@ -168,14 +168,14 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
+                else if(data=='organ'){
+                    location.href="/bankinvest/organ";
+                }
                 else if(data=="admin" || data=="blog"){
                     location.href="/admin";
                 }
                 else if(data=="s"){
-                    if(organ==1){
-                        location.href='/bankinvest/organ';
-                    }
-                    else if(Request("bid")>0){
+                    if(Request("bid")>0){
                         location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount")+"&email="+Request("email")+"&tel="+Request("tel")+"&bankbranch="+Request("bankbranch")+"&card="+Request("card");
                     }
                     else if(Request("order")>0){
@@ -265,7 +265,7 @@
                     }
                     else if(data=="s"){
                         alert("用户注册成功！");
-                        userlogin('#username3','#password3',1);
+                        location.href="/admin";
                     }
                 })
             }

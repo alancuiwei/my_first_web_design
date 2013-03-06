@@ -329,11 +329,17 @@
      @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
-        if @webuser.username=="admin" || @webuser.username=="blog"
+        if  @webuser.organuser=='1'
         session[:webusername]=@webuser.username
+          session[:organuser]=@webuser.organuser
+          render :json => "organ".to_json
+        elsif  @webuser.username=="admin" || @webuser.username=="blog"
+        session[:webusername]=@webuser.username
+        session[:organuser]='0'
         render :json => "admin".to_json
         else
           session[:webusername]=@webuser.username
+          session[:organuser]='0'
           render :json => "s".to_json
         end
       else

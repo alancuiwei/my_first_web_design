@@ -42,7 +42,11 @@
     <div class="span2">
       <% if session[:webusername]!=nil %>
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
+          <% if session[:organuser]!='1' %>
           <a class="pull-right rounder" href="/sales/myorder">我的订单</a>
+      <% else %>
+            <a class="pull-right rounder" href="/bankinvest/organ">我的产品</a>
+          <% end %>
       <% else %>
       <a class="pull-right rounder" href="/sales/login?logintype=creat"  data-toggle="tab" id="layout_creat" onclick="question('change_creat')">注册</a>
       <a class="pull-right rounder" href="/sales/login" id="layout_login">登陆</a>
@@ -71,7 +75,11 @@
     <div class="span2">
       <h4 class="tcol">我的帐号</h4>
       <% if session[:webusername]!=nil %>
+          <% if session[:organuser]!='1' %>
       <a class="full" href="/sales/myorder">我的订单</a>
+      <% else %>
+              <a class="full" href="/bankinvest/organ">我的产品</a>
+          <% end %>
       <% else %>
       <a class="full" href="/sales/login?order=1">我的订单</a>
       <% end %>
@@ -81,9 +89,6 @@
       <a href='javascript:void(0)' class='full'onclick="question('habla_oplink_a')">咨询</a>
       <a href='http://alancuiwei.wufoo.com/forms/ee/' target="_blank" class='full'>客户调查</a>
       <a href='http://alancuiwei.wufoo.com/forms/eecce/' target="_blank" class='full'>银行人员调查</a>
-      <% if session[:webusername]==nil %>
-         <a href="/sales/login?logintype=creat&organ=1" class='full'>机构人员注册</a>
-      <% end %>
       <p> 苏JCP备12035521<br>@2013南京重人软件科技有限公司。<br></p>
                         </div>
                         </div>
