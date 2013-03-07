@@ -34,7 +34,10 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">投资资金:</label>
       <div class="controls">
+        <div class="input-append">
         <input type="text" id="investamount" title="投资资金"  placeholder="投资资金">
+          <span class="add-on">元</span>
+        </div>
       </div>
     </div>
     <div class="control-group">
@@ -51,62 +54,49 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">预期年化收益率:</label>
       <div class="controls">
-        <input type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">%
+        <div class="input-append">
+          <input type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">
+          <span class="add-on">%</span>
+        </div>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">可承担的风险:</label>
       <div class="controls">
-        <input type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">%
+        <div class="input-append">
+          <input type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">
+          <span class="add-on">%</span>
+        </div>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">当前投资品种:</label>
       <div class="controls">
-          <select data-placeholder="请选择：可选多项" style="width:350px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
+          <select data-placeholder="请选择：可选多项" style="width:220px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
             <option value=""></option>
             <optgroup label="">
               <option name="var" value="基金">基金</option>
               <option name="var" value="股票">股票</option>
               <option name="var" value="P2P信贷">P2P信贷</option>
+              <option name="var" value="商品期货">商品期货</option>
               <option name="var" value="银行理财产品">银行理财产品</option>
-              <option name="var" value="期货">期货</option>
-              <option name="var" value="保险">保险</option>
-              <option name="var" value="信托">信托</option>
+              <option name="var" value="银行贵金属产品">银行贵金属产品</option>
             </optgroup>
           </select>
       </div>
     </div>
     <div class="control-group">
-      <label class="control-label" for="inputPassword">希望得到哪个品种的信息:</label>
+      <label class="control-label" for="inputPassword">感兴趣的产品:</label>
       <div class="controls">
-        <select data-placeholder="请选择：可选多项" style="width:350px;"  name="wbreedinfo" id="wbreedinfo" title="希望得到哪个品种的信息" class="chzn-select" multiple tabindex="6">
+        <select data-placeholder="请选择：可选多项" style="width:220px;"  name="wbreedinfo" id="wbreedinfo" title="感兴趣的产品" class="chzn-select" multiple tabindex="6">
           <option value=""></option>
           <optgroup label="">
             <option name="info" value="基金">基金</option>
             <option name="info" value="股票">股票</option>
             <option name="info" value="P2P信贷">P2P信贷</option>
+            <option name="info" value="商品期货">商品期货</option>
             <option name="info" value="银行理财产品">银行理财产品</option>
-            <option name="info" value="期货">期货</option>
-            <option name="info" value="保险">保险</option>
-            <option name="info" value="信托">信托</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="inputPassword">希望得到哪个品种产品推荐:</label>
-      <div class="controls">
-        <select data-placeholder="请选择：可选多项" style="width:350px;"  name="wprecommend" id="wprecommend" title="希望得到哪个品种产品推荐" class="chzn-select" multiple tabindex="6">
-          <option value=""></option>
-          <optgroup label="">
-            <option name="recommend" value="基金">基金</option>
-            <option name="recommend" value="股票">股票</option>
-            <option name="recommend" value="P2P信贷">P2P信贷</option>
-            <option name="recommend" value="银行理财产品">银行理财产品</option>
-            <option name="recommend" value="期货">期货</option>
-            <option name="recommend" value="保险">保险</option>
-            <option name="recommend" value="信托">信托</option>
+            <option name="info" value="银行贵金属产品">银行贵金属产品</option>
           </optgroup>
         </select>
       </div>
@@ -115,19 +105,26 @@
       <label class="control-label" for="inputPassword">我最喜欢的产品:</label>
       <div class="controls">
         <% if params[:id]!="0" %>
-            <textarea class="ckeditor" cols="80" rows="8" style="width:335px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
+            <textarea class="ckeditor" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
         <% else %>
-            <textarea class="ckeditor" cols="80" rows="8" style="width:335px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
+            <textarea class="ckeditor" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
         <% end %>
       </div>
     </div>
-    <label class="checkbox">
-      <input type="checkbox" name='period' id="contact"> 是否愿意接受经纪人直接联系您？
-    </label>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">信托产品:</label>
+      <div class="controls">
+        <select  name="contact" id="contact" title="信托产品">
+          <option value="感兴趣，合适的产品我愿意购买。">感兴趣，合适的产品我愿意购买。</option>
+          <option value="感兴趣，但本金不够，愿意和其他朋友一起。">感兴趣，但本金不够，愿意和其他朋友一起。</option>
+          <option value="不感兴趣">不感兴趣</option>
+        </select>
+      </div>
+    </div>
     <br>
     <label class="control-label" for="inputPassword"></label>
     <div class="controls">
-      <a type="submit" class="btn" id="personconfig">确认</a>
+      <a type="submit" class="btn btn-primary" id="personconfig">确认</a>
     </div>
   </form>
   <% end %>
@@ -137,11 +134,11 @@
 <script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
     <% if params[:id]!="0" %>
-    $("#age").attr("value",'<%= @personal[0]%>');
+    $("#age").attr("value",'<%= format("%0.0f",@personal[0])%>');
     $("#company").attr("value",'<%=@personal[1] %>');
     $("#post").attr("value",'<%= @personal[2]%>');
     $("#email").attr("value",'<%= @personal[3]%>');
-    $("#investamount").attr("value",'<%= @personal[4]%>');
+    $("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');
     $("#investcycle").attr("value",'<%= @personal[5]%>');
     $("#returnrate").attr("value",'<%= format("%0.1f",@personal[6]*100)%>');
     $("#riskrate").attr("value",'<%= format("%0.1f",@personal[7]*100)%>');
@@ -193,34 +190,11 @@
                 }
             }
         }
-        var flag3='';
-        var recommends=document.getElementsByName("recommend");
-        var recommend=document.getElementById("wprecommend");
-        if(recommend.value==""){
-            flag3='无';
-        }
-        else {
-            for(var i=0;i<recommends.length;i++){
-                if(recommends[i].selected){
-                    if(flag3==''){
-                        flag3=recommends[i].value;
-                    }
-                    else {
-                        flag3=flag3+','+recommends[i].value;
-                    }
-                }
-            }
-        }
-        var contact='否';
-        var periods=document.getElementsByName("period")
-        if( periods[0].checked){
-            contact='是';
-        }
         if(nom_flag==0){
             $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
                 company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
                 investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
-                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:flag3,contact:contact,myfavorite:$("#myfavorite").attr("value")
+                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:'',contact:$("#contact").attr("value"),myfavorite:$("#myfavorite").attr("value")
             },function(data){
                 if(data=="s1"){
                     location.href='/personmanagement/personfinance';

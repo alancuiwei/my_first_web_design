@@ -14,44 +14,48 @@
           <option value="基金">基金</option>
           <option value="股票">股票</option>
           <option value="P2P信贷">P2P信贷</option>
+          <option value="商品期货">商品期货</option>
           <option value="银行理财产品">银行理财产品</option>
-          <option value="期货">期货</option>
-          <option value="保险">保险</option>
-          <option value="信托">信托</option>
+          <option value="银行贵金属产品">银行贵金属产品</option>
         </select>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">百分比:</label>
       <div class="controls">
-        <input type="text" id="percentage" title="百分比" placeholder="百分比">%
+        <div class="input-append">
+          <input type="text" id="percentage" title="百分比" placeholder="百分比">
+          <span class="add-on">%</span>
+        </div>
       </div>
     </div>
+    <!--
     <div class="control-group">
       <label class="control-label" for="inputPassword">可购金额:</label>
       <div class="controls">
-        <input type="text" id="investamount" title="可购金额" placeholder="可购金额">
+        <input type="text" id="investamount" placeholder="可购金额" disabled>
       </div>
     </div>
+    -->
     <div class="control-group">
       <label class="control-label" for="inputPassword">状态:</label>
       <div class="controls">
-        <select  name="purchasproducts" id="purchasproducts" title="状态">
-          <option value="未购">未购</option>
+        <select  name="purchasproducts" id="purchasproducts" title="状态"  onclick="purchas()">
           <option value="已购">已购</option>
+          <option value="未购">未购</option>
         </select>
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="inputPassword">最佳推荐时间日期:</label>
+    <div class="control-group" id="rebuy">
+      <label class="control-label" for="inputPassword">已购产品到期日期:</label>
       <div class="controls">
-        <input type="text" id="collectperiod" title="最佳推荐时间日期"  placeholder="最佳推荐时间日期" onclick="WdatePicker()" class="Wdate">
+        <input type="text" id="collectperiod" placeholder="已购产品到期日期" onclick="WdatePicker()" class="Wdate">
       </div>
     </div>
     <br>
     <label class="control-label" for="inputPassword"></label>
     <div class="controls">
-      <a type="submit" class="btn" id="personconfig">确认</a>
+      <a type="submit" class="btn btn-primary" id="personconfig">确认</a>
     </div>
   </form>
   <br><br>
@@ -59,10 +63,20 @@
 
 <script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
+
+    function purchas(){
+        if($("#purchasproducts").attr("value")=="未购"){
+            $('#rebuy').hide();
+            $("#collectperiod").attr("value",'');
+        }
+        else{
+            $('#rebuy').show();
+        }
+    }
+
     <% if params[:id]!="0" %>
     $("#producttype").attr("value",'<%= @personal[0]%>');
     $("#percentage").attr("value",'<%=format("%0.1f",@personal[1]*100) %>');
-    $("#investamount").attr("value",'<%= @personal[2]%>');
     $("#purchasproducts").attr("value",'<%= @personal[3]%>');
     $("#collectperiod").attr("value",'<%= @personal[4]%>');
     <% end %>
@@ -79,7 +93,7 @@
         }
         if(nom_flag==0){
             $.post("/personmanagement/personinfoconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',producttype: $("#producttype").attr("value"),
-                percentage: $("#percentage").attr("value")/100,investamount: $("#investamount").attr("value"),purchasproducts: $("#purchasproducts").attr("value"),
+                percentage: $("#percentage").attr("value")/100,investamount: '<%= @personalfinance.investamount%>'*$("#percentage").attr("value")/100,purchasproducts: $("#purchasproducts").attr("value"),
                 collectperiod: $("#collectperiod").attr("value")
             },function(data){
                 if(data=="f1"){

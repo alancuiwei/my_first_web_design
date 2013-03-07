@@ -23,6 +23,11 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def investor
+    @personalfinance=Personalfinance.all
+    @personinvestinfo=Personinvestinfo.all
+  end
+
   def personconfigajax
     if params[:id]=="0"
     Personalfinance.new do |b|
@@ -84,6 +89,7 @@ class PersonmanagementController < ApplicationController
 
   def personinformation
     if session[:webusername]!=nil
+      @personalfinance=Personalfinance.find_by_username(session[:webusername])
       @personal=[]
       if params[:id]!="0"
         @personalinfo=Personinvestinfo.find_by_id(params[:id])
