@@ -1,4 +1,4 @@
-<%= javascript_include_tag "jquery.dataTables.min.js" %>
+﻿<%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "admin.css" %>
 
@@ -37,7 +37,7 @@
                     <% if session[:webusername]=='admin' %>
                       <tr>
                         <td>
-                          <h1>用户管理</h1><br>
+                          <h1>新增用户</h1><br>
         <a href="/admin/userconfig/0" class='btn'>新建用户</a><br><br>
         <a href="/sales/login?logintype=creat&organ=1" class='btn'>机构人员注册</a>
  <!--
@@ -340,6 +340,36 @@
               <% end %>
             </table>
                       </td></tr>
+
+<% if session[:webusername]=='admin' %>
+    <tr>
+      <td>
+        <h1>用户管理</h1><br>
+  <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
+    <thead><tr>
+      <th>用户名</th><th class="hide">密码</th>
+      <th>联系电话</th><th>公司</th><th>营业部</th>
+      <th>修改</th><th>删除</th><th>投资信息</th>
+    </tr></thead>
+    <tbody>
+     <% @webusers.each do |w|  %>
+       <tr>
+         <td><%= w.username%></td>
+         <td class="hide"><%= @hash_password[w.id]%></td>
+         <td><%= w.tel%></td>
+         <td><%= w.company%></td>
+         <td><%= w.division%></td>
+         <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
+         <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
+         <td><a href="/privatefund/investrecord/<%= w.id %>">查看</a></td>
+       </tr>
+    <% end %>
+    </tbody>
+  </table>
+        <br> <br>
+      </td>
+    </tr>
+<% end %>
 
                     </table>
                   </div>
