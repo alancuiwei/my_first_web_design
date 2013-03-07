@@ -4,32 +4,36 @@
   <% if session[:webusername]!=nil && @personalfinance%>
   <h1><%= @personalfinance.username%>的投资页面</h1>
       <h2>个人信息：</h2>
-      <div class="row-fluid">
-        <div class="span8">
           <table class="table table-striped table-bordered">
             <thead><tr>
-              <th>用户名</th><th>公司</th><th>职务</th><th>年龄</th>
+              <th>用户名</th><th>年龄</th><th>公司</th><th>职务</th><th>流动总资金</th><th>操作</th>
             </tr></thead>
             <tr>
               <td><%= @personalfinance.username%></td>
+              <td><%= @personalfinance.age%></td>
               <td><%= @personalfinance.company%></td>
               <td><%= @personalfinance.post%></td>
-              <td><%= @personalfinance.age%></td>
+              <td><strong  style="color: #ff0000;"><%= @personalfinance.investamount%></strong></td>
+              <td><a href="/personmanagement/personinfo/1">修改</a></td>
             </tr>
           </table>
-        </div>
-      </div>
       <br>
-      <h2>个人投资信息：</h2>
-      <p>
-        <strong  style="color: #ff0000;">总资金：<%= @personalfinance.investamount%>元</strong>
-        <span style="float: right;margin-right: 55px;"><a href="/personmanagement/personinformation/0">添加</a></span>
-      </p>
+      <table id="deploy">
+        <tr>
+          <td class="col1"><h2>资产配置：</h2></td>
+          <td class="col"><p style="width: 50px;height: 25px;background-color: #ff0000;"></p></td>
+          <td class="col1">未购，等待您的推荐</td>
+          <td class="col"><p style="width: 50px;height: 25px;background-color: #9ACD32;"></p></td>
+          <td>已购，等待到期后再推荐</td>
+          <td><span style="float: right;margin-right: 55px;"><a href="/personmanagement/personinformation/0">添加</a></span></td>
+        </tr>
+      </table>
+
       <table class="table table-striped table-bordered" id="info">
         <thead>
         <tr>
-          <th>产品种类</th><th>百分比</th><th>总金额</th>
-          <th>已购产品</th><th>到期日期</th><th>操作</th>
+          <th>产品种类</th><th>百分比</th><th>可购金额</th>
+          <th>状态</th><th>最佳推荐时间日期</th><th>操作</th>
         </tr></thead>
 
         <% @personalinfo.each do |b| %>
@@ -37,12 +41,45 @@
               <td><%= b.producttype%></td>
               <td><%= format("%0.1f",b.percentage*100)%>%</td>
               <td><%= b.investamount%></td>
-              <td><%= b.purchasproducts%></td>
+              <% if b.purchasproducts=='未购'%>
+                  <td style="background-color: #ff0000;"><%= b.purchasproducts%></td>
+              <% else %>
+                  <td style="background-color: #9ACD32;"><%= b.purchasproducts%></td>
+              <% end%>
               <td><%= b.collectperiod%></td>
               <td><a href="/personmanagement/personinformation/<%= b.id %>">修改</a></td>
             </tr>
         <% end %>
       </table>
-    <!--  <h2>个人资产配置点评</h2>   -->
+     <div id="favoriteedit">
+      <h2>我最喜欢的产品：<button id="edit">修改</button></h2>
+      <p class="text"><%= @personalfinance.myfavorite%></p>
+      </div>
+      <div id="favoritefix">
+      <h2>我最喜欢的产品：<button id="fix">确定</button></h2>
+      <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
+      </div>
   <% end %>
 </div>
+
+<script>
+    window.onload=function(){
+        $("#favoriteedit").show();
+        $("#favoritefix").hide();
+    }
+    $("#edit").click(function(e){
+        $("#favoritefix").show();
+        $("#favoriteedit").hide();
+    });
+
+    $("#fix").click(function(e){
+        $("#favoriteedit").show();
+        $("#favoritefix").hide();
+        $.post("/personmanagement/myfavoriteconfigajax",{ myfavorite:$("#myfavorite").attr("value")
+        },function(data){
+            if(data=="s1"){
+                location.href='';
+            }
+        });
+    });
+</script>

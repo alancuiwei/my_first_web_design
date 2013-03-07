@@ -16,6 +16,7 @@ class PersonmanagementController < ApplicationController
         @personal[9]=@personalfinance.wbreedinfo
         @personal[10]=@personalfinance.wprecommend
         @personal[11]=@personalfinance.contact
+        @personal[12]=@personalfinance.myfavorite
       end
     else
       redirect_to(:controller=>"home")
@@ -38,8 +39,10 @@ class PersonmanagementController < ApplicationController
       b.wprecommend=params[:wprecommend]
       b.post=params[:post]
       b.contact=params[:contact]
+      b.myfavorite=params[:myfavorite]
       b.save
     end
+    session[:personname]=session[:webusername]
     render :json => "s1".to_json
     else
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
@@ -47,9 +50,15 @@ class PersonmanagementController < ApplicationController
                                 :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
                                 :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
                                 :wbreedinfo=>params[:wbreedinfo],:wprecommend=>params[:wprecommend],:post=>params[:post],
-                                :contact=>params[:contact])
+                                :contact=>params[:contact],:myfavorite=>params[:myfavorite])
       render :json => "s1".to_json
     end
+  end
+
+  def myfavoriteconfigajax
+    @personalfinance=Personalfinance.find_by_username(session[:webusername])
+    @personalfinance.update_attributes(:myfavorite=>params[:myfavorite])
+    render :json => "s1".to_json
   end
 
   def personinfoconfigajax

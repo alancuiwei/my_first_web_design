@@ -111,6 +111,16 @@
         </select>
       </div>
     </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">我最喜欢的产品:</label>
+      <div class="controls">
+        <% if params[:id]!="0" %>
+            <textarea class="ckeditor" cols="80" rows="8" style="width:335px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
+        <% else %>
+            <textarea class="ckeditor" cols="80" rows="8" style="width:335px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
+        <% end %>
+      </div>
+    </div>
     <label class="checkbox">
       <input type="checkbox" name='period' id="contact"> 是否愿意接受经纪人直接联系您？
     </label>
@@ -210,7 +220,7 @@
             $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
                 company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
                 investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
-                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:flag3,contact:contact
+                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:flag3,contact:contact,myfavorite:$("#myfavorite").attr("value")
             },function(data){
                 if(data=="s1"){
                     location.href='/personmanagement/personfinance';
