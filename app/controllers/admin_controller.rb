@@ -312,10 +312,22 @@
      @webuser=Webuser.find(params[:id])
      if @webuser!=nil
        @investrecords=Investrecord.find_all_by_username(@webuser.username)
+       @personalfinance=Personalfinance.find_all_by_username(@webuser.username)
+       @personinvestinfo=Personinvestinfo.find_all_by_username(@webuser.username)
      end
      if @webuser.destroy
        if @investrecords!=nil
          @investrecords.each do |i|
+           i.destroy
+         end
+       end
+       if @personalfinance!=nil
+         @personalfinance.each do |i|
+           i.destroy
+         end
+       end
+       if @personinvestinfo!=nil
+         @personinvestinfo.each do |i|
            i.destroy
          end
        end
