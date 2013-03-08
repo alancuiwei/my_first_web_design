@@ -124,11 +124,16 @@
     @userinfo=[]
     if params[:id]!="0"
     @webuser=Webuser.find_by_id(params[:id])
+    @personalfinance=Personalfinance.find_by_username(@webuser.username)
       @userinfo[0]=@webuser.username
       @userinfo[1]=decode(@webuser.password)
       @userinfo[2]=@webuser.tel
       @userinfo[3]=@webuser.address
       @userinfo[4]=@webuser.postcode
+      @userinfo[5]=@personalfinance.name
+      @userinfo[6]=@personalfinance.email
+      @userinfo[7]=@personalfinance.company
+      @userinfo[8]=@personalfinance.post
     end
   end
 
@@ -236,6 +241,7 @@
 
   def  userconfigajax
     @webuser=Webuser.find_by_username(params[:username])
+    @personalfinance=Personalfinance.find_by_username(params[:username])
     password=encode(params[:password])
     if params[:id]=="0"
     if @webuser==nil
@@ -263,8 +269,10 @@
     end
 
     else
-      @webuser.update_attributes(:password=>password,:tel=>params[:tel],
-                                 :address=>params[:address],:postcode=>params[:postcode])
+      @webuser.update_attributes(:password=>password,:tel=>params[:tel],:name=>params[:name],
+                                 :address=>params[:address],:postcode=>params[:postcode],:email=>params[:email],:company=>params[:company])
+      @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],
+                                 :company=>params[:company],:post=>params[:post],:email=>params[:email])
       render :json => "s2".to_json
     end
   end

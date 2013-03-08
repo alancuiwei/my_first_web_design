@@ -1,9 +1,13 @@
 <div style="width: 700px;height: 700px;">
   <div>
     用户名：<input type="text" name="username" id="username" title="用户名"> <br>
+    姓名：<input type="text" name="name" id="name" title="姓名"> <br>
     密码：<input type="password" name="password" id="password" title="密码"> <br>
     密码确认：<input type="password" name="passwordconfirm" id="passwordconfirm" title="密码确认"> <br>
+    电子邮箱：<input type="text" name="email" id="email" title="电子邮箱"> <br>
     联系电话：<input type="text" name="tel" id="tel" title="联系电话"> <br>
+    公司：<input type="text" name="company" id="company" title="公司"> <br>
+    职务：<input type="text" name="post" id="post" title="职务"> <br>
     通信地址：<input type="text" name="address" id="address" title="通信地址">  <br>
     邮编：<input type="text" name="postcode" id="postcode" title="邮编"> <br>
     <a href="javascript:void(0)" id="userconfig">确认</a>
@@ -19,6 +23,10 @@
       $("#tel").attr("value",'<%= @userinfo[2]%>');
       $("#address").attr("value",'<%= @userinfo[3]%>');
       $("#postcode").attr("value",'<%= @userinfo[4]%>');
+      $("#name").attr("value",'<%= @userinfo[5]%>');
+      $("#email").attr("value",'<%= @userinfo[6]%>');
+      $("#company").attr("value",'<%= @userinfo[7]%>');
+      $("#post").attr("value",'<%= @userinfo[8]%>');
       <% end %>
 
       $("#userconfig").click(function(e){
@@ -48,7 +56,9 @@
               }
               else{
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),tel: $("#tel").attr("value"),
-                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value")
+                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value"),
+                      name: $("#name").attr("value"),email: $("#email").attr("value"),company: $("#company").attr("value"),
+                      post: $("#post").attr("value")
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");
@@ -65,8 +75,4 @@
               }
           }
       });
-
-
-
-
   </script>

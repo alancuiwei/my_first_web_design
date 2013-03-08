@@ -54,37 +54,37 @@
             var c3=0,c4=0,c5=0,c6=0,c7=0,c8=0;
         <% @personinvestinfo.each do |c| %>
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='股票'){
-                a3=parseInt(a3+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a3=parseInt(a3+<%= c.investamount %>);
                 if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                     b3='<%= c.purchasproducts %>'
                 }
             }
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='基金'){
-                a4=parseInt(a4+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a4=parseInt(a4+<%= c.investamount %>);
               if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                 b4='<%= c.purchasproducts %>'
               }
             }
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='P2P信贷'){
-                a5=parseInt(a5+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a5=parseInt(a5+<%= c.investamount %>);
                 if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                     b5='<%= c.purchasproducts %>'
                 }
             }
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='银行贵金属'){
-                a6=parseInt(a6+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a6=parseInt(a6+<%= c.investamount %>);
                 if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                     b6='<%= c.purchasproducts %>'
                 }
             }
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='商品期货'){
-                a7=parseInt(a7+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a7=parseInt(a7+<%= c.investamount %>);
                 if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                     b7='<%= c.purchasproducts %>'
                 }
             }
             if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='银行理财产品'){
-                a8=parseInt(a8+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>);
+                a8=parseInt(a8+<%= c.investamount %>);
                 if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
                     b8='<%= c.purchasproducts %>'
                 }

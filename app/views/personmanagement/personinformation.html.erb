@@ -20,6 +20,7 @@
         </select>
       </div>
     </div>
+    <!--
     <div class="control-group">
       <label class="control-label" for="inputPassword">百分比:</label>
       <div class="controls">
@@ -29,14 +30,13 @@
         </div>
       </div>
     </div>
-    <!--
+    -->
     <div class="control-group">
       <label class="control-label" for="inputPassword">可购金额:</label>
       <div class="controls">
-        <input type="text" id="investamount" placeholder="可购金额" disabled>
+        <input type="text" id="investamount" placeholder="可购金额">
       </div>
     </div>
-    -->
     <div class="control-group">
       <label class="control-label" for="inputPassword">状态:</label>
       <div class="controls">
@@ -79,7 +79,7 @@
 
     <% if params[:id]!="0" %>
     $("#producttype").attr("value",'<%= @personal[0]%>');
-    $("#percentage").attr("value",'<%=format("%0.1f",@personal[1]*100) %>');
+    $("#investamount").attr("value",'<%=format("%0.0f",@personal[2]) %>');
     $("#purchasproducts").attr("value",'<%= @personal[3]%>');
     $("#collectperiod").attr("value",'<%= @personal[4]%>');
     <% end %>
@@ -96,7 +96,7 @@
         }
         if(nom_flag==0){
             $.post("/personmanagement/personinfoconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',producttype: $("#producttype").attr("value"),
-                percentage: $("#percentage").attr("value")/100,investamount: '<%= @personalfinance.investamount%>'*$("#percentage").attr("value")/100,purchasproducts: $("#purchasproducts").attr("value"),
+                percentage: $("#investamount").attr("value")/'<%= @personalfinance.investamount%>',investamount:$("#investamount").attr("value"),purchasproducts: $("#purchasproducts").attr("value"),
                 collectperiod: $("#collectperiod").attr("value")
             },function(data){
                 if(data=="f1"){

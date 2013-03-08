@@ -1,12 +1,20 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
 <%= stylesheet_link_tag "chosen.css" %>
 <%= javascript_include_tag "chosen.jquery.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
 <div class="main-content">
   <a href="/">首页</a>
   <h1>个人投资信息设置</h1>
   <% if session[:webusername]!=nil %>
   <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">姓名*:</label>
+      <div class="controls">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开。' type="text" id="name" title="姓名" placeholder="姓名">
+      </div>
+    </div>
     <div class="control-group">
       <label class="control-label" for="inputEmail">年龄*:</label>
       <div class="controls">
@@ -28,14 +36,20 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">电子邮箱*:</label>
       <div class="controls">
-        <input type="text" id="email" title="电子邮箱" placeholder="电子邮箱">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。' type="text" id="email" title="电子邮箱" placeholder="电子邮箱">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">联系电话*:</label>
+      <div class="controls">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发短信息到您。' type="text" id="tel" title="联系电话" placeholder="联系电话">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">投资资金:</label>
       <div class="controls">
         <div class="input-append">
-        <input type="text" id="investamount" title="投资资金"  placeholder="投资资金">
+        <input class="demo-form-name" title='如果有你刚才所描述的产品，你共有多少流动资金可以用来做投资？' type="text" id="investamount" title="投资资金"  placeholder="投资资金">
           <span class="add-on">元</span>
         </div>
       </div>
@@ -55,7 +69,7 @@
       <label class="control-label" for="inputPassword">预期年化收益率:</label>
       <div class="controls">
         <div class="input-append">
-          <input type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">
+          <input class="demo-form-name" title='您最期望的理财产品收益率是多少？' type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -64,7 +78,7 @@
       <label class="control-label" for="inputPassword">可承担的风险:</label>
       <div class="controls">
         <div class="input-append">
-          <input type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">
+          <input class="demo-form-name" title='您最期望的理财产品风险度是多少？' type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -72,22 +86,33 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">当前投资品种:</label>
       <div class="controls">
-          <select data-placeholder="请选择：可选多项" style="width:220px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
-            <option value=""></option>
-            <optgroup label="">
-              <option name="var" value="基金">基金</option>
-              <option name="var" value="股票">股票</option>
-              <option name="var" value="P2P信贷">P2P信贷</option>
-              <option name="var" value="商品期货">商品期货</option>
-              <option name="var" value="银行理财产品">银行理财产品</option>
-              <option name="var" value="银行贵金属产品">银行贵金属产品</option>
-            </optgroup>
-          </select>
+        <% if params[:id]!="0" %>
+            <p class="demo-tip-yellowsimple" title='（之前的设置：<%= @personal[8] %>）' style='width: 240px;'>
+        <% else %>
+            <p>
+        <% end %>
+        <select data-placeholder="请选择：可选多项" style="width:220px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
+          <option value=""></option>
+          <optgroup label="">
+            <option name="var" value="基金">基金</option>
+            <option name="var" value="股票">股票</option>
+            <option name="var" value="P2P信贷">P2P信贷</option>
+            <option name="var" value="商品期货">商品期货</option>
+            <option name="var" value="银行理财产品">银行理财产品</option>
+            <option name="var" value="银行贵金属产品">银行贵金属产品</option>
+          </optgroup>
+        </select>
+       </p>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">感兴趣的产品:</label>
       <div class="controls">
+        <% if params[:id]!="0" %>
+            <p class="demo-tip-yellowsimple" title='（之前的设置：<%= @personal[9] %>）' style='width: 240px;'>
+        <% else %>
+            <p>
+        <% end %>
         <select data-placeholder="请选择：可选多项" style="width:220px;"  name="wbreedinfo" id="wbreedinfo" title="感兴趣的产品" class="chzn-select" multiple tabindex="6">
           <option value=""></option>
           <optgroup label="">
@@ -99,6 +124,7 @@
             <option name="info" value="银行贵金属产品">银行贵金属产品</option>
           </optgroup>
         </select>
+        </p>
       </div>
     </div>
     <div class="control-group">
@@ -142,6 +168,8 @@
     $("#investcycle").attr("value",'<%= @personal[5]%>');
     $("#returnrate").attr("value",'<%= format("%0.1f",@personal[6]*100)%>');
     $("#riskrate").attr("value",'<%= format("%0.1f",@personal[7]*100)%>');
+    $("#name").attr("value",'<%= @personal[10]%>');
+    $("#tel").attr("value",'<%= @personal[13]%>');
     <% end %>
     $("#personconfig").click(function(e){
         var o=document.getElementsByTagName("input");
@@ -194,12 +222,77 @@
             $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
                 company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
                 investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
-                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,wprecommend:'',contact:$("#contact").attr("value"),myfavorite:$("#myfavorite").attr("value")
+                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,name:$("#name").attr("value"),contact:$("#contact").attr("value"),
+                myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value")
             },function(data){
                 if(data=="s1"){
                     location.href='/personmanagement/personfinance';
                 }
             });
         }
+    });
+
+    $(function(){
+        $('.demo-form-name').poshytip({
+            className: 'tip-yellowsimple',
+            showOn: 'focus',
+            alignTo: 'target',
+            alignX: 'right',
+            alignY: 'center',
+            offsetX: 5
+        });
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'right',
+            alignY: 'center',
+            offsetX: 0
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
     });
 </script>

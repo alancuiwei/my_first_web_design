@@ -14,9 +14,10 @@ class PersonmanagementController < ApplicationController
         @personal[7]=@personalfinance.riskrate
         @personal[8]=@personalfinance.investvarieties
         @personal[9]=@personalfinance.wbreedinfo
-        @personal[10]=@personalfinance.wprecommend
+        @personal[10]=@personalfinance.name
         @personal[11]=@personalfinance.contact
         @personal[12]=@personalfinance.myfavorite
+        @personal[13]=@personalfinance.tel
       end
     else
       redirect_to(:controller=>"home")
@@ -41,10 +42,11 @@ class PersonmanagementController < ApplicationController
       b.riskrate=params[:riskrate]
       b.investvarieties=params[:investvarieties]
       b.wbreedinfo=params[:wbreedinfo]
-      b.wprecommend=params[:wprecommend]
+      b.name=params[:name]
       b.post=params[:post]
       b.contact=params[:contact]
       b.myfavorite=params[:myfavorite]
+      b.tel=params[:tel]
       b.save
     end
     session[:personname]=session[:webusername]
@@ -54,8 +56,8 @@ class PersonmanagementController < ApplicationController
       @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
                                 :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
                                 :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
-                                :wbreedinfo=>params[:wbreedinfo],:wprecommend=>params[:wprecommend],:post=>params[:post],
-                                :contact=>params[:contact],:myfavorite=>params[:myfavorite])
+                                :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:post=>params[:post],
+                                :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel])
       render :json => "s1".to_json
     end
   end

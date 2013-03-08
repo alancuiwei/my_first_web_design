@@ -50,8 +50,8 @@
         <% @personalinfo.each do |b| %>
             <tr>
               <td><%= b.producttype%></td>
-              <td><%= format("%0.1f",b.percentage*100)%>%</td>
-              <td><%= format("%0.0f",b.percentage*@personalfinance.investamount) %></td>
+              <td><%= format("%0.1f",b.investamount/@personalfinance.investamount*100)%>%</td>
+              <td><%= format("%0.0f",b.investamount) %></td>
               <% if b.purchasproducts=='未购'%>
                   <td style="background-color: #ff0000;"><%= b.purchasproducts%></td>
                   <td class="date"></td>
@@ -66,8 +66,9 @@
         <% end %>
       </table>
 
-      <h2>信托产品：</h2>
-      <p class="text"><%= @personalfinance.contact%></p>
+      <h2>感兴趣的产品种类：</h2>
+      <p class="text">我对<span style='color: #ff0000;'> <%= @personalfinance.wbreedinfo%> </span>比较感兴趣，如果有比较合适的该类产品，我会考虑调整我的资产配置。</p>
+      <p>关于<span style='color: #ff0000;'> 信托 </span>产品：<%= @personalfinance.contact%></p>
 
      <div id="favoriteedit">
         <h2>我最喜欢的产品：
