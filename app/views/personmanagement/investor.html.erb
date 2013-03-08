@@ -9,34 +9,124 @@
       <td>未购，等待您的产品推荐</td>
       <td class="col"><p style="width: 50px;height: 25px;background-color: #9ACD32;"></p></td>
       <td>已购，等待到期后再推荐</td>
+      <td class="col"><p style="width: 50px;height: 25px;background-color: #ffff00;"></p></td>
+      <td>感兴趣，但暂时不考虑购买</td>
       <td class="col"><p style="width: 50px;height: 25px;background-color: #000;"></p></td>
       <td>不感兴趣</td>
     </tr>
-  </table>
+<tr><td colspan='9' style='height:10px;'></td></tr>  </table>
   <br>
   <table class="table table-striped table-bordered" id="invsetor">
     <thead>
     <tr>
       <th>会员名</th><th>总资金量</th><th>闲余资金量</th>
       <th>股票</th><th>基金</th><th>P2P信贷</th><th>银行贵金属</th><th>商品期货</th><th>银行理财产品</th>
+      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th>
     </tr></thead>
 
     <% @personalfinance.each do |b| %>
-        <% @personinvestinfo.each do |c| %>
-            <% if b.username==c.username%>
+
                 <tr>
-                  <td><%= b.username%></td>
-                  <td><%= b.investamount%></td>
+          <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
+          <td><%= format("%0.0f",b.investamount)%></td>
+          <td>0</td>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td></td>
+          <td class="hide"><%= b.wbreedinfo%></td>
+          <td class="hide"><%= b.username%></td>
                 </tr>
             <% end %>
-        <% end %>
-    <% end %>
   </table>
 </div>
+
+<script>
+    $(document).ready(function(){
+        var length=$("#invsetor").find("tr").size();
+
+        for(i=1;i<length;i++){
+            var a3=0,a4=0,a5=0,a6=0,a7=0,a8=0;
+            var b3=0,b4=0,b5=0,b6=0,b7=0,b8=0;
+            var c3=0,c4=0,c5=0,c6=0,c7=0,c8=0;
+        <% @personinvestinfo.each do |c| %>
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='股票'){
+                a3=a3+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                    b3='<%= c.purchasproducts %>'
+                }
+            }
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='基金'){
+                a4=a4+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+              if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                b4='<%= c.purchasproducts %>'
+              }
+            }
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='P2P信贷'){
+                a5=a5+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                    b5='<%= c.purchasproducts %>'
+                }
+            }
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='银行贵金属'){
+                a6=a6+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                    b6='<%= c.purchasproducts %>'
+                }
+            }
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='商品期货'){
+                a7=a7+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                    b7='<%= c.purchasproducts %>'
+                }
+            }
+            if ($("#invsetor tr:eq("+i+") td:eq(10)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='银行理财产品'){
+                a8=a8+$("#invsetor tr:eq("+i+") td:eq(1)").html()*<%= c.percentage %>;
+                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
+                    b8='<%= c.purchasproducts %>'
+                }
+            }
+        <% end %>
+            if(b3=='已购'){$("#invsetor tr:eq("+i+") td:eq(3)").addClass("green");}
+             else if(b3=='未购'){$("#invsetor tr:eq("+i+") td:eq(3)").addClass("red");c3=a3;}
+             else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("股票")>=0){$("#invsetor tr:eq("+i+") td:eq(3)").addClass("yellow");a3=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(3)").addClass("black");a3=''}
+
+            if(b4=='已购'){$("#invsetor tr:eq("+i+") td:eq(4)").addClass("green");}
+            else if(b4=='未购'){$("#invsetor tr:eq("+i+") td:eq(4)").addClass("red");c4=a4;}
+            else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("基金")>=0){$("#invsetor tr:eq("+i+") td:eq(4)").addClass("yellow");a4=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(4)").addClass("black");a4=''}
+
+            if(b5=='已购'){$("#invsetor tr:eq("+i+") td:eq(5)").addClass("green");}
+            else if(b5=='未购'){$("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");c5=a5;}
+            else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("P2P信贷")>=0){$("#invsetor tr:eq("+i+") td:eq(5)").addClass("yellow");a5=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(5)").addClass("black");a5=''}
+
+            if(b6=='已购'){$("#invsetor tr:eq("+i+") td:eq(6)").addClass("green");}
+            else if(b6=='未购'){$("#invsetor tr:eq("+i+") td:eq(6)").addClass("red");c6=a6;}
+            else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("银行贵金属")>=0){$("#invsetor tr:eq("+i+") td:eq(6)").addClass("yellow");a6=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(6)").addClass("black");a6=''}
+
+            if(b7=='已购'){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("green");}
+            else if(b7=='未购'){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("red");c7=a7;}
+            else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("商品期货")>=0){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("yellow");a7=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(7)").addClass("black");a7=''}
+
+            if(b8=='已购'){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("green");}
+            else if(b8=='未购'){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("red");c8=a8;}
+            else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("银行理财产品")>=0){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("yellow");a8=''}
+            else{$("#invsetor tr:eq("+i+") td:eq(8)").addClass("black");a8=''}
+
+            $("#invsetor tr:eq("+i+") td:eq(2)").html(parseFloat(c3)+parseFloat(c4)+parseFloat(c5)+parseFloat(c6)+parseFloat(c7)+parseFloat(c8))
+            $("#invsetor tr:eq("+i+") td:eq(3)").html(a3)
+            $("#invsetor tr:eq("+i+") td:eq(4)").html(a4)
+            $("#invsetor tr:eq("+i+") td:eq(5)").html(a5)
+            $("#invsetor tr:eq("+i+") td:eq(6)").html(a6)
+            $("#invsetor tr:eq("+i+") td:eq(7)").html(a7)
+            $("#invsetor tr:eq("+i+") td:eq(8)").html(a8)
+        }
+    });
+
+</script>

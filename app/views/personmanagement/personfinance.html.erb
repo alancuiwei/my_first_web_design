@@ -3,12 +3,15 @@
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
 <div class="main-content">
-  <% if session[:webusername]!=nil && @personalfinance%>
+  <% if  @personalfinance%>
   <h1><%= @personalfinance.username%>的投资页面</h1>
       <h2>个人信息：</h2>
           <table class="table table-striped table-bordered">
             <thead><tr>
-              <th>用户名</th><th>年龄</th><th>公司</th><th>职务</th><th>流动总资金</th><th>操作</th>
+          <th>用户名</th><th>年龄</th><th>公司</th><th>职务</th><th>流动总资金</th>
+          <% if session[:webusername]== @personalfinance.username%>
+              <th>操作</th>
+          <% end %>
             </tr></thead>
             <tr>
               <td><%= @personalfinance.username%></td>
@@ -16,7 +19,9 @@
               <td><%= @personalfinance.company%></td>
               <td><%= @personalfinance.post%></td>
               <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
+          <% if session[:webusername]== @personalfinance.username%>
               <td><a href="/personmanagement/personinfo/1">修改</a></td>
+          <% end %>
             </tr>
           </table>
       <br>
@@ -27,7 +32,9 @@
           <td class="col1">未购，等待您的推荐</td>
           <td class="col"><p style="width: 50px;height: 25px;background-color: #9ACD32;"></p></td>
           <td>已购，等待到期后再推荐</td>
+          <% if session[:webusername]== @personalfinance.username%>
           <td class="col1" style="text-align: center;"><a href="/personmanagement/personinformation/0">添加</a></td>
+          <% end %>
         </tr>
       </table>
 
@@ -37,7 +44,7 @@
           <th>产品种类</th><th>百分比</th><th>可购金额</th>
           <th>状态</th>
           <th class="demo-tip-yellowsimple" title="已购产品 代表着已购产品的到期日期。<br>未购产品 代表着该产品目前等待专家推荐，一旦有合适的产品，应该在1周-2周内资金到账进行购买。">产品推荐日期</th>
-          <th>操作</th>
+          <% if session[:webusername]== @personalfinance.username%> <th>操作</th> <% end %>
         </tr></thead>
 
         <% @personalinfo.each do |b| %>
@@ -52,7 +59,9 @@
                   <td style="background-color: #9ACD32;"><%= b.purchasproducts%></td>
                   <td><%= b.collectperiod%></td>
               <% end%>
+              <% if session[:webusername]== @personalfinance.username%>
               <td><a href="/personmanagement/personinformation/<%= b.id %>">修改</a></td>
+              <% end %>
             </tr>
         <% end %>
       </table>
@@ -61,13 +70,19 @@
       <p class="text"><%= @personalfinance.contact%></p>
 
      <div id="favoriteedit">
-      <h2>我最喜欢的产品：<button id="edit">修改</button></h2>
+        <h2>我最喜欢的产品：
+          <% if session[:webusername]== @personalfinance.username%>
+              <button id="edit">修改</button>
+          <% end %>
+        </h2>
       <p class="text"><%= @personalfinance.myfavorite%></p>
       </div>
+      <% if session[:webusername]== @personalfinance.username%>
       <div id="favoritefix">
       <h2>我最喜欢的产品：<button id="fix">确定</button></h2>
       <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
       </div>
+  <% end %>
   <% end %>
 </div>
 
