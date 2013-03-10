@@ -202,6 +202,78 @@
           <a href=""><img src="/assets/hw.jpg"></a>
         </div>
       </div>
+      <div id="tradingSystem">
+      <table id="tableNumbers" border="0" cellpadding="0" cellspacing="0">
+
+        <tbody>
+        <tr>
+          <td class="dollar" style='width: 48px;'><img src="/assets/c2Dollars.gif" alt="" style="height: 70px;padding-top:10px;"  border=" 0"></td>
+          <td style='width: 55px;' class="number"></td>
+          <td style='width: 22px;' class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 55px;' class="number"></td>
+          <td style='width: 22px;' class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 58px;' class="number"></td>
+          <td style='width: 58px;' class="number"></td>
+          <td class="homeRightText"><h3>经纪人月租费</h3>
+            <p></p>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="13" class="lineBreak"><img src="/assets/horizontalLine.png" border="0"></td>
+        </tr>
+
+        <tr>
+          <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style="height: 70px;padding-top:10px;"  border=" 0"></td>
+          <td class="number"></td>
+          <td class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="homeRightText">
+            <h3>总资金量</h3>
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="13" class="lineBreak"><img src="/assets/horizontalLine.png"></td>
+        </tr>
+
+        <tr>
+          <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style="height: 70px;padding-top:10px;"  border=" 0"></td>
+          <td class="number"></td>
+          <td class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="comma"><img src="/assets/comma.png" alt=""></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="number"></td>
+          <td class="homeRightText2"><h3>闲余资金量</h3>
+            <p>正在寻觅合适理财产品</p>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="borders">
+        <div id="leftBorder"></div>
+        <div id="rightBorder"></div>
+      </div>
+     </div>
     </div>
     <h2 class="press">提供&nbsp;<a class="bankfinance" href="/bankinvest/index">银行理财产品</a>&nbsp;的服务</h2>
     <br><br>
@@ -251,6 +323,75 @@
     </div >
   </div>
 </div>
+
+<script>
+   /*
+    email();
+    function email(){
+        ///
+        setTimeout("email()", 55000);
+    }
+    */
+    window.onload=function(){
+        var num0;      //会员数
+        var invest=0; //总资金量
+        var free=0;   //闲余资金量
+        var num;     //经纪人月租费
+        num= <%= @num %>;
+        <% @personinvestinfo.each do |b|%>
+           invest = invest + <%= b.investamount %>;
+           if( '<%= b.purchasproducts %>'=='未购'){
+           free = free + <%= b.investamount %>;
+           }
+        <% end %>
+        num=parseInt(parseFloat(free)*0.0005);
+        num = num.toString();
+        while(num.length<9){
+            num='b'+num;
+        }
+        invest = parseInt(invest).toString();
+        while(invest.length<9){
+            invest='b'+invest;
+        }
+        free = parseInt(free).toString();
+        while(free.length<9){
+            free='b'+free;
+        }
+        var c;
+        var length=$("#tableNumbers").find("tr").size();
+        for(i=0;i<length;i=i+2){
+            if(i==0){c=num}
+            else if(i==2){c=invest}
+            else if(i==4){c=free}
+            if(c.substr(0,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src'+'='+'"/assets/num'+c.substr(0,[1])+'.png"></div>');}
+
+            if(c.substr(1,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(3)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(3)").html('<div><img src'+'='+'"/assets/num'+c.substr(1,[1])+'.png"></div>');}
+
+            if(c.substr(2,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(4)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(4)").html('<div><img src'+'='+'"/assets/num'+c.substr(2,[1])+'.png"></div>');}
+
+            if(c.substr(3,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(5)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(5)").html('<div><img src'+'='+'"/assets/num'+c.substr(3,[1])+'.png"></div>');}
+
+            if(c.substr(4,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(6)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(6)").html('<div><img src'+'='+'"/assets/num'+c.substr(4,[1])+'.png"></div>');}
+
+            if(c.substr(5,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(8)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(8)").html('<div><img src'+'='+'"/assets/num'+c.substr(5,[1])+'.png"></div>');}
+
+            if(c.substr(6,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(9)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(9)").html('<div><img src'+'='+'"/assets/num'+c.substr(6,[1])+'.png"></div>');}
+
+            if(c.substr(7,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(10)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(10)").html('<div><img src'+'='+'"/assets/num'+c.substr(7,[1])+'.png"></div>');}
+
+            if(c.substr(8,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(11)").html('<div><img src="/assets/blank.png"></div>');}
+            else{$("#tableNumbers tr:eq("+i+") td:eq(11)").html('<div><img src'+'='+'"/assets/num'+c.substr(8,[1])+'.png"></div>');}
+        }
+    }
+</script>
 
 <script>
     t0=new Date
