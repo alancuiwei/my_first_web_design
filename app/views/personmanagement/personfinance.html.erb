@@ -2,38 +2,39 @@
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
-<div class="main-content">
+<div class="main-content finance">
   <% if  @personalfinance%>
-  <h1><%= @personalfinance.username%>的投资页面</h1>
-      <h2>个人信息：</h2>
-          <table class="table table-striped table-bordered">
-            <thead><tr>
+      <h1><%= @personalfinance.username%>的投资页面</h1>
+      <br>
+      <h2 class="h2">个人信息：</h2>
+      <table class="table table-striped table-bordered">
+        <thead><tr>
           <th>用户名</th><th>年龄</th><th>公司</th><th>职务</th><th>流动总资金</th>
           <% if session[:webusername]== @personalfinance.username%>
               <th>操作</th>
           <% end %>
-            </tr></thead>
-            <tr>
-              <td><%= @personalfinance.username%></td>
-              <td><%= format("%0.0f",@personalfinance.age)%></td>
-              <td><%= @personalfinance.company%></td>
-              <td><%= @personalfinance.post%></td>
-              <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
+        </tr></thead>
+        <tr>
+          <td><%= @personalfinance.username%></td>
+          <td><%= format("%0.0f",@personalfinance.age)%></td>
+          <td><%= @personalfinance.company%></td>
+          <td><%= @personalfinance.post%></td>
+          <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
           <% if session[:webusername]== @personalfinance.username%>
               <td><a href="/personmanagement/personinfo/1">修改</a></td>
           <% end %>
-            </tr>
-          </table>
-      <br>
-      <table id="deploy">
+        </tr>
+      </table>
+      <br><br>
+      <table id="deploy" class="h2">
         <tr>
-          <td class="col1"><h2>资产配置：</h2></td>
+          <td class="col1"><h2>资产配置</h2></td>
           <td class="col"><p style="width: 50px;height: 25px;background-color: #ff0000;"></p></td>
-          <td class="col1">未购，等待您的推荐</td>
+          <td class="col1 col2">未购，等待您的推荐</td>
           <td class="col"><p style="width: 50px;height: 25px;background-color: #9ACD32;"></p></td>
-          <td>已购，等待到期后再推荐</td>
+          <td class="col2">已购，等待到期后再推荐</td>
           <% if session[:webusername]== @personalfinance.username%>
-          <td class="col1" style="text-align: center;"><a href="/personmanagement/personinformation/0">添加</a></td>
+              <td class="col1 col2" style="text-align: center;"><a href="/personmanagement/personinformation/0">添加</a></td>
           <% end %>
         </tr>
       </table>
@@ -60,30 +61,87 @@
                   <td><%= b.collectperiod%></td>
               <% end%>
               <% if session[:webusername]== @personalfinance.username%>
-              <td><a href="/personmanagement/personinformation/<%= b.id %>">修改</a></td>
+                  <td><a href="/personmanagement/personinformation/<%= b.id %>">修改</a></td>
               <% end %>
             </tr>
         <% end %>
       </table>
-
-      <h2>感兴趣的产品种类：</h2>
+      <br><br>
+      <h2 class="h2">感兴趣的产品种类：</h2>
       <p class="text">我对<span style='color: #ff0000;'> <%= @personalfinance.wbreedinfo%> </span>比较感兴趣，如果有比较合适的该类产品，我会考虑调整我的资产配置。</p>
-      <p>关于<span style='color: #ff0000;'> 信托 </span>产品：<%= @personalfinance.contact%></p>
-
-     <div id="favoriteedit">
-        <h2>我最喜欢的产品：
+      <p class="text">关于<span style='color: #ff0000;'> 信托 </span>产品：<%= @personalfinance.contact%></p>
+      <br><br>
+      <div id="favoriteedit">
+        <h2 class="h2">我最喜欢的产品：
           <% if session[:webusername]== @personalfinance.username%>
               <button id="edit">修改</button>
           <% end %>
         </h2>
-      <p class="text"><%= @personalfinance.myfavorite%></p>
+        <p class="text"><%= @personalfinance.myfavorite%></p>
       </div>
       <% if session[:webusername]== @personalfinance.username%>
-      <div id="favoritefix">
-      <h2>我最喜欢的产品：<button id="fix">确定</button></h2>
-      <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
+          <div id="favoritefix">
+            <h2 class="h2">我最喜欢的产品：<button id="fix">确定</button></h2>
+            <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
+          </div>
+      <% end %>
+      <br><br>
+      <div id="profileedit">
+        <h2 class="h2">个人资产配置点评：
+          <% if session[:webusername]== @personalfinance.username%>
+              <button id="edit2">修改</button>
+          <% end %>
+        </h2>
+        <% if (@personalfinance.title==nil || @personalfinance.title=='') && (@personalfinance.article==nil || @personalfinance.article=='') %>
+            <p class="text">标题：关于我的资产配置</p>
+            <p class="text">正文：欢迎大家对于我的资产配置建议，如果有合适的产品，欢迎推荐。。</p>
+        <% else %>
+            <p class="text">标题：<%= @personalfinance.title%></p>
+            <p class="text">正文：<%= @personalfinance.article%></p>
+        <% end %>
       </div>
-  <% end %>
+      <% if session[:webusername]== @personalfinance.username%>
+          <div id="profilefix">
+            <h2 class="h2">个人资产配置点评：<button id="fix2">确定</button></h2>
+            标题：<input type="text" name="title" id="title" title="标题" value="<%= @personalfinance.title%>"> <br>
+            正文：<textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="article" id="article" title="正文"><%= @personalfinance.article%></textarea>
+          </div>
+      <% end %>
+      <% if @comments.length>0 %>
+          <br><br>
+          <h2 class="h2">评论</h2>
+          <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+            <% @comments.each do |b| %>
+                <tr>
+                  <td>
+                    <p class="text"><%= b.username%> 说：</p>
+                  </td>
+                  <td class="pull-right">
+                    <p class="text"> <%= b.time%> </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                   <p class="text"> <%= b.comments%> </p>
+                    <hr>
+                  </td>
+                </tr>
+            <% end %>
+          </table>
+      <% end %>
+
+      <br><br>
+      <h2 class="h2">发表评论</h2>
+      <form id="commentform">
+        <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
+          <input class="demo-tip-yellowsimple" id="author" name="author" value="" size="30" aria-required="true" type="text" title="只有机构用户或本人才可以发布评论"></p>
+        <p class="comment-form-email"><label for="email">电子邮件 <span class="required">*</span></label>
+          <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="电子邮件"></p>
+        <p class="comment-form-comment"><label for="comment">评论</label>
+          <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
+        <input name="submit" id="submit" value="发表" type="button">
+        </p>
+      </form>
   <% end %>
 </div>
 
@@ -95,11 +153,17 @@
         var date = today.getDate();
         $("#favoriteedit").show();
         $("#favoritefix").hide();
+        $("#profileedit").show();
+        $("#profilefix").hide();
         $(".date").html(year+'-'+month+'-'+date);
     }
     $("#edit").click(function(e){
         $("#favoritefix").show();
         $("#favoriteedit").hide();
+    });
+    $("#edit2").click(function(e){
+        $("#profilefix").show();
+        $("#profileedit").hide();
     });
 
     $("#fix").click(function(e){
@@ -111,6 +175,59 @@
                 location.href='';
             }
         });
+    });
+
+    $("#fix2").click(function(e){
+        $("#profileedit").show();
+        $("#profilefix").hide();
+        $.post("/personmanagement/profileconfigajax",{ title:$("#title").attr("value"),article:$("#article").attr("value")
+        },function(data){
+            if(data=="s1"){
+                location.href='';
+            }
+        });
+    });
+
+    $("#submit").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+              if(o[i].title=="只有机构用户或本人才可以发布评论"){
+                  alert("姓名为空！");
+              }
+                else{
+                alert(o[i].title+"为空！");
+              }
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0 && ('<%= session[:organuser] %>'=='1' || '<%= session[:webusername] %>'=='<%= @personalfinance.name%>')){
+            $.post("/personmanagement/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
+                comments: $("#comment").attr("value"),cid: '<%= @personalfinance.id%>',time:time
+            },function(data){
+                if(data=="s1"){
+                    location.reload();
+                }
+            });
+        }
     });
 
     $(function(){
@@ -169,3 +286,4 @@
         });
     });
 </script>
+

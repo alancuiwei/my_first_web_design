@@ -24,6 +24,18 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def commentconfigajax
+    Comments.new do |b|
+      b.username=params[:username]
+      b.email=params[:email]
+      b.comments=params[:comments]
+      b.cid=params[:cid]
+      b.time=params[:time]
+      b.save
+    end
+    render :json => "s1".to_json
+  end
+
   def investor
     @personalfinance=Personalfinance.all
     @personinvestinfo=Personinvestinfo.all
@@ -68,6 +80,12 @@ class PersonmanagementController < ApplicationController
     render :json => "s1".to_json
   end
 
+  def profileconfigajax
+    @personalfinance=Personalfinance.find_by_username(session[:webusername])
+    @personalfinance.update_attributes(:title=>params[:title],:article=>params[:article])
+    render :json => "s1".to_json
+  end
+
   def personinfoconfigajax
     if params[:id]=="0"
       Personinvestinfo.new do |b|
@@ -107,6 +125,7 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
+    @comments=Comments.order("id desc").find_all_by_cid(params[:id])
     if  params[:id]!=nil
       @personalfinance=Personalfinance.find_by_id(params[:id])
       @personalinfo=Personinvestinfo.find_all_by_username(@personalfinance.username)
