@@ -28,7 +28,7 @@ class PersonmanagementController < ApplicationController
     Comments.new do |b|
       b.username=params[:username]
       b.email=params[:email]
-      b.comments=params[:comments]
+      b.comments=params[:comment]
       b.cid=params[:cid]
       b.time=params[:time]
       b.save
@@ -125,13 +125,17 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
-    @comments=Comments.order("id desc").find_all_by_cid(params[:id])
     if  params[:id]!=nil
+    @comments=Comments.order("id desc").find_all_by_cid(params[:id])
       @personalfinance=Personalfinance.find_by_id(params[:id])
       @personalinfo=Personinvestinfo.find_all_by_username(@personalfinance.username)
-    else
+    elsif  session[:webusername]!=nil
     @personalfinance=Personalfinance.find_by_username(session[:webusername])
     @personalinfo=Personinvestinfo.find_all_by_username(session[:webusername])
+        @comments=Comments.order("id desc").find_all_by_cid(@personalfinance.id)
+    end
+    if @personalfinance==nil
+      redirect_to(:controller=>"home")
   end
   end
 end

@@ -37,6 +37,7 @@
               <td class="col1 col2" style="text-align: center;"><a href="/personmanagement/personinformation/0">添加</a></td>
           <% end %>
         </tr>
+        <tr><td colspan="6" height='5'></td></tr>
       </table>
 
       <table class="table table-striped table-bordered" id="info">
@@ -133,19 +134,16 @@
       <br><br>
       <h2 class="h2">发表评论</h2>
       <form id="commentform">
-        <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
-          <input class="demo-tip-yellowsimple" id="author" name="author" value="" size="30" aria-required="true" type="text" title="只有机构用户或本人才可以发布评论"></p>
-        <p class="comment-form-email"><label for="email">电子邮件 <span class="required">*</span></label>
-          <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="电子邮件"></p>
         <p class="comment-form-comment"><label for="comment">评论</label>
           <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
-        <input name="submit" id="submit" value="发表" type="button">
+        <a class="btn btn-primary" id="sub"  href="javascript:void(0)">发表</a>
         </p>
       </form>
   <% end %>
 </div>
 
 <script>
+
     window.onload=function(){
         today=new Date();
         var year = today.getFullYear();
@@ -156,6 +154,9 @@
         $("#profileedit").show();
         $("#profilefix").hide();
         $(".date").html(year+'-'+month+'-'+date);
+        if(Request("comment")){
+            $("#comment").html(Request("comment"));
+        }
     }
     $("#edit").click(function(e){
         $("#favoritefix").show();
@@ -188,8 +189,7 @@
         });
     });
 
-    $("#submit").click(function(e){
-        var o=document.getElementsByTagName("input");
+    $("#sub").click(function(e){
         var nom_flag=0;
         var dateTime=new Date();
         var hh=dateTime.getHours();
@@ -205,23 +205,25 @@
 
         //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
         var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
-        for(var i=0;i<o.length;i++)
-        {
-            if(o[i].value=="" && o[i].title!=""){
-              if(o[i].title=="只有机构用户或本人才可以发布评论"){
-                  alert("姓名为空！");
+
+        if($('#comment').attr("value")==""){
+            alert("评论为空！");
+            nom_flag=1;
               }
-                else{
-                alert(o[i].title+"为空！");
+
+        if('<%= session[:webusername] %>'=="" && nom_flag==0){
+            location.href="/sales/login?comment="+$("#comment").attr("value")+'&cid='+'<%= @personalfinance.id%>';
+            nom_flag=1;
               }
+
+        if('<%= session[:organuser] %>'!='1' && '<%= session[:webusername] %>'!='<%= @personalfinance.name%>' &&  nom_flag==0){
+           alert('权限不够');
                 nom_flag=1;
-                break;
-            }
         }
 
-        if(nom_flag==0 && ('<%= session[:organuser] %>'=='1' || '<%= session[:webusername] %>'=='<%= @personalfinance.name%>')){
-            $.post("/personmanagement/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
-                comments: $("#comment").attr("value"),cid: '<%= @personalfinance.id%>',time:time
+        if(nom_flag==0){
+            $.post("/personmanagement/commentconfigajax",{ username: '<%= session[:webusername] %>',email: '<%= @personalfinance.email%>',
+                comment: $("#comment").attr("value"),cid: '<%= @personalfinance.id%>',time:time
             },function(data){
                 if(data=="s1"){
                     location.reload();
@@ -285,5 +287,32 @@
             }
         });
     });
-</script>
 
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+</script>

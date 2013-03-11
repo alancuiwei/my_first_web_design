@@ -172,6 +172,9 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
+                else if(Request("comment")!=''){
+                    location.href="/personmanagement/personfinance/"+Request("cid")+"?comment="+Request("comment");
+                }
                 else if(data=='organ'){
                     location.href="/bankinvest/organ";
                 }
