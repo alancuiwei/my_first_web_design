@@ -2,6 +2,10 @@
   <div>
     用户名：<input type="text" name="username" id="username" title="用户名"> <br>
     姓名：<input type="text" name="name" id="name" title="姓名"> <br>
+    会员等级：<select  name="memberlevel" id="memberlevel" title="会员等级">
+      <option value="0">中级会员</option>
+      <option value="1">高级会员</option>
+    </select><br>
     密码：<input type="password" name="password" id="password" title="密码"> <br>
     密码确认：<input type="password" name="passwordconfirm" id="passwordconfirm" title="密码确认"> <br>
     电子邮箱：<input type="text" name="email" id="email" title="电子邮箱"> <br>
@@ -27,6 +31,7 @@
       $("#email").attr("value",'<%= @userinfo[6]%>');
       $("#company").attr("value",'<%= @userinfo[7]%>');
       $("#post").attr("value",'<%= @userinfo[8]%>');
+      $("#memberlevel").attr("value",'<%= @userinfo[9]%>');
       <% end %>
 
       $("#userconfig").click(function(e){
@@ -58,7 +63,7 @@
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),tel: $("#tel").attr("value"),
                       password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value"),
                       name: $("#name").attr("value"),email: $("#email").attr("value"),company: $("#company").attr("value"),
-                      post: $("#post").attr("value")
+                      post: $("#post").attr("value"),memberlevel: $("#memberlevel").attr("value")
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");

@@ -125,6 +125,7 @@
     if params[:id]!="0"
     @webuser=Webuser.find_by_id(params[:id])
     @personalfinance=Personalfinance.find_by_username(@webuser.username)
+    if @personalfinance
       @userinfo[0]=@webuser.username
       @userinfo[1]=decode(@webuser.password)
       @userinfo[2]=@webuser.tel
@@ -134,6 +135,10 @@
       @userinfo[6]=@personalfinance.email
       @userinfo[7]=@personalfinance.company
       @userinfo[8]=@personalfinance.post
+      @userinfo[9]=@webuser.memberlevel
+    else
+      redirect_to(:controller=>"admin")
+    end
     end
   end
 
@@ -256,6 +261,8 @@
         w.company=params[:company]
         w.division=params[:division]
         w.organuser=params[:organuser]
+        w.securitiesnum=params[:securitiesnum]
+        w.memberlevel=params[:memberlevel]
         w.save
       end
 #      session[:webusername]=params[:username]
@@ -270,9 +277,9 @@
 
     else
       @webuser.update_attributes(:password=>password,:tel=>params[:tel],:name=>params[:name],
-                                 :address=>params[:address],:postcode=>params[:postcode],:email=>params[:email],:company=>params[:company])
+                                 :address=>params[:address],:postcode=>params[:postcode],:email=>params[:email],:company=>params[:company],:memberlevel=>params[:memberlevel])
       @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],
-                                 :company=>params[:company],:post=>params[:post],:email=>params[:email])
+                                 :company=>params[:company],:post=>params[:post],:email=>params[:email],:memberlevel=>params[:memberlevel])
       render :json => "s2".to_json
     end
   end

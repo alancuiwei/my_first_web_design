@@ -18,6 +18,7 @@ class PersonmanagementController < ApplicationController
         @personal[11]=@personalfinance.contact
         @personal[12]=@personalfinance.myfavorite
         @personal[13]=@personalfinance.tel
+        @personal[14]=@personalfinance.memberlevel
       end
     else
       redirect_to(:controller=>"home")
@@ -37,7 +38,8 @@ class PersonmanagementController < ApplicationController
   end
 
   def investor
-    @personalfinance=Personalfinance.all
+    @personalfinance=Personalfinance.find_all_by_memberlevel("0")
+    @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
     @personinvestinfo=Personinvestinfo.all
   end
 
@@ -59,6 +61,7 @@ class PersonmanagementController < ApplicationController
       b.contact=params[:contact]
       b.myfavorite=params[:myfavorite]
       b.tel=params[:tel]
+      b.memberlevel=params[:memberlevel]
       b.save
     end
     session[:personname]=session[:webusername]
@@ -69,7 +72,7 @@ class PersonmanagementController < ApplicationController
                                 :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
                                 :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
                                 :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:post=>params[:post],
-                                :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel])
+                                :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
       render :json => "s1".to_json
     end
   end

@@ -295,8 +295,8 @@
             <td><%= w.currencytype%></td>
             <td><%= w.btype%></td>
             <td><%= w.risk%></td>
-            <td class="ctl" title="<%= w.invsetsubject%>"><%= w.invsetsubject%></td>
-            <td class="ctl" title="<%= w.risktip%>"><%= w.risktip%></td>
+            <td class="ctl"><%= w.invsetsubject%></td>
+            <td class="ctl"><%= w.risktip%></td>
             <td><%= w.productkeywords%></td>
             <td><a href="/admin/bankproductsconfig/<%= w.id %>">修改</a></td>
             <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','bankproductsdeleteajax')">删除</a></td>
@@ -347,7 +347,7 @@
         <h1>用户管理</h1><br>
   <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
     <thead><tr>
-      <th>用户名</th><th class="hide">密码</th>
+      <th>用户名</th><th class="hide">密码</th><th>会员级别</th>
       <th>联系电话</th><th>公司</th><th>营业部</th><th>是否机构用户</th>
       <th>修改</th><th>删除</th><th>投资信息</th>
     </tr></thead>
@@ -356,6 +356,11 @@
        <tr>
          <td><%= w.username%></td>
          <td class="hide"><%= @hash_password[w.id]%></td>
+         <% if w.memberlevel=='1'%>
+             <td>高级会员</td>
+         <% else %>
+             <td>中级会员</td>
+         <% end %>
          <td><%= w.tel%></td>
          <td><%= w.company%></td>
          <td><%= w.division%></td>
