@@ -5,6 +5,7 @@
     if session[:webusername]=="admin" || session[:webusername]=="blog"
     @webusers=Webuser.all
     @bankfinances=Bankfinance.all
+    @bankfinance2=Bankfinance.find_all_by_isorgan(1)
     @blogs=Blog.all
     @products=Product.all
     @reserves=Reserve.all
@@ -589,6 +590,9 @@
        @bankfinanceinfo[14]=@bankfinance.invsetsubject
        @bankfinanceinfo[15]=@bankfinance.formula
        @bankfinanceinfo[16]=@bankfinance.risktip
+       @bankfinanceinfo[17]=@bankfinance.ischosen
+     else
+       @bankfinance=Bankfinance.find_by_id(4898)
      end
    else
      redirect_to(:controller=>"home")
@@ -617,6 +621,7 @@
            b.invsetsubject=params[:invsetsubject]
            b.formula=params[:formula]
            b.risktip=params[:risktip]
+           b.ischosen=params[:ischosen]
            b.save
          end
          render :json => "s1".to_json
@@ -630,7 +635,7 @@
                                       :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout],
                                       :ispatent=>params[:ispatent],:productkeywords=>params[:productkeywords],
                                       :isorgan=>params[:isorgan],:name=>params[:name],:invsetsubject=>params[:invsetsubject],
-                                      :formula=>params[:formula],:risktip=>params[:risktip])
+                                      :formula=>params[:formula],:risktip=>params[:risktip],:ischosen=>params[:ischosen])
        render :json => "s2".to_json
      end
 

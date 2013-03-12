@@ -3,6 +3,11 @@ require 'date'
 class BankinvestController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
 
+  def agentproducts
+    @bankfinances=Bankfinance.find_all_by_isorgan(1)
+    @bankfinance2=Bankfinance.find_all_by_isorgan_and_ischosen(1,'1')
+  end
+
   def organ
     @webuser=Webuser.find_by_username(session[:webusername])
     @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,session[:webusername])

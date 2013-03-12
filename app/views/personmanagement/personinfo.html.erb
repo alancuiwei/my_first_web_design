@@ -12,7 +12,7 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">姓名*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开。' type="text" id="name" title="姓名" placeholder="姓名">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开。' type="text" id="name" placeholder="姓名">
       </div>
     </div>
     <div class="control-group">
@@ -36,20 +36,20 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">电子邮箱*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。' type="text" id="email" title="电子邮箱" placeholder="电子邮箱">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。' type="text" id="email" placeholder="电子邮箱">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">联系电话*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发短信息到您。' type="text" id="tel" title="联系电话" placeholder="联系电话">
+        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发短信息到您。' type="text" id="tel" placeholder="联系电话">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">投资资金:</label>
       <div class="controls">
         <div class="input-append">
-        <input class="demo-form-name" title='如果有你刚才所描述的产品，你共有多少流动资金可以用来做投资？' type="text" id="investamount" title="投资资金"  placeholder="投资资金">
+        <input class="demo-form-name" title='如果有你刚才所描述的产品，你共有多少流动资金可以用来做投资？' type="text" id="investamount"  placeholder="投资资金">
           <span class="add-on">元</span>
         </div>
       </div>
@@ -69,7 +69,7 @@
       <label class="control-label" for="inputPassword">预期年化收益率:</label>
       <div class="controls">
         <div class="input-append">
-          <input class="demo-form-name" title='您最期望的理财产品收益率是多少？' type="text" id="returnrate" title="预期年化收益率" placeholder="预期年化收益率">
+          <input class="demo-form-name" title='您最期望的理财产品收益率是多少？' type="text" id="returnrate" placeholder="预期年化收益率">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -78,7 +78,7 @@
       <label class="control-label" for="inputPassword">可承担的风险:</label>
       <div class="controls">
         <div class="input-append">
-          <input class="demo-form-name" title='您最期望的理财产品风险度是多少？' type="text" id="riskrate" title="可承担的风险" placeholder="可承担的风险">
+          <input class="demo-form-name" title='您最期望的理财产品风险度是多少？' type="text" id="riskrate" placeholder="可承担的风险">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -131,9 +131,9 @@
       <label class="control-label" for="inputPassword">我最喜欢的产品:</label>
       <div class="controls">
         <% if params[:id]!="0" %>
-            <textarea class="ckeditor" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
+            <textarea  class="demo-form-name" title='例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。' cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
         <% else %>
-            <textarea class="ckeditor" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
+            <textarea  class="demo-form-name" title='例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。' cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
         <% end %>
       </div>
     </div>
@@ -181,13 +181,21 @@
         for(var i=0;i<o.length;i++)
         {
             if(o[i].value=="" && o[i].title!=""){
-                alert(o[i].title+"为空！");
+                alert(o[i].placeholder+"为空！");
                 nom_flag=1;
                 break;
             }
         }
-        if($("#wbreedinfo").attr("value")==""){
-            alert("请选择您感兴趣的产品！");
+        if($("#investvarieties").attr("value")=="" && nom_flag==0){
+            alert("当前投资品种为空！");
+            nom_flag=1;
+        }
+        if($("#wbreedinfo").attr("value")=="" && nom_flag==0){
+            alert("感兴趣的产品为空！");
+            nom_flag=1;
+        }
+        if($("#myfavorite").attr("value")=="" && nom_flag==0){
+            alert("我最喜欢的产品为空！");
             nom_flag=1;
         }
         var flag='';

@@ -186,19 +186,19 @@
       <h2>他们的员工也在使用我们的服务</h2>
       <div class="row-fluid">
         <div class="span3 img1">
-          <a href=""><img src="/assets/shbe.jpg"></a>
+          <img src="/assets/shbe.jpg">
         </div>
         <div class="span3 img2">
-          <a href=""><img src="/assets/zx.jpg"></a>
+         <img src="/assets/zx.jpg">
         </div>
         <div class="span2 img3">
-          <a href=""><img src="/assets/ericsson.png"></a>
+         <img src="/assets/ericsson.png">
         </div>
         <div class="span2 img4">
-          <a href=""><img src="/assets/trend.jpg"></a>
+        <img src="/assets/trend.jpg">
         </div>
         <div class="span2 img3">
-          <a href=""><img src="/assets/hw.jpg"></a>
+          <img src="/assets/hw.jpg">
         </div>
       </div>
       <div id="tradingSystem">
@@ -240,8 +240,8 @@
           <td class="number"></td>
           <td class="number"></td>
           <td class="number"></td>
-          <td class="homeRightText">
-            <h3>总资金量</h3>
+          <td class="homeRightText"><h3>闲余资金量</h3>
+            <p>正在寻觅合适理财产品</p>
           </td>
         </tr>
 
@@ -262,8 +262,8 @@
           <td class="number"></td>
           <td class="number"></td>
           <td class="number"></td>
-          <td class="homeRightText"><h3>闲余资金量</h3>
-            <p>正在寻觅合适理财产品</p>
+          <td class="homeRightText">
+            <h3>总资金量</h3>
           </td>
         </tr>
         </tbody>
@@ -277,28 +277,54 @@
      </div>
     </div>
     <h2 class="press">提供&nbsp;<a class="bankfinance" href="/bankinvest/index">理财产品</a>&nbsp;的服务</h2>
+
     <br><br>
 
+    <div class="row-fluid">
+      <div class="span4 offset1">
+        <a href="/bankinvest/agentproducts/1"><img class="pull-left hsw" src="/assets/graph.gif"></a>
+      </div>
+      <div class="span7">
+        <a href="/bankinvest/agentproducts/1">
+          <h3>精选产品</h3>
+          <p class="leader">网聚闲散资金的力量，加大与金融机构的谈判议价能力，享受单独购买得不到的收益率。</p>
+        </a>
+      </div>
+    </div >
+    <br><br>
+
+    <div class="row-fluid">
+      <div class="span4 offset1">
+        <a href="/bankinvest/agentproducts"><img class="pull-left hsw" src="/assets/analysis.gif"></a>
+      </div>
+      <div class="span7">
+        <a href="/bankinvest/agentproducts">
+          <h3>经纪人推荐产品</h3>
+          <p class="leader">罗列出金融机构的各种<span class="h3">理财产品</span>供您挑选。<br>
+            收益率，投资期限，起购金额，购买时间一目了然。</p>
+        </a>
+      </div>
+    </div >
+
+    <br><br>
     <div class="row-fluid">
       <div class="span4 offset1">
         <a href="/bankinvest/index"> <img class="pull-left hsw" src="/assets/piggy.gif"></a>
       </div>
       <div class="span7">
         <a href="/bankinvest/index">
-          <h3>理财产品库</h3>
-          <p class="leader">罗列出金融机构的各种<span class="h3">理财产品</span>，供您挑选。<br>
-            收益率，投资期限，起购金额，购买时间一目了然。<br>帮您准确的计算每一笔投入的实际回报金额。</p>
+          <h3>所有在售产品</h3>
+          <p class="leader">罗列出所有机构（银行、证券公司、期货公司等）的各种<span class="h3">理财产品</span>，供您挑选。<br>
+            收益率，投资期限，起购金额，购买时间一目了然。</p>
         </a>
       </div>
     </div >
-
+    <!--
     <br><br>
-
-
 
     <div class="row-fluid">
       <div class="span4 offset1">
-        <a href="/bankinvest/specialfinance"><img class="pull-left hsw" src="/assets/graph.gif"></a>
+        <a href="/bankinvest/pickoutfinance"><img class="pull-left hsw" src="/assets/graph.gif"></a>
       </div>
       <div class="span7">
         <a href="/bankinvest/pickoutfinance">
@@ -309,7 +335,7 @@
       </div>
     </div >
 
-    <br><br>
+
     <div class="row-fluid">
       <div class="span4 offset1">
         <a href="/home/productindex"><img class="pull-left hsw" src="/assets/analysis.gif"></a>
@@ -322,6 +348,7 @@
         </a>
       </div>
     </div >
+    -->
   </div>
 </div>
 
@@ -345,7 +372,7 @@
            free = free + <%= b.investamount %>;
            }
         <% end %>
-        num=parseInt(parseFloat(free)*0.0005);
+        num=parseInt(parseFloat(free)*0.0001);
         num = num.toString();
         while(num.length<9){
             num='b'+num;
@@ -362,8 +389,8 @@
         var length=$("#tableNumbers").find("tr").size();
         for(i=0;i<length;i=i+2){
             if(i==0){c=num}
-            else if(i==2){c=invest}
-            else if(i==4){c=free}
+            else if(i==2){c=free}
+            else if(i==4){c=invest}
             if(c.substr(0,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src="/assets/blank.png"></div>');}
             else{$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src'+'='+'"/assets/num'+c.substr(0,[1])+'.png"></div>');}
 

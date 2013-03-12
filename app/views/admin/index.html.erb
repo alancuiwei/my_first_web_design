@@ -252,6 +252,35 @@
                     </td></tr>
 
                       <tr><td>
+                          <h1>经纪人上传产品管理</h1>
+                          <a href="/admin/bankfinanceconfig/0?organ=1">添加</a>
+                          <table cellpadding="0" cellspacing="0" border="0" class="display" id="organ">
+                            <thead><tr>
+                              <th>发行机构</th><th>是否精选</th><th>产品名称</th>
+                              <th>年化收益率</th><th>是否保本</th><th>起售价</th>
+                              <th>理财期限</th><th>更多</th>
+                            </tr></thead>
+
+                            <% @bankfinance2.each do |b| %>
+                                <tr>
+                                  <td><%= b.trustee%></td>
+                                  <% if b.ischosen=='1'%>
+                                      <td>是</td>
+                                  <% else %>
+                                      <td>否</td>
+                                  <% end %>
+                                  <td><%= b.bname%></td>
+                                  <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                                  <td><%= b.btype%></td>
+                                  <td><%= b.startvalue%></td>
+                                  <td><%= b.investperiod%></td>
+                                  <td><a href="/admin/bankfinanceconfig/<%= b.id %>?optype=edit&organ=1">修改</a></td>
+                                </tr>
+                            <% end %>
+                          </table>
+                        </td></tr>
+
+                      <tr><td>
   <h1>银行销售产品管理</h1>
             <a href="/admin/bankfinanceconfig/0">添加</a>
   <label class="checkbox"><input type="checkbox" name="keywords" id="keywords">产品关键词为空的产品。</label>
@@ -417,7 +446,7 @@
     );
 
     $(document).ready(function(){
-        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog,#reserve,#bankproducts').dataTable();
+        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#blog,#reserve,#bankproducts,#organ').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
     });

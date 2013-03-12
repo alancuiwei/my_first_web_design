@@ -40,6 +40,12 @@
     <option value="平安证券">平安证券</option>
     <option value="国泰君安证券">国泰君安证券</option>
   </select><br>
+    <% if session[:webusername]=='admin' %>
+        是否精选：<select  name="ischosen" id="ischosen" title="是否精选">
+    <option value="1">是</option>
+    <option value="0">否</option>
+  </select><br>
+    <% end %>
     产品名称：<input type="text" name="bname2" id="bname2" title="产品名称"> <br>
     年化收益率：<input type="text" name="returnrate2" id="returnrate2" title="年化收益率">% <br>
     是否保本：<select  name="btype2" id="btype2" title="是否保本">
@@ -61,7 +67,7 @@
     <% end %>
   </div>
 </div>
-<a class="btn" href="javascript:void(0)" id="bankfinanceconfig">确认</a>
+<a class="btn btn-primary" href="javascript:void(0)" id="bankfinanceconfig">确认</a>
 
 <script type="text/javascript">
     var isorgan,name;
@@ -126,11 +132,14 @@
     $("#ispickout").attr("value",'<%= @bankfinanceinfo[11]%>');
     $("#ispatent").attr("value",'<%= @bankfinanceinfo[12]%>');
     $("#productkeywords").attr("value",'<%= @bankfinanceinfo[13]%>');
+    $("#ischosen").attr("value",'<%= @bankfinanceinfo[17]%>');
     <% end %>
 
     $("#bankfinanceconfig").click(function(e){
         var o=document.getElementsByTagName("input");
         var nom_flag=0;
+        var name='<%=session[:webusername]%>';
+        var flag='0';
         for(var i=0;i<o.length;i++)
         {
             if(o[i].value==""){
@@ -139,7 +148,10 @@
                 break;
             }
         }
-
+        if('<%=session[:webusername]%>'=='admin'){
+            flag=$("#ischosen").attr("value");
+            name='<%=@bankfinance.name%>';
+        }
         if(nom_flag==0 && Request("organ")!=1){
             if( numfor.test($("#investperiod").attr("value"))==false){
                 alert("预期投资期限必须为数字！");
@@ -164,18 +176,28 @@
                     sailsstart: $("#sailsstart2").attr("value"),distributionarea: '南京',
                     ispickout: 0,ispatent: 0,productkeywords: $("#bname2").attr("value"),invsetsubject: $("#invsetsubject").attr("value"),
                     formula: $("#formula").attr("value"),risktip: $("#risktip").attr("value"),
-                    isorgan:1,name:'<%= session[:webusername] %>'
+                    isorgan:1,name:name,ischosen:flag
                 },function(data){
                     if(data=="f1"){
                         alert("产品已存在！");
                     }
                     else if(data=="s1"){
                         alert("产品创建成功！");
+                        if('<%=session[:webusername]%>'=='admin'){
+                        location.href='/admin';
+                        }
+                        else{
                         location.href='/bankinvest/organ';
+                    }
                     }
                     else{
                         alert("修改成功！");
+                        if('<%=session[:webusername]%>'=='admin'){
+                            location.href='/admin';
+                        }
+                        else{
                         location.href='/bankinvest/organ';
+                    }
                     }
                 });
             }
@@ -186,7 +208,7 @@
                 trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value"),
                 sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),
                 ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value"),productkeywords: $("#productkeywords").attr("value"),
-                isorgan:0,name:0,invsetsubject: '',formula: '',risktip: ''
+                isorgan:0,name:0,invsetsubject: '',formula: '',risktip: '',ischosen:flag
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");
