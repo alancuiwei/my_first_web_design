@@ -22,7 +22,7 @@
     <tr>
       <th>会员名</th><th>总资金量</th><th>闲余资金量</th>
       <th>股票</th><th>基金</th><th>P2P信贷</th><th>贵金属</th><th>商品期货</th><th>银行理财产品</th>
-      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th>
+      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th><th>信托产品</th><th class="hide">信托</th>
     </tr></thead>
 
     <% @personalfinance.each do |b| %>
@@ -39,6 +39,8 @@
                   <td></td>
           <td class="hide"><%= b.wbreedinfo%></td>
           <td class="hide"><%= b.username%></td>
+          <td></td>
+          <td class="hide"><%= b.contact%></td>
                 </tr>
             <% end %>
     <tr class='sum'>
@@ -52,6 +54,8 @@
       <td>0</td>
       <td>0</td>
       <td class="hide"></td>
+      <td class="hide"></td>
+      <td></td>
       <td class="hide"></td>
     </tr>
   </table>
@@ -68,7 +72,7 @@
     <tr>
       <th>会员名</th><th>总资金量</th><th>闲余资金量</th>
       <th>股票</th><th>基金</th><th>P2P信贷</th><th>贵金属</th><th>商品期货</th><th>银行理财产品</th>
-      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th>
+      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th><th>信托产品</th><th class="hide">信托</th>
     </tr></thead>
 
     <% @personalfinance2.each do |b| %>
@@ -85,6 +89,8 @@
           <td></td>
           <td class="hide"><%= b.wbreedinfo%></td>
           <td class="hide"><%= b.username%></td>
+          <td></td>
+          <td class="hide"><%= b.contact%></td>
         </tr>
     <% end %>
     <tr class='sum'>
@@ -98,6 +104,8 @@
       <td>0</td>
       <td>0</td>
       <td class="hide"></td>
+      <td class="hide"></td>
+      <td></td>
       <td class="hide"></td>
     </tr>
   </table>
@@ -178,6 +186,8 @@
             else if($("#invsetor tr:eq("+i+") td:eq(9)").html().indexOf("银行理财产品")>=0){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("yellow");a8=''}
             else{$("#invsetor tr:eq("+i+") td:eq(8)").addClass("black");a8=''}
 
+            if( $("#invsetor tr:eq("+i+") td:eq(12)").html()=='不感兴趣'){$("#invsetor tr:eq("+i+") td:eq(11)").addClass("black");}
+            else{$("#invsetor tr:eq("+i+") td:eq(11)").addClass("red");}
 
             $("#invsetor tr:eq("+i+") td:eq(2)").html(parseInt(parseFloat(c3)+parseFloat(c4)+parseFloat(c5)+parseFloat(c6)+parseFloat(c7)+parseFloat(c8)))
             $("#invsetor tr:eq("+i+") td:eq(3)").html(a3)
@@ -266,6 +276,8 @@
             else if($("#seniormember tr:eq("+i+") td:eq(9)").html().indexOf("银行理财产品")>=0){$("#seniormember tr:eq("+i+") td:eq(8)").addClass("yellow");a8=''}
             else{$("#seniormember tr:eq("+i+") td:eq(8)").addClass("black");a8=''}
 
+            if( $("#seniormember tr:eq("+i+") td:eq(12)").html()=='不感兴趣'){$("#seniormember tr:eq("+i+") td:eq(11)").addClass("black");}
+            else{$("#seniormember tr:eq("+i+") td:eq(11)").addClass("red");}
 
             $("#seniormember tr:eq("+i+") td:eq(2)").html(parseInt(parseFloat(c3)+parseFloat(c4)+parseFloat(c5)+parseFloat(c6)+parseFloat(c7)+parseFloat(c8)))
             $("#seniormember tr:eq("+i+") td:eq(3)").html(a3)

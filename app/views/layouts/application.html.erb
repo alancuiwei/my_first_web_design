@@ -36,18 +36,18 @@
      <div class="span2">
        <a href="/"><img src="/assets/logo.jpg"></a>
             </div>
-    <div class="span8">
+    <div class="span7">
         <h4>家庭资产配置金融服务</h4>
             </div>
-    <div class="span2">
+    <div class="span3">
       <% if session[:webusername]!=nil %>
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
           <% if session[:organuser]!='1' %>
           <!--<a class="pull-right rounder" href="/sales/myorder">我的订单</a> -->
               <% if session[:personname]!=0 %>
-              <a class="pull-right rounder" href="/personmanagement/personfinance">我的投资</a>
+                  <a class="pull-right rounder" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
       <% else %>
-                  <a class="pull-right rounder" href="/personmanagement/personinfo/0">我的投资</a>
+                  <a class="pull-right rounder" href="/personmanagement/personinfo/0"><%=session[:webusername]%> 的投资</a>
               <% end %>
       <% else %>
             <a class="pull-right rounder" href="/bankinvest/organ">我的产品</a>
@@ -83,10 +83,10 @@
           <% if session[:organuser]!='1' %>
             <!--  <a class="full" href="/sales/myorder">我的订单</a>  -->
               <% if session[:personname]!=0 %>
-              <a class="full" href="/personmanagement/personfinance">我的投资</a>
+                  <a class="full" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
                   <a class="full" href="/personmanagement/personinfo/1">投资信息设置</a>
               <% else %>
-                  <a class="full" href="/personmanagement/personinfo/0">我的投资</a>
+                  <a class="full" href="/personmanagement/personinfo/0"><%=session[:webusername]%> 的投资</a>
                   <a class="full" href="/personmanagement/personinfo/0">投资信息设置</a>
               <% end %>
       <% else %>
