@@ -89,10 +89,12 @@
         for(var i=0;i<o.length;i++)
         {
             if(o[i].value=="" && o[i].title!=""){
+             if(!(o[i].title=="已购产品到期日期" && $("#purchasproducts").attr("value")=="未购")){
                 alert(o[i].title+"为空！");
                 nom_flag=1;
                 break;
             }
+        }
         }
         if(nom_flag==0){
             $.post("/personmanagement/personinfoconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',producttype: $("#producttype").attr("value"),
