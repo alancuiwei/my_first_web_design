@@ -94,6 +94,7 @@
         <select data-placeholder="请选择：可选多项" style="width:220px;"  name="investvarieties" id="investvarieties" title="当前投资品种" class="chzn-select" multiple tabindex="6">
           <option value=""></option>
           <optgroup label="">
+            <option name="var" value="无">无</option>
             <option name="var" value="基金">基金</option>
             <option name="var" value="股票">股票</option>
             <option name="var" value="P2P信贷">P2P信贷</option>
@@ -201,10 +202,6 @@
         var flag='';
         var vars=document.getElementsByName("var");
         var var2=document.getElementById("investvarieties");
-        if(var2.value==""){
-            flag='无';
-        }
-        else {
             for(var i=0;i<vars.length;i++){
                 if( vars[i].selected){
                     if(flag==''){
@@ -215,14 +212,9 @@
                     }
                 }
             }
-        }
         var flag2='';
         var infos=document.getElementsByName("info");
         var info=document.getElementById("wbreedinfo");
-        if(info.value==""){
-            flag2='无';
-        }
-        else {
             for(var i=0;i<infos.length;i++){
                 if(infos[i].selected){
                     if(flag2==''){
@@ -233,7 +225,6 @@
                     }
                 }
             }
-        }
         if(nom_flag==0){
             $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
                 company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
