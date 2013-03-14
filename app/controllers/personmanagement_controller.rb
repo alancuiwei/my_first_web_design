@@ -32,6 +32,8 @@ class PersonmanagementController < ApplicationController
       b.comments=params[:comment]
       b.cid=params[:cid]
       b.time=params[:time]
+      b.memberlevel=params[:memberlevel]
+      b.company=params[:company]
       b.save
     end
     render :json => "s1".to_json
@@ -128,14 +130,23 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
+
     if  params[:id]!=nil
-    @comments=Comments.order("id desc").find_all_by_cid(params[:id])
+        @comments=Comments.find_all_by_cid(params[:id])
       @personalfinance=Personalfinance.find_by_id(params[:id])
       @personalinfo=Personinvestinfo.find_all_by_username(@personalfinance.username)
-    elsif  session[:webusername]!=nil
+      if session[:webusername]!=nil
+         @webuser=Webuser.find_by_username(session[:webusername])
+      else
+         @webuser=Webuser.find_by_username(@personalfinance.username)
+     end
+    else
+       if session[:webusername]!=nil
     @personalfinance=Personalfinance.find_by_username(session[:webusername])
     @personalinfo=Personinvestinfo.find_all_by_username(session[:webusername])
-        @comments=Comments.order("id desc").find_all_by_cid(@personalfinance.id)
+          @comments=Comments.find_all_by_cid(@personalfinance.id)
+          @webuser=Webuser.find_by_username(session[:webusername])
+       end
     end
     if @personalfinance==nil
       redirect_to(:controller=>"home")
