@@ -1,14 +1,20 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
+<%= javascript_include_tag "highcharts.js" %>
 
 <div class="main-content details">
   <a href="/">首页</a><br><br>
-  <h1><%= @banfinance.bname%></h1>
   <% if @banfinance.trustee =="北京银行" %>
       <a class="btn btn-primary pull-right" href="/sales/index?bid=<%= @banfinance.id%>&favourable=1">预订</a>
   <% else %>
       <a class="btn btn-primary pull-right" href="/sales/index?bid=<%= @banfinance.id%>">预订</a>
   <% end %>
   <br><br>
+  <div id="rate">
+  <h1>收益率介绍</h1>
+  <br><br>
+  <div id="container" style="width: 80%; height: 400px; "></div>
+  <br><br>
+  </div>
   <table class="table table-striped table-bordered">
     <% if @bankproducts %>
         <tr>
@@ -76,3 +82,109 @@
     <% end %>
   </table>
 </div>
+
+<script type="text/javascript">
+
+    window.onload=function(){
+        if(Request('rate')!=1){
+            $("#rate").hide();
+        }
+    }
+
+    $(function () {
+        var chart;
+        $(document).ready(function() {
+            var options ={
+                chart: {
+                    renderTo: 'container',
+                    type: 'column'
+                },
+                title: {
+                    text: false
+                },
+                xAxis: {
+                    categories: [ '><%= format("%0.0f",@banfinance.rate1) %>万', '><%= format("%0.0f",@banfinance.rate2) %>万', '><%= format("%0.0f",@banfinance.rate3) %>万']
+                },
+                yAxis : {
+                    title : {
+                        text: '收益率 ( % )'
+                    },
+                    min: 4,
+                    plotLines : [{
+                        value : 0,
+                        width : 1,
+                        color : '#808080'
+                    } ]
+                },
+                tooltip: {
+                    formatter: function() {
+                        if(this.series.name=='通天顺标准'){
+                            return '<b>'+ this.x +'</b><br/>'+
+                                    this.series.name +': '+ this.point.stackTotal+'%';
+                        }
+                        else{
+                            return '<b>'+ this.x +'</b><br/>'+
+                                    this.series.name +': '+ this.y +'%';
+                        }
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: false,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: [],
+                credits: {
+                    enabled: false
+                }
+            }
+            options.series = new Array();
+            var i;
+            for(i=0;i<2;i++)
+            {
+                options.series[i] = new Object();
+                if(i==0){
+                    options.series[i].name = '通天顺标准';
+                    options.series[i].data = new Array(<%= @banfinance.tong10-@banfinance.bank10 %>,<%= @banfinance.tong100-@banfinance.bank100 %>,<%= @banfinance.tong500-@banfinance.bank500 %>);
+                }
+                else{
+                    options.series[i].name = '银行标准';
+                    options.series[i].data = new Array(<%= @banfinance.bank10 %>,<%= @banfinance.bank100 %>,<%= @banfinance.bank500 %>);
+                }
+            }
+            chart = new Highcharts.Chart(options);
+        });
+    });
+
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+</script>

@@ -47,6 +47,15 @@
     <option value="1">是</option>
     <option value="0">否</option>
   </select><br>
+    收益率标准：投资区间小 <input type="text" name="rate1" id="rate1" title="投资区间小">万 <br>
+    收益率标准：投资区间中 <input type="text" name="rate2" id="rate2" title="投资区间中">万 <br>
+    收益率标准：投资区间大 <input type="text" name="rate3" id="rate3" title="投资区间大">万 <br>
+    收益率标准：通天顺（小）<input type="text" name="tong10" id="tong10" title="通天顺（小）">% <br>
+    收益率标准：通天顺（中）<input type="text" name="tong100" id="tong100" title="通天顺（中）">% <br>
+    收益率标准：通天顺（大）<input type="text" name="tong500" id="tong500" title="通天顺（大）">% <br>
+    收益率标准：银行（小）<input type="text" name="bank10" id="bank10" title="银行（小）">% <br>
+    收益率标准：银行（中）<input type="text" name="bank100" id="bank100" title="银行（中）">% <br>
+    收益率标准：银行（大）<input type="text" name="bank500" id="bank500" title="银行（大）">% <br>
     <% end %>
     产品名称：<input type="text" name="bname2" id="bname2" title="产品名称"> <br>
     年化收益率：<input type="text" name="returnrate2" id="returnrate2" title="年化收益率">% <br>
@@ -135,12 +144,42 @@
     $("#ispatent").attr("value",'<%= @bankfinanceinfo[12]%>');
     $("#productkeywords").attr("value",'<%= @bankfinanceinfo[13]%>');
     $("#ischosen").attr("value",'<%= @bankfinanceinfo[17]%>');
+    $("#tong10").attr("value",'<%= @bankfinanceinfo[18]%>');
+    $("#tong100").attr("value",'<%= @bankfinanceinfo[19]%>');
+    $("#tong500").attr("value",'<%= @bankfinanceinfo[20]%>');
+    $("#bank10").attr("value",'<%= @bankfinanceinfo[21]%>');
+    $("#bank100").attr("value",'<%= @bankfinanceinfo[22]%>');
+    $("#bank500").attr("value",'<%= @bankfinanceinfo[23]%>');
+    $("#rate1").attr("value",'<%= format("%0.0f",@bankfinanceinfo[24])%>');
+    $("#rate2").attr("value",'<%= format("%0.0f",@bankfinanceinfo[25])%>');
+    $("#rate3").attr("value",'<%= format("%0.0f",@bankfinanceinfo[26])%>');
     <% end %>
 
     $("#bankfinanceconfig").click(function(e){
         var o=document.getElementsByTagName("input");
         var nom_flag=0;
         var name='<%=session[:webusername]%>';
+        <% if params[:id]!="0" %>
+        var tong10='<%= @bankfinanceinfo[18]%>';
+        var tong100='<%= @bankfinanceinfo[19]%>';
+        var tong500='<%= @bankfinanceinfo[20]%>';
+        var bank10='<%= @bankfinanceinfo[21]%>';
+        var bank100='<%= @bankfinanceinfo[22]%>';
+        var bank500='<%= @bankfinanceinfo[23]%>';
+        var rate1='<%= @bankfinanceinfo[24]%>';
+        var rate2='<%= @bankfinanceinfo[25]%>';
+        var rate3='<%= @bankfinanceinfo[26]%>';
+        <% else %>
+        var tong10=4.6;
+        var tong100=4.7;
+        var tong500=4.8;
+        var bank10=4.5;
+        var bank100=4.6;
+        var bank500=4.6;
+        var rate1=10;
+        var rate2=100;
+        var rate3=500;
+        <% end %>
         var flag='0';
         for(var i=0;i<o.length;i++)
         {
@@ -153,6 +192,15 @@
         if('<%=session[:webusername]%>'=='admin'){
             flag=$("#ischosen").attr("value");
             name='<%=@bankfinance.name%>';
+            var tong10=$("#tong10").attr("value");
+            var tong100=$("#tong100").attr("value");
+            var tong500=$("#tong500").attr("value");
+            var bank10=$("#bank10").attr("value");
+            var bank100=$("#bank100").attr("value");
+            var bank500=$("#bank500").attr("value");
+            var rate1=$("#rate1").attr("value");
+            var rate2=$("#rate2").attr("value");
+            var rate3=$("#rate3").attr("value");
         }
         if(nom_flag==0 && Request("organ")!=1){
             if( numfor.test($("#investperiod").attr("value"))==false){
@@ -178,7 +226,8 @@
                     sailsstart: $("#sailsstart2").attr("value"),distributionarea: '南京',
                     ispickout: 0,ispatent: 0,productkeywords: $("#bname2").attr("value"),invsetsubject: $("#invsetsubject").attr("value"),
                     formula: $("#formula").attr("value"),risktip: $("#risktip").attr("value"),
-                    isorgan:1,name:name,ischosen:flag
+                    isorgan:1,name:name,ischosen:flag,tong10:tong10,tong100:tong100,tong500:tong500,
+                    bank10:bank10,bank100:bank100,bank500:bank500,rate1:rate1,rate2:rate2,rate3:rate3
                 },function(data){
                     if(data=="f1"){
                         alert("产品已存在！");
@@ -210,7 +259,8 @@
                 trustee: $("#trustee").attr("value"),investperiod: $("#investperiod").attr("value"),status: $("#status").attr("value"),
                 sailsstart: $("#sailsstart").attr("value"),distributionarea: $("#distributionarea").attr("value"),
                 ispickout: $("#ispickout").attr("value"),ispatent: $("#ispatent").attr("value"),productkeywords: $("#productkeywords").attr("value"),
-                isorgan:0,name:0,invsetsubject: '',formula: '',risktip: '',ischosen:flag
+                isorgan:0,name:0,invsetsubject: '',formula: '',risktip: '',ischosen:flag,tong10:tong10,tong100:tong100,tong500:tong500,
+                bank10:bank10,bank100:bank100,bank500:bank500,rate1:rate1,rate2:rate2,rate3:rate3
             },function(data){
                 if(data=="f1"){
                     alert("产品已存在！");

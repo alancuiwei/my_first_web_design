@@ -591,6 +591,15 @@
        @bankfinanceinfo[15]=@bankfinance.formula
        @bankfinanceinfo[16]=@bankfinance.risktip
        @bankfinanceinfo[17]=@bankfinance.ischosen
+       @bankfinanceinfo[18]=@bankfinance.tong10
+       @bankfinanceinfo[19]=@bankfinance.tong100
+       @bankfinanceinfo[20]=@bankfinance.tong500
+       @bankfinanceinfo[21]=@bankfinance.bank10
+       @bankfinanceinfo[22]=@bankfinance.bank100
+       @bankfinanceinfo[23]=@bankfinance.bank500
+       @bankfinanceinfo[24]=@bankfinance.rate1
+       @bankfinanceinfo[25]=@bankfinance.rate2
+       @bankfinanceinfo[26]=@bankfinance.rate3
      else
        @bankfinance=Bankfinance.find_by_id(4898)
      end
@@ -622,6 +631,15 @@
            b.formula=params[:formula]
            b.risktip=params[:risktip]
            b.ischosen=params[:ischosen]
+           b.tong10=params[:tong10]
+           b.tong100=params[:tong100]
+           b.tong500=params[:tong500]
+           b.bank10=params[:bank10]
+           b.bank100=params[:bank100]
+           b.bank500=params[:bank500]
+           b.rate1=params[:rate1]
+           b.rate2=params[:rate2]
+           b.rate3=params[:rate3]
            b.save
          end
          render :json => "s1".to_json
@@ -635,7 +653,10 @@
                                       :trustee=>params[:trustee],:status=>params[:status],:ispickout=>params[:ispickout],
                                       :ispatent=>params[:ispatent],:productkeywords=>params[:productkeywords],
                                       :isorgan=>params[:isorgan],:name=>params[:name],:invsetsubject=>params[:invsetsubject],
-                                      :formula=>params[:formula],:risktip=>params[:risktip],:ischosen=>params[:ischosen])
+                                      :formula=>params[:formula],:risktip=>params[:risktip],:ischosen=>params[:ischosen],
+                                      :tong10=>params[:tong10],:tong100=>params[:tong100],:tong500=>params[:tong500],
+                                      :bank10=>params[:bank10],:bank100=>params[:bank100],:bank500=>params[:bank500],
+                                      :rate1=>params[:rate1],:rate2=>params[:rate2],:rate3=>params[:rate3])
        render :json => "s2".to_json
      end
 
