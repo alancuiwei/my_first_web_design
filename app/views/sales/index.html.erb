@@ -13,17 +13,8 @@
   <h1>预订申请</h1>
   <div class="content">
     <p>预订后，我们将在一个小时内给您答复。</p>
-    <!--
-    <h2><span class="text">1.</span>为什么要预订？</h2>
-    <dl>
-      <dt>买不到紧销产品？</dt>
-      <dd>每次购买都是您亲自电话预订，有时订不到？我们来帮您。</dd>
-      <dt>想得到更多实惠？</dt>
-      <dd>我们帮您预订，享受实实在在的优惠。</dd>
-    </dl>
-   -->
   </div>
-  <h2 class="gift"><span class="text">1.</span>产品及赠品</h2>
+  <h2 class="gift"><span class="text">1.</span>产品</h2>
   <table class="table table-striped table-bordered" id="per">
     <thead>
     <tr>
@@ -52,64 +43,48 @@
     </tr>
     </tbody>
   </table>
-  <div id="hide">
-    <p>赠品数量有限，预订从速。。。</p>
-    <table class="table table-striped table-bordered">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>赠品</th>
-        <th class="num">数量</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>苏垦特产林下散养草鸡蛋</td>
-        <td>10个</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>福临门 非转基因 玉米食用油</td>
-        <td>900毫升</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+
   <h2><span class="text">2.</span>预订资料填写</h2>
   <table>
-      <% if @banfinance.trustee=="北京银行" %>
-        <tr><td colspan="2">
-      <a onclick="adjust()">为礼品办张新卡合算吗？</a>
-          <br><br></td>
-        </tr>
-      <% end %>
-    <tr><td><p>银行：</p></td>
+    <tr><td><p>机构：</p></td>
       <td class="right"><input class="input-large" type="text" id="trustee" readonly="true" value="<%= @banfinance.trustee %>"></td></tr>
+   <!--
     <tr><td><p>银行新客户？</p></td>
       <td class="right"><select  name="isuser" id="isuser" onclick="isuser()">
         <option selected value="我不是<%= @banfinance.trustee %>的客户">我不是<%= @banfinance.trustee %>的客户</option>
         <option value="我是<%= @banfinance.trustee %>的老客户">我是<%= @banfinance.trustee %>的老客户</option>
       </select></td>
     </tr>
+    -->
     <tr><td><p>购买金额：</p></td>
       <td class="right"><div class="input-prepend input-append">
         <span class="add-on">￥</span><input class="input-medium nuser" type="text" id="investamount" valType="NUMBER" msg="<font color=red>*</font>购买金额只能是数字,且不能低于<%= @banfinance.startvalue %>元"><span class="add-on">元</span>
       </div></td></tr>
+    <% if @personalfinance!=nil %>
     <tr><td><p>电子邮件*：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="email" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="email" readonly="true" value='<%= @personalfinance.email %>' title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
     <tr><td><p>手机*：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="tel" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
-
+        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="tel" readonly="true" value='<%= @personalfinance.tel %>' title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+     <% else %>
+        <tr><td><p>电子邮件*：</p></td>
+          <td class="right"><input class="input-large demo-form-name nuser" type="text"  readonly="true"  title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+        <tr><td><p>手机*：</p></td>
+          <td class="right"><input class="input-large demo-form-name nuser" type="text"  readonly="true"  title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+      <% end %>
+   <!--
     <tr class="customer"><td><p>银行卡号*：</p></td>
         <td class="right"><input class="input-large demo-form-name" type="text" id="card" valType="BANKNO" msg="<font color=red>*</font>请输入银行卡号" title="通过银行卡号帮您进行产品预订。"></td><td></td></tr>
     <tr class="customer"><td><p>分行名*：</p></td>
         <td class="right"><input class="input-large demo-form-name" type="text" id="bankbranch" valType="BANKNA" msg="<font color=red>*</font>请输入分行名" title="我们要根据您的分行联系您的理财经理。"></td><td></td></tr>
-    <tr><td></td><td>
-      <br>
-      <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig"> 预订 </a>
-      <a class="btn pull-right" href="/bankinvest/index" >返回</a>
-    </td></tr>
+   -->
+    <tr>
+      <td></td>
+      <td>
+        <br>
+        <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="reserveconfig"> 预订 </a>
+        <a class="btn pull-right" href="/bankinvest/index" >返回</a>
+      </td>
+    </tr>
   </table>
 </div>
   <div id="other">
@@ -166,19 +141,11 @@
             $("#per tr:eq("+i+") td:eq(8)").html("<%= @banfinance.collectperiod %>");
         }
         $("#trustee").val("<%= @banfinance.trustee %>");
-        if(Request("favourable")!=1){
-            document.getElementById("hide").style.display="none";
-            $(".gift").html("<span class='text'>1.</span>产品");
-        }
     }
     function invest(){
         if(Request("investamount")){
             $("#investamount").val(Request("investamount"));
             $("#trustee").val("<%= @banfinance.trustee %>");
-            $("#email").val(Request("email"));
-            $("#tel").val(Request("tel"));
-            $("#card").val(Request("card"));
-            $("#bankbranch").val(Request("bankbranch"));
             var length=$("#per").find("tr").size();
             for(i=0;i<length;i++){
                 $("#per tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
@@ -196,14 +163,14 @@
             $('#other').show();
         }
     invest();
-    isuser();
+  /*  isuser(); */
     }
 
     $(function(e) {
         var vali=new Validators();
         $("#reserveconfig").bind("click", vali.subByJs);
     });
-
+  /*
     function isuser(){
         $("[valType]").poshytip('hide');
           if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
@@ -213,18 +180,20 @@
               $('.customer').show();
           }
     }
-
+   */
     //submit之前对所有表单进行验证
     function beforeSubmit() {
         var flag=true;
         //alert($("[valType]").length);
-        var b;
+        var b="[valType]";
+        /*
         if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
             b=".nuser";
         }
         else{
             b="[valType]";
         }
+       */
         $.each($(b),function(i, n) {
             //清除可能已有的提示信息
             $(n).poshytip('hide');
@@ -277,17 +246,24 @@
         $.Validator.ajaxValidate=function() {
             var nom_flag=0;
             var isuser="是";
+            /*
             if($("#isuser").attr("value")=="我不是<%= @banfinance.trustee %>的客户"){
                 isuser="否";
             }
+            */
             var states="预订申请";
 
             if(!beforeSubmit()){
                 nom_flag=1;
             }
+
             <% if @webuser!=nil %>
+            <% if @personalfinance==nil %>
+            alert("请先设置您的投资信息成为中级会员。");
+            nom_flag=1;
+            <% end %>
             if(nom_flag==0){
-                if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"){
+               /* if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"){
                     $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
                         returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
                         investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
@@ -301,6 +277,7 @@
                     });
                 }
                 else{
+                }  */
                     $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
                         returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
                         investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
@@ -312,7 +289,6 @@
                                     $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
                         }
                     });
-                }
             }
             function email(uid,tid,eid,bid,tru,bty,str,inv,ret,per,sat,col){
                 $.get("/admin/reserve",{username:"<%= @webuser.username %>",tel:$(tid).attr("value"),email:$(eid).attr("value"),bname:bid,trustee:tru,btype:bty,
@@ -322,7 +298,7 @@
             }
             <% else%>
             if(nom_flag==0){
-                location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value")+"&email="+$("#email").attr("value")+"&tel="+$("#tel").attr("value")+"&bankbranch="+$("#bankbranch").attr("value")+"&card="+$("#card").attr("value");
+                location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value");
             }
             <% end %>
         }

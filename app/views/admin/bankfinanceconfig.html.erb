@@ -219,7 +219,7 @@
 
         if(nom_flag==0){
             if(Request("organ")==1){
-                $.post("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname2").attr("value"),currencytype: 1,
+                $.post("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname2").attr("value"),currencytype: '人民币',
                     btype: $("#btype2").attr("value"),collectperiod: $("#collectperiod2").attr("value"),
                     startvalue: $("#startvalue2").attr("value"),returnrate: $("#returnrate2").attr("value")/100,
                     trustee: $("#trustee2").attr("value"),investperiod: $("#investperiod2").attr("value"),status: '在售',

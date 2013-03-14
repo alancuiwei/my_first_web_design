@@ -14,6 +14,9 @@ class SalesController < ApplicationController
     else
       @webuser=Webuser.find_by_username(session[:webusername])
     end
+    if session[:webusername]!=nil
+      @personalfinance=Personalfinance.find_by_username(session[:webusername])
+    end
     end
 
   def myorder

@@ -5,11 +5,7 @@
   <div style="width: 80%;">
         <a href="/">首页</a>
     <br><br>
-  <% if @banfinance.trustee =="北京银行" %>
-        <a class="btn btn-primary pull-left" href="/sales/index?bid=<%= @banfinance.id%>&favourable=1">预订</a>
-  <% else %>
         <a class="btn btn-primary pull-left" href="/sales/index?bid=<%= @banfinance.id%>">预订</a>
-  <% end %>
     <br><br><br>
   <div id="rate">
   <h1>收益率介绍</h1>
@@ -110,7 +106,7 @@
                     text: false
                 },
                 xAxis: {
-                    categories: [ '><%= format("%0.0f",@banfinance.rate1) %>万', '><%= format("%0.0f",@banfinance.rate2) %>万', '><%= format("%0.0f",@banfinance.rate3) %>万']
+                    categories: [ '<%= format("%0.0f",@banfinance.rate1) %>万', '<%= format("%0.0f",@banfinance.rate2) %>万', '<%= format("%0.0f",@banfinance.rate3) %>万']
                 },
                 yAxis : {
                     title : {
