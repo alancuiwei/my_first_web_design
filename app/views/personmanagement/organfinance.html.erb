@@ -1,0 +1,142 @@
+<%= stylesheet_link_tag "personmanagement.css" %>
+
+<div class="main-content organ">
+  <a href="/">首页</a>
+  <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.username %></h1>
+  <h2>1. 产品管理</h2>
+  <table cellpadding="0" cellspacing="0" border="0" class="display table  table-striped table-bordered" id="organ">
+    <thead><tr>
+      <th>发行机构</th><th>产品名称</th><th>年化收益率</th>
+      <th>是否保本</th><th>起售价</th><th>理财期限</th>
+      <th>起购日期</th><th>结束日期</th>
+    </tr></thead>
+
+    <% @bankfinances.each do |b| %>
+        <tr>
+          <td><%= b.trustee%></td>
+          <td><%= b.bname%></td>
+          <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+          <td><%= b.btype%></td>
+          <td><%= b.startvalue%></td>
+          <td><%= b.investperiod%></td>
+          <td><%= b.sailsstart%></td>
+          <td><%= b.collectperiod%></td>
+        </tr>
+    <% end %>
+  </table>
+  <h2>2. 咨询回答</h2>
+  <p class="text2">标题：大家好，有什么资产配置、增值的问题，请尽管向我提问。</p>
+  <% if @comments.length>0 %>
+      <br><br>
+      <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+        <% @comments.each do |b| %>
+            <tr>
+              <td>
+                <% if @webuser.username != b.username %>
+                    <% if b.memberlevel=='1' %>
+                        <p class="text2"><%= b.username%>(高级会员) 说：</p>
+                    <% else %>
+                        <p class="text2"><%= b.username%>(中级会员) 说：</p>
+                    <% end %>
+                <% else %>
+                    <p class="text2"><%= b.username%>(来自<%= b.company%>) 说：</p>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="text2"> <%= b.comments%> </p>
+                <hr>
+              </td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+  <br>
+  <form id="commentform">
+    <p class="comment-form-comment"><label for="comment">评论</label>
+      <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
+    <a class="btn btn-primary" id="sub"  href="javascript:void(0)">发表</a>
+    </p>
+  </form>
+</div>
+<script >
+
+    window.onload=function(){
+        if(Request("comment")){
+            $("#comment").html(Request("comment"));
+        }
+    }
+
+    $("#sub").click(function(e){
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+//  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+
+        if($('#comment').attr("value")==""){
+            alert("评论为空！");
+            nom_flag=1;
+        }
+
+        if('<%= session[:webusername] %>'=="" && nom_flag==0){
+            location.href="/sales/login?comment="+$("#comment").attr("value")+'&wid='+'<%= @webuser.id%>';
+            nom_flag=1;
+        }
+
+        var email=0;
+        if('<%= session[:webusername] %>'!='<%= @webuser.username%>' &&  nom_flag==0){
+            email=1;
+        }
+
+        if(nom_flag==0){
+            $.post("/personmanagement/commentconfigajax",{ username: '<%= session[:webusername] %>',email: '<%= @webuser.email%>',
+                comment: $("#comment").attr("value"),wid: '<%= @webuser.id%>',time:time,memberlevel:'<%= @webuser2.memberlevel%>',
+                company:'<%= @webuser2.company%>',email2: email,accept:'<%= @webuser.email%>',aid:'<%= @webuser.id%>'
+            },function(data){
+                if(data=="s1"){
+                    location.reload();
+                }
+            });
+        }
+    });
+
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+</script>

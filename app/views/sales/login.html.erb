@@ -173,6 +173,9 @@
                 else if('<%=params[:id] %>'=="1"){
                     location.href="/sales/revise";
                 }
+                else if(Request("wid")!=''){
+                    location.href="/personmanagement/organfinance/"+Request("wid")+"?comment="+Request("comment");
+                }
                 else if(Request("comment")!=''){
                     location.href="/personmanagement/personfinance/"+Request("cid")+"?comment="+Request("comment");
                 }

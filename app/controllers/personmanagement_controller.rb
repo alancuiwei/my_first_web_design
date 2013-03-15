@@ -25,6 +25,21 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def organfinance
+    @webuser=Webuser.find_by_id(params[:id])
+    if session[:webusername]!=nil
+      @webuser2=Webuser.find_by_username(session[:webusername])
+    else
+      @webuser2=Webuser.find_by_username(@webuser.username)
+    end
+    @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
+    if  params[:id]!=nil
+    @comments=Comments.find_all_by_wid(params[:id])
+    else
+    redirect_to(:controller=>"home")
+    end
+  end
+
   def commentconfigajax
     Comments.new do |b|
       b.username=params[:username]
@@ -34,9 +49,10 @@ class PersonmanagementController < ApplicationController
       b.time=params[:time]
       b.memberlevel=params[:memberlevel]
       b.company=params[:company]
+       b.wid=params[:wid]
       b.save
     end
-    if  params[:email]=='1'
+    if  params[:email2]=='1'
       Thread.new{
         UserMailer.comments(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
       }

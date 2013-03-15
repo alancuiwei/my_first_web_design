@@ -232,7 +232,7 @@
         if(nom_flag==0){
             $.post("/personmanagement/commentconfigajax",{ username: '<%= session[:webusername] %>',email: '<%= @personalfinance.email%>',
                 comment: $("#comment").attr("value"),cid: '<%= @personalfinance.id%>',time:time,memberlevel:'<%= @webuser.memberlevel%>',
-                company:'<%= @webuser.company%>',email:email,accept:'<%= @personalfinance.email%>',aid:'<%= params[:id] %>'
+                company:'<%= @webuser.company%>',email2:email,accept:'<%= @personalfinance.email%>',aid:'<%= params[:id] %>'
             },function(data){
                 if(data=="s1"){
                     location.reload();
