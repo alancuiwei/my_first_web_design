@@ -5,13 +5,19 @@
   <div style="width: 80%;">
         <a href="/">首页</a>
     <br><br>
-        <a class="btn btn-primary pull-left" href="/sales/index?bid=<%= @banfinance.id%>">预订</a>
+        <a class="btn btn-primary pull-left" href="javascript:void(0)" id="reserve">预订</a>
     <br><br><br>
   <div id="rate">
   <h1>收益率介绍</h1>
   <br><br>
       <div id="container" style="width: 100%; height: 400px; "></div>
   <br><br>
+      <% if @reserve.length>0 %>
+      <h1>当前募集资金</h1>
+      <br><br>
+      <div id="container2" style="width: 50%; height: 400px; "></div>
+      <br><br>
+      <% end %>
       <h1>购买流程</h1>
       <img src="/assets/procedure.png">
       <br><br>
@@ -94,6 +100,14 @@
         }
     }
 
+    $("#reserve").click(function(){
+        <% if session[:webusername]==nil %>
+           location.href="/sales/login?bid=<%= @banfinance.id%>";
+        <% else %>
+           location.href="/sales/index?bid=<%= @banfinance.id%>";
+        <% end %>
+    });
+
     $(function () {
         var chart;
         $(document).ready(function() {
@@ -160,6 +174,103 @@
                 }
             }
             chart = new Highcharts.Chart(options);
+        });
+    });
+
+    $(function () {
+        var chart;
+        $(document).ready(function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container2',
+                    type: 'column'
+                },
+                title: false,
+                xAxis: {
+                    categories: ['会员']
+                },
+
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '总投资金额'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+               /*
+                yAxis: [
+                    {
+                        lineWidth:1,
+                        title: {
+                            text:  '总投资金额'
+                        },
+                        labels: {
+                            formatter: function() {
+                                return this.value;
+                            }
+                        }
+                    },
+                    {
+                        lineWidth:1,
+                        opposite: true,
+                        max:10,
+                        min:0,
+                        title:{
+                            text: '收益率'
+                        },
+                        labels: {
+                            formatter: function() {
+                                return this.value ;
+                            }
+                        }
+                    }
+                ],
+                 */
+                tooltip: {
+                    formatter: function() {
+                        return '<b>'+ this.x +'</b><br/>'+
+                                this.series.name +': '+ this.y +'<br/>'+
+                                '总共: '+ this.point.stackTotal;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: [
+                    <% @reserve.each do |b| %>
+                    {
+                        name: '<%= b.username %>',
+                        data: [<%= b.investamount %>]
+                    } ,
+                    <% end %>
+                ],
+                credits: {
+                    enabled: false
+                }
+            })
+            /*
+            options.series = new Array();
+            var i=0;
+            <% @reserve.each do |b| %>
+            options.series[i] = new Object();
+            options.series[i].name = '<%= b.username %>';
+            options.series[i].data = new Array(<%= b.investamount %>,0);
+            i=i+1;
+            <% end %>
+            chart = new Highcharts.Chart(options);
+            */
         });
     });
 

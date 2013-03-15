@@ -39,7 +39,7 @@
 <div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
   <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
   <a href="/home/productindex" class="print">产品展示</a>
-  <h1>银行理财产品</h1>
+  <h1>理财产品库</h1>
   <div class="well-b">
     <div class="row-fluid">
       <div class="span12">
@@ -186,7 +186,6 @@
       <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
       <th class="hide">发行地区</th>
       <th>产品名称</th>
-      <th><p class="demo-tip-yellowsimple" title="通过我们网站预订，享受团购优惠，专享礼品赠送。">优惠</p></th>
       <th>操作</th>
       <th class="hide">发行地区</th>
       <th class="hide">销售结束</th>
@@ -206,11 +205,6 @@
           <td><%= b.status%></td>
           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
-          <% if b.trustee =="北京银行" %>
-              <td><img src="/assets/121021.png" class="demo-tip-yellowsimple" title="苏垦特产草鸡蛋, 福临门玉米食用油"></td>
-          <% else %>
-              <td></td>
-          <% end %>
               <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
           <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
           <td class="hide"><%= b.collectperiod%></td>
@@ -303,7 +297,7 @@
                 var year = today.getFullYear();
                 var month = today.getMonth()+1;
                 var date = today.getDate();
-                d1Arr=aData[15].split('-');
+                d1Arr=aData[14].split('-');
                 //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
                 //    v2=new Date(year,month,date);
                 var tom=document.getElementById("dp1");

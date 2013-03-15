@@ -184,7 +184,16 @@
                 }
                 else if(data=="s1" || data=="s2"){
                     if(Request("bid")>0){
+                        $.get("/sales/reserve",{username:$(uid).attr("value")},function(data){
+                            if(data=='f1'){
+                                location.href='/personmanagement/personinfo/0?bid='+Request("bid")+"&reserve=1";
+                            }
+                            else {
                         location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
+                    }
+                        })
+
+
                     }
                     else if(Request("order")>0){
                         location.href="/sales/myorder"

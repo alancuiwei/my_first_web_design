@@ -45,6 +45,15 @@ class SalesController < ApplicationController
 
   end
 
+  def reserve
+    @personalfinance=Personalfinance.find_by_username(params[:username])
+    if  @personalfinance==nil
+      render :json => "f1".to_json
+    else
+      render :json => "f2".to_json
+    end
+  end
+
   def revise
 
   end

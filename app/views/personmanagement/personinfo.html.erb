@@ -12,44 +12,44 @@
     <div class="control-group">
       <label class="control-label" for="inputPassword">姓名*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开。' type="text" id="name" placeholder="姓名">
+        <input valType="NOTNULL" msg="<font color=red>*</font>请放心，这个信息不会被公开。" title='姓名' type="text" id="name" placeholder="姓名">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputEmail">年龄*:</label>
       <div class="controls">
-        <input type="text" id="age" title="年龄" placeholder="年龄">
+        <input type="text" id="age" valType="NOTNULL" msg="<font color=red>*</font>请输入您的年龄" title="年龄" placeholder="年龄">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">公司:</label>
       <div class="controls">
-        <input type="text" id="company" title="公司" placeholder="公司">
+        <input type="text" id="company" valType="NOTNULL" msg="<font color=red>*</font>请输入您的公司" title="公司" placeholder="公司">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">职务:</label>
       <div class="controls">
-        <input type="text" id="post" title="职务" placeholder="职务">
+        <input type="text" id="post" valType="NOTNULL" msg="<font color=red>*</font>请输入您的职务" title="职务" placeholder="职务">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">电子邮箱*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。' type="text" id="email" placeholder="电子邮箱">
+        <input valType="MAIL" msg="<font color=red>*</font>请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。" title='电子邮箱' type="text" id="email" placeholder="电子邮箱">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">联系电话*:</label>
       <div class="controls">
-        <input class="demo-form-name" title='请放心，这个信息不会被公开，有符合您的产品，会发短信息到您。' type="text" id="tel" placeholder="联系电话">
+        <input valType="MOBILE" msg="<font color=red>*</font>请放心，这个信息不会被公开，有符合您的产品，会发短信息到您。" title='手机' type="text" id="tel" placeholder="联系电话">
       </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="inputPassword">投资资金:</label>
       <div class="controls">
         <div class="input-append">
-        <input class="demo-form-name" title='如果有你刚才所描述的产品，你共有多少流动资金可以用来做投资？' type="text" id="investamount"  placeholder="投资资金">
+        <input valType="NUMBER" msg="<font color=red>*</font>如果有你刚才所描述的产品，你共有多少流动资金可以用来做投资？" title='投资资金' type="text" id="investamount"  placeholder="投资资金">
           <span class="add-on">元</span>
         </div>
       </div>
@@ -69,7 +69,7 @@
       <label class="control-label" for="inputPassword">预期年化收益率:</label>
       <div class="controls">
         <div class="input-append">
-          <input class="demo-form-name" title='您最期望的理财产品收益率是多少？' type="text" id="returnrate" placeholder="预期年化收益率">
+          <input valType="NUMBER" msg="<font color=red>*</font>您最期望的理财产品收益率是多少？" title='预期年化收益率' type="text" id="returnrate" placeholder="预期年化收益率">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -78,7 +78,7 @@
       <label class="control-label" for="inputPassword">可承担的风险:</label>
       <div class="controls">
         <div class="input-append">
-          <input class="demo-form-name" title='您最期望的理财产品风险度是多少？' type="text" id="riskrate" placeholder="可承担的风险">
+          <input valType="NUMBER" msg="<font color=red>*</font>您最期望的理财产品风险度是多少？" title='可承担的风险' type="text" id="riskrate" placeholder="可承担的风险">
           <span class="add-on">%</span>
         </div>
       </div>
@@ -132,9 +132,9 @@
       <label class="control-label" for="inputPassword">我最喜欢的产品:</label>
       <div class="controls">
         <% if params[:id]!="0" %>
-            <textarea  class="demo-form-name" title='例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。' cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
+            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
         <% else %>
-            <textarea  class="demo-form-name" title='例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。' cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
+            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
         <% end %>
       </div>
     </div>
@@ -167,87 +167,12 @@
     $("#email").attr("value",'<%= @personal[3]%>');
     $("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');
     $("#investcycle").attr("value",'<%= @personal[5]%>');
-    $("#returnrate").attr("value",'<%= format("%0.1f",@personal[6]*100)%>');
-    $("#riskrate").attr("value",'<%= format("%0.1f",@personal[7]*100)%>');
+    $("#returnrate").attr("value",'<%= format("%0.0f",@personal[6]*100)%>');
+    $("#riskrate").attr("value",'<%= format("%0.0f",@personal[7]*100)%>');
     $("#name").attr("value",'<%= @personal[10]%>');
     $("#tel").attr("value",'<%= @personal[13]%>');
     <% end %>
-    $("#personconfig").click(function(e){
-        var o=document.getElementsByTagName("input");
-        var nom_flag=0;
-        var flag3=0;
-        if('<%= @personal[14]%>'=='1'){
-            var flag3=1;
-        }
-        for(var i=0;i<o.length;i++)
-        {
-            if(o[i].value=="" && o[i].title!=""){
-                alert(o[i].placeholder+"为空！");
-                nom_flag=1;
-                break;
-            }
-        }
-        if($("#investvarieties").attr("value")=="" && nom_flag==0){
-            alert("当前投资品种为空！");
-            nom_flag=1;
-        }
-        if($("#wbreedinfo").attr("value")=="" && nom_flag==0){
-            alert("感兴趣的产品为空！");
-            nom_flag=1;
-        }
-        if($("#myfavorite").attr("value")=="" && nom_flag==0){
-            alert("我最喜欢的产品为空！");
-            nom_flag=1;
-        }
-        var flag='';
-        var vars=document.getElementsByName("var");
-        var var2=document.getElementById("investvarieties");
-            for(var i=0;i<vars.length;i++){
-                if( vars[i].selected){
-                    if(flag==''){
-                        flag=vars[i].value;
-                    }
-                    else {
-                        flag=flag+','+vars[i].value;
-                    }
-                }
-            }
-        var flag2='';
-        var infos=document.getElementsByName("info");
-        var info=document.getElementById("wbreedinfo");
-            for(var i=0;i<infos.length;i++){
-                if(infos[i].selected){
-                    if(flag2==''){
-                        flag2=infos[i].value;
-                    }
-                    else {
-                        flag2=flag2+','+infos[i].value;
-                    }
-                }
-            }
-        if(nom_flag==0){
-            $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
-                company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
-                investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
-                riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,name:$("#name").attr("value"),contact:$("#contact").attr("value"),
-                myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value"),memberlevel:flag3
-            },function(data){
-                if(data=="s1"){
-                    location.href='/personmanagement/personfinance';
-                }
-            });
-        }
-    });
-
     $(function(){
-        $('.demo-form-name').poshytip({
-            className: 'tip-yellowsimple',
-            showOn: 'focus',
-            alignTo: 'target',
-            alignX: 'right',
-            alignY: 'center',
-            offsetX: 5
-        });
         $('.demo-tip-yellowsimple').poshytip({
             className: 'tip-yellowsimple',
             showTimeout: 1,
@@ -302,4 +227,239 @@
             }
         });
     });
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
+
+
+    $(function(e) {
+        var vali=new Validators();
+        $("#personconfig").bind("click", vali.subByJs);
+    });
+
+    //submit之前对所有表单进行验证
+    function beforeSubmit() {
+        var flag=true;
+        //alert($("[valType]").length);
+        $.each($("[valType]"),function(i, n) {
+            //清除可能已有的提示信息
+            $(n).poshytip('hide');
+            if($(n).attr("valType")=='required') {//对不能为空的文本框进行验证
+                if($(n).val()=='') {
+                    //显示tips
+                    $(n).poshytip('show');
+                    flag=false;
+                }
+            }
+            else if($(n).attr("valType")=='OTHER') {//对自定义的文本框进行验证
+                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')}))) {
+                    $(n).poshytip('show');
+                    flag=false;
+                }
+            }
+            else {//对使用已定义规则的文本框进行验证
+                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'),reg:$(this).attr('id')}))) {
+                    $(n).poshytip('show');
+                    flag=false;
+                }
+            }
+        });
+        return flag;
+    }
+    $(function(){
+        //拦截form,在form提交前进行验证
+        $('form').bind('submit',beforeSubmit);
+
+        //为带有valType属性的元素初始化提示信息并注册onblur事件
+        $.each($("[valType]"),function(i, n) {
+            $(n).poshytip({
+                className: 'tip-yellowsimple',
+                content: $(n).attr('msg'),
+                showOn: 'none',
+                alignTo: 'target',
+                alignX: 'right',
+                alignY: 'center',
+                offsetX: 5,
+                offsetY: 10
+            });
+            $(n).bind('blur',validateBefore);
+
+        });
+
+        //定义一个验证器
+        $.Validator=function(para) {
+        }
+
+        $.Validator.ajaxValidate=function() {
+            var nom_flag=0;
+
+            if(!beforeSubmit()){
+                nom_flag=1;
+            }
+
+            var flag3=0;
+            if('<%= @personal[14]%>'=='1'){
+                var flag3=1;
+            }
+
+            if($("#investvarieties").attr("value")=="" && nom_flag==0){
+                alert("当前投资品种为空！");
+                nom_flag=1;
+            }
+            if($("#wbreedinfo").attr("value")=="" && nom_flag==0){
+                alert("感兴趣的产品为空！");
+                nom_flag=1;
+            }
+
+            var flag='';
+            var vars=document.getElementsByName("var");
+            var var2=document.getElementById("investvarieties");
+            for(var i=0;i<vars.length;i++){
+                if( vars[i].selected){
+                    if(flag==''){
+                        flag=vars[i].value;
+                    }
+                    else {
+                        flag=flag+','+vars[i].value;
+                    }
+                }
+            }
+            var flag2='';
+            var infos=document.getElementsByName("info");
+            var info=document.getElementById("wbreedinfo");
+            for(var i=0;i<infos.length;i++){
+                if(infos[i].selected){
+                    if(flag2==''){
+                        flag2=infos[i].value;
+                    }
+                    else {
+                        flag2=flag2+','+infos[i].value;
+                    }
+                }
+            }
+            if(nom_flag==0){
+                $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
+                    company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
+                    investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
+                    riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,name:$("#name").attr("value"),contact:$("#contact").attr("value"),
+                    myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value"),memberlevel:flag3
+                },function(data){
+                    if(data=="s1"){
+                        if(Request("reserve")=='1') {
+                            location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
+                        }
+                        else
+                        {
+                            location.href='/personmanagement/personfinance';
+                        }
+                    }
+                });
+            }
+        }
+
+        //验证的方法
+        $.Validator.match=function(para) {
+            //定义默认的验证规则
+            var defaultVal = {
+                NUMBER : "^[0-9]*$",
+                TEL : "^0(10|2[0-5789]|\\d{3})-\\d{7,8}$",
+                IP : "^((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])\\.){3}(\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5]|[*])$",
+                MOBILE : "^1(3[0-9]|5[0-35-9]|8[0235-9])\\d{8}$",
+                MAIL : "^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$",
+                IDENTITY : "((11|12|13|14|15|21|22|23|31|32|33|34|35|36|37|41|42|43|44|45|46|50|51|52|53|54|61|62|63|64|65|71|81|82|91)\\d{4})((((19|20)(([02468][048])|([13579][26]))0229))|((20[0-9][0-9])|(19[0-9][0-9]))((((0[1-9])|(1[0-2]))((0[1-9])|(1\\d)|(2[0-8])))|((((0[1,3-9])|(1[0-2]))(29|30))|(((0[13578])|(1[02]))31))))((\\d{3}(x|X))|(\\d{4}))",
+                CHINESE : "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$",
+                URL : "^http[s]?://[\\w\\.\\-]+$" ,
+                NOTNULL : "^.*$"
+            };
+            var flag=false;
+            if(para.rule=='OTHER') {//自定义的验证规则匹配
+                flag=new RegExp(para.regString).test(para.data);
+            }
+            else {
+                if(para.rule in defaultVal) {//默认的验证规则匹配
+                    flag=new RegExp(defaultVal[para.rule]).test(para.data);
+                }
+            }
+            return flag;
+        }
+
+        //为jquery扩展一个doValidate方法，对所有带有valType的元素进行表单验证，可用于ajax提交前自动对表单进行验证
+        $.extend({
+            doValidate: function() {
+                return $.Validator.ajaxValidate();
+            }
+        });
+
+    });
+
+    //输入框焦点离开后对文本框的内容进行格式验证
+    function validateBefore() {
+        //验证通过标识
+        var flag=true;
+        //获取验证类型
+        var valType=$(this).attr('valType');
+        //获取验证不通过时的提示信息
+        var msg=$(this).attr('msg');
+        //自定义的验证字符串
+        var regString;
+
+        if(valType=='OTHER') {//如果类型是自定义，则获取自定义的验证字符串
+            regString=$(this).attr('regString');
+            flag=$(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')});
+        }
+        else {//如果类型不是自定义，则匹配默认的验证规则进行验证
+            if($(this).attr('valType')=='required') {//不能为空的判断
+                if($(this).val()=='') {
+                    flag=false;
+                }
+            }
+            else {//已定义规则的判断
+                flag=$(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType')});
+            }
+        }
+        //先清除原来的tips
+        $(this).poshytip('hide');
+        //如果验证没有通过，显示tips
+        if(!flag) {
+            $(this).poshytip('show');
+        }
+    }
+
+
+    //下面是测试代码，不属于验证器的功能代码之内
+    //用原型的方式来模拟js的类
+    function Validators() {
+
+    }
+
+    Validators.prototype.subByJs=function(e) {
+        if($.doValidate()) {
+            alert('验证通过');
+            //todo
+        }
+    }
 </script>

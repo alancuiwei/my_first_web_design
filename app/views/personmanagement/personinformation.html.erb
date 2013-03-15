@@ -96,6 +96,15 @@
             }
         }
         }
+        var a=0
+        <% @personalinfo2.each do |b| %>
+          a=a+parseFloat(<%= b.investamount %>)
+        <% end %>
+        if(a+parseFloat($("#investamount").attr("value"))><%= @personalfinance.investamount%>){
+            alert("资产配置中的金额不应该超过总流动资本金额。");
+            nom_flag=1;
+        }
+
         if(nom_flag==0){
             $.post("/personmanagement/personinfoconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',producttype: $("#producttype").attr("value"),
                 percentage: $("#investamount").attr("value")/'<%= @personalfinance.investamount%>',investamount:$("#investamount").attr("value"),purchasproducts: $("#purchasproducts").attr("value"),
