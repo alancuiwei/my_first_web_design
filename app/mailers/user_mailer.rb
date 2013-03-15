@@ -27,10 +27,11 @@ class UserMailer < ActionMailer::Base
     mail to: "cuiwei@tongtianshun.com"
       end
 
-  def comments(username,company,comment,accept)
+  def comments(username,company,comment,accept,aid)
     @username = username
     @company = company
     @comment = comment
+    @aid = aid
     mail(:to => accept)
   end
 end

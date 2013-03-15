@@ -38,7 +38,7 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:email]=='1'
       Thread.new{
-        UserMailer.comments(params[:username],params[:company],params[:comment],params[:accept]).deliver
+        UserMailer.comments(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
       }
     end
     render :json => "s1".to_json
