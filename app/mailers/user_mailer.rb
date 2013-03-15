@@ -25,5 +25,12 @@ class UserMailer < ActionMailer::Base
     @sailsstart = sailsstart
     @collectperiod = collectperiod
     mail to: "cuiwei@tongtianshun.com"
+      end
+
+  def comments(username,company,comment,accept)
+    @username = username
+    @company = company
+    @comment = comment
+    mail(:to => accept)
   end
 end
