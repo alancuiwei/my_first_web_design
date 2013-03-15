@@ -121,6 +121,7 @@ class PersonmanagementController < ApplicationController
   def personinformation
     if session[:webusername]!=nil
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
+      @personalinfo2=Personinvestinfo.find_all_by_username(session[:webusername])
       @personal=[]
       if params[:id]!="0"
         @personalinfo=Personinvestinfo.find_by_id(params[:id])
