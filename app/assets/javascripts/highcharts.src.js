@@ -8254,7 +8254,7 @@ function Chart(userOptions, callback) {
 				legendLine = item.legendLine,
 				legendItemPos = item._legendItemPos,
 				itemX = legendItemPos[0],
-				itemY = legendItemPos[1],
+				itemY = 2*legendItemPos[1],
 				legendSymbol = item.legendSymbol,
 				symbolX,
 				checkbox = item.checkbox;
@@ -8278,6 +8278,7 @@ function Chart(userOptions, callback) {
 					y: itemY + legendSymbol.yOff
 				});
 			}
+
 			if (checkbox) {
 				checkbox.x = itemX;
 				checkbox.y = itemY;
