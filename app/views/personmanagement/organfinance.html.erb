@@ -101,7 +101,7 @@
         }
 
         if(nom_flag==0){
-            $.post("/personmanagement/commentconfigajax",{ username: '<%= session[:webusername] %>',email: '<%= @webuser.email%>',
+            $.post("/personmanagement/comment2configajax",{ username: '<%= session[:webusername] %>',email: '<%= @webuser.email%>',
                 comment: $("#comment").attr("value"),wid: '<%= @webuser.id%>',time:time,memberlevel:'<%= @webuser2.memberlevel%>',
                 company:'<%= @webuser2.company%>',email2: email,accept:'<%= @webuser.email%>',aid:'<%= @webuser.id%>'
             },function(data){

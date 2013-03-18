@@ -34,4 +34,12 @@ class UserMailer < ActionMailer::Base
     @aid = aid
     mail(:to => accept)
   end
+
+  def comments2(username,company,comment,accept,aid)
+    @username = username
+    @company = company
+    @comment = comment
+    @aid = aid
+    mail(:to => accept)
+  end
 end

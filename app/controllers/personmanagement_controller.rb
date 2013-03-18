@@ -60,6 +60,27 @@ class PersonmanagementController < ApplicationController
     render :json => "s1".to_json
   end
 
+
+  def comment2configajax
+    Comments.new do |b|
+      b.username=params[:username]
+      b.email=params[:email]
+      b.comments=params[:comment]
+      b.cid=params[:cid]
+      b.time=params[:time]
+      b.memberlevel=params[:memberlevel]
+      b.company=params[:company]
+      b.wid=params[:wid]
+      b.save
+    end
+    if  params[:email2]=='1'
+      Thread.new{
+        UserMailer.comments2(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
+      }
+    end
+    render :json => "s1".to_json
+  end
+
   def investor
     @personalfinance=Personalfinance.find_all_by_memberlevel("0")
     @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
