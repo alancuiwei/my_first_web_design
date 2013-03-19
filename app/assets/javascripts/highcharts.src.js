@@ -2574,7 +2574,10 @@ SVGElement.prototype = {
 			inverted = wrapper.inverted,
 			rotation = wrapper.rotation,
 			transform = [];
-
+            if(translateX!=10){
+                translateX=230;
+                translateY=10;
+            }
 		// flipping affects translate as adjustment for flipping around the group's axis
 		if (inverted) {
 			translateX += wrapper.attr('width');
