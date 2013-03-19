@@ -33,12 +33,14 @@
         <input type="text" id="post" valType="NOTNULL" msg="<font color=red>*</font>请输入您的职务" title="职务" placeholder="职务">
       </div>
     </div>
+    <!--
     <div class="control-group">
       <label class="control-label" for="inputPassword">电子邮箱*:</label>
       <div class="controls">
         <input valType="MAIL" msg="<font color=red>*</font>请放心，这个信息不会被公开，有符合您的产品，会发信息到您这个信箱。" title='电子邮箱' type="text" id="email" placeholder="电子邮箱">
       </div>
     </div>
+    -->
     <div class="control-group">
       <label class="control-label" for="inputPassword">联系电话*:</label>
       <div class="controls">
@@ -164,7 +166,6 @@
     $("#age").attr("value",'<%= format("%0.0f",@personal[0])%>');
     $("#company").attr("value",'<%=@personal[1] %>');
     $("#post").attr("value",'<%= @personal[2]%>');
-    $("#email").attr("value",'<%= @personal[3]%>');
     $("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');
     $("#investcycle").attr("value",'<%= @personal[5]%>');
     $("#returnrate").attr("value",'<%= format("%0.0f",@personal[6]*100)%>');
@@ -316,7 +317,6 @@
 
         $.Validator.ajaxValidate=function() {
             var nom_flag=0;
-
             if(!beforeSubmit()){
                 nom_flag=1;
             }
@@ -363,7 +363,7 @@
             }
             if(nom_flag==0){
                 $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
-                    company: $("#company").attr("value"),post: $("#post").attr("value"),email: $("#email").attr("value"),
+                    company: $("#company").attr("value"),post: $("#post").attr("value"),email: '<%= @webuser.email%>',
                     investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
                     riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,name:$("#name").attr("value"),contact:$("#contact").attr("value"),
                     myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value"),memberlevel:flag3
