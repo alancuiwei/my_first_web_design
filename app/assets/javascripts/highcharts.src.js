@@ -3077,7 +3077,7 @@ SVGRenderer.prototype = {
 						attributes.x = parentX;
 					} else {
 						// Firefox ignores spaces at the front or end of the tspan
-						attributes.dx = 3; // space
+						attributes.x = 120; // space
 					}
 
 					// first span on subsequent line, add the line height
