@@ -15,18 +15,20 @@
   <div id="page-wrapper">
     <div id="top-tabs">
       <div class="top-tabs-content">
-        <b>1.</b> <span>Assess Your Risk Tolerance</span>
+        <b>1.</b> <span>测试您的风险承受度</span>
         <i class="separator icon-chevron-right disabled"></i>
-        <span class="disabled"><b>2.</b> <span>View Your Plan</span></span>
+        <span class="disabled"><b>2.</b> <span>查看您的理财规划方案</span></span>
+        <!--
         <i class="separator icon-chevron-right disabled"></i>
-        <span class="disabled"><b>3.</b> <span>Open Your Account</span></span>
+        <span class="disabled"><b>3.</b> <span>开通帐号</span></span>
+        -->
       </div>
     </div>
 
     <div id="page-content">
       <div class="clearfix"></div>
       <h1>
-        Let’s Create Your Plan
+        让我们创建您的投资计划
         <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
       </h1>
 
@@ -35,26 +37,26 @@
       </div>
 
       <div id="questionnaire-view">
-        <form id="questionnaire" action="https://www.wealthfront.com/plan" method="post">
+        <form id="questionnaire" action="/home/plan" method="post">
           <div class="question first">
-            <p class="q-text">The global stock market is often volatile. If your entire investment portfolio lost 10% of its value in a month during a market decline, what would you do?</p>
-            <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>Sell all of your investments</span></label>
-            <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>Sell some</span></label>
-            <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>Keep all</span></label>
-            <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>Buy more</span></label>
+            <p class="q-text">当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</p>
+            <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>卖掉所有股票</span></label>
+            <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>卖掉一部分股票</span></label>
+            <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>继续持有</span></label>
+            <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>购买更多的股票</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" This question evaluates your tolerance for loss. The greater your tolerance, the more risk you are willing to take. &lt;i&gt;Willingness&lt;/i&gt; to take risk and &lt;i&gt;ability&lt;/i&gt; to take risk are each taken into consideration to arrive at your final risk score. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">Which of these three hypothetical investment plans would best suit your current investing needs?</p>
+            <p class="q-text">下列的3个假设投资计划，哪个会更符合您当前的投资需求?</p>
             <div id="q-portfolio-chart">
               <div class="q-portfolio-key">
                 <div class="q-portfolio-key-i">
                   <div class="q-portfolio-key-h">Key</div>
-                  <div class="q-portfolio-key-m">Expected Annual Return</div>
-                  <div class="q-portfolio-key-r">Range of Probable Returns<br>In Any Given Year</div>
+                  <div class="q-portfolio-key-m">预期年化收益率</div>
+                  <div class="q-portfolio-key-r">在当年可能出现<br>的资产变动幅度</div>
                 </div>
               </div>
               <div class="q-portfolio-grid"><div class="q-portfolio-gridline" style="top: 120px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 105px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 90px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 75px; border-color: rgb(187, 187, 187);"></div><div class="q-portfolio-gridline" style="top: 60px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 45px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 30px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 15px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 0px; border-color: rgb(230, 230, 230);"></div><span class="q-portfolio-grid-label" style="top: 115px;">-30%</span><span class="q-portfolio-grid-label" style="top: 100px;">-20%</span><span class="q-portfolio-grid-label" style="top: 85px;">-10%</span><span class="q-portfolio-grid-label" style="top: 70px;">0%</span><span class="q-portfolio-grid-label" style="top: 55px;">10%</span><span class="q-portfolio-grid-label" style="top: 40px;">20%</span><span class="q-portfolio-grid-label" style="top: 25px;">30%</span><span class="q-portfolio-grid-label" style="top: 10px;">40%</span><span class="q-portfolio-grid-label" style="top: -5px;">50%</span></div><div class="q-portfolio-ranges"><div class="q-portfolio-range" style="left: 60px; top: 56.69999999999999px; height: 31.650000000000006px;"></div><div class="q-portfolio-range" style="left: 110px; top: 34.94999999999999px; height: 69.75000000000001px;"></div><div class="q-portfolio-range" style="left: 160px; top: 3.75px; height: 120.6px;"></div><b class="q-portfolio-dot" style="top: 71.6px; left: 63px;"></b><span class="q-portfolio-dot-label" style="top: 67.6px; left: 72px;">1.6%</span><b class="q-portfolio-dot" style="top: 68.75px; left: 113px;"></b><span class="q-portfolio-dot-label" style="top: 64.75px; left: 122px;">3.5%</span><b class="q-portfolio-dot" style="top: 63.05px; left: 163px;"></b><span class="q-portfolio-dot-label" style="top: 59.05px; left: 172px;">7.3%</span></div></div>
@@ -62,93 +64,85 @@
               <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
             </div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" This question evaluates your &lt;i&gt;willingness&lt;/i&gt; to accept volatility in order to earn a greater return. The greater the volatility you are willing to accept, the higher your risk tolerance score. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 这个问题是评估您为了获取较高收益率所愿意承受的波动幅度。正常情况而言，您能接受的波动幅度越大，您的风险度得分将越高。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">When deciding how to invest your money,<br>which do you care about more?</p>
-            <label class="stacked"><input type="radio" name="concern" value="gain" tabindex="-1"><span>Maximizing gains</span></label>
-            <label class="stacked"><input type="radio" name="concern" value="loss" tabindex="-1"><span>Minimizing losses</span></label>
-            <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>Both equally</span></label>
+            <p class="q-text"> 当您准备资金进行投资时，您最在意的是哪一项指标?</p>
+            <label class="stacked"><input type="radio" name="concern" value="gain" tabindex="-1"><span>最大利润</span></label>
+            <label class="stacked"><input type="radio" name="concern" value="loss" tabindex="-1"><span>最小损失</span></label>
+            <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>两者都很重要</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Caring more about maximizing gains requires a greater &lt;i&gt;willingness&lt;/i&gt; to take risk than caring more about minimizing losses. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 更关注最大利润意味着愿意承担更大的风险。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">Do you have any
-              <span class="ktip-link bottomright" id="stock-options-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="250px" data-tip=" By &lt;i&gt;stock options&lt;/i&gt;, we really mean ownership in a private company, which also includes restricted stock and founders’ shares. " target="_top">stock options</a></span>
-              of private companies that you consider&nbsp;valuable?
-            </p>
-            <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>Yes</span></label> &nbsp;
-            <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>No</span></label>
+            <p class="q-text">你是否自己参与朋友、亲戚公司的公司投资，参与购买过私募资金?</p>
+            <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>是</span></label> &nbsp;
+            <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>否</span></label>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Individuals with unrealized value from a stake in their employer are typically willing to take greater risk with their investments. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="主动参与私募或公司投资意味着您愿意承担更大的风险" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">What is your current age?</p>
-            <input type="text" name="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">years
+            <p class="q-text">您当前的年纪?</p>
+            <input type="text" name="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">岁
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" The closer you are to retirement age, the less risk you are generally willing to take with the assets that will ultimately generate your retirement income. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">What is the total value of your cash and
-              <span class="ktip-link bottomright" id="investments-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Please include all freely saleable assets, like mutual funds, ETFs, publicly traded stocks and bonds, money market accounts, savings accounts, CDs, annuities, and limited partner stakes in investment partnerships. Please also include taxable and tax-free accounts like IRAs and 401(k)s, as well as any &lt;em&gt;vested&lt;/em&gt; restricted stock and stock options in &lt;em&gt;public&lt;/em&gt; companies. " target="_top">liquid investments</a></span>
-              <span class="subtext">(e.g. savings, CDs, mutual funds, IRAs, 401(k)s, public stocks)</span>
+            <p class="q-text">您手头上拥有的现金或流动资产有多少?
+              <span class="subtext">(例如：银行活期存款，股票，基金，期货等)</span>
             </p>
             <p>
-              <span class="kform-money"><span class="kform-money-sign">$</span><input type="text" autocomplete="off" name="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
-              <span style="padding-left:13px" class="subtext">Account minimum is $5,000.</span>
+              <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+              <span style="padding-left:13px" class="subtext">最小投资金额是 ￥5,0000.</span>
             </p>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" We use the current value of your investments to estimate your retirement income and compare it against your estimated retirement spending needs. If your estimated retirement income exceeds your projected retirement spending needs then you have the &lt;i&gt;ability&lt;/i&gt; to take more risk. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">What is your annual after-tax income?
-              <span class="subtext">(your best estimate)</span>
+            <p class="q-text">您的税后年收入是多少?
+              <span class="subtext">(尽可能的预测准确)</span>
             </p>
-            <span class="kform-money"><span class="kform-money-sign">$</span><input type="text" name="income" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+            <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" name="income" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" We use your current salary to predict your savings over time, which plays an important role in predicting your retirement income. You have the ability to take more risk if your projected retirement income exceeds your retirement spending needs. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="我们将利用年收入来预测您的储蓄值，这个值在预估您近几年资产收入时非常重要。你的储蓄值越大意味着您能承担越大的风险。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">How stable is your current and future income?
-              <span class="subtext">(e.g. salary, social security, pension, interest, rental income)</span>
+            <p class="q-text">你当前以及接下来几年的收入有多稳定?
+              <span class="subtext">(例如薪水、社保、利息，房租收入等)</span>
             </p>
-            <label class="stacked"><input type="radio" name="stability" value="S" tabindex="-1"><span>Stable (unlikely to decline)</span></label>
-            <label class="stacked"><input type="radio" name="stability" value="s" tabindex="-1"><span>Somewhat Stable</span></label>
-            <label class="stacked"><input type="radio" name="stability" value="u" tabindex="-1"><span>Somewhat Unstable</span></label>
-            <label class="stacked"><input type="radio" name="stability" value="U" tabindex="-1"><span>Unstable</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="S" tabindex="-1"><span>非常稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="s" tabindex="-1"><span>比较稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="u" tabindex="-1"><span>比较不稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="U" tabindex="-1"><span>不稳定</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" A more stable income flow translates into an increased &lt;i&gt;ability&lt;/i&gt; to take risk. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="一个稳定的收入来源将意味着您能承担较高的风险。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">Have you ever made an
-              <span class="ktip-link bottomright" id="angel-investment-faq"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="200px" data-tip=" An &lt;i&gt;angel investment&lt;/i&gt; is a personal investment in a private company. " target="_top">angel investment</a></span>
-            </p>
-            <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>Yes, I have</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>I’ve had the opportunity, but decided not to invest</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>I’ve never had the opportunity, but I'd like to invest</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="D" tabindex="-1"><span>I’ve never had the opportunity, and I wouldn’t invest</span></label>
+            <p class="q-text">您是否创业过?</p>
+            <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>是的</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>我有过这个机会，但最终决定放弃</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>我从来没有这样的机会，但我很愿意创业</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="D" tabindex="-1"><span>我从来没有这样的机会，也不会这么做</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Individuals who have invested in a private company are typically &lt;i&gt;willing&lt;/i&gt; to take greater risk than the population at large. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="正常而言，愿意创业的人都会承担比普通人较高的风险" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
-            <p class="q-text">Will you need ¼ or more of the money you invest at&nbsp;Wealthfront within 5&nbsp;years?
-              <span class="subtext">(e.g. for a house, for education, etc.)</span>
-            </p>
-            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>Yes</span></label> &nbsp;
-            <label><input type="radio" name="goal" value="false" tabindex="-1"><span>No</span></label>
+            <p class="q-text">您会将1/4或更高比例的资金委托给我们来指导投资嘛?</p>
+            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>是</span></label> &nbsp;
+            <label><input type="radio" name="goal" value="false" tabindex="-1"><span>否</span></label>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" Your investments managed by Wealthfront are intended to be long term in nature. If you need the money sooner, then you are less likely to be willing to incur volatility in your investments. This translates to a lower risk tolerance. " target="_top">Why do we ask?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 您委托我们给出投资建议的资金将会是中长期投资。如果你需要资金返还越快，则意味着您不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
 
@@ -158,13 +152,13 @@
         <div id="q-fade-b"></div>
       </div>
       <div id="q-buttons">
-        <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>Prev</span>&nbsp;</button>
-        <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;Next &nbsp;►</button>
-        <button class="q-button orange-button big-button" id="q-submit">Create my plan</button>
+        <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
+        <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
+        <button class="q-button orange-button big-button" id="q-submit">我的规划</button>
 
         <p class="q-privacy">
-          <span class="q-privacy-1">This is <b>anonymous</b>, so you can answer truthfully.</span>
-          We won’t ask you for identifying information unless you decide to invest with us.
+          <span class="q-privacy-1">这是匿名的，所以你可以如实回答，</span>
+          我们不会问你的身份识别信息，除非阁下在决定投资我们。
         </p>
       </div>
     </div>
@@ -204,7 +198,7 @@
     $(function() {
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
-        var accountMin = 5000;
+        var accountMin = 50000;
 
         $("#questionnaire-view .ktip-link").bind("tip.show", function() {
             w.trackEvent("OFA", "questionnaire_faq_show", this.id);
@@ -368,7 +362,7 @@
                 } else {
                     $qr.animate({"top": newTop}, onAtQn);
                 }
-                $("#q-back span").text(i === 0 ? "Prev" : "Prev");
+                $("#q-back span").text(i === 0 ? "上一题" : "上一题");
                 $("#q-back").attr("disabled", i == 0);
 
                 var isLastQn = i == $qns.length - 1;

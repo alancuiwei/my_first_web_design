@@ -1,0 +1,337 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "classy.css" %>
+<%= stylesheet_link_tag "plan.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "plan_page.js" %>
+<%= javascript_include_tag "new_plan.js" %>
+<script>
+    t0=new Date
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
+
+
+<div class="welcomes">
+  <div id="page-wrapper">
+    <div id="top-tabs">
+      <div class="top-tabs-content">
+        <a href="/home/questions"><b>1.</b> <span>测试您的风险承受度</span></a>
+        <i class="separator icon-chevron-right"></i>
+        <b>2.</b> <span>查看您的理财规划方案</span>
+        <!--
+        <i class="separator icon-chevron-right disabled"></i>
+        <span class="disabled"><b>3.</b> <span>开通帐号</span></span>
+         -->
+      </div>
+    </div>
+    <div id="page-content">
+      <div class="classy plan-content">
+
+        <div class="plan-column left">
+          <div class="risk-label sidebar-label">您的风险承受度</div>
+          <div id="risk-meter"></div>
+          <div class="risk-control">
+            <button id="risk-down" class="risk-adjust icon-minus"></button>
+            <input id="risk-number">
+            <button id="risk-up" class="risk-adjust icon-plus"></button>
+          </div>
+          <div id="revert-risk-msg" style="visibility: hidden;">(初始测试值为 <a href="javascript:" id="revert-risk"><%= cookies[:asset_allocation].split('|')[3] %></a>)</div>
+          <div id="risk-warning" style="display: none;">风险高于推荐</div>
+          <a href="javascript:" id="change-answers">修改我的答案</a>
+
+          <hr style="margin-left:14px; margin-right:14px">
+          <p class="amount-to-invest-label sidebar-label">投资金额</p>
+          <input type="text" id="amount-to-invest">
+          <p>(最低50000元)</p>
+
+          <span class="ktip-link" id="faq-amount"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
+        </div>
+
+        <div class="plan-column center">
+          <div class="account-types">
+            <div class="account-type-tab active" id="taxable-account-type">
+              <p><span class="product">您的理财规划方案</span></p>
+              <p class="product-description">仅为个人或家庭服务</p>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+
+          <div class="plan-details">
+            <section id="asset-allocation" class="">
+              <div class="allocation-chart-container">
+                <svg id="allocation-chart" class="apply-asset-class-colors"><g transform="translate(57.5,57.5)"><path data-pie-slice-id="US_STOCKS" class="segment US_STOCKS" d="M3.5207432672393346e-15,-57.5A57.5,57.5 0 0,1 54.68574968697132,17.7684771765595L0,0Z"></path><path data-pie-slice-id="MUNI_BONDS" class="segment MUNI_BONDS" d="M-46.518477176559536,33.79765200681713A57.5,57.5 0 0,1 9.15782884637964e-14,-57.5L0,0Z"></path><path data-pie-slice-id="DIV_STOCKS" class="segment DIV_STOCKS" d="M-3.6104548729355717,57.38653688462561A57.5,57.5 0 0,1 -30.81071129236,48.54885571636583L0,0Z"></path><path data-pie-slice-id="INTL_DEVELOPED" class="segment INTL_DEVELOPED" d="M54.68574968697132,17.7684771765595A57.5,57.5 0 0,1 24.482309264991642,52.02755551679614L0,0Z"></path><path data-pie-slice-id="INTL_EMERGING" class="segment INTL_EMERGING" d="M24.482309264991642,52.02755551679614A57.5,57.5 0 0,1 -3.6104548729355717,57.38653688462561L0,0Z"></path><path data-pie-slice-id="COMMODITIES" class="segment COMMODITIES" d="M-30.81004071129236,48.54885571636583A57.5,57.5 0 0,1 -46.518477176559536,33.79765200681713L0,0Z"></path></g></svg>
+                <ul class="allocation-questions">
+                  <li><span class="ktip-link right" id="faq-mix"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="320px" data-d="0" data-tip=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为什么是这样规划的?</a></span></li>
+
+                  <li><span class="ktip-link right" id="faq-change"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-d="0" data-tip=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
+                </ul>
+              </div>
+
+              <table id="allocation" class="allocation report apply-asset-class-colors">
+                <thead>
+                <tr>
+                  <th></th>
+                  <th>投资品种</th>
+                  <th class="number">%</th>
+                  <th class="number">总额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="" data-type="US_STOCKS">
+                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                  <td class="asset-class-name">
+                    <span class="ktip-link"><a class="ktip-a">股票、基金</a></span>
+                  </td>
+                  <td class="asset-class-percentage number">43%</td>
+                  <td class="asset-class-amount number">￥21,501</td>
+                </tr>
+                <tr class="" data-type="INTL_EMERGING">
+                  <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
+                  <td class="asset-class-name">
+                    <span class="ktip-link"><a class="ktip-a">国债、企业债</a></span>
+                  </td>
+                  <td class="asset-class-percentage number">14%</td>
+                  <td class="asset-class-amount number">￥4,000</td>
+                </tr>
+                <tr class="" data-type="DIV_STOCKS">
+                  <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
+                  <td class="asset-class-name">
+                    <span class="ktip-link"><a class="ktip-a">信托</a></span>
+                  </td>
+                  <td class="asset-class-percentage number">8%</td>
+                  <td class="asset-class-amount number">￥7,000</td>
+                </tr>
+
+                <tr class="" data-type="MUNI_BONDS">
+                  <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                  <td class="asset-class-name">
+                    <span class="ktip-link"><a class="ktip-a">银行理财产品</a></span>
+                  </td>
+                  <td class="asset-class-percentage number">35%</td>
+                  <td class="asset-class-amount number">￥17,501</td>
+                </tr>
+                </tbody>
+              </table>
+
+
+              <div class="clearfix"></div>
+            </section>
+
+          </div>
+        </div>
+        <!--
+        <div class="plan-column right">
+          <div style="position:relative;width: 204px;">
+            <div id="position-saver">
+              <div class="open-account-container">
+                <p class="open-account-intro">保存您的理财规划方案</p>
+                <button id="open-account" class="orange" data-url="/account-selection">保存</button>
+                <a id="save-your-plan" href="javascript:">让我们为您投资</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<script>
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview", "/plan"]];
+    w.requestId = "0611623438";
+
+    $(function(){
+        window._error_count = 0;
+        window.onerror = function(error, url, lineNumber) {
+            window._error_count++;
+            var payload = {"rev": "80730", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>try{
+//Table
+    $(function () {
+        $R(function (amount, allocation) {
+            var rows = d3.selectAll("#allocation > tbody > tr").data(_.pairs(allocation), function (d) { return (d && d[0]) || ($(this).data("type"))})
+            rows.classed('disabled', false)
+            rows.select('.asset-class-percentage').text(function (d) {return (d[1] * 100).toFixed(0) + "%"})
+            rows.select('.asset-class-amount').text(function (d) {return w.dollarAmount(d[1] * amount, 0)})
+
+            rows.exit().classed('disabled', true)
+            rows.exit().select('.asset-class-percentage').text('-')
+            rows.exit().select('.asset-class-amount').text('-')
+
+        }).bindTo(w.planPage.amount, w.planPage.allocation);
+    });
+} catch(e) {w.trackJsError(e); throw e;}
+</script>
+
+
+<script>try{
+    var custodian = "APEX";
+    var etfExpenses = {"US_STOCKS":0.0006,"INTL_DEVELOPED":0.0012,"INTL_EMERGING":0.002,"REAL_ESTATE":0.001,"COMMODITIES":0.0075,"BONDS":0.001,"INFL_BONDS":0.0007,"MUNI_BONDS":0.0025,"EM_BONDS":0.006,"DIV_STOCKS":0.0013,"CORP_BONDS":0.0015};
+    var etfPrices = {"US_STOCKS":78.0,"INTL_DEVELOPED":36.87,"INTL_EMERGING":44.85,"REAL_ESTATE":68.66,"COMMODITIES":43.32,"BONDS":83.05,"INFL_BONDS":57.63,"MUNI_BONDS":111.7,"EM_BONDS":119.06,"DIV_STOCKS":63.63,"CORP_BONDS":118.74};
+    var initialPlan = deserializePlan("<%= cookies[:asset_allocation] %>");
+
+    $(function () {
+        //Dots on cost tab, ported from old page
+        $(".fee-table")
+                .find("td:first-child").wrapInner("<div class=dot-legend-w><span class=dot-legend-l/></div>").end()
+                .find("td:last-child").wrapInner("<span class=dot-legend-r/>");
+    });
+
+    //Tab control
+    $(function () {
+        var $tabContainer = $("#plan-details-tabs");
+        $("#plan-details-tabs").on("click", ".lozenge-tab", function() {
+            $tabContainer.find(".lozenge-tab").removeClass("active");
+            $(this).addClass("active");
+            $(".plan-info.active").removeClass("active");
+            $("#"+$(this).data("section-id")).addClass("active");
+        });
+    });
+
+    //Risk meter
+    $(function() {
+        $R.dom("#risk-number")
+                .linkInput(w.planPage.risk, null, parseFloat);
+
+        var riskForRiskMeter = $R(function (risk) {
+            return risk/10;
+        }).bindTo(w.planPage.risk);
+
+        $R(attachRiskMeter("#risk-meter", {scaling:.50})).bindTo(riskForRiskMeter, initialPlan.rec/10)
+
+        $("#risk-up").on("click", function() {
+            w.planPage.risk(w.planPage._riskValue+0.5)
+        });
+        $("#risk-down").on("click", function() {
+            w.planPage.risk(w.planPage._riskValue-0.5)
+        });
+
+        $R($("#risk-warning").toggle, $("#risk-warning")).bindTo(w.planPage.isHighRisk);
+        $R.dom("#current-risk-score").bindAttributeTo("innerHTML", w.planPage.risk);
+
+        var riskRevertMessage = $R(function (tol) {
+            var visibility = parseFloat(tol) !== w.planPage.initialRisk ? "visible" : "hidden";
+            $("#revert-risk-msg").css("visibility", visibility);
+        }).bindTo(w.planPage.risk)
+
+        $("#revert-risk").on("click", function () {
+            w.planPage.risk(w.planPage.initialRisk);
+        });
+    });
+
+    //Allocation Pie Chart
+    $(function () {
+        var ordering = {"US_STOCKS":0,"INTL_DEVELOPED":1,"INTL_EMERGING":2,"DIV_STOCKS":3,"REAL_ESTATE":4,"COMMODITIES":5,"BONDS":10,"INFL_BONDS":6,"MUNI_BONDS":7,"CORP_BONDS":8,"EM_BONDS":9};
+        var allocationAsChartData = $R(w.plan.allocationAsPie).bindTo(w.planPage.allocation, ordering);
+        w.planPage.allocationPie = new w.charts.Pie($("#allocation-chart"), {innerRadius:0, sort:true});
+        w.planPage.allocationPie.data.bindTo(allocationAsChartData);
+    });
+
+    //Fee information
+    $(function () {
+        var formatEtfFee = function (v) { return (v*100).toFixed(2) };
+        $R.dom("#etf-fee").bindAttributeTo("innerHTML", w.planPage.fee, formatEtfFee);
+    });
+
+    //Effective management fee
+    $(function () {
+        var formatMgmtFee = function (v) { return v.toFixed(2)+"%" };
+        $R.dom("#cost-effective").bindAttributeTo("innerHTML", w.planPage.managementFee, formatMgmtFee);
+    });
+
+    //Commissions
+    $(function () {
+        var formatCommissions = function (v) { return v.toFixed(2) };
+        $R.dom("#commissions").bindAttributeTo("innerHTML", w.planPage.commissions, formatCommissions);
+    });
+
+    //Initialize
+    $(function () {
+        var taxableModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05],"INFL_BONDS":[0],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"COMMODITIES":[0]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
+        var nonTaxableModel = {"name":"SAA201301_IRA","allocations":{"US_STOCKS":[0.11,0.13,0.17,0.21,0.24,0.27,0.28,0.3,0.31,0.32,0.34,0.35,0.37,0.37,0.39,0.41,0.42,0.39,0.39,0.38],"CORP_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.31,0.28,0.25,0.21,0.19,0.15,0.13,0.1,0.06,0.05,0.05,0.05,0.05],"INFL_BONDS":[0.25,0.19,0.14,0.09,0.05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"DIV_STOCKS":[0.05,0.11,0.12,0.12,0.13,0.14,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.13,0.08,0.05],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.07,0.08,0.09,0.1,0.11,0.12,0.13,0.14,0.15,0.16,0.17,0.22,0.27,0.31],"REAL_ESTATE":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.1,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.16,0.16],"EM_BONDS":[0.14,0.12,0.12,0.13,0.13,0.13,0.1,0.1,0.09,0.09,0.09,0.08,0.08,0.08,0.07,0.07,0.06,0.05,0.05,0.05]},"granularity":2.0,"model_number":6,"max_risk":10,"min_risk":0.5};
+        var selectedModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05],"INFL_BONDS":[0],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"COMMODITIES":[0]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
+
+        w.planPage.initialize(
+                custodian,
+                initialPlan,
+                etfExpenses,
+                etfPrices,
+                selectedModel,
+                taxableModel,
+                nonTaxableModel);
+        var questionsPath = "/home/questions";
+        w.newPlan.initialize("asset_allocation", questionsPath);
+    });
+} catch(e) {w.trackJsError(e); throw e;}</script><script>
+    var $loginButton = $(".log-in.header-button"),
+            $logoutButton = $(".log-out.header-button"),
+            $credentials = $("#header-credentials"),
+            $sessionControls = $("#header-credentials,.log-in.header-button"),
+            $email = $("#header-email"),
+            $password = $("#header-password"),
+            $openAccountButton = $(".open-account.header-button"),
+            $sessionTimedOut = $("#session-timeout");
+
+    function hideCredentials() {
+        $credentials.removeClass('active');
+        $(document).off('click', hideCredentials);
+    }
+    $sessionControls.on("click", function (e) {
+        e.stopPropagation();
+    });
+    $credentials.on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $credentials.submit();
+        }
+    });
+    $loginButton.on("click", function () {
+        if ($credentials.hasClass("active")) {
+            $("#header-credentials").submit();
+        } else {
+            $email.focus();
+            $credentials.addClass("active");
+            $(document).on('click', hideCredentials);
+        }
+    });
+    $logoutButton.on("click", function () {
+        window.top.location = "/logout";
+    });
+    $openAccountButton.on("click", function () {
+        window.top.location = "/home/questions";
+
+    });
+    var c = w.cookie("idle");
+    if (c) {
+        w.removeCookie("idle");
+        if (c == "1") {
+            $sessionTimedOut.show();
+            showLogin();
+        }
+    }
+
+    w.placeholder();
+</script>
