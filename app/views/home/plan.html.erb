@@ -4,6 +4,8 @@
 <%= javascript_include_tag "base.js" %>
 <%= javascript_include_tag "plan_page.js" %>
 <%= javascript_include_tag "new_plan.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
 <script>
     t0=new Date
     function onReady(fn){onReady.fns.push(fn)}
@@ -28,8 +30,8 @@
       <div class="classy plan-content">
 
         <div class="plan-column left">
-          <div class="risk-label sidebar-label">您的风险承受度</div>
-          <div id="risk-meter"></div>
+          <!-- <div id="risk-meter"></div>  -->
+          <div id="container" style="margin-left: 50px;"></div>
           <div class="risk-control">
             <button id="risk-down" class="risk-adjust icon-minus"></button>
             <input id="risk-number">
@@ -112,11 +114,8 @@
                 </tr>
                 </tbody>
               </table>
-
-
               <div class="clearfix"></div>
             </section>
-
           </div>
         </div>
         <!--
@@ -133,8 +132,6 @@
         </div>
         -->
       </div>
-
-
     </div>
   </div>
 </div>
@@ -220,14 +217,125 @@
         var riskForRiskMeter = $R(function (risk) {
             return risk/10;
         }).bindTo(w.planPage.risk);
+        $(function () {
+            var chart = new Highcharts.Chart({
 
-        $R(attachRiskMeter("#risk-meter", {scaling:.50})).bindTo(riskForRiskMeter, initialPlan.rec/10)
+                        chart: {
+                            renderTo: 'container',
+                            type: 'gauge',
+                            plotBorderWidth: 1,
+                            plotBackgroundColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                stops: [
+                                    [0, '#FFF4C6'],
+                                    [0.3, '#FFFFFF'],
+                                    [1, '#FFF4C6']
+                                ]
+                            },
+                            plotBackgroundImage: null,
+                            height: 135,
+                            width: 180
+                        },
 
-        $("#risk-up").on("click", function() {
+                        title: {
+                            text: '您的风险承受度'
+                        },
+
+                        pane: [{
+                            startAngle: -45,
+                            endAngle: 45,
+                            background: null,
+                            center: ['50%', '145%'],
+                            size: 150
+                        }],
+
+                        yAxis: [{
+                            min: 0,
+                            max: 10,
+                            tickInterval: 2,
+                            minorTickPosition: 'outside',
+                            tickPosition: 'outside',
+                            labels: {
+                                rotation: 'auto',
+                                distance: 20
+                            },
+                            plotBands: [{
+                                from: 0,
+                                to: 2,
+                                color: '#09a509',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 2,
+                                to: 4,
+                                color: '#69c908',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 4,
+                                to: 6,
+                                color: '#eded07',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 6,
+                                to: 8,
+                                color: '#fa8c1e',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 8,
+                                to: 10,
+                                color: '#C02316',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            }],
+                            pane: 0,
+                            title: false
+                        }],
+
+                        plotOptions: {
+                            gauge: {
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                dial: {
+                                    radius: '90%'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: [<%= cookies[:asset_allocation].split('|')[3] %>],
+                            yAxis: 0
+                        }],
+                        credits: {
+                            enabled: false
+                        }
+                    },
+                    // Let the music play
+                    function(chart) {
+                        $("#risk-up,#risk-down").on("click", function() {
+                            var left = chart.series[0].points[0],
+                                    leftVal;
+                            if(this.id=='risk-up'){
             w.planPage.risk(w.planPage._riskValue+0.5)
+                            }
+                            else{
+                                w.planPage.risk(w.planPage._riskValue-0.5)
+                            }
+                            leftVal = w.planPage._riskValue;
+                            left.update(leftVal, false);
+                            chart.redraw();
+                        });
+                        $("#revert-risk").on("click", function () {
+                            w.planPage.risk(<%= cookies[:asset_allocation].split('|')[3] %>);
+                            var left = chart.series[0].points[0],leftVal;
+                            leftVal =<%= cookies[:asset_allocation].split('|')[3] %>;
+                            left.update(leftVal, false);
+                            chart.redraw();
+                        });
         });
-        $("#risk-down").on("click", function() {
-            w.planPage.risk(w.planPage._riskValue-0.5)
+
         });
 
         $R($("#risk-warning").toggle, $("#risk-warning")).bindTo(w.planPage.isHighRisk);
@@ -237,10 +345,6 @@
             var visibility = parseFloat(tol) !== w.planPage.initialRisk ? "visible" : "hidden";
             $("#revert-risk-msg").css("visibility", visibility);
         }).bindTo(w.planPage.risk)
-
-        $("#revert-risk").on("click", function () {
-            w.planPage.risk(w.planPage.initialRisk);
-        });
     });
 
     //Allocation Pie Chart
@@ -271,9 +375,9 @@
 
     //Initialize
     $(function () {
-        var taxableModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05],"INFL_BONDS":[0],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"COMMODITIES":[0]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
-        var nonTaxableModel = {"name":"SAA201301_IRA","allocations":{"US_STOCKS":[0.11,0.13,0.17,0.21,0.24,0.27,0.28,0.3,0.31,0.32,0.34,0.35,0.37,0.37,0.39,0.41,0.42,0.39,0.39,0.38],"CORP_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.31,0.28,0.25,0.21,0.19,0.15,0.13,0.1,0.06,0.05,0.05,0.05,0.05],"INFL_BONDS":[0.25,0.19,0.14,0.09,0.05,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"DIV_STOCKS":[0.05,0.11,0.12,0.12,0.13,0.14,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.13,0.08,0.05],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.07,0.08,0.09,0.1,0.11,0.12,0.13,0.14,0.15,0.16,0.17,0.22,0.27,0.31],"REAL_ESTATE":[0.05,0.05,0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.1,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.16,0.16],"EM_BONDS":[0.14,0.12,0.12,0.13,0.13,0.13,0.1,0.1,0.09,0.09,0.09,0.08,0.08,0.08,0.07,0.07,0.06,0.05,0.05,0.05]},"granularity":2.0,"model_number":6,"max_risk":10,"min_risk":0.5};
-        var selectedModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05],"INFL_BONDS":[0],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"INTL_DEVELOPED":[0],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"COMMODITIES":[0]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
+        var taxableModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
+        var nonTaxableModel = {"name":"SAA201301_IRA","allocations":{"US_STOCKS":[0.11,0.13,0.17,0.21,0.24,0.27,0.28,0.3,0.31,0.32,0.34,0.35,0.37,0.37,0.39,0.41,0.42,0.39,0.39,0.38],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.07,0.08,0.09,0.1,0.11,0.12,0.13,0.14,0.15,0.16,0.17,0.22,0.27,0.31],"DIV_STOCKS":[0.05,0.11,0.12,0.12,0.13,0.14,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.13,0.08,0.05]},"granularity":2.0,"model_number":6,"max_risk":10,"min_risk":0.5};
+        var selectedModel = {"name":"SAA201301_TAX","allocations":{"US_STOCKS":[0.38,0.48,0.48,0.47,0.46,0.45,0.43,0.43,0.46,0.48,0.5,0.52,0.53,0.55,0.56,0.57,0.59,0.6,0.61,0.57],"INTL_EMERGING":[0.05,0.05,0.05,0.05,0.05,0.06,0.08,0.09,0.11,0.12,0.13,0.14,0.15,0.15,0.16,0.17,0.18,0.19,0.22,0.28],"DIV_STOCKS":[0.22,0.12,0.12,0.13,0.14,0.14,0.14,0.13,0.1,0.11,0.11,0.11,0.11,0.12,0.13,0.13,0.14,0.15,0.12,0.1],"MUNI_BONDS":[0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.35,0.33,0.29,0.26,0.23,0.21,0.18,0.15,0.13,0.09,0.06,0.05,0.05]},"granularity":2.0,"model_number":5,"max_risk":10,"min_risk":0.5};
 
         w.planPage.initialize(
                 custodian,

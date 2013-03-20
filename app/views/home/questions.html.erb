@@ -4,6 +4,8 @@
 <%= javascript_include_tag "plan.js" %>
 <%= javascript_include_tag "risk.js" %>
 <%= javascript_include_tag "jquery.effects.core.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
 <script>
     t0=new Date
     function onReady(fn){onReady.fns.push(fn)}
@@ -32,8 +34,9 @@
         <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
       </h1>
 
-      <div style="float:right;margin:40px 30px 0 0;position:relative">
-        <div id="risk-meter"></div>
+        <div style="float:right;margin:40px 0 0 0;position:relative">
+          <!-- <div id="risk-meter"></div>  -->
+          <div id="container"></div>
       </div>
 
       <div id="questionnaire-view">
@@ -59,7 +62,8 @@
                   <div class="q-portfolio-key-r">在当年可能出现<br>的资产变动幅度</div>
                 </div>
               </div>
-              <div class="q-portfolio-grid"><div class="q-portfolio-gridline" style="top: 120px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 105px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 90px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 75px; border-color: rgb(187, 187, 187);"></div><div class="q-portfolio-gridline" style="top: 60px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 45px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 30px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 15px; border-color: rgb(230, 230, 230);"></div><div class="q-portfolio-gridline" style="top: 0px; border-color: rgb(230, 230, 230);"></div><span class="q-portfolio-grid-label" style="top: 115px;">-30%</span><span class="q-portfolio-grid-label" style="top: 100px;">-20%</span><span class="q-portfolio-grid-label" style="top: 85px;">-10%</span><span class="q-portfolio-grid-label" style="top: 70px;">0%</span><span class="q-portfolio-grid-label" style="top: 55px;">10%</span><span class="q-portfolio-grid-label" style="top: 40px;">20%</span><span class="q-portfolio-grid-label" style="top: 25px;">30%</span><span class="q-portfolio-grid-label" style="top: 10px;">40%</span><span class="q-portfolio-grid-label" style="top: -5px;">50%</span></div><div class="q-portfolio-ranges"><div class="q-portfolio-range" style="left: 60px; top: 56.69999999999999px; height: 31.650000000000006px;"></div><div class="q-portfolio-range" style="left: 110px; top: 34.94999999999999px; height: 69.75000000000001px;"></div><div class="q-portfolio-range" style="left: 160px; top: 3.75px; height: 120.6px;"></div><b class="q-portfolio-dot" style="top: 71.6px; left: 63px;"></b><span class="q-portfolio-dot-label" style="top: 67.6px; left: 72px;">1.6%</span><b class="q-portfolio-dot" style="top: 68.75px; left: 113px;"></b><span class="q-portfolio-dot-label" style="top: 64.75px; left: 122px;">3.5%</span><b class="q-portfolio-dot" style="top: 63.05px; left: 163px;"></b><span class="q-portfolio-dot-label" style="top: 59.05px; left: 172px;">7.3%</span></div></div>
+                <div class="q-portfolio-grid"><img src="/assets/120226.jpg" style="width: 198px;height: 128px;padding-left: 10px;"></div>
+              </div>
             <div class="q-portfolio-choices">
               <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
             </div>
@@ -290,56 +294,6 @@
                         return $n.attr("name") + ":" + $n.val();
                     }
 
-                    $("#q-portfolio-chart").each(function() {
-                        var $c = $(this);
-                        if (!Array.prototype.map) {
-                            $c.empty().append("<div class=q-portfolio-img>");
-                            return;
-                        }
-                        var wd = $c.width(), ht = $c.height();
-                        var y = d3.scale.linear().domain([-30, 50]).range([ht, 0]);
-                        var vis = d3.select($c[0]);
-                        var grid = vis.append("div")
-                                .attr("class", "q-portfolio-grid");
-                        grid.selectAll("div")
-                                .data([-30,-20,-10,0,10,20,30,40,50])
-                                .enter().append("div")
-                                .attr("class", "q-portfolio-gridline")
-                                .style("top", function(d) { return y(d) + "px"; })
-                                .style("border-color", function(d) { return d ? "#e6e6e6" : "#bbb"; })
-                                .each(function(d) {
-                                    grid.append("span")
-                                            .attr("class", "q-portfolio-grid-label")
-                                            .style("top", y(d) - 5 + "px")
-                                            .text(d + "%");
-                                });
-                        var ranges = vis.append("div")
-                                .attr("class", "q-portfolio-ranges");
-                        ranges.selectAll("div")
-                                .data([[-8.9,1.6,12.2], [-19.8,3.5,26.7], [-32.9,7.3,47.5]])
-                                .enter().append("div")
-                                .attr("class", "q-portfolio-range")
-                                .style("left", function(d, i) { return 60 + 50 * i + "px"; })
-                                .style("top", function(d) { return y(d[2]) + "px"; })
-                                .style("height", function(d) { return y(d[0]) - y(d[2]) + "px"; })
-                                .each(function(d, i) {
-                                    var r = d3.select(this.parentNode);
-                                    r.append("b")
-                                            .attr("class", "q-portfolio-dot")
-                                            .style("top", y(d[1]) - 1 + "px")
-                                            .style("left", 63 + 50 * i + "px");
-                                    r.append("span")
-                                            .attr("class", "q-portfolio-dot-label")
-                                            .style("top", y(d[1]) - 5 + "px")
-                                            .style("left", 72 + 50 * i + "px")
-                                            .text(d[1] + "%");
-                                });
-                        $(ranges.node()).children().click(function() {
-                            var i = $(this).prevAll().length;
-                            $(this).closest(".question").find("[name=portfolio]").eq(i).click();
-                        });
-                    });
-
                     showQn(0);
                     if (doCalc) {
                         calculateRiskTol();
@@ -413,6 +367,7 @@
     $(function() {
         var currentModelNumber = "4"; //SAA201210
         var moveMeter = attachRiskMeter("#risk-meter");
+
         var $n = $("#q-numbers"), $qr = $("#questionnaire"), $qs = $qr.find(".question");
         $n.find(".q-num").each(function(i) {
             if ($qs.eq(i).find("input").filter(function() {return this.type == "radio" ? this.checked : !!this.value}).length) {
@@ -428,6 +383,116 @@
         })
                 .bind("qr:change", function(e, tol) {
                     moveMeter(tol / 10);
+                    $(function () {
+                        var chart = new Highcharts.Chart({
+
+                                    chart: {
+                                        renderTo: 'container',
+                                        type: 'gauge',
+                                        plotBorderWidth: 1,
+                                        plotBackgroundColor: {
+                                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                            stops: [
+                                                [0, '#FFF4C6'],
+                                                [0.3, '#FFFFFF'],
+                                                [1, '#FFF4C6']
+                                            ]
+                                        },
+                                        plotBackgroundImage: null,
+                                        height: 200,
+                                        width: 280
+                                    },
+
+                                    title: {
+                                        text: '您的风险承受度'
+                                    },
+
+                                    pane: [{
+                                        startAngle: -45,
+                                        endAngle: 45,
+                                        background: null,
+                                        center: ['50%', '145%'],
+                                        size: 300
+                                    }],
+
+                                    yAxis: [{
+                                        min: 0,
+                                        max: 10,
+                                        tickInterval: 2,
+                                        minorTickPosition: 'outside',
+                                        tickPosition: 'outside',
+                                        labels: {
+                                            rotation: 'auto',
+                                            distance: 20
+                                        },
+                                        plotBands: [{
+                                            from: 0,
+                                            to: 2,
+                                            color: '#09a509',
+                                            innerRadius: '100%',
+                                            outerRadius: '105%'
+                                        },{
+                                            from: 2,
+                                            to: 4,
+                                            color: '#69c908',
+                                            innerRadius: '100%',
+                                            outerRadius: '105%'
+                                        },{
+                                            from: 4,
+                                            to: 6,
+                                            color: '#eded07',
+                                            innerRadius: '100%',
+                                            outerRadius: '105%'
+                                        },{
+                                            from: 6,
+                                            to: 8,
+                                            color: '#fa8c1e',
+                                            innerRadius: '100%',
+                                            outerRadius: '105%'
+                                        },{
+                                            from: 8,
+                                            to: 10,
+                                            color: '#C02316',
+                                            innerRadius: '100%',
+                                            outerRadius: '105%'
+                                        }],
+                                        pane: 0,
+                                        title: false
+                                    }],
+
+                                    plotOptions: {
+                                        gauge: {
+                                            dataLabels: {
+                                                enabled: false
+                                            },
+                                            dial: {
+                                                radius: '90%'
+                                            }
+                                        }
+                                    },
+                                    series: [{
+                                        data: [0],
+                                        yAxis: 0
+                                    }],
+                                    credits: {
+                                        enabled: false
+                                    }
+                                },
+
+                                // Let the music play
+                                function(chart) {
+                                    setInterval(function() {
+                                        var left = chart.series[0].points[0],
+                                                leftVal;
+
+                                        leftVal = tol;
+                                        left.update(leftVal, false);
+                                        chart.redraw();
+
+                                    }, 500);
+
+                                });
+                    });
                 })
                 .submit(function(e) {
                     e.preventDefault();
