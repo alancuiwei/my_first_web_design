@@ -264,7 +264,7 @@
         w.organuser=params[:organuser]
         w.securitiesnum=params[:securitiesnum]
         w.memberlevel=params[:memberlevel]
-       # w.risktolerance=params[:risktolerance]
+        w.risktolerance=params[:risktolerance]
         w.save
       end
 #      session[:webusername]=params[:username]
