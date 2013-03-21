@@ -264,10 +264,14 @@
         w.organuser=params[:organuser]
         w.securitiesnum=params[:securitiesnum]
         w.memberlevel=params[:memberlevel]
+       # w.risktolerance=params[:risktolerance]
         w.save
       end
 #      session[:webusername]=params[:username]
       Thread.new{
+       if params[:risktolerance]!=nil
+        UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email]).deliver
+       end
         UserMailer.confirm(params[:username]).deliver
       }
     render :json => "s".to_json

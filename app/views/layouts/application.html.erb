@@ -36,13 +36,13 @@
      <div class="span2">
        <a href="/"><img src="/assets/logo.jpg"></a>
             </div>
-    <div class="span4">
+    <div class="span3">
         <h4>家庭理财规划方案服务</h4>
             </div>
     <div class="span3">
       <h4 class="phone">客服电话：025-83428345</h4>
     </div>
-    <div class="span3">
+    <div class="span4">
       <% if session[:webusername]!=nil %>
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
           <% if session[:organuser]!='1' %>
@@ -56,7 +56,8 @@
             <a class="pull-right rounder" href="/bankinvest/organ">我的产品</a>
           <% end %>
       <% else %>
-      <a class="pull-right rounder" href="/sales/login?logintype=creat"  data-toggle="tab" id="layout_creat" onclick="question('change_creat')">注册</a>
+      <a class="pull-right rounder" href="/sales/login?logintype=creat&organ=1" class='btn'>理财师注册</a>
+      <a class="pull-right rounder" href="/sales/login?logintype=creat"  data-toggle="tab" id="layout_creat" onclick="question('change_creat')">投资人注册</a>
       <a class="pull-right rounder" href="/sales/login" id="layout_login">登陆</a>
       <% end %>
     </div>

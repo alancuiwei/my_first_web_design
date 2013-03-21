@@ -42,4 +42,10 @@ class UserMailer < ActionMailer::Base
     @aid = aid
     mail(:to => accept)
   end
+
+  def risktolerance(username,risktolerance,email)
+    @username = username
+    @risktolerance = risktolerance
+    mail(:to => email)
+  end
 end

@@ -16,4 +16,11 @@ class HomeController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
     end
   end
+  def plan
+    if params[:username]!=nil
+      @webuser=Webuser.find_by_username(params[:username])
+    else
+      @webuser=Webuser.find_by_username('admin')
+    end
+  end
 end
