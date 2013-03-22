@@ -50,6 +50,7 @@ class BankinvestController < ApplicationController
   end
   def index
     @bankfinances=Bankfinance.all
+    @organizationname=Organizationname.all
   end
 
   def specialfinance

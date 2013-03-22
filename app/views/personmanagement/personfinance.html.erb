@@ -26,6 +26,7 @@
         </tr>
       </table>
       <br><br>
+     <!--
       <table class="deploy" class="h2">
         <tr>
           <td class="col1"><h2>资产配置</h2></td>
@@ -68,12 +69,21 @@
         <% end %>
       </table>
       <br><br>
-      <h2 class="h2">感兴趣的产品种类：</h2>
-      <p class="text">我对<span style='color: #ff0000;'> <%= @personalfinance.wbreedinfo%> </span>比较感兴趣，如果有比较合适的该类产品，我会考虑调整我的资产配置。</p>
-      <p class="text">关于<span style='color: #ff0000;'> 信托 </span>产品：<%= @personalfinance.contact%></p>
+      -->
+      <h2 class="h2">感兴趣的理财产品：</h2>
+      <table> <tr>
+      <% @personalfinance.wbreedinfo.split(",").each do |b|%>
+            <td style="width: 20px;">
+            <p style="width: 10px;height: 10px;background-color: #ff0000;"></p>
+             </td>
+            <td style="padding-right: 20px;">
+            <p class="text"><span style='color: #ff0000;white-space: nowrap;'> <%= b %> </span></p>
+            </td>
+      <% end %>
+        </tr></table>
       <br><br>
       <div id="favoriteedit">
-        <h2 class="h2">我最喜欢的产品：
+        <h2 class="h2">个人理财要求：
           <% if session[:webusername]== @personalfinance.username%>
               <button id="edit">修改</button>
           <% end %>
@@ -82,13 +92,13 @@
       </div>
       <% if session[:webusername]== @personalfinance.username%>
           <div id="favoritefix">
-            <h2 class="h2">我最喜欢的产品：<button id="fix">确定</button></h2>
+            <h2 class="h2">个人理财要求：<button id="fix">确定</button></h2>
             <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
           </div>
       <% end %>
       <br><br>
       <div id="profileedit">
-        <h2 class="h2">个人资产配置点评：
+        <h2 class="h2">留言：
           <% if session[:webusername]== @personalfinance.username%>
               <button id="edit2">修改</button>
           <% end %>
@@ -103,7 +113,7 @@
       </div>
       <% if session[:webusername]== @personalfinance.username%>
           <div id="profilefix">
-            <h2 class="h2">个人资产配置点评：<button id="fix2">确定</button></h2>
+            <h2 class="h2">留言：<button id="fix2">确定</button></h2>
             标题：<input type="text" name="title" id="title" title="标题" value="<%= @personalfinance.title%>"> <br>
             正文：<textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="article" id="article" title="正文"><%= @personalfinance.article%></textarea>
           </div>

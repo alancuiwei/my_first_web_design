@@ -35,12 +35,9 @@
 <div id="organ">
   <div>
     发行机构：<select  name="trustee2" id="trustee2" title="发行机构">
-    <option value="华西证券">华西证券</option>
-    <option value="天风证券">天风证券</option>
-    <option value="湘财证券">湘财证券</option>
-    <option value="恒天财富">恒天财富</option>
-    <option value="北京银行">北京银行</option>
-
+    <% @organizationname.each do |b| %>
+        <option value="<%= b.company %>"><%= b.company %></option>
+    <% end %>
   </select><br>
     <% if session[:webusername]=='admin' %>
         是否精选：<select  name="ischosen" id="ischosen" title="是否精选">

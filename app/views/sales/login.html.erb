@@ -208,8 +208,6 @@
                         location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
                     }
                         })
-
-
                     }
                     else if(Request("order")>0){
                         location.href="/sales/myorder"
@@ -299,13 +297,13 @@
             if(nom_flag==0){
                 $.get("/admin/userconfigajax/0",{username:$('#username3').attr("value"),name:$('#name').attr("value"),tel:$('#tel').attr("value"),
                     password:$('#password3').attr("value"),email:$('#email').attr("value"),company:$('#company').attr("value"),
-                    division:$('#division').attr("value"),address: 1,postcode: 1,organuser:1,securitiesnum:$('#securitiesnum').attr("value"),memberlevel:0},function(data){
+                    division:$('#division').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:$('#securitiesnum').attr("value"),memberlevel:0},function(data){
                     if(data=="f"){
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
                         alert("用户注册成功！");
-                        location.href="/admin";
+                        userlogin('#username3','#password3',1);
                     }
                 })
             }

@@ -99,9 +99,9 @@
                                 <select data-placeholder="点击选择多家机构" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
                                   <option value=""></option>
                                   <optgroup label="券商名称">
-                                    <option name="bank" value="华西证券" onclick="checkchick('b_all')">华西证券</option>
-                                    <option name="bank" value="天风证券" onclick="checkchick('b_all')">天风证券</option>
-                                    <option name="bank" value="湘财证券" onclick="checkchick('b_all')">湘财证券</option>
+                                    <% @organizationname.each do |b| %>
+                                        <option name="bank" value="<%= b.company %>" onclick="checkchick('b_all')"><%= b.company %></option>
+                                    <% end %>
                                   </optgroup>
                                   <optgroup label="银行名称">
                                     <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>

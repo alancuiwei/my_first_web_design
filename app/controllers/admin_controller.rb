@@ -267,6 +267,15 @@
         w.risktolerance=params[:risktolerance]
         w.save
       end
+      if params[:organuser]=='1'
+        @organizationname=Organizationname.find_by_company(params[:company])
+        if @organizationname==nil
+          Organizationname.new do |w|
+            w.company=params[:company]
+            w.save
+          end
+        end
+      end
 #      session[:webusername]=params[:username]
       Thread.new{
        if params[:risktolerance]!=nil
