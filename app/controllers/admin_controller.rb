@@ -582,6 +582,7 @@
    end
 
    def bankfinanceconfig
+     @organizationname=Organizationname.all
      if session[:webusername]!=nil
      @bankfinanceinfo=[]
      if params[:id]!="0"
