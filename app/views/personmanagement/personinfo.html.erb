@@ -1,6 +1,4 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
-<%= stylesheet_link_tag "chosen.css" %>
-<%= javascript_include_tag "chosen.jquery.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
@@ -85,6 +83,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="control-group">
       <label class="control-label" for="inputPassword">当前投资品种:</label>
       <div class="controls">
@@ -108,38 +107,43 @@
        </p>
       </div>
     </div>
+    -->
     <div class="control-group">
-      <label class="control-label" for="inputPassword">感兴趣的产品:</label>
+      <label class="control-label" for="inputPassword">感兴趣的理财产品:</label>
       <div class="controls">
-        <% if params[:id]!="0" %>
-            <p class="demo-tip-yellowsimple" title='（之前的设置：<%= @personal[9] %>）' style='width: 240px;'>
-        <% else %>
-            <p>
-        <% end %>
-        <select data-placeholder="请选择：可选多项" style="width:220px;"  name="wbreedinfo" id="wbreedinfo" title="感兴趣的产品" class="chzn-select" multiple tabindex="6">
-          <option value=""></option>
-          <optgroup label="">
-            <option name="info" value="基金">基金</option>
-            <option name="info" value="股票">股票</option>
-            <option name="info" value="P2P信贷">P2P信贷</option>
-            <option name="info" value="商品期货">商品期货</option>
-            <option name="info" value="银行理财产品">银行理财产品</option>
-            <option name="info" value="银行贵金属产品">银行贵金属产品</option>
-          </optgroup>
-        </select>
-        </p>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact1" name="contact" value="股票"> 股票
+        </label>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact2" name="contact" value="基金"> 基金
+        </label>
+        <br>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact3" name="contact" value="信托"> 信托
+        </label>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact4" name="contact" value="期货"> 期货
+        </label>
+        <br>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact5" name="contact" value="保险"> 保险
+        </label>
+        <label class="checkbox inline">
+          <input type="checkbox" id="contact6" name="contact" value="银行理财产品"> 银行理财产品
+        </label>
       </div>
     </div>
     <div class="control-group">
-      <label class="control-label" for="inputPassword">我最喜欢的产品:</label>
+      <label class="control-label" for="inputPassword">还有要补充的？</label>
       <div class="controls">
         <% if params[:id]!="0" %>
-            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personal[12]%></textarea>
+            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="补充内容"><%= @personal[12]%></textarea>
         <% else %>
-            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"></textarea>
+            <textarea valType="NOTNULL" msg="<font color=red>*</font>例如：<br>希望能有保本年收益率是6%的理财产品，<br>或者是有部分5%左右风险但年收益率能达到10%的产品。" cols="80" rows="8" style="width:205px;" name="myfavorite" id="myfavorite" title="补充内容"></textarea>
         <% end %>
       </div>
     </div>
+    <!--
     <div class="control-group">
       <label class="control-label" for="inputPassword">信托产品:</label>
       <div class="controls">
@@ -150,6 +154,7 @@
         </select>
       </div>
     </div>
+    -->
     <br>
     <label class="control-label" for="inputPassword"></label>
     <div class="controls">
@@ -160,8 +165,8 @@
   <br><br>
 </div>
 
-<script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
+
     <% if params[:id]!="0" %>
     $("#age").attr("value",'<%= format("%0.0f",@personal[0])%>');
     $("#company").attr("value",'<%=@personal[1] %>');
@@ -172,6 +177,15 @@
     $("#riskrate").attr("value",'<%= format("%0.0f",@personal[7]*100)%>');
     $("#name").attr("value",'<%= @personal[10]%>');
     $("#tel").attr("value",'<%= @personal[13]%>');
+    var tom=document.getElementsByName("contact");
+    var cts='<%= @personal[9]%>'
+    for(i=0;i<tom.length;i++){
+        var ct=tom[i].value;
+       if(cts.indexOf(ct) >= 0){
+        tom[i].checked=true;
+       }
+    }
+
     <% end %>
     $(function(){
         $('.demo-tip-yellowsimple').poshytip({
@@ -326,15 +340,7 @@
                 var flag3=1;
             }
 
-            if($("#investvarieties").attr("value")=="" && nom_flag==0){
-                alert("当前投资品种为空！");
-                nom_flag=1;
-            }
-            if($("#wbreedinfo").attr("value")=="" && nom_flag==0){
-                alert("感兴趣的产品为空！");
-                nom_flag=1;
-            }
-
+          /*
             var flag='';
             var vars=document.getElementsByName("var");
             var var2=document.getElementById("investvarieties");
@@ -348,24 +354,28 @@
                     }
                 }
             }
+            */
+            var contact;
+            var tom=document.getElementsByName("contact");
             var flag2='';
-            var infos=document.getElementsByName("info");
-            var info=document.getElementById("wbreedinfo");
-            for(var i=0;i<infos.length;i++){
-                if(infos[i].selected){
-                    if(flag2==''){
-                        flag2=infos[i].value;
+            for(var i=0;i<tom.length;i++){
+                if(i==0){
+                    if(tom[i].checked){
+                        flag2=tom[i].value
                     }
-                    else {
-                        flag2=flag2+','+infos[i].value;
+                }
+                else{
+                    if(tom[i].checked){
+                        flag2=flag2+','+tom[i].value
                     }
                 }
             }
+
             if(nom_flag==0){
                 $.post("/personmanagement/personconfigajax/<%= params[:id] %>",{ username:'<%= session[:webusername]%>',age: $("#age").attr("value"),
                     company: $("#company").attr("value"),post: $("#post").attr("value"),email: '<%= @webuser.email%>',
                     investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
-                    riskrate: $("#riskrate").attr("value")/100,investvarieties: flag,wbreedinfo: flag2,name:$("#name").attr("value"),contact:$("#contact").attr("value"),
+                    riskrate: $("#riskrate").attr("value")/100,investvarieties: '',wbreedinfo: flag2,name:$("#name").attr("value"),contact:'',
                     myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value"),memberlevel:flag3
                 },function(data){
                     if(data=="s1"){
