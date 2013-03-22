@@ -14,16 +14,17 @@
       <a href="/">首页</a>
       <div class="normal">
         <h1 class="h1">注册</h1>
-        <form>
+        <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
           <dl class="dl-horizontal">
             <dt>用户名 *:</dt>
-            <dd><input id="username" class="input_menum" placeholder="用户名" type="text"></dd>
+            <dd><input id="username" class="input_menum" name="MMERGE3" placeholder="用户名" type="text"></dd>
             <dt>密码 *:</dt>
             <dd><input id="password" class="input_menum" placeholder="密码" type="password"></dd>
             <dt>电子邮箱 *:</dt>
-            <dd><input id="email2" class="input_menum" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
+            <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
           </dl>
-          <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password'))" type="submit">注册</a>
+         <!-- <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password'))" type="submit">注册</a>   -->
+          <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
           <div class="or-text"><div><b>或</b></div></div>
           <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
         </form>
@@ -130,7 +131,9 @@
         return sURL.slice(iStart,iTemp ) ;
         sURL=null;//destroy String
     }
-
+    $("#mc-embedded-subscribe").click(function(){
+        userconfig('#username','#password');
+    })
     function userconfig(uid,pid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
 
@@ -234,6 +237,7 @@
 
     //submit之前对所有表单进行验证
     function beforeSubmit() {
+        if( this.id != 'mc-embedded-subscribe-form'){
         var flag=true;
         //alert($("[valType]").length);
         $.each($("[valType]"),function(i, n) {
@@ -260,6 +264,7 @@
             }
         });
         return flag;
+    }
     }
     $(function(){
         //拦截form,在form提交前进行验证

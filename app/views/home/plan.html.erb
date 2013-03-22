@@ -135,12 +135,14 @@
 <div id='login-box' class='login-popup'>
   <div class="popup">
     <a class="close" href="javascript:">×</a>
+    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
     <h1>保存您的理财规划方案</h1>
     <p>输入您的电子邮箱以及登录密码，我们将把您的理财规划方案链接地址发送给您，你以后直接登录后就可以查看您的方案，并查看到其他理财专家给您的建议。</p>
-    <input id="email" type="text" placeholder="电子邮箱地址"><br>
-    <input id="username" type="text" placeholder="登录名（保证您的个人隐私不会因邮箱名而...）"><br>
+    <input id="email" type="text" name="EMAIL" placeholder="电子邮箱地址"><br>
+    <input id="username" type="text" name="MMERGE3" placeholder="登录名（保证您的个人隐私不会因邮箱名而...）"><br>
     <input id="password" type="password" placeholder="登录密码"><br><br>
-    <a href="javascript:void(userconfig('#username','#password','#email'))" id="save">保存方案</a>
+    <div class="clear"><input type="submit" value="保存方案" name="subscribe" id="mc-embedded-subscribe" class="save"></div>
+    </form>
   </div>
 </div>
 
@@ -410,6 +412,10 @@
         return false;
     });
 
+    $("#mc-embedded-subscribe").click(function(){
+        userconfig('#username','#password','#email');
+    })
+
     function userconfig(uid,pid,eid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
 
@@ -428,8 +434,7 @@
         else{
             $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:'<%= cookies[:asset_allocation].split('|')[3] %>'},function(data){
                 if(data=="f"){
-                    // alert("用户名已注册！");
-                    userlogin(uid,pid,0);
+                     alert("用户名已注册！");
                 }
                 else if(data=="s"){
                     // alert("用户注册成功！");
@@ -544,4 +549,3 @@
         });
     });
 </script>
-
