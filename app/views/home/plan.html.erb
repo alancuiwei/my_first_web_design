@@ -285,16 +285,24 @@
         [0.5,0.13,0.11,0.26],[0.52,0.14,0.11,0.23],[0.53,0.15,0.11,0.21],[0.55,0.15,0.12,0.18],[0.56,0.16,0.13,0.15],
         [0.57,0.17,0.13,0.13],[0.59,0.18,0.14,0.09],[0.6,0.1,0.15,0.06],[0.61,0.22,0.12,0.05],[0.57,0.28,0.1,0.05]];
     <% if @webuser.username!='admin' %>
-    a=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][0]
-    b=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][1]
-    c=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][2]
-    d=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][3]
-    $("#first").html("("+'<%= @webuser.risktolerance %>'+")")
+    var aa=<%= @webuser.risktolerance %>;
+    if (aa<0.5){
+        aa=0.5;
+    }
+    a=rate[Math.round(2*aa)-1][0]
+    b=rate[Math.round(2*aa)-1][1]
+    c=rate[Math.round(2*aa)-1][2]
+    d=rate[Math.round(2*aa)-1][3]
+    $("#first").html("("+aa+")")
     <% else %>
-    a=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][0]
-    b=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][1]
-    c=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][2]
-    d=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][3]
+    var aa=<%= cookies[:asset_allocation].split('|')[3] %>;
+    if (aa<0.5){
+        aa=0.5;
+    }
+    a=rate[Math.round(2*aa)-1][0]
+    b=rate[Math.round(2*aa)-1][1]
+    c=rate[Math.round(2*aa)-1][2]
+    d=rate[Math.round(2*aa)-1][3]
     $("#first").html("("+"<%= cookies[:asset_allocation].split('|')[3] %>"+")")
     <% end %>
     var dataArray= [
@@ -326,15 +334,23 @@
                                     [0.57,0.17,0.13,0.13],[0.59,0.18,0.14,0.09],[0.6,0.1,0.15,0.06],[0.61,0.22,0.12,0.05],[0.57,0.28,0.1,0.05]];
 
                                 <% if @webuser.username!='admin' %>
-                                a=rate[2*<%= @webuser.risktolerance %>-1][0]
-                                b=rate[2*<%= @webuser.risktolerance %>-1][1]
-                                c=rate[2*<%= @webuser.risktolerance %>-1][2]
-                                d=rate[2*<%= @webuser.risktolerance %>-1][3]
+                                var aa=<%= @webuser.risktolerance %>;
+                                if (aa<0.5){
+                                    aa=0.5;
+                                }
+                                a=rate[2*aa-1][0]
+                                b=rate[2*aa-1][1]
+                                c=rate[2*aa-1][2]
+                                d=rate[2*aa-1][3]
                                 <% else %>
-                                a=rate[2*<%= cookies[:asset_allocation].split('|')[3] %>-1][0]
-                                b=rate[2*<%= cookies[:asset_allocation].split('|')[3] %>-1][1]
-                                c=rate[2*<%= cookies[:asset_allocation].split('|')[3] %>-1][2]
-                                d=rate[2*<%= cookies[:asset_allocation].split('|')[3] %>-1][3]
+                                var aa=<%= cookies[:asset_allocation].split('|')[3] %>;
+                                if (aa<0.5){
+                                    aa=0.5;
+                                }
+                                a=rate[2*aa-1][0]
+                                b=rate[2*aa-1][1]
+                                c=rate[2*aa-1][2]
+                                d=rate[2*aa-1][3]
                                 <% end %>
                                 data.push(['1',a]);
                                 data.push(['2', b]);
@@ -434,7 +450,8 @@
         else{
             $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:'<%= cookies[:asset_allocation].split('|')[3] %>'},function(data){
                 if(data=="f"){
-                     alert("用户名已注册！");
+                  //   alert("用户名已注册！");
+                    userlogin(uid,pid,0);
                 }
                 else if(data=="s"){
                     // alert("用户注册成功！");
@@ -448,13 +465,13 @@
 
     function userlogin(uid,pid,organ){
 
-        $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value")},function(data){
+        $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value"),plan:'1'},function(data){
             if(data=="f"){
                 alert("登录失败!");
             }
             else
             {
-                location.href="/personmanagement/personinfo/0";
+                location.href="/home/plan?username="+$(uid).attr("value");
             }
         })
     }
@@ -467,17 +484,25 @@
         [0.5,0.13,0.11,0.26],[0.52,0.14,0.11,0.23],[0.53,0.15,0.11,0.21],[0.55,0.15,0.12,0.18],[0.56,0.16,0.13,0.15],
         [0.57,0.17,0.13,0.13],[0.59,0.18,0.14,0.09],[0.6,0.1,0.15,0.06],[0.61,0.22,0.12,0.05],[0.57,0.28,0.1,0.05]];
       <% if @webuser.username!='admin' %>
-          a=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][0]
-          b=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][1]
-          c=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][2]
-          d=rate[Math.round(2*<%= @webuser.risktolerance %>)-1][3]
-          $("#first").html("("+'<%= @webuser.risktolerance %>'+")")
+        var aa=<%= @webuser.risktolerance %>;
+        if (aa<0.5){
+            aa=0.5;
+        }
+          a=rate[Math.round(2*aa)-1][0]
+          b=rate[Math.round(2*aa)-1][1]
+          c=rate[Math.round(2*aa)-1][2]
+          d=rate[Math.round(2*aa)-1][3]
+          $("#first").html("("+aa+")")
       <% else %>
-          a=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][0]
-          b=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][1]
-          c=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][2]
-          d=rate[Math.round(2*<%= cookies[:asset_allocation].split('|')[3] %>)-1][3]
-          $("#first").html("("+"<%= cookies[:asset_allocation].split('|')[3] %>"+")")
+        var aa=<%= cookies[:asset_allocation].split('|')[3] %>;
+        if (aa<0.5){
+            aa=0.5;
+        }
+          a=rate[Math.round(2*aa)-1][0]
+          b=rate[Math.round(2*aa)-1][1]
+          c=rate[Math.round(2*aa)-1][2]
+          d=rate[Math.round(2*aa)-1][3]
+          $("#first").html("("+aa+")")
       <% end %>
     $("#f1").html(parseInt(a*100)+"%")
     $("#s1").html(parseInt(b*100)+"%")
