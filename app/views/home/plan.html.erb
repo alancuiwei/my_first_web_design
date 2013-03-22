@@ -4,6 +4,8 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "placeholder.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
 <div class="welcomes">
   <div id="page-wrapper">
@@ -37,7 +39,7 @@
           <p class="amount-to-invest-label sidebar-label">投资金额</p>
           <input type="text" id="amount-to-invest" height="38">
           <p>(最低50000元)</p>
-          <span class="ktip-link" id="faq-amount"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
+          <span class="ktip-link" id="faq-amount"><a class="demo-tip-yellowsimple" title=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
         </div>
         <div class="plan-column center">
           <div class="account-types">
@@ -54,13 +56,11 @@
                <tr><td style="width: 135px;">
               <div class="allocation-chart-container">
                 <div id="container2" style="width: 130px;height: 130px;"></div>
-                <!--
                 <ul class="allocation-questions">
-                  <li><span class="ktip-link right" id="faq-mix"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="320px" data-d="0" data-tip=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为什么是这样规划的?</a></span></li>
+                  <li><span class="ktip-link right" id="faq-mix"><a class="demo-tip-yellowsimple" title=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为何如此规划?</a></span></li>
 
-                  <li><span class="ktip-link right" id="faq-change"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-d="0" data-tip=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
+                  <li><span class="ktip-link right" id="faq-change"><a class="demo-tip-yellowsimple" title=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
                 </ul>
-                -->
               </div>
                </td><td>
               <table id="allocation" class="table allocation report apply-asset-class-colors">
@@ -76,7 +76,7 @@
                 <tr class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td class="asset-class-name">
-                    <span class="ktip-link"><a class="ktip-a">股票、基金</a></span>
+                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
                   </td>
                   <td class="asset-class-percentage number" id="f1">43%</td>
                   <td class="asset-class-amount number" id="f2">￥21,501</td>
@@ -84,7 +84,8 @@
                 <tr class="" data-type="INTL_EMERGING">
                   <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                   <td class="asset-class-name">
-                    <span class="ktip-link"><a class="ktip-a">国债、企业债</a></span>
+                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="国债、企业债：储蓄式国债收益率高于银行存款，安全性最高，流动性一般，可提前支取但是收益率需要打折扣。储蓄式国债的一个缺点是供不应求，在银行柜台难买的到。<br>
+企业债和公司债：迄今为止事实上的违约风险为零，从来没有发生过违约事件。中国严格的债券审批机制决定了债券在现阶段是一个风险极低但收益率又显著高于银行存款和国债的投资工具。不过做债券是需要面临价格波动风险的，因此如果没有一定专业知识基础或无专业人士指导，不建议中短期的投资行为。">国债、企业债</a></span>
                   </td>
                   <td class="asset-class-percentage number" id="s1">14%</td>
                   <td class="asset-class-amount number" id="s2">￥4,000</td>
@@ -92,7 +93,7 @@
                 <tr class="" data-type="DIV_STOCKS">
                   <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
                   <td class="asset-class-name">
-                    <span class="ktip-link"><a class="ktip-a">信托</a></span>
+                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
                   </td>
                   <td class="asset-class-percentage number" id="t1">8%</td>
                   <td class="asset-class-amount number" id="t2">￥7,000</td>
@@ -101,7 +102,7 @@
                 <tr class="" data-type="MUNI_BONDS">
                   <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                   <td class="asset-class-name">
-                    <span class="ktip-link"><a class="ktip-a">银行理财产品</a></span>
+                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
                   </td>
                   <td class="asset-class-percentage number" id="a1">35%</td>
                   <td class="asset-class-amount number" id="a2">￥17,501</td>
@@ -484,3 +485,63 @@
     $("#amount-to-invest").val(50000)
     }
 </script>
+
+<script>
+    $(function(){
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'right',
+            alignY: 'center',
+            offsetX: 15,
+            allowTipHover: false
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
+    });
+</script>
+

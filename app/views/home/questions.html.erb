@@ -6,6 +6,8 @@
 <%= javascript_include_tag "jquery.effects.core.js" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <script>
     t0=new Date
     function onReady(fn){onReady.fns.push(fn)}
@@ -49,7 +51,7 @@
             <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>购买更多的股票</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -64,11 +66,12 @@
               </div>
                 <div class="q-portfolio-grid"><img src="/assets/120226.jpg" style="width: 198px;height: 128px;padding-left: 10px;"></div>
               </div>
+            <br>
             <div class="q-portfolio-choices">
               <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
             </div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 这个问题是评估您为了获取较高收益率所愿意承受的波动幅度。正常情况而言，您能接受的波动幅度越大，您的风险度得分将越高。" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您为了获取较高收益率所愿意承受的波动幅度。正常情况而言，您能接受的波动幅度越大，您的风险度得分将越高。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -78,7 +81,7 @@
             <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>两者都很重要</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 更关注最大利润意味着愿意承担更大的风险。" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a demo-tip-yellowsimple" title=" 更关注最大利润意味着愿意承担更大的风险。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -86,14 +89,14 @@
             <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>是</span></label> &nbsp;
             <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>否</span></label>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="主动参与私募或公司投资意味着您愿意承担更大的风险" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a demo-tip-yellowsimple" title="主动参与私募或公司投资意味着您愿意承担更大的风险" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
             <p class="q-text">您当前的年纪?</p>
             <input type="text" name="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">岁
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a demo-tip-yellowsimple" title="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -105,7 +108,7 @@
               <span style="padding-left:13px" class="subtext">最小投资金额是 ￥5,0000.</span>
             </p>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a demo-tip-yellowsimple" title="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -114,7 +117,7 @@
             </p>
             <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" name="income" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="我们将利用年收入来预测您的储蓄值，这个值在预估您近几年资产收入时非常重要。你的储蓄值越大意味着您能承担越大的风险。" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a demo-tip-yellowsimple" title="我们将利用年收入来预测您的储蓄值，这个值在预估您近几年资产收入时非常重要。你的储蓄值越大意味着您能承担越大的风险。" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -127,7 +130,7 @@
             <label class="stacked"><input type="radio" name="stability" value="U" tabindex="-1"><span>不稳定</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="一个稳定的收入来源将意味着您能承担较高的风险。 " target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a demo-tip-yellowsimple" title="一个稳定的收入来源将意味着您能承担较高的风险。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -138,7 +141,7 @@
             <label class="stacked"><input type="radio" name="angel" value="D" tabindex="-1"><span>我从来没有这样的机会，也不会这么做</span></label>
             <div style="clear:both"></div>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip="正常而言，愿意创业的人都会承担比普通人较高的风险" target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a demo-tip-yellowsimple" title="正常而言，愿意创业的人都会承担比普通人较高的风险" target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
           <div class="question">
@@ -146,7 +149,7 @@
             <label><input type="radio" name="goal" value="true" tabindex="-1"><span>是</span></label> &nbsp;
             <label><input type="radio" name="goal" value="false" tabindex="-1"><span>否</span></label>
             <p class="why-do-we-ask">
-              <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a" onmouseover="w.tip(this)" onclick="w.tip(this,1)" href="javascript:void(0)" tabindex="-1" data-w="300px" data-tip=" 您委托我们给出投资建议的资金将会是中长期投资。如果你需要资金返还越快，则意味着您不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
+              <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 您委托我们给出投资建议的资金将会是中长期投资。如果你需要资金返还越快，则意味着您不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
 
@@ -511,5 +514,64 @@
                     }
                 })
                 .data("init")(true);
+    });
+</script>
+
+<script>
+    $(function(){
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'center',
+            alignY: 'bottom',
+            offsetY: 5,
+            allowTipHover: false
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
     });
 </script>

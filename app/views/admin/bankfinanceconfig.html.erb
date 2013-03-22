@@ -217,6 +217,33 @@
             }
         }
 
+        if(nom_flag==0 && Request("organ")==1){
+            if( numfor.test($("#investperiod2").attr("value"))==false){
+                alert("理财期限必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#returnrate2").attr("value"))==false){
+                alert("年化收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#startvalue2").attr("value"))==false){
+                alert("起售价必须为数字！");
+                nom_flag=1;
+            }
+            else if($("#invsetsubject").attr("value")=="") {
+                alert("投资标的为空！");
+                nom_flag=1;
+            }
+            else if($("#formula").attr("value")=="") {
+                alert("收益计算方法为空！");
+                nom_flag=1;
+            }
+            else if($("#risktip").attr("value")=="") {
+                alert("风险提示为空！");
+                nom_flag=1;
+            }
+        }
+
         if(nom_flag==0){
             if(Request("organ")==1){
                 $.post("/admin/bankfinanceconfigajax/<%= params[:id] %>",{ bname: $("#bname2").attr("value"),currencytype: '人民币',
