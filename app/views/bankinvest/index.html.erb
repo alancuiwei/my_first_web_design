@@ -1,19 +1,13 @@
-﻿<%= javascript_include_tag "placeholder.js" %>
-<%= javascript_include_tag "jquery.poshytip.js" %>
-<%= stylesheet_link_tag "tip-yellowsimple.css" %>
-<%= javascript_include_tag "jquery.dataTables.min.js" %>
-<%= javascript_include_tag "FixedHeader.min.js" %>
-<%= stylesheet_link_tag "demo_page.css" %>
-<%= stylesheet_link_tag "demo_table_jui.css" %>
-<%= stylesheet_link_tag "jquery-ui-1.8.4.custom.css" %>
+﻿<%= javascript_include_tag "jquery.poshytip.js" %>  <!--tip title -->
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>   <!--tip title -->
+<%= javascript_include_tag "jquery.dataTables.min.js" %>    <!--datatables -->
+<%= stylesheet_link_tag "demo_page.css" %>         <!--datatables -->
+<%= stylesheet_link_tag "demo_table_jui.css" %>    <!--datatables -->
+<%= javascript_include_tag "FixedHeader.min.js" %>  <!--固定表头 -->
+<%= stylesheet_link_tag "jquery-ui-1.8.4.custom.css" %>  <!--固定表头 -->
 <%= stylesheet_link_tag "bankinvest.css" %>
-<%= stylesheet_link_tag "chosen.css" %>
-<%= javascript_include_tag "chosen.jquery.js" %>
-<%= javascript_include_tag "swfobject.js" %>
-<%= javascript_include_tag "bootstrap-datepicker.js" %>
-<%= stylesheet_link_tag "http://www.eyecon.ro/bootstrap-datepicker/css/datepicker.css" %>
-<%= stylesheet_link_tag "http://www.eyecon.ro/bootstrap-datepicker/js/google-code-prettify/prettify.css" %>
-<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" type="text/ecmascript"></script>  <!-- IP -->
+<!-- 打印 -->
 <style type=text/css>
     @media print{
         .hide,.pop .dataTables_length label,.pop #bankfinance_filter label,.ui-corner-tl,.chzn-drop{display:none;}
@@ -36,180 +30,287 @@
     }
 </style>
 
+
+<%= javascript_include_tag "filter.js" %>
+<%= javascript_include_tag "filter2.js" %>
+
+
 <div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
-  <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
-  <a href="/home/productindex" class="print">产品展示</a>
-  <h1>理财产品库</h1>
-  <div class="well-b">
-    <div class="row-fluid">
-      <div class="span12">
-        <div id="optionsRadios">
-          <div id="period">
-            <div class="row-fluid">
-              <div class="span8">
-              <table class="table" id="returnrate">
-                <tr>
-                  <td class="con1">
-                    <dl class="dl-horizontal">
-                      <dt><h4>投资金额：</h4></dt>
-                      <dd>
-                        <div class="input-prepend input-append">
-                          <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount" placeholder="50000"><span class="add-on">元</span>
-                        </div>
-                      </dd>
-                    </dl>
-                  </td>
-                <!--  <td><h4>独家特惠</h4></td>   -->
-                  <td><h4>收益类型</h4></td>
-                  <td><h4>理财期限</h4></td>
-                 <!--
-                  <td rowspan="5">
-                    <div id="login-box" class='login-popup'>
-                      <a class="btn close pull-right" href="javascript:void(0)">关闭</a>
-                      <font id=player1>&nbsp;</font>
-                      <script type=text/javascript>
-                          var s1 = new SWFObject("../assets/flvplayer.swf","","1280","720","7");
-                          s1.addParam("allowfullscreen","true");
-                          s1.addVariable("file","audio.mp4");
-                          s1.addVariable("width","1280");
-                          s1.addVariable("height","720");
-                          s1.addVariable("loop","true");
-                          s1.addVariable("repeat", "flase");
-                          s1.addVariable("fontcolor","0XFFFFFF");
-                          s1.addVariable("autoscroll","true");
-                          s1.addVariable("logo","");
-                          s1.addVariable("autostart","true");
-                          s1.addVariable("smoothing","true");
-                          s1.write("player1");
-                      </script>
-                    </div>
-                    <a href="#login-box" class='login-window'><img src="/assets/mov.jpg" width="320" height="180"></a>
-                  </td>
-                  -->
-                </tr>
-                <tr>
-                  <td rowspan="2" class="banks">
-                    <dl class="dl-horizontal">
-                      <dt><h4>发行机构：</h4></dt>
-                      <dd>
-                        <form>
-                          <div id="container">
-                            <div class="side-by-side clearfix">
-                              <div class="grade">
-                                <select data-placeholder="点击选择多家机构" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
-                                  <option value=""></option>
-                                  <optgroup label="券商名称">
-                                    <% @organizationname.each do |b| %>
-                                        <option name="bank" value="<%= b.company %>" onclick="checkchick('b_all')"><%= b.company %></option>
-                                    <% end %>
-                                  </optgroup>
-                                  <optgroup label="银行名称">
-                                    <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
-                                    <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
-                                    <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
-                                    <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
-                                    <option name="bank" value="招商银行" onclick="checkchick('b_all')">招商银行</option>
-                                    <option name="bank" value="广发银行" onclick="checkchick('b_all')">广发银行</option>
-                                    <option name="bank" value="工商银行" onclick="checkchick('b_all')">工商银行</option>
-                                    <option name="bank" value="中信银行" onclick="checkchick('b_all')">中信银行</option>
-                                    <option name="bank" value="浦发银行" onclick="checkchick('b_all')">浦发银行</option>
-                                    <option name="bank" value="交通银行" onclick="checkchick('b_all')">交通银行</option>
-                                    <option name="bank" value="华夏银行" onclick="checkchick('b_all')">华夏银行</option>
-                                    <option name="bank" value="民生银行" onclick="checkchick('b_all')">民生银行</option>
-                                    <option name="bank" value="农业银行" onclick="checkchick('b_all')">农业银行</option>
-                                    <option name="bank" value="兴业银行" onclick="checkchick('b_all')">兴业银行</option>
-                                    <option name="bank" value="平安银行" onclick="checkchick('b_all')">平安银行</option>
-                                  </optgroup>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </dd>
-                    </dl>
-                  </td>
-                <!--  <td><label class="checkbox"><input type="checkbox" name="favourable" value="f_1" id="f_1" onclick="checkchick('f_all')">有赠品</label></td>  -->
-                  <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
-                  <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
-                </tr>
-                <tr>
-                  <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
-                  <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
-                </tr>
-                <tr>
-                  <td rowspan="2">
-                    <dl class="dl-horizontal">
-                      <dt><h4>发行地区：</h4></dt>
-                      <dd>
-                        <input id="global_filter" name="global_filter" type="text">
-                      </dd>
-                    </dl>
-                  </td>
-                  <td rowspan="2"><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
-                  <td><label class="checkbox"><input type="checkbox" name="period" value="p_312" id="p_312" onclick="checkchick('p_all')"> 3个月-12个月</label></td>
-                </tr>
-                <tr>
-                  <!--<td><label class="checkbox"><input type="checkbox" name="opt" id="tom" value="明日起息"><p class="demo-tip-yellowsimple" title="理财产品一般有产品募集期，募集期结束后才会正式开始起息。需留意该产品是否会因为募集期过长，缩水理财产品的实际收益。所以，明日起息的产品，将会是很合算的。">明日起息</p></label></td> -->
-                  <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
-                </tr>
-                <tr>
-                  <td>
-                    <dl class="dl-horizontal">
-                      <dt><h4>销售结束：</h4></dt>
-                      <dd>
-                        <input id="dp1" class="span2" type="text" value="">
-                      </dd>
-                    </dl>
-                  </td>
-                </tr>
-              </table>
+<a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
+<a href="/home/productindex" class="print">产品展示</a>
+<h1>理财产品库</h1>
+<div class="well-b">
+<div class="row-fluid">
+<div class="span12">
+<div id="optionsRadios">
+    <div class="box_sxtj">
+      <div class="box_sxtj_top">全部产品－筛选条件</div>
+      <div class="box_sxtj_center">
+        <dl class="fore" id="category_all">
+          <dt id="category-category_all">产品类型:</dt>
+          <dd>
+            <label class="checkbox inline">
+              <a href="" cid="category_all" class="curr category_all">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="category_all" class="curr banks" condition="category_all=banks"> 银行理财 </a>
+            </label>
+          </dd>
+        </dl>
+        <dl class="fore">
+          <dt id="category-expectYID">预期年化收益率:</dt>
+          <dd>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID3" condition="expectYID=3,6"> 3%－6% </a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID6" condition="expectYID=6,10"> 6%－10% </a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID10" condition="expectYID=10,15"> 10%－15% </a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID15" condition="expectYID=15,30"> 15%－30% </a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="expectYID" class="curr expectYID30" condition="expectYID=30"> 30%以上 </a>
+            </label>
+          </dd>
+        </dl>
+        <dl class="fore" id="duration">
+          <dt id="category-duration">投资期限:</dt>
+          <dd>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration0" condition="duration=0,90">3个月以内</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration30" condition="duration=30,180"> 3个月－6个月</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration180" condition="duration=180,365"> 6个月－1年</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration365" condition="duration=365,730"> 1年－2年</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="duration" class="curr duration730" condition="duration=730">2年以上</a>
+            </label>
+          </dd>
+        </dl>
+
+        <dl class="fore" id="outset">
+          <dt id="category-outset">投资起点:</dt>
+          <dd>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset50000" condition="outset=50000,100000">5万-10万</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset100000" condition="outset=100000,200000">10万-20万</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset200000" condition="outset=200000,500000">20万-50万</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset500000" condition="outset=500000,1000000">50万-100万</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="outset" class="curr outset1000000" condition="outset=1000000">100万以上</a>
+            </label>
+          </dd>
+        </dl>
+        <dl class="fore" id="risk">
+          <dt id="category-risk">风险评估:</dt>
+          <dd>
+            <label class="checkbox inline">
+              <a href="" cid="risk" class="curr risk">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="risk" class="curr risk2" condition="risk=2"> 保本 </a>
+            </label>
+            <label class="checkbox inline">
+              <a href="" cid="risk" class="curr risk1" condition="risk=1"> 不保本 </a>
+            </label>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="box_sxtj_bottom">
+        <dl class="fore">
+          <dt>已选择的筛选条件:&nbsp;</dt>
+          <dd id="selected">
+
+            <div id="s-category_all" class="del hide">
+              <h6 class="text" id="st-category_all" condition="">产品类型:不限</h6>
+              <a class="delete" cid="category_all"></a>
             </div>
-          </div>
-        </div>
+
+            <div id="s-expectYID" class="del hide">
+              <h6 class="text" id="st-expectYID" condition="">预期年化收益率:不限</h6>
+              <a class="delete" cid="expectYID"></a>
+            </div>
+
+            <div id="s-duration" class="del hide">
+              <h6 class="text" id="st-duration" condition="">投资期限：不限</h6>
+              <a class="delete" cid="duration"></a>
+            </div>
+
+            <div id="s-outset" class="del hide">
+              <h6 class="text" id="st-outset" condition="">投资起点：不限</h6>
+              <a class="delete" cid="outset"></a>
+            </div>
+
+            <div id="s-risk" class="del hide">
+              <h6 class="text" id="st-risk" condition="">风险评估：不限</h6>
+              <a class="delete" cid="risk"></a>
+            </div>
+
+          </dd>
+        </dl>
+
       </div>
     </div>
-  </div>
-  </div>
+<table class="table hide" id="returnrate">
+  <tr>
+    <td class="con1">
+      <dl class="dl-horizontal">
+        <dt><h4>投资金额：</h4></dt>
+        <dd>
+          <div class="input-prepend input-append">
+            <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount" placeholder="50000"><span class="add-on">元</span>
+          </div>
+        </dd>
+      </dl>
+    </td>
+    <td><h4>收益类型</h4></td>
+    <td><h4>理财期限</h4></td>
+  </tr>
+  <tr>
+    <td rowspan="2" class="banks">
+      <dl class="dl-horizontal">
+        <dt><h4>发行机构：</h4></dt>
+        <dd>
+          <form>
+            <div id="container">
+              <div class="side-by-side clearfix">
+                <div class="grade">
+                  <select data-placeholder="点击选择多家机构" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
+                    <option value=""></option>
+                    <optgroup label="券商名称">
+                      <% @organizationname.each do |b| %>
+                          <option name="bank" value="<%= b.company %>" onclick="checkchick('b_all')"><%= b.company %></option>
+                      <% end %>
+                    </optgroup>
+                    <optgroup label="银行名称">
+                      <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
+                      <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
+                      <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
+                      <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
+                      <option name="bank" value="招商银行" onclick="checkchick('b_all')">招商银行</option>
+                      <option name="bank" value="广发银行" onclick="checkchick('b_all')">广发银行</option>
+                      <option name="bank" value="工商银行" onclick="checkchick('b_all')">工商银行</option>
+                      <option name="bank" value="中信银行" onclick="checkchick('b_all')">中信银行</option>
+                      <option name="bank" value="浦发银行" onclick="checkchick('b_all')">浦发银行</option>
+                      <option name="bank" value="交通银行" onclick="checkchick('b_all')">交通银行</option>
+                      <option name="bank" value="华夏银行" onclick="checkchick('b_all')">华夏银行</option>
+                      <option name="bank" value="民生银行" onclick="checkchick('b_all')">民生银行</option>
+                      <option name="bank" value="农业银行" onclick="checkchick('b_all')">农业银行</option>
+                      <option name="bank" value="兴业银行" onclick="checkchick('b_all')">兴业银行</option>
+                      <option name="bank" value="平安银行" onclick="checkchick('b_all')">平安银行</option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </dd>
+      </dl>
+    </td>
+    <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
+    <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
+  </tr>
+  <tr>
+    <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
+    <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
+  </tr>
+  <tr>
+    <td rowspan="2">
+      <dl class="dl-horizontal">
+        <dt><h4>发行地区：</h4></dt>
+        <dd>
+          <input id="global_filter" name="global_filter" type="text">
+        </dd>
+      </dl>
+    </td>
+    <td rowspan="2"><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
+    <td><label class="checkbox"><input type="checkbox" name="period" value="p_312" id="p_312" onclick="checkchick('p_all')"> 3个月-12个月</label></td>
+  </tr>
+  <tr>
+    <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
+  </tr>
+  <tr>
+    <td>
+      <dl class="dl-horizontal">
+        <dt><h4>销售结束：</h4></dt>
+        <dd>
+          <input id="dp1" class="span2" type="text" value="">
+        </dd>
+      </dl>
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+</div>
+</div>
 
-  <table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
-    <thead><tr>
-      <th>对比</th>
-      <th>发行银行</th>
-      <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
-      <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>
-      <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
-      <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
-      <th class="hide"></th>
-      <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限</p></th>
-      <th class="hide"></th>
-      <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
-      <th class="hide">发行地区</th>
-      <th>产品名称</th>
-      <th>操作</th>
-      <th class="hide">发行地区</th>
-      <th class="hide">销售结束</th>
-    </tr></thead>
+<table cellpadding="0" cellspacing="0" border="0" class="display" name="bankfinance" id="bankfinance"  style="text-align:center;">
+  <thead><tr>
+    <th>对比</th>
+    <th>发行机构</th>
+    <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
+    <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。(投资额以5万计算)">收益额</p></th>
+    <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
+    <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
+    <th class="hide"></th>
+    <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限</p></th>
+    <th class="hide"></th>
+    <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
+    <th class="hide">发行地区</th>
+    <th>产品名称</th>
+    <th>操作</th>
+    <th class="hide">发行地区</th>
+    <th class="hide">销售结束</th>
+  </tr></thead>
 
-    <% @bankfinances.each do |b| %>
-        <tr class="gradeA">
-          <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
-          <td><%= b.trustee%></td>
-          <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-          <td></td>
-          <td><%= b.btype%></td>
-          <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
-          <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
-          <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
-          <td><%= format("%0.0f",b.investperiod)%>天</td>
-          <td><%= b.status%></td>
-          <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-          <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
-              <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
-          <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-          <td class="hide"><%= b.collectperiod%></td>
-        </tr>
-    <% end %>
-  </table>
+  <% @bankfinances.each do |b| %>
+      <tr class="gradeA">
+        <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
+        <td><%= b.trustee%></td>
+        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+        <td></td>
+        <td><%= b.btype%></td>
+        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
+        <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+        <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
+        <td><%= format("%0.0f",b.investperiod)%>天</td>
+        <td><%= b.status%></td>
+        <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+        <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
+        <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+        <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
+        <td class="hide"><%= b.collectperiod%></td>
+      </tr>
+  <% end %>
+</table>
 </div>
 
 <div class="shape" id="shape_control">
@@ -218,13 +319,7 @@
   <div class="btns"><a class="btn pull-left" target="_blank" href="/bankinvest/compare">对比</a><a class="btn pull-left" onclick="check_clear()" style="margin-left: 10px;">清空</a></div>
 </div>
 
-<script type="text/javascript"> $(".chzn-select").chosen(); $(".chzn-select-deselect").chosen({allow_single_deselect:true}); </script>
 <script>
-    $(function(){
-        $('#dp1').datepicker({
-            format: 'yyyy-mm-dd'
-        });
-    });
 
     var flag=0;
     var comparenum=0;
@@ -280,101 +375,119 @@
     $.fn.dataTableExt.afnFiltering.push(
             function( oSettings, aData, iDataIndex ) {
                 var flag1,flag2,flag3,flag4,flag5;
-                var returnrates=document.getElementsByName("returnrate");
-                var t_returnrate=parseFloat(aData[2].replace(/%/,""));
-                var Sys = {};
-                var ua = navigator.userAgent.toLowerCase();
-                if (window.ActiveXObject)
-                    Sys.ie = ua.match(/msie ([\d.]+)/)[1];
-                var length_s;
-                if(Sys.ie==null)
-                    length_s=0;
-                else
-                    length_s=1;
+                //   alert(Request("category_all"))
+                //   alert(Request("expectYID"))
+                //   alert(Request("duration"))
+                //   alert(Request("outset"))
+                //   alert(Request("risk"))
 
-                today=new Date();
-                var year = today.getFullYear();
-                var month = today.getMonth()+1;
-                var date = today.getDate();
-                d1Arr=aData[14].split('-');
-                //    v1=new Date(d1Arr[0],d1Arr[1],d1Arr[2]);
-                //    v2=new Date(year,month,date);
-                var tom=document.getElementById("dp1");
-                d2Arr=tom.value.split('-');
-                if(tom.value!=''){
-                    if(d1Arr[0]==d2Arr[0]){
-                        if(d1Arr[1]==d2Arr[1]){
-                            if(d1Arr[2]==d2Arr[2]){
-                                flag1=1;
-                            }
-                        }
+                if(Request("category_all")!='0'){
+                    if( aData[1].indexOf("银行") >= 0 ){
+                        flag1=1;
+                        var c='.'+Request("category_all")
+                        $(c).addClass('currbg');
+                        $("#s-category_all").removeClass('hide');
+                        $("#st-category_all").html('产品类型:银行理财');
                     }
                 }
                 else{
                     flag1=1;
+                    $('.category_all').addClass('currbg');
                 }
 
-                var rtype=document.getElementsByName("optionsRadios");
-                for(var i=length_s;i<rtype.length;i++){
-                    if( rtype[i].checked){
-                        if(rtype[i].value=="全部"){
-                            flag2=1;
-                        }
-                        else if(rtype[i].value==aData[4]){
+                if(Request("expectYID")!='0'){
+                    a=Request("expectYID").split(",")
+                    b=parseFloat(aData[2].split("%")[0])
+                    a[0]=parseFloat(a[0]);
+                    if(a[1]){
+                        a[1]=parseFloat(a[1]);
+                        if(a[0]<=b && a[1]>b){
                             flag2=1;
                         }
                     }
+                    else{
+                        if(a[0]<=b){
+                            flag2=1;
+                        }
+                    }
+                   var c='.expectYID'+a[0]
+                    $(c).addClass('currbg');
+                    $("#s-expectYID").removeClass('hide');
+                    $("#st-expectYID").html("预期年化收益率:"+$(c).html());
                 }
-                var arr = new Array();
-                var banks=document.getElementsByTagName("option");
-                var bank=document.getElementById("bank");
-                if(bank.value==""){
-                    flag3=1;
+                else{
+                    flag2=1;
+                    $('.expectYID').addClass('currbg');
                 }
-                else {
-                    for(var i=0;i<banks.length;i++){
-                        if( banks[i].selected&&banks[i].value==aData[1]){
+                if(Request("duration")!='0'){
+                    a=Request("duration").split(",")
+                    b=parseFloat(aData[7])
+                    a[0]=parseFloat(a[0]);
+                    if(a[1]){
+                        a[1]=parseFloat(a[1]);
+                        if(a[0]<=b && a[1]>b){
                             flag3=1;
                         }
                     }
+                    else{
+                        if(a[0]<=b){
+                            flag3=1;
+                        }
+                    }
+                    var c='.duration'+a[0]
+                    $(c).addClass('currbg');
+                    $("#s-duration").removeClass('hide');
+                    $("#st-duration").html("投资期限:"+$(c).html());
                 }
-
-                var periods=document.getElementsByName("period")
-                for(var i=length_s;i<periods.length;i++){
-                    if( periods[i].checked){
-                        if(periods[i].value=="p_all"){
+                else{
+                    flag3=1;
+                    $('.duration').addClass('currbg');
+                }
+                if(Request("outset")!='0'){
+                    a=Request("outset").split(",")
+                    b=parseFloat(aData[5])*10000
+                    a[0]=parseFloat(a[0]);
+                    if(a[1]){
+                        a[1]=parseFloat(a[1]);
+                        if(a[0]<=b && a[1]>b){
                             flag4=1;
                         }
-                        else if(periods[i].value=="p_3"){
-                            if(aData[7]<=90){
-                                flag4=1;
-                            }
-                        }
-                        else if(periods[i].value=="p_312"){
-                            if(aData[7]>=90&&aData[7]<365){
-                                flag4=1;
-                            }
-                        }
-                        else if(periods[i].value=="p_1"){
-                            if(aData[7]>365){
-                                flag4=1;
-                            }
+                    }
+                    else{
+                        if(a[0]<=b){
+                            flag4=1;
                         }
                     }
+                    var c='.outset'+a[0]
+                    $(c).addClass('currbg');
+                    $("#s-outset").removeClass('hide');
+                    $("#st-outset").html("投资起点:"+$(c).html());
                 }
-           /*
-                var favourables=document.getElementsByName("favourable")
-                if( favourables[0].checked){
-                    //  alert(aData[10])
-                    if(aData[1]=="北京银行"){
+                else{
+                    flag4=1;
+                    $('.outset').addClass('currbg');
+                }
+                if(Request("risk")=='2'){
+                    if(aData[4]=="保本"){
                         flag5=1;
                     }
+                    $('.risk2').addClass('currbg');
+                    $("#s-risk").removeClass('hide');
+                    $("#st-risk").html("风险评估:保本");
+                }
+                else if(Request("risk")=='1'){
+                    if(aData[4]=="不保本"){
+                        flag5=1;
+                    }
+                    $('.risk1').addClass('currbg');
+                    $("#s-risk").removeClass('hide');
+                    $("#st-risk").html("风险评估:不保本");
                 }
                 else{
                     flag5=1;
+                    $('.risk').addClass('currbg');
                 }
-                */
-                flag5=1;
+
                 if(flag1==1&&flag2==1&&flag3==1&&flag4==1&&flag5==1){
                     return true;
                 }
@@ -544,6 +657,3 @@
         });
     });
 </script>
-<!--
-<script language='javascript' async='true' type='text/javascript' src='http://cdn.walkme.com/users/8868/walkme_8868.js'></script>
--->
