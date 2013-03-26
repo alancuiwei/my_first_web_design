@@ -35,7 +35,7 @@
 <%= javascript_include_tag "filter2.js" %>
 
 
-<div class="main-content pop" onkeyup="area()" onclick="area()" onload="">
+<div class="main-content pop">
 <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
 <a href="/home/productindex" class="print">产品展示</a>
 <h1>理财产品库</h1>
@@ -49,7 +49,7 @@
         <dl class="fore" id="category_all">
           <dt id="category-category_all">产品类型:</dt>
           <dd>
-            <label class="checkbox inline">
+            <label class="checkbox inline all">
               <a href="" cid="category_all" class="curr category_all">不限</a>
             </label>
             <label class="checkbox inline">
@@ -60,7 +60,7 @@
         <dl class="fore">
           <dt id="category-expectYID">预期年化收益率:</dt>
           <dd>
-            <label class="checkbox inline">
+            <label class="checkbox inline all">
               <a href="" cid="expectYID" class="curr expectYID">不限</a>
             </label>
             <label class="checkbox inline">
@@ -83,7 +83,7 @@
         <dl class="fore" id="duration">
           <dt id="category-duration">投资期限:</dt>
           <dd>
-            <label class="checkbox inline">
+            <label class="checkbox inline all">
               <a href="" cid="duration" class="curr duration">不限</a>
             </label>
             <label class="checkbox inline">
@@ -107,7 +107,7 @@
         <dl class="fore" id="outset">
           <dt id="category-outset">投资起点:</dt>
           <dd>
-            <label class="checkbox inline">
+            <label class="checkbox inline all">
               <a href="" cid="outset" class="curr outset">不限</a>
             </label>
             <label class="checkbox inline">
@@ -128,16 +128,16 @@
           </dd>
         </dl>
         <dl class="fore" id="risk">
-          <dt id="category-risk">风险评估:</dt>
+          <dt id="category-risk">收益类型:</dt>
           <dd>
-            <label class="checkbox inline">
+            <label class="checkbox inline all">
               <a href="" cid="risk" class="curr risk">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="risk" class="curr risk2" condition="risk=2"> 保本 </a>
+              <a href="" cid="risk" class="curr risk2" condition="risk=2"> 浮动 </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="risk" class="curr risk1" condition="risk=1"> 不保本 </a>
+              <a href="" cid="risk" class="curr risk1" condition="risk=1"> 固定 </a>
             </label>
           </dd>
         </dl>
@@ -169,7 +169,7 @@
             </div>
 
             <div id="s-risk" class="del hide">
-              <h6 class="text" id="st-risk" condition="">风险评估：不限</h6>
+              <h6 class="text" id="st-risk" condition="">收益类型：不限</h6>
               <a class="delete" cid="risk"></a>
             </div>
 
@@ -296,15 +296,15 @@
         <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
         <td><%= b.trustee%></td>
         <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-        <td></td>
-        <td><%= b.btype%></td>
+        <td><%= format("%0.0f",50000*b.returnrate*b.investperiod/365) %>元</td>
+        <td><%= b.incometype%></td>
         <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
         <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
         <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
         <td><%= format("%0.0f",b.investperiod)%>天</td>
         <td><%= b.status%></td>
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-        <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>&key=<%= b.productkeywords%>"><%= b.bname%></a></td>
+        <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>"><%= b.bname%></a></td>
         <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
         <td class="hide"><%= b.collectperiod%></td>
@@ -468,20 +468,20 @@
                     $('.outset').addClass('currbg');
                 }
                 if(Request("risk")=='2'){
-                    if(aData[4]=="保本"){
+                    if(aData[4]=="浮动"){
                         flag5=1;
                     }
                     $('.risk2').addClass('currbg');
                     $("#s-risk").removeClass('hide');
-                    $("#st-risk").html("风险评估:保本");
+                    $("#st-risk").html("收益类型:浮动");
                 }
                 else if(Request("risk")=='1'){
-                    if(aData[4]=="不保本"){
+                    if(aData[4]=="固定"){
                         flag5=1;
                     }
                     $('.risk1').addClass('currbg');
                     $("#s-risk").removeClass('hide');
-                    $("#st-risk").html("风险评估:不保本");
+                    $("#st-risk").html("收益类型:固定");
                 }
                 else{
                     flag5=1;
@@ -583,24 +583,6 @@
 
     });
 
-    function area(){
-        var length=$("#bankfinance").find("tr").size();
-        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
-        for(i=0;i<length;i++){
-            //    if($("#bankfinance_filter input").val()!=$("#bankfinance tr:eq("+i+") td:eq(11) p").html()){
-            //        $("#bankfinance tr:eq("+i+") td:eq(8) p").html($("#bankfinance_filter input").val()+"&nbsp;"+$("#bankfinance tr:eq("+i+") td:eq(11) p").html())
-            //    }
-            if($("#investamount").val()!=""&&numfor.test($("#investamount").val())==true){
-                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt($("#investamount").val()*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
-            }
-            else{
-                $("#bankfinance tr:eq("+i+") td:eq(3)").html(parseInt(50000*parseFloat($("#bankfinance tr:eq("+i+") td:eq(2)").html())*parseFloat($("#bankfinance tr:eq("+i+") td:eq(7)").html())/36500)+'元')
-            }
-        }
-    };
-    window.onload=function(){
-        area();
-    }
     $(function(){
         $('.demo-tip-yellowsimple').poshytip({
             className: 'tip-yellowsimple',

@@ -14,7 +14,6 @@ class BankinvestController < ApplicationController
   end
 
   def details
-    @bankproducts=Bankproducts_t.find_by_productkeywords(params[:key])
     @banfinance=Bankfinance.find_by_id(params[:bid])
     @reserve=Reserve.find_all_by_bname(@banfinance.bname)
   end
