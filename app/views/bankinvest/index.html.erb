@@ -199,7 +199,7 @@
     <th>对比</th>
     <th>发行机构</th>
     <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
-    <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。(投资额以5万计算)">收益额</p></th>
+   <!-- <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>  -->
     <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
     <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
     <th class="hide"></th>
@@ -218,8 +218,7 @@
       <tr class="gradeA">
         <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
         <td><%= b.trustee%></td>
-        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-        <td><%= format("%0.0f",50000*b.returnrate*b.investperiod/365) %>元</td>
+        <% if b.returnrate!=nil %>    <td><%= format("%0.1f",b.returnrate*100)%>%</td>  <% else %>  <td></td>  <% end %>
         <td><%= b.incometype%></td>
         <% if b.startvalue!=nil%>
             <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
@@ -228,8 +227,14 @@
             <td class="hide"></td>
             <td></td>
         <% end %>
+        <% if b.investperiod!=nil %>
         <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
         <td><%= format("%0.0f",b.investperiod)%>天</td>
+        <% else %>
+            <td class="hide"></td>
+            <td></td>
+        <% end %>
+
         <td><%= b.status%></td>
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
         <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>"><%= b.bname%></a></td>
@@ -306,14 +311,14 @@
                 //   alert(Request("risk"))
 
                 if(Request("category_all")!='0'){
-                    if(Request("category_all")=='banks'&& aData[15]=='yhlc'){
+                    if(Request("category_all")=='banks'&& aData[14]=='yhlc'){
                         flag1=1;
                         var c='.'+Request("category_all")
                         $(c).addClass('currbg');
                         $("#s-category_all").removeClass('hide');
                         $("#st-category_all").html('产品类型:银行理财');
                     }
-                    else if(Request("category_all")=='trust'&& aData[15]=='xtcp'){
+                    else if(Request("category_all")=='trust'&& aData[14]=='xtcp'){
                         flag1=1;
                         var c='.'+Request("category_all")
                         $(c).addClass('currbg');
@@ -352,7 +357,7 @@
                 }
                 if(Request("duration")!='0'){
                     a=Request("duration").split(",")
-                    b=parseFloat(aData[7])
+                    b=parseFloat(aData[6])
                     a[0]=parseFloat(a[0]);
                     if(a[1]){
                         a[1]=parseFloat(a[1]);
@@ -376,7 +381,7 @@
                 }
                 if(Request("outset")!='0'){
                     a=Request("outset").split(",")
-                    b=parseFloat(aData[5])*10000
+                    b=parseFloat(aData[4])*10000
                     a[0]=parseFloat(a[0]);
                     if(a[1]){
                         a[1]=parseFloat(a[1]);
@@ -399,7 +404,7 @@
                     $('.outset').addClass('currbg');
                 }
                 if(Request("risk")=='2'){
-                    if(aData[4]=="浮动"){
+                    if(aData[3]=="浮动"){
                         flag5=1;
                     }
                     $('.risk2').addClass('currbg');
@@ -407,7 +412,7 @@
                     $("#st-risk").html("收益类型:浮动");
                 }
                 else if(Request("risk")=='1'){
-                    if(aData[4]=="固定"){
+                    if(aData[3]=="固定"){
                         flag5=1;
                     }
                     $('.risk1').addClass('currbg');

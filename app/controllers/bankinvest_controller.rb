@@ -51,6 +51,8 @@ class BankinvestController < ApplicationController
   def index
     if  params[:category_all]=='banks'
         @bankfinances =Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE productstate="yhlc";');
+    elsif params[:category_all]=='trust'
+      @bankfinances =Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE productstate="xtcp";');
     else
     @bankfinances=Bankfinance.all
     end
