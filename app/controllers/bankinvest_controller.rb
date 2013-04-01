@@ -47,9 +47,15 @@ class BankinvestController < ApplicationController
    end
      render :json => "s".to_json
   end
+
   def index
+    if  params[:category_all]=='banks'
+        @bankfinances =Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE productstate="yhlc";');
+    else
     @bankfinances=Bankfinance.all
+    end
     @organizationname=Organizationname.all
+    #   @bankfinances=Bankfinance.all
   end
 
   def specialfinance

@@ -56,6 +56,7 @@
           <td class="right"><%= @banfinance.productkeywords%></td>
         </tr>
     <% else %>
+      <% if @banfinance.productstate=='yhlc'%>
         <tr>
           <td class="left">产品名</td>
           <td class="right"><%= @banfinance.bname%></td>
@@ -216,6 +217,52 @@
           <td class="left">购买渠道</td>
           <td class="right"><%= @banfinance.pchannels%></td>
         </tr>
+      <% else %>
+          <tr>
+            <td class="left">产品名称</td>
+            <td class="right"><%= @banfinance.bname%></td>
+          </tr>
+          <tr>
+            <td class="left">信托成立日</td>
+            <td class="right"><%= @banfinance.sailsstart%></td>
+          </tr>
+          <tr>
+            <td class="left">受托人</td>
+            <td class="right"><%= @banfinance.trustee%></td>
+          </tr>
+          <tr>
+            <td class="left">实际募集规模(万元)</td>
+            <% if @banfinance.salesscale!=nil %>   <td class="right"><%= @banfinance.salesscale*10000%></td>  <% else %>  <td class="right"></td>  <% end %>
+          </tr>
+          <tr>
+            <td class="left">存续期</td>
+            <td class="right"><%= @banfinance.investperiod%></td>
+          </tr>
+          <tr>
+            <td class="left">预期收益率</td>
+            <% if @banfinance.returnrate!=0 %> <td class="right"><%= @banfinance.returnrate*100%>%</td> <% else %>  <td class="right"></td>  <% end %>
+          </tr>
+          <tr>
+            <td class="left">发行地</td>
+            <td class="right"><%= @banfinance.distributionarea%></td>
+          </tr>
+          <tr>
+            <td class="left">运用方式</td>
+            <td class="right"><%= @banfinance.bmodel%></td>
+          </tr>
+          <tr>
+            <td class="left">投资领域</td>
+            <td class="right"><%= @banfinance.invesfields%></td>
+          </tr>
+          <tr>
+            <td class="left">特色分类</td>
+            <td class="right"><%= @banfinance.classification%></td>
+          </tr>
+          <tr>
+            <td class="left">投资顾问</td>
+            <td class="right"><%= @banfinance.investadviser%></td>
+          </tr>
+      <% end %>
     <% end %>
   </table>
 <% if @banfinance.isorgan==true %>

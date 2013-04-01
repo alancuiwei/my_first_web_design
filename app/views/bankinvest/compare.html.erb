@@ -18,13 +18,17 @@
     <tr>
       <td>类型</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].btype%></td>
+          <td><%=@compareobj[i].incometype%></td>
       <% end %>
     </tr>
     <tr>
       <td>起售价</td>
       <% for i in 0..@compareobj.size-1%>
+          <% if @compareobj[i].startvalue!=nil%>
           <td><%=format("%0.0f",@compareobj[i].startvalue)%>元</td>
+          <% else %>
+              <td></td>
+          <% end %>
       <% end %>
     </tr>
     <tr>

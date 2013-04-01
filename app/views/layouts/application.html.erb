@@ -32,6 +32,13 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
+
+  <% if params[:controller]=="home" && params[:action]=="index" %>
+  <div id="xoverlay" style="display: block;">
+  <b>通天顺</b> <a class="btns" href="http://alancuiwei.wufoo.com/forms/ee/" target="_blank">客户调查</a>
+  </div>
+  <% end %>
+
   <div class='row-fluid beta'>
      <div class="span2">
        <a href="/"><img src="/assets/logo.jpg"></a>
@@ -72,7 +79,7 @@
     <div class="span2 offset4">
       <h4 class="tcol">我们的服务</h4>
       <a href='/bankinvest/pickoutfinance' class='full'>三步精选产品</a>
-      <a href='/bankinvest/index' class='full'>在售银行产品</a>
+      <a href='/bankinvest/index?category_all=banks' class='full'>在售银行产品</a>
       <a href='/blog/blogbankfinance' class='full'>产品入门知识</a>
       <a href="http://eepurl.com/tonoL" target="_blank" class='full'>邮件订阅</a>
             </div>

@@ -55,6 +55,9 @@
             <label class="checkbox inline">
               <a href="" cid="category_all" class="curr banks" condition="category_all=banks"> 银行理财 </a>
             </label>
+            <label class="checkbox inline">
+              <a href="" cid="category_all" class="curr trust" condition="category_all=trust"> 信托产品 </a>
+            </label>
           </dd>
         </dl>
         <dl class="fore">
@@ -178,95 +181,14 @@
 
       </div>
     </div>
-<table class="table hide" id="returnrate">
-  <tr>
-    <td class="con1">
-      <dl class="dl-horizontal">
-        <dt><h4>投资金额：</h4></dt>
-        <dd>
-          <div class="input-prepend input-append">
-            <span class="add-on">￥</span><input class="input-medium" type="text" id="investamount" placeholder="50000"><span class="add-on">元</span>
-          </div>
-        </dd>
-      </dl>
-    </td>
-    <td><h4>收益类型</h4></td>
-    <td><h4>理财期限</h4></td>
-  </tr>
-  <tr>
-    <td rowspan="2" class="banks">
-      <dl class="dl-horizontal">
-        <dt><h4>发行机构：</h4></dt>
-        <dd>
-          <form>
-            <div id="container">
-              <div class="side-by-side clearfix">
-                <div class="grade">
-                  <select data-placeholder="点击选择多家机构" style="width:235px;" id="bank" class="chzn-select" multiple tabindex="6">
-                    <option value=""></option>
-                    <optgroup label="券商名称">
-                      <% @organizationname.each do |b| %>
-                          <option name="bank" value="<%= b.company %>" onclick="checkchick('b_all')"><%= b.company %></option>
-                      <% end %>
-                    </optgroup>
-                    <optgroup label="银行名称">
-                      <option name="bank" value="北京银行" onclick="checkchick('b_all')">北京银行</option>
-                      <option name="bank" value="建设银行" onclick="checkchick('b_all')">建设银行</option>
-                      <option name="bank" value="光大银行" onclick="checkchick('b_all')">光大银行</option>
-                      <option name="bank" value="中国银行" onclick="checkchick('b_all')">中国银行</option>
-                      <option name="bank" value="招商银行" onclick="checkchick('b_all')">招商银行</option>
-                      <option name="bank" value="广发银行" onclick="checkchick('b_all')">广发银行</option>
-                      <option name="bank" value="工商银行" onclick="checkchick('b_all')">工商银行</option>
-                      <option name="bank" value="中信银行" onclick="checkchick('b_all')">中信银行</option>
-                      <option name="bank" value="浦发银行" onclick="checkchick('b_all')">浦发银行</option>
-                      <option name="bank" value="交通银行" onclick="checkchick('b_all')">交通银行</option>
-                      <option name="bank" value="华夏银行" onclick="checkchick('b_all')">华夏银行</option>
-                      <option name="bank" value="民生银行" onclick="checkchick('b_all')">民生银行</option>
-                      <option name="bank" value="农业银行" onclick="checkchick('b_all')">农业银行</option>
-                      <option name="bank" value="兴业银行" onclick="checkchick('b_all')">兴业银行</option>
-                      <option name="bank" value="平安银行" onclick="checkchick('b_all')">平安银行</option>
-                    </optgroup>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </form>
-        </dd>
-      </dl>
-    </td>
-    <td><label class="radio"><input id="o_all" name="optionsRadios" value="全部" checked="true" type="radio">全部</label></td>
-    <td><label class="checkbox"><input type="checkbox" checked="true" name="period" value="p_all" id="p_all"> 全部</label></td>
-  </tr>
-  <tr>
-    <td><label class="radio"><input id="o_1" name="optionsRadios" value="保本" type="radio">保本</label></td>
-    <td><label class="checkbox"><input type="checkbox" name="period" value="p_3" id="p_3" onclick="checkchick('p_all')"> 3个月以内</label></td>
-  </tr>
-  <tr>
-    <td rowspan="2">
-      <dl class="dl-horizontal">
-        <dt><h4>发行地区：</h4></dt>
-        <dd>
-          <input id="global_filter" name="global_filter" type="text">
-        </dd>
-      </dl>
-    </td>
-    <td rowspan="2"><label class="radio"><input id="o_2" name="optionsRadios" value="不保本" type="radio">不保本</label></td>
-    <td><label class="checkbox"><input type="checkbox" name="period" value="p_312" id="p_312" onclick="checkchick('p_all')"> 3个月-12个月</label></td>
-  </tr>
-  <tr>
-    <td><label class="checkbox"><input type="checkbox" name="period" value="p_1" id="p_1" onclick="checkchick('p_all')"> 1年以上</label></td>
-  </tr>
-  <tr>
-    <td>
-      <dl class="dl-horizontal">
-        <dt><h4>销售结束：</h4></dt>
-        <dd>
-          <input id="dp1" class="span2" type="text" value="">
-        </dd>
-      </dl>
-    </td>
-  </tr>
-</table>
+  <div class="hide">
+    <dl class="dl-horizontal">
+      <dt><h4>发行地区：</h4></dt>
+      <dd>
+        <input id="global_filter" name="global_filter" type="text">
+      </dd>
+    </dl>
+  </div>
 </div>
 </div>
 </div>
@@ -289,6 +211,7 @@
     <th>操作</th>
     <th class="hide">发行地区</th>
     <th class="hide">销售结束</th>
+    <th class="hide">产品类型</th>
   </tr></thead>
 
   <% @bankfinances.each do |b| %>
@@ -298,8 +221,13 @@
         <td><%= format("%0.1f",b.returnrate*100)%>%</td>
         <td><%= format("%0.0f",50000*b.returnrate*b.investperiod/365) %>元</td>
         <td><%= b.incometype%></td>
-        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
-        <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+        <% if b.startvalue!=nil%>
+            <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
+            <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+        <% else %>
+            <td class="hide"></td>
+            <td></td>
+        <% end %>
         <td class="hide"><%= format("%0.0f",b.investperiod)%></td>
         <td><%= format("%0.0f",b.investperiod)%>天</td>
         <td><%= b.status%></td>
@@ -308,6 +236,7 @@
         <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
         <td class="hide"><%= b.collectperiod%></td>
+        <td class="hide"><%= b.productstate%></td>
       </tr>
   <% end %>
 </table>
@@ -367,11 +296,6 @@
                 break;
             };
     }
-
-    function checkchick(id){
-        if($('#'+id).attr('checked')=='checked')
-            doclick(id);
-    }
     $.fn.dataTableExt.afnFiltering.push(
             function( oSettings, aData, iDataIndex ) {
                 var flag1,flag2,flag3,flag4,flag5;
@@ -382,12 +306,19 @@
                 //   alert(Request("risk"))
 
                 if(Request("category_all")!='0'){
-                    if( aData[1].indexOf("银行") >= 0 ){
+                    if(Request("category_all")=='banks'&& aData[15]=='yhlc'){
                         flag1=1;
                         var c='.'+Request("category_all")
                         $(c).addClass('currbg');
                         $("#s-category_all").removeClass('hide');
                         $("#st-category_all").html('产品类型:银行理财');
+                    }
+                    else if(Request("category_all")=='trust'&& aData[15]=='xtcp'){
+                        flag1=1;
+                        var c='.'+Request("category_all")
+                        $(c).addClass('currbg');
+                        $("#s-category_all").removeClass('hide');
+                        $("#st-category_all").html('产品类型:信托产品');
                     }
                 }
                 else{
@@ -494,21 +425,6 @@
             }
 
     );
-
-    function doclick(name)
-    {
-        if(document.all)
-        {
-            document.getElementById(name).click();
-        }
-        else
-        {
-            var evt = document.createEvent("MouseEvents");
-            evt.initEvent("click", true, true);
-            document.getElementById(name).dispatchEvent(evt);
-        }
-    }
-
     function fnFilterGlobal ()
     {
         var x="";
@@ -539,8 +455,28 @@
                 "sSearch":"发行地区:",
                 "sZeroRecords": "很抱歉，没有符合您要求的银行理财产品，请重新设定筛选条件"
             },
-            "aaSorting": [[ 2, "desc" ]]
+            "aaSorting": [[ 2, "desc" ]],
+            "bProcessing": true
+          // ,"bServerSide": true,
+          //  "sAjaxSource": $('#bankfinance').data('source'),
+          //  "fnServerData": fnDataTablesPipeline
         });
+
+        function fnDataTablesPipeline ( sUrl, aoData, fnCallback ) {
+         //   alert(JSON.stringify(aoData));
+            $.get("/bankinvest/index",{start:aoData[3].value,length:aoData[4].value},function(data){
+        //        alert(window.location.href)
+            });
+         /*   $.ajax({
+                dataType: "json",
+                type: 'POST',
+                url: sUrl,
+                data: { aoData: JSON.stringify(aoData) },
+                success: fnCallback,
+                cache: false
+            });
+            */
+        }
         new FixedHeader(oTable);
         //    AddElement('text');
         $("#returnrate").click( function() { oTable.fnDraw(); } );

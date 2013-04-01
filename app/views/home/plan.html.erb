@@ -513,6 +513,11 @@
     $("#t2").html("￥"+parseInt(c*50000))
     $("#a2").html("￥"+parseInt(d*50000))
     $("#amount-to-invest").val(50000)
+        <% if session[:webusername]!=nil %>
+        $("#email").val('<%= @user.email %>')
+        $("#username").val('<%= @user.username %>')
+        $("#password").val('<%= @hash_password%>')
+        <% end %>
     }
 </script>
 

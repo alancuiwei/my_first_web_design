@@ -22,5 +22,35 @@ class HomeController < ApplicationController
     else
       @webuser=Webuser.find_by_username('admin')
     end
+    if session[:webusername]!=nil
+      @user=Webuser.find_by_username(session[:webusername])
+      @hash_password=decode(@user.password)
   end
+end
+end
+
+
+require 'openssl'
+require 'base64'
+ALG = 'DES-EDE3-CBC'  #算法
+KEY = "mZ4Wjs6L"  #8位密钥
+DES_KEY = "nZ4wJs6L"
+
+#加密
+def encode(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.encrypt
+  cipher = des.update(str)
+  cipher << des.final
+  return Base64.encode64(cipher) #Base64编码，才能保存到数据库
+end
+
+#解密
+def decode(str)
+  str = Base64.decode64(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.decrypt
+  des.update(str) + des.final
 end
