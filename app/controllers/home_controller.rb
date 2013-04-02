@@ -17,14 +17,24 @@ class HomeController < ApplicationController
     end
   end
   def plan
+    if session[:webusername]!=nil
+      @personalfinance=Personalfinance.find_by_username(session[:webusername])
+    elsif cookies[:asset_allocation]==nil
+      redirect_to(:controller=>"home", :action=>"index")
+    end
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
+    elsif session[:webusername]!=nil  && cookies[:asset_allocation]==nil
+      @webuser=Webuser.find_by_username(session[:webusername])
     else
       @webuser=Webuser.find_by_username('admin')
     end
     if session[:webusername]!=nil
       @user=Webuser.find_by_username(session[:webusername])
       @hash_password=decode(@user.password)
+      if @user.risktolerance==nil && cookies[:asset_allocation]==nil
+        redirect_to(:controller=>"home", :action=>"questions")
+      end
   end
 end
 end

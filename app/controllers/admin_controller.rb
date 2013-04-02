@@ -286,6 +286,9 @@
     render :json => "s".to_json
         # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
+      if params[:risktolerance]!=nil
+        @webuser.update_attributes(:risktolerance=>params[:risktolerance])
+      end
       render :json => "f".to_json
     end
 
