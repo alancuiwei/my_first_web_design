@@ -71,6 +71,7 @@
       <br><br>
       -->
       <h2 class="h2">感兴趣的理财产品：</h2>
+      <% if @personalfinance.wbreedinfo!=nil %>
       <table> <tr>
       <% @personalfinance.wbreedinfo.split(",").each do |b|%>
             <td style="width: 20px;">
@@ -81,6 +82,7 @@
             </td>
       <% end %>
         </tr></table>
+      <% end %>
       <br><br>
       <div id="favoriteedit">
         <h2 class="h2">个人理财要求：

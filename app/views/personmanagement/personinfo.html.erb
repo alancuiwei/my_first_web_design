@@ -174,7 +174,9 @@
     $("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');
     $("#investcycle").attr("value",'<%= @personal[5]%>');
     $("#returnrate").attr("value",'<%= format("%0.0f",@personal[6]*100)%>');
+    <% if @personal[7]!=nil %>
     $("#riskrate").attr("value",'<%= format("%0.0f",@personal[7]*100)%>');
+    <% end %>
     $("#name").attr("value",'<%= @personal[10]%>');
     $("#tel").attr("value",'<%= @personal[13]%>');
     var tom=document.getElementsByName("contact");

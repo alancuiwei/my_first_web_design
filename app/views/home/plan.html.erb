@@ -448,6 +448,20 @@
             alert("电子邮箱格式不正确！");
         }
         else{
+            var returnrate=0;
+            if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
+                returnrate=0.05;
+            }
+            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
+                returnrate=0.1;
+            }
+            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
+                returnrate=0.15;
+            }
+            $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
+                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0
+            },function(data){
+            });
             $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:'<%= cookies[:asset_allocation].split('|')[3] %>'},function(data){
                 if(data=="f"){
                   //   alert("用户名已注册！");
@@ -459,7 +473,7 @@
                      userlogin(uid,pid,0);
                     //email('#username');
                 }
-            })
+            });
         }
     }
 
