@@ -83,8 +83,8 @@ class PersonmanagementController < ApplicationController
   end
 
   def investor
-    @personalfinance=Personalfinance.find_all_by_memberlevel("0")
-    @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
+    @personalfinance=Personalfinance.all
+   # @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
     @personinvestinfo=Personinvestinfo.all
     @webuser=Webuser.find_all_by_organuser("1")
   end
