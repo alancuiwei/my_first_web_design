@@ -1,7 +1,7 @@
 #encoding: utf-8
 class HomeController < ApplicationController
   def index
-    @personinvestinfo=Personinvestinfo.all
+    @personfinance=Personalfinance.all
     @username=Personalfinance.find_by_sql('select distinct username from personalfinance')
     @num=@username.length
   end

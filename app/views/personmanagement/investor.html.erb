@@ -6,9 +6,9 @@
     <tr>
       <td style="width: 25%;"><h1>个人、家庭投资者：</h1></td>
       <td class="col"><p style="width: 50px;height: 25px;background-color: #ff0000;"></p></td>
-      <td>未购，等待您的产品推荐</td>
-      <td class="col"><p style="width: 50px;height: 25px;background-color: #ffff00;"></p></td>
       <td>感兴趣，但暂时不考虑购买</td>
+      <td class="col"></td>
+      <td></td>
       <td style="width: 23.5%;"></td>
     </tr>
     <tr><td colspan='9' style='height:10px;'></td></tr>
@@ -19,21 +19,20 @@
     <tr>
       <th>会员名</th><th>资金量</th>
       <th>股票</th><th>基金</th><th>保险</th><th>商品期货</th><th>银行理财产品</th>
-      <th class="hide">感兴趣的产品</th><th class="hide">会员名</th><th>信托产品</th><th class="hide">信托</th>
+      <th class="hide">感兴趣的产品</th><th>信托产品</th><th class="hide">信托</th>
     </tr></thead>
 
     <% @personalfinance.each do |b| %>
 
         <tr>
           <td class="white"><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
-          <td class="white"></td>
+          <td class="white"><%= format("%0.0f", b.investamount) %></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td class="hide"><%= b.wbreedinfo%></td>
-          <td class="hide"><%= b.username%></td>
           <td></td>
           <td class="hide"><%= b.contact%></td>
         </tr>
@@ -41,12 +40,11 @@
     <tr class='sum'>
       <td>总和</td>
       <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td class="hide"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
       <td class="hide"></td>
       <td></td>
       <td class="hide"></td>
@@ -80,128 +78,47 @@
     $(document).ready(function(){
         var length=$("#invsetor").find("tr").size();
         for(i=1;i<length-1;i++){
-            var a3=0,a4=0,a5=0,a6=0,a7=0,a8=0;
-            var b3=0,b4=0,b5=0,b6=0,b7=0,b8=0;
-            var c3=0,c4=0,c5=0,c6=0,c7=0,c8=0;
-        <% @personinvestinfo.each do |c| %>
-            if ($("#invsetor tr:eq("+i+") td:eq(8)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='股票'){
-                a3=parseInt(a3+<%= c.investamount %>);
-                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
-                    b3='<%= c.purchasproducts %>'
-                }
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("股票")>=0){
+                $("#invsetor tr:eq("+i+") td:eq(2)").addClass("red");
             }
-            if ($("#invsetor tr:eq("+i+") td:eq(8)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='基金'){
-                a4=parseInt(a4+<%= c.investamount %>);
-                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
-                    b4='<%= c.purchasproducts %>'
-                }
+            else{
+                $("#invsetor tr:eq("+i+") td:eq(2)").addClass("white");
             }
-            if ($("#invsetor tr:eq("+i+") td:eq(8)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='保险'){
-                a5=parseInt(a5+<%= c.investamount %>);
-                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
-                    b5='<%= c.purchasproducts %>'
-                }
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("基金")>=0){
+                $("#invsetor tr:eq("+i+") td:eq(3)").addClass("red");
             }
-            if ($("#invsetor tr:eq("+i+") td:eq(8)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='商品期货'){
-                a7=parseInt(a7+<%= c.investamount %>);
-                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
-                    b7='<%= c.purchasproducts %>'
-                }
+            else{
+                $("#invsetor tr:eq("+i+") td:eq(3)").addClass("white");
             }
-            if ($("#invsetor tr:eq("+i+") td:eq(8)").html()=='<%= c.username %>' && '<%= c.producttype %>'=='银行理财产品'){
-                a8=parseInt(a8+<%= c.investamount %>);
-                if('<%= c.purchasproducts %>'=='已购' || '<%= c.purchasproducts %>'=='未购'){
-                    b8='<%= c.purchasproducts %>'
-                }
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("保险")>=0){
+                $("#invsetor tr:eq("+i+") td:eq(4)").addClass("red");
             }
-        <% end %>
-            if(b3=='已购'){
-                if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("股票")>=0){
-                    $("#invsetor tr:eq("+i+") td:eq(2)").addClass("yellow");
-                }
-                else{
-                    $("#invsetor tr:eq("+i+") td:eq(2)").addClass("white");
-                }
-                a3='';
+            else{
+                $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
             }
-            else if(b3=='未购'){$("#invsetor tr:eq("+i+") td:eq(2)").addClass("red");c3=a3;}
-            else if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("股票")>=0){$("#invsetor tr:eq("+i+") td:eq(2)").addClass("yellow");a3=''}
-            else{$("#invsetor tr:eq("+i+") td:eq(2)").addClass("white");a3=''}
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("商品期货")>=0){
+                $("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");
+            }
+            else{
+                $("#invsetor tr:eq("+i+") td:eq(5)").addClass("white");
+            }
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("银行理财产品")>=0){
+                $("#invsetor tr:eq("+i+") td:eq(6)").addClass("red");
+            }
+            else{
+                $("#invsetor tr:eq("+i+") td:eq(6)").addClass("white");
+            }
+            if( ($("#invsetor tr:eq("+i+") td:eq(9)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(9)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("red");}
+            else{$("#invsetor tr:eq("+i+") td:eq(8)").addClass("white");}
 
-            if(b4=='已购'){
-                if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("基金")>=0){
-                    $("#invsetor tr:eq("+i+") td:eq(3)").addClass("yellow");
-                }
-                else{
-                    $("#invsetor tr:eq("+i+") td:eq(3)").addClass("white");
-                }
-                a4='';
+            if($("#invsetor tr:eq("+i+") td:eq(1)").html()!=''){
+                $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html(parseInt($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html())+parseInt($("#invsetor tr:eq("+i+") td:eq(1)").html()))
             }
-            else if(b4=='未购'){$("#invsetor tr:eq("+i+") td:eq(3)").addClass("red");c4=a4;}
-            else if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("基金")>=0){$("#invsetor tr:eq("+i+") td:eq(3)").addClass("yellow");a4=''}
-            else{$("#invsetor tr:eq("+i+") td:eq(3)").addClass("white");a4=''}
-
-            if(b5=='已购'){
-                if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("保险")>=0){
-                    $("#invsetor tr:eq("+i+") td:eq(4)").addClass("yellow");
-                }
-                else{
-                    $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
-                }
-                a5='';
-            }
-            else if(b5=='未购'){$("#invsetor tr:eq("+i+") td:eq(4)").addClass("red");c5=a5;}
-            else if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("保险")>=0){$("#invsetor tr:eq("+i+") td:eq(4)").addClass("yellow");a5=''}
-            else{$("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");a5=''}
-
-            if(b7=='已购'){
-                if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("商品期货")>=0){
-                    $("#invsetor tr:eq("+i+") td:eq(5)").addClass("yellow");
-                }
-                else{
-                    $("#invsetor tr:eq("+i+") td:eq(5)").addClass("white");
-                }
-                a7='';
-            }
-            else if(b7=='未购'){$("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");c7=a7;}
-            else if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("商品期货")>=0){$("#invsetor tr:eq("+i+") td:eq(5)").addClass("yellow");a7=''}
-            else{$("#invsetor tr:eq("+i+") td:eq(5)").addClass("white");a7=''}
-
-            if(b8=='已购'){
-                if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("银行理财产品")>=0){
-                    $("#invsetor tr:eq("+i+") td:eq(6)").addClass("yellow");
-                }
-                else{
-                    $("#invsetor tr:eq("+i+") td:eq(6)").addClass("white");
-                }
-                a8='';
-            }
-            else if(b8=='未购'){$("#invsetor tr:eq("+i+") td:eq(6)").addClass("red");c8=a8;}
-            else if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("银行理财产品")>=0){$("#invsetor tr:eq("+i+") td:eq(6)").addClass("yellow");a8=''}
-            else{$("#invsetor tr:eq("+i+") td:eq(6)").addClass("white");a8=''}
-
-            if( ($("#invsetor tr:eq("+i+") td:eq(10)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(10)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(9)").addClass("yellow");}
-            else{$("#invsetor tr:eq("+i+") td:eq(9)").addClass("white");}
-
-            $("#invsetor tr:eq("+i+") td:eq(1)").html(parseInt(parseFloat(c3)+parseFloat(c4)+parseFloat(c5)+parseFloat(c7)+parseFloat(c8)))
-            $("#invsetor tr:eq("+i+") td:eq(2)").html(a3)
-            $("#invsetor tr:eq("+i+") td:eq(3)").html(a4)
-            $("#invsetor tr:eq("+i+") td:eq(4)").html(a5)
-            $("#invsetor tr:eq("+i+") td:eq(5)").html(a7)
-            $("#invsetor tr:eq("+i+") td:eq(6)").html(a8)
-
-            for(j=1;j<7;j++){
-             if($("#invsetor tr:eq("+i+") td:eq("+j+")").html()!=''){
-             $("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").html(parseInt($("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").html())+parseInt($("#invsetor tr:eq("+i+") td:eq("+j+")").html()))
-             }
-                $("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").addClass("white");
-            }
+            $("#invsetor tr:eq("+(length-1)+") td:eq(1)").addClass("white");
         }
-        for(j=0;j<11;j++){
-            $("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").addClass("white");
-            if($("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").html()=='0'){
-                $("#invsetor tr:eq("+(length-1)+") td:eq("+j+")").html('');
-             }
+        $("#invsetor tr:eq("+(length-1)+") td:eq(1)").addClass("white");
+        if($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html()=='0'){
+            $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html('');
         }
     });
 

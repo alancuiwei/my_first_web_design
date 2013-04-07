@@ -112,7 +112,7 @@ class PersonmanagementController < ApplicationController
       b.memberlevel=params[:memberlevel]
       b.save
     end
-    session[:personname]=session[:webusername]
+    session[:personname]=params[:username]
     render :json => "s1".to_json
     else
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
@@ -149,7 +149,6 @@ class PersonmanagementController < ApplicationController
         b.save
       end
       render :json => "s1".to_json
-
     else
       @person=Personinvestinfo.find_by_id(params[:id])
       @person.update_attributes(:username=>params[:username],:producttype=>params[:producttype],:percentage=>params[:percentage],

@@ -14,10 +14,14 @@
       <div class="bs-docs-example">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#">家庭理财规划</a></li>
+          <% if session[:personname]!=0 %>
           <% if params[:username]!=nil %>
               <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
              <% else %>
               <li><a href="/personmanagement/personfinance?username=<%= session[:webusername] %>">个人投资信息</a></li>
+          <% end %>
+          <% else %>
+              <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
           <% end %>
         </ul>
       </div>
@@ -507,7 +511,7 @@
                 returnrate=0.15;
             }
         <% end %>
-        <% if @personalfinance==nil %>
+        <% if @personalfinance==nil && cookies[:asset_allocation]!=nil %>
             $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
                 email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0
             },function(data){

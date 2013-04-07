@@ -300,11 +300,8 @@
         var free=0;   //闲余资金量
         var num;     //经纪人月租费
         num= <%= @num %>;
-        <% @personinvestinfo.each do |b|%>
+        <% @personfinance.each do |b|%>
         invest = invest + <%= b.investamount %>;
-        if( '<%= b.purchasproducts %>'=='未购'){
-            free = free + <%= b.investamount %>;
-        }
         <% end %>
         num=parseInt(parseFloat(free)*0.0001);
         num = num.toString();
@@ -323,7 +320,7 @@
         var length=$("#tableNumbers").find("tr").size();
         for(i=0;i<length;i=i+2){
             if(i==0){c=num}
-            else if(i==2){c=free}
+            else if(i==2){c=invest}
             else if(i==4){c=invest}
             if(c.substr(0,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src="/assets/blank.png"></div>');}
             else{$("#tableNumbers tr:eq("+i+") td:eq(1)").html('<div><img src'+'='+'"/assets/num'+c.substr(0,[1])+'.png"></div>');}
