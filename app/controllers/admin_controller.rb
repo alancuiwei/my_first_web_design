@@ -239,10 +239,7 @@
             :period=>params[:period].to_f,:riskvalue=>params[:riskvalue].to_f)
         render :json => "es2".to_json
       end
-
-
     end
-
   end
 
   def  userconfigajax
@@ -279,7 +276,7 @@
 #      session[:webusername]=params[:username]
       Thread.new{
        if params[:risktolerance]!=nil
-        UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email]).deliver
+            UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
        end
         UserMailer.confirm(params[:username]).deliver
       }
@@ -288,6 +285,9 @@
     else
       if params[:risktolerance]!=nil
         @webuser.update_attributes(:risktolerance=>params[:risktolerance])
+          Thread.new{
+            UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+          }
       end
       render :json => "f".to_json
     end

@@ -43,9 +43,9 @@ class UserMailer < ActionMailer::Base
     mail(:to => accept)
   end
 
-  def risktolerance(username,risktolerance,email)
+  def risktolerance(username,risktolerance,email,title)
     @username = username
     @risktolerance = risktolerance
-    mail(:to => email)
+    mail(:to => email,:subject => title)
   end
 end

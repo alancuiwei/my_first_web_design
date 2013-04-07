@@ -27,6 +27,8 @@ class PersonmanagementController < ApplicationController
   end
 
   def organfinance
+    @personalfinance=Personalfinance.all
+    @personinvestinfo=Personinvestinfo.all
     @webuser=Webuser.find_by_id(params[:id])
     if session[:webusername]!=nil
       @webuser2=Webuser.find_by_username(session[:webusername])
@@ -196,5 +198,54 @@ class PersonmanagementController < ApplicationController
     if @personalfinance==nil
       redirect_to(:controller=>"home")
   end
+  end
+
+  def upload_file(file)
+    if !file.original_filename.empty?
+      @filename=get_file_name(file.original_filename)
+      File.open("#{Rails.root}/app/assets/download/#{@filename}", "wb") do |f|
+        f.write(file.read)
+      end
+      return @filename
+    end
+  end
+
+  def get_file_name(filename)
+    if !filename.nil?
+      Time.now.strftime("%Y%m%d%H%M%S") + '_' + filename
+    end
+  end
+
+  def save_file
+    unless request.get?
+      if filename=upload_file(params[:file]['file'])
+        return filename
+      end
+    end
+  end
+  #==============================
+  # 修改create方法：
+  def create
+    @photo = Photo.new(params[:photo])
+    @filename=save_file   #调用save_file方法，返回文件名
+    @photo.url="/download/#{@filename}"   #保存文件路径字段
+    @photo.name=@filename   #保存文件名字段
+    if @photo.save
+      Provide.new do |b|
+        b.username=params[:username]
+        b.managename=params[:managename]
+        b.stock=params[:stock]
+        b.debt=params[:debt]
+        b.trust=params[:trust]
+        b.bankfinance=params[:bankfinance]
+        b.filename= @filename
+        b.save
+      end
+      @webuser=Webuser.find_by_username(session[:webusername])
+      flash[:notice] = 'Photo was successfully created.'
+      redirect_to(:controller=>"personmanagement", :action=>"organfinance", :id=>@webuser.id)
+    else
+      render :action => 'investor'
+    end
   end
 end

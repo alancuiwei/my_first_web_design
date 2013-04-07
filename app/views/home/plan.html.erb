@@ -518,10 +518,14 @@
         <% else %>
             var risktolerance='<%= @webuser.risktolerance %>';
         <% end %>
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果"},function(data){
                 if(data=="f"){
                     //   alert("用户名已注册！");
+                <% if session[:webusername]==nil %>
                     userlogin(uid,pid,0);
+                <% else %>
+                    location.href="/home/plan?username="+$(uid).attr("value");
+                <% end %>
                 }
                 else if(data=="s"){
                     // alert("用户注册成功！");

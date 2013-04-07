@@ -24,6 +24,9 @@ class HomeController < ApplicationController
     end
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
+      if @webuser==nil
+        redirect_to(:controller=>"home", :action=>"index")
+      end
     elsif session[:webusername]!=nil  && cookies[:asset_allocation]==nil
       @webuser=Webuser.find_by_username(session[:webusername])
     else
