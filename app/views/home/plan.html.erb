@@ -510,11 +510,10 @@
             else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
                 returnrate=0.15;
             }
-        <% end %>
-        <% if @personalfinance==nil && cookies[:asset_allocation]!=nil %>
             $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
                 email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0
             },function(data){
+                alert(data);
             });
         <% end %>
         <% if cookies[:asset_allocation]!=nil %>

@@ -19,8 +19,15 @@ class HomeController < ApplicationController
   def plan
     if session[:webusername]!=nil
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
-    elsif cookies[:asset_allocation]==nil
+    elsif cookies[:asset_allocation]==nil && params[:username]==nil
       redirect_to(:controller=>"home", :action=>"index")
+    end
+    if params[:username]!=nil
+      @provides=Provide.find_by_username(params[:username])
+    elsif session[:webusername]!=nil
+      @provides=Provide.find_by_username(session[:webusername])
+    else
+      @provides=Provide.find_by_username('admin')
     end
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])

@@ -93,6 +93,8 @@ class PersonmanagementController < ApplicationController
 
   def personconfigajax
     if params[:id]=="0"
+      @personalfinance=Personalfinance.find_by_username(params[:username])
+      if @personalfinance==nil
     Personalfinance.new do |b|
       b.username=params[:username]
       b.email=params[:email]
@@ -114,6 +116,12 @@ class PersonmanagementController < ApplicationController
     end
     session[:personname]=params[:username]
     render :json => "s1".to_json
+    else
+        @personalfinance=Personalfinance.find_by_username(params[:username])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate])
+        session[:personname]=params[:username]
+        render :json => "s2".to_json
+      end
     else
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
       @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
