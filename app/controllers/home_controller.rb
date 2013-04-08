@@ -23,11 +23,11 @@ class HomeController < ApplicationController
       redirect_to(:controller=>"home", :action=>"index")
     end
     if params[:username]!=nil
-      @provides=Provide.find_by_username(params[:username])
+      @provides=Provide.find_all_by_username(params[:username])
     elsif session[:webusername]!=nil
-      @provides=Provide.find_by_username(session[:webusername])
+      @provides=Provide.find_all_by_username(session[:webusername])
     else
-      @provides=Provide.find_by_username('admin')
+      @provides=Provide.find_all_by_username('admin')
     end
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
@@ -47,6 +47,10 @@ class HomeController < ApplicationController
       end
   end
 end
+
+  def download
+    send_file "app/assets/download/"+params[:filename] unless params[:filename].blank?
+  end
 end
 
 

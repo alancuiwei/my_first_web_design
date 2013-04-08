@@ -338,13 +338,14 @@
             }
         }
         if(document.getElementById('file_file').value==''){
-            alert('请选择您所要上传的图片');
+            alert('请选择您所要上传的文件');
             return false;
             nom_flag=1;
         }
         else if(nom_flag==0){
             document.getElementById('myForm').action = "/personmanagement/create?username="+$("#name").html()+"&managename=<%= session[:webusername] %>&stock="+String($("#stock").attr("value")/100)+"&debt="
-                           +String($("#debt").attr("value")/100)+"&trust="+String($("#trust").attr("value")/100)+"&bankfinance="+String($("#bankfinance").attr("value")/100)+"&filename="+getFileName(document.getElementById("file_file").value);
+                           +String($("#debt").attr("value")/100)+"&trust="+String($("#trust").attr("value")/100)+"&bankfinance="+String($("#bankfinance").attr("value")/100)+"&filename="+getFileName(document.getElementById("file_file").value)
+                           +"&company=<%= @webuser2.company %>";
             document.getElementById("myForm").submit();
         }
     });

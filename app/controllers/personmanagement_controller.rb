@@ -245,6 +245,7 @@ class PersonmanagementController < ApplicationController
         b.debt=params[:debt]
         b.trust=params[:trust]
         b.bankfinance=params[:bankfinance]
+        b.company=params[:company]
         b.filename= @filename
         b.save
       end
