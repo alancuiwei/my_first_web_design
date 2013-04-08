@@ -380,7 +380,15 @@
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
         if params[:organ]=='3'
-          if @webuser.risktolerance!=nil
+          if  @webuser.organuser=='1'
+          session[:webusername]=@webuser.username
+          session[:organuser]=@webuser.organuser
+          render :json => "organ".to_json
+        elsif  @webuser.username=="admin" || @webuser.username=="blog"
+          session[:webusername]=@webuser.username
+          session[:organuser]='0'
+          render :json => "admin".to_json
+        elsif @webuser.risktolerance!=nil
             session[:webusername]=@webuser.username
             session[:organuser]='0'
             render :json => "g1".to_json
@@ -389,14 +397,6 @@
             session[:organuser]='0'
             render :json => "g2".to_json
           end
-        elsif  @webuser.organuser=='1'
-        session[:webusername]=@webuser.username
-          session[:organuser]=@webuser.organuser
-          render :json => "organ".to_json
-        elsif  @webuser.username=="admin" || @webuser.username=="blog"
-        session[:webusername]=@webuser.username
-        session[:organuser]='0'
-        render :json => "admin".to_json
         elsif  @personalfinance
           session[:webusername]=@webuser.username
           session[:organuser]='0'

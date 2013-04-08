@@ -25,7 +25,7 @@
     <% @personalfinance.each do |b| %>
 
         <tr>
-          <td class="white"><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
+          <td class="white"><a href="/personmanagement/personfinance?username=<%= b.username%>"><%= b.username%></a></td>
           <td class="white"><%= format("%0.0f", b.investamount) %></td>
           <td></td>
           <td></td>

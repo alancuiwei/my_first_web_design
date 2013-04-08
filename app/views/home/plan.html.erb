@@ -14,14 +14,26 @@
       <div class="bs-docs-example">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#">家庭理财规划</a></li>
-          <% if @personalfinance!=nil %>
-          <% if params[:username]!=nil %>
-              <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
-             <% else %>
-              <li><a href="/personmanagement/personfinance?username=<%= session[:webusername] %>">个人投资信息</a></li>
-          <% end %>
+          <% if session[:webusername]!=nil %>
+              <% if params[:username]!=nil %>
+                  <% if session[:personname]!=0 %>
+                      <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
+                  <% else %>
+                      <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
+                  <% end %>
+              <% else %>
+                  <% if session[:personname]!=0 %>
+                      <li><a href="/personmanagement/personfinance?username=<%= session[:webusername] %>">个人投资信息</a></li>
+                  <% else %>
+                      <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
+                  <% end %>
+              <% end %>
           <% else %>
-              <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
+              <% if params[:username]!=nil %>
+                  <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
+              <% else %>
+                  <li><a href="/home">个人投资信息</a></li>
+              <% end %>
           <% end %>
         </ul>
       </div>
@@ -39,6 +51,7 @@
       </div>
     </div>
     <div id="page-content">
+      <% if @webuser.risktolerance!=nil %>
       <div class="classy plan-content">
         <div class="plan-column left">
           <div id="container" style="margin-left: 50px;"></div>
@@ -64,7 +77,11 @@
         <div class="plan-column center">
           <div class="account-types">
             <div class="account-type-tab active" id="taxable-account-type">
-              <p><span class="product">您的理财规划方案</span></p>
+              <% if @webuser.username == session[:webusername] %>
+                  <p><span class="product">您的理财规划方案</span></p>
+              <% else %>
+                  <p><span class="product"><%= @webuser.username %>的理财规划方案</span></p>
+              <% end %>
               <p class="product-description">仅为个人或家庭服务</p>
             </div>
             <div class="clearfix"></div>
@@ -146,7 +163,7 @@
                     </div>
                   </td>
                   <td>
-                    <p class="product-description" style="margin-top: 20px;"><%= b.company %>-理财师</p>
+                    <p class="product-description" style="margin-top: 20px;"><%= b.company %>-<%= b.managename %></p>
                   </td>
                 </tr>
                 <tr>
@@ -211,10 +228,12 @@
                     </div>
                   </td>
                 </tr>
+              <% if @webuser.username == session[:webusername] %>
                 <tr>
                   <td></td>
                   <td class="pull-right"><%= link_to "报告下载",:action=>"download",:id=>"data",:filename=>b.filename %></td>
                 </tr>
+              <% end %>
            <% end %>
           </table>
         </div>
@@ -232,6 +251,9 @@
             </div>
         <% end %>
       </div>
+      <% else %>
+        <h1>该用户尚未配置其家庭理财计划</h1>
+      <% end %>
     </div>
   </div>
 </div>
@@ -285,7 +307,11 @@
                         },
 
                         title: {
-                            text: '您的风险承受度'
+                            <% if @webuser.username == session[:webusername] %>
+                            text: '您的风险承受度',
+                            <% else %>
+                            text: '<%= @webuser.username %>的风险承受度'
+                            <% end %>
                         },
 
                         pane: [{

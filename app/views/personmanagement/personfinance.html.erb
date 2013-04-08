@@ -4,18 +4,28 @@
 
 <div class="main-content finance">
   <% if  @personalfinance%>
-      <% if session[:webusername]== @personalfinance.username%>
-          <div class="bs-docs-example">
-            <ul class="nav nav-tabs">
-              <% if params[:username]!=nil %>
-                  <li><a href="/home/plan?username=<%= params[:username] %>">家庭理财规划</a></li>
+      <div class="bs-docs-example">
+        <ul class="nav nav-tabs">
+          <% if params[:username]!=nil %>
+              <% if params[:username]!=session[:webusername] %>
+                 <li><a href="/home/plan?username=<%= params[:username] %>">家庭理财规划</a></li>
               <% else %>
-                  <li><a href="/home/plan?username=<%= session[:webusername] %>">家庭理财规划</a></li>
+                  <% if @webuser.risktolerance!=nil %>
+                      <li><a href="/home/plan?username=<%= session[:webusername] %>">家庭理财规划</a></li>
+                  <% else %>
+                      <li><a href="/home/questions">家庭理财规划</a></li>
+                  <% end %>
               <% end %>
-              <li class="active"><a href="#">个人投资信息</a></li>
-            </ul>
-          </div>
-      <% end %>
+          <% else %>
+              <% if @webuser.risktolerance!=nil %>
+                  <li><a href="/home/plan?username=<%= session[:webusername] %>">家庭理财规划</a></li>
+              <% else %>
+                  <li><a href="/home/questions">家庭理财规划</a></li>
+              <% end %>
+          <% end %>
+          <li class="active"><a href="#">个人投资信息</a></li>
+        </ul>
+      </div>
       <h1><%= @personalfinance.username%>的投资页面</h1>
       <br>
       <h2 class="h2">个人信息：</h2>

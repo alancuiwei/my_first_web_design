@@ -1,14 +1,29 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
+<% if @webuser.username==session[:webusername] %>
+    <style>
+        #organ td, #organ th {
+            width: 11.1%;
+        }
+    </style>
+<% end %>
 
 <div class="main-content organ">
   <a href="/">首页</a>
-  <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.username %></h1>
-  <h2>1. 产品管理</h2>
+  <% if @webuser.username==session[:webusername] %>
+      <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.name %>&nbsp;管理页面</h1>
+      <h2>1. 产品管理<span style="float: right;"><a href="/admin/bankfinanceconfig/0?organ=1">添加产品</a></span></h2>
+  <% else %>
+      <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.username %></h1>
+      <h2>1. 产品管理</h2>
+  <% end %>
   <table cellpadding="0" cellspacing="0" border="0" class="display table  table-striped table-bordered" id="organ">
     <thead><tr>
       <th>发行机构</th><th>产品名称</th><th>年化收益率</th>
       <th>是否保本</th><th>起售价</th><th>理财期限</th>
       <th>起购日期</th><th>结束日期</th>
+      <% if @webuser.username==session[:webusername] %>
+          <th>更多</th>
+      <% end %>
     </tr></thead>
 
     <% @bankfinances.each do |b| %>
@@ -21,6 +36,9 @@
           <td><%= b.investperiod%></td>
           <td><%= b.sailsstart%></td>
           <td><%= b.collectperiod%></td>
+          <% if @webuser.username==session[:webusername] %>
+              <td><a href="/admin/bankfinanceconfig/<%= b.id %>?optype=edit&organ=1">修改</a></td>
+          <% end %>
         </tr>
     <% end %>
   </table>
@@ -36,21 +54,25 @@
       <% end %>
     </tr></thead>
 
-    <% @personalfinance.each do |b| %>
+    <% for i in 0..@personalfinance.size-1 %>
         <tr>
-          <td class="white"><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
-          <td class="white"><%= format("%0.0f", b.investamount) %></td>
+          <td class="white"><a href="/personmanagement/personfinance?username=<%=  @hash[@personalfinance[i].username][1]%>"><%=  @hash[@personalfinance[i].username][1]%></a></td>
+          <td class="white"><%= format("%0.0f",  @hash[@personalfinance[i].username][2]) %></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td class="hide"><%= b.wbreedinfo%></td>
+          <td class="hide"><%= @hash[@personalfinance[i].username][3]%></td>
           <td></td>
-          <td class="hide"><%= b.contact%></td>
+          <td class="hide"><%= @hash[@personalfinance[i].username][4]%></td>
           <% if session[:webusername]==@webuser.username %>
-              <td class="white"><a class="login-window" href="#login-box" id="<%= b.username%>">提供方案</a></td>
-          <% end %>
+              <% if @hash[@personalfinance[i].username][5]!=1 %>
+                  <td class="white"><a class="login-window" href="#login-box" id="<%=  @hash[@personalfinance[i].username][1]%>">提供方案</a></td>
+              <% else %>
+                  <td class="white">已提供</td>
+              <% end %>
+        <% end %>
         </tr>
     <% end %>
   </table>
@@ -331,8 +353,8 @@
                     a=parseFloat(a)+parseFloat(o[i].value)
                 }
             }
-            if(a>100){
-                alert("和不能超过100%！")
+            if(a!=100){
+                alert("比例之和须为100%！")
                 return false;
                 nom_flag=1;
             }

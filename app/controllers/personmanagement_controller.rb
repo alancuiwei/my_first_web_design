@@ -29,18 +29,34 @@ class PersonmanagementController < ApplicationController
   def organfinance
     @personalfinance=Personalfinance.all
     @personinvestinfo=Personinvestinfo.all
-    @webuser=Webuser.find_by_id(params[:id])
-    if session[:webusername]!=nil
-      @webuser2=Webuser.find_by_username(session[:webusername])
-    else
-      @webuser2=Webuser.find_by_username(@webuser.username)
+    @hash={}
+    for i in 0..@personalfinance.size-1
+      @provide=Provide.find_by_username_and_managename(@personalfinance[i].username,session[:webusername])
+      if @provide!=nil
+        date=1
+      else
+        date=nil
+      end
+      @hash.store(@personalfinance[i].username,[@personalfinance[i].id,@personalfinance[i].username,@personalfinance[i].investamount,@personalfinance[i].wbreedinfo,@personalfinance[i].contact,date])
     end
-    @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
-    if  params[:id]!=nil
-    @comments=Comments.find_all_by_wid(params[:id])
+    if session[:webusername]==nil &&  params[:id]==nil
+      redirect_to(:controller=>"home")
     else
-    redirect_to(:controller=>"home")
+      if params[:id]!=nil
+        @webuser=Webuser.find_by_id(params[:id])
+        @comments=Comments.find_all_by_wid(params[:id])
+      else
+        @webuser=Webuser.find_by_username(session[:webusername])
+        @comments=Comments.find_all_by_wid(@webuser.id)
+      end
+      if session[:webusername]!=nil
+        @webuser2=Webuser.find_by_username(session[:webusername])
+      else
+        @webuser2=Webuser.find_by_username(@webuser.username)
+      end
+      @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
     end
+
   end
 
   def commentconfigajax
@@ -52,7 +68,7 @@ class PersonmanagementController < ApplicationController
       b.time=params[:time]
       b.memberlevel=params[:memberlevel]
       b.company=params[:company]
-       b.wid=params[:wid]
+      b.wid=params[:wid]
       b.save
     end
     if  params[:email2]=='1'
@@ -86,7 +102,7 @@ class PersonmanagementController < ApplicationController
 
   def investor
     @personalfinance=Personalfinance.all
-   # @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
+    # @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
     @personinvestinfo=Personinvestinfo.all
     @webuser=Webuser.find_all_by_organuser("1")
   end
@@ -95,28 +111,28 @@ class PersonmanagementController < ApplicationController
     if params[:id]=="0"
       @personalfinance=Personalfinance.find_by_username(params[:username])
       if @personalfinance==nil
-    Personalfinance.new do |b|
-      b.username=params[:username]
-      b.email=params[:email]
-      b.investamount=params[:investamount]
-      b.investcycle=params[:investcycle]
-      b.returnrate=params[:returnrate]
-      b.company=params[:company]
-      b.age=params[:age]
-      b.riskrate=params[:riskrate]
-      b.investvarieties=params[:investvarieties]
-      b.wbreedinfo=params[:wbreedinfo]
-      b.name=params[:name]
-      b.post=params[:post]
-      b.contact=params[:contact]
-      b.myfavorite=params[:myfavorite]
-      b.tel=params[:tel]
-      b.memberlevel=params[:memberlevel]
-      b.save
-    end
-    session[:personname]=params[:username]
-    render :json => "s1".to_json
-    else
+        Personalfinance.new do |b|
+          b.username=params[:username]
+          b.email=params[:email]
+          b.investamount=params[:investamount]
+          b.investcycle=params[:investcycle]
+          b.returnrate=params[:returnrate]
+          b.company=params[:company]
+          b.age=params[:age]
+          b.riskrate=params[:riskrate]
+          b.investvarieties=params[:investvarieties]
+          b.wbreedinfo=params[:wbreedinfo]
+          b.name=params[:name]
+          b.post=params[:post]
+          b.contact=params[:contact]
+          b.myfavorite=params[:myfavorite]
+          b.tel=params[:tel]
+          b.memberlevel=params[:memberlevel]
+          b.save
+        end
+        session[:personname]=params[:username]
+        render :json => "s1".to_json
+      else
         @personalfinance=Personalfinance.find_by_username(params[:username])
         @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate])
         session[:personname]=params[:username]
@@ -125,10 +141,10 @@ class PersonmanagementController < ApplicationController
     else
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
       @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
-                                :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
-                                :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
-                                :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:post=>params[:post],
-                                :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
+                                         :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
+                                         :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
+                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:post=>params[:post],
+                                         :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
       render :json => "s1".to_json
     end
   end
@@ -160,7 +176,7 @@ class PersonmanagementController < ApplicationController
     else
       @person=Personinvestinfo.find_by_id(params[:id])
       @person.update_attributes(:username=>params[:username],:producttype=>params[:producttype],:percentage=>params[:percentage],
-                              :investamount=>params[:investamount],:purchasproducts=>params[:purchasproducts],:collectperiod=>params[:collectperiod])
+                                :investamount=>params[:investamount],:purchasproducts=>params[:purchasproducts],:collectperiod=>params[:collectperiod])
       render :json => "s2".to_json
     end
   end
@@ -185,26 +201,27 @@ class PersonmanagementController < ApplicationController
 
   def personfinance
 
-    if  params[:id]!=nil
-        @comments=Comments.find_all_by_cid(params[:id])
-      @personalfinance=Personalfinance.find_by_id(params[:id])
-      @personalinfo=Personinvestinfo.find_all_by_username(@personalfinance.username)
+    if  params[:username]!=nil
+      @personalfinance=Personalfinance.find_by_username(params[:username])
+      @comments=Comments.find_all_by_cid(@personalfinance.id)
+      @personalinfo=Personinvestinfo.find_all_by_username(params[:username])
+      session[:personname]=@personalfinance.username
       if session[:webusername]!=nil
-         @webuser=Webuser.find_by_username(session[:webusername])
+        @webuser=Webuser.find_by_username(session[:webusername])
       else
-         @webuser=Webuser.find_by_username(@personalfinance.username)
-     end
+        @webuser=Webuser.find_by_username(params[:username])
+      end
     else
-       if session[:webusername]!=nil
-    @personalfinance=Personalfinance.find_by_username(session[:webusername])
-    @personalinfo=Personinvestinfo.find_all_by_username(session[:webusername])
-          @comments=Comments.find_all_by_cid(@personalfinance.id)
-          @webuser=Webuser.find_by_username(session[:webusername])
-       end
+      if session[:webusername]!=nil
+        @personalfinance=Personalfinance.find_by_username(session[:webusername])
+        @personalinfo=Personinvestinfo.find_all_by_username(session[:webusername])
+        @comments=Comments.find_all_by_cid(@personalfinance.id)
+        @webuser=Webuser.find_by_username(session[:webusername])
+      end
     end
     if @personalfinance==nil
       redirect_to(:controller=>"home")
-  end
+    end
   end
 
   def upload_file(file)
