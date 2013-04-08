@@ -14,7 +14,7 @@
       <div class="bs-docs-example">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#">家庭理财规划</a></li>
-          <% if session[:personname]!=0 %>
+          <% if @personalfinance!=nil %>
           <% if params[:username]!=nil %>
               <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
              <% else %>
@@ -568,7 +568,7 @@
 
     function userconfig(uid,pid,eid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
-
+        var name=/^\D.{2}.*$/;
         if($(uid).attr("value")==""){
             alert("用户名为空！");
         }
@@ -577,6 +577,9 @@
         }
         else if($(eid).attr("value")==""){
             alert("电子邮箱为空！");
+        }
+        else if(!name.test($(uid).attr("value"))){
+            alert("用户名开头字符不能是数字，用户名长度必须大于等于3个字符！");
         }
         else if(!myreg.test($(eid).attr("value"))){
             alert("电子邮箱格式不正确！");

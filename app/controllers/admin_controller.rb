@@ -379,7 +379,17 @@
      end
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
-        if  @webuser.organuser=='1'
+        if params[:organ]=='3'
+          if @webuser.risktolerance!=nil
+            session[:webusername]=@webuser.username
+            session[:organuser]='0'
+            render :json => "g1".to_json
+          else
+            session[:webusername]=@webuser.username
+            session[:organuser]='0'
+            render :json => "g2".to_json
+          end
+        elsif  @webuser.organuser=='1'
         session[:webusername]=@webuser.username
           session[:organuser]=@webuser.organuser
           render :json => "organ".to_json
