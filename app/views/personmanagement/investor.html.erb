@@ -25,7 +25,7 @@
     <% @personalfinance.each do |b| %>
 
         <tr>
-          <td class="white"><a href="/personmanagement/personfinance?username=<%= b.username%>"><%= b.username%></a></td>
+          <td class="white"><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
           <td class="white"><%= format("%0.0f", b.investamount) %></td>
           <td></td>
           <td></td>
@@ -96,7 +96,7 @@
             else{
                 $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("商品期货")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("期货")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");
             }
             else{
@@ -114,9 +114,10 @@
             if($("#invsetor tr:eq("+i+") td:eq(1)").html()!=''){
                 $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html(parseInt($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html())+parseInt($("#invsetor tr:eq("+i+") td:eq(1)").html()))
             }
-            $("#invsetor tr:eq("+(length-1)+") td:eq(1)").addClass("white");
         }
-        $("#invsetor tr:eq("+(length-1)+") td:eq(1)").addClass("white");
+        for(i=0;i<10;i++){
+            $("#invsetor tr:eq("+(length-1)+") td:eq("+i+")").addClass("white");
+        }
         if($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html()=='0'){
             $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html('');
         }

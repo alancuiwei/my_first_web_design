@@ -56,7 +56,7 @@
 
     <% for i in 0..@personalfinance.size-1 %>
         <tr>
-          <td class="white"><a href="/personmanagement/personfinance?username=<%=  @hash[@personalfinance[i].username][1]%>"><%=  @hash[@personalfinance[i].username][1]%></a></td>
+          <td class="white"><a href="/home/plan?username=<%=  @hash[@personalfinance[i].username][1]%>"><%=  @hash[@personalfinance[i].username][1]%></a></td>
           <td class="white"><%= format("%0.0f",  @hash[@personalfinance[i].username][2]) %></td>
           <td></td>
           <td></td>
@@ -269,7 +269,7 @@
             else{
                 $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("商品期货")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("期货")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");
             }
             else{

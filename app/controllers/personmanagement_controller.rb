@@ -134,7 +134,7 @@ class PersonmanagementController < ApplicationController
         render :json => "s1".to_json
       else
         @personalfinance=Personalfinance.find_by_username(params[:username])
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo])
         session[:personname]=params[:username]
         render :json => "s2".to_json
       end

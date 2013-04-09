@@ -23,7 +23,10 @@ class HomeController < ApplicationController
       if @personalfinance!=nil
         session[:personname]=@personalfinance.username
       end
-      if @webuser2.risktolerance==nil && params[:username]==nil
+      if @webuser2.risktolerance==nil && params[:username]==nil && cookies[:asset_allocation]==nil
+        redirect_to(:controller=>"home", :action=>"questions")
+      end
+      if @webuser2.risktolerance==nil && params[:username]==session[:webusername]
         redirect_to(:controller=>"home", :action=>"questions")
       end
     elsif cookies[:asset_allocation]==nil && params[:username]==nil

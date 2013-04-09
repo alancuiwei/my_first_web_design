@@ -10,252 +10,255 @@
     <style>.welcomes{width: 97%;padding: 20px;}</style>
 <% end %>
 <div class="welcomes">
-  <% if @webuser.username!='admin' %>
-      <div class="bs-docs-example">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#">家庭理财规划</a></li>
-          <% if session[:webusername]!=nil %>
-              <% if params[:username]!=nil %>
-                  <% if session[:personname]!=0 %>
-                      <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
-                  <% else %>
-                      <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
-                  <% end %>
-              <% else %>
-                  <% if session[:personname]!=0 %>
-                      <li><a href="/personmanagement/personfinance?username=<%= session[:webusername] %>">个人投资信息</a></li>
-                  <% else %>
-                      <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
-                  <% end %>
-              <% end %>
-          <% else %>
-              <% if params[:username]!=nil %>
-                  <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
-              <% else %>
-                  <li><a href="/home">个人投资信息</a></li>
-              <% end %>
-          <% end %>
-        </ul>
-      </div>
-  <% end %>
-  <div id="page-wrapper">
-    <div id="top-tabs">
-      <div class="top-tabs-content">
-        <a href="/home/questions"><b>1.</b> <span>测试您的风险承受度</span></a> &nbsp;>&nbsp;
-
-        <b>2.</b> <span>查看您的理财规划方案</span>
-        <!--
-        <i class="separator icon-chevron-right disabled"></i>
-        <span class="disabled"><b>3.</b> <span>开通帐号</span></span>
-         -->
-      </div>
+<% if @webuser.username!='admin' %>
+    <div class="bs-docs-example">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#">家庭理财规划</a></li>
+        <% if session[:webusername]!=nil %>
+            <% if params[:username]!=nil %>
+                <% if session[:personname]!=0 %>
+                    <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
+                <% else %>
+                    <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
+                <% end %>
+            <% else %>
+                <% if session[:personname]!=0 %>
+                    <li><a href="/personmanagement/personfinance?username=<%= session[:webusername] %>">个人投资信息</a></li>
+                <% else %>
+                    <li><a href="/personmanagement/personinfo/0">个人投资信息</a></li>
+                <% end %>
+            <% end %>
+        <% else %>
+            <% if params[:username]!=nil %>
+                <li><a href="/personmanagement/personfinance?username=<%= params[:username] %>">个人投资信息</a></li>
+            <% else %>
+                <li><a href="/home">个人投资信息</a></li>
+            <% end %>
+        <% end %>
+      </ul>
     </div>
-    <div id="page-content">
-      <% if @webuser.risktolerance!=nil %>
-      <div class="classy plan-content">
-        <div class="plan-column left">
-          <div id="container" style="margin-left: 50px;"></div>
-          <p id="first" style="font-size: 16px;padding-left: 20px;"></p>
-          <!--
-          <div class="risk-control">
-            <button id="risk-down" class="risk-adjust icon-minus"></button>
-            <input id="risk-number">
-            <button id="risk-up" class="risk-adjust icon-plus"></button>
-          </div>
-          -->
-          <% if cookies[:asset_allocation]!=nil %>
-          <div id="revert-risk-msg" style="visibility: hidden;">(初始测试值为 <a href="javascript:" id="revert-risk"><%= cookies[:asset_allocation].split('|')[3] %></a>)</div>
-          <% end %>
-          <div id="risk-warning" style="display: none;">风险高于推荐</div>
-          <a href="/home/questions" id="change-answers">修改我的答案</a>
-          <hr style="margin-left:14px; margin-right:14px">
-          <p class="amount-to-invest-label sidebar-label">投资金额</p>
-          <input type="text" id="amount-to-invest" height="38">
-          <p>(最低50000元)</p>
-          <span class="ktip-link" id="faq-amount"><a class="demo-tip-yellowsimple" title=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
-        </div>
-        <div class="plan-column center">
-          <div class="account-types">
-            <div class="account-type-tab active" id="taxable-account-type">
-              <% if @webuser.username == session[:webusername] %>
-                  <p><span class="product">您的理财规划方案</span></p>
-              <% else %>
-                  <p><span class="product"><%= @webuser.username %>的理财规划方案</span></p>
+<% end %>
+<div id="page-wrapper">
+<div id="top-tabs">
+  <div class="top-tabs-content">
+    <a href="/home/questions"><b>1.</b> <span>测试您的风险承受度</span></a> &nbsp;>&nbsp;
+
+    <b>2.</b> <span>查看您的理财规划方案</span>
+    <!--
+   <i class="separator icon-chevron-right disabled"></i>
+   <span class="disabled"><b>3.</b> <span>开通帐号</span></span>
+    -->
+  </div>
+</div>
+<div id="page-content">
+<div class="classy plan-content">
+  <div class="plan-column left">
+
+        <div id="container" style="margin-left: 50px;"></div>
+
+    <!--
+    <div class="risk-control">
+      <button id="risk-down" class="risk-adjust icon-minus"></button>
+      <input id="risk-number">
+      <button id="risk-up" class="risk-adjust icon-plus"></button>
+    </div>
+    -->
+    <% if cookies[:asset_allocation]!=nil %>
+        <div id="revert-risk-msg" style="visibility: hidden;">(初始测试值为 <a href="javascript:" id="revert-risk"><%= cookies[:asset_allocation].split('|')[3] %></a>)</div>
+    <% end %>
+    <div id="risk-warning" style="display: none;">风险高于推荐</div>
+    <a href="/home/questions" id="change-answers">修改我的答案</a>
+    <hr style="margin-left:14px; margin-right:14px">
+    <p class="amount-to-invest-label sidebar-label">投资金额</p>
+    <input type="text" id="amount-to-invest" height="38">
+    <p>(最低50000元)</p>
+    <span class="ktip-link" id="faq-amount"><a class="demo-tip-yellowsimple" title=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
+  </div>
+  <div class="plan-column center">
+    <div class="account-types">
+      <div class="account-type-tab active" id="taxable-account-type">
+        <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
+            <p><span class="product">您的理财规划方案</span></p>
+        <% elsif @webuser.username!='admin' %>
+            <p><span class="product"><%= @webuser.username %>的理财规划方案</span>
+              <% if @webuser.risktolerance==nil && params[:username]!=nil %>
+                (该用户尚未配置其理财规划方案)
               <% end %>
-              <p class="product-description">仅为个人或家庭服务</p>
+            </p>
+        <% else %>
+            <p><span class="product">您的理财规划方案</span></p>
+        <% end %>
+        <p class="product-description">仅为个人或家庭服务</p>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="plan-details">
+      <section id="asset-allocation" class="">
+        <table style="width: 100%;">
+          <tr><td style="width: 135px;">
+            <div class="allocation-chart-container">
+              <div id="container2" style="width: 130px;height: 130px;"></div>
+              <ul class="allocation-questions">
+                <li><span class="ktip-link right" id="faq-mix"><a class="demo-tip-yellowsimple" title=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为何如此规划?</a></span></li>
+
+                <li><span class="ktip-link right" id="faq-change"><a class="demo-tip-yellowsimple" title=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
+              </ul>
             </div>
-            <div class="clearfix"></div>
-          </div>
-
-          <div class="plan-details">
-            <section id="asset-allocation" class="">
-              <table style="width: 100%;">
-                <tr><td style="width: 135px;">
-                  <div class="allocation-chart-container">
-                    <div id="container2" style="width: 130px;height: 130px;"></div>
-                    <ul class="allocation-questions">
-                      <li><span class="ktip-link right" id="faq-mix"><a class="demo-tip-yellowsimple" title=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为何如此规划?</a></span></li>
-
-                      <li><span class="ktip-link right" id="faq-change"><a class="demo-tip-yellowsimple" title=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
-                    </ul>
-                  </div>
-                </td><td>
-                  <table id="allocation" class="table allocation report apply-asset-class-colors">
-                    <thead>
-                    <tr>
-                      <th></th>
-                      <th>投资品种</th>
-                      <th class="number">%</th>
-                      <th class="number">总额</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="" data-type="US_STOCKS">
-                      <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                      <td class="asset-class-name">
-                        <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
-                      </td>
-                      <td class="asset-class-percentage number" id="f1">43%</td>
-                      <td class="asset-class-amount number" id="f2">￥21,501</td>
-                    </tr>
-                    <tr class="" data-type="INTL_EMERGING">
-                      <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
-                      <td class="asset-class-name">
+          </td><td>
+            <table id="allocation" class="table allocation report apply-asset-class-colors">
+              <thead>
+              <tr>
+                <th></th>
+                <th>投资品种</th>
+                <th class="number">%</th>
+                <th class="number">总额</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr class="" data-type="US_STOCKS">
+                <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                <td class="asset-class-name">
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
+                </td>
+                <td class="asset-class-percentage number" id="f1">43%</td>
+                <td class="asset-class-amount number" id="f2">￥21,501</td>
+              </tr>
+              <tr class="" data-type="INTL_EMERGING">
+                <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
+                <td class="asset-class-name">
                     <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="国债、企业债：储蓄式国债收益率高于银行存款，安全性最高，流动性一般，可提前支取但是收益率需要打折扣。储蓄式国债的一个缺点是供不应求，在银行柜台难买的到。<br>
 企业债和公司债：迄今为止事实上的违约风险为零，从来没有发生过违约事件。中国严格的债券审批机制决定了债券在现阶段是一个风险极低但收益率又显著高于银行存款和国债的投资工具。不过做债券是需要面临价格波动风险的，因此如果没有一定专业知识基础或无专业人士指导，不建议中短期的投资行为。">国债、企业债</a></span>
-                      </td>
-                      <td class="asset-class-percentage number" id="s1">14%</td>
-                      <td class="asset-class-amount number" id="s2">￥4,000</td>
-                    </tr>
-                    <tr class="" data-type="DIV_STOCKS">
-                      <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
-                      <td class="asset-class-name">
-                        <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
-                      </td>
-                      <td class="asset-class-percentage number" id="t1">8%</td>
-                      <td class="asset-class-amount number" id="t2">￥7,000</td>
-                    </tr>
+                </td>
+                <td class="asset-class-percentage number" id="s1">14%</td>
+                <td class="asset-class-amount number" id="s2">￥4,000</td>
+              </tr>
+              <tr class="" data-type="DIV_STOCKS">
+                <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
+                <td class="asset-class-name">
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
+                </td>
+                <td class="asset-class-percentage number" id="t1">8%</td>
+                <td class="asset-class-amount number" id="t2">￥7,000</td>
+              </tr>
 
-                    <tr class="" data-type="MUNI_BONDS">
-                      <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                      <td class="asset-class-name">
-                        <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
-                      </td>
-                      <td class="asset-class-percentage number" id="a1">35%</td>
-                      <td class="asset-class-amount number" id="a2">￥17,501</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </td></tr></table>
-              <div class="clearfix"></div>
-            </section>
-          </div>
-          <table>
-           <% @provides.each do |b| %>
-                <tr>
-                  <td>
-                    <div class="account-types">
-                      <div class="account-type-tab active taxable-account-type">
-                        <p><span class="product">专家建议</span></p>
-                        <p class="product-description">仅为个人或家庭服务</p>
+              <tr class="" data-type="MUNI_BONDS">
+                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                <td class="asset-class-name">
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
+                </td>
+                <td class="asset-class-percentage number" id="a1">35%</td>
+                <td class="asset-class-amount number" id="a2">￥17,501</td>
+              </tr>
+              </tbody>
+            </table>
+          </td></tr></table>
+        <div class="clearfix"></div>
+      </section>
+    </div>
+    <table>
+      <% @provides.each do |b| %>
+          <tr>
+            <td>
+              <div class="account-types">
+                <div class="account-type-tab active taxable-account-type">
+                  <p><span class="product">专家建议</span></p>
+                  <p class="product-description">仅为个人或家庭服务</p>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </td>
+            <td>
+              <p class="product-description" style="margin-top: 20px;"><%= b.company %>-<%= b.managename %></p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="plan-details">
+                <section id="asset-allocation" class="">
+                  <table style="width: 100%;">
+                    <tr><td style="width: 135px;">
+                      <div class="allocation-chart-container">
+                        <div id="container<%= b.id %>" style="width: 130px;height: 130px;"></div>
                       </div>
-                      <div class="clearfix"></div>
-                    </div>
-                  </td>
-                  <td>
-                    <p class="product-description" style="margin-top: 20px;"><%= b.company %>-<%= b.managename %></p>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <div class="plan-details">
-                      <section id="asset-allocation" class="">
-                        <table style="width: 100%;">
-                          <tr><td style="width: 135px;">
-                            <div class="allocation-chart-container">
-                              <div id="container<%= b.id %>" style="width: 130px;height: 130px;"></div>
-                            </div>
-                          </td><td>
-                            <table id="table<%= b.id %>" class="table allocation report apply-asset-class-colors">
-                              <thead>
-                              <tr>
-                                <th></th>
-                                <th>投资品种</th>
-                                <th class="number">%</th>
-                                <th class="number">总额</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr class="" data-type="US_STOCKS">
-                                <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                                <td class="asset-class-name">
-                                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
-                                </td>
-                                <td class="asset-class-percentage number"><%= format("%0.0f",b.stock*100) %>%</td>
-                                <td class="asset-class-amount number">￥<%= format("%0.0f",b.stock*50000) %></td>
-                              </tr>
-                              <tr class="" data-type="INTL_EMERGING">
-                                <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
-                                <td class="asset-class-name">
+                    </td><td>
+                      <table id="table<%= b.id %>" class="table allocation report apply-asset-class-colors">
+                        <thead>
+                        <tr>
+                          <th></th>
+                          <th>投资品种</th>
+                          <th class="number">%</th>
+                          <th class="number">总额</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="" data-type="US_STOCKS">
+                          <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                          <td class="asset-class-name">
+                            <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
+                          </td>
+                          <td class="asset-class-percentage number"><%= format("%0.0f",b.stock*100) %>%</td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.stock*50000) %></td>
+                        </tr>
+                        <tr class="" data-type="INTL_EMERGING">
+                          <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
+                          <td class="asset-class-name">
                                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="国债、企业债：储蓄式国债收益率高于银行存款，安全性最高，流动性一般，可提前支取但是收益率需要打折扣。储蓄式国债的一个缺点是供不应求，在银行柜台难买的到。<br>
                               企业债和公司债：迄今为止事实上的违约风险为零，从来没有发生过违约事件。中国严格的债券审批机制决定了债券在现阶段是一个风险极低但收益率又显著高于银行存款和国债的投资工具。不过做债券是需要面临价格波动风险的，因此如果没有一定专业知识基础或无专业人士指导，不建议中短期的投资行为。">国债、企业债</a></span>
-                                </td>
-                                <td class="asset-class-percentage number"><%= format("%0.0f",b.debt*100) %>%</td>
-                                <td class="asset-class-amount number">￥<%= format("%0.0f",b.debt*50000) %></td>
-                              </tr>
-                              <tr class="" data-type="DIV_STOCKS">
-                                <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
-                                <td class="asset-class-name">
-                                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
-                                </td>
-                                <td class="asset-class-percentage number"><%= format("%0.0f",b.trust*100) %>%</td>
-                                <td class="asset-class-amount number">￥<%= format("%0.0f",b.trust*50000) %></td>
-                              </tr>
+                          </td>
+                          <td class="asset-class-percentage number"><%= format("%0.0f",b.debt*100) %>%</td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.debt*50000) %></td>
+                        </tr>
+                        <tr class="" data-type="DIV_STOCKS">
+                          <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
+                          <td class="asset-class-name">
+                            <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
+                          </td>
+                          <td class="asset-class-percentage number"><%= format("%0.0f",b.trust*100) %>%</td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.trust*50000) %></td>
+                        </tr>
 
-                              <tr class="" data-type="MUNI_BONDS">
-                                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                                <td class="asset-class-name">
-                                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
-                                </td>
-                                <td class="asset-class-percentage number"><%= format("%0.0f",b.bankfinance*100) %>%</td>
-                                <td class="asset-class-amount number">￥<%= format("%0.0f",b.bankfinance*50000) %></td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </td></tr></table>
-                        <div class="clearfix"></div>
-                      </section>
-                    </div>
-                  </td>
-                </tr>
-              <% if @webuser.username == session[:webusername] %>
-                <tr>
-                  <td></td>
-                  <td class="pull-right"><%= link_to "报告下载",:action=>"download",:id=>"data",:filename=>b.filename %></td>
-                </tr>
-              <% end %>
-           <% end %>
-          </table>
-        </div>
-        <% if @webuser.username=='admin' %>
-            <div class="plan-column right">
-              <div style="position:relative;width: 204px;">
-                <div id="position-saver">
-                  <div class="open-account-container">
-                    <p class="open-account-intro">保存您的理财规划方案</p> <br><br>
-                    <a class="login-window" href="#login-box">保存</a> <br><br>
-                    <a id="save-your-plan" href="javascript:">让我们为您投资</a>
-                  </div>
-                </div>
+                        <tr class="" data-type="MUNI_BONDS">
+                          <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                          <td class="asset-class-name">
+                            <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
+                          </td>
+                          <td class="asset-class-percentage number"><%= format("%0.0f",b.bankfinance*100) %>%</td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.bankfinance*50000) %></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </td></tr></table>
+                  <div class="clearfix"></div>
+                </section>
               </div>
-            </div>
-        <% end %>
-      </div>
-      <% else %>
-        <h1>该用户尚未配置其家庭理财计划</h1>
+            </td>
+          </tr>
+          <% if @webuser.username == session[:webusername] %>
+              <tr>
+                <td></td>
+                <td class="pull-right"><%= link_to "报告下载",:action=>"download",:id=>"data",:filename=>b.filename %></td>
+              </tr>
+          <% end %>
       <% end %>
-    </div>
+    </table>
   </div>
+  <% if @webuser.username=='admin' %>
+      <div class="plan-column right">
+        <div style="position:relative;width: 204px;">
+          <div id="position-saver">
+            <div class="open-account-container">
+              <p class="open-account-intro">保存您的理财规划方案</p> <br><br>
+              <a class="login-window" href="#login-box">保存</a> <br><br>
+              <a id="save-your-plan" href="javascript:">让我们为您投资</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+</div>
+</div>
+</div>
 </div>
 
 <div id='login-box' class='login-popup'>
@@ -307,10 +310,12 @@
                         },
 
                         title: {
-                            <% if @webuser.username == session[:webusername] %>
-                            text: '您的风险承受度',
+                            <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
+                            text: '您的风险承受度:'+dataArray2,
+                            <% elsif @webuser.username!='admin' %>
+                            text: '<%= @webuser.username %>的风险承受度:'+dataArray2,
                             <% else %>
-                            text: '<%= @webuser.username %>的风险承受度'
+                            text: '您的风险承受度:'+dataArray2
                             <% end %>
                         },
 
@@ -429,7 +434,7 @@
     <% if @webuser.username!='admin' %>
     var aa=0;
     <% if @webuser.risktolerance!=nil %>
-       aa=<%= @webuser.risktolerance %>;
+    aa=<%= @webuser.risktolerance %>;
     <% end %>
     if (aa<0.5){
         aa=0.5;
@@ -438,17 +443,14 @@
     b=rate[Math.round(2*aa)-1][1]
     c=rate[Math.round(2*aa)-1][2]
     d=rate[Math.round(2*aa)-1][3]
-    $("#first").html("("+aa+")")
     <% else %>
     <% if cookies[:asset_allocation]!=nil %>
     var aa=<%= cookies[:asset_allocation].split('|')[3] %>;
-    $("#first").html("("+"<%= cookies[:asset_allocation].split('|')[3] %>"+")")
     <% else %>
     var aa=0;
     <% if @webuser.risktolerance!=nil %>
     aa=<%= @webuser.risktolerance %>;
     <% end %>
-    $("#first").html("("+"<%= @webuser.risktolerance %>"+")")
     <% end %>
     if (aa<0.5){
         aa=0.5;
@@ -612,6 +614,8 @@
         }
         else{
             var returnrate=0;
+            var investcycle=0;
+            var wbreedinfo="";
         <% if cookies[:asset_allocation]!=nil %>
 
             if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
@@ -623,13 +627,25 @@
             else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
                 returnrate=0.15;
             }
+
+            if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
+
+            if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+
             $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0
+                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo
             },function(data){
             });
         <% end %>
         <% if cookies[:asset_allocation]!=nil %>
-          var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+            var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
         <% else %>
             var risktolerance='<%= @webuser.risktolerance %>';
         <% end %>
@@ -684,7 +700,6 @@
         b=rate[Math.round(2*aa)-1][1]
         c=rate[Math.round(2*aa)-1][2]
         d=rate[Math.round(2*aa)-1][3]
-        $("#first").html("("+aa+")")
         <% else %>
         <% if cookies[:asset_allocation]!=nil %>
         var aa=<%= cookies[:asset_allocation].split('|')[3] %>;
@@ -698,7 +713,6 @@
         b=rate[Math.round(2*aa)-1][1]
         c=rate[Math.round(2*aa)-1][2]
         d=rate[Math.round(2*aa)-1][3]
-        $("#first").html("("+aa+")")
         <% end %>
         $("#f1").html(parseInt(a*100)+"%")
         $("#s1").html(parseInt(b*100)+"%")
@@ -779,10 +793,10 @@
         $("#t2").html("￥"+parseInt(c*amt))
         $("#a2").html("￥"+parseInt(d*amt))
         <% @provides.each do |b| %>
-            $("#table<%= b.id %> tr:eq(1) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(1) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(1) td:eq(2)").html().length-1))*amt/100))
-            $("#table<%= b.id %> tr:eq(2) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(2) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(2) td:eq(2)").html().length-1))*amt/100))
-            $("#table<%= b.id %> tr:eq(3) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(3) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(3) td:eq(2)").html().length-1))*amt/100))
-            $("#table<%= b.id %> tr:eq(4) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(4) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(4) td:eq(2)").html().length-1))*amt/100))
+        $("#table<%= b.id %> tr:eq(1) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(1) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(1) td:eq(2)").html().length-1))*amt/100))
+        $("#table<%= b.id %> tr:eq(2) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(2) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(2) td:eq(2)").html().length-1))*amt/100))
+        $("#table<%= b.id %> tr:eq(3) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(3) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(3) td:eq(2)").html().length-1))*amt/100))
+        $("#table<%= b.id %> tr:eq(4) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(4) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(4) td:eq(2)").html().length-1))*amt/100))
         <% end %>
     });
 </script>
