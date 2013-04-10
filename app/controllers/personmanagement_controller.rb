@@ -6,8 +6,7 @@ class PersonmanagementController < ApplicationController
       if params[:id]!="0"
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
         @personal[0]=@personalfinance.age
-        @personal[1]=@personalfinance.company
-        @personal[2]=@personalfinance.post
+        @personal[1]=@personalfinance.trade
         @personal[3]=@personalfinance.email
         @personal[4]=@personalfinance.investamount
         @personal[5]=@personalfinance.investcycle
@@ -109,7 +108,12 @@ class PersonmanagementController < ApplicationController
 
   def personconfigajax
     if params[:id]=="0"
+      render :json => "f".to_json
+      if session[:webusername]==nil
       @personalfinance=Personalfinance.find_by_username(params[:username])
+      else
+        @personalfinance=Personalfinance.find_by_username(session[:webusername])
+      end
       if @personalfinance==nil
         Personalfinance.new do |b|
           b.username=params[:username]
@@ -117,34 +121,32 @@ class PersonmanagementController < ApplicationController
           b.investamount=params[:investamount]
           b.investcycle=params[:investcycle]
           b.returnrate=params[:returnrate]
-          b.company=params[:company]
           b.age=params[:age]
           b.riskrate=params[:riskrate]
           b.investvarieties=params[:investvarieties]
           b.wbreedinfo=params[:wbreedinfo]
           b.name=params[:name]
-          b.post=params[:post]
           b.contact=params[:contact]
           b.myfavorite=params[:myfavorite]
           b.tel=params[:tel]
           b.memberlevel=params[:memberlevel]
+          b.trade=params[:trade]
           b.save
         end
         session[:personname]=params[:username]
         render :json => "s1".to_json
       else
-        @personalfinance=Personalfinance.find_by_username(params[:username])
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade])
         session[:personname]=params[:username]
         render :json => "s2".to_json
       end
     else
       @personalfinance=Personalfinance.find_by_username(session[:webusername])
       @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
-                                         :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:company=>params[:company],
+                                         :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:trade=>params[:trade],
                                          :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
-                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:post=>params[:post],
-                                         :contact=>params[:contact],:myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
+                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:contact=>params[:contact],
+                                         :myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
       render :json => "s1".to_json
     end
   end

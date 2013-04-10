@@ -31,13 +31,35 @@ class HomeController < ApplicationController
       end
     elsif cookies[:asset_allocation]==nil && params[:username]==nil
       redirect_to(:controller=>"home", :action=>"index")
+    else
+      @webuser2=Webuser.find_by_username('admin')
     end
-    if params[:username]!=nil
+    if params[:user]!=nil && cookies[:asset_allocation]!=nil && session[:webusername]!=nil
+        @provides=Provide.find_all_by_username(session[:webusername])
+        @invest=cookies[:asset_allocation].split('|')[5]
+    elsif params[:username]!=nil
       @provides=Provide.find_all_by_username(params[:username])
+      @personal=Personalfinance.find_by_username(params[:username])
+      if @personal!=nil
+        @invest=@personal.investamount
+      else
+        @invest=50000
+      end
     elsif session[:webusername]!=nil
       @provides=Provide.find_all_by_username(session[:webusername])
+      @personal=Personalfinance.find_by_username(session[:webusername])
+      if @personal!=nil
+        @invest=@personal.investamount
+      else
+        @invest=50000
+      end
     else
       @provides=Provide.find_all_by_username('admin')
+      if cookies[:asset_allocation]!=nil
+        @invest=cookies[:asset_allocation].split('|')[5]
+      else
+        @invest=50000
+      end
     end
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
@@ -56,7 +78,15 @@ class HomeController < ApplicationController
         redirect_to(:controller=>"home", :action=>"questions")
       end
   end
-end
+  end
+
+  def questions
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+    else
+      @webuser=Webuser.find_by_username('admin')
+    end
+  end
 
   def download
     send_file "app/assets/download/"+params[:filename] unless params[:filename].blank?

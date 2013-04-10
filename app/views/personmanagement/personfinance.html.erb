@@ -31,7 +31,7 @@
       <h2 class="h2">个人信息：</h2>
       <table class="table table-striped table-bordered">
         <thead><tr>
-          <th>用户名</th><th>年龄</th><th>公司</th><th>职务</th><th>流动总资金</th>
+          <th>用户名</th><th>年龄</th><th>所在行业</th><th>流动总资金</th>
           <% if session[:webusername]== @personalfinance.username%>
               <th>操作</th>
           <% end %>
@@ -39,8 +39,7 @@
         <tr>
           <td><%= @personalfinance.username%></td>
           <td><%= format("%0.0f",@personalfinance.age)%></td>
-          <td><%= @personalfinance.company%></td>
-          <td><%= @personalfinance.post%></td>
+          <td><%= @personalfinance.trade%></td>
           <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
           <% if session[:webusername]== @personalfinance.username%>
               <td><a href="/personmanagement/personinfo/1">修改</a></td>

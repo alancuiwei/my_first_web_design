@@ -300,7 +300,11 @@
       render :json => "s2".to_json
     end
   end
-
+  def risktoleranceajax
+    @webuser=Webuser.find_by_username(params[:username])
+    @webuser.update_attributes(:risktolerance=>params[:risktolerance])
+    render :json => "f".to_json
+  end
  # def email
  #     UserMailer.confirm(params[:username]).deliver
  #  end

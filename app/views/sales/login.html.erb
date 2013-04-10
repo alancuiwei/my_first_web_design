@@ -14,7 +14,7 @@
       <a href="/">首页</a>
       <div class="normal">
         <h1 class="h1">注册</h1>
-        <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+        <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
           <dl class="dl-horizontal">
             <dt>用户名 *:</dt>
             <dd><input id="username" class="input_menum" name="MMERGE3" placeholder="用户名" type="text"></dd>
@@ -132,6 +132,15 @@
     $("#mc-embedded-subscribe").click(function(){
         userconfig('#username','#password');
     })
+    function func(){
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var name=/^\D.{2}.*$/;
+        if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email2').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email2').attr("value"))){
+            return false;
+        }else{
+            return true;
+        }
+    }
     function userconfig(uid,pid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
         var name=/^\D.{2}.*$/;

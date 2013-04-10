@@ -42,7 +42,7 @@
       </div>
 
       <div id="questionnaire-view">
-        <form id="questionnaire" action="/home/plan" method="post">
+        <form id="questionnaire" action="" method="post">
           <div class="question first">
             <p class="q-text">当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</p>
             <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>卖掉所有股票</span></label>
@@ -153,7 +153,7 @@
           </div>
           <div class="question">
             <p class="q-text">您会将1/4或更高比例的资金委托给我们来指导投资嘛?</p>
-            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>是</span></label> &nbsp;
+            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>是</span></label>
             <label><input type="radio" name="goal" value="false" tabindex="-1"><span>否</span></label>
             <p class="why-do-we-ask">
               <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 您委托我们给出投资建议的资金将会是中长期投资。如果你需要资金返还越快，则意味着您不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
@@ -300,6 +300,11 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
+                        <% if session[:webusername] != nil %>
+                            document.getElementById('questionnaire').action ="/home/plan?user=1";
+                        <% else %>
+                            document.getElementById('questionnaire').action ="/home/plan";
+                        <% end %>
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());
                         $qr.submit();
                     });

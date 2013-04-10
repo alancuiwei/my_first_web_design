@@ -47,7 +47,7 @@
     <thead>
     <tr>
       <th>会员名</th><th>资金量</th>
-      <th>股票</th><th>基金</th><th>保险</th><th>商品期货</th><th>银行理财产品</th>
+      <th>基金</th><th>保险</th><th>商品期货</th><th>银行理财产品</th>
       <th class="hide">感兴趣的产品</th><th>信托产品</th><th class="hide">信托</th>
       <% if session[:webusername]==@webuser.username %>
           <th>操作</th>
@@ -58,7 +58,6 @@
         <tr>
           <td class="white"><a href="/home/plan?username=<%=  @hash[@personalfinance[i].username][1]%>"><%=  @hash[@personalfinance[i].username][1]%></a></td>
           <td class="white"><%= format("%0.0f",  @hash[@personalfinance[i].username][2]) %></td>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -119,10 +118,10 @@
     <h1>提供方案<span class="hide" id="name"></span></h1>
     <table>
       <tr>
-        <td>股票、基金：</td>
+        <td>基金：</td>
         <td>
           <div class="input-append">
-            <input id="stock" type="text" title="股票、基金" name="stock">
+            <input id="stock" type="text" title="基金" name="stock">
             <span class="add-on">%</span>
           </div>
         </td>
@@ -251,38 +250,32 @@
     $(document).ready(function(){
         var length=$("#invsetor").find("tr").size();
         for(i=1;i<length;i++){
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("股票")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("基金")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(2)").addClass("red");
             }
             else{
                 $("#invsetor tr:eq("+i+") td:eq(2)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("基金")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("保险")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(3)").addClass("red");
             }
             else{
                 $("#invsetor tr:eq("+i+") td:eq(3)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("保险")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("期货")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(4)").addClass("red");
             }
             else{
                 $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("期货")>=0){
+            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("银行理财产品")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");
             }
             else{
                 $("#invsetor tr:eq("+i+") td:eq(5)").addClass("white");
             }
-            if($("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("银行理财产品")>=0){
-                $("#invsetor tr:eq("+i+") td:eq(6)").addClass("red");
-            }
-            else{
-                $("#invsetor tr:eq("+i+") td:eq(6)").addClass("white");
-            }
-            if( ($("#invsetor tr:eq("+i+") td:eq(9)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(9)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(7)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(8)").addClass("red");}
-            else{$("#invsetor tr:eq("+i+") td:eq(8)").addClass("white");}
+            if( ($("#invsetor tr:eq("+i+") td:eq(8)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(8)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("red");}
+            else{$("#invsetor tr:eq("+i+") td:eq(7)").addClass("white");}
         }
     });
 

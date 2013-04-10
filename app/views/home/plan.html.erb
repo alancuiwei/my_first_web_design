@@ -119,7 +119,7 @@
               <tr class="" data-type="US_STOCKS">
                 <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                 <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">基金</a></span>
                 </td>
                 <td class="asset-class-percentage number" id="f1">43%</td>
                 <td class="asset-class-amount number" id="f2">￥21,501</td>
@@ -195,10 +195,10 @@
                         <tr class="" data-type="US_STOCKS">
                           <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                           <td class="asset-class-name">
-                            <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="股票、基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">股票、基金</a></span>
+                            <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="基金：大家普通接触得到的品种类型，可以满足不同风险偏好、投资期限和流动性偏好的投资者的需求。">基金</a></span>
                           </td>
                           <td class="asset-class-percentage number"><%= format("%0.0f",b.stock*100) %>%</td>
-                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.stock*50000) %></td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.stock*@invest) %></td>
                         </tr>
                         <tr class="" data-type="INTL_EMERGING">
                           <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
@@ -207,7 +207,7 @@
                               企业债和公司债：迄今为止事实上的违约风险为零，从来没有发生过违约事件。中国严格的债券审批机制决定了债券在现阶段是一个风险极低但收益率又显著高于银行存款和国债的投资工具。不过做债券是需要面临价格波动风险的，因此如果没有一定专业知识基础或无专业人士指导，不建议中短期的投资行为。">国债、企业债</a></span>
                           </td>
                           <td class="asset-class-percentage number"><%= format("%0.0f",b.debt*100) %>%</td>
-                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.debt*50000) %></td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.debt*@invest) %></td>
                         </tr>
                         <tr class="" data-type="DIV_STOCKS">
                           <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
@@ -215,7 +215,7 @@
                             <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="信托：预期收益率高，一般在7%-12%左右，流动性差。信托公司有着严格的风险控制措施，对于项目会进行尽职调查，且让融资方提供抵押担保物，即使融资方最终无力偿还，其所提供的担保物可以部分或全部覆盖融资金额和收益。另一方面，信托业有个潜规则“刚性兑付”，就是说即使之前所有的风控措施最终还是不足以支付投资者足够的本金和利息，信托公司也可能自愿掏腰包补上差额，为的就是维护自己的信誉和形象。起点金额高，100万、300万起。">信托</a></span>
                           </td>
                           <td class="asset-class-percentage number"><%= format("%0.0f",b.trust*100) %>%</td>
-                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.trust*50000) %></td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.trust*@invest) %></td>
                         </tr>
 
                         <tr class="" data-type="MUNI_BONDS">
@@ -224,7 +224,7 @@
                             <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="银行理财产品：固定收益类的银行理财产品，收益率一般高于存款和国债，但是流动性较差，必须持有到期，安全性多数情况下不需要担心，因为有银行信用在里面。银行理财一般适合于投资期限一年以内的情况。起点金额5万、10万、30万都有，相对较高。除了固定期限、固定收益的理财产品，现在也有不少的银行理财是属于期限灵活可变、收益率浮动的产品。具体的安全性和收益性，就得看投资方向了，这个可以通过产品说明书或借助理财经理进行分析。">银行理财产品</a></span>
                           </td>
                           <td class="asset-class-percentage number"><%= format("%0.0f",b.bankfinance*100) %>%</td>
-                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.bankfinance*50000) %></td>
+                          <td class="asset-class-amount number">￥<%= format("%0.0f",b.bankfinance*@invest) %></td>
                         </tr>
                         </tbody>
                       </table>
@@ -264,7 +264,7 @@
 <div id='login-box' class='login-popup'>
   <div class="popup">
     <a class="close" href="javascript:">×</a>
-    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
       <h1>保存您的理财规划方案</h1>
       <p>输入您的电子邮箱以及登录密码，我们将把您的理财规划方案链接地址发送给您，你以后直接登录后就可以查看您的方案，并查看到其他理财专家给您的建议。</p>
       <input id="email" type="text" name="EMAIL" placeholder="电子邮箱地址"><br>
@@ -594,6 +594,16 @@
         userconfig('#username','#password','#email');
     })
 
+    function func(){
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var name=/^\D.{2}.*$/;
+        if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email').attr("value"))){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     function userconfig(uid,pid,eid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
         var name=/^\D.{2}.*$/;
@@ -616,6 +626,7 @@
             var returnrate=0;
             var investcycle=0;
             var wbreedinfo="";
+            var trade="";
         <% if cookies[:asset_allocation]!=nil %>
 
             if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
@@ -639,8 +650,17 @@
             if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
             if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
 
+            if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
+
             $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo
+                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade
             },function(data){
             });
         <% end %>
@@ -684,6 +704,53 @@
 
 <script>
     window.onload=function(){
+        <% if params[:user]!=nil %>
+        var returnrate=0;
+        var investcycle=0;
+        var wbreedinfo="";
+        var trade="";
+        <% if cookies[:asset_allocation]!=nil %>
+
+        if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
+            returnrate=0.05;
+        }
+        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
+            returnrate=0.1;
+        }
+        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
+            returnrate=0.15;
+        }
+
+        if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
+
+        if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+
+        if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
+
+        $.post("/personmanagement/personconfigajax/0",{ username:'<%= session[:webusername] %>',age: '<%= cookies[:asset_allocation].split('|')[4] %>',
+            email: '<%= @webuser2.email %>',investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade
+        },function(data){
+        });
+        var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+
+        $.get("/admin/risktoleranceajax",{username:'<%= session[:webusername] %>',risktolerance:risktolerance},function(data){
+        });
+        <% end %>
+        <% end %>
         var rate = [[0.38,0.05,0.22,0.35],[0.48,0.05,0.12,0.35],[0.48,0.05,0.12,0.35],[0.47,0.05,0.13,0.35],[0.46,0.05,0.14,0.35],
             [0.45,0.06,0.14,0.35],[0.43,0.08,0.14,0.35],[0.43,0.09,0.13,0.35],[0.46,0.11,0.1,0.33],[0.48,0.12,0.11,0.29],
             [0.5,0.13,0.11,0.26],[0.52,0.14,0.11,0.23],[0.53,0.15,0.11,0.21],[0.55,0.15,0.12,0.18],[0.56,0.16,0.13,0.15],
@@ -718,11 +785,11 @@
         $("#s1").html(parseInt(b*100)+"%")
         $("#t1").html(parseInt(c*100)+"%")
         $("#a1").html(parseInt(d*100)+"%")
-        $("#f2").html("￥"+parseInt(a*50000))
-        $("#s2").html("￥"+parseInt(b*50000))
-        $("#t2").html("￥"+parseInt(c*50000))
-        $("#a2").html("￥"+parseInt(d*50000))
-        $("#amount-to-invest").val(50000)
+        $("#f2").html("￥"+parseInt(a*<%= @invest %>))
+        $("#s2").html("￥"+parseInt(b*<%= @invest %>))
+        $("#t2").html("￥"+parseInt(c*<%= @invest %>))
+        $("#a2").html("￥"+parseInt(d*<%= @invest %>))
+        $("#amount-to-invest").val(<%= @invest %>)
         <% if session[:webusername]!=nil %>
         $("#email").val('<%= @user.email %>')
         $("#username").val('<%= @user.username %>')
@@ -761,7 +828,7 @@
                         type: 'pie',
                         name: 'Browser share',
                         data: [
-                            ['股票、基金',<%= b.stock %>],
+                            ['基金',<%= b.stock %>],
                             ['国债、企业债',<%= b.debt %>],
                             ['信托',<%= b.trust %>],
                             ['银行理财产品',<%= b.bankfinance %>]
