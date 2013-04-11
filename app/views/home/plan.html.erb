@@ -53,7 +53,7 @@
 <div id="page-content">
 <div class="classy plan-content">
   <div class="plan-column left">
-
+        <div id="title" style="font-size: 16px;"></div>
         <div id="container" style="margin-left: 50px;"></div>
 
     <!--
@@ -234,7 +234,7 @@
               </div>
             </td>
           </tr>
-          <% if @webuser.username == session[:webusername] %>
+          <% if @webuser.username == session[:webusername] || params[:username]==nil %>
               <tr>
                 <td></td>
                 <td class="pull-right"><%= link_to "报告下载",:action=>"download",:id=>"data",:filename=>b.filename %></td>
@@ -305,19 +305,11 @@
                                 ]
                             },
                             plotBackgroundImage: null,
-                            height: 135,
+                            height: 105,
                             width: 180
                         },
 
-                        title: {
-                            <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
-                            text: '您的风险承受度:'+dataArray2,
-                            <% elsif @webuser.username!='admin' %>
-                            text: '<%= @webuser.username %>的风险承受度:'+dataArray2,
-                            <% else %>
-                            text: '您的风险承受度:'+dataArray2
-                            <% end %>
-                        },
+                        title: false,
 
                         pane: [{
                             startAngle: -45,
@@ -704,6 +696,22 @@
 
 <script>
     window.onload=function(){
+        <% if @webuser.username!='admin' %>
+        var dataArray2= '<%= @webuser.risktolerance %>';
+        <% else %>
+        <% if cookies[:asset_allocation]!=nil %>
+        var dataArray2= '<%= cookies[:asset_allocation].split('|')[3] %>';
+        <% else %>
+        var dataArray2= '<%= @webuser.risktolerance %>';
+        <% end %>
+        <% end %>
+        <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
+        $("#title").html('您的风险承受度:'+dataArray2);
+        <% elsif @webuser.username!='admin' %>
+        $("#title").html('<%= @webuser.username %>的风险承受度:'+dataArray2);
+        <% else %>
+        $("#title").html('您的风险承受度:'+dataArray2);
+        <% end %>
         <% if params[:user]!=nil %>
         var returnrate=0;
         var investcycle=0;

@@ -36,12 +36,12 @@ class HomeController < ApplicationController
     end
     if params[:user]!=nil && cookies[:asset_allocation]!=nil && session[:webusername]!=nil
         @provides=Provide.find_all_by_username(session[:webusername])
-        @invest=cookies[:asset_allocation].split('|')[5]
+        @invest=cookies[:asset_allocation].split('|')[5].to_f
     elsif params[:username]!=nil
       @provides=Provide.find_all_by_username(params[:username])
       @personal=Personalfinance.find_by_username(params[:username])
       if @personal!=nil
-        @invest=@personal.investamount
+        @invest=@personal.investamount.to_f
       else
         @invest=50000
       end
@@ -49,14 +49,14 @@ class HomeController < ApplicationController
       @provides=Provide.find_all_by_username(session[:webusername])
       @personal=Personalfinance.find_by_username(session[:webusername])
       if @personal!=nil
-        @invest=@personal.investamount
+        @invest=@personal.investamount.to_f
       else
         @invest=50000
       end
     else
       @provides=Provide.find_all_by_username('admin')
       if cookies[:asset_allocation]!=nil
-        @invest=cookies[:asset_allocation].split('|')[5]
+        @invest=cookies[:asset_allocation].split('|')[5].to_f
       else
         @invest=50000
       end
