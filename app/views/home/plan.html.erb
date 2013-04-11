@@ -7,7 +7,10 @@
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <% if @webuser.username!='admin' %>
-    <style>.welcomes{width: 97%;padding: 20px;}</style>
+    <style xmlns="http://www.w3.org/1999/html">
+        .welcomes{width: 97%;padding: 20px;}
+       #container{padding-left: 50px;}
+    </style>
 <% end %>
 <div class="welcomes">
 <% if @webuser.username!='admin' %>
@@ -53,24 +56,16 @@
 <div id="page-content">
 <div class="classy plan-content">
   <div class="plan-column left">
-        <div id="title" style="font-size: 16px;"></div>
-        <div id="container" style="margin-left: 50px;"></div>
-
-    <!--
-    <div class="risk-control">
-      <button id="risk-down" class="risk-adjust icon-minus"></button>
-      <input id="risk-number">
-      <button id="risk-up" class="risk-adjust icon-plus"></button>
-    </div>
-    -->
-    <% if cookies[:asset_allocation]!=nil %>
-        <div id="revert-risk-msg" style="visibility: hidden;">(初始测试值为 <a href="javascript:" id="revert-risk"><%= cookies[:asset_allocation].split('|')[3] %></a>)</div>
-    <% end %>
-    <div id="risk-warning" style="display: none;">风险高于推荐</div>
+  <a href="/home/risktolerance"><div id="title" style="font-size: 12px;"></div></a>
+  <div id="container"></div>
+  <a href="/home/risktolerance">这说明什么？</a>
     <a href="/home/questions" id="change-answers">修改我的答案</a>
     <hr style="margin-left:14px; margin-right:14px">
     <p class="amount-to-invest-label sidebar-label">投资金额</p>
-    <input type="text" id="amount-to-invest" height="38">
+  <div class="input-append">
+    <input type="text" id="amount-to-invest">
+    <span class="add-on" >元</span>
+  </div>
     <p>(最低50000元)</p>
     <span class="ktip-link" id="faq-amount"><a class="demo-tip-yellowsimple" title=" 首先您需要预留6个月您家庭的日常开销（包括房贷、水电费、日常消费等），用以应对一些家庭突发性的开销，如果您愿意的话，您也可以将这6个月的日常开销放在流动性超强的资产中，例如货币型基金，银行开放式理财产品中。剩余的资金，您可以作为一个中长期的投资，这部分金额您可以作为投资金额输入，看看我们给您配置建议。">我该如何决定？</a></span>
   </div>
@@ -242,6 +237,16 @@
           <% end %>
       <% end %>
     </table>
+  <div class="account-types">
+  <div class="account-type-tab active taxable-account-type">
+    <p class="qusetion">规划方案是如何得来的？</p>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="details">
+    <p class="text">程序化自动为客户进行家庭理财规划配置，这一思想在国内还属于首创，我们借鉴高盛开源模型构建自动化应用，并借鉴普林斯顿大学经济学教授Burton Malkiel的Mean Variance Optimizationl论文作为模型搭建依据，实现我们均值方差优化算法原型。<br>
+    <a href="/home/present">了解更多>></a></p>
+  </div>
   </div>
   <% if @webuser.username=='admin' %>
       <div class="plan-column right">
