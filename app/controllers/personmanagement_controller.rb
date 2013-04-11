@@ -136,7 +136,7 @@ class PersonmanagementController < ApplicationController
         session[:personname]=params[:username]
         render :json => "s1".to_json
       else
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],:riskrate=>params[:riskrate])
         session[:personname]=params[:username]
         render :json => "s2".to_json
       end

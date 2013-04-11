@@ -621,19 +621,23 @@
         }
         else{
             var returnrate=0;
+            var riskrate=0;
             var investcycle=0;
             var wbreedinfo="";
             var trade="";
         <% if cookies[:asset_allocation]!=nil %>
 
             if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
-                returnrate=0.05;
+                returnrate=0.06;
+                riskrate=0;
             }
             else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
                 returnrate=0.1;
+                riskrate=0.03;
             }
             else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
-                returnrate=0.15;
+                returnrate=0.2;
+                riskrate=0.1;
             }
 
             if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
@@ -657,7 +661,7 @@
             else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
 
             $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade
+                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
             },function(data){
             });
         <% end %>
@@ -719,19 +723,23 @@
         <% end %>
         <% if params[:user]!=nil %>
         var returnrate=0;
+        var riskrate=0;
         var investcycle=0;
         var wbreedinfo="";
         var trade="";
         <% if cookies[:asset_allocation]!=nil %>
 
         if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
-            returnrate=0.05;
+            returnrate=0.06;
+            riskrate=0;
         }
         else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
             returnrate=0.1;
+            riskrate=0.03;
         }
         else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
-            returnrate=0.15;
+            returnrate=0.2;
+            riskrate=0.1;
         }
 
         if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
@@ -755,7 +763,7 @@
         else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
 
         $.post("/personmanagement/personconfigajax/0",{ username:'<%= session[:webusername] %>',age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-            email: '<%= @webuser2.email %>',investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade
+            email: '<%= @webuser2.email %>',investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
         },function(data){
         });
         var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
