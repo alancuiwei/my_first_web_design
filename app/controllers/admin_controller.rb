@@ -283,12 +283,12 @@
     render :json => "s".to_json
         # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
-      if params[:risktolerance]!=nil
-        @webuser.update_attributes(:risktolerance=>params[:risktolerance])
-          Thread.new{
-            UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-          }
-      end
+  #    if params[:risktolerance]!=nil
+  #       @webuser.update_attributes(:risktolerance=>params[:risktolerance])
+  #        Thread.new{
+  #          UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+  #        }
+  #    end
       render :json => "f".to_json
     end
 
@@ -300,11 +300,28 @@
       render :json => "s2".to_json
     end
   end
+
+   def userajax
+     @webuser=Webuser.find_by_username(params[:username])
+     if @webuser!=nil
+       render :json => "f".to_json
+     else
+       render :json => "s".to_json
+     end
+   end
+
   def risktoleranceajax
+     if  session[:userlog]==1
+       session[:userlog]=2
+     Thread.new{
+       UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+     }
     @webuser=Webuser.find_by_username(params[:username])
     @webuser.update_attributes(:risktolerance=>params[:risktolerance])
+   end
     render :json => "f".to_json
   end
+
  # def email
  #     UserMailer.confirm(params[:username]).deliver
  #  end

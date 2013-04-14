@@ -6,7 +6,7 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
-<% if @webuser.username!='admin' %>
+<% if @webuser.username!='admin' || session[:webusername]!=nil %>
     <style xmlns="http://www.w3.org/1999/html">
         .welcomes{width: 97%;padding: 20px;}
        #container{padding-left: 50px;}
@@ -248,7 +248,7 @@
     <a href="/home/present">了解更多>></a></p>
   </div>
   </div>
-  <% if @webuser.username=='admin' %>
+  <% if @webuser.username=='admin' && session[:webusername]==nil %>
       <div class="plan-column right">
         <div style="position:relative;width: 204px;">
           <div id="position-saver">
@@ -269,12 +269,12 @@
 <div id='login-box' class='login-popup'>
   <div class="popup">
     <a class="close" href="javascript:">×</a>
-    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
+    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
       <h1>保存您的理财规划方案</h1>
-      <p>输入您的电子邮箱以及登录密码，我们将把您的理财规划方案链接地址发送给您，你以后直接登录后就可以查看您的方案，并查看到其他理财专家给您的建议。</p>
-      <input id="email" type="text" name="EMAIL" placeholder="电子邮箱地址"><br>
-      <input id="username" type="text" name="MMERGE3" placeholder="登录名（保证您的个人隐私不会因邮箱名而...）"><br>
-      <input id="password" type="password" placeholder="登录密码"><br><br>
+      <p>输入您的电子邮箱，我们将把您的理财规划方案链接地址发送给您。</p><br>
+      <div id="user" style="display: none; color: red;font-size: 12px;"><div id="user2"></div><br></div>
+      <input id="email" type="text" name="EMAIL" placeholder="电子邮箱地址">
+      <input id="username" style="display: none;" type="text" name="MMERGE3" placeholder="登录名">
       <div class="clear"><input type="submit" value="保存方案" name="subscribe" id="mc-embedded-subscribe" class="save"></div>
     </form>
   </div>
@@ -588,33 +588,35 @@
     });
 
     $("#mc-embedded-subscribe").click(function(){
-        userconfig('#username','#password','#email');
+        userconfig('#email');
     })
-
+            /*
     function func(){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
         var name=/^\D.{2}.*$/;
-        if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email').attr("value"))){
+        var amt = document.getElementById("email").value;
+        var username=amt.substring(0,amt.indexOf('@'));
+        if($('#email').attr("value")=="" || !myreg.test($('#email').attr("value"))){
             return false;
-        }else{
-            return true;
+        }
+        else{
+            $.get("/admin/userajax",{username:username},function(data){
+                alert(data)
+                if(data=="f"){
+                    return false;
+                }
+                else{
+                    document.getElementById('mc-embedded-subscribe-form').action = "http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444"
+                    return true;
+                }
+            });
         }
     }
-
-    function userconfig(uid,pid,eid){
+    */
+    function userconfig(eid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
-        var name=/^\D.{2}.*$/;
-        if($(uid).attr("value")==""){
-            alert("用户名为空！");
-        }
-        else if($(pid).attr("value")==""){
-            alert("密码为空！");
-        }
-        else if($(eid).attr("value")==""){
+         if($(eid).attr("value")==""){
             alert("电子邮箱为空！");
-        }
-        else if(!name.test($(uid).attr("value"))){
-            alert("用户名开头字符不能是数字，用户名长度必须大于等于3个字符！");
         }
         else if(!myreg.test($(eid).attr("value"))){
             alert("电子邮箱格式不正确！");
@@ -659,8 +661,10 @@
             else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
             else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
             else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
+             var amt = document.getElementById("email").value;
+             var username=amt.substring(0,amt.indexOf('@'));
 
-            $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= cookies[:asset_allocation].split('|')[4] %>',
+            $.post("/personmanagement/personconfigajax/0",{ username:username,age: '<%= cookies[:asset_allocation].split('|')[4] %>',
                 email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
             },function(data){
             });
@@ -670,34 +674,31 @@
         <% else %>
             var risktolerance='<%= @webuser.risktolerance %>';
         <% end %>
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果"},function(data){
+            // event.preventDefault();
+            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果"},function(data){
                 if(data=="f"){
-                    //   alert("用户名已注册！");
-                <% if session[:webusername]==nil %>
-                    userlogin(uid,pid,0);
-                <% else %>
-                    location.href="/home/plan?username="+$(uid).attr("value");
-                <% end %>
+                    $('#user').show();
+                    $("#user2").html("用户名 "+username+" 已注册！请先登录");
                 }
                 else if(data=="s"){
-                    // alert("用户注册成功！");
-                    //location.reload();
-                    userlogin(uid,pid,0);
-                    //email('#username');
+                    //    document.getElementById('mc-embedded-subscribe-form').submit();
+                    $('#user').hide();
+                    userlogin(0);
                 }
             });
         }
     }
 
-    function userlogin(uid,pid,organ){
-
-        $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value"),plan:'1'},function(data){
+    function userlogin(organ){
+        var amt = document.getElementById("email").value;
+        var username=amt.substring(0,amt.indexOf('@'));
+        $.get("/admin/userlogin",{username:username,password:'tongtianshun',plan:'1'},function(data){
             if(data=="f"){
                 alert("登录失败!");
             }
             else
             {
-                location.href="/home/plan?username="+$(uid).attr("value");
+                location.href="/home/plan?username="+username;
             }
         })
     }
@@ -708,11 +709,11 @@
         <% if @webuser.username!='admin' %>
         var dataArray2= '<%= @webuser.risktolerance %>';
         <% else %>
-        <% if cookies[:asset_allocation]!=nil %>
-        var dataArray2= '<%= cookies[:asset_allocation].split('|')[3] %>';
-        <% else %>
-        var dataArray2= '<%= @webuser.risktolerance %>';
-        <% end %>
+           <% if cookies[:asset_allocation]!=nil %>
+             var dataArray2= '<%= cookies[:asset_allocation].split('|')[3] %>';
+           <% else %>
+             var dataArray2= '<%= @webuser.risktolerance %>';
+           <% end %>
         <% end %>
         <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
         $("#title").html('您的风险承受度:'+dataArray2);
@@ -768,7 +769,7 @@
         });
         var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
 
-        $.get("/admin/risktoleranceajax",{username:'<%= session[:webusername] %>',risktolerance:risktolerance},function(data){
+        $.get("/admin/risktoleranceajax",{username:'<%= session[:webusername] %>',risktolerance:risktolerance,email:"<%= @webuser2.email %>",title:"您的风险承受度测试结果"},function(data){
         });
         <% end %>
         <% end %>
@@ -887,6 +888,14 @@
         $("#table<%= b.id %> tr:eq(4) td:eq(3)").html("￥"+parseInt(parseFloat($("#table<%= b.id %> tr:eq(4) td:eq(2)").html().substr(0, $("#table<%= b.id %> tr:eq(4) td:eq(2)").html().length-1))*amt/100))
         <% end %>
     });
+    $("#email").keyup(function(){
+        var amt = this.value;
+        $("#username").val(amt.substring(0,amt.indexOf('@')))
+    });
+    $("#main").click(function(){
+        var amt = document.getElementById("email").value;
+        $("#username").val(amt.substring(0,amt.indexOf('@')))
+    });
 </script>
 
 <script>
@@ -947,4 +956,5 @@
         });
     });
 </script>
+
 

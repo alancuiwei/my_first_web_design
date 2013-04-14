@@ -81,6 +81,7 @@ class HomeController < ApplicationController
   end
 
   def questions
+    session[:userlog]=1
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
     else
