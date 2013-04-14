@@ -275,7 +275,7 @@
       end
 #      session[:webusername]=params[:username]
       Thread.new{
-       if params[:risktolerance]!=nil
+       if params[:risktolerance]!=nil && params[:issend]!='1'
             UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
        end
         UserMailer.confirm(params[:username]).deliver
@@ -289,6 +289,12 @@
   #          UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
   #        }
   #    end
+      if session[:webusername]!=nil
+        @webuser=Webuser.find_by_username(session[:webusername])
+        @webuser.update_attributes(:tel=>params[:tel])
+        @personalfinance=Personalfinance.find_by_username(session[:webusername])
+        @personalfinance.update_attributes(:tel=>params[:tel])
+      end
       render :json => "f".to_json
     end
 
@@ -300,6 +306,14 @@
       render :json => "s2".to_json
     end
   end
+
+   def personajax
+     @webuser=Webuser.find_by_username(session[:webusername])
+     @webuser.update_attributes(:tel=>params[:tel])
+     @personalfinance=Personalfinance.find_by_username(session[:webusername])
+     @personalfinance.update_attributes(:tel=>params[:tel])
+     render :json => "s".to_json
+   end
 
    def userajax
      @webuser=Webuser.find_by_username(params[:username])

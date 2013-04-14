@@ -9,7 +9,6 @@
 <% if @webuser.username!='admin' || session[:webusername]!=nil %>
     <style xmlns="http://www.w3.org/1999/html">
         .welcomes{width: 97%;padding: 20px;}
-       #container{padding-left: 50px;}
     </style>
 <% end %>
 <div class="welcomes">
@@ -58,11 +57,20 @@
   <div class="plan-column left">
   <a href="/home/risktolerance"><div id="title" style="font-size: 12px;"></div></a>
   <div id="container"></div>
-  <a href="/home/risktolerance">这说明什么？</a>
+    <% if @webuser.username!='admin' %>
+        <a href="/home/risktolerance?risk=<%= @webuser.risktolerance %>">这说明什么？</a>
+    <% else %>
+        <% if cookies[:asset_allocation]!=nil %>
+            <a href="/home/risktolerance?risk=<%= cookies[:asset_allocation].split('|')[3] %>">这说明什么？</a>
+        <% else %>
+            <a href="/home/risktolerance?risk=<%= @webuser.risktolerance %>">这说明什么？</a>
+        <% end %>
+    <% end %>
     <a href="/home/questions" id="change-answers">修改我的答案</a>
     <hr style="margin-left:14px; margin-right:14px">
     <p class="amount-to-invest-label sidebar-label">投资金额</p>
-  <div class="input-append">
+  <div class="input-prepend input-append">
+    <span class="add-on" >￥</span>
     <input type="text" id="amount-to-invest">
     <span class="add-on" >元</span>
   </div>
@@ -248,19 +256,34 @@
     <a href="/home/present">了解更多>></a></p>
   </div>
   </div>
-  <% if @webuser.username=='admin' && session[:webusername]==nil %>
       <div class="plan-column right">
         <div style="position:relative;width: 204px;">
           <div id="position-saver">
             <div class="open-account-container">
-              <p class="open-account-intro">保存您的理财规划方案</p> <br><br>
-              <a class="login-window" href="#login-box">保存</a> <br><br>
-              <a id="save-your-plan" href="javascript:">让我们为您投资</a>
+              <p class="open-account-intro">金融理财师(AFP)<br>私人服务</p> <br><br>
+              <a class="apply" href="/home/apply">申请</a> <br><br>
+              <a class="login-window" href="#login-box">保存理财规划方案</a>
+            </div>
+            <hr>
+            <div class="faq-container">
+              <p>常见疑问</p>
+              <ul class="common-q">
+                <li><a href="/home/apply">AFP能给我提供怎样的服务？</a></li>
+                <% if @webuser.username!='admin' %>
+                    <li><a href="/home/risktolerance?risk=<%= @webuser.risktolerance %>">风险承受度说明了什么？</a></li>
+                <% else %>
+                    <% if cookies[:asset_allocation]!=nil %>
+                        <li><a href="/home/risktolerance?risk=<%= cookies[:asset_allocation].split('|')[3] %>">风险承受度说明了什么？</a></li>
+                    <% else %>
+                        <li><a href="/home/risktolerance?risk=<%= @webuser.risktolerance %>">风险承受度说明了什么？</a></li>
+                    <% end %>
+                <% end %>
+                <li><a href="/home/afpintroduce">什么是金融理财师AFP？</a></li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-  <% end %>
 </div>
 </div>
 </div>
@@ -560,6 +583,7 @@
 
 <script>
     $('a.login-window').click(function() {
+        <% if params[:username]==session[:webusername] || params[:username]==nil %>
         var loginBox = $(this).attr('href');
         //Fade in the Popup and add close button
         $(loginBox).fadeIn(300);
@@ -577,6 +601,7 @@
         $('#mask').fadeIn(300);
 
         return false;
+        <% end %>
     });
 
     // When clicking on the button close or the mask layer the popup closed
