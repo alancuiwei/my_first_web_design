@@ -38,7 +38,11 @@
         </tr></thead>
         <tr>
           <td><%= @personalfinance.username%></td>
+          <% if @personalfinance.age !=nil %>
           <td><%= format("%0.0f",@personalfinance.age)%></td>
+          <% else %>
+              <td></td>
+          <% end %>
           <td><%= @personalfinance.trade%></td>
           <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
           <% if session[:webusername]== @personalfinance.username%>

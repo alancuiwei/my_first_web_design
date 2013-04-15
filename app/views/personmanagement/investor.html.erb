@@ -1,4 +1,6 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
 
 <div class="main-content">
   <a href="/">首页</a>  <br><br>
@@ -14,7 +16,7 @@
     <tr><td colspan='9' style='height:10px;'></td></tr>
   </table>
   <br>
-  <table class="table table-striped table-bordered" id="invsetor">
+  <table class="table table-striped table-bordered" id="invsetor"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
       <th>会员名</th><th>资金量</th>
@@ -36,6 +38,7 @@
           <td class="hide"><%= b.contact%></td>
         </tr>
     <% end %>
+    <!--
     <tr class='sum'>
       <td>总和</td>
       <td>0</td>
@@ -47,6 +50,7 @@
       <td></td>
       <td class="hide"></td>
     </tr>
+    -->
   </table>
   <br><br>
   <table class="deploy">
@@ -73,9 +77,12 @@
 </div>
 
 <script>
-    $(document).ready(function(){
+    var flag=0;
+    $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
+                   if(flag==0) {
         var length=$("#invsetor").find("tr").size();
-        for(i=1;i<length-1;i++){
+                       for(i=1;i<length;i++){
             if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("基金")>=0){
                 $("#invsetor tr:eq("+i+") td:eq(2)").addClass("red");
             }
@@ -102,17 +109,23 @@
             }
             if( ($("#invsetor tr:eq("+i+") td:eq(8)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(8)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("red");}
             else{$("#invsetor tr:eq("+i+") td:eq(7)").addClass("white");}
-
-            if($("#invsetor tr:eq("+i+") td:eq(1)").html()!=''){
-                $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html(parseInt($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html())+parseInt($("#invsetor tr:eq("+i+") td:eq(1)").html()))
             }
         }
-        for(i=0;i<9;i++){
-            $("#invsetor tr:eq("+(length-1)+") td:eq("+i+")").addClass("white");
+                flag+=1
+                    return true;
         }
-        if($("#invsetor tr:eq("+(length-1)+") td:eq(1)").html()=='0'){
-            $("#invsetor tr:eq("+(length-1)+") td:eq(1)").html('');
-        }
+
+    );
+    $(document).ready(function(){
+
+        /* Initialise datatables */
+        var oTable = $('#invsetor').dataTable({
+            "iDisplayLength": 15,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "aaSorting": [[ 2, "desc" ]],
+            "bProcessing": true
     });
 
+    });
 </script>
