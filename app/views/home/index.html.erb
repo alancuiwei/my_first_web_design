@@ -79,11 +79,76 @@
 </div>
 <br>
 <div class="welcme-content img">
-  <h2 class="press">通天顺介绍<a class="alink" href='/personmanagement/investor'>查看平台资源</a></h2>
-
-  <img src="/assets/120227.jpg" alt="通天顺介绍">
-  <hr>
   <h2 class="press">通天顺的服务</h2>
+  <table id="pull" style="width: 96.5%;">
+    <tr>
+      <td rowspan="2">
+  <img src="/assets/120227.jpg" alt="通天顺介绍">
+      </td>
+      <td style="vertical-align: bottom;height: 150px;">
+        <a class="invest btn btn-info pull-right" href="/home/apply">申请VIP服务</a>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: bottom;padding-bottom: 15px;">
+        <a class="invest btn btn-info pull-right" href="/home/questions">进入自助服务</a>
+      </td>
+    </tr>
+  </table>
+  <hr>
+  <h2 class="press">通天顺的会员</h2>
+  <div id="tradingSystem">
+      <a href='/personmanagement/investor'>
+        <table id="tableNumbers" border="0" cellpadding="0" cellspacing="0" style="width: 96.5%;">
+          <tbody>
+          <tr>
+            <td class="homeRightText" style="white-space:nowrap; width: 25%;"><h3>注册会员数</h3>
+              <p>免费注册</p>
+            </td>
+            <td class="dollar"></td>
+            <td class="number"></td>
+            <td class="comma"><img src="/assets/comma.png" alt=""></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="comma"><img src="/assets/comma.png" alt=""></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td style="width: 22%;"></td>
+          </tr>
+          <tr>
+            <td class="homeRightText" style="white-space:nowrap;"><h3>闲余资金量</h3>
+              <p>正在寻觅合适理财产品</p>
+            </td>
+            <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style=""  border=" 0"></td>
+            <td class="number"></td>
+            <td class="comma"><img src="/assets/comma.png" alt=""></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="comma"><img src="/assets/comma.png" alt=""></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="number"></td>
+            <td class="investor"><a class="invest btn btn-info pull-right" href="/personmanagement/investor">查看会员信息</a></td>
+          </tr>
+          </tbody>
+        </table>
+      </a>
+    <!--
+    <div id="borders">
+      <div id="leftBorder"></div>
+      <div id="rightBorder"></div>
+    </div>
+    -->
+  </div>
+  <hr>
+  <h2 class="press">产品服务</h2>
   <br><br>
   <div class="row-fluid">
     <div class="span4 offset1">
@@ -126,7 +191,7 @@
   </div >
   <hr>
   <div class="pres">
-    <h2>通天顺的客户<a class="alink" href='/personmanagement/investor'>客户详细资料</a></h2>
+    <h2>通天顺的客户</h2>
     <div class="row-fluid">
       <div class="span3 img1">
         <img src="/assets/shbe.jpg" alt="上海贝尔">
@@ -144,40 +209,7 @@
         <img src="/assets/hw.jpg" alt="华为">
       </div>
     </div>
-    <hr>
-    <div id="tradingSystem">
-      <div style="padding: 0 20px;">
-        <a href='/personmanagement/investor'>
-          <table id="tableNumbers" border="0" cellpadding="0" cellspacing="0" style="width: 78%;">
-            <tbody>
-            <tr>
-              <td class="homeRightText" style="white-space:nowrap;"><h3>闲余资金量</h3>
-                <p>正在寻觅合适理财产品</p>
-              </td>
-              <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style=""  border=" 0"></td>
-              <td class="number"></td>
-              <td class="comma"><img src="/assets/comma.png" alt=""></td>
-              <td class="number"></td>
-              <td class="number"></td>
-              <td class="number"></td>
-              <td class="number"></td>
-              <td class="comma"><img src="/assets/comma.png" alt=""></td>
-              <td class="number"></td>
-              <td class="number"></td>
-              <td class="number"></td>
-              <td class="number"></td>
-            </tr>
-            </tbody>
-          </table>
-        </a>
-      </div>
-      <!--
-      <div id="borders">
-        <div id="leftBorder"></div>
-        <div id="rightBorder"></div>
-      </div>
-      -->
-    </div>
+
   </div>
 
   <!--
@@ -260,7 +292,7 @@
         <% @personfinance.each do |b|%>
         invest = invest + <%= b.investamount %>;
         <% end %>
-        num=parseInt(parseFloat(free)*0.0001);
+        num=parseInt(<%= @personfinance.length%>);
         num = num.toString();
         while(num.length<9){
             num='b'+num;
@@ -269,14 +301,14 @@
         while(invest.length<9){
             invest='b'+invest;
         }
-        free = parseInt(free).toString();
-        while(free.length<9){
-            free='b'+free;
-        }
         var c;
         var length=$("#tableNumbers").find("tr").size();
-        for(i=0;i<length;i=i+2){
+        for(i=0;i<length;i=i+1){
+            if(i==0){
+                c=num;
+            }else if(i==1){
             c=invest;
+            }
             if(c.substr(0,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(2)").html('<div><img src="/assets/blank.png"></div>');}
             else{$("#tableNumbers tr:eq("+i+") td:eq(2)").html('<div><img src'+'='+'"/assets/num'+c.substr(0,[1])+'.png"></div>');}
 
