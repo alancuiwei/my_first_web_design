@@ -261,8 +261,8 @@
           <div id="position-saver">
             <div class="open-account-container">
               <p class="open-account-intro">金融理财师(ChFP)<br>私人服务</p> <br><br>
-              <a class="apply" href="/home/apply">申请</a> <br><br>
-              <a class="login-window" href="#login-box">保存理财规划方案</a>
+              <a id="apply" class="apply" href="#login-box">申请</a> <br><br>
+              <a id="login-window" class="login-window" href="#login-box">保存理财规划方案</a>
             </div>
             <hr>
             <div class="faq-container">
@@ -292,7 +292,8 @@
 <div id='login-box' class='login-popup'>
   <div class="popup">
     <a class="close" href="javascript:">×</a>
-    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+    <div id="save">
+    <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
       <h1>保存您的理财规划方案</h1>
       <p>输入您的电子邮箱，我们将把您的理财规划方案链接地址发送给您。</p><br>
       <div id="user" style="display: none; color: red;font-size: 12px;"><div id="user2"></div><br></div>
@@ -300,6 +301,18 @@
       <input id="username" style="display: none;" type="text" name="MMERGE3" placeholder="登录名">
       <div class="clear"><input type="submit" value="保存方案" name="subscribe" id="mc-embedded-subscribe" class="save"></div>
     </form>
+  </div>
+    <div id="application">
+    <form>
+    <h1>服务申请</h1><br>
+      <div id="user3" style="display: none; color: red;font-size: 12px;"><div id="user4"></div><br></div>
+    <p>我们将把您的理财规划书发送到如下邮箱中。</p>
+    <input id="email2" type="text" name="email" placeholder="电子邮箱">
+    <p>如果有疑问，金融理财师可以随时和您沟通，方便理财方案制作。</p>
+    <input id="tel" type="text" name="tel" placeholder="联系电话">
+    <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="save"></div>
+  </form>
+    </div>
   </div>
 </div>
 
@@ -582,7 +595,16 @@
 </script>
 
 <script>
-    $('a.login-window').click(function() {
+
+    $('a.login-window,a.apply').click(function() {
+        if(this.id=='apply'){
+            $("#save").hide();
+            $("#application").show();
+        }
+        else if(this.id=='login-window'){
+            $("#application").hide();
+            $("#save").show();
+        }
         <% if params[:username]==session[:webusername] || params[:username]==nil %>
         var loginBox = $(this).attr('href');
         //Fade in the Popup and add close button
@@ -614,8 +636,38 @@
 
     $("#mc-embedded-subscribe").click(function(){
         userconfig('#email');
+    });
+
+    $("#subscribe").click(function(){
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
+        if($("#email2").attr("value")==""){
+            $('#user3').show();
+            $("#user4").html("电子邮箱为空！");
+            return false;
+        }
+        else if(!myreg.test($("#email2").attr("value"))){
+            $('#user3').show();
+            $("#user4").html("电子邮箱格式不正确！");
+            return false;
+        }
+        else if($("#tel").attr("value")==""){
+            $('#user3').show();
+            $("#user4").html("联系电话为空！");
+            return false;
+        }
+        else if(!phone.test($("#tel").attr("value"))){
+            $('#user3').show();
+            $("#user4").html("联系电话格式不正确！");
+            return false;
+        }
+        else{
+            $('#user3').hide();
+            userconfig2('#email2','#tel');
+            return false;
+        }
     })
-            /*
+
     function func(){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
         var name=/^\D.{2}.*$/;
@@ -625,26 +677,83 @@
             return false;
         }
         else{
-            $.get("/admin/userajax",{username:username},function(data){
-                alert(data)
-                if(data=="f"){
-                    return false;
-                }
-                else{
-                    document.getElementById('mc-embedded-subscribe-form').action = "http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444"
-                    return true;
-                }
-            });
+            return true;
         }
     }
-    */
+
+    function userconfig2(eid,tid){
+            var returnrate=0;
+            var riskrate=0;
+            var investcycle=0;
+            var wbreedinfo="";
+            var trade="";
+        <% if cookies[:asset_allocation]!=nil %>
+
+            if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
+                returnrate=0.06;
+                riskrate=0;
+            }
+            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
+                returnrate=0.1;
+                riskrate=0.03;
+            }
+            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
+                returnrate=0.2;
+                riskrate=0.1;
+            }
+
+            if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
+            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
+
+            if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
+            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+
+            if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
+            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
+            var amt = document.getElementById("email2").value;
+            var username=amt.substring(0,amt.indexOf('@'));
+
+            $.post("/personmanagement/personconfigajax/0",{ username:username,age: '<%= cookies[:asset_allocation].split('|')[4] %>',
+                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate,tel:$(tid).attr("value")
+            },function(data){
+            });
+        <% end %>
+        <% if cookies[:asset_allocation]!=nil %>
+            var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+        <% else %>
+            var risktolerance='<%= @webuser.risktolerance %>';
+        <% end %>
+            // event.preventDefault();
+            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",apply:1},function(data){
+                    alert("我们会尽快联系您");
+                userlogin(1);
+                <% if session[:webusername]!=nil %>
+                  location.reload();
+                <% end %>
+            });
+        }
+
+
     function userconfig(eid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
          if($(eid).attr("value")==""){
-            alert("电子邮箱为空！");
+             $('#user').show();
+             $("#user2").html("电子邮箱为空！");
         }
         else if(!myreg.test($(eid).attr("value"))){
-            alert("电子邮箱格式不正确！");
+             $('#user').show();
+             $("#user2").html("电子邮箱格式不正确！");
         }
         else{
             var returnrate=0;
@@ -714,8 +823,13 @@
         }
     }
 
-    function userlogin(organ){
+    function userlogin(apply){
+        if(apply==1){
+            var amt = document.getElementById("email2").value;
+        }
+        else{
         var amt = document.getElementById("email").value;
+            }
         var username=amt.substring(0,amt.indexOf('@'));
         $.get("/admin/userlogin",{username:username,password:'tongtianshun',plan:'1'},function(data){
             if(data=="f"){

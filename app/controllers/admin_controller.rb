@@ -275,20 +275,25 @@
       end
 #      session[:webusername]=params[:username]
       Thread.new{
+       if params[:apply]!='1'
        if params[:risktolerance]!=nil && params[:issend]!='1'
             UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
        end
-        UserMailer.confirm(params[:username]).deliver
+          UserMailer.confirm(params[:username]).deliver
+       else
+         UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+         UserMailer.applyuser(params[:username],params[:tel]).deliver
+       end
       }
     render :json => "s".to_json
         # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
-  #    if params[:risktolerance]!=nil
-  #       @webuser.update_attributes(:risktolerance=>params[:risktolerance])
-  #        Thread.new{
-  #          UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-  #        }
-  #    end
+      Thread.new{
+        if params[:apply]=='1'
+          UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+          UserMailer.applyuser(params[:username],params[:tel]).deliver
+        end
+      }
       if session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @webuser.update_attributes(:tel=>params[:tel])

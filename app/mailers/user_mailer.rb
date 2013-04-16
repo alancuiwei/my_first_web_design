@@ -11,6 +11,12 @@ class UserMailer < ActionMailer::Base
     mail to: "cuiwei@tongtianshun.com"
   end
 
+  def applyuser(usename,tel)
+    @usename = usename
+    @tel = tel
+    mail to: "cuiwei@tongtianshun.com"
+  end
+
   def reserve(usename,tel,email,bname,trustee,btype,startvalue,investamount,returnrate,investperiod,sailsstart,collectperiod)
     @usename = usename
     @tel = tel
@@ -44,6 +50,23 @@ class UserMailer < ActionMailer::Base
   end
 
   def risktolerance(username,risktolerance,email,title)
+    if risktolerance.to_f>=0 && risktolerance.to_f<=2
+      @level=1
+    elsif risktolerance.to_f>2 && risktolerance.to_f<=4
+      @level=2
+    elsif risktolerance.to_f>4 && risktolerance.to_f<=6
+      @level=3
+    elsif risktolerance.to_f>6 && risktolerance.to_f<=8
+      @level=4
+    elsif risktolerance.to_f>8 && risktolerance.to_f<=10
+      @level=5
+    end
+    @username = username
+    @risktolerance = risktolerance
+    mail(:to => email,:subject => title)
+  end
+
+  def apply(username,risktolerance,email,title)
     if risktolerance.to_f>=0 && risktolerance.to_f<=2
       @level=1
     elsif risktolerance.to_f>2 && risktolerance.to_f<=4

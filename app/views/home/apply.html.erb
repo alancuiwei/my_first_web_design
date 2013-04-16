@@ -3,10 +3,35 @@
 
 <div class="main-contents">
   <div class="row-fluid">
-    <div class="span9">
-      <a herf="/">首页</a><br><br>
-      <p>一旦您申请后，您将从银行 或 证券公司 高级理财经理 得到如下样本的家庭理财规划书。<br>这样的理财规划书正常只有银行千万级的客户才能享受，我们网站将来需要以168元进行收费，现在免费试运行，抓紧机会申请哦。</p>
+    <div class="span12">
+      <a href="/">首页</a>&nbsp;>&nbsp;<a href="">家庭理财规划 专业服务</a><br>
+      <h1 style="margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">国家金融规划师 帮你规划<a class="btn btn-primary pull-right application" style="margin-top: 5px;" href="#login-box">申请VIP服务</a></h1>
+      <div class="row-fluid">
+        <div class="span1">
+          <img src="/assets/120220.png">
+        </div>
+        <div class="span1">
+          <img src="/assets/120221.png">
+        </div>
+        <div class="span1">
+          <img src="/assets/120222.png">
+        </div>
+        <div class="span1">
+          <img src="/assets/120223.png">
+        </div>
+        <div class="span1">
+          <img src="/assets/120224.png">
+        </div>
+      </div>
+      <br><br>
+      <b class="txt">我们为您提供500万客户才能享受的专业私人银行财富规划服务。</b><br><br>
+      <p>我们将为您联系国家金融规划师，根据您的生活重点和目标，计算实现目标的时间跨度和成本，通过合理规划您的财务状况，对您的人生目标做出是设计、计划、实施及复核的全盘规划，过上您所向往的生活。</p>
+      <p>理财目标包括置业、婚姻、职业生涯规划、培养下一代、保障自己及家庭成员、退休计划及投资、遗产与税务安排等。</p>
       <br>
+      <h1 style="margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">服务介绍：<a class="btn btn-primary pull-right application" style="margin-top: 5px;" href="#login-box">申请VIP服务</a></h1>
+      <img src="/assets/120219.jpg">
+      <br>
+     <!--
       <p> 一、家庭理财目标</p>
       <p>在分析panda家庭现有资产和需求的基础上，结合分析其生活和职业特点，我们为panda拟定了一份未来30年的理财计划，帮助其家庭更好地规划人生，基本上满足panda家庭成长期的各个目标。具体理财目标如下：
          <br>1、短期内合理配置家庭财产，增加保险支出（年均支出约6000元），使家庭保障全面合理。
@@ -35,7 +60,9 @@
         <br>反映该家庭流动性资产可以满足其60个月的开支，流动性好。
         <br> 通过上述分析我们可以看出、家庭偿债能力很强，资金流动性好，家庭资产稳固性很高，而且有71.4％的收入可以用于增加储蓄或投资，显示了家庭具备一定的理财空间。
       </p>
+      -->
     </div>
+    <!--
     <div class="span3">
         <div class="application">
           <p>我们将把您的理财规划书发送到如下邮箱中。</p>
@@ -45,113 +72,164 @@
           <a class="btn btn-primary pull-right" id="apply">免费申请</a><br><br><br>
         </div>
     </div>
+    -->
+  </div>
+</div>
+
+
+<div id='login-box' class='login-popup'>
+  <div class="popup">
+    <a class="close" href="javascript:">×</a>
+      <form>
+        <h1>服务申请</h1><br>
+        <div id="user3" style="display: none; color: red;font-size: 12px;"><div id="user4"></div><br></div>
+        <p>我们将把您的理财规划书发送到如下邮箱中。</p>
+        <input id="email2" type="text" name="email" placeholder="电子邮箱">
+        <p>如果有疑问，金融理财师可以随时和您沟通，方便理财方案制作。</p>
+        <input id="tel" type="text" name="tel" placeholder="联系电话">
+        <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="save"></div>
+      </form>
   </div>
 </div>
 
 <script>
-    $("#apply").click(function(){
-        <% if cookies[:asset_allocation]!=nil %>
-        userconfig('#email','#phone');
-        <% else %>
-           <% if session[:webusername]==nil %>
-              alert("请做完测试后再申请！")
-              location.href="/home/questions";
-           <% else %>
-        $.post("/admin/personajax",{ email: $("#email").attr("value"),tel:$("#phone").attr("value")
-        },function(data){
-            alert("我们会尽快联系您！") ;
-            location.reload();
+
+    $('a.application').click(function() {
+        if(this.id=='apply'){
+            $("#save").hide();
+            $("#application").show();
+        }
+        else if(this.id=='login-window'){
+            $("#application").hide();
+            $("#save").show();
+        }
+        <% if params[:username]==session[:webusername] || params[:username]==nil %>
+        var loginBox = $(this).attr('href');
+        //Fade in the Popup and add close button
+        $(loginBox).fadeIn(300);
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
         });
-           <% end %>
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+
+        return false;
         <% end %>
-    })
+    });
 
-    function userconfig(eid,pid){
-        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
-        var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
-        if($(eid).attr("value")==""){
-            alert("电子邮箱为空！");
+    $('a.close, #mask').live('click', function() {
+        $('#mask , .login-popup').fadeOut(300 , function() {
+            $('#mask').remove();
+        });
+        return false;
+    });
+
+  $("#subscribe").click(function(){
+      var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+      var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
+      if($("#email2").attr("value")==""){
+          $('#user3').show();
+          $("#user4").html("电子邮箱为空！");
+          return false;
+      }
+      else if(!myreg.test($("#email2").attr("value"))){
+          $('#user3').show();
+          $("#user4").html("电子邮箱格式不正确！");
+          return false;
+      }
+      else if($("#tel").attr("value")==""){
+          $('#user3').show();
+          $("#user4").html("联系电话为空！");
+          return false;
+      }
+      else if(!phone.test($("#tel").attr("value"))){
+          $('#user3').show();
+          $("#user4").html("联系电话格式不正确！");
+          return false;
+      }
+      else{
+          $('#user3').hide();
+          userconfig('#email2','#tel');
+          return false;
+      }
+    });
+
+    function userconfig(eid,tid){
+        var returnrate=0;
+        var riskrate=0;
+        var investcycle=0;
+        var wbreedinfo="";
+        var trade="";
+    <% if cookies[:asset_allocation]!=nil %>
+
+        if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
+            returnrate=0.06;
+            riskrate=0;
         }
-        else if(!myreg.test($(eid).attr("value"))){
-            alert("电子邮箱格式不正确！");
+        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
+            returnrate=0.1;
+            riskrate=0.03;
         }
-        else if($(pid).attr("value")==""){
-            alert("联系方式为空！");
+        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
+            returnrate=0.2;
+            riskrate=0.1;
         }
-        else if(!phone.test($(pid).attr("value"))){
-            alert("联系方式格式不正确！");
-        }
-        else{
-            var returnrate=0;
-            var riskrate=0;
-            var investcycle=0;
-            var wbreedinfo="";
-            var trade="";
-        <% if cookies[:asset_allocation]!=nil %>
 
-            if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
-                returnrate=0.06;
-                riskrate=0;
-            }
-            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
-                returnrate=0.1;
-                riskrate=0.03;
-            }
-            else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
-                returnrate=0.2;
-                riskrate=0.1;
-            }
+        if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
+        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
 
-            if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
-            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
-            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
-            else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
+        if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
+        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
 
-            if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
-            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
-            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
-            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
-            if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+        if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
+        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
+        var amt = document.getElementById("email2").value;
+        var username=amt.substring(0,amt.indexOf('@'));
 
-            if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
-            else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
-            var amt = document.getElementById("email").value;
-            var username=amt.substring(0,amt.indexOf('@'));
-
-            $.post("/personmanagement/personconfigajax/0",{ username:username,age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-                email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate,tel:$("#phone").attr("value")
-            },function(data){
-            });
-        <% end %>
-        <% if cookies[:asset_allocation]!=nil %>
-            var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
-        <% else %>
-            var risktolerance='<%= @webuser.risktolerance %>';
-        <% end %>
-            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$("#phone").attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",issend:1},function(data){
-                if(data=="f"){
-                    <% if session[:webusername]==nil %>
-                    alert("用户名 "+username+" 已注册！请先登录");
-                    <% else %>
-                    alert("我们会尽快联系您！") ;
-                    location.reload();
-                    <% end %>
-                }
-                else if(data=="s"){
-                    userlogin(0);
-                }
-            });
-        }
+        $.post("/personmanagement/personconfigajax/0",{ username:username,age: '<%= cookies[:asset_allocation].split('|')[4] %>',
+            email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate,tel:$(tid).attr("value")
+        },function(data){
+        });
+    <% end %>
+    <% if cookies[:asset_allocation]!=nil %>
+        var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+    <% else %>
+        var risktolerance='<%= @webuser.risktolerance %>';
+    <% end %>
+        // event.preventDefault();
+        $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",apply:1},function(data){
+            userlogin(1);
+            <% if session[:webusername]!=nil %>
+            location.reload();
+            <% end %>
+        });
     }
 
-    function userlogin(organ){
-        var amt = document.getElementById("email").value;
+    function userlogin(apply){
+        if(apply==1){
+            var amt = document.getElementById("email2").value;
+        }
+        else{
+            var amt = document.getElementById("email").value;
+        }
         var username=amt.substring(0,amt.indexOf('@'));
         $.get("/admin/userlogin",{username:username,password:'tongtianshun',plan:'1'},function(data){
             if(data=="f"){
