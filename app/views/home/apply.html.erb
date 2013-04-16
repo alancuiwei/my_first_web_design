@@ -77,17 +77,23 @@
 </div>
 
 
-<div id='login-box' class='login-popup'>
-  <div class="popup">
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="modal">
+    <div class="modal-header">
     <a class="close" href="javascript:">×</a>
+      <h3>服务申请</h3>
+    </div>
       <form>
-        <h1>服务申请</h1><br>
+        <div class="modal-body">
         <div id="user3" style="display: none; color: red;font-size: 12px;"><div id="user4"></div><br></div>
         <p>我们将把您的理财规划书发送到如下邮箱中。</p>
         <input id="email2" type="text" name="email" placeholder="电子邮箱">
         <p>如果有疑问，金融理财师可以随时和您沟通，方便理财方案制作。</p>
         <input id="tel" type="text" name="tel" placeholder="联系电话">
-        <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="save"></div>
+        </div>
+        <div class="modal-footer">
+          <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="btn btn-primary"></div>
+        </div>
       </form>
   </div>
 </div>
@@ -95,6 +101,7 @@
 <script>
 
     $('a.application').click(function() {
+        $("#login-box").show();
         if(this.id=='apply'){
             $("#save").hide();
             $("#application").show();
