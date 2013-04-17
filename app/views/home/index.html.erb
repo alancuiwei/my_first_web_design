@@ -2,7 +2,16 @@
 <%= stylesheet_link_tag "common.css" %>
 <%= stylesheet_link_tag "homepage.css" %>
 <%= javascript_include_tag "highcharts.src.js" %>
-
+<style>
+    .dollar-prefix{margin-top: -19px;}
+    .applyvip{vertical-align: bottom;height: 35px;}
+</style>
+<!--[if !IE]><!-->
+<style>
+    .dollar-prefix{margin-top: 0px;}
+    .applyvip{vertical-align: bottom;height: 150px;}
+</style>
+<!--<![endif]-->
 <div class="welcomes">
 <div class="hero-unit"> <!--主角单元-->
   <div class="slide">
@@ -34,7 +43,7 @@
           </div>
           <div class="td control-col">
             <label for="amount">投资金额</label>
-            <span style="position:relative;font-size:13px"><span class="dollar-prefix" style="margin-top: -3px;">￥</span><input id="amount" name="amount" style="margin-left: 5px;"  s value="50,000" type="text"></span>
+            <span style="position:relative;font-size:13px"><span class="dollar-prefix">￥</span><input id="amount" name="amount" style="margin-left: 5px;"  s value="50,000" type="text"></span>
             <div id="minimum-note">
               最低金额￥50000 元
             </div>
@@ -85,7 +94,7 @@
       <td rowspan="2">
   <img src="/assets/120227.jpg" alt="通天顺介绍">
       </td>
-      <td style="vertical-align: bottom;height: 150px;">
+      <td class="applyvip">
         <a class="invest btn btn-info pull-right" href="/home/apply">申请VIP服务</a>
       </td>
     </tr>
