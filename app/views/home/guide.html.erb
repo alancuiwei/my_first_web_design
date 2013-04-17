@@ -2,13 +2,17 @@
 <style>
 .main-contents {
 background-color: black;
-background: url("/assets/120117.png") no-repeat center center;
+background: url("/assets/120117.png") 100% 100%;
 -webkit-background-size: cover;
 -moz-background-size: cover;
 -o-background-size: cover;
 background-size: cover;
+padding-bottom: 20px;
 }
-
+.main-contents p{
+    padding-left: 20px;
+    color: #000;
+}
 </style>
 <div class="main-contents">
 <table style="width: 100%;">
@@ -23,14 +27,33 @@ background-size: cover;
           为了您的度假，新婚，买房，退休环游世界，值得您打印下来，挂在书桌前，经常查看检查。
         </h2>
         <h2 id="download">
-          <%= link_to "下载文档",:action=>"download",:id=>"data",:filename=>"家庭理财规划指南.pdf" %>&nbsp;(pdf格式)<br>
-          <%= link_to "下载文档",:action=>"download",:id=>"data",:filename=>"家庭理财规划指南.jpg" %>&nbsp;(图片格式)
+          <a id="pdf" href="/home/download/data?filename=家庭理财规划指南.pdf">下载文档</a>&nbsp;(pdf格式)<br>
+          <a id="picture" href="/home/download/data?filename=家庭理财规划指南.jpg">下载文档</a>&nbsp;(图片格式)
         </h2>
       </div>
     </td>
     <td class="img">
-     <img src="/assets/120118.gif" alt="家庭理财规划指南">
+     <img src="/assets/120118.png" alt="家庭理财规划指南">
     </td>
   </tr>
 </table>
+  <p><span id="pdf2"><%= @pdfnumber %></span></p>
+  <p><span id="picture2"><%= @jpgnumber %></span></p>
 </div>
+
+<script>
+    $("#pdf,#picture").click(function(e){
+        var pdfnumber=parseInt($("#pdf2").html());
+        var jpgnumber=parseInt($("#picture2").html());
+        if(this.id=='pdf'){
+            pdfnumber=pdfnumber+1;
+            $("#pdf2").html(pdfnumber);
+        }
+        else if (this.id=='picture'){
+            jpgnumber=jpgnumber+1;
+            $("#picture2").html(jpgnumber);
+        }
+        $.post("/home/downloadconfigajax",{ jpgnumber:jpgnumber,pdfnumber: pdfnumber},function(data){
+        });
+    });
+</script>

@@ -101,6 +101,17 @@ class HomeController < ApplicationController
   def download
     send_file "app/assets/download/"+params[:filename] unless params[:filename].blank?
   end
+
+  def guide
+    @number=Downloadnum.find_by_id(1);
+    @pdfnumber=@number.pdfnumber
+    @jpgnumber=@number.jpgnumber
+  end
+
+  def downloadconfigajax
+    @number=Downloadnum.find_by_id(1);
+    @number.update_attributes(:pdfnumber=>params[:pdfnumber],:jpgnumber=>params[:jpgnumber])
+  end
 end
 
 
