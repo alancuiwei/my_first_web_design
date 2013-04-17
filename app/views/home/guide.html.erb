@@ -1,0 +1,44 @@
+<%= stylesheet_link_tag "home.css" %>
+<style>
+.main-contents {
+background-color: black;
+background: url("/assets/120117.png") no-repeat center center;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+.img{
+    background-color: black;
+    background: url("/assets/120118.gif") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+</style>
+<div class="main-contents">
+<table style="width: 100%;">
+  <tr>
+    <td style="width: 30%;">
+      <div id="about">
+        <h1 id="title">
+          专业 可信<br>
+          <span id="larger">家庭理财规划<br>指南文档</span>
+        </h1>
+        <h2 id="info">
+          为了您的度假，新婚，买房，退休环游世界，值得您打印下来，挂在书桌前，经常查看检查。
+        </h2>
+        <h2 id="download">
+          <%= link_to "下载文档",:action=>"download",:id=>"data",:filename=>"家庭理财规划指南.pdf" %>&nbsp;(pdf格式)<br>
+          <%= link_to "下载文档",:action=>"download",:id=>"data",:filename=>"家庭理财规划指南.jpg" %>&nbsp;(图片格式)
+        </h2>
+      </div>
+    </td>
+    <td class="img">
+     <img src="/assets/120118.gif">
+    </td>
+  </tr>
+</table>
+</div>
