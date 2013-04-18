@@ -1,4 +1,7 @@
 <%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
+
 <style>tr.odd,table td{
     background-color: #ffffff;
 }</style>
@@ -10,6 +13,10 @@
         <a class="crumbs" href="/home/productindex" >银行理财产品</a>
         <h1>银行理财产品</h1>
         <table class="content-table" id="blog">
+          <thead class="hide">
+          <tr>
+            <th>分享</th><th>博客</th>
+          </tr></thead>
           <tbody>
           <% @blogs.each do |b| %>
             <tr>
@@ -57,7 +64,8 @@
             </td>
           </tr>
           <tr>
-            <td colspan="2"><p class="back"></p></td>
+            <td><p class="back"></p></td>
+            <td><p class="back"></p></td>
           </tr>
           <% end %>
           </tbody>
@@ -81,4 +89,21 @@
       </td>
     </tr>
   </table>
-</div>
+</div><!--
+<script>
+    $(document).ready(function(){
+
+        /* Initialise datatables */
+        var oTable = $('#blog').dataTable({
+            "iDisplayLength": 20,
+            "bJQueryUI": true,
+            "bSort": false,
+            "sPaginationType": "full_numbers",
+            "aaSorting": [[ 2, "desc" ]],
+            "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
+            "bProcessing": true
+        });
+
+    });
+</script>
+-->

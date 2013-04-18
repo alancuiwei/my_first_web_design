@@ -1,28 +1,27 @@
-新用户注册（服务申请）：<br>
+新用户注册：<br>
 用户名：<%= @usename %>  <br>
-联系电话：<%= @tel %> <br>
 风险承受度: <%= @risktolerance %> <br>
 1、当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?<br>
-    <% if @response=="sellAll" %>
-        答：卖掉所有股票<br>
-    <% elsif @response=="sellSome" %>
-        答：卖掉一部分股票<br>
-    <% elsif @response=="keepAll" %>
-        答：继续持有<br>
-    <% elsif @response=="buyMore" %>
-        答：购买更多的股票<br>
-    <% end %>
+<% if @response=="sellAll" %>
+    答：卖掉所有股票<br>
+<% elsif @response=="sellSome" %>
+    答：卖掉一部分股票<br>
+<% elsif @response=="keepAll" %>
+    答：继续持有<br>
+<% elsif @response=="buyMore" %>
+    答：购买更多的股票<br>
+<% end %>
 
 2、下列的3个假设投资计划，哪个会更符合您当前的投资需求? <br>
 <% if @portfolio=="A" %>
     答：预期年化收益率: 6%<br>
-        可承担的风险: 0 <br>
+    可承担的风险: 0 <br>
 <% elsif @portfolio=="B" %>
     答：预期年化收益率: 10%<br>
-        可承担的风险: 3% <br>
+    可承担的风险: 3% <br>
 <% elsif @portfolio=="C" %>
     答：预期年化收益率: 20%<br>
-        可承担的风险: 10%<br>
+    可承担的风险: 10%<br>
 <% end %>
 
 3、当您准备资金进行投资时，您最在意的是哪一项指标?<br>

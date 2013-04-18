@@ -2,6 +2,7 @@
 class BlogController < ApplicationController
   def index
     @blogs=Blog.find_by_sql('select * from blog order by publishdate desc')
+    #    @blogs=Blog.order("publishdate desc").page(params[:page])
   end
 
   def blogarticle

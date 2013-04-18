@@ -744,11 +744,13 @@
         <% end %>
         <% if cookies[:asset_allocation]!=nil %>
             var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+            var asset_allocation='<%= cookies[:asset_allocation] %>';
         <% else %>
             var risktolerance='<%= @webuser.risktolerance %>';
+            var asset_allocation='';
         <% end %>
             // event.preventDefault();
-            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",apply:1},function(data){
+            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",apply:1,asset_allocation:asset_allocation,wbreedinfo:wbreedinfo},function(data){
                     alert("我们会尽快联系您");
                 userlogin(1);
                 <% if session[:webusername]!=nil %>
@@ -818,11 +820,13 @@
         <% end %>
         <% if cookies[:asset_allocation]!=nil %>
             var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
+             var asset_allocation='<%= cookies[:asset_allocation] %>';
         <% else %>
             var risktolerance='<%= @webuser.risktolerance %>';
+            var asset_allocation='';
         <% end %>
             // event.preventDefault();
-            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果"},function(data){
+            $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:1,address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",asset_allocation:asset_allocation,wbreedinfo:wbreedinfo},function(data){
                 if(data=="f"){
                     $('#user').show();
                     $("#user2").html("用户名 "+username+" 已注册！请先登录");

@@ -10,11 +10,36 @@ class UserMailer < ActionMailer::Base
     @usename = usename
     mail to: "cuiwei@tongtianshun.com"
   end
-
-  def applyuser(usename,tel)
+   def login(usename,asset_allocation,wbreedinfo)
+     @usename = usename
+     @risktolerance=asset_allocation.split('|')[3]
+     @response=asset_allocation.split('|')[12]
+     @portfolio=asset_allocation.split('|')[13]
+     @concern=asset_allocation.split('|')[11]
+     @options=asset_allocation.split('|')[9]
+     @age=asset_allocation.split('|')[4]
+     @lnw=asset_allocation.split('|')[5]
+     @income=asset_allocation.split('|')[6]
+     @wbreedinfo=wbreedinfo
+     @trade=asset_allocation.split('|')[10]
+     @goal=asset_allocation.split('|')[8]
+     mail to: "cuiwei@tongtianshun.com"
+   end
+  def applyuser(usename,tel,asset_allocation,wbreedinfo)
     @usename = usename
     @tel = tel
-    mail to: "cuiwei@tongtianshun.com"
+    @risktolerance=asset_allocation.split('|')[3]
+    @response=asset_allocation.split('|')[12]
+    @portfolio=asset_allocation.split('|')[13]
+    @concern=asset_allocation.split('|')[11]
+    @options=asset_allocation.split('|')[9]
+    @age=asset_allocation.split('|')[4]
+    @lnw=asset_allocation.split('|')[5]
+    @income=asset_allocation.split('|')[6]
+    @wbreedinfo=wbreedinfo
+    @trade=asset_allocation.split('|')[10]
+    @goal=asset_allocation.split('|')[8]
+        mail to: "cuiwei@tongtianshun.com"
   end
 
   def reserve(usename,tel,email,bname,trustee,btype,startvalue,investamount,returnrate,investperiod,sailsstart,collectperiod)

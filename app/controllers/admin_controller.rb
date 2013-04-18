@@ -279,10 +279,10 @@
        if params[:risktolerance]!=nil && params[:issend]!='1'
             UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
        end
-          UserMailer.confirm(params[:username]).deliver
+          UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo]).deliver
        else
          UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-         UserMailer.applyuser(params[:username],params[:tel]).deliver
+         UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo]).deliver
        end
       }
     render :json => "s".to_json
@@ -291,7 +291,7 @@
       Thread.new{
         if params[:apply]=='1'
           UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-          UserMailer.applyuser(params[:username],params[:tel]).deliver
+          UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo]).deliver
         end
       }
       if session[:webusername]!=nil
