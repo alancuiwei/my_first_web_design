@@ -1,8 +1,13 @@
 #encoding: utf-8
 class BlogController < ApplicationController
   def index
-    @blogs=Blog.find_by_sql('select * from blog order by publishdate desc')
-    #    @blogs=Blog.order("publishdate desc").page(params[:page])
+      @blog=Blog.all
+      if params[:id]==nil
+         bid="0"
+      else
+         bid=(params[:id].to_i*7).to_s
+      end
+       @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
   end
 
   def blogarticle
@@ -33,10 +38,22 @@ class BlogController < ApplicationController
   end
 
   def blogbusinesslife
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="创业人生" order by publishdate desc')
+    @blog=Blog.find_by_sql('select * from blog where bcolumn="创业人生"')
+    if params[:id]==nil
+      bid="0"
+    else
+      bid=(params[:id].to_i*7).to_s
+    end
+    @blogs=Blog.find_by_sql('select * from blog where bcolumn="创业人生" order by publishdate desc limit '+bid+',7')
   end
 
   def blogbankfinance
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品" order by publishdate desc')
+    @blog=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品"')
+    if params[:id]==nil
+      bid="0"
+    else
+      bid=(params[:id].to_i*7).to_s
+    end
+    @blogs=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品" order by publishdate desc limit '+bid+',7')
   end
 end

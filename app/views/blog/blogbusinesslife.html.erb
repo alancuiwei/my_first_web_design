@@ -1,6 +1,4 @@
 <%= stylesheet_link_tag "blog.css" %>
-<%= javascript_include_tag "jquery.dataTables.min.js" %>
-<%= stylesheet_link_tag "demo_table_jui.css" %>
 
 <div  class='main-content'>
   <table class="body-container" cellpadding="0" cellspacing="0">
@@ -69,6 +67,8 @@
           <% end %>
           </tbody>
         </table>
+        <a id="next" class="pull-right" href="javascript:void(0);">下一页</a>
+        <a id="last" class="pull-right" style="width: 50px;" href="javascript:void(0);">上一页</a>
       </td>
       <td class="side-tip">
         <div class="tip">
@@ -89,19 +89,42 @@
     </tr>
   </table>
 </div>
+
 <script>
-    $(document).ready(function(){
 
-        /* Initialise datatables */
-        var oTable = $('#blog').dataTable({
-            "iDisplayLength": 20,
-            "bJQueryUI": true,
-            "bSort": false,
-            "sPaginationType": "full_numbers",
-            "aaSorting": [[ 2, "desc" ]],
-            "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
-            "bProcessing": true
-        });
+    $(document).ready(function () {
+        <% if params[:id]==nil %>
+        var bid=0;
+        <% else %>
+        var bid=<%= params[:id] %>;
+        <% end %>
+        if(bid==0){
+            $("#last").addClass("black");
+        }
+        else if((bid+1)*7>=parseInt('<%= @blog.length %>')){
+            $("#next").addClass("black");
+        }
+    });
 
+    $("#last,#next").click(function next(){
+        <% if params[:id]==nil %>
+        var bid=0;
+        <% else %>
+        var bid=<%= params[:id] %>;
+        <% end %>
+        if(bid==0 && this.id=="last"){
+            return false;
+        }
+        else if((bid+1)*7>=parseInt('<%= @blog.length %>') && this.id=="next"){
+            return false;
+        }
+
+        if(this.id=="last"){
+            bid=bid-1;
+        }
+        else{
+            bid=bid+1;
+        }
+        location.href="/blog/blogbusinesslife/"+bid;
     });
 </script>
