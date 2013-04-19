@@ -160,7 +160,7 @@
             alert("电子邮箱格式不正确！");
         }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
                 if(data=="f"){
                     alert("用户名已注册！");
                 }
@@ -316,13 +316,13 @@
             if(nom_flag==0){
                 $.get("/admin/userconfigajax/0",{username:$('#username3').attr("value"),name:$('#name').attr("value"),tel:$('#tel').attr("value"),
                     password:$('#password3').attr("value"),email:$('#email').attr("value"),company:$('#company').attr("value"),
-                    division:$('#division').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0},function(data){
+                    division:$('#division').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2},function(data){
                     if(data=="f"){
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
                         alert("用户注册成功！");
-                        userlogin('#username3','#password3',1);
+                        userlogin('#username3','#password3',3);
                     }
                 })
             }

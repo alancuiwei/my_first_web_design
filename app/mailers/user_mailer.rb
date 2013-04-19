@@ -6,8 +6,9 @@ class UserMailer < ActionMailer::Base
   #
   #   en.user_mailer.confirm.subject
   #
-  def confirm(usename)
+  def confirm(usename,email)
     @usename = usename
+        @email = email
     mail to: "cuiwei@tongtianshun.com"
   end
    def login(usename,asset_allocation,wbreedinfo)

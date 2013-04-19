@@ -275,6 +275,9 @@
       end
 #      session[:webusername]=params[:username]
       Thread.new{
+        if params[:ulogin]!=nil
+          UserMailer.confirm(params[:username],params[:email]).deliver
+          else
        if params[:apply]!='1'
        if params[:risktolerance]!=nil && params[:issend]!='1'
             UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
@@ -284,9 +287,9 @@
          UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
          UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo]).deliver
        end
+        end
       }
     render :json => "s".to_json
-        # UserMailer.confirm(params[:username],params[:tel]).deliver
     else
       Thread.new{
         if params[:apply]=='1'

@@ -128,17 +128,33 @@
                       <tr>
                         <td class="hide"><%= b.trustee%></td>
                         <td class="name"><%= b.bname%></td>
+                        <% if b.investperiod != nil %>
                         <td><%= format("%0.0f",b.investperiod)%>天</td>
-                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
-                        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                        <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
-                        <td class="hide"><%= b.ispatent %></td>
-                        <td><%= b.btype%></td>
-                        <% if b.trustee =="北京银行" %>
-                            <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
                         <% else %>
-                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+                            <td>0</td>
                         <% end %>
+                        <% if b.startvalue != nil %>
+                          <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
+                        <% else %>
+                          <td class="hide">0</td>
+                        <% end %>
+                        <% if b.returnrate != nil %>
+                        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                        <% else %>
+                            <td>0</td>
+                        <% end %>
+                        <% if b.returnrate != nil && b.investperiod != nil %>
+                        <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.2f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
+                        <% else %>
+                            <td>0</td>
+                        <% end %>
+                        <td class="hide"><%= b.ispatent %></td>
+                        <% if b.btype=="0" || b.btype==nil || b.btype=="不保本" %>
+                            <td>不保本</td>
+                        <% else %>
+                            <td>保本</td>
+                        <% end %>
+                        <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
                       </tr>
                   <% end %>
                 </table>
@@ -157,17 +173,33 @@
                       <tr>
                         <td class="hide"><%= b.trustee%></td>
                         <td class="name"><%= b.bname%></td>
-                        <td><%= format("%0.0f",b.investperiod)%>天</td>
-                        <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
-                        <td><%= format("%0.1f",b.returnrate*100)%>%</td>
-                        <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.1f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
-                        <td class="hide"><%= b.ispatent %></td>
-                        <td><%= b.btype%></td>
-                        <% if b.trustee =="北京银行" %>
-                            <td><a href="/sales/index?bid=<%= b.id%>&favourable=1">预订</a></td>
+                        <% if b.investperiod != nil %>
+                            <td><%= format("%0.0f",b.investperiod)%>天</td>
                         <% else %>
-                            <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+                            <td>0</td>
                         <% end %>
+                        <% if b.startvalue != nil %>
+                            <td class="hide"><%= format("%0.0f",b.startvalue/10000)%>万</td>
+                        <% else %>
+                            <td class="hide">0</td>
+                        <% end %>
+                        <% if b.returnrate != nil %>
+                            <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                        <% else %>
+                            <td>0</td>
+                        <% end %>
+                        <% if b.returnrate != nil && b.investperiod != nil %>
+                            <td><p title="<%= cookies[:amount]%>*<%= b.returnrate%>*<%= b.investperiod%>/365"><%= format("%0.2f",cookies[:amount].to_i*b.returnrate*b.investperiod/365) %>元</p></td>
+                        <% else %>
+                            <td>0</td>
+                        <% end %>
+                        <td class="hide"><%= b.ispatent %></td>
+                        <% if b.btype=="0" || b.btype==nil || b.btype=="不保本" %>
+                            <td>不保本</td>
+                        <% else %>
+                            <td>保本</td>
+                        <% end %>
+                        <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
                       </tr>
                   <% end %>
                 </table>
@@ -223,7 +255,7 @@
                     flag3=1;
                 }
 
-                if(optionsRadios=="绝对不能亏损本金"&&aData[7]=="保本"){
+                if(optionsRadios=="绝对不能亏损本金"&&(aData[7]=="保本" || aData[7]>0)){
                     flag4=1;
                 }
                 else if(optionsRadios=="可以承担本金亏损"){

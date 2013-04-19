@@ -89,10 +89,35 @@
 <br>
 <div class="welcme-content img">
   <h2 class="press">通天顺的服务</h2>
+  <table id="select">
+    <tr>
+      <td style="width: 28%;"><h3><a href="/home/guide" target="_blank">规划指南文档 >></a></h3><br></td>
+      <td style="width: 8%;"></td>
+      <td style="width: 28%;"><h3><a href="/bankinvest/pickoutfinance" target="_blank">傻瓜式挑选 >></a></h3><br></td>
+      <td style="width: 8%;"></td>
+      <td style="width: 28%;"><h3><a href="/bankinvest/index?category_all=banks" target="_blank">专家式挑选 >></a></h3><br></td>
+    </tr>
+    <tr>
+      <td><a href="/home/guide"><img class="hsw" src="/assets/graph.gif"></a></td>
+      <td></td>
+      <td><a href="/bankinvest/pickoutfinance"><img class="hsw" src="/assets/piggy.gif"></a></td>
+      <td></td>
+      <td><a href="/bankinvest/index?category_all=banks"><img class="hsw" src="/assets/analysis.gif"></a></td>
+    </tr>
+    <tr>
+      <td><p class="leader">国家金融理财师专业设计的规划指南，通俗易懂。</p></td>
+      <td></td>
+      <td><p class="leader">三步流程，帮你从上千的理财产品中挑选最适合的。</p></td>
+      <td></td>
+      <td><p class="leader">收益率、投资期限、起购金额，一目了然，供你选择。</p></td>
+    </tr>
+  </table>
+  <hr>
+  <h2 class="press">通天顺服务流程</h2>
   <table id="pull" style="width: 96.5%;">
     <tr>
       <td rowspan="2">
-  <img src="/assets/120227.jpg" alt="通天顺介绍">
+        <img src="/assets/120227.jpg" alt="通天顺介绍">
       </td>
       <td class="applyvip">
         <a class="invest btn btn-info pull-right" href="/home/apply">申请VIP服务</a>
@@ -105,7 +130,7 @@
     </tr>
   </table>
   <hr>
-  <h2 class="press">通天顺的会员</h2>
+  <h2 class="press">通天顺会员</h2>
   <div id="tradingSystem">
       <a href='/personmanagement/investor'>
         <table id="tableNumbers" border="0" cellpadding="0" cellspacing="0" style="width: 96.5%;">
@@ -144,7 +169,7 @@
             <td class="number"></td>
             <td class="number"></td>
             <td class="number"></td>
-            <td class="investor"><a class="invest btn btn-info pull-right" href="/personmanagement/investor">查看会员信息</a></td>
+            <td class="investor"><a class="invest btn btn-info pull-right" target="_blank" href="/personmanagement/investor">查看会员信息</a></td>
           </tr>
           </tbody>
         </table>
@@ -157,8 +182,9 @@
     -->
   </div>
   <hr>
-  <h2 class="press">产品服务</h2>
-  <br><br>
+  <br>
+
+  <!--
   <div class="row-fluid">
     <div class="span4 offset1">
       <a href="/bankinvest/index?category_all=banks"><img class="pull-left hsw" src="/assets/graph.gif"></a>
@@ -198,7 +224,8 @@
       </a>
     </div>
   </div >
-  <hr>
+  -->
+
   <div class="pres">
     <h2>通天顺的客户</h2>
     <div class="row-fluid">
@@ -220,37 +247,6 @@
     </div>
 
   </div>
-
-  <!--
-  <br><br>
-
-  <div class="row-fluid">
-    <div class="span4 offset1">
-      <a href="/bankinvest/pickoutfinance"><img class="pull-left hsw" src="/assets/graph.gif"></a>
-    </div>
-    <div class="span7">
-      <a href="/bankinvest/pickoutfinance">
-        <h3>三步精选产品</h3>
-        <p class="leader">简单的三个步骤，迅速帮您选择最适合您的<span class="h3">理财产品</span>。<br>
-          通过资金量、流动性、风险性三步骤,公司金融专家研究各银行理财产品说明书推荐产品。这些产品都是银行自行设计并发行，产品风险极低，至今无亏损记录。</p>
-      </a>
-    </div>
-  </div >
-
-
-  <div class="row-fluid">
-    <div class="span4 offset1">
-      <a href="/home/productindex"><img class="pull-left hsw" src="/assets/analysis.gif"></a>
-    </div>
-    <div class="span7">
-      <a href="http://eepurl.com/tonoL" target="_blank" class='full'>
-        <h3>邮件订阅</h3>
-        <p class="leader">订阅邮件，将定期发送<span class="h3">银行理财产品</span>文章，普及理财基本知识，最新产品功能及时推荐。
-          并将在每周发送创业日记，会给您职场带来一些帮助和思考。</p>
-      </a>
-    </div>
-  </div >
-  -->
 </div>
 </div>
 <script>
@@ -316,7 +312,7 @@
             if(i==0){
                 c=num;
             }else if(i==1){
-            c=invest;
+                c=invest;
             }
             if(c.substr(0,[1])=='b'){$("#tableNumbers tr:eq("+i+") td:eq(2)").html('<div><img src="/assets/blank.png"></div>');}
             else{$("#tableNumbers tr:eq("+i+") td:eq(2)").html('<div><img src'+'='+'"/assets/num'+c.substr(0,[1])+'.png"></div>');}
