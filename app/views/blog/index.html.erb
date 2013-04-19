@@ -5,7 +5,7 @@
     <tr>
       <td class="content">
         <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
-        <a class="crumbs" href="/home/productindex" >银行理财产品</a>
+        <a class="crumbs" href="/blog/index" >博客</a>
         <h1 id="title">博客</h1>
         <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
           <thead class="hide">
@@ -58,7 +58,7 @@
                     </p>
                   </div>
                   <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
-                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
+                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
                 </td>
               </tr>
               <tr>
@@ -72,6 +72,7 @@
         <a id="last" class="pull-right" style="width: 50px;" href="javascript:void(0);">上一页</a>
       </td>
       <td class="side-tip">
+       <div style="position: fixed;top:80px;">
         <div class="tip">
           <li  class="widget-container">
             <h3>目录</h3>
@@ -93,6 +94,7 @@
             </ul>
           </li>
         </div>
+       </div>
       </td>
     </tr>
   </table>

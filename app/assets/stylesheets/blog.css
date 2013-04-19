@@ -25,7 +25,7 @@
 
 #blog h2.entry-title a{
     font-size: 38px;
-    line-height: 1em;
+    line-height: 50px;
     margin-bottom: 5px;
     color: #000000;
 }
@@ -98,10 +98,24 @@ td, th {
     max-width: 220px;
     min-height: 200px;
     height: auto;
-    right: -15px;
+    left: 40px\9;
     background: none repeat scroll 0% 0% rgb(248, 248, 248);
     box-shadow: 0px 0px 3px rgb(170, 170, 170);
     cursor: default;
+}
+
+@media (max-width: 1100px) {
+    .side-tip div.tip {
+        top:170px;
+        position: fixed;
+        right: 0px;
+    }
+}
+@media (min-width: 1100px) {
+    .side-tip div.tip {
+        position: absolute;
+        left: 40px;
+    }
 }
 
 .tip li.widget-container {
@@ -200,7 +214,7 @@ span.link, a {
 }
 
 .eday,.entry-utility {
-    font-size: 11px;
+    font-size: 13px;
     margin-top: 10px;
     color: #888;
 }
@@ -221,6 +235,7 @@ span.link, a {
     overflow: hidden;
     /*white-space: pre-line; */
     text-overflow : ellipsis;
+    margin-bottom: 24px;
 }
 
 .alignleft, img.alignleft {
@@ -247,8 +262,8 @@ img.size-medium{
 
 .post{
     color: rgb(0, 0, 0);
-    font-size: 58px;
-    line-height: 62px;
+    font-size: 38px;
+    line-height: 1em;
     margin: 15px 0;
     font-family: "Oswald","arial narrow",sans-serif;
     font-weight: 900;
@@ -310,4 +325,35 @@ p {
 .cat-links a{
     font-size: 17px;
     line-height: 22px;
+}.entry-meta,#blog .entry-meta a{
+color: rgb(136, 136, 136);
+font-size: 12px;
+    margin-bottom: 10px;
+}
+
+#blog .entry-meta a{
+text-decoration:underline;
+}
+
+#blog .entry-meta a:hover{
+color: #ff0000;
+}
+
+#blog .eday a:hover{
+  font-size: 13px;
+}
+#blog .eday a{
+  font-size: 13px;
+}
+
+#blog .cat-links a {
+    font-size: 17px;
+    text-decoration: none;
+}
+#blog .cat-links a:hover {
+    text-decoration: underline;
+}
+
+#content p{
+    margin-bottom: 24px;
 }

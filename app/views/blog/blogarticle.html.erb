@@ -10,7 +10,7 @@
 			<td>
 				<div class="breadcrumbs">
                   <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
-                  <a class="crumbs" href="/home/productindex" >银行理财产品</a><br><br></div>
+                  <a class="crumbs" href="/blog/index" >博客</a><br><br></div>
 			</td>
 		  </tr>
       <tr>
@@ -46,7 +46,7 @@
             </td>
             <td class="post-cell">
               <p class="entry-title post"><%=raw @bloginfo[0]%></p>
-              <div class="eday"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= @bloginfo[2]%></a></div>
+              <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
               <div class="article">
                 <p><img class="alignleft size-medium "  style="width: 100%;" src="/assets/<%= @bloginfo[5]%>">
                   <%=raw @bloginfo[3]%>
@@ -93,6 +93,7 @@
         </table>
       </td>
       <td class="side-tip">
+        <div style="position: fixed;top:80px;">
         <div class="tip">
           <li  class="widget-container">
             <h3>目录</h3>
@@ -113,6 +114,7 @@
               </li>
             </ul>
           </li>
+        </div>
         </div>
       </td>
     </tr>
