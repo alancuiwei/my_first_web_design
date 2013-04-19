@@ -1,13 +1,18 @@
 #encoding: utf-8
 class BlogController < ApplicationController
   def index
-      @blog=Blog.all
       if params[:id]==nil
          bid="0"
       else
          bid=(params[:id].to_i*7).to_s
       end
+      if params[:classify]==nil
+       @blog=Blog.all
        @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
+      else
+        @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
+        @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc limit '+bid+',7')
+      end
   end
 
   def blogarticle
@@ -35,25 +40,5 @@ class BlogController < ApplicationController
       b.save
     end
     render :json => "s1".to_json
-  end
-
-  def blogbusinesslife
-    @blog=Blog.find_by_sql('select * from blog where bcolumn="创业人生"')
-    if params[:id]==nil
-      bid="0"
-    else
-      bid=(params[:id].to_i*7).to_s
-    end
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="创业人生" order by publishdate desc limit '+bid+',7')
-  end
-
-  def blogbankfinance
-    @blog=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品"')
-    if params[:id]==nil
-      bid="0"
-    else
-      bid=(params[:id].to_i*7).to_s
-    end
-    @blogs=Blog.find_by_sql('select * from blog where bcolumn="银行理财产品" order by publishdate desc limit '+bid+',7')
   end
 end

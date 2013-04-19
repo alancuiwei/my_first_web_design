@@ -24,12 +24,15 @@
 		</script><br>
 
     栏目：<select  name="bcolumn" id="bcolumn" title="栏目">
-    <% if session[:webusername]=='admin' %>
+    <option value="通天顺的服务">通天顺的服务</option>
+    <option value="常见问答">常见问答</option>
+    <option value="家庭理财规划建议">家庭理财规划建议</option>
+    <option value="家庭理财规划精彩案例">家庭理财规划精彩案例</option>
              <option value="银行理财产品">银行理财产品</option>
+    <option value="券商理财产品">券商理财产品</option>
              <option value="创业人生">创业人生</option>
-    <% else%>
-        <option value="银行理财产品">银行理财产品</option>
-    <% end%>
+    <option value="保险产品">保险产品</option>
+    <option value="信托产品">信托产品</option>
           </select><br>
 
     <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">

@@ -6,7 +6,7 @@
       <td class="content">
         <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
         <a class="crumbs" href="/home/productindex" >银行理财产品</a>
-        <h1>博客</h1>
+        <h1 id="title">博客</h1>
         <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
           <thead class="hide">
           <tr>
@@ -45,24 +45,20 @@
                   <!-- Baidu Button END -->
                 </td>
                 <td class="post-cell">
-                  <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%=raw b.btitle%></a></h2>
-                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
-                  <div class="entry-content">
-                    <p>
-                      <img class="alignleft size-medium " style="width: 200px;" src="/assets/<%= b.imagepath%>">
-                    <div style="width: 698px; float: auto;"><%=raw b.barticle%></div>
-                    </p>
-                  </div>
-                  <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">详细内容<span class="meta-nav">»</span></a></p>
                   <div class="entry-utility">
                     <span class="cat-links">
-						<% if  b.bcolumn=='创业人生' %>
-							发表于<a href="/blog/blogbusinesslife"  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>栏目
-							<% else %>
-							发表于<a href="/blog/blogbankfinance"  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>栏目
-						<% end %>
+							<a href="/blog/index?classify=<%= b.bcolumn%>"  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>
                     </span>
                   </div>
+                  <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%=raw b.btitle%></a></h2>
+                  <div class="entry-content">
+                    <p>
+                      <img class="alignleft size-medium " style="width: 100%;" src="/assets/<%= b.imagepath%>">
+                    <div style="width: 698px; float: auto;"><%=raw b.barticle %></div>
+                    </p>
+                  </div>
+                  <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
+                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp;<a href="" class="a"><%= b.publishdate%></a></div>
                 </td>
               </tr>
               <tr>
@@ -83,8 +79,15 @@
               <li>
                 <a href="/blog/index" class="a">博客</a>
                 <ul>
-                  <li><a href="/blog/blogbankfinance" class="a">银行理财产品</a></li>
-                  <li><a href="/blog/blogbusinesslife" class="a">创业人生</a></li>
+                  <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                  <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                  <li><a href="/blog/index?classify=家庭理财规划建议" class="a">家庭理财规划建议</a></li>
+                  <li><a href="/blog/index?classify=家庭理财规划精彩案例" class="a">家庭理财规划精彩案例</a></li>
+                  <li><a href="/blog/index?classify=银行理财产品" class="a">银行理财产品</a></li>
+                  <li><a href="/blog/index?classify=券商理财产品" class="a">券商理财产品</a></li>
+                  <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                  <li><a href="/blog/index?classify=保险产品" class="a">保险产品</a></li>
+                  <li><a href="/blog/index?classify=信托产品" class="a">信托产品</a></li>
                 </ul>
               </li>
             </ul>
@@ -105,9 +108,12 @@
         if(bid==0){
             $("#last").addClass("black");
         }
-        else if((bid+1)*7>=parseInt('<%= @blog.length %>')){
+        if((bid+1)*7>=parseInt('<%= @blog.length %>')){
             $("#next").addClass("black");
         }
+        <% if params[:classify]!=nil %>
+           $("#title").html('<%= params[:classify] %>');
+        <% end %>
     });
 
     $("#last,#next").click(function next(){
@@ -129,6 +135,10 @@
         else{
             bid=bid+1;
         }
+        <% if params[:classify]==nil %>
         location.href="/blog/index/"+bid;
+        <% else %>
+        location.href="/blog/index/"+bid+"?classify="+'<%= params[:classify] %>';
+        <% end %>
     });
 </script>
