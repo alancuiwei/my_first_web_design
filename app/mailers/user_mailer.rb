@@ -6,12 +6,13 @@ class UserMailer < ActionMailer::Base
   #
   #   en.user_mailer.confirm.subject
   #
-  def confirm(usename,email)
+  def confirm(usename,email,title)
     @usename = usename
         @email = email
-    mail to: "cuiwei@tongtianshun.com"
+    mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
   end
-   def login(usename,asset_allocation,wbreedinfo)
+
+   def login(usename,asset_allocation,wbreedinfo,title)
      @usename = usename
      @risktolerance=asset_allocation.split('|')[3]
      @response=asset_allocation.split('|')[12]
@@ -24,9 +25,10 @@ class UserMailer < ActionMailer::Base
      @wbreedinfo=wbreedinfo
      @trade=asset_allocation.split('|')[10]
      @goal=asset_allocation.split('|')[8]
-     mail to: "cuiwei@tongtianshun.com"
+     mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
    end
-  def applyuser(usename,tel,asset_allocation,wbreedinfo)
+
+  def applyuser(usename,tel,asset_allocation,wbreedinfo,title)
     @usename = usename
     @tel = tel
     @risktolerance=asset_allocation.split('|')[3]
@@ -40,7 +42,7 @@ class UserMailer < ActionMailer::Base
     @wbreedinfo=wbreedinfo
     @trade=asset_allocation.split('|')[10]
     @goal=asset_allocation.split('|')[8]
-        mail to: "cuiwei@tongtianshun.com"
+    mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
   end
 
   def reserve(usename,tel,email,bname,trustee,btype,startvalue,investamount,returnrate,investperiod,sailsstart,collectperiod)

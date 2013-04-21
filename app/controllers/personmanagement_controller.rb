@@ -108,7 +108,6 @@ class PersonmanagementController < ApplicationController
 
   def personconfigajax
     if params[:id]=="0"
-      render :json => "f".to_json
       if session[:webusername]==nil
       @personalfinance=Personalfinance.find_by_username(params[:username])
       else

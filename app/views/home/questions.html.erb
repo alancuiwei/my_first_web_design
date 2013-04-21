@@ -300,11 +300,7 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                        <% if session[:webusername] != nil %>
-                            document.getElementById('questionnaire').action ="/home/plan?user=1";
-                        <% else %>
                             document.getElementById('questionnaire').action ="/home/plan";
-                        <% end %>
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());
                         $qr.submit();
                     });

@@ -276,34 +276,62 @@
 #      session[:webusername]=params[:username]
       Thread.new{
         if params[:ulogin]!=nil
-          UserMailer.confirm(params[:username],params[:email]).deliver
+          UserMailer.confirm(params[:username],params[:email],"新用户首页注册").deliver
           else
        if params[:apply]!='1'
        if params[:risktolerance]!=nil && params[:issend]!='1'
             UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
        end
-          UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo]).deliver
+          UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
        else
          UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-         UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo]).deliver
+         UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
        end
         end
       }
     render :json => "s".to_json
     else
+      if session[:webusername]!=nil
       Thread.new{
         if params[:apply]=='1'
           UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-          UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo]).deliver
+            UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
+          else
+            UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
         end
       }
-      if session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
-        @webuser.update_attributes(:tel=>params[:tel])
+        if params[:apply]!='1'
+          @webuser.update_attributes(:email=>params[:email])
+          else
+            @webuser.update_attributes(:tel=>params[:tel],:email=>params[:email])
+        end
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
+        if @personalfinance!=nil
+          @personalfinance.update_attributes(:tel=>params[:tel])
+        end
+        render :json => "f".to_json
+      else
+        if params[:apply]=='1'
+        @webuser=Webuser.find_by_username(params[:username])
+        if @webuser.password==encode(params[:password])
+          Thread.new{
+              UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+              UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
+          }
+          @webuser.update_attributes(:tel=>params[:tel],:email=>params[:email],:risktolerance=>params[:risktolerance])
+        @personalfinance=Personalfinance.find_by_username(session[:webusername])
+          if @personalfinance!=nil
         @personalfinance.update_attributes(:tel=>params[:tel])
       end
+          render :json => "r1".to_json
+        else
+          render :json => "r2".to_json
+        end
+        else
       render :json => "f".to_json
+    end
+      end
     end
 
     else
