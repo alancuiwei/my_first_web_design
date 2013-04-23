@@ -1,11 +1,33 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 
+<% if @banfinance.isorgan!=true && @banfinance.productstate=='yhlc' %>
+<style>
+    .details td.right{
+        width: 26%;
+        white-space:pre-line;
+        line-height: 20px;
+        font-size: 12px;
+        text-align: center;
+        background-color: #ffffff!important;
+    }
+    .details td.left{
+        width:24%;
+        vertical-align: middle;
+        color: #000000;
+        background-color: #fbfbfb;
+        font-weight: normal;
+        font-size: 14px;
+        text-align: left;
+        padding-left: 10px;
+    }
+</style>
+<% end %>
 <div class="main-content details">
 <% if @banfinance.isorgan==true %>
     <div style="width: 80%;">
 <% else %>
-    <div style="width: 100%;">
+    <div style="width: 60%;min-width: 692px;">
 <% end %>
         <a href="/">首页</a>
     <br><br>
@@ -13,7 +35,6 @@
 <div class="box_left_title1">
   <%= @banfinance.bname%><span class="pull-right"><a class="btn btn-primary pull-left" href="javascript:void(0)" id="reserve">预订</a></span>
 </div>
-    <br><br><br>
 <% if @banfinance.isorgan!=true && @banfinance.productstate=='yhlc' %>
     <div class="box_left_title2">
       <div class="box_left_title2_left">
@@ -50,6 +71,7 @@
       <h1>购买流程</h1>
       <img src="/assets/procedure.png">
       <br><br>
+    <h1>产品介绍</h1>
   </div>
 
   <table class="table table-striped table-bordered">
@@ -83,166 +105,50 @@
         <tr>
           <td class="left">发行银行</td>
           <td class="right"><%= @banfinance.trustee%></td>
-          <!--
           <td class="left">销售状态</td>
           <td class="right">在售及预售</td>
-          -->
-        </tr>
-        <tr>
-          <td class="left">产品简介</td>
-          <td class="right"><%= @banfinance.pintroduction%></td>
-        </tr>
-        <tr>
-          <td class="left">申购条件</td>
-          <td class="right"><%= @banfinance.pconditions%></td>
-        </tr>
-        <tr>
-          <td class="left">费用说明</td>
-          <td class="right"><%= @banfinance.costexplan%></td>
-        </tr>
-        <tr>
-          <td class="left">提前终止条件</td>
-          <td class="right"><%= @banfinance.tcondition%></td>
-        </tr>
-        <tr>
-          <td class="left">委托资金说明</td>
-          <td class="right"><%= @banfinance.trustfunds%></td>
-        </tr>
-        <tr>
-          <td class="left">收益率说明</td>
-          <td class="right"><%= @banfinance.rateinstruction%></td>
-        </tr>
-        <tr>
-          <td class="left">管理人</td>
-          <td class="right"><%= @banfinance.administrator%></td>
-        </tr>
-        <tr>
-          <td class="left">托管人</td>
-          <td class="right"><%= @banfinance.trust%></td>
-        </tr>
-        <tr>
-          <td class="left">发行对象</td>
-          <td class="right"><%= @banfinance.issue%></td>
-        </tr>
-        <tr>
-          <td class="left">基础资产</td>
-          <td class="right"><%= @banfinance.underlying%></td>
-        </tr>
-        <tr>
-          <td class="left">业务模式</td>
-          <td class="right"><%= @banfinance.bmodel%></td>
-        </tr>
-        <tr>
-          <td class="left">挂钩标的</td>
-          <td class="right"><%= @banfinance.hookscale%></td>
-        </tr>
-        <tr>
-          <td class="left">预期年化收益率上限</td>
-          <% if @banfinance.returnrate!=0 && @banfinance.returnrate!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.returnrate*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">预期年化收益率下限</td>
-          <% if @banfinance.annualratedown!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.annualratedown*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">预期收益率上限(公布)</td>
-          <% if @banfinance.rateup!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.rateup*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">预期收益率下限(公布)</td>
-          <% if @banfinance.ratedown!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.ratedown*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">封顶收益率</td>
-          <% if @banfinance.cappedrate!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.cappedrate*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">实际收益率</td>
-          <% if @banfinance.realrate!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.realrate*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">实际年化收益率</td>
-          <% if @banfinance.realannualrate!=nil %>   <td class="right"><%=  format("%0.1f",@banfinance.realannualrate*100)%>%</td>  <% else %>  <td class="right"></td>  <% end %>
         </tr>
         <tr>
           <td class="left">销售起始日</td>
           <td class="right"><%= @banfinance.sailsstart%></td>
-        </tr>
-        <tr>
           <td class="left">销售截止日</td>
           <td class="right"><%= @banfinance.collectperiod%></td>
         </tr>
+          <tr>
+            <td class="left">收益起始日</td>
+            <td class="right"><%= @banfinance.sreturndate%></td>
+            <td class="left">收益到期日</td>
+            <td class="right"><%= @banfinance.creturndate%></td>
+          </tr>
+          <tr>
+            <td class="left">投资期限</td>
+            <td class="right"><% if @banfinance.investperiod != nil %><%= @banfinance.investperiod%>天<% end %></td>
+            <td class="left">发售地区</td>
+            <td class="right"><%= @banfinance.distributionarea%></td>
+          </tr>
         <tr>
-          <td class="left">收益起始日</td>
-          <td class="right"><%= @banfinance.sreturndate%></td>
-        </tr>
-        <tr>
-          <td class="left">收益到期日</td>
-          <td class="right"><%= @banfinance.creturndate%></td>
-        </tr>
-        <tr>
-          <td class="left">委托期(天)</td>
-          <td class="right"><%= @banfinance.investperiod%></td>
-        </tr>
-        <tr>
-          <td class="left">发售地区</td>
-          <td class="right"><%= @banfinance.distributionarea%></td>
-        </tr>
-        <tr>
-          <td class="left" title="指理财产品本金的安全程度。非保本产品，处理为 0；保本产品，处理为 100；若确定为保证收益的，则处理为 100 与收益率之和；若为部分保本，则处理为披露的保本比例。未披露保本程度的，处理为空值。">保本比例</td>
-          <td class="right"><%= @banfinance.btype%></td>
-        </tr>
-        <tr>
-          <td class="left">委托起始金额(万元)</td>
-          <td class="right"><%= format("%0.0f",@banfinance.startvalue/10000)%></td>
-        </tr>
-        <tr>
-          <td class="left">计划募资金额上限(亿元)</td>
-          <td class="right"><%= @banfinance.planamountup%></td>
-        </tr>
-        <tr>
-          <td class="left">计划募资金额下限(亿元)</td>
-          <% if @banfinance.planamountdown==0 %>   <td class="right"><%=  format("%0.0f",@banfinance.planamountdown)%></td>  <% else %>  <td class="right"><%= @banfinance.planamountdown%></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">销售规模(亿元)</td>
-          <% if @banfinance.salesscale==0 %>   <td class="right"><%=  format("%0.0f",@banfinance.salesscale)%></td>  <% else %>  <td class="right"><%= @banfinance.salesscale%></td>  <% end %>
-        </tr>
-        <tr>
-          <td class="left">产品结构</td>
-          <td class="right"><%= @banfinance.productmix%></td>
-        </tr>
-        <tr>
-          <td class="left">管理费率</td>
-          <td class="right"><%= @banfinance.managementfee%></td>
-        </tr>
-        <tr>
-          <td class="left">托管费率</td>
-          <td class="right"><%= @banfinance.trusteefee%></td>
-        </tr>
-        <tr>
-          <td class="left">认购费率</td>
-          <td class="right"><%= @banfinance.subscriptionrate%></td>
-        </tr>
-        <tr>
-          <td class="left">赎回费率</td>
-          <td class="right"><%= @banfinance.redemptionrate%></td>
-        </tr>
-        <tr>
-          <td class="left">投资者提前赎回</td>
+          <td class="left">投资门槛</td>
+          <td class="right"><%= @banfinance.startvalue%></td>
+          <td class="left">赎回类型</td>
           <td class="right"><%= @banfinance.investearly%></td>
         </tr>
         <tr>
-          <td class="left">银行提前终止</td>
+          <td class="left">银行是否有权提前终止</td>
           <td class="right"><%= @banfinance.bankearly%></td>
+          <td class="left">投资标的</td>
+          <td class="right"><%= @banfinance.underlying%></td>
         </tr>
         <tr>
-          <td class="left">超额收益记为管理费</td>
-          <td class="right"><%= @banfinance.reasmfee%></td>
+          <td class="left">投资范围</td>
+          <td class="right" colspan="3"><%= @banfinance.issue%></td>
         </tr>
         <tr>
           <td class="left">购买渠道</td>
-          <td class="right"><%= @banfinance.pchannels%></td>
+          <td class="right" colspan="3"><%= @banfinance.pchannels%></td>
+        </tr>
+        <tr>
+          <td class="left">风险提示</td>
+          <td class="right" colspan="3"><%= @banfinance.risktip%></td>
         </tr>
       <% else %>
           <tr>
