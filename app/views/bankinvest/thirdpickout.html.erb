@@ -14,23 +14,27 @@
             </div>
             <div class="overlay">
               <h1>3. 风险性</h1>
-              <form name="form1" action="/bankinvest/fourthpickout" method="post" onsubmit="return checkinput()">
                 <div class="controls">
-                  <label class="radio"><input name="optionsRadios" checked  value="绝对不能亏损本金" type="radio">本金不能亏损</label>
-
-                  <label class="radio"><input name="optionsRadios" value="可以承担本金亏损" type="radio">可以承受本金亏损</label>
+                  <label class="radio"><input id="fdeficit" name="optionsRadios" checked  value="绝对不能亏损本金" type="radio">本金不能亏损</label>
+                  <br>
+                  <label class="radio"><input id="cdeficit" name="optionsRadios" value="可以承担本金亏损" type="radio">可以承受本金亏损</label><br>
+                  <div id="deficit" style="margin:0 0 0 20px;display: none;">
+                  <p style="margin-bottom: 10px;">您期待的年收益率是？<br></p>
+                    <div class="input-append">
+                      <input class="input-medium" style="width: 118px;" name="returnrate" id="returnrate" type="text" placeholder="年收益率">
+                      <span class="add-on">%</span>
+                    </div>
+                  </div>
                   <a class="btn btn-primary pull-right"  id ="checkinput" type="submit">确定</a>
-              </div>
-               </form>
+                </div>
             </div>
           </div>
         </div>
       </td>
       <td>
         <div class="main-body">
-          <a href="/">首页</a>&nbsp; >&nbsp;
-          <a href="/bankinvest/index" >银行理财产品</a>
-          <h1>三步精选产品</h1>
+          <a href="/">首页</a>
+          <h1>懒人式挑选</h1>
           <table>
             <tr>
               <td class="left2">
@@ -43,34 +47,9 @@
               </div>
             </div>
           </div>
-          <div class="bordered">
-            <h4>风险性与个人家庭情况</h4>
-
-            <table class="table table-striped">
-                    <thead>
-                    <tr>
-                      <th>个人家庭情况</th>
-                      <th>产品类型</th>
-                      <th>风险承担者</th>
-                      <th>我们的建议</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td>本金不能亏损</td>
-                      <td>保本型</td>
-                      <td>完全由银行承担。</td>
-                      <td>资金绝对安全，收益率相对较低。</td>
-                    </tr>
-                    <tr>
-                      <td>可以承受本金亏损</td>
-                      <td>不保本</td>
-                      <td>由投资者自己承担。</td>
-                      <td>资金相对安全，收益率相对较高。</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
+          <div>
+            <img src="/assets/prisk.png">
+          </div>
               </td>
               <td class="right2">
                 <div class="tip2">
@@ -128,7 +107,86 @@
 </div>
 
 <script language="javascript" type="text/javascript">
+    try{
+        $(function() {
+            var $amt = $("#returnrate")
+                    .on("update", function () {
+                        var amt = this.value;
+                        if (amt.match(/^\d+$/) && (amt = +amt) >= 0 && (amt = +amt) <= 100) {
+                            $amt.removeClass("invalid");
+                            if (amt !== $amt.data("val")) {
+                                $amt.data("val", amt);
+                            }
+                        } else {
+                            $amt.addClass("invalid");
+                        }
+                    })
+                    .bind("keypress keyup", function() {
+                        $(this).trigger("update");
+                    })
+        });
+    } catch(e) {w.trackJsError(e); throw e;}
+
     $("#checkinput").click(function(e){
-        form1.submit();
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var Obj = document.getElementsByName("optionsRadios");
+        for(i=0;i<Obj.length;i++){
+            if(Obj[i].checked){
+                if(i==1){
+                   if($("#returnrate").attr("value")==""){
+                       $("#returnrate").addClass("invalid");
+                       return false;
+                   }
+                    else if(!numfor.test($("#returnrate").attr("value"))){
+                       return false;
+                   }
+                    else if(parseFloat($("#returnrate").attr("value"))<0 || parseFloat($("#returnrate").attr("value"))>100){
+                       return false;
+                   }
+                }
+                break;
+            }
+        };
+        if(i==0){
+            location.href="/bankinvest/fourthpickout?amount="+Request("amount")+"&deadline="+Request("deadline")+"&deficit=0";
+        }
+        else if(i==1){
+            location.href="/bankinvest/fourthpickout?amount="+Request("amount")+"&deadline="+Request("deadline")+"&deficit=1&returnrate="+$("#returnrate").attr("value");
+        }
     });
+
+    $("#fdeficit").click(function(e){
+        $("#deficit").hide();
+    });
+    $("#cdeficit").click(function(e){
+        $("#deficit").show();
+    });
+
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
 </script>

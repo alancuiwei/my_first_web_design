@@ -64,22 +64,24 @@ class BankinvestController < ApplicationController
     @specialfinances=Bankfinance.find_by_sql('select * from bankfinance where ispickout=1')
   end
 
-  def secondpickout
-  cookies[:bcolumn] = params[:bcolumn]
-  if  params[:amounts] != nil
-    cookies[:amount] = params[:amounts]
-  else
-  cookies[:amount] = params[:amount]
-  end
-  end
-
-  def thirdpickout
-    cookies[:deadline] = params[:deadline]
-  end
-
   def fourthpickout
-    @bankfinances=Bankfinance.all
-    cookies[:optionsRadios] = params[:optionsRadios]
+    if params[:deficit]=="0"
+      if params[:deadline]=="30"
+         @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod<=30 and (btype="保本" or btype>0 or btype is null)')
+      elsif  params[:deadline]=="90"
+        @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod<=90 and investperiod>30 and (btype="保本" or btype>0 or btype is null)')
+  else
+        @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod>90 and (btype="保本" or btype>0 or btype is null)')
+  end
+    else
+      if params[:deadline]=="30"
+        @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod<=30 and (btype="不保本" or btype="0") and returnrate*100>'+ params[:returnrate])
+      elsif  params[:deadline]=="90"
+        @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod<=90 and investperiod>30 and (btype="不保本" or btype="0") and returnrate*100>'+ params[:returnrate])
+      else
+        @bankfinances=Bankfinance.find_by_sql('select * from bankfinance where startvalue<='+params[:amount]+' and investperiod>90 and (btype="不保本" or btype="0") and returnrate*100>'+ params[:returnrate])
+  end
+  end
     if @bankfinances==nil
       redirect_to(:controller=>"bankinvest", :action=>"fourthpickout")
     end

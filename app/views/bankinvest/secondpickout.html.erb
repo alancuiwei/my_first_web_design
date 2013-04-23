@@ -14,24 +14,21 @@
             </div>
             <div class="overlay">
               <h1>2. 投资周期</h1>
-              <form name="form1" action="/bankinvest/thirdpickout" method="post" onsubmit="return checkinput()">
                 <p class="group">我个人倾向于</p>
                 <select  name="deadline" id="deadline">
-                  <option value="中期投资 (3个月内)">中期投资 (3个月内)</option>
-                  <option value="短期投资 (1个月内)">短期投资 (1个月内)</option>
-                  <option value="长期投资 (3个月以上)">长期投资 (3个月以上)</option>
+                  <option value="90">中期投资 (3个月内)</option>
+                  <option value="30">短期投资 (1个月内)</option>
+                  <option value="91">长期投资 (3个月以上)</option>
                 </select>
               <a class="btn btn-primary pull-right"  id ="checkinput" type="submit">确定</a>
-              </form>
             </div>
           </div>
         </div>
       </td>
       <td>
         <div class="main-body">
-          <a href="/">首页</a>&nbsp; >&nbsp;
-          <a href="/bankinvest/index" >银行理财产品</a>
-          <h1>三步精选产品</h1>
+          <a href="/">首页</a>
+          <h1>懒人式挑选</h1>
           <table>
             <tr>
               <td class="left2">
@@ -46,7 +43,7 @@
           </div>
           <div class="bordered third">
             <h4>投资期限与个人家庭计划</h4>
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
               <thead>
               <tr>
                 <th>个人家庭计划</th>
@@ -165,6 +162,34 @@
 
 <script language="javascript" type="text/javascript">
     $("#checkinput").click(function(e){
-        form1.submit();
+        location.href="/bankinvest/thirdpickout?amount="+Request("amount")+"&deadline="+$("#deadline").attr("value");
     });
+
+    function Request(sName)
+    {
+        var sURL = new String(window.location);
+        var sURL = document.location.href;
+        sURL=decodeURI(sURL);
+        var iQMark= sURL.lastIndexOf('?');
+        var iLensName=sName.length;
+        //retrieve loc. of sName
+        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
+        if (iStart==-1)
+        {//not found at start
+            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
+            if (iStart==-1)
+            {//not found at end
+                return 0; //not found
+            }
+        }
+
+        iStart = iStart + + iLensName + 2;
+        var iTemp= sURL.indexOf('&',iStart); //next pair start
+        if (iTemp ==-1)
+        {//EOF
+            iTemp=sURL.length;
+        }
+        return sURL.slice(iStart,iTemp ) ;
+        sURL=null;//destroy String
+    }
 </script>

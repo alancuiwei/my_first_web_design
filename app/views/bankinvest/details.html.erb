@@ -9,8 +9,31 @@
 <% end %>
         <a href="/">首页</a>
     <br><br>
-        <a class="btn btn-primary pull-left" href="javascript:void(0)" id="reserve">预订</a>
+
+<div class="box_left_title1">
+  <%= @banfinance.bname%><span class="pull-right"><a class="btn btn-primary pull-left" href="javascript:void(0)" id="reserve">预订</a></span>
+</div>
     <br><br><br>
+<% if @banfinance.isorgan!=true && @banfinance.productstate=='yhlc' %>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left">
+        <ul>
+          <li>
+            <span class="qq_bankbig red"><% if @banfinance.returnrate!=0 && @banfinance.returnrate!=nil %><%=  format("%0.1f",@banfinance.returnrate*100)%>%<% end %></span>
+            <span class="qq_banksmall">预期收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red">在售及预售</span>
+            <span class="qq_banksmall">销售状态</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><%=  @banfinance.incometype %></span>
+            <span class="qq_banksmall">产品收益类型</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+<% end %>
   <div id="rate">
   <h1>收益率介绍</h1>
   <br><br>
@@ -28,7 +51,7 @@
       <img src="/assets/procedure.png">
       <br><br>
   </div>
-    <h1>产品介绍</h1>
+
   <table class="table table-striped table-bordered">
     <% if @banfinance.isorgan==true %>
         <tr>
@@ -58,8 +81,12 @@
     <% else %>
       <% if @banfinance.productstate=='yhlc'%>
         <tr>
-          <td class="left">产品名</td>
-          <td class="right"><%= @banfinance.bname%></td>
+          <td class="left">发行银行</td>
+          <td class="right"><%= @banfinance.trustee%></td>
+          <!--
+          <td class="left">销售状态</td>
+          <td class="right">在售及预售</td>
+          -->
         </tr>
         <tr>
           <td class="left">产品简介</td>
