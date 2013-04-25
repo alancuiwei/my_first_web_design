@@ -61,6 +61,20 @@ class UserMailer < ActionMailer::Base
     mail to: "cuiwei@tongtianshun.com"
       end
 
+
+  def capply(username,tel,email,title)
+    @username = username
+    @email = email
+    @tel = tel
+    @title = title
+    mail(:to => "cuiwei@tongtianshun.com",:subject => title)
+  end
+
+  def application(username,email,title)
+    @username = username
+    mail(:to => email,:subject => title)
+      end
+
   def comments(username,company,comment,accept,aid)
     @username = username
     @company = company
@@ -110,4 +124,5 @@ class UserMailer < ActionMailer::Base
     @risktolerance = risktolerance
     mail(:to => email,:subject => title)
   end
+
 end

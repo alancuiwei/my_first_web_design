@@ -23,7 +23,7 @@
             <dt>电子邮箱 *:</dt>
             <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
           </dl>
-         <!-- <a class="btn btn-success pull-right" href="javascript:void(userconfig('#username','#password'))" type="submit">注册</a>   -->
+
           <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
           <div class="or-text"><div><b>或</b></div></div>
           <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
@@ -45,11 +45,43 @@
             <dd><input id="password4" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>两次密码不一致" title="确认密码" placeholder="密码" type="password"></dd>
             <dt>电子邮箱 *:</dt>
             <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
+            <dt>行业 * :</dt>
+            <dd>
+              <select class="trade" id="trade"title="所在行业">
+                <option value="银行">银行</option>
+                <option value="证券公司">证券公司</option>
+                <option value="期货公司">期货公司</option>
+                <option value="保险公司">保险公司</option>
+                <option value="P2P信贷公司">P2P信贷公司</option>
+                <option value="第三方理财机构">第三方理财机构</option>
+              </select>
+            </dd>
             <dt>公司 :</dt>
             <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
-            <dt>营业部 :</dt>
-            <dd><input id="division" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入营业部" title="营业部" placeholder="营业部" type="text"></dd>
+            <dt>资格认证 *:</dt>
+            <dd>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="AFP">&nbsp;AFP
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="CFP">&nbsp;CFP
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="ChFP">&nbsp;ChFP
+              </label>
+              <br>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="EFP">&nbsp;EFP
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="CPB">&nbsp;CPB
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="contact" value="其他">&nbsp;其他
+              </label>
+            </dd>
           </dl>
+          <br>
           <a class="btn btn-success pull-right" id="create2" type="submit">注册</a>
           <div class="or-text"><div><b>或</b></div></div>
           <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
@@ -160,7 +192,7 @@
             alert("电子邮箱格式不正确！");
         }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:"",address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
                 if(data=="f"){
                     alert("用户名已注册！");
                 }
@@ -314,9 +346,23 @@
                 nom_flag=1;
             }
             if(nom_flag==0){
+                var tom=document.getElementsByName("contact");
+                var flag2='';
+                for(var i=0;i<tom.length;i++){
+                    if(flag2==""){
+                        if(tom[i].checked){
+                            flag2=tom[i].value
+                        }
+                    }
+                    else{
+                        if(tom[i].checked){
+                            flag2=flag2+','+tom[i].value
+                        }
+                    }
+                }
                 $.get("/admin/userconfigajax/0",{username:$('#username3').attr("value"),name:$('#name').attr("value"),tel:$('#tel').attr("value"),
                     password:$('#password3').attr("value"),email:$('#email').attr("value"),company:$('#company').attr("value"),
-                    division:$('#division').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2},function(data){
+                    trade:$('#trade').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2,contact:flag2},function(data){
                     if(data=="f"){
                         alert("用户名已注册！");
                     }

@@ -10,7 +10,7 @@
 <div class="main-content organ">
   <a href="/">首页</a>
   <% if @webuser.username==session[:webusername] %>
-      <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.name %>&nbsp;管理页面</h1>
+      <h1><%= @webuser.company %>&nbsp;<%= @webuser.trade %>&nbsp;<%= @webuser.name %>&nbsp;管理页面</h1>
       <h2>1. 产品管理<span style="float: right;"><a href="/admin/bankfinanceconfig/0?organ=1">添加产品</a></span></h2>
   <% else %>
       <h1><%= @webuser.company %>&nbsp;<%= @webuser.division %>&nbsp;<%= @webuser.username %></h1>

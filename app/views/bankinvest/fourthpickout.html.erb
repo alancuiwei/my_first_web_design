@@ -1,4 +1,5 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= javascript_include_tag "bootstrap.js" %>
@@ -58,9 +59,9 @@
                 <form name="form2" action="" method="post" onsubmit="return checkinput2()">
                   <p class="group">我个人倾向于</p>
                   <select  name="deadlines" id="deadlines">
-                    <option value="90">中期投资 (3个月内)</option>
-                    <option value="30">短期投资 (1个月内)</option>
-                    <option value="91">长期投资 (3个月以上)</option>
+                    <option value="365">中期投资 (3个月-1年)</option>
+                    <option value="90">短期投资 (3个月)</option>
+                    <option value="366">长期投资 (1年以上)</option>
                   </select>
                   <a class="btn btn-primary pull-right" href="#fourth" data-toggle="tab" id ="checkinput2" type="submit">确定</a>
                 </form>
@@ -69,9 +70,9 @@
                 <h1>3. 风险性</h1>
                 <form name="form3" action="" method="post" onsubmit="return checkinput3()">
                   <div class="controls">
-                    <label class="radio"><input id="fdeficit" name="optionsRadios"  value="绝对不能亏损本金" type="radio">本金不能亏损</label>
+                    <label class="radio"><input id="fdeficit" name="optionsRadios"  value="本金绝对不能亏损" type="radio">本金绝对不能亏损</label>
                     <br>
-                    <label class="radio"><input id="cdeficit" name="optionsRadios" value="可以承担本金亏损" type="radio">可以承受本金亏损</label><br>
+                    <label class="radio"><input id="cdeficit" name="optionsRadios" value="收益率不能低于通货膨胀率" type="radio">收益率不能低于通货膨胀率</label><br>
                     <div id="deficit" style="margin:0 0 0 20px;display: none;">
                       <p style="margin-bottom: 10px;">您期待的年收益率是？<br></p>
                       <div class="input-append">
@@ -109,7 +110,7 @@
                   <% @bankfinances.each do |b| %>
                       <tr>
                         <td class="hide"><%= b.trustee%></td>
-                        <td class="name"><%= b.bname%></td>
+                        <td class="name"><a href="/bankinvest/details?bid=<%= b.id%>"><%= b.bname%></a></td>
                         <% if b.investperiod != nil %>
                         <td><%= format("%0.0f",b.investperiod)%>天</td>
                         <% else %>
@@ -132,7 +133,7 @@
                         <% end %>
                         <td class="hide"><%= b.ispatent %></td>
                         <% if b.btype=="0" || b.btype==nil || b.btype=="不保本" %>
-                            <td>不保本</td>
+                            <td>浮动收益</td>
                         <% else %>
                             <td>保本</td>
                         <% end %>
@@ -142,11 +143,23 @@
                 </table>
               </td>
               <td class="right2">
-                <div class="tip2">
-                  <li  class="widget-container">
-                    <h3>常见问答</h3>
-                    <a href="http://www.tongtianshun.com/blog/blogarticle/38" target="_blank" class="a">1. 我想提前赎回银行理财产品可以吗？</a><br>
-                  </li>
+                <div class="plan-column right">
+                  <div style="position:relative;width: 180px;">
+                    <div id="position-saver">
+                      <div class="open-account-container">
+                        <p class="open-account-intro">国家金融理财师(AFP)<br>量身定制方案</p> <br><br>
+                        <a id="apply" class="apply" href="#login-box">申请服务</a> <br><br>
+                      </div>
+                      <hr>
+                      <div class="faq-container">
+                        <p>常见疑问</p>
+                        <ul class="common-q">
+                          <li><a href="/home/apply">AFP能给我提供怎样的私人服务？</a></li>
+                          <li><a href="/home/afpintroduce">什么是金融理财师AFP？</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </td>
             </tr>
@@ -158,7 +171,129 @@
   </table>
 </div>
 
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="modal">
+      <div class="modal-header">
+        <a class="close" href="javascript:">×</a>
+        <h3>服务申请</h3>
+      </div>
+        <div class="modal-body">
+          <div id="user1" style="display: none; color: red;font-size: 12px;"><div id="user2"></div><br></div>
+          <% if session[:webusername]==nil %>
+              <input id="username" type="text" name="username" placeholder="用户名"><br>
+              <input id="password" type="password" name="password" placeholder="登录密码">
+          <% end %>
+          <p>我们将把您的理财规划书发送到如下邮箱中。</p>
+          <input id="email" type="text" name="email" placeholder="电子邮箱">
+          <p>如果有疑问，金融理财师可以随时和您沟通，方便理财方案制作。</p>
+          <input id="tel" type="text" name="tel" placeholder="联系电话">
+        </div>
+        <div class="modal-footer">
+          <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="btn btn-primary"></div>
+        </div>
+  </div>
+</div>
+
 <script>
+
+    $("#subscribe").click(function(){
+        var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
+        var name=/^\D.{2}.*$/;
+        var log=0;
+        <% if session[:webusername]==nil %>
+        if($("#username").attr("value")==""){
+            $('#user1').show();
+            $("#user2").html("用户名为空！");
+            log=1;
+            return false;
+        }
+        else if($("#password").attr("value")==""){
+            $('#user1').show();
+            $("#user2").html("密码为空！");
+            log=1;
+            return false;
+        }
+        <% end %>
+        if (log==0){
+            if($("#email").attr("value")==""){
+                $('#user1').show();
+                $("#user2").html("电子邮箱为空！");
+                return false;
+            }
+            else if(!myreg.test($("#email").attr("value"))){
+                $('#user1').show();
+                $("#user2").html("电子邮箱格式不正确！");
+                return false;
+            }
+            else if($("#tel").attr("value")==""){
+                $('#user1').show();
+                $("#user2").html("联系电话为空！");
+                return false;
+            }
+            else if(!phone.test($("#tel").attr("value"))){
+                $('#user1').show();
+                $("#user2").html("联系电话格式不正确！");
+                return false;
+            }
+            else{
+                $('#user1').hide();
+                userconfig('#email','#tel');
+                return false;
+            }
+        }
+    });
+
+    function userconfig(eid,tid){
+    <% if session[:webusername]!=nil %>
+        var username='<%= session[:webusername] %>';
+        var password='tongtianshun';
+    <% else %>
+        var username=$("#username").attr("value");
+        var password=$("#password").attr("value");
+    <% end %>
+        $.get("/bankinvest/userconfigajax/0",{username:username,password:password,tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,title:"用户申请理财师服务"},function(data){
+            if(data=="r2"){
+                $('#user1').show();
+                $("#user2").html("用户名已注册！密码错误");
+            }
+            else{
+                alert("我们会尽快联系您");
+                location.reload();
+            }
+        });
+    }
+
+    $('a.apply').click(function() {
+        $("#login-box").show();
+        <% if params[:username]==session[:webusername] || params[:username]==nil %>
+        var loginBox = $(this).attr('href');
+        //Fade in the Popup and add close button
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+
+        return false;
+        <% end %>
+    });
+
+    // When clicking on the button close or the mask layer the popup closed
+    $('a.close, #mask').live('click', function() {
+        $('#mask , .login-popup').fadeOut(300 , function() {
+            $('#mask').remove();
+        });
+        return false;
+    });
+
     $.fn.dataTableExt.afnFiltering.push(
             function( oSettings, aData, iDataIndex ) {
                return true;
@@ -178,42 +313,42 @@
 
         $("#amount").val(Request("amount")+"元");
         $("#amounts").val(Request("amount"));
-        if(Request("deadline")=="30"){
-          $("#deadline").val("短期投资 (1个月内)");
-          $("#deadlines").val("30");
+        if(Request("deadline")=="90"){
+          $("#deadline").val("短期投资 (3个月)");
+          $("#deadlines").val("90");
         }
-        else if(Request("deadline")=="90"){
-            $("#deadline").val("中期投资 (3个月内)");
-            $("#deadlines").val("90");
+        else if(Request("deadline")=="365"){
+            $("#deadline").val("中期投资 (3个月-1年)");
+            $("#deadlines").val("365");
         }
-        else if(Request("deadline")=="91"){
-            $("#deadline").val("长期投资 (3个月以上)");
-            $("#deadlines").val("91");
+        else if(Request("deadline")=="366"){
+            $("#deadline").val("长期投资 (1年以上)");
+            $("#deadlines").val("366");
         }
         if(Request("deficit")=="0"){
             var city = document.getElementsByName("optionsRadios");
                 for(i=0; i<city.length; i++){
-                    if(city[i].value=="绝对不能亏损本金"){
+                    if(city[i].value=="本金绝对不能亏损"){
                         city[i].checked = "checked";
                     }
                     else{
                         city[i].checked = "";
                     }
                 }
-            $("#risk").val("绝对不能亏损本金");
+            $("#risk").val("本金绝对不能亏损");
             $("#deficit").hide();
         }
         else{
             var city = document.getElementsByName("optionsRadios");
             for(i=0; i<city.length; i++){
-                if(city[i].value=="可以承担本金亏损"){
+                if(city[i].value=="收益率不能低于通货膨胀率"){
                     city[i].checked = "checked";
                 }
                 else{
                     city[i].checked = "";
                 }
             }
-            $("#risk").val("可以承担本金亏损");
+            $("#risk").val("收益率不能低于通货膨胀率");
             $("#deficit").show();
             $("#returnrate").val(Request("returnrate"));
         }
