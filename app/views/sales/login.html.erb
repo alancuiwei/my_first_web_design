@@ -193,7 +193,7 @@
         }
         else{
             $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:"",address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
-                if(data=="f"){
+                if(data!="s"){
                     alert("用户名已注册！");
                 }
                 else if(data=="s"){

@@ -4,8 +4,10 @@ class BankinvestController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
 
   def agentproducts
-    @bankfinances=Bankfinance.find_all_by_isorgan(1)
-    @bankfinance2=Bankfinance.find_all_by_isorgan_and_ischosen(1,'1')
+ #   @bankfinances=Bankfinance.find_all_by_isorgan(1)
+ #   @bankfinance2=Bankfinance.find_all_by_isorgan_and_ischosen(1,'1')
+    @bankfinances=Bankfinance.find_by_sql("SELECT * FROM bankfinance where collectperiod>NOW() AND isorgan=1")
+    @bankfinance2=Bankfinance.find_by_sql("SELECT * FROM bankfinance where collectperiod>NOW() AND isorgan=1 and ischosen='1'")
   end
 
   def organ

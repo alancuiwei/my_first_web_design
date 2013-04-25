@@ -283,8 +283,10 @@ class AdminController < ApplicationController
             if params[:apply]!='1'
               if params[:risktolerance]!=nil && params[:issend]!='1'
                 UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+                UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
+              else
+                UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
               end
-              UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
             else
               UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
               UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],"新用户注册&申请理财师服务").deliver
@@ -946,63 +948,6 @@ class AdminController < ApplicationController
     end
   end
 
-  def bankproductsconfig
-    if session[:webusername]!=nil
-      @bankproducts=[]
-      if params[:id]!="0"
-        @products=Bankproducts_t.find_by_id(params[:id])
-        @bankproducts[0]=@products.trustee
-        @bankproducts[2]=@products.currencytype
-        @bankproducts[3]=@products.btype
-        @bankproducts[4]=@products.risk
-        @bankproducts[5]=@products.invsetsubject
-        @bankproducts[6]=@products.investdirection
-        @bankproducts[7]=@products.formula
-        @bankproducts[8]=@products.risktip
-        @bankproducts[9]=@products.productkeywords
-      end
-    else
-      redirect_to(:controller=>"home")
-    end
-  end
-
-  def bankproductsconfigajax
-    if params[:id]=="0"
-      Bankproducts_t.new do |b|
-        b.trustee=params[:trustee]
-        b.currencytype=params[:currencytype]
-        b.btype=params[:btype]
-        b.risk=params[:risk]
-        b.invsetsubject=params[:invsetsubject]
-        b.investdirection=params[:investdirection]
-        b.formula=params[:formula]
-        b.risktip=params[:risktip]
-        b.productkeywords=params[:productkeywords]
-        b.save
-      end
-      render :json => "s1".to_json
-
-    else
-      @products=Bankproducts_t.find_by_id(params[:id])
-      @products.update_attributes(:trustee=>params[:trustee],:currencytype=>params[:currencytype],
-                                  :btype=>params[:btype],:risk=>params[:risk],:invsetsubject=>params[:invsetsubject],
-                                  :investdirection=>params[:investdirection],:formula=>params[:formula],:risktip=>params[:risktip],
-                                  :productkeywords=>params[:productkeywords])
-      render :json => "s2".to_json
-    end
-
-  end
-
-  def bankproductsdeleteajax
-    @products=Bankproducts_t.find_by_id(params[:id])
-    if @products!=nil
-      if @products.destroy
-        render :json => "s".to_json
-      else
-        render :json => "f".to_json
-      end
-    end
-  end
 end
 
 

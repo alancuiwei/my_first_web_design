@@ -55,7 +55,7 @@
 <div id="page-content">
 <div class="classy plan-content">
   <div class="plan-column left">
-  <a href="/home/risktolerance"><div id="title" style="font-size: 12px;"></div></a>
+  <a href="/home/risktolerance"><div id="title" style="font-size: 12px;line-height: 30px;"></div></a>
   <div id="container"></div>
     <% if @webuser.username!='admin' %>
         <a href="/home/risktolerance?risk=<%= @webuser.risktolerance %>">这说明什么？</a>
@@ -80,17 +80,17 @@
   <div class="plan-column center">
     <div class="account-types">
       <div class="account-type-tab active" id="taxable-account-type">
+        <p>
         <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
-            <p><span class="product">您的理财规划方案</span></p>
+              <span class="product">您的理财规划方案</span>
         <% elsif @webuser.username!='admin' %>
-            <p><span class="product"><%= @webuser.username %>的理财规划方案</span>
-              <% if @webuser.risktolerance==nil && params[:username]!=nil %>
-                (该用户尚未配置其理财规划方案)
-              <% end %>
-            </p>
+            <span class="product"><%= @webuser.username %>的理财规划方案</span>
+              <!--<% if @webuser.risktolerance==nil && params[:username]!=nil %>(该用户尚未配置其理财规划方案)<% end %> -->
         <% else %>
-            <p><span class="product">您的理财规划方案</span></p>
+            <span class="product">您的理财规划方案</span>
         <% end %>
+        <a id="login-window" class="login-window" href="#login-box">保存理财规划方案</a>
+        </p>
         <p class="product-description">仅为个人或家庭服务</p>
       </div>
       <div class="clearfix"></div>
@@ -103,7 +103,7 @@
             <div class="allocation-chart-container">
               <div id="container2" style="width: 130px;height: 130px;"></div>
               <ul class="allocation-questions">
-                <li><span class="ktip-link right" id="faq-mix"><a class="demo-tip-yellowsimple" title=" 我们的目标是设计一系列投资品种组合，根据您的风险承受度，最大化您的投资收益（扣除掉任何手续费、赎回费等交易成本）。采用均值方差优化现代投资配置方案，为您做最优化的理财规划。您可以详细阅读我们的投资白皮书获得更多理财规划理念。">为何如此规划?</a></span></li>
+                <li><span class="ktip-link right" id="faq-mix"><a href="/home/present">这个可信吗?</a></span></li>
 
                 <li><span class="ktip-link right" id="faq-change"><a class="demo-tip-yellowsimple" title=" 您不可以直接修改。但您可以通过修改您的风险承受度进行间接修改，你可以在页面的左侧进行修改。">可以修改它吗?</a></span></li>
               </ul>
@@ -245,26 +245,17 @@
           <% end %>
       <% end %>
     </table>
-  <div class="account-types">
-  <div class="account-type-tab active taxable-account-type">
-    <p class="qusetion">规划方案是如何得来的？</p>
-    </div>
-    <div class="clearfix"></div>
-  </div>
   <div class="details">
-    <p class="text">程序化自动为客户进行家庭理财规划配置，这一思想在国内还属于首创，我们借鉴高盛开源模型构建自动化应用，并借鉴普林斯顿大学经济学教授Burton Malkiel的Mean Variance Optimizationl论文作为模型搭建依据，实现我们均值方差优化算法原型。<br>
-    <a href="/home/present">了解更多>></a></p>
+    <p>
+      <span class="product">还不满意？</span>
+      <a id="apply" class="btn btn-primary apply" href="#login-box">免费申请理财师服务</a>
+    </p>
+    <img src="/assets/120116.png" style="width: 100%;">
   </div>
   </div>
       <div class="plan-column right">
         <div style="position:relative;width: 204px;">
           <div id="position-saver">
-            <div class="open-account-container">
-              <p class="open-account-intro">金融理财师(ChFP)<br>私人服务</p> <br><br>
-              <a id="apply" class="apply" href="#login-box">申请</a> <br><br>
-              <a id="login-window" class="login-window" href="#login-box">保存理财规划方案</a>
-            </div>
-            <hr>
             <div class="faq-container">
               <p>常见疑问</p>
               <ul class="common-q">
@@ -294,7 +285,11 @@
     <div id="save">
       <div class="modal-header">
     <a class="close" href="javascript:">×</a>
-        <h3>保存您的理财规划方案</h3>
+        <% if session[:webusername]!=nil %>
+            <h3>保存您的理财规划方案</h3>
+        <% else %>
+            <h3>保存您的理财规划方案 并注册</h3>
+        <% end %>
       </div>
     <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
         <div class="modal-body">
@@ -1177,5 +1172,6 @@
         });
     });
 </script>
+
 
 
