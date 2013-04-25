@@ -716,7 +716,7 @@ class AdminController < ApplicationController
         @bankfinanceinfo[25]=@bankfinance.rate2
         @bankfinanceinfo[26]=@bankfinance.rate3
       else
-        @bankfinance=Bankfinance.find_by_id(4898)
+        @bankfinance=Bankfinance.limit(1)
       end
     else
       redirect_to(:controller=>"home")
