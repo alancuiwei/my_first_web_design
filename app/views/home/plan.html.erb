@@ -80,7 +80,7 @@
   <div class="plan-column center">
     <div class="account-types">
       <div class="account-type-tab active" id="taxable-account-type">
-        <p>
+        <p style="width: 84%;">
         <% if @webuser.username == session[:webusername] || (session[:webusername]==nil && params[:username]==nil) || params[:username]==nil %>
               <span class="product">您的理财规划方案</span>
         <% elsif @webuser.username!='admin' %>
@@ -89,7 +89,7 @@
         <% else %>
             <span class="product">您的理财规划方案</span>
         <% end %>
-        <a id="login-window" class="login-window" href="#login-box">保存理财规划方案</a>
+        <a id="login-window" class="login-window pull-right" href="#login-box">保存理财规划方案</a>
         </p>
         <p class="product-description">仅为个人或家庭服务</p>
       </div>
@@ -246,11 +246,11 @@
       <% end %>
     </table>
   <div class="details">
-    <p>
+    <p style="width: 82%;">
       <span class="product">还不满意？</span>
-      <a id="apply" class="btn btn-primary apply" href="#login-box">免费申请理财师服务</a>
+      <a id="apply" class="btn btn-primary apply pull-right" href="#login-box">免费申请理财师服务</a>
     </p>
-    <img src="/assets/120116.png" style="width: 100%;">
+    <img src="/assets/120116.png">
   </div>
   </div>
       <div class="plan-column right">

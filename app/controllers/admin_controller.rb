@@ -277,8 +277,10 @@ class AdminController < ApplicationController
         end
 #      session[:webusername]=params[:username]
         Thread.new{
-          if params[:ulogin]!=nil
-            UserMailer.confirm(params[:username],params[:email],"新用户首页注册").deliver
+          if params[:ulogin]=="1"
+            UserMailer.confirm(params[:username],params[:email],"新投资人首页注册").deliver
+          elsif  params[:ulogin]=="2"
+            UserMailer.confirm(params[:username],params[:email],"新理财师首页注册").deliver
           else
             if params[:apply]!='1'
               if params[:risktolerance]!=nil && params[:issend]!='1'
