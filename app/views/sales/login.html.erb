@@ -363,7 +363,7 @@
                 $.get("/admin/userconfigajax/0",{username:$('#username3').attr("value"),name:$('#name').attr("value"),tel:$('#tel').attr("value"),
                     password:$('#password3').attr("value"),email:$('#email').attr("value"),company:$('#company').attr("value"),
                     trade:$('#trade').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2,contact:flag2},function(data){
-                    if(data=="f"){
+                    if(data!="s"){
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
