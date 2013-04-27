@@ -6,9 +6,11 @@
   <meta name="keywords" content="家庭理财服务" />
   <meta name="description" content="通天顺--站在中立、客观的第三方理财机构角度，提供家庭理财规划方案服务，提供团购理财产品服务，为您提供银行理财产品，券商理财产品，保险产品，最大化您的投资收益。" />
   <%= javascript_include_tag "jquery.min.js" %>
+  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
   <%= stylesheet_link_tag "bootstrap.css" %>
   <%= stylesheet_link_tag "bootstrap-responsive.min.css" %>
   <%= stylesheet_link_tag "styles.css" %>
+  <% end %>
 </head>
 
 <style>
@@ -40,6 +42,7 @@
   </div>
   <% end %>
 -->
+  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
   <div class='row-fluid beta'>
     <div class="span2">
       <a href="/"><img src="/assets/logo.jpg"></a>
@@ -68,9 +71,9 @@
       <% end %>
     </div>
   </div>
-
+   <% end %>
   <%= yield %>
-
+  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
   <div class="row-fluid main-footer">
     <div class="span2 offset2">
       <h4 class="tcol">我们的服务</h4>
@@ -123,6 +126,7 @@
       <div style="height: 100px;"></div>
     </div>
   </div>
+      <% end %>
 </div>
 
 <!-- begin olark code --><script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/
