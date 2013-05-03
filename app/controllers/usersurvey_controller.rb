@@ -14,4 +14,12 @@ class UsersurveyController < ApplicationController
       redirect_to(:controller=>"admin", :action=>"index")
     end
   end
+
+  def freeapply
+    if session[:webusername]!=nil
+     @webuser=Webuser.find_by_username(session[:webusername])
+    else
+     @webuser=Webuser.find_by_username("admin")
+    end
+  end
 end

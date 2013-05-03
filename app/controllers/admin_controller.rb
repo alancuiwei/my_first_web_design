@@ -364,6 +364,61 @@ class AdminController < ApplicationController
     end
   end
 
+  def  applyconfigajax
+    @webuser=Webuser.find_by_username(params[:username])
+    @personalfinance=Personalfinance.find_by_username(params[:username])
+    password=encode(params[:password])
+    if @webuser==nil
+      Webuser.new do |w|
+        w.username=params[:username]
+        w.password=password
+        w.tel=params[:tel]
+        w.address=params[:address]
+        w.postcode=params[:postcode]
+        w.name=params[:name]
+        w.email=params[:email]
+        w.company=params[:company]
+        w.trade=params[:trade]
+        w.organuser=params[:organuser]
+        w.securitiesnum=params[:securitiesnum]
+        w.memberlevel=params[:memberlevel]
+        w.risktolerance=params[:risktolerance]
+        w.contact=params[:contact]
+        w.save
+      end
+      Thread.new{
+          UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+          UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
+      }
+      session[:webusername]=params[:username]
+      render :json => "s".to_json
+    else
+      if session[:webusername]!=nil
+        Thread.new{
+            UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+            UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
+        }
+        @webuser=Webuser.find_by_username(session[:webusername])
+        @webuser.update_attributes(:email=>params[:email],:risktolerance=>params[:risktolerance])
+        render :json => "f".to_json
+      else
+        @webuser=Webuser.find_by_username(params[:username])
+        if @webuser.password==encode(params[:password])
+          Thread.new{
+            UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
+            UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
+          }
+          @webuser.update_attributes(:tel=>params[:tel],:email=>params[:email],:risktolerance=>params[:risktolerance])
+          session[:webusername]=params[:username]
+          render :json => "r1".to_json
+        else
+          render :json => "r2".to_json
+        end
+      end
+    end
+  end
+
+
   def personajax
     @webuser=Webuser.find_by_username(session[:webusername])
     @webuser.update_attributes(:tel=>params[:tel])
