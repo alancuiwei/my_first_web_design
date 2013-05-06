@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 <!--[if IE]>
 <style>
     .side-tip{
@@ -82,10 +83,8 @@
                   </div>
                   <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%=raw b.btitle%></a></h2>
                   <div class="entry-content">
-                    <p>
-                      <img class="alignleft size-medium " style="width: 100%;" src="/assets/<%= b.imagepath%>">
-                    <div style="width: 698px; float: auto;"><%=raw b.barticle %></div>
-                    </p>
+                    <div style="text-align: center;"><img class="alignleft size-medium " style="height: 400px;" src="/assets/<%= b.imagepath%>"></div>
+                    <p><%=raw b.barticle %></p>
                   </div>
                   <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
                   <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
@@ -117,44 +116,76 @@
     <div class="comput">
       <div class="tip">
         <li  class="widget-container">
-          <h3>目录</h3>
-          <ul>
-            <li>
-              <a href="/blog/index" class="a">通天顺</a>
-              <ul>
-                <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
-                <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
-                <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">家庭理财规划</a>
-              <ul>
-                <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
-                <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
-                <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
-                <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
-                <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">特色服务</a>
-              <ul>
-                <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
-                <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
-                <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">投资指导</a>
-              <ul>
-                <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
-                <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
-              </ul>
-            </li>
-          </ul>
+        <h3>目录</h3>
+        <div class="accordion" id="accordion2">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                通天顺
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                  <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                  <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                家庭理财规划
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                  <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                  <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
+                  <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
+                  <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                特色服务
+              </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                  <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                  <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                  <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                  <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                投资指导
+              </a>
+            </div>
+            <div id="collapseFour" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
+                  <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
         </li>
       </div>
     </div>

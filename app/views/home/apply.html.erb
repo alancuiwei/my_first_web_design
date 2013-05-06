@@ -1,7 +1,35 @@
 <%= stylesheet_link_tag "home.css" %>
-<%= javascript_include_tag "placeholder.js" %>
-
+<style>
+    .main-contents p {
+        text-align: justify;
+        font-size: 18px;
+        line-height: 33px;
+        color: #666;
+        margin: 0;
+    }
+    .main-contents  .title{
+        margin-top: 30px;
+    }
+    h1{font-size: 26px; margin: 42px 0 30px;padding-bottom: 20px;color: #000;border-bottom: 2px solid #000;}
+</style>
 <div class="main-contents">
+  <a href="/">首页</a><br>
+  <p class="title">选择一位金融理财师为您和您的家庭提供理财服务是非常有益的。假如您已经决定要请专业的理财师为您和您的家庭打理资产，您有必要充分了解您作为客户所享有的权利。</p>
+  <h1>您有权要求您的金融理财师正直诚信</h1>
+  <p>相互信任是您与理财师之间建立紧密关系的核心。作为一名优秀的理财师，不仅需要出类拔萃的专业素养和个人能力，更需要正直诚信的品质。当您的理财师履行专业职责时，他必须是客户利益至上的，换句话说，当客户的利益与理财师个人利益发生冲突时，理财师的执业原则应以客户利益为主。一个具备正直诚信品质的理财师有助于您与其建立相互信任的牢固关系，从而帮助您实现个人的理财目标乃至人生计划。</p>
+  <h1>您有权要求您的金融理财师提供客观的理财建议</h1>
+  <p>您的理财师给您的所有理财建议应当是以您的理财需求为中心。理财师应通过自己的经验和判断，谨慎考虑您的现状，给您提供最契合您的目标的理财建议。理财建议的客观性决定了理财目标必须依据您当前的财务状况，因此当您的理财目标不切实际时，理财师有必要向您解释和指出，建议您更换该理财目标或调整其优先次序。</p>
+  <h1>您有权要求您的金融理财师具备任职资格</h1>
+  <p>您有权要求您的金融理财师出示相应的知识水平证明，比如说“CFP™系列资格认证”（国际金融理财师CFP™资格认证的商标为，金融理财师AFP™资格认证的商标为，认证私人银行家CPB™资格认证的商标为，请认准这些标识）以证明他能够为您提供金融理财服务。作为保持竞争力的重要一部分，您的理财师还应完成继续教育课程。</p>
+  <h1>您有权要求您的理财师公平地为您提供服务</h1>
+  <p>您的理财师应公平地为您提供服务，一视同仁。这其中包括清晰地告知您服务内容及其费用，向您解释这些理财建议所伴随的风险，以及潜在的利益冲突，例如，理财师需要明确说明在您购买某理财产品或在执行理财策略的某项支出过程中，是否有其个人经济利益存在其中？</p>
+  <h1>您有权要求您的金融理财师保守秘密</h1>
+  <p>为了使金融理财服务达到最好的效果，您需要按照基本规则将相关的私人财务信息透露给您的理财师。理财师对于这些信息应当保守秘密，只有在他代表您办理业务（并且在您允许的前提下），或者是法院强制命令时，才能向他人公开这些信息。</p>
+  <h1>您有权要求您的金融理财师专业胜任</h1>
+  <p>您的理财师只有在具备相应的资质认证的情况下，才能够提供投资建议或是股票经纪服务，且该服务是在法律允许的范围之内。假如存在理财师尚不具备胜任能力的领域，理财师应提议由其他专业人士协助工作。</p>
+  <h1>您有权要求您的金融理财师恪尽职守</h1>
+  <p>理财师应当与您充分探讨您的理财目标和具体情况，并且在您成为他的客户之前，就应向您阐述您希望通过金融理财服务达成的目标。一旦理财师确定他（以及他的员工，或经其推介的相关专业人士）能够向您提供理财服务，并且已经向您收集了足够的信息，那么理财师就应向您提供并实施适合您的理财建议。尽职的理财师应对提供理财服务或推介产品事前做好充分的筹备和调研工作，长期跟踪、监督和控制理财方案的执行和理财服务的提供情况。</p>
+  <!--
   <div class="row-fluid">
     <div class="span12">
       <a href="/">首页</a>&nbsp;>&nbsp;<a href="">家庭理财规划 专业服务</a><br>
@@ -30,225 +58,7 @@
       <br>
       <h1 style="margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">服务介绍：<a class="btn btn-primary pull-right application" style="margin-top: 5px;" href="/usersurvey/freeapply">申请VIP服务</a></h1>
       <img src="/assets/120219.jpg">
-      <br>
-     <!--
-      <p> 一、家庭理财目标</p>
-      <p>在分析panda家庭现有资产和需求的基础上，结合分析其生活和职业特点，我们为panda拟定了一份未来30年的理财计划，帮助其家庭更好地规划人生，基本上满足panda家庭成长期的各个目标。具体理财目标如下：
-         <br>1、短期内合理配置家庭财产，增加保险支出（年均支出约6000元），使家庭保障全面合理。
-         <br>2、根据不同时期需要，适当调整资产组合。
-         <br>3、储备子女教育金（假设义务教育阶段年均支出1万，高中阶段年均支出2万，国内高等教育阶段年均支出3万）；提高父母医疗保障（10万）；为自己储备养老金（家庭月均5000元）。
-      </p>
-      <br>
-      <p>二、家庭财务分析</p>
-      <p>本内容是基于案例提供的信息，通过整理、分析和假设，对家庭年收支及资产负债状况进行了细分，展示出目前日常收支情况和资产负债全貌，我们将以此为基础设计理财方案。
-        <br>1、 家庭资产情况
-        <br>家庭最大资产是房，假设约600万，占家庭总资产87％，属增值品，保值增值；车约30万，占4.3%，属消费品，易贬值，股票约10万，占1.4%，市值波动大，已经浮亏，即收益为负，流动性好；储蓄存款50万，占总资产7.3％，可以应付不时之需，收益率低，流动性强。可分配资金即为银行储蓄。
-        <br>2、家庭收入情况
-        <br>家庭年收入较高，且男女收入比例约2：1，家庭环境比较稳定。且每月有房屋出租收入。
-        <br>注：家庭日常收入情况，不包括在资产负债信息中资产所产生的收入，如利息、保险收入。
-        <br>3、家庭支出情况
-        <br>家庭日常生活费支出5000元/月，占总支出50％；小车保养费支出1667元/月，占总支出16.7％为刚性支出，变动弹性不大；交际保健支出3333元/月，占总支出33.3％，有变动弹性；无任何负债性支出，无新增投资支出。
-        <br>4、家庭年节余情况
-        <br>年总收入420000元－总支出120000元＝300000元
-      </p>
-      <br>
-      <p>三、财务分析结论</p>
-      <p>资产负债率：总负债/总资产＝0%, 说明家庭综合偿债能力强。
-        <br> 储蓄比率：盈余/收入＝300000/420000*100%= 71.4%
-        <br>从储蓄比率可以看出，该家庭在满足当年的支出外，可以将71.4%的收入用于增加储蓄或投资。
-        <br>流动性比率：流动性资产/每月支出= 600000/10000 =60
-        <br>反映该家庭流动性资产可以满足其60个月的开支，流动性好。
-        <br> 通过上述分析我们可以看出、家庭偿债能力很强，资金流动性好，家庭资产稳固性很高，而且有71.4％的收入可以用于增加储蓄或投资，显示了家庭具备一定的理财空间。
-      </p>
-      -->
-    </div>
-    <!--
-    <div class="span3">
-        <div class="application">
-          <p>我们将把您的理财规划书发送到如下邮箱中。</p>
-          <input id="email" type="text" name="email" placeholder="电子邮箱">
-          <p>如果保证理财规划书精确，我们需要通过电话直接和您进行交流。</p>
-          <input id="phone" type="text" name="phone" placeholder="联系电话">
-          <a class="btn btn-primary pull-right" id="apply">免费申请</a><br><br><br>
         </div>
     </div>
     -->
   </div>
-</div>
-     <!--
-
-<div id='login-box' class='login-popup modal' style="display: none;">
-  <div class="modal">
-    <div class="modal-header">
-    <a class="close" href="javascript:">×</a>
-      <h3>服务申请</h3>
-    </div>
-      <form>
-        <div class="modal-body">
-        <div id="user3" style="display: none; color: red;font-size: 12px;"><div id="user4"></div><br></div>
-        <p>我们将把您的理财规划书发送到如下邮箱中。</p>
-        <input id="email2" type="text" name="email" placeholder="电子邮箱">
-        <p>如果有疑问，金融理财师可以随时和您沟通，方便理财方案制作。</p>
-        <input id="tel" type="text" name="tel" placeholder="联系电话">
-        </div>
-        <div class="modal-footer">
-          <div class="clear"><input type="submit" value="申请服务" name="subscribe" id="subscribe" class="btn btn-primary"></div>
-        </div>
-      </form>
-  </div>
-</div>
-
-<script>
-
-    $('a.application').click(function() {
-        $("#login-box").show();
-        if(this.id=='apply'){
-            $("#save").hide();
-            $("#application").show();
-        }
-        else if(this.id=='login-window'){
-            $("#application").hide();
-            $("#save").show();
-        }
-        <% if params[:username]==session[:webusername] || params[:username]==nil %>
-        var loginBox = $(this).attr('href');
-        //Fade in the Popup and add close button
-        $(loginBox).fadeIn(300);
-        //Set the center alignment padding + border
-        var popMargTop = ($(loginBox).height() + 24) / 2;
-        var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        $(loginBox).css({
-            'margin-top' : -popMargTop,
-            'margin-left' : -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
-
-        return false;
-        <% end %>
-    });
-
-    $('a.close, #mask').live('click', function() {
-        $('#mask , .login-popup').fadeOut(300 , function() {
-            $('#mask').remove();
-        });
-        return false;
-    });
-
-  $("#subscribe").click(function(){
-      var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
-      var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
-      if($("#email2").attr("value")==""){
-          $('#user3').show();
-          $("#user4").html("电子邮箱为空！");
-          return false;
-      }
-      else if(!myreg.test($("#email2").attr("value"))){
-          $('#user3').show();
-          $("#user4").html("电子邮箱格式不正确！");
-          return false;
-      }
-      else if($("#tel").attr("value")==""){
-          $('#user3').show();
-          $("#user4").html("联系电话为空！");
-          return false;
-      }
-      else if(!phone.test($("#tel").attr("value"))){
-          $('#user3').show();
-          $("#user4").html("联系电话格式不正确！");
-          return false;
-      }
-      else{
-          $('#user3').hide();
-          userconfig('#email2','#tel');
-          return false;
-      }
-    });
-
-    function userconfig(eid,tid){
-        var returnrate=0;
-        var riskrate=0;
-        var investcycle=0;
-        var wbreedinfo="";
-        var trade="";
-    <% if cookies[:asset_allocation]!=nil %>
-
-        if ('<%= cookies[:asset_allocation].split('|')[13] %>'=='A'){
-            returnrate=0.06;
-            riskrate=0;
-        }
-        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='B'){
-            returnrate=0.1;
-            riskrate=0.03;
-        }
-        else if('<%= cookies[:asset_allocation].split('|')[13] %>'=='C'){
-            returnrate=0.2;
-            riskrate=0.1;
-        }
-
-        if ('<%= cookies[:asset_allocation].split('|')[6] %>'=='90'){investcycle='三个月';}
-        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='180'){investcycle='六个月';}
-        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='365'){investcycle='一年';}
-        else if('<%= cookies[:asset_allocation].split('|')[6] %>'=='730'){investcycle='二年';}
-
-        if ('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
-        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
-        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
-        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
-        if('<%= cookies[:asset_allocation].split('|')[7] %>'.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
-
-        if ('<%= cookies[:asset_allocation].split('|')[10] %>'=='true'){trade='计算机/互联网/电子';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='A'){trade='银行/保险/证券等金融机构';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='B'){trade='生物/制药/医疗';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='C'){trade='广告/媒体/艺术';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='D'){trade='建筑/房地产';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='E'){trade='人事/行政/高级管理';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='F'){trade='咨询/法律/教育/科研';}
-        else if('<%= cookies[:asset_allocation].split('|')[10] %>'=='G'){trade='公务员';}
-        var amt = document.getElementById("email2").value;
-        var username=amt.substring(0,amt.indexOf('@'));
-
-        $.post("/personmanagement/personconfigajax/0",{ username:username,age: '<%= cookies[:asset_allocation].split('|')[4] %>',
-            email: $(eid).attr("value"),investamount: '<%= cookies[:asset_allocation].split('|')[5] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate,tel:$(tid).attr("value")
-        },function(data){
-        });
-    <% end %>
-    <% if cookies[:asset_allocation]!=nil %>
-        var risktolerance='<%= cookies[:asset_allocation].split('|')[3] %>';
-    <% else %>
-        var risktolerance='<%= @webuser.risktolerance %>';
-    <% end %>
-        // event.preventDefault();
-        $.get("/admin/userconfigajax/0",{username:username,password:'tongtianshun',tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,risktolerance:risktolerance,title:"您的风险承受度测试结果",apply:1},function(data){
-            userlogin(1);
-            <% if session[:webusername]!=nil %>
-            location.reload();
-            <% end %>
-        });
-    }
-
-    function userlogin(apply){
-        if(apply==1){
-            var amt = document.getElementById("email2").value;
-        }
-        else{
-            var amt = document.getElementById("email").value;
-        }
-        var username=amt.substring(0,amt.indexOf('@'));
-        $.get("/admin/userlogin",{username:username,password:'tongtianshun',plan:'1'},function(data){
-            if(data=="f"){
-                alert("登录失败!");
-            }
-            else
-            {
-                alert("我们会尽快联系您！") ;
-                location.href="/home/apply";
-            }
-        })
-    }
-</script>
-
--->
