@@ -1,4 +1,5 @@
-﻿<%= javascript_include_tag "jquery.poshytip.js" %>  <!--tip title -->
+﻿<%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>  <!--tip title -->
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>   <!--tip title -->
 <%= javascript_include_tag "jquery.dataTables.min.js" %>    <!--datatables -->
 <%= stylesheet_link_tag "demo_page.css" %>         <!--datatables -->
@@ -28,12 +29,15 @@
             font-weight: normal;color: #555555;}
         body {background: #ffffff;-webkit-print-color-adjust: exact;}
     }
+
+    table.display tfoot th{
+        padding: 0;
+    }
+    input[type="text"]{
+        padding: 0;
+        text-align: center;
+    }
 </style>
-
-
-<%= javascript_include_tag "filter.js" %>
-<%= javascript_include_tag "filter2.js" %>
-
 
 <div class="main-content pop">
 <a href="/" class="print">首页</a>&nbsp; <span class="print">></span>&nbsp;
@@ -50,13 +54,13 @@
           <dt id="category-category_all">产品类型:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a href="" cid="category_all" class="curr category_all">不限</a>
+              <a class="curr category_all btn-link currbg">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="category_all" class="curr banks" condition="category_all=banks"> 银行理财 </a>
+              <a class="curr banks btn-link"> 银行理财 </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="category_all" class="curr trust" condition="category_all=trust"> 信托产品 </a>
+              <a class="curr trust btn-link"> 信托产品 </a>
             </label>
           </dd>
         </dl>
@@ -64,22 +68,22 @@
           <dt id="category-expectYID">预期年化收益率:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a href="" cid="expectYID" class="curr expectYID">不限</a>
+              <a id="expectYID" class="curr expectYID btn-link currbg">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="expectYID" class="curr expectYID3" condition="expectYID=3,6"> 3%－6% </a>
+              <a id="expectYID3" class="curr expectYID3 btn-link"> 3%－6% </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="expectYID" class="curr expectYID6" condition="expectYID=6,10"> 6%－10% </a>
+              <a id="expectYID6" class="curr expectYID6 btn-link"> 6%－10% </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="expectYID" class="curr expectYID10" condition="expectYID=10,15"> 10%－15% </a>
+              <a id="expectYID10" class="curr expectYID10 btn-link"> 10%－15% </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="expectYID" class="curr expectYID15" condition="expectYID=15,30"> 15%－30% </a>
+              <a id="expectYID15" class="curr expectYID15 btn-link"> 15%－30% </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="expectYID" class="curr expectYID30" condition="expectYID=30"> 30%以上 </a>
+              <a id="expectYID30" class="curr expectYID30 btn-link"> 30%以上 </a>
             </label>
           </dd>
         </dl>
@@ -87,22 +91,22 @@
           <dt id="category-duration">投资期限:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a href="" cid="duration" class="curr duration">不限</a>
+              <a id="durations" class="curr duration btn-link currbg">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="duration" class="curr duration0" condition="duration=0,90">3个月以内</a>
+              <a id="duration0" class="curr duration0 btn-link">3个月以内</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="duration" class="curr duration30" condition="duration=30,180"> 3个月－6个月</a>
+              <a id="duration90" class="curr duration90 btn-link"> 3个月－6个月</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="duration" class="curr duration180" condition="duration=180,365"> 6个月－1年</a>
+              <a id="duration180" class="curr duration180 btn-link"> 6个月－1年</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="duration" class="curr duration365" condition="duration=365,730"> 1年－2年</a>
+              <a id="duration365" class="curr duration365 btn-link"> 1年－2年</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="duration" class="curr duration730" condition="duration=730">2年以上</a>
+              <a id="duration730" class="curr duration730 btn-link">2年以上</a>
             </label>
           </dd>
         </dl>
@@ -111,22 +115,22 @@
           <dt id="category-outset">投资起点:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a href="" cid="outset" class="curr outset">不限</a>
+              <a id="outsets" class="curr outset btn-link currbg">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="outset" class="curr outset50000" condition="outset=50000,100000">5万-10万</a>
+              <a id="outset50000" class="curr outset50000 btn-link">5万-10万</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="outset" class="curr outset100000" condition="outset=100000,200000">10万-20万</a>
+              <a id="outset100000" class="curr outset100000 btn-link">10万-20万</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="outset" class="curr outset200000" condition="outset=200000,500000">20万-50万</a>
+              <a id="outset200000" class="curr outset200000 btn-link">20万-50万</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="outset" class="curr outset500000" condition="outset=500000,1000000">50万-100万</a>
+              <a id="outset500000" class="curr outset500000 btn-link">50万-100万</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="outset" class="curr outset1000000" condition="outset=1000000">100万以上</a>
+              <a id="outset1000000" class="curr outset1000000 btn-link">100万以上</a>
             </label>
           </dd>
         </dl>
@@ -134,13 +138,13 @@
           <dt id="category-risk">收益类型:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a href="" cid="risk" class="curr risk">不限</a>
+              <a id="risks" class="curr risk btn-link currbg">不限</a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="risk" class="curr risk2" condition="risk=2"> 浮动 </a>
+              <a id="risk2" class="curr risk2 btn-link"> 浮动 </a>
             </label>
             <label class="checkbox inline">
-              <a href="" cid="risk" class="curr risk1" condition="risk=1"> 固定 </a>
+              <a id="risk1" class="curr risk1 btn-link"> 固定 </a>
             </label>
           </dd>
         </dl>
@@ -199,7 +203,8 @@
     <th>对比</th>
     <th>发行机构</th>
     <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
-   <!-- <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>  -->
+    <th class="hide"></th>
+    <!-- <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>  -->
     <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
     <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
     <th class="hide"></th>
@@ -209,16 +214,31 @@
     <th class="hide">发行地区</th>
     <th>产品名称</th>
     <th>操作</th>
-    <th class="hide">发行地区</th>
-    <th class="hide">销售结束</th>
     <th class="hide">产品类型</th>
   </tr></thead>
+  <tfoot class="hide"><tr>
+    <th>对比</th>
+    <th>发行机构</th>
+    <th><p class="demo-tip-yellowsimple" title="年化收益率仅是把当前收益率换算成年收益率来计算的，是一种理论收益率，并不是真正的已取得的收益率。比如某银行卖的一款理财产品，号称91天的年化收益率为3.1%，那么你购买了10万元，实际上你能收到的利息是10万*3.1%*91/365=772.88元。">收益率<br>(年化)</p></th>
+    <th class="hide"></th>
+    <!-- <th><p class="demo-tip-yellowsimple" title="投资期限到期后，您将获得的具体收益金额。这不是年化的，是实际到手的获利金额。">收益额</p></th>  -->
+    <th><p class="demo-tip-yellowsimple" title="从该银行发行的产品说明书上得到的信息，可信度非常非常高。">类型</p></th>
+    <th><p class="demo-tip-yellowsimple" title="最低购买金额。">起售价</p></th>
+    <th class="hide"></th>
+    <th><p class="demo-tip-yellowsimple" title="该产品投资的时间，正常情况下，您是不可以提前取现的。">投资期限</p></th>
+    <th class="hide"></th>
+    <th><p class="demo-tip-yellowsimple" title="当前还处于募集期内，但您所在的网点是否可以购买，可点击右侧预订按钮得知。">可售</p></th>
+    <th class="hide">发行地区</th>
+    <th>产品名称</th>
+    <th>操作</th>
+    <th class="hide">产品类型</th>
+  </tr></tfoot>
 
   <% @bankfinances.each do |b| %>
       <tr class="gradeA">
         <td><input type="checkbox" onclick="check_chose('<%= b.bname%>',<%= b.id%>)" id="chose<%= b.id%>" name="chose"></td>
         <td><%= b.trustee%></td>
-        <% if b.returnrate!=nil %>    <td><%= format("%0.1f",b.returnrate*100)%>%</td>  <% else %>  <td></td>  <% end %>
+        <% if b.returnrate!=nil %>    <td class="hide"><%= format("%0.1f",b.returnrate*100)%></td><td><%= format("%0.1f",b.returnrate*100)%>%</td>  <% else %>  <td class="hide"></td><td></td>  <% end %>
         <td><%= b.incometype%></td>
         <% if b.startvalue!=nil%>
             <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
@@ -238,8 +258,6 @@
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
         <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>"><%= b.bname%></a></td>
         <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
-        <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-        <td class="hide"><%= b.collectperiod%></td>
         <td class="hide"><%= b.productstate%></td>
       </tr>
   <% end %>
@@ -253,6 +271,129 @@
 </div>
 
 <script>
+
+   $(".banks").click(function(){
+       $(".text_filter:last").removeClass('search_init');
+       $(".text_filter:last").val('yhlc');
+       $(".text_filter:last").keyup();
+       $(".banks").addClass('currbg');
+       $(".trust").removeClass('currbg');
+       $(".category_all").removeClass('currbg');
+       $("#s-category_all").removeClass('hide');
+       $("#st-category_all").html('产品类型:银行理财');
+   });
+   $(".trust").click(function(){
+       $(".text_filter:last").removeClass('search_init');
+       $(".text_filter:last").val('xtcp');
+       $(".text_filter:last").keyup();
+       $(".trust").addClass('currbg');
+       $(".banks").removeClass('currbg');
+       $(".category_all").removeClass('currbg');
+       $("#s-category_all").removeClass('hide');
+       $("#st-category_all").html('产品类型:信托产品');
+   });
+   $(".category_all").click(function(){
+       $(".text_filter:last").addClass('search_init');
+       $(".text_filter:last").val('');
+       $(".text_filter:last").keyup();
+       $(".category_all").addClass('currbg');
+       $(".banks").removeClass('currbg');
+       $(".trust").removeClass('currbg');
+       $("#s-category_all").addClass('hide');
+   });
+
+   $("[class*='expectYID']").click(function(){
+       $("[class*='expectYID']").removeClass('currbg');
+       if(this.id=='expectYID'){$("#bankfinance_range_from_2").val('');$("#bankfinance_range_to_2").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
+       else{
+       if(this.id=='expectYID3'){$("#bankfinance_range_from_2").val('3');$("#bankfinance_range_to_2").val('6');$("#expectYID3").addClass('currbg');};
+       if(this.id=='expectYID6'){$("#bankfinance_range_from_2").val('6');$("#bankfinance_range_to_2").val('10');$("#expectYID6").addClass('currbg');};
+       if(this.id=='expectYID10'){$("#bankfinance_range_from_2").val('10');$("#bankfinance_range_to_2").val('15');$("#expectYID10").addClass('currbg');};
+       if(this.id=='expectYID15'){$("#bankfinance_range_from_2").val('15');$("#bankfinance_range_to_2").val('30');$("#expectYID15").addClass('currbg');};
+       if(this.id=='expectYID30'){$("#bankfinance_range_from_2").val('30');$("#bankfinance_range_to_2").val('');$("#expectYID30").addClass('currbg');};
+           $("#s-expectYID").removeClass('hide');
+           $("#st-expectYID").html('预期年化收益率:'+$('#'+this.id).html());
+       }
+       $("#bankfinance_range_from_2").keyup();
+   });
+
+   $("[class*='duration']").click(function(){
+       $("[class*='duration']").removeClass('currbg');
+       if(this.id=='durations'){$("#bankfinance_range_from_7").val('');$("#bankfinance_range_to_7").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
+       else{
+       if(this.id=='duration0'){$("#bankfinance_range_from_7").val('0');$("#bankfinance_range_to_7").val('90');$("#duration0").addClass('currbg');};
+       if(this.id=='duration90'){$("#bankfinance_range_from_7").val('90');$("#bankfinance_range_to_7").val('180');$("#duration90").addClass('currbg');};
+       if(this.id=='duration180'){$("#bankfinance_range_from_7").val('180');$("#bankfinance_range_to_7").val('365');$("#duration180").addClass('currbg');};
+       if(this.id=='duration365'){$("#bankfinance_range_from_7").val('365');$("#bankfinance_range_to_7").val('730');$("#duration365").addClass('currbg');};
+       if(this.id=='duration730'){$("#bankfinance_range_from_7").val('730');$("#bankfinance_range_to_7").val('');$("#duration730").addClass('currbg');};
+           $("#s-duration").removeClass('hide');
+           $("#st-duration").html('投资期限:'+$('#'+this.id).html());
+       }
+       $("#bankfinance_range_from_7").keyup();
+   });
+
+   $("[class*='outset']").click(function(){
+       $("[class*='outset']").removeClass('currbg');
+       if(this.id=='outsets'){$("#bankfinance_range_from_5").val('');$("#bankfinance_range_to_5").val('');$("#s-outset").addClass('hide');$("#outsets").addClass('currbg');}
+       else{
+       if(this.id=='outset50000'){$("#bankfinance_range_from_5").val('5');$("#bankfinance_range_to_5").val('10');$("#outset50000").addClass('currbg');};
+       if(this.id=='outset100000'){$("#bankfinance_range_from_5").val('10');$("#bankfinance_range_to_5").val('20');$("#outset100000").addClass('currbg');};
+       if(this.id=='outset200000'){$("#bankfinance_range_from_5").val('20');$("#bankfinance_range_to_5").val('50');$("#outset200000").addClass('currbg');};
+       if(this.id=='outset500000'){$("#bankfinance_range_from_5").val('50');$("#bankfinance_range_to_5").val('100');$("#outset500000").addClass('currbg');};
+       if(this.id=='outset1000000'){$("#bankfinance_range_from_5").val('100');$("#bankfinance_range_to_5").val('');$("#outset1000000").addClass('currbg');};
+           $("#s-outset").removeClass('hide');
+           $("#st-outset").html('投资起点:'+$('#'+this.id).html());
+       }
+       $("#bankfinance_range_from_5").keyup();
+   });
+
+   $("[class*='risk']").click(function(){
+       $("[class*='risk']").removeClass('currbg');
+       if(this.id=='risks'){$(".text_filter:first").val('');$(".text_filter:first").keyup();$("#s-risk").addClass('hide');$("#risks").addClass('currbg');}
+       else{
+           if(this.id=='risk2'){$(".text_filter:first").removeClass('search_init'); $(".text_filter:first").val('浮动');$(".text_filter:first").keyup();$("#risk2").addClass('currbg'); };
+           if(this.id=='risk1'){$(".text_filter:first").removeClass('search_init'); $(".text_filter:first").val('固定');$(".text_filter:first").keyup();$("#risk1").addClass('currbg');};
+           $("#s-risk").removeClass('hide');
+           $("#st-risk").html('收益类型:'+$('#'+this.id).html());
+       }
+   });
+
+   $(".delete").click(function(){
+       $('#s-'+$(this).attr("cid")).addClass('hide');
+      if($(this).attr("cid")=='category_all'){
+          $(".text_filter:last").addClass('search_init');
+          $(".text_filter:last").val('');
+          $(".text_filter:last").keyup();
+          $(".category_all").addClass('currbg');
+          $(".banks").removeClass('currbg');
+          $(".trust").removeClass('currbg');
+      }
+      else if($(this).attr("cid")=='expectYID'){
+          $("[class*='expectYID']").removeClass('currbg');
+          $("#expectYID").addClass('currbg');
+          $("#bankfinance_range_from_2").val('');$("#bankfinance_range_to_2").val('');$("#s-expectYID").addClass('hide');
+          $("#bankfinance_range_from_2").keyup();
+      }
+      else if($(this).attr("cid")=='duration'){
+          $("[class*='duration']").removeClass('currbg');
+          $("#durations").addClass('currbg');
+          $("#bankfinance_range_from_7").val('');$("#bankfinance_range_to_7").val('');$("#s-duration").addClass('hide');
+          $("#bankfinance_range_from_7").keyup();
+      }
+      else if($(this).attr("cid")=='outset'){
+          $("[class*='outset']").removeClass('currbg');
+          $("#outsets").addClass('currbg');
+          $("#bankfinance_range_from_5").val('');$("#bankfinance_range_to_5").val('');$("#s-outset").addClass('hide');
+          $("#bankfinance_range_from_5").keyup();
+      }
+      else if($(this).attr("cid")=='risk'){
+          $("[class*='risk']").removeClass('currbg');
+          $("#risks").addClass('currbg');
+          $(".text_filter:first").val('');
+          $(".text_filter:first").keyup();
+          $("#s-risk").addClass('hide');
+      }
+   });
 
     var flag=0;
     var comparenum=0;
@@ -300,135 +441,7 @@
                 break;
             };
     }
-    $.fn.dataTableExt.afnFiltering.push(
-            function( oSettings, aData, iDataIndex ) {
-                var flag1,flag2,flag3,flag4,flag5;
-                //   alert(Request("category_all"))
-                //   alert(Request("expectYID"))
-                //   alert(Request("duration"))
-                //   alert(Request("outset"))
-                //   alert(Request("risk"))
 
-                if(Request("category_all")!='0'){
-                    if(Request("category_all")=='banks'&& aData[14]=='yhlc'){
-                        flag1=1;
-                        var c='.'+Request("category_all")
-                        $(c).addClass('currbg');
-                        $("#s-category_all").removeClass('hide');
-                        $("#st-category_all").html('产品类型:银行理财');
-                    }
-                    else if(Request("category_all")=='trust'&& aData[14]=='xtcp'){
-                        flag1=1;
-                        var c='.'+Request("category_all")
-                        $(c).addClass('currbg');
-                        $("#s-category_all").removeClass('hide');
-                        $("#st-category_all").html('产品类型:信托产品');
-                    }
-                }
-                else{
-                    flag1=1;
-                    $('.category_all').addClass('currbg');
-                }
-
-                if(Request("expectYID")!='0'){
-                    a=Request("expectYID").split(",")
-                    b=parseFloat(aData[2].split("%")[0])
-                    a[0]=parseFloat(a[0]);
-                    if(a[1]){
-                        a[1]=parseFloat(a[1]);
-                        if(a[0]<=b && a[1]>b){
-                            flag2=1;
-                        }
-                    }
-                    else{
-                        if(a[0]<=b){
-                            flag2=1;
-                        }
-                    }
-                   var c='.expectYID'+a[0]
-                    $(c).addClass('currbg');
-                    $("#s-expectYID").removeClass('hide');
-                    $("#st-expectYID").html("预期年化收益率:"+$(c).html());
-                }
-                else{
-                    flag2=1;
-                    $('.expectYID').addClass('currbg');
-                }
-                if(Request("duration")!='0'){
-                    a=Request("duration").split(",")
-                    b=parseFloat(aData[6])
-                    a[0]=parseFloat(a[0]);
-                    if(a[1]){
-                        a[1]=parseFloat(a[1]);
-                        if(a[0]<=b && a[1]>b){
-                            flag3=1;
-                        }
-                    }
-                    else{
-                        if(a[0]<=b){
-                            flag3=1;
-                        }
-                    }
-                    var c='.duration'+a[0]
-                    $(c).addClass('currbg');
-                    $("#s-duration").removeClass('hide');
-                    $("#st-duration").html("投资期限:"+$(c).html());
-                }
-                else{
-                    flag3=1;
-                    $('.duration').addClass('currbg');
-                }
-                if(Request("outset")!='0'){
-                    a=Request("outset").split(",")
-                    b=parseFloat(aData[4])*10000
-                    a[0]=parseFloat(a[0]);
-                    if(a[1]){
-                        a[1]=parseFloat(a[1]);
-                        if(a[0]<=b && a[1]>b){
-                            flag4=1;
-                        }
-                    }
-                    else{
-                        if(a[0]<=b){
-                            flag4=1;
-                        }
-                    }
-                    var c='.outset'+a[0]
-                    $(c).addClass('currbg');
-                    $("#s-outset").removeClass('hide');
-                    $("#st-outset").html("投资起点:"+$(c).html());
-                }
-                else{
-                    flag4=1;
-                    $('.outset').addClass('currbg');
-                }
-                if(Request("risk")=='2'){
-                    if(aData[3]=="浮动"){
-                        flag5=1;
-                    }
-                    $('.risk2').addClass('currbg');
-                    $("#s-risk").removeClass('hide');
-                    $("#st-risk").html("收益类型:浮动");
-                }
-                else if(Request("risk")=='1'){
-                    if(aData[3]=="固定"){
-                        flag5=1;
-                    }
-                    $('.risk1').addClass('currbg');
-                    $("#s-risk").removeClass('hide');
-                    $("#st-risk").html("收益类型:固定");
-                }
-                else{
-                    flag5=1;
-                    $('.risk').addClass('currbg');
-                }
-
-                if(flag1==1&&flag2==1&&flag3==1&&flag4==1&&flag5==1){
-                    return true;
-                }
-            }
-
-    );
     function fnFilterGlobal ()
     {
         var x="";
@@ -465,6 +478,25 @@
           //  "sAjaxSource": $('#bankfinance').data('source'),
           //  "fnServerData": fnDataTablesPipeline
         });
+        $('#bankfinance').dataTable().columnFilter({
+            aoColumns: [
+                null,
+                null,
+                { type: "number-range" },
+                null,
+                { type: "text"},
+                { type: "number-range" },
+                null,
+                { type: "number-range" },
+                null,
+                null,
+                null,
+                null,
+                null,
+                { type: "text" }
+            ]
+
+        });
 
         function fnDataTablesPipeline ( sUrl, aoData, fnCallback ) {
          //   alert(JSON.stringify(aoData));
@@ -487,39 +519,6 @@
         $("#global_filter").val(remote_ip_info["city"])
         $("#global_filter").keyup( fnFilterGlobal );
         fnFilterGlobal();
-
-        $('a.login-window').click(function() {
-            // Getting the variable's value from a link
-            var loginBox = $(this).attr('href');
-
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
-            //Set the center alignment padding + border
-            var popMargTop = ($(loginBox).height() + 24) / 2;
-            var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-            $(loginBox).css({
-                'margin-top' : -popMargTop,
-                'margin-left' : -popMargLeft
-            });
-
-            // Add the mask to body
-            $('body').append('<div id="mask"></div>');
-            $('#mask').fadeIn(300);
-
-            return false;
-        });
-
-        // When clicking on the button close or the mask layer the popup closed
-        $('a.close, #mask').live('click', function() {
-            /*  $('#mask , .login-popup').fadeOut(300 , function() {
-             $('#mask').remove();
-             $("#ownvalue").html("");
-             $("#total").html("");
-             });   */
-            location.reload();
-            return false;
-        });
 
     });
 
