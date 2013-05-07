@@ -1,0 +1,252 @@
+<%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<!--[if IE]>
+<style>
+    .side-tip{
+        width: 20%;
+    }
+    .side-tip div.comput {
+        position: fixed;
+        top:80px;
+    }
+    .side-tip div.tip {
+        top: 95px;
+        overflow: hidden;
+        position: absolute;
+        width: 220px;
+        max-width: 220px;
+        min-height: 200px;
+        height: auto;
+        left: 40px\9;
+        background: none repeat scroll 0% 0% rgb(248, 248, 248);
+        box-shadow: 0px 0px 3px rgb(170, 170, 170);
+        cursor: default;
+    }
+    .articles{
+        padding-left:16%;
+    }
+</style>
+<![endif]-->
+
+<div  class='main-content'>
+  <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
+  <a class="crumbs" href="/blog/index" >博客</a><br><br>
+
+  <table class="body-container" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>
+        <p class="entry-title post"><%=raw @bloginfo[0]%></p>
+        <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
+        <div style="text-align: center;"><img style="width: 100%;" src="/assets/<%= @bloginfo[5]%>"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><%=raw @bloginfo[3]%></p>
+        <br>
+        <div class="forie">
+          <% if @comments.length>0 %>
+              <strong>评论</strong>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+                <% @comments.each do |b| %>
+                    <tr>
+                      <td>
+                        <p><%= b.username%> 说：</p>
+                      </td>
+                      <td class="pull-right">
+                        <p> <%= b.time%> </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <%= b.comments%>
+                        <hr>
+                      </td>
+                    </tr>
+                <% end %>
+              </table>
+          <% end %>
+          <strong>发表评论</strong>
+          <br><br>
+          <form id="commentform">
+            <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
+              <input id="author" name="author" value="" size="30" aria-required="true" type="text" title="姓名"></p>
+            <p class="comment-form-email"><label for="email">邮件 <span class="required">*</span></label>
+              <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="邮件"></p>
+            <p class="comment-form-comment"><label for="comment">评论</label>
+              <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
+            <input name="submit" id="submit" value="发表" type="button">
+            </p>
+          </form>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="tip">
+          <li  class="widget-container">
+            <h3>目录</h3>
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    通天顺
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                      <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                      <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    家庭理财规划
+                  </a>
+                </div>
+                <div id="collapseTwo" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                      <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                      <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
+                      <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
+                      <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    特色服务
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                      <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                      <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                      <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                      <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                    投资指导
+                  </a>
+                </div>
+                <div id="collapseFour" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
+                      <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
+      </td>
+    </tr>
+    <tr><td>
+      <div class="sociable">
+        </br>
+        <div class="sociable_tagline">分享</div>
+        <ul class="clearfix"></ul>
+      </div>
+      <!-- Baidu Button BEGIN -->
+      <div class="baidu_btn">
+        <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;">
+          <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+          <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+          <span class="bds_more" style="padding:0 15px 10px 0; clear: both; float: left"></span>
+        </div>
+      </div>
+
+      <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455"></script>
+      <script type="text/javascript" id="bdshell_js"></script>
+      <script type="text/javascript">
+          document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+      </script>
+      <!-- Baidu Button END -->
+    </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+    $("#submit").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/blog/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
+                comments: $("#comment").attr("value"),blogid: <%= @bloginfo[6]%>,time:time
+            },function(data){
+                if(data=="s1"){
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+       window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
+    }
+</script>

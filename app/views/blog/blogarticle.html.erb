@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 <!--[if IE]>
 <style>
     .side-tip{
@@ -66,7 +67,7 @@
       <td class="post-cell">
         <p class="entry-title post"><%=raw @bloginfo[0]%></p>
         <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
-        <img class="alignleft size-medium "  style="width: 100%;" src="/assets/<%= @bloginfo[5]%>">
+        <div style="text-align: center;"><img class="alignleft size-medium " src="/assets/<%= @bloginfo[5]%>"></div>
       </td>
       <!--[if IE]>
    <td style="width:20% ; "></td>
@@ -124,43 +125,75 @@
       <div class="tip">
         <li  class="widget-container">
           <h3>目录</h3>
-          <ul>
-            <li>
-              <a href="/blog/index" class="a">通天顺</a>
-              <ul>
-                <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
-                <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
-                <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">家庭理财规划</a>
-              <ul>
-                <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
-                <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
-                <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
-                <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
-                <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">特色服务</a>
-              <ul>
-                <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
-                <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
-                <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="/blog/index" class="a">投资指导</a>
-              <ul>
-                <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
-                <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
-              </ul>
-            </li>
-          </ul>
+          <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  通天顺
+                </a>
+              </div>
+              <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                  <ul>
+                    <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                    <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                    <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  家庭理财规划
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <ul>
+                    <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                    <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                    <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
+                    <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
+                    <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  特色服务
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <ul>
+                    <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                    <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                    <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                    <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                    <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                  投资指导
+                </a>
+              </div>
+              <div id="collapseFour" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <ul>
+                    <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
+                    <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
       </div>
     </div>
@@ -205,4 +238,23 @@
             });
         }
     });
+</script>
+
+<script type="text/javascript">
+//平台、设备和操作系统
+var system ={
+win : false,
+mac : false,
+xll : false
+};
+//检测平台
+var p = navigator.platform;
+system.win = p.indexOf('Win') == 0;
+system.mac = p.indexOf('Mac') == 0;
+system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+//跳转语句
+if(system.win||system.mac||system.xll){
+}else{
+    window.location.href='/blog/article/'+<%= params[:id] %>;
+}
 </script>

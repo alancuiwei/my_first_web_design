@@ -81,12 +81,12 @@
                      <% end %>
                     </span>
                   </div>
-                  <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>"><%=raw b.btitle%></a></h2>
+                  <h2 class="entry-title a"><a title="<%= b.id%>" class="more-link"><%=raw b.btitle%></a></h2>
                   <div class="entry-content">
                     <div style="text-align: center;"><img class="alignleft size-medium " style="height: 400px;" src="/assets/<%= b.imagepath%>"></div>
                     <p><%=raw b.barticle %></p>
                   </div>
-                  <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
+                  <p><a title="<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
                   <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
                 </td>
                 <!--[if IE]>
@@ -239,4 +239,27 @@
         location.href="/blog/index/"+bid+"?classify="+'<%= params[:classify] %>';
         <% end %>
     });
+</script>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+       $(".more-link").click(function(){
+           location.href="/blog/blogarticle/"+this.title;
+       })
+    }else{
+        $(".more-link").click(function(){
+            location.href="/blog/article/"+this.title;
+        })
+    }
 </script>
