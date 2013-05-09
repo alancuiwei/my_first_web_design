@@ -1,0 +1,252 @@
+<%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<!--[if IE]>
+<style>
+    .side-tip{
+        width: 20%;
+    }
+    .side-tip div.comput {
+        position: fixed;
+        top:80px;
+    }
+    .side-tip div.tip {
+        top: 95px;
+        overflow: hidden;
+        position: absolute;
+        width: 220px;
+        max-width: 220px;
+        min-height: 200px;
+        height: auto;
+        left: 40px\9;
+        background: none repeat scroll 0% 0% rgb(248, 248, 248);
+        box-shadow: 0px 0px 3px rgb(170, 170, 170);
+        cursor: default;
+    }
+</style>
+<![endif]-->
+<style>
+    .baidu_btn {
+        width: 100%!important;  display: table;
+    }
+</style>
+<div  class='main-content'>
+  <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
+  <a class="crumbs" href="/blog/all" >博客</a>
+  <table class="body-container" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="content">
+        <h1 id="title">博客</h1>
+        <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
+          <thead class="hide">
+          <tr>
+            <th>分享</th><th>博客</th>
+          </tr></thead>
+          <tbody>
+          <% @blogs.each do |b| %>
+              <tr>
+                <td>
+                  <div>
+                    <span class="cat-links">
+                     <% if b.bcolumn=="家庭理财规划指导" %>
+                       <a href="/blog/all?classify=<%= b.bcolumn%>"  class="a">&nbsp;规划建议&nbsp;</a>
+                     <% else %>
+                       <a href="/blog/all?classify=<%= b.bcolumn%>"  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>
+                     <% end %>
+                    </span>
+                  </div>
+                  <h2 class="entry-title a"><a href="/blog/article/<%= b.id%>" class="more-link"><%=raw b.btitle%></a></h2>
+                  <div class="entry-content">
+                    <div style="text-align: center;"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></div>
+                    <p><%=raw b.barticle[0,150] + ' ... ...' %></p>
+                  </div>
+                  <p><a href="/blog/article/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
+                  <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
+                   <br>
+                  <div class="sociable">
+                    <div class="sociable_tagline">分享</div>
+                    <ul class="clearfix"></ul>
+                  </div>
+                  <!-- Baidu Button BEGIN -->
+                  <div class="baidu_btn">
+                    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;" data="{'url':'http://www.tongtianshun.com/blog/blogarticle/<%= b.id%>'}">
+                      <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+                      <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+                      <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+                      <span class="bds_more" style="padding:0 15px 10px 0; float: left"></span>
+                    </div>
+                  </div>
+
+                  <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
+                  <script type="text/javascript" id="bdshell_js"></script>
+                  <script type="text/javascript">
+                      document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+                  </script>
+                  <!-- Baidu Button END -->
+                </td>
+              </tr>
+              <tr>
+                <td><p class="back"></p></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <div>
+          <a id="next" style="float: right;" href="javascript:void(0);">下一页</a>
+          <a id="last" style="width: 50px;float: right;" href="javascript:void(0);">上一页</a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="tip">
+          <li  class="widget-container">
+            <h3>目录</h3>
+            <div class="accordion" id="accordion2">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                    特色服务
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                      <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                      <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                      <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                      <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                    通天顺
+                  </a>
+                </div>
+                <div id="collapseTwo" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                      <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                      <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                    家庭理财规划
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                      <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                      <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
+                      <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
+                      <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                    投资指导
+                  </a>
+                </div>
+                <div id="collapseFour" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <ul>
+                      <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
+                      <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        <% if params[:id]==nil %>
+        var bid=0;
+        <% else %>
+        var bid=<%= params[:id] %>;
+        <% end %>
+        if(bid==0){
+            $("#last").addClass("black");
+        }
+        if((bid+1)*7>=parseInt('<%= @blog.length %>')){
+            $("#next").addClass("black");
+        }
+        <% if params[:classify]!=nil %>
+        <% if params[:classify]=="家庭理财规划指导" %>
+        $("#title").html('规划建议');
+        <% else %>
+        $("#title").html('<%= params[:classify] %>');
+        <% end %>
+        <% end %>
+    });
+
+    $("#last,#next").click(function next(){
+        <% if params[:id]==nil %>
+        var bid=0;
+        <% else %>
+        var bid=<%= params[:id] %>;
+        <% end %>
+        if(bid==0 && this.id=="last"){
+            return false;
+        }
+        else if((bid+1)*7>=parseInt('<%= @blog.length %>') && this.id=="next"){
+            return false;
+        }
+
+        if(this.id=="last"){
+            bid=bid-1;
+        }
+        else{
+            bid=bid+1;
+        }
+        <% if params[:classify]==nil %>
+        location.href="/blog/all/"+bid;
+        <% else %>
+        location.href="/blog/all/"+bid+"?classify="+'<%= params[:classify] %>';
+        <% end %>
+    });
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        location.href=window.location.href.replace("all","index");
+    }
+</script>

@@ -67,6 +67,8 @@
       <td class="post-cell">
         <p class="entry-title post"><%=raw @bloginfo[0]%></p>
         <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
+        <div class="news_tag"></div>
+        <br>
         <div style="text-align: center;"><img class="alignleft size-medium " src="/assets/<%= @bloginfo[5]%>"></div>
       </td>
       <!--[if IE]>
@@ -129,10 +131,28 @@
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                  通天顺
+                  特色服务
                 </a>
               </div>
               <div id="collapseOne" class="accordion-body collapse in">
+                <div class="accordion-inner">
+                  <ul>
+                    <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                    <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                    <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                    <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                    <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  通天顺
+                </a>
+              </div>
+              <div id="collapseTwo" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <ul>
                     <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
@@ -144,11 +164,11 @@
             </div>
             <div class="accordion-group">
               <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
                   家庭理财规划
                 </a>
               </div>
-              <div id="collapseTwo" class="accordion-body collapse">
+              <div id="collapseThree" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <ul>
                     <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
@@ -156,24 +176,6 @@
                     <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
                     <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
                     <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                  特色服务
-                </a>
-              </div>
-              <div id="collapseThree" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <ul>
-                    <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                    <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                    <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
-                    <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
-                    <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
                   </ul>
                 </div>
               </div>
@@ -201,6 +203,18 @@
 </div>
 
 <script type="text/javascript">
+
+    $(document).ready(function(){
+      <% if @bloginfo[7]!=nil %>
+        var value = '<%= @bloginfo[7] %>';
+        var tags = value.split(/,\s*|，\s*/);
+        var tag='';
+        for(var i=0;i<tags.length;i++){
+            tag=tag+'<a href="/blog/index?tag='+tags[i]+'" target="_blank">'+tags[i]+'</a>';
+        }
+        $(".news_tag").html(tag);
+      <% end %>
+    });
 
     $("#submit").click(function(e){
         var o=document.getElementsByTagName("input");
@@ -253,8 +267,7 @@ system.win = p.indexOf('Win') == 0;
 system.mac = p.indexOf('Mac') == 0;
 system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
 //跳转语句
-if(system.win||system.mac||system.xll){
-}else{
+if(!(system.win||system.mac||system.xll)){
     window.location.href='/blog/article/'+<%= params[:id] %>;
 }
 </script>

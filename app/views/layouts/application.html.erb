@@ -5,9 +5,8 @@
   <link href="/assets/123.png" rel="Shortcut Icon">
   <meta name="keywords" content="家庭理财服务" />
   <meta name="description" content="通天顺--站在中立、客观的第三方理财机构角度，提供家庭理财规划方案服务，提供团购理财产品服务，为您提供银行理财产品，券商理财产品，保险产品，最大化您的投资收益。" />
-  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
   <%= javascript_include_tag "jquery.min.js" %>
-  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
+  <% if !(params[:controller]=="childfinance" && params[:action]=="index") %>
   <%= stylesheet_link_tag "bootstrap.css" %>
   <%= stylesheet_link_tag "bootstrap-responsive.min.css" %>
   <%= stylesheet_link_tag "styles.css" %>
@@ -43,7 +42,7 @@
   </div>
   <% end %>
 -->
-  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
+  <% if !(params[:controller]=="childfinance" && params[:action]=="index") %>
   <div class='row-fluid beta'>
     <div class="span8">
       <a href="/"><img style="height: 54px;" src="/assets/logo.png"></a>
@@ -74,7 +73,7 @@
   </div>
    <% end %>
   <%= yield %>
-  <% if !(params[:controller]=="home" && params[:action]=="childfinance") %>
+  <% if !(params[:controller]=="childfinance" && params[:action]=="index") %>
   <div class="row-fluid main-footer">
     <div class="span2 offset2">
       <h4 class="tcol">我们的服务</h4>
@@ -91,7 +90,7 @@
       <a href="http://e.weibo.com/3196249771/profile" target="_blank" class='full'>微博</a>
       <a href='/contactus/aboutus#联系我们' class='full'>微信</a>
       <a href="http://eepurl.com/tonoL" target="_blank" class='full'>邮件订阅</a>
-      <a href='/blog/index' class='full'>博客</a>
+      <a class='full blog btn-link'>博客</a>
       <a href='/contactus/aboutus#联系我们' class='full'>客服电话</a>
       <a href="javascript:void(0)" class="full" onclick="question('habla_oplink_a')">在线客服</a>
     </div>
@@ -180,6 +179,30 @@ a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0
 
 a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
 
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".blog").click(function(){
+            location.href="/blog/index";
+        })
+    }else{
+        $(".blog").click(function(){
+            location.href="/blog/all";
+        })
+    }
 </script>
 <!--
      <script type="text/javascript">

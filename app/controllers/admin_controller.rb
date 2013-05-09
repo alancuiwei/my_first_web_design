@@ -858,6 +858,7 @@ class AdminController < ApplicationController
         @bloginfo[3]=@blog.barticle
         @bloginfo[4]=@blog.bcolumn
         @bloginfo[5]=@blog.imagepath
+        @bloginfo[6]=@blog.tag
       end
     else
       redirect_to(:controller=>"home")
@@ -873,6 +874,7 @@ class AdminController < ApplicationController
         b.barticle=params[:barticle]
         b.bcolumn=params[:bcolumn]
         b.imagepath=params[:imagepath]
+        b.tag=params[:tag]
         b.save
       end
       render :json => "s1".to_json
@@ -880,7 +882,7 @@ class AdminController < ApplicationController
     else
       @blog=Blog.find_by_id(params[:id])
       @blog.update_attributes(:btitle=>params[:btitle],:blname=>params[:blname],:publishdate=>params[:publishdate],
-                              :barticle=>params[:barticle],:bcolumn=>params[:bcolumn],:imagepath=>params[:imagepath])
+                              :barticle=>params[:barticle],:bcolumn=>params[:bcolumn],:imagepath=>params[:imagepath],:tag=>params[:tag])
       render :json => "s2".to_json
     end
   end

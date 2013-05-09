@@ -6,12 +6,47 @@ class BlogController < ApplicationController
       else
          bid=(params[:id].to_i*7).to_s
       end
+      if  params[:tag]==nil
       if params[:classify]==nil
        @blog=Blog.all
        @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
       else
         @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
         @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc limit '+bid+',7')
+      end
+      else
+        if params[:classify]==nil
+          @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
+          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+        else
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+        end
+      end
+  end
+
+  def all
+      if params[:id]==nil
+         bid="0"
+      else
+         bid=(params[:id].to_i*7).to_s
+      end
+      if  params[:tag]==nil
+        if params[:classify]==nil
+          @blog=Blog.all
+          @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
+        else
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc limit '+bid+',7')
+        end
+      else
+        if params[:classify]==nil
+          @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
+          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+        else
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+        end
       end
   end
 
@@ -27,6 +62,7 @@ class BlogController < ApplicationController
       @bloginfo[4]=@blog.bcolumn
       @bloginfo[5]=@blog.imagepath
       @bloginfo[6]=@blog.id
+      @bloginfo[7]=@blog.tag
     end
   end
 
@@ -42,6 +78,7 @@ class BlogController < ApplicationController
       @bloginfo[4]=@blog.bcolumn
       @bloginfo[5]=@blog.imagepath
       @bloginfo[6]=@blog.id
+      @bloginfo[7]=@blog.tag
     end
   end
 
