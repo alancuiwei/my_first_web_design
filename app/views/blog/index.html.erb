@@ -32,17 +32,17 @@
   <a class="crumbs" href="/blog/index" >博客</a>
   <table class="body-container" cellpadding="0" cellspacing="0">
     <tr>
-      <td class="content">
-        <h1 id="title" style="width: 80%;">博客</h1>
+      <td class="content" style="width: 70%;">
+        <h1 id="title" >博客</h1>
         <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
           <thead class="hide">
           <tr>
-            <th>分享</th><th>博客</th>
+            <th class="hide">分享</th><th>博客</th>
           </tr></thead>
           <tbody>
           <% @blogs.each do |b| %>
               <tr>
-                <td class="left-cell">
+                <td class="left-cell hide">
                   <div class="sociable">
                     <div class="sociable_tagline">分享</div>
                     <ul class="clearfix"></ul>
@@ -95,24 +95,127 @@
                 <![endif]-->
               </tr>
               <tr>
-                <td><p class="back"></p></td>
+                <td class="hide"><p class="back"></p></td>
                 <!--[if IE]>
                 <td><p class="back"></p></td>
                 <![endif]-->
                 <!--[if !IE]><!-->
-                <td><p class="back" style="width: 77%;"></p></td>
+                <td><p class="back" style="width: 100%;"></p></td>
                 <!--<![endif]-->
               </tr>
           <% end %>
           </tbody>
         </table>
-        <div style="width: 80%;">
+        <div>
           <a id="next" class="pull-right" href="javascript:void(0);">下一页</a>
           <a id="last" class="pull-right" style="width: 50px;" href="javascript:void(0);">上一页</a>
         </div>
       </td>
+      <td style="width: 30%;padding:110px 0 0 20px;">
+        <p>联系我们</p>
+        <!-- Baidu Button BEGIN -->
+        <div class="baidu_btn" style="width: 100%;">
+          <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;">
+            <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+            <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+            <span class="bds_more" style="padding:0 15px 10px 0; clear: both; float: left"></span>
+          </div>
+        </div>
+
+        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
+        <script type="text/javascript" id="bdshell_js"></script>
+        <script type="text/javascript">
+            document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+        </script>
+        <!-- Baidu Button END -->
+
+        <br>
+        <div class="tip">
+          <li  class="widget-container">
+            <h3>目录</h3>
+        <div class="accordion" id="accordion2">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                特色服务
+              </a>
+            </div>
+            <div id="collapseOne" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
+                  <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
+                  <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
+                  <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
+                  <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                通天顺
+              </a>
+            </div>
+            <div id="collapseTwo" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                  <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
+                  <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                家庭理财规划
+              </a>
+            </div>
+            <div id="collapseThree" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                  <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                  <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
+                  <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
+                  <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                投资指导
+              </a>
+            </div>
+            <div id="collapseFour" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <ul>
+                  <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
+                  <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+          </li>
+        </div>
+      </td>
     </tr>
   </table>
+  <!--
   <div class="pull-right side-tip">
     <div class="comput">
       <div class="tip">
@@ -191,6 +294,7 @@
       </div>
     </div>
   </div>
+  -->
 </div>
 
 <script>
@@ -270,3 +374,4 @@
         location.href=window.location.href.replace("index","all");
     }
 </script>
+

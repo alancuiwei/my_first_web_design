@@ -39,7 +39,7 @@ class HomeController < ApplicationController
         redirect_to(:controller=>"home", :action=>"questions")
       end
     elsif cookies[:asset_allocation]==nil && params[:username]==nil
-      redirect_to(:controller=>"home", :action=>"index")
+      redirect_to(:controller=>"home", :action=>"questions")
     else
       @webuser2=Webuser.find_by_username('admin')
     end
@@ -73,7 +73,7 @@ class HomeController < ApplicationController
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
       if @webuser==nil
-        redirect_to(:controller=>"home", :action=>"index")
+        redirect_to(:controller=>"home", :action=>"questions")
       end
     elsif session[:webusername]!=nil  && cookies[:asset_allocation]==nil
       @webuser=Webuser.find_by_username(session[:webusername])
