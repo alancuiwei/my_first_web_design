@@ -7,22 +7,23 @@ class BlogController < ApplicationController
          bid=(params[:id].to_i*7).to_s
       end
       if  params[:tag]==nil
-      if params[:classify]==nil
-       @blog=Blog.all
-       @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
-      else
-        @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
-        @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc limit '+bid+',7')
-      end
+        if params[:classify]==nil
+          @blog=Blog.all
+          @blogs=Blog.find_by_sql('select * from blog order by publishdate desc,id desc limit '+bid+',7')
+        else
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
+        end
       else
         if params[:classify]==nil
           @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
         else
           @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
         end
       end
+     @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')
   end
 
   def all
@@ -34,20 +35,21 @@ class BlogController < ApplicationController
       if  params[:tag]==nil
         if params[:classify]==nil
           @blog=Blog.all
-          @blogs=Blog.find_by_sql('select * from blog order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog order by publishdate desc,id desc limit '+bid+',7')
         else
           @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"')
-          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
         if params[:classify]==nil
           @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
         else
           @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc limit '+bid+',7')
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
         end
       end
+      @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')
   end
 
   def blogarticle
@@ -82,6 +84,12 @@ class BlogController < ApplicationController
     end
   end
 
+  def countconfigajax
+      @blogs=Blog.find_by_id(params[:bid])
+      @blogs.update_attributes(:count=>params[:count])
+      render :json => "s1".to_json
+  end
+
   def commentconfigajax
     Comments.new do |b|
       b.username=params[:username]
@@ -94,3 +102,4 @@ class BlogController < ApplicationController
     render :json => "s1".to_json
   end
 end
+

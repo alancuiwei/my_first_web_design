@@ -209,6 +209,14 @@
         }
         $(".news_tag").html(tag);
         <% end %>
+
+        <% if @blog.count==nil %>
+        var count=1;
+        <% else %>
+        var count=parseInt('<%= @blog.count %>')+1;
+        <% end %>
+        $.post("/blog/countconfigajax",{count:count,bid:"<%= params[:id] %>"},function(data){
+        });
     });
 
     $("#submit").click(function(e){
@@ -263,6 +271,6 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
-       window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
+    //   window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
     }
 </script>

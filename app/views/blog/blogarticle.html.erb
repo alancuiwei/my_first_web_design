@@ -64,12 +64,12 @@
         </script>
         <!-- Baidu Button END -->
       </td>
-      <td class="post-cell">
+      <td class="post-cell" style="padding-right: 20%;">
         <p class="entry-title post"><%=raw @bloginfo[0]%></p>
         <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
         <div class="news_tag"></div>
         <br>
-        <div style="text-align: center;"><img class="alignleft size-medium " src="/assets/<%= @bloginfo[5]%>"></div>
+        <div><img class="alignleft size-medium " src="/assets/<%= @bloginfo[5]%>"></div>
       </td>
       <!--[if IE]>
    <td style="width:20% ; "></td>
@@ -214,8 +214,13 @@
         }
         $(".news_tag").html(tag);
       <% end %>
-
-
+        <% if @blog.count==nil %>
+          var count=1;
+        <% else %>
+          var count=parseInt('<%= @blog.count %>')+1;
+        <% end %>
+        $.post("/blog/countconfigajax",{count:count,bid:"<%= params[:id] %>"},function(data){
+        });
     });
 
     $("#submit").click(function(e){

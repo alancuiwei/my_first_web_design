@@ -1,37 +1,62 @@
 <%= stylesheet_link_tag "blog.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
-<!--[if IE]>
-<style>
-    .side-tip{
-        width: 20%;
-    }
-    .side-tip div.comput {
-        position: fixed;
-        top:80px;
-    }
-    .side-tip div.tip {
-        top: 95px;
-        overflow: hidden;
-        position: absolute;
-        width: 220px;
-        max-width: 220px;
-        min-height: 200px;
-        height: auto;
-        left: 40px\9;
-        background: none repeat scroll 0% 0% rgb(248, 248, 248);
-        box-shadow: 0px 0px 3px rgb(170, 170, 170);
-        cursor: default;
-    }
-</style>
-<![endif]-->
+
 <style>
     .baidu_btn {
         width: 100%!important;  display: table;
     }
+    #main .main-contents {
+        padding: 0;
+    }
+    a{color: #0066CC;}
+    a:hover {
+        color: #FF4B33;
+        text-decoration: underline;
+    }
+    hr{
+        border-bottom: 1px solid #aaa;
+        margin: 10px 0;
+    }
+
+    .popular h1{
+        color: #666666;
+        font-weight: 700;
+    }
+    .popular a:hover{
+        text-decoration: none;
+    }
+    .popular h1:hover{
+        color: #000;
+        text-decoration: none;
+    }
 </style>
-<div  class='main-content'>
-  <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
-  <a class="crumbs" href="/blog/all" >博客</a>
+<div  class='main-contents'>
+
+  <div class='row-fluid beta2'>
+    <div class="span8">
+      <h1><a href="/"><img style="height: 54px;margin-top: 10px;" src="/assets/logo.png"></a><span>博客</span></h1>
+    </div>
+    <div class="span4" style="padding-top: 13px;">
+      <div id="mc_embed_signup">
+        <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tbody><tr>
+              <td style="width: 80px;border-right: 1px solid #ccc;vertical-align: middle;">
+                <label for="mce-EMAIL">邮件订阅</label>
+              </td>
+              <td style="padding:10px 0 0 20px;">
+                <input type="email" value="" name="EMAIL" style="width: 80%;" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
+              </td>
+              <td style="vertical-align: middle;">
+                <div class="clear"><input type="submit" value="订阅" name="subscribe" id="mc-embedded-subscribe" class="btn"></div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
   <table class="body-container" cellpadding="0" cellspacing="0">
     <tr>
       <td class="content">
@@ -39,7 +64,7 @@
         <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
           <thead class="hide">
           <tr>
-            <th>分享</th><th>博客</th>
+            <th>博客</th>
           </tr></thead>
           <tbody>
           <% @blogs.each do |b| %>
@@ -54,6 +79,7 @@
                      <% end %>
                     </span>
                   </div>
+                  <div class="news_tag<%= b.id%>"></div>
                   <h2 class="entry-title a"><a href="/blog/article/<%= b.id%>" class="more-link"><%=raw b.btitle%></a></h2>
                   <div class="entry-content">
                     <div style="text-align: center;"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></div>
@@ -61,34 +87,6 @@
                   </div>
                   <p><a href="/blog/article/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
                   <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
-                   <br>
-                  <div class="sociable">
-                    <div class="sociable_tagline">分享</div>
-                    <ul class="clearfix"></ul>
-                  </div>
-                  <!-- Baidu Button BEGIN -->
-                  <div class="baidu_btn">
-                    <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;" data="{'url':'http://www.tongtianshun.com/blog/blogarticle/<%= b.id%>'}">
-                      <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
-                      <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
-                      <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
-                      <span class="bds_more" style="padding:0 15px 10px 0; float: left"></span>
-                    </div>
-                  </div>
-
-                  <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
-                  <script type="text/javascript" id="bdshell_js"></script>
-                  <script type="text/javascript">
-                      document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
-                  </script>
-                  <!-- Baidu Button END -->
                 </td>
               </tr>
               <tr>
@@ -105,79 +103,83 @@
     </tr>
     <tr>
       <td>
+        <div style="height: 30px;"></div>
+        <h3 class="widget-title" style="margin-top: 10px;">目录</h3>
         <div class="tip">
-          <li  class="widget-container">
-            <h3>目录</h3>
-            <div class="accordion" id="accordion2">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    特色服务
-                  </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                      <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                      <li><a href="/blog/index?classify=理财达人" class="a">理财达人</a></li>
-                      <li><a href="/blog/index?classify=星座理财" class="a">星座理财</a></li>
-                      <li><a href="/blog/index?classify=理财测试" class="a">理财测试</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                    通天顺
-                  </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
-                      <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
-                      <li><a href="/blog/index?classify=常见问答" class="a">常见问答</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                    家庭理财规划
-                  </a>
-                </div>
-                <div id="collapseThree" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=家庭理财规划指导" class="a">规划建议</a></li>
-                      <li><a href="/blog/index?classify=单身贵族理财" class="a">单身贵族理财</a></li>
-                      <li><a href="/blog/index?classify=两人世界理财" class="a">两人世界理财</a></li>
-                      <li><a href="/blog/index?classify=一家三口理财" class="a">一家三口理财</a></li>
-                      <li><a href="/blog/index?classify=四世同堂理财" class="a">四世同堂理财</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-                    投资指导
-                  </a>
-                </div>
-                <div id="collapseFour" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=行业新闻" class="a">行业新闻</a></li>
-                      <li><a href="/blog/index?classify=产品新闻" class="a">产品新闻</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <li  class="widget-container" style="width: 100%;">
+            <ul>
+              <li>
+                <a href="/blog/all" class="a">特色服务</a>
+                <ul>
+                  <li><a href="/blog/all?classify=儿童理财观" class="a">儿童理财观</a></li>
+                  <li><a href="/blog/all?classify=女子爱财" class="a">女子爱财</a></li>
+                  <li><a href="/blog/all?classify=理财达人" class="a">理财达人</a></li>
+                  <li><a href="/blog/all?classify=星座理财" class="a">星座理财</a></li>
+                  <li><a href="/blog/all?classify=理财测试" class="a">理财测试</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="/blog/all" class="a">通天顺</a>
+                <ul>
+                  <li><a href="/blog/all?classify=通天顺的服务" class="a">通天顺的服务</a></li>
+                  <li><a href="/blog/all?classify=创业人生" class="a">创业人生</a></li>
+                  <li><a href="/blog/all?classify=常见问答" class="a">常见问答</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="/blog/all" class="a">家庭理财规划</a>
+                <ul>
+                  <li><a href="/blog/all?classify=家庭理财规划指导" class="a">规划建议</a></li>
+                  <li><a href="/blog/all?classify=单身贵族理财" class="a">单身贵族理财</a></li>
+                  <li><a href="/blog/all?classify=两人世界理财" class="a">两人世界理财</a></li>
+                  <li><a href="/blog/all?classify=一家三口理财" class="a">一家三口理财</a></li>
+                  <li><a href="/blog/all?classify=四世同堂理财" class="a">四世同堂理财</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="/blog/all" class="a">投资指导</a>
+                <ul>
+                  <li><a href="/blog/all?classify=行业新闻" class="a">行业新闻</a></li>
+                  <li><a href="/blog/all?classify=产品新闻" class="a">产品新闻</a></li>
+                </ul>
+              </li>
+            </ul>
           </li>
+        </div>
+        <div style="height: 30px;"></div>
+        <h3 class="widget-title">最受欢迎的文章：</h3>
+        <table class="popular">
+          <% @popular.each do |b| %>
+              <tr>
+                <td>
+                  <a href="/blog/article/<%= b.id%>"><h1 style="font-size: 16px;"><%= b.btitle %></h1></a>
+                  <a href="/blog/article/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"> <hr> </td>
+              </tr>
+          <% end %>
+        </table>
+        <div style="height: 30px;"></div>
+        <h3 class="widget-title">联系我们</h3>
+        <div style="height: 30px;"></div>
+        <h3 class="widget"><span style="margin-right: 50px;">微信关注：</span><img src="/assets/1.jpg" style="width: 78px;"></h3>
+        <div style="height: 30px;"></div>
+        <div class="feeds">
+          <table width="100%" class="tfeeds">
+            <tbody><tr>
+              <td>
+                <a href="http://weibo.com/u/3429002842" target="_blank"><div class="image facebook"></div>
+                  新浪微博</a>
+              </td>
+              <td>
+                <a href="http://t.qq.com/tongtianshun001"><div class="image twitter"></div>
+                  腾讯微博</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </td>
     </tr>
@@ -186,6 +188,13 @@
 
 <script>
     $(document).ready(function () {
+        <% if params[:classify]!=nil %>
+        <% if params[:classify]=="家庭理财规划指导" %>
+        $("#title").html('规划建议');
+        <% else %>
+        $("#title").html('<%= params[:classify] %>');
+        <% end %>
+        <% end %>
         <% if params[:id]==nil %>
         var bid=0;
         <% else %>
@@ -197,13 +206,19 @@
         if((bid+1)*7>=parseInt('<%= @blog.length %>')){
             $("#next").addClass("black");
         }
-        <% if params[:classify]!=nil %>
-        <% if params[:classify]=="家庭理财规划指导" %>
-        $("#title").html('规划建议');
-        <% else %>
-        $("#title").html('<%= params[:classify] %>');
+
+        <% @blogs.each do |b| %>
+        <% if b.tag!=nil %>
+        var value = '<%= b.tag %>';
+        var tags = value.split(/,\s*|，\s*/);
+        var tag='';
+        for(var i=0;i<tags.length;i++){
+            tag=tag+'<a href="/blog/all?tag='+tags[i]+'">'+tags[i]+'</a>';
+        }
+        $(".news_tag<%= b.id %>").html(tag);
         <% end %>
         <% end %>
+        $(".beta").remove();
     });
 
     $("#last,#next").click(function next(){
@@ -247,6 +262,6 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
-        location.href=window.location.href.replace("all","index");
+    //    location.href=window.location.href.replace("all","index");
     }
 </script>

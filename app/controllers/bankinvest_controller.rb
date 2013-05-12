@@ -51,7 +51,7 @@ class BankinvestController < ApplicationController
   end
 
   def index
-    @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE collectperiod>=NOW() OR collectperiod IS NULL')
+    @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE collectperiod>=NOW() OR collectperiod IS NULL OR productstate="xtcp"')
     #   @bankfinances=Bankfinance.all
   end
 
