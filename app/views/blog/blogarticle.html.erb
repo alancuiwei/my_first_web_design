@@ -1,32 +1,5 @@
 <%= stylesheet_link_tag "blog.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
-<!--[if IE]>
-<style>
-    .side-tip{
-        width: 20%;
-    }
-    .side-tip div.comput {
-        position: fixed;
-        top:80px;
-    }
-    .side-tip div.tip {
-        top: 95px;
-        overflow: hidden;
-        position: absolute;
-        width: 220px;
-        max-width: 220px;
-        min-height: 200px;
-        height: auto;
-        left: 40px\9;
-        background: none repeat scroll 0% 0% rgb(248, 248, 248);
-        box-shadow: 0px 0px 3px rgb(170, 170, 170);
-        cursor: default;
-    }
-    .articles{
-        padding-left:16%;
-    }
-</style>
-<![endif]-->
 
 <div  class='main-content'>
   <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
@@ -64,19 +37,12 @@
         </script>
         <!-- Baidu Button END -->
       </td>
-      <td class="post-cell" style="padding-right: 20%;">
+      <td class="post-cell" style="padding-right:5%;">
         <p class="entry-title post"><%=raw @bloginfo[0]%></p>
         <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
         <div class="news_tag"></div>
         <br>
         <div><img class="alignleft size-medium " src="/assets/<%= @bloginfo[5]%>"></div>
-      </td>
-      <!--[if IE]>
-   <td style="width:20% ; "></td>
-      <![endif]-->
-      </tr>
-    <tr>
-      <td colspan="2"class="articles">
         <div class="article">
           <p><%=raw @bloginfo[3]%></p>
         </div>
@@ -117,69 +83,25 @@
         </form>
             </div>
       </td>
-      <!--[if IE]>
-      <td style="width:20% ; "></td>
-      <![endif]-->
+      <!--[if IE]> <td style="width: 5%;"></td> <![endif]-->
+      <td style="width:20% ; padding-top: 135px;">
+        <h3 class="widget-title">最受欢迎的文章：</h3>
+        <table class="popular">
+          <% @popular.each do |b| %>
+              <tr>
+                <td style="width: 50%;"><a href="/blog/blogarticle/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a></td>
+                <td style="padding-left: 10px;">
+                  <a href="/blog/blogarticle/<%= b.id%>"><h1 style="font-size: 16px;line-height: 26px;"><%= b.btitle %></h1></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"> <hr> </td>
+              </tr>
+          <% end %>
+        </table>
+      </td>
     </tr>
   </table>
-  <div class="pull-right side-tip">
-    <div class="comput">
-      <div class="tip">
-        <li  class="widget-container">
-          <h3>目录</h3>
-          <div class="accordion" id="accordion2">
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                  特色服务
-                </a>
-              </div>
-              <div id="collapseOne" class="accordion-body collapse in">
-                <div class="accordion-inner">
-                  <ul>
-                    <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                    <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                  通天顺
-                </a>
-              </div>
-              <div id="collapseTwo" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <ul>
-                    <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
-                    <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
-                    <li><a href="/blog/index?classify=行业理解" class="a">行业理解</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-                  投资指导
-                </a>
-              </div>
-              <div id="collapseFour" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <ul>
-                    <li><a href="/blog/index?classify=产品介绍" class="a">产品介绍</a></li>
-                    <li><a href="/blog/index?classify=理财技巧" class="a">理财技巧</a></li>
-                    <li><a href="/blog/index?classify=理财规划" class="a">理财规划</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script type="text/javascript">

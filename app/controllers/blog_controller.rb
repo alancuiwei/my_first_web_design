@@ -55,6 +55,7 @@ class BlogController < ApplicationController
   def blogarticle
     @bloginfo=[]
     @comments=Comments.order("id desc").find_all_by_bid(params[:id])
+    @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')
     if params[:id]!="0"
       @blog=Blog.find_by_id(params[:id])
       @bloginfo[0]=@blog.btitle
@@ -71,6 +72,7 @@ class BlogController < ApplicationController
   def article
     @bloginfo=[]
     @comments=Comments.order("id desc").find_all_by_bid(params[:id])
+    @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')
     if params[:id]!="0"
       @blog=Blog.find_by_id(params[:id])
       @bloginfo[0]=@blog.btitle

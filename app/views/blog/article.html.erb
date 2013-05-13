@@ -69,76 +69,20 @@
                 <% end %>
               </table>
           <% end %>
-          <strong>发表评论</strong>
-          <br><br>
-          <form id="commentform">
-            <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
-              <input id="author" name="author" value="" size="30" aria-required="true" type="text" title="姓名"></p>
-            <p class="comment-form-email"><label for="email">邮件 <span class="required">*</span></label>
-              <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="邮件"></p>
-            <p class="comment-form-comment"><label for="comment">评论</label>
-              <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
-            <input name="submit" id="submit" value="发表" type="button">
-            </p>
-          </form>
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="tip">
-          <li  class="widget-container">
-            <h3>目录</h3>
-            <div class="accordion" id="accordion2">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    特色服务
-                  </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=儿童理财观" class="a">儿童理财观</a></li>
-                      <li><a href="/blog/index?classify=女子爱财" class="a">女子爱财</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                    通天顺
-                  </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=通天顺的服务" class="a">通天顺的服务</a></li>
-                      <li><a href="/blog/index?classify=创业人生" class="a">创业人生</a></li>
-                      <li><a href="/blog/index?classify=行业理解" class="a">行业理解</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
-                    投资指导
-                  </a>
-                </div>
-                <div id="collapseFour" class="accordion-body collapse">
-                  <div class="accordion-inner">
-                    <ul>
-                      <li><a href="/blog/index?classify=产品介绍" class="a">产品介绍</a></li>
-                      <li><a href="/blog/index?classify=理财技巧" class="a">理财技巧</a></li>
-                      <li><a href="/blog/index?classify=理财规划" class="a">理财规划</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
+          <h3 class="widget-title">最受欢迎的文章：</h3>
+          <table class="popular">
+            <% @popular.each do |b| %>
+                <tr>
+                  <td>
+                    <a href="/blog/article/<%= b.id%>"><h1 style="font-size: 16px;"><%= b.btitle %></h1></a>
+                    <a href="/blog/article/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"> <hr> </td>
+                </tr>
+            <% end %>
+          </table>
         </div>
       </td>
     </tr>
@@ -199,42 +143,6 @@
         });
     });
 
-    $("#submit").click(function(e){
-        var o=document.getElementsByTagName("input");
-        var nom_flag=0;
-        var dateTime=new Date();
-        var hh=dateTime.getHours();
-        var mm=dateTime.getMinutes();
-        var ss=dateTime.getSeconds();
-
-        var yy=dateTime.getFullYear();
-        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
-        var dd=dateTime.getDate();
-
-        var week=dateTime.getDay();
-        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
-
-        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
-        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
-        for(var i=0;i<o.length;i++)
-        {
-            if(o[i].value=="" && o[i].title!=""){
-                alert(o[i].title+"为空！");
-                nom_flag=1;
-                break;
-            }
-        }
-
-        if(nom_flag==0){
-            $.post("/blog/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
-                comments: $("#comment").attr("value"),blogid: <%= @bloginfo[6]%>,time:time
-            },function(data){
-                if(data=="s1"){
-                    location.reload();
-                }
-            });
-        }
-    });
 </script>
 
 <script type="text/javascript">
@@ -251,6 +159,6 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
-       window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
+    //   window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
     }
 </script>
