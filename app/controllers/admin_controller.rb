@@ -774,6 +774,7 @@ class AdminController < ApplicationController
         @bankfinanceinfo[24]=@bankfinance.rate1
         @bankfinanceinfo[25]=@bankfinance.rate2
         @bankfinanceinfo[26]=@bankfinance.rate3
+        @bankfinanceinfo[27]=@bankfinance.incometype
       else
         @bankfinance=Bankfinance.limit(1)
       end
@@ -788,6 +789,7 @@ class AdminController < ApplicationController
         b.bname=params[:bname]
         b.currencytype=params[:currencytype]
         b.btype=params[:btype]
+        b.incometype=params[:incometype]
         b.collectperiod=params[:collectperiod]
         b.startvalue=params[:startvalue]
         b.investperiod=params[:investperiod]
@@ -820,7 +822,7 @@ class AdminController < ApplicationController
 
     else
       @bankfinance=Bankfinance.find_by_id(params[:id])
-      @bankfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],
+      @bankfinance.update_attributes(:bname=>params[:bname],:currencytype=>params[:currencytype],:btype=>params[:btype],:incometype=>params[:incometype],
                                      :collectperiod=>params[:collectperiod],:startvalue=>params[:startvalue],
                                      :sailsstart=>params[:sailsstart],:distributionarea=>params[:distributionarea],
                                      :investperiod=>params[:investperiod],:returnrate=>params[:returnrate],

@@ -1,6 +1,5 @@
 <%= stylesheet_link_tag "blog.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
-<%= javascript_include_tag "GGS.js" %>
 
 <style>
     a{color: #0066CC;}
@@ -27,10 +26,10 @@
 </style>
 <div  class='main-contents'>
 <div class='row-fluid beta2'>
-  <div class="span8">
+  <div class="span7">
     <h1><a href="/"><img style="height: 54px;margin-top: 10px;" src="/assets/logo.png"></a><span>博客</span></h1>
   </div>
-  <div class="span4" style="padding-top: 13px;">
+  <div class="span5" style="padding-top: 13px;">
     <div id="mc_embed_signup">
       <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
         <table border="0" cellpadding="0" cellspacing="0">
@@ -54,7 +53,7 @@
  <!-- <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;<a class="crumbs" href="/blog/index" >博客</a>  -->
   <table class="body-container" cellpadding="0" cellspacing="0">
     <tr>
-      <td class="content" style="width: 75%;width: 70%\9;padding-right: 5%;">
+      <td class="content" style="width: 71%;width: 70%\9;padding-right: 8%;">
         <table class="content-table" id="blog"   cellpadding="0" cellspacing="0" border="0">
           <thead class="hide">
           <tr>
@@ -76,8 +75,8 @@
                   <div class="news_tag<%= b.id%>"></div>
                   <h2 class="entry-title a"><a href="/blog/blogarticle/<%= b.id%>" class="more-link"><%=raw b.btitle%></a></h2>
                   <div class="entry-content">
-                    <div style="max-width: 780px;"><img class="alignleft size-medium " style="height: 400px;" src="/assets/<%= b.imagepath%>"></div>
-                    <p><%=raw b.barticle[0,150] + ' ... ...' %></p>
+                    <div style=";max-height: 400px;overflow: hidden;"><img class="alignleft size-medium " style="width: 100%;" src="/assets/<%= b.imagepath%>"></div>
+                    <div style="width: 100%; height: 100px;overflow: hidden;"><p><%=raw b.barticle %></p></div>
                   </div>
                   <p><a href="/blog/blogarticle/<%= b.id%>" class="more-link">继续阅读<span class="meta-nav">→</span></a></p>
                   <div class="eday"><a href="" class="a"><%= b.blname%></a>&nbsp;发表于&nbsp; <%= b.publishdate%></div>
@@ -102,7 +101,7 @@
       <!--[if IE]>
       <td style="width:5% ; "></td>
       <![endif]-->
-      <td style="width: 25%;">
+      <td style="width: 29%;">
         <h3 class="widget-title" style="margin-top: 10px;">目录</h3>
         <div class="tip">
           <li  class="widget-container" style="width: 100%;">
@@ -214,7 +213,6 @@
         $(".news_tag<%= b.id %>").html(tag);
         <% end %>
         <% end %>
-        $(".beta").remove();
     });
 
     $("#last,#next").click(function next(){
@@ -261,5 +259,4 @@
         location.href=window.location.href.replace("index","all");
     }
 </script>
-
 

@@ -241,8 +241,18 @@
         <% if b.returnrate!=nil %>    <td class="hide"><%= format("%0.1f",b.returnrate*100)%></td><td><%= format("%0.1f",b.returnrate*100)%>%</td>  <% else %>  <td class="hide"></td><td></td>  <% end %>
         <td><%= b.incometype%></td>
         <% if b.startvalue!=nil%>
+          <% if b.startvalue!=0 %>
+            <% if b.startvalue<10000 %>
+                <td class="hide"><%= format("%0.4f",b.startvalue/10000)%></td>
+                <td><%= b.startvalue/10000%>万</td>
+            <% else %>
             <td class="hide"><%= format("%0.0f",b.startvalue/10000)%></td>
             <td><%= format("%0.0f",b.startvalue/10000)%>万</td>
+            <% end %>
+          <% else %>
+            <td class="hide">0</td>
+            <td>0</td>
+          <% end %>
         <% else %>
             <td class="hide"></td>
             <td></td>

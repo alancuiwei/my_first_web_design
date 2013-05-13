@@ -102,4 +102,3 @@ class BlogController < ApplicationController
     render :json => "s1".to_json
   end
 end
-
