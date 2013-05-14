@@ -45,7 +45,9 @@
     </tr>
     <tr>
       <td>
+        <div class="article">
         <p><%=raw @bloginfo[3]%></p>
+        </div>
         <br>
         <div class="forie">
           <% if @comments.length>0 %>
@@ -69,7 +71,7 @@
                 <% end %>
               </table>
           <% end %>
-          <h3 class="widget-title">最受欢迎的文章：</h3>
+          <h3 class="widget-title" style="font-size: 20px;color: #ff0000;">最受欢迎的文章：</h3>
           <table class="popular">
             <% @popular.each do |b| %>
                 <tr>
