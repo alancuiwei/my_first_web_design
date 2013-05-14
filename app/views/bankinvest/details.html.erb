@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 
-<% if @banfinance.isorgan!=true && @banfinance.productstate=='yhlc' %>
+<% if @banfinance.isorgan!=true && (@banfinance.productstate=='yhlc' || @banfinance.productstate=='qslc') %>
 <style>
     .details td.right{
         width: 26%;
@@ -23,6 +23,14 @@
     }
 </style>
 <% end %>
+<% if @banfinance.isorgan!=true && @banfinance.productstate!='yhlc' %>
+    <style>
+        .box_left_title1{
+            margin-bottom: 10px;
+        }
+    </style>
+<% end %>
+
 <div class="main-content details">
 <% if @banfinance.isorgan==true %>
     <div style="width: 80%;">
@@ -40,7 +48,7 @@
       <div class="box_left_title2_left">
         <ul>
           <li>
-            <span class="qq_bankbig red"><% if @banfinance.returnrate!=0 && @banfinance.returnrate!=nil %><%=  format("%0.1f",@banfinance.returnrate*100)%>%<% end %></span>
+            <span class="qq_bankbig red"><% if @banfinance.returnrate!=0 && @banfinance.returnrate!=nil %><%=  format("%0.1f",@banfinance.returnrate*100)%>% <% else %> 0 <% end %></span>
             <span class="qq_banksmall">预期收益率</span>
           </li>
           <li>
@@ -150,6 +158,67 @@
           <td class="left">风险提示</td>
           <td class="right" colspan="3"><%= @banfinance.risktip%></td>
         </tr>
+      <% elsif @banfinance.productstate=='qslc'%>
+            <tr>
+              <td class="left">产品代码</td>
+              <td class="right"><%= @banfinance.productcode%></td>
+              <td class="left">产品简称</td>
+              <td class="right"><%= @banfinance.productkeywords%></td>
+            </tr>
+            <tr>
+              <td class="left">产品全称</td>
+              <td class="right"><%= @banfinance.bname%></td>
+              <td class="left">信息披露网址</td>
+              <td class="right"><%= @banfinance.disclosure%></td>
+            </tr>
+            <tr>
+              <td class="left">发行机构</td>
+              <td class="right"><%= @banfinance.trustee%></td>
+              <td class="left">销售状态</td>
+              <td class="right">在售及预售</td>
+            </tr>
+            <tr>
+              <td class="left">成立日期</td>
+              <td class="right"><%= @banfinance.sailsstart%></td>
+              <td class="left">到期日期</td>
+              <td class="right"><%= @banfinance.collectperiod%></td>
+            </tr>
+            <tr>
+              <td class="left">存续期</td>
+              <td class="right"><% if @banfinance.investperiod!=0 %><%= @banfinance.investperiod%>天 <% end %></td>
+              <td class="left">推广起始日</td>
+              <td class="right"><%= @banfinance.promotiondate%></td>
+            </tr>
+            <tr>
+              <td class="left">最低参与金额(元)</td>
+              <td class="right"><% if @banfinance.startvalue!=0 %><%=  format("%0.0f",@banfinance.startvalue) %><% end %></td>
+              <td class="left">管理人参与金额(万元)</td>
+              <td class="right"><%= @banfinance.partiamount%></td>
+            </tr>
+            <tr>
+              <td class="left">管理人</td>
+              <td class="right"><%=  @banfinance.administrator %></td>
+              <td class="left">托管人</td>
+              <td class="right"><%= @banfinance.trust%></td>
+            </tr>
+            <tr>
+              <td class="left">现任投资经理</td>
+              <td class="right"><%=  @banfinance.investmanager %></td>
+              <td class="left">历任投资经理</td>
+              <td class="right"><%= @banfinance.bfinvestmanager%></td>
+            </tr>
+            <tr>
+              <td class="left">有效认购户数</td>
+              <td class="right"><%=  @banfinance.effectsubnumber %></td>
+              <td class="left">是否提取业绩报酬</td>
+              <td class="right"><%= @banfinance.isexreward%></td>
+            </tr>
+            <tr>
+              <td class="left">目标规模(亿元)</td>
+              <td class="right"><%=  @banfinance.targetscale %></td>
+              <td class="left">成立规模(亿份)</td>
+              <td class="right"><%= @banfinance.establishscale%></td>
+            </tr>
       <% else %>
           <tr>
             <td class="left">产品名称</td>
@@ -177,7 +246,7 @@
           </tr>
           <tr>
             <td class="left">预期收益率</td>
-            <% if @banfinance.returnrate!=0 %> <td class="right"><%= @banfinance.returnrate*100%>%</td> <% else %>  <td class="right"></td>  <% end %>
+            <% if @banfinance.returnrate!=0 && @banfinance.returnrate!=nil %> <td class="right"><%= @banfinance.returnrate*100%>%</td> <% else %>  <td class="right"></td>  <% end %>
           </tr>
           <tr>
             <td class="left">发行地</td>

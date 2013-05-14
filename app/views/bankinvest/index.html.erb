@@ -62,6 +62,9 @@
             <label class="checkbox inline">
               <a class="curr trust btn-link"> 信托产品 </a>
             </label>
+            <label class="checkbox inline">
+              <a class="curr trader btn-link"> 券商理财 </a>
+            </label>
           </dd>
         </dl>
         <dl class="fore">
@@ -266,8 +269,8 @@
         <% end %>
         <td><%= b.status%></td>
         <td class="hide"><p class="ctl" title="<%= b.distributionarea%>"><%= b.distributionarea%></p></td>
-        <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>"><%= b.bname%></a></td>
-        <td><a href="/sales/index?bid=<%= b.id%>">预订</a></td>
+        <td><a class="ctl demo-tip-yellowsimple" title="<%= b.bname%>" href="/bankinvest/details?bid=<%= b.id%>" target="_blank"><%= b.bname%></a></td>
+        <td><a href="/sales/index?bid=<%= b.id%>" target="_blank">预订</a></td>
         <td class="hide"><%= b.productstate%></td>
       </tr>
   <% end %>
@@ -288,6 +291,7 @@
        $(".text_filter:last").keyup();
        $(".banks").addClass('currbg');
        $(".trust").removeClass('currbg');
+       $(".trader").removeClass('currbg');
        $(".category_all").removeClass('currbg');
        $("#s-category_all").removeClass('hide');
        $("#st-category_all").html('产品类型:银行理财');
@@ -298,9 +302,21 @@
        $(".text_filter:last").keyup();
        $(".trust").addClass('currbg');
        $(".banks").removeClass('currbg');
+       $(".trader").removeClass('currbg');
        $(".category_all").removeClass('currbg');
        $("#s-category_all").removeClass('hide');
        $("#st-category_all").html('产品类型:信托产品');
+   });
+   $(".trader").click(function(){
+       $(".text_filter:last").removeClass('search_init');
+       $(".text_filter:last").val('qslc');
+       $(".text_filter:last").keyup();
+       $(".trader").addClass('currbg');
+       $(".banks").removeClass('currbg');
+       $(".trust").removeClass('currbg');
+       $(".category_all").removeClass('currbg');
+       $("#s-category_all").removeClass('hide');
+       $("#st-category_all").html('产品类型:券商理财');
    });
    $(".category_all").click(function(){
        $(".text_filter:last").addClass('search_init');
@@ -309,6 +325,7 @@
        $(".category_all").addClass('currbg');
        $(".banks").removeClass('currbg');
        $(".trust").removeClass('currbg');
+       $(".trader").removeClass('currbg');
        $("#s-category_all").addClass('hide');
    });
 
@@ -377,6 +394,7 @@
           $(".category_all").addClass('currbg');
           $(".banks").removeClass('currbg');
           $(".trust").removeClass('currbg');
+          $(".trader").removeClass('currbg');
       }
       else if($(this).attr("cid")=='expectYID'){
           $("[class*='expectYID']").removeClass('currbg');
