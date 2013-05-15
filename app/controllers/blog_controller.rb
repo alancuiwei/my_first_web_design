@@ -99,6 +99,21 @@ class BlogController < ApplicationController
       @bloginfo[6]=@blog.id
       @bloginfo[7]=@blog.tag
     end
+    if @blog.tag != nil
+      @tag=@blog.tag.split(",")
+      @tags=""
+      for i in 0..@tag.size-1
+        if @tags==""
+          @tags='tag like "%'+ @tag[i] + '%"'
+        else
+          @tags=@tags+' or tag like "%'+ @tag[i] + '%"'
+        end
+      end
+      @tags='select * from blog where bcolumn="'+@blog.bcolumn+'" and ('+@tags+') and id<>'+@blog.id.to_s+' order by count desc,id desc limit 0,5'
+      @interest=Blog.find_by_sql(@tags)
+    else
+      @interest=Blog.find_by_sql('select * from blog where bcolumn="'+@blog.bcolumn+'" and id<> '+@blog.id.to_s+' order by count desc,id desc limit 0,5')
+    end
   end
 
   def countconfigajax

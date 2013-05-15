@@ -394,20 +394,35 @@ class AdminController < ApplicationController
       render :json => "s".to_json
     else
       if session[:webusername]!=nil
+        @webuser=Webuser.find_by_username(session[:webusername])
+        @webuser.update_attributes(:email=>params[:email],:risktolerance=>params[:risktolerance])
+        if @webuser.organuser=='1'
+          Thread.new{
+            UserMailer.apply(params[:username],params[:risktolerance],params[:email],"理财师申请额外服务").deliver
+            UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],"理财师申请额外服务").deliver
+          }
+          render :json => "organ".to_json
+        else
         Thread.new{
             UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
             UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
         }
-        @webuser=Webuser.find_by_username(session[:webusername])
-        @webuser.update_attributes(:email=>params[:email],:risktolerance=>params[:risktolerance])
         render :json => "f".to_json
+        end
       else
         @webuser=Webuser.find_by_username(params[:username])
         if @webuser.password==encode(params[:password])
+          if @webuser.organuser=='1'
+            Thread.new{
+              UserMailer.apply(params[:username],params[:risktolerance],params[:email],"理财师申请额外服务").deliver
+              UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],"理财师申请额外服务").deliver
+            }
+          else
           Thread.new{
             UserMailer.apply(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
             UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],params[:title]).deliver
           }
+          end
           @webuser.update_attributes(:tel=>params[:tel],:email=>params[:email],:risktolerance=>params[:risktolerance])
           session[:webusername]=params[:username]
           render :json => "r1".to_json

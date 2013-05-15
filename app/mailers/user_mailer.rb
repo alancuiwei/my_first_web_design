@@ -124,6 +124,7 @@ class UserMailer < ActionMailer::Base
       @level=5
     end
     @username = username
+    @title = title
     @risktolerance = risktolerance
     mail(:to => email,:subject => title)
   end

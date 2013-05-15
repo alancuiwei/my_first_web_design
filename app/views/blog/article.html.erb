@@ -85,6 +85,21 @@
                 </tr>
             <% end %>
           </table>
+          <div style="height: 20px;"></div>
+          <h3 class="widget-title" style="font-size: 20px;color: #ff0000;">你可能会感兴趣的文章：</h3>
+          <table class="popular">
+            <% @interest.each do |b| %>
+                <tr>
+                  <td>
+                    <a href="/blog/article/<%= b.id%>"><h1 style="font-size: 16px;"><%= b.btitle %></h1></a>
+                    <a href="/blog/article/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"> <hr> </td>
+                </tr>
+            <% end %>
+          </table>
         </div>
       </td>
     </tr>
@@ -161,6 +176,6 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
-    //   window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
+       window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
     }
 </script>
