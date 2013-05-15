@@ -24,6 +24,75 @@
             text-decoration: none;
         }
 </style>
+
+<style>
+    #tags ul{
+        margin:1em 0;
+        padding:.5em 10px;
+        text-align:center;
+        line-height: 180%!important;
+      #  background:#71b5e9 url(/assets/bg_tags.gif) repeat-x;
+    }
+    #tags li{
+        margin:0;
+        padding:0;
+        list-style:none;
+        display:inline;
+    }
+    #tags li a{
+        text-decoration:none;
+        color:#0066CC;
+        padding:0 2px;
+    }
+    #tags li a:hover{
+        color:#cff400;
+    }
+
+    .tag1 a{font-size:100%;line-height: 25px;}
+    .tag2 a{font-size:120%;line-height: 25px;}
+    .tag3 a{font-size:140%;line-height: 25px;}
+    .tag4 a{font-size:160%;line-height: 25px;}
+    .tag5 a{font-size:180%;line-height: 25px;}
+
+    #tags .alt{
+        text-align:left;
+        padding:0;
+        background:none;
+    }
+    #tags .alt li{
+        padding:2px 10px;
+        background:#efefef;
+        display:block;
+    }
+    #tags .alt .tag1,
+    #tags .alt .tag2,
+    #tags .alt .tag3,
+    #tags .alt .tag4,
+    #tags .alt .tag5{font-size:100%;}
+    #tags .alt .tag1{background:#7cc0f4;}
+    #tags .alt .tag2{background:#67abe0;}
+    #tags .alt .tag3{background:#4d92c7;}
+    #tags .alt .tag4{background:#3277ad;}
+    #tags .alt .tag5{background:#266ca2;}
+
+    .btns{display:block;margin-bottom: 2px;font-size: 14px;text-decoration: underline;}
+
+        /* // Tag cloud */
+
+</style>
+
+<style type="text/css" id="bsa_css">
+    .one{position:relative}
+    .one .bsa_it_ad{display:block;padding:15px;border:1px solid #e1e1e1;background:#f9f9f9;font-family:helvetica,arial,sans-serif;line-height:100%;position:relative}
+    .one .bsa_it_ad a{text-decoration:none}
+    .one .bsa_it_ad a:hover{text-decoration:none}
+    .one .bsa_it_ad .bsa_it_t{display:block;font-size:12px;font-weight:bold;color:#212121;line-height:125%;padding:0 0 5px 0}
+    .one .bsa_it_ad .bsa_it_d{display:block;font-size:11px;color:#434343;font-size:12px;line-height:135%}
+    .one .bsa_it_ad .bsa_it_i{float:left;margin:0 15px 10px 0}
+    .one .bsa_it_p{display:block;text-align:right;position:absolute;bottom:10px;right:15px}
+    .one .bsa_it_p a{font-size:10px;color:#666;text-decoration:none}
+    .one .bsa_it_ad .bsa_it_p a:hover{font-style:italic}
+</style>
 <div  class='main-contents'>
 <div class='row-fluid beta2'>
   <div class="span7">
@@ -149,6 +218,27 @@
           </table>
         </div>
         <div style="height: 60px;"></div>
+        <div id="tags">
+          <ul style="display: block;" class="">
+            <li class="tag4"><a href="/blog/index?classify=儿童理财观">儿童理财观</a></li>
+            <li class="tag4"><a href="/blog/index?classify=女子爱财">女子爱财</a></li>
+            <li class="tag3"><a href="/blog/index?classify=通天顺的服务">通天顺的服务</a></li>
+            <li class="tag2"><a href="/blog/index?classify=创业人生">创业人生</a></li>
+            <li class="tag1"><a href="/blog/index?classify=行业理解">行业理解</a></li>
+            <li class="tag1"><a href="/blog/index?classify=产品介绍">产品介绍</a></li>
+            <li class="tag2"><a href="/blog/index?classify=理财技巧">理财技巧</a></li>
+            <li class="tag5"><a href="/blog/index?classify=理财规划">理财规划</a></li>
+            <li class="tag3"><a href="/home/guide">懒人式指导</a></li>
+            <li class="tag1"><a href="/blog/index?tag=保险计划">保险计划</a></li>
+            <li class="tag2"><a href="/blog/index?tag=找份好工作">找份好工作</a></li>
+            <li class="tag4"><a href="/blog/index?tag=女性职场">女性职场</a></li>
+            <li class="tag4"><a href="/blog/index?tag=高品质生活">高品质生活</a></li>
+            <li class="tag4"><a href="/blog/index?tag=理性消费">理性消费</a></li>
+            <li class="tag5"><a href="/blog/index?tag=制度法律保护">制度法律保护</a></li>
+            <li class="tag3"><a href="/blog/index?tag=婚姻案例">婚姻案例</a></li>
+          </ul>
+        </div>
+        <div style="height: 60px;"></div>
         <h3 class="widget-title">最受欢迎的文章：</h3>
         <table class="popular">
           <% @popular.each do |b| %>
@@ -170,6 +260,7 @@
 
 <script>
     $(document).ready(function () {
+
         <% if params[:id]==nil %>
         var bid=0;
         <% else %>
