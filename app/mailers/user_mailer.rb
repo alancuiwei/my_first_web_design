@@ -42,6 +42,9 @@ class UserMailer < ActionMailer::Base
     @wbreedinfo=wbreedinfo
     @trade=asset_allocation.split('|')[10]
     @goal=asset_allocation.split('|')[8]
+    if asset_allocation==nil
+      @apply=1
+    end
     mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
   end
 

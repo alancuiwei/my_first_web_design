@@ -339,7 +339,7 @@ class AdminController < ApplicationController
             @webuser=Webuser.find_by_username(params[:username])
             if @webuser.password==encode(params[:password])
               Thread.new{
-                UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
+                UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"保存理财规划方案").deliver
                 UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
               }
               @webuser.update_attributes(:tel=>params[:tel],:email=>params[:email],:risktolerance=>params[:risktolerance])
@@ -388,7 +388,7 @@ class AdminController < ApplicationController
       end
       Thread.new{
           UserMailer.risktolerance(params[:username],params[:risktolerance],params[:email],params[:title]).deliver
-          UserMailer.login(params[:username],params[:asset_allocation],params[:wbreedinfo],"新用户注册&保存理财规划方案").deliver
+          UserMailer.applyuser(params[:username],params[:tel],params[:asset_allocation],params[:wbreedinfo],"新用户注册&申请理财师服务").deliver
       }
       session[:webusername]=params[:username]
       render :json => "s".to_json

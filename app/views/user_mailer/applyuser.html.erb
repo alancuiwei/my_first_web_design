@@ -1,5 +1,6 @@
 用户名：<%= @usename %>  <br>
 联系电话：<%= @tel %> <br>
+<% if @apply==1 %>
 风险承受度: <%= @risktolerance %> <br>
 1、当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?<br>
     <% if @response=="sellAll" %>
@@ -84,4 +85,5 @@
     答：是<br>
 <% elsif @goal=="false" %>
     答：否<br>
+<% end %>
 <% end %>

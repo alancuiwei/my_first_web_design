@@ -228,7 +228,7 @@
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="users">
     <thead><tr>
             <th>用户名</th><th class="hide">密码</th><th>会员类型</th>
-            <th>会员属性</th><th>电子邮件</th><th>联系电话</th><th>资金量</th>
+            <th>会员属性</th><th>电子邮件</th><th>联系电话</th><th>资金量</th><th class="hide">ID</th>
       <th>修改</th><th>删除</th><th>投资信息</th>
     </tr></thead>
     <tbody>
@@ -255,6 +255,7 @@
                     <% end %>
                   <% end %>
                 </td>
+         <td class="hide"><%= w.id%></td>
          <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
          <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
@@ -336,13 +337,16 @@
 <script>
 
     $(document).ready(function(){
-        $('#users,#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ').dataTable();
+        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
 
         /* Initialise datatables */
         var oTable = $('#blog').dataTable({
             "aaSorting": [[ 5, "desc" ]]
+        });
+        var oTable = $('#users').dataTable({
+            "aaSorting": [[ 7, "desc" ]]
         });
     });
     function deleteajax(id,type){
