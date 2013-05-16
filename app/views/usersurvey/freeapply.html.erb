@@ -30,11 +30,13 @@
 </div>
 
 <script>
+    var flag = true;
     $("#subscribe").click(function(){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
         var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
         var name=/^\D.{2}.*$/;
         var log=0;
+
         <% if session[:webusername]==nil %>
         if($("#username").attr("value")==""){
             $('#user1').show();
@@ -71,9 +73,18 @@
                 return false;
             }
             else{
+                if (flag) {
+                    flag = false;
                 $('#user1').hide();
                 userconfig('#email','#tel');
+                    setTimeout(function(){flag = true;}, 5000); // 5秒间隔
                 return false;
+            }
+                else{
+                    $('#user1').show();
+                    $("#user2").html("正在处理中，请稍候！");
+                    return false;
+                }
             }
         }
     });
