@@ -36,13 +36,13 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
-  <!--
   <% if params[:controller]=="home" && params[:action]=="index" %>
   <div id="xoverlay" style="display: block;">
-  <b>通天顺</b> <a class="btns" href="http://alancuiwei.wufoo.com/forms/ee/" target="_blank">客户调查</a>
+  <b>天溋1号集合资产管理计划 保本 年化收益率6% 投资期2年</b> <a class="btns" href="http://www.tongtianshun.com/bankinvest/details?bid=189036&key=天溋1号集合资产管理计划" target="_blank">查看详情</a>
+    <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
   </div>
+      <div id="lay2" style="height: 40px;"></div>
   <% end %>
--->
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
   <div class='row-fluid beta'>
     <div class="span8">
@@ -136,6 +136,10 @@ window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https
 olark.identify('5644-792-10-3841');/*]]>{/literal}*/</script><noscript><a href="https://www.olark.com/site/5644-792-10-3841/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript><!-- end olark code -->
 
 <script type="text/javascript">
+    $(".closes").click(function(){
+       $("#xoverlay").hide();
+       $("#lay2").hide();
+    });
     function question(name)
     {
         if(document.all)

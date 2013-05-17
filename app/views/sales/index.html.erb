@@ -62,14 +62,21 @@
       </div></td></tr>
     <% if @personalfinance!=nil %>
     <tr><td><p>电子邮件*：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="email" readonly="true" value='<%= @personalfinance.email %>' title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser email" type="text" value='<%= @personalfinance.email %>' valType="MAIL" msg="<font color=red>*</font>请输入电子邮件" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
     <tr><td><p>手机*：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser" type="text" id="tel" readonly="true" value='<%= @personalfinance.tel %>' title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser tel" type="text" value='<%= @personalfinance.tel %>' valType="MOBILE" msg="<font color=red>*</font>请输入联系电话" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
      <% else %>
+       <% if session[:webusername]!="admin" && session[:webusername]!=nil %>
         <tr><td><p>电子邮件*：</p></td>
-          <td class="right"><input class="input-large demo-form-name nuser" type="text"  readonly="true"  title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+          <td class="right"><input class="input-large demo-form-name nuser email" type="text"  value='<%= @webuser.email %>' valType="MAIL" msg="<font color=red>*</font>请输入电子邮件" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
         <tr><td><p>手机*：</p></td>
-          <td class="right"><input class="input-large demo-form-name nuser" type="text"  readonly="true"  title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+          <td class="right"><input class="input-large demo-form-name nuser tel" type="text"  value='<%= @webuser.tel %>'  valType="MOBILE" msg="<font color=red>*</font>请输入联系电话" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+            <% else %>
+            <tr><td><p>电子邮件*：</p></td>
+              <td class="right"><input class="input-large demo-form-name nuser email" type="text" valType="MAIL" msg="<font color=red>*</font>请输入电子邮件" title="我们将根据发送礼品确认代码到您的邮箱中。"></td></tr>
+            <tr><td><p>手机*：</p></td>
+              <td class="right"><input class="input-large demo-form-name nuser tel" type="text"  valType="MOBILE" msg="<font color=red>*</font>请输入联系电话" title="银行理财经理将电话联系您，和您商量您具体办理时间段。"></td><td></td></tr>
+            <% end %>
       <% end %>
    <!--
     <tr class="customer"><td><p>银行卡号*：</p></td>
@@ -152,11 +159,15 @@
         if(Request("investamount")){
             $("#investamount").val(Request("investamount"));
             $("#trustee").val("<%= @banfinance.trustee %>");
+            $(".tel").val("<%= params[:tel] %>");
             var length=$("#per").find("tr").size();
             for(i=0;i<length;i++){
                 $("#per tr:eq("+i+") td:eq(2)").html(parseInt($("#investamount").attr("value")*parseFloat("<%= @banfinance.returnrate%>")*parseFloat("<%= @banfinance.investperiod %>")/365));
             }
         }
+        <% if session[:webusername]!=nil %>
+
+        <% end %>
     }
     per();
     window.onload=function(){
@@ -264,10 +275,6 @@
             }
 
             <% if @webuser!=nil %>
-            <% if @personalfinance==nil %>
-            alert("请先设置您的投资信息成为中级会员。");
-            nom_flag=1;
-            <% end %>
             if(nom_flag==0){
                /* if($("#isuser").attr("value")=="我是<%= @banfinance.trustee %>的老客户"){
                     $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
@@ -287,11 +294,11 @@
                     $.get("/admin/reserveconfigajax/0",{ bname: "<%= @banfinance.bname %>",trustee: "<%= @banfinance.trustee %>",
                         returnrate: "<%= @banfinance.returnrate %>",investperiod: "<%= @banfinance.investperiod %>",
                         investamount: $("#investamount").attr("value"),username: "<%= @webuser.username %>",
-                        tel: $("#tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
-                        email: $("#email").attr("value"),isuser: isuser
+                        tel: $(".tel").attr("value"),state: states,btype:"<%= @banfinance.btype %>",collectperiod:"<%= @banfinance.collectperiod %>",
+                        email: $(".email").attr("value"),isuser: isuser
                     },function(data){
                         if(data=="s1"){
-                            email("<%= @webuser.username %>","#tel","#email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
+                            email("<%= @webuser.username %>",".tel",".email","<%= @banfinance.bname %>","<%= @banfinance.trustee %>","<%= @banfinance.btype %>","<%= @banfinance.startvalue %>",
                                     $("#investamount").attr("value"),"<%= @banfinance.returnrate %>","<%= @banfinance.investperiod %>","<%= @banfinance.sailsstart %>","<%= @banfinance.collectperiod %>");
                         }
                     });
@@ -304,7 +311,7 @@
             }
             <% else%>
             if(nom_flag==0){
-                location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value");
+                location.href='/sales/login?bid='+Request("bid")+"&investamount="+$("#investamount").attr("value")+"&tel="+$(".tel").attr("value");
             }
             <% end %>
         }
