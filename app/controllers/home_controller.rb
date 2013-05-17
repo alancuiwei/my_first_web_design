@@ -5,6 +5,7 @@ class HomeController < ApplicationController
     @username=Personalfinance.find_by_sql('select distinct username from personalfinance')
     @num=@username.length
   end
+
   def productindex
     if session[:webusername]=="admin"
       if params[:id]!=nil
