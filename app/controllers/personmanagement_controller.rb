@@ -101,9 +101,12 @@ class PersonmanagementController < ApplicationController
 
   def investor
     @personalfinance=Personalfinance.order("id desc").all
-    # @personalfinance2=Personalfinance.find_all_by_memberlevel("1")
-    @personinvestinfo=Personinvestinfo.all
     @webuser=Webuser.find_all_by_organuser("1")
+    @hash_reference=Hash.new
+    @personalfinance.each do |personalfinance|
+    @add=Webuser.find_by_username(personalfinance.username)
+    @hash_reference.store(personalfinance.id,[@add.address,@add.scharge,@add.realizetime,@add.monthpay])
+    end
   end
 
   def personconfigajax

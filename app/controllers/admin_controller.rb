@@ -243,6 +243,27 @@ class AdminController < ApplicationController
     end
   end
 
+  def newpass( len )
+    chars =("1".."41").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
+
+  def newpass2( len )
+    chars =("2033".."2055").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
+
+  def newpass3( len )
+    chars =("10".."61").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
+
   def  userconfigajax
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
@@ -264,6 +285,9 @@ class AdminController < ApplicationController
           w.memberlevel=params[:memberlevel]
           w.risktolerance=params[:risktolerance]
           w.contact=params[:contact]
+          w.scharge=newpass(1).to_i*10
+          w.realizetime=newpass2(1)
+          w.monthpay=newpass3(1).to_i*100
           w.save
         end
         if params[:organuser]=='1'

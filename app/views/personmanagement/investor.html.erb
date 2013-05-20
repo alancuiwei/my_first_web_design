@@ -2,121 +2,41 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "demo_page.css" %>
 <%= stylesheet_link_tag "demo_table_jui.css" %>
-
+<style>
+    tr.even td.sorting_1{ background-color: #f9f9f9;}
+    tr.odd td.sorting_1{ background-color: #fffafa!important;}
+    .investor{padding-bottom: 50px;}
+</style>
 <div class="main-content investor">
-  <a href="/">首页</a>  <br><br>
-  <table class="deploy">
-    <tr>
-      <td style="width: 25%;"><h1>个人、家庭投资者：</h1></td>
-      <td class="col"><p style="width: 50px;height: 25px;background-color: #ff0000;"></p></td>
-      <td>感兴趣，但暂时不考虑购买</td>
-      <td class="col"></td>
-      <td></td>
-      <td style="width: 23.5%;"></td>
-    </tr>
-    <tr><td colspan='9' style='height:10px;'></td></tr>
-  </table>
+  <a href="/">首页</a>  <br>
+  <h1 class="deploy">个人、家庭投资者：</h1>
   <br>
   <table class="table table-striped table-bordered" id="invsetor"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
-      <th>会员名</th><th>资金量</th>
-      <th>基金</th><th>保险</th><th>商品期货</th><th>银行理财产品</th>
-      <th class="hide">感兴趣的产品</th><th>信托产品</th><th class="hide">信托</th>
+      <th class="hide">ID</th><th>会员名</th><th>服务费</th>
+      <th>城市</th><th>我的梦想</th><th>何时实现</th><th>已有存款</th>
+      <th>每月存款</th><th>身份验证？</th>
     </tr></thead>
 
     <% @personalfinance.each do |b| %>
 
         <tr>
-          <td class="white"><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
-          <td class="white"><%= format("%0.0f", b.investamount) %></td>
+          <td class="hide"><%= b.id %></td>
+          <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+          <% if @hash_reference[b.id][1] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][1]) %></td><% else %><td></td><% end %>
           <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="hide"><%= b.wbreedinfo%></td>
-          <td></td>
-          <td class="hide"><%= b.contact%></td>
-        </tr>
-    <% end %>
-    <!--
-    <tr class='sum'>
-      <td>总和</td>
-      <td>0</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="hide"></td>
-      <td></td>
-      <td class="hide"></td>
-    </tr>
-    -->
-  </table>
-  <br><br>
-  <table class="deploy">
-    <tr>
-      <td><h1>金融机构理财师：</h1></td>
-    </tr>
-    <tr><td style='height:10px;'></td></tr>
-  </table>
-  <br>
-  <table class="table table-striped table-bordered" id="member" style="width: 37.5%;">
-    <thead>
-    <tr>
-      <th>用户名</th><th>机构名称</th><th>营业部</th>
-    </tr></thead>
-
-    <% @webuser.each do |b| %>
-        <tr>
-          <td><a href="/personmanagement/organfinance/<%= b.id%>"><%= b.username%></a></td>
-          <td title="<%= b.company %>"><span><%= b.company %></span></td>
-          <td title="<%= b.division %>"><span><%= b.division %></span></td>
+          <td>家庭整体规划</td>
+          <td><%= @hash_reference[b.id][2] %></td>
+          <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
+          <% if @hash_reference[b.id][3] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][3]) %></td><% else %><td></td><% end %>
+          <% if @hash_reference[b.id][0] == nil %><td>否</td><% else %><td>是</td><% end %>
         </tr>
     <% end %>
   </table>
 </div>
-
 <script>
-    var flag=0;
-    $.fn.dataTableExt.afnFiltering.push(
-            function( oSettings, aData, iDataIndex ) {
-                   if(flag==0) {
-        var length=$("#invsetor").find("tr").size();
-                       for(i=1;i<length;i++){
-            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("基金")>=0){
-                $("#invsetor tr:eq("+i+") td:eq(2)").addClass("red");
-            }
-            else{
-                $("#invsetor tr:eq("+i+") td:eq(2)").addClass("white");
-            }
-            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("保险")>=0){
-                $("#invsetor tr:eq("+i+") td:eq(3)").addClass("red");
-            }
-            else{
-                $("#invsetor tr:eq("+i+") td:eq(3)").addClass("white");
-            }
-            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("期货")>=0){
-                $("#invsetor tr:eq("+i+") td:eq(4)").addClass("red");
-            }
-            else{
-                $("#invsetor tr:eq("+i+") td:eq(4)").addClass("white");
-            }
-            if($("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("银行理财产品")>=0){
-                $("#invsetor tr:eq("+i+") td:eq(5)").addClass("red");
-            }
-            else{
-                $("#invsetor tr:eq("+i+") td:eq(5)").addClass("white");
-            }
-            if( ($("#invsetor tr:eq("+i+") td:eq(8)").html()!='不感兴趣' && $("#invsetor tr:eq("+i+") td:eq(8)").html()!='') || $("#invsetor tr:eq("+i+") td:eq(6)").html().indexOf("信托")>=0){$("#invsetor tr:eq("+i+") td:eq(7)").addClass("red");}
-            else{$("#invsetor tr:eq("+i+") td:eq(7)").addClass("white");}
-            }
-        }
-                flag+=1
-                    return true;
-        }
 
-    );
     $(document).ready(function(){
 
         /* Initialise datatables */
@@ -124,7 +44,7 @@
             "iDisplayLength": 15,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "aaSorting": [[ 2, "desc" ]],
+            "aaSorting": [[ 0, "desc" ]],
             "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
             "bProcessing": true
     });
