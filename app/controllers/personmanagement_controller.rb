@@ -105,7 +105,7 @@ class PersonmanagementController < ApplicationController
     @hash_reference=Hash.new
     @personalfinance.each do |personalfinance|
     @add=Webuser.find_by_username(personalfinance.username)
-    @hash_reference.store(personalfinance.id,[@add.address,@add.scharge,@add.realizetime,@add.monthpay])
+    @hash_reference.store(personalfinance.id,[@add.address,@add.scharge,@add.realizetime,@add.monthpay,@add.city,@add.dream])
     end
   end
 

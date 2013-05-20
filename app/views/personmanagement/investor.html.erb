@@ -22,15 +22,27 @@
     <% @personalfinance.each do |b| %>
 
         <tr>
-          <td class="hide"><%= b.id %></td>
-          <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
-          <% if @hash_reference[b.id][1] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][1]) %></td><% else %><td></td><% end %>
-          <td></td>
-          <td>家庭整体规划</td>
-          <td><%= @hash_reference[b.id][2] %></td>
-          <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
-          <% if @hash_reference[b.id][3] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][3]) %></td><% else %><td></td><% end %>
-          <% if @hash_reference[b.id][0] == nil %><td>否</td><% else %><td>是</td><% end %>
+          <% if @hash_reference[b.id][0] == nil %>
+              <td class="hide"><%= b.id %></td>
+              <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+              <% if @hash_reference[b.id][1] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][1]) %></td><% else %><td></td><% end %>
+              <td><%= @hash_reference[b.id][4] %></td>
+              <td><%= @hash_reference[b.id][5] %></td>
+              <td><%= @hash_reference[b.id][2] %></td>
+              <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
+              <% if @hash_reference[b.id][3] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][3]) %></td><% else %><td></td><% end %>
+              <td>否</td>
+          <% else %>
+              <td class="hide"><%= b.id %></td>
+              <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
+              <td></td>
+              <td>是</td>
+          <% end %>
         </tr>
     <% end %>
   </table>
