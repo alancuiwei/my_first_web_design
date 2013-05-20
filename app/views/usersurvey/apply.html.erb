@@ -11,7 +11,7 @@
 </style>
 
 <div class="main-content">
-    <table>
+    <table style="margin-left: 32%;">
       <tr><td><p>理财规划类型：</p></td>
         <td class="right"><select  name="type" id="type" title="理财规划类型">
           <option value="购房置业">购房置业</option>
@@ -25,8 +25,8 @@
           <td rowspan="6" style="padding-left: 40px;vertical-align: top;">
               <div class="ad">
                 <table>
-                  <tr><td>服务规划类型：</td><td>2年内</td></tr>
-                  <tr><td>家庭理财规划服务收费：</td><td>100元</td></tr>
+                  <tr><td>服务规划类型：</td><td id="stype">2年内</td></tr>
+                  <tr><td>家庭理财规划服务收费：</td><td  id="charge">100元</td></tr>
                   <tr><td>付款方式：</td><td>支付宝付款</td></tr>
                   <tr><td colspan="2"><br>服务方式：</td></tr>
                   <tr><td colspan="2">满意后确认付款，不满意 全额退款</td></tr>
@@ -35,7 +35,7 @@
           </td>
       </tr>
       <tr><td><p>个人、家庭目标：</p></td>
-        <td class="right"><select  name="type" id="target" title="个人、家庭目标">
+        <td class="right"><select  name="type" id="target" title="个人、家庭目标"  onclick="target()">
           <option value="短期目标（2年内）">短期目标（2年内）</option>
           <option value="中期目标（5年内）">中期目标（5年内）</option>
           <option value="长期目标（20年内）">长期目标（20年内）</option>
@@ -45,9 +45,9 @@
       <tr><td><p>希望何时实现：</p></td>
         <td class="right"><input type="text" name="date" id="date"  valType="DAY" msg="日期格式不对！" title="希望何时实现" onclick="WdatePicker()" class="Wdate"></td></tr>
       <tr><td><p>已有存款：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser deposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser deposit" id="deposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
       <tr><td><p>每月可存款：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td><td></td></tr>
+        <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td><td></td></tr>
       <tr>
         <td></td>
         <td>
@@ -57,6 +57,23 @@
       </tr>
     </table>
 </div>
+
+<script>
+    function target(){
+      if($("#target").attr("value")=="短期目标（2年内）"){
+          $("#stype").html('2年内');
+          $("#charge").html('100元');
+      }
+      else if($("#target").attr("value")=="中期目标（5年内）"){
+          $("#stype").html('5年内');
+          $("#charge").html('200元');
+      }
+      else{
+          $("#stype").html('20年内');
+          $("#charge").html('300元');
+      }
+    }
+</script>
 
 <script>
     $(function(e) {
@@ -122,7 +139,11 @@
                 nom_flag=1;
             }
             if(nom_flag==0){
+              <% if session[:webusername]==nil %>
+                location.href="/sales/login?type="+$("#type").attr("value")+"&target="+$("#target").attr("value")+"&amount="+$("#amount").attr("value")+"&date="+$("#date").attr("value")+"&deposit="+$("#deposit").attr("value")+"&monthpay="+$("#monthpay").attr("value");
+              <% else %>
                 location.href="/usersurvey/pay";
+              <% end %>
             }
         }
 

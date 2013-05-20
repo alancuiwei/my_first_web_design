@@ -225,6 +225,9 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
+                else if("<%= params[:monthpay] %>"!=""){
+                    location.href="/usersurvey/pay";
+                }
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
                     location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";
                 }
