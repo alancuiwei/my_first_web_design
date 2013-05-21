@@ -22,7 +22,7 @@
     <% @webuser.each do |b| %>
 
         <tr>
-          <% if b.address == nil || (b.address != nil && (b.tel=="" || b.tel=="1" || b.tel==nil || @hash_reference[b.id][0] ==nil)) %>
+          <% if b.address == nil || b.tel=="" || b.tel=="1" || b.tel==nil || b.email==nil || b.email=="1" %>
               <td class="hide"><%= b.id %></td>
               <% if @hash_reference[b.id][0] !=nil %>
                   <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
@@ -51,7 +51,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td></td><% end %>
+              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <td></td>
               <td>是</td>
           <% end %>
