@@ -100,12 +100,15 @@ class PersonmanagementController < ApplicationController
   end
 
   def investor
-    @personalfinance=Personalfinance.order("id desc").all
-    @webuser=Webuser.find_all_by_organuser("1")
+    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and (organuser='0' || organuser is null )")
     @hash_reference=Hash.new
-    @personalfinance.each do |personalfinance|
-    @add=Webuser.find_by_username(personalfinance.username)
-    @hash_reference.store(personalfinance.id,[@add.address,@add.scharge,@add.realizetime,@add.monthpay,@add.city,@add.dream])
+    @webuser.each do |webuser|
+      @add=Personalfinance.find_by_username(webuser.username)
+      if @add!=nil
+        @hash_reference.store(webuser.id,[@add.investamount])
+      else
+        @hash_reference.store(webuser.id,[nil])
+      end
     end
   end
 

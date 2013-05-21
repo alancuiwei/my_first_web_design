@@ -19,27 +19,39 @@
       <th>每月存款</th><th>身份验证？</th>
     </tr></thead>
 
-    <% @personalfinance.each do |b| %>
+    <% @webuser.each do |b| %>
 
         <tr>
-          <% if @hash_reference[b.id][0] == nil %>
+          <% if b.address == nil || (b.address != nil && @hash_reference[b.id][0] ==nil) %>
               <td class="hide"><%= b.id %></td>
-              <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
-              <% if @hash_reference[b.id][1] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][1]) %></td><% else %><td></td><% end %>
-              <td><%= @hash_reference[b.id][4] %></td>
-              <td><%= @hash_reference[b.id][5] %></td>
-              <td><%= @hash_reference[b.id][2] %></td>
-              <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
-              <% if @hash_reference[b.id][3] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][3]) %></td><% else %><td></td><% end %>
-              <td>否</td>
+              <% if @hash_reference[b.id][0] !=nil %>
+                  <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+              <% else %>
+                  <td><a style="color: #000000;text-decoration: none!important;"><%= b.username%></a></td>
+              <% end %>
+              <% if b.scharge !=nil %><td><%= format("%0.0f", b.scharge) %></td><% else %><td></td><% end %>
+              <td><%= b.city %></td>
+              <td><%= b.dream %></td>
+              <td><%= b.realizetime %></td>
+              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
+              <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
+              <% if b.address == nil%>
+                  <td>否</td>
+              <% else %>
+                  <td>是</td>
+              <% end %>
           <% else %>
               <td class="hide"><%= b.id %></td>
-              <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+              <% if @hash_reference[b.id][0] !=nil %>
+                  <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
+              <% else %>
+                  <td><a style="color: #000000;text-decoration: none!important;"><%= b.username%></a></td>
+              <% end %>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              <% if b.investamount !=nil %><td><%= format("%0.0f", b.investamount) %></td><% else %><td></td><% end %>
+              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td></td><% end %>
               <td></td>
               <td>是</td>
           <% end %>
