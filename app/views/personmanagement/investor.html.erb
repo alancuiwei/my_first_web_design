@@ -14,9 +14,9 @@
   <table class="table table-striped table-bordered" id="invsetor"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
-      <th class="hide">ID</th><th>会员名</th><th>服务费</th>
-      <th>城市</th><th>我的梦想</th><th>何时实现</th><th>已有存款</th>
-      <th>每月存款</th><th>身份验证？</th>
+      <th class="hide">ID</th><th>会员名</th><th>服务费（元）</th>
+      <th>城市</th><th>我的梦想</th><th>已有存款</th>
+      <th>每月存款</th><th>状态</th>
     </tr></thead>
 
     <% @webuser.each do |b| %>
@@ -32,14 +32,9 @@
               <% if b.scharge !=nil %><td><%= format("%0.0f", b.scharge) %></td><% else %><td></td><% end %>
               <td><%= b.city %></td>
               <td><%= b.dream %></td>
-              <td><%= b.realizetime %></td>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
-              <% if b.address == nil%>
-                  <td>否</td>
-              <% else %>
-                  <td>是</td>
-              <% end %>
+              <td>完成</td>
           <% else %>
               <td class="hide"><%= b.id %></td>
               <% if @hash_reference[b.id][0] !=nil %>
@@ -50,10 +45,9 @@
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <td></td>
-              <td>是</td>
+              <td>等待帮助</td>
           <% end %>
         </tr>
     <% end %>

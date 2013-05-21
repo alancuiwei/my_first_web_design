@@ -6,9 +6,10 @@ class UserMailer < ActionMailer::Base
   #
   #   en.user_mailer.confirm.subject
   #
-  def confirm(usename,email,title)
+  def confirm(usename,email,tel,title)
     @usename = usename
         @email = email
+        @tel = tel
     mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
   end
 

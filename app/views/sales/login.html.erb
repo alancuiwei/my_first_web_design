@@ -21,7 +21,9 @@
             <dt>密码 *:</dt>
             <dd><input id="password" class="input_menum" placeholder="密码" type="password"></dd>
             <dt>电子邮箱 *:</dt>
-            <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
+            <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
+            <dt>联系电话 :</dt>
+            <dd><input id="tel2" class="input_menum" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
           </dl>
 
           <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
@@ -166,8 +168,9 @@
     })
     function func(){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
         var name=/^\D.{2}.*$/;
-        if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email2').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email2').attr("value"))){
+        if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email2').attr("value")=="" || $('#tel2').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email2').attr("value")) || !phone.test($('#tel2').attr("value"))){
             return false;
         }else{
             return true;
@@ -175,6 +178,7 @@
     }
     function userconfig(uid,pid){
         var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}.*$/;
+        var phone = /^1(3[0-9]|5[0-35-9]|8[0235-9])\d{8}$/;
         var name=/^\D.{2}.*$/;
         if($(uid).attr("value")==""){
             alert("用户名为空！");
@@ -185,14 +189,20 @@
         else if($('#email2').attr("value")==""){
             alert("电子邮箱为空！");
         }
+        else if($('#tel2').attr("value")==""){
+            alert("联系电话为空！");
+        }
         else if(!name.test($(uid).attr("value"))){
             alert("用户名开头字符不能是数字，用户名长度必须大于等于3个字符！");
         }
         else if(!myreg.test($('#email2').attr("value"))){
             alert("电子邮箱格式不正确！");
         }
+        else if(!phone.test($('#tel2').attr("value"))){
+            alert("联系电话格式不正确！");
+        }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:"",address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:$('#tel2').attr("value"),address: 1,postcode: 1,name:1,email:$('#email2').attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
                 if(data!="s"){
                     alert("用户名已注册！");
                 }
@@ -468,6 +478,7 @@
         }
     }
 </script>
+
 
 
 
