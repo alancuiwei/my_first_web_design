@@ -1,53 +1,83 @@
 <%= javascript_include_tag "placeholder.js" %>
 <%= stylesheet_link_tag "usersurvey.css" %>
-<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
-<%= javascript_include_tag "ckeditor/ckeditor.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <style>
     .main-footer{ display: none; }
-   select{width: 223px;}
-   #date{width: 210px;}
+    select{width: 223px;}
+    textarea{width: 210px; }
+    td{vertical-align: top;}
+    form{margin: 0;}
+    .main-content{padding: 20px 5px;}
 </style>
 
 <div class="main-content">
-    <table style="margin: 0 auto;">
-      <tr><td><p>我的梦想：</p></td>
-        <td class="right"><select  name="type" id="type" title="我的梦想">
-          <option value="家庭整体规划">家庭整体规划</option>
-          <option value="购房置业">购房置业</option>
-          <option value="购车">购车</option>
-          <option value="养老">养老</option>
-          <option value="子女教育">子女教育</option>
-          <option value="度假旅游">度假旅游</option>
-          <option value="结婚">结婚</option>
-          <option value="装修">装修</option>
-        </select></td>
-      </tr>
-      <tr><td><p>所在城市：</p></td>
-        <td class="right"><input class="input-large" type="text" id="area"  valType="NOTNULL" msg="请输入您所在城市！" title="所在城市"></td></tr>
-      <tr><td><p>实现梦想金额：</p></td>
-        <td class="right"><input class="input-large" type="text" id="amount"  valType="NUMBER" msg="实现梦想金额必须是数字！" title="实现梦想金额"></td></tr>
-      <tr><td><p>准备何时梦想成真：</p></td>
-        <td class="right"><input type="text" name="date" id="date"  valType="DAY" msg="日期格式不对！" title="准备何时梦想成真" onclick="WdatePicker()" class="Wdate"></td></tr>
-      <tr><td><p>已有存款：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser deposit" id="deposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
-      <tr><td><p>每月可存款：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td><td></td></tr>
-            <tr><td><p>备注：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser remark" id="remark" type="text" valType="NOTNULL" msg="请输入备注！" title="备注"></td><td></td></tr>
-            <tr><td><p>您愿意给理财师支付：</p></td>
-        <td class="right"><input class="input-large demo-form-name nuser scharge" id="scharge" type="text" valType="NUMBER" msg="每月可存款必须是数字,且最低为1元！" title="每月可存款" placeholder="最低为1元"></td><td></td></tr>
-
-      <tr>
-        <td colspan="2" class="present" style="vertical-align: bottom;">
-          <br>
-          <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="submit"> 支付宝付款 </a>
-          <span class="pull-right" style="margin: 30px 30px 0 0;">满意后付款</span>
-        </td>
-      </tr>
-    </table>
+  <table style="width: 100%;">
+    <tr>
+      <td rowspan="9" style="width: 32%;"></td>
+      <td style="width: 142px;"><p>我的梦想：</p></td>
+      <td  style="width: 226px;" class="right"><select  name="type" id="type" title="我的梦想">
+        <option value="购房置业">购房置业</option>
+        <option value="购车">购车</option>
+        <option value="养老">养老</option>
+        <option value="子女教育">子女教育</option>
+        <option value="度假旅游">度假旅游</option>
+        <option value="结婚">结婚</option>
+        <option value="装修">装修</option>
+      </select></td>
+      <td rowspan="9">
+        <div class="tip">
+          <li class="widget-container">
+            <h3>付款方式 是您最熟悉的：</h3>
+            <ul>
+            <li>梦想家们先将支付金额存入支付宝，系统将自动通知理财规划师设计规划书。梦想家们在确认规划书对自己有价值后，资金自动进入理财规划师支付宝账户，完成交易。</li>
+            <li> 支付最低金额为10元，当然，您愿意支付的金额越高，您的梦想策划则会越快的被处理。</li>
+            </ul>
+          </li>
+        </div>
+      </td>
+    </tr>
+    <tr><td><p>所在省市：</p></td>
+      <td class="right">
+        <form method="post" name="creator" enctype="multipart/form-data">
+          <select name="province" id="province" onChange = "select()" valType="NOTNULL" msg="请选择省份名！"></select><br>
+          <select name="city" id="city" onChange = "select()" valType="NOTNULL" msg="请选择城市名！"></select><br>
+          <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
+        </form>
+      </td></tr>
+    <tr><td><p>实现梦想金额：</p></td>
+      <td class="right"><input class="input-large" type="text" id="amount"  valType="NUMBER" msg="实现梦想金额必须是数字！" title="实现梦想金额"></td></tr>
+    <tr><td><p>何时梦想成真：</p></td>
+      <td class="right">
+        <select  name="date" id="date" title="何时梦想成真">
+        </select>
+      </td></tr>
+    <tr><td><p>已有存款：</p></td>
+      <td class="right"><input class="input-large demo-form-name nuser deposit" id="deposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
+    <tr><td><p>每月可存款：</p></td>
+      <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td></tr>
+    <tr><td><p>您愿意给理财师支付：</p></td>
+      <td class="right"><input class="input-large demo-form-name nuser scharge" id="scharge" type="text" valType="NUMBER" msg="每月可存款必须是数字,且最低为10元！" title="每月可存款" placeholder="最低为10元"></td></tr>
+    <tr><td><p>备注：</p></td>
+      <td class="right">
+        <textarea rows="8" name="remark" id="remark" valType="NOTNULL" msg="请输入备注！" title="备注"></textarea>
+      </td></tr>
+    <tr>
+      <td colspan="2" class="present" style="vertical-align: bottom;">
+        <br>
+        <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="submit"> 支付宝付款 </a>
+      </td>
+    </tr>
+  </table>
 </div>
+<script>
+    $(document).ready(function(){
+        init();
+        for(var a=2014;a<=2064;a++){
+            document.getElementById("date").options.add(new Option(a,a));
+        }
+    });
+</script>
 
 <script>
     $(function(e) {
@@ -113,11 +143,11 @@
                 nom_flag=1;
             }
             if(nom_flag==0){
-              <% if session[:webusername]==nil %>
-                location.href="/sales/login?type="+$("#type").attr("value")+"&area="+$("#area").attr("value")+"&amount="+$("#amount").attr("value")+"&date="+$("#date").attr("value")+"&deposit="+$("#deposit").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&scharge="+$("#scharge").attr("value")+"&scharge="+$("#scharge").attr("value");
-              <% else %>
+            <% if session[:webusername]==nil %>
+                location.href="/sales/login?type="+$("#type").attr("value")+"&newlocation="+$("#newlocation").attr("value")+"&amount="+$("#amount").attr("value")+"&date="+$("#date").attr("value")+"&deposit="+$("#deposit").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&scharge="+$("#scharge").attr("value")+"&remark="+$("#remark").attr("value");
+            <% else %>
                 location.href="/usersurvey/pay";
-              <% end %>
+            <% end %>
             }
         }
 
@@ -133,8 +163,7 @@
                 IDENTITY : "((11|12|13|14|15|21|22|23|31|32|33|34|35|36|37|41|42|43|44|45|46|50|51|52|53|54|61|62|63|64|65|71|81|82|91)\\d{4})((((19|20)(([02468][048])|([13579][26]))0229))|((20[0-9][0-9])|(19[0-9][0-9]))((((0[1-9])|(1[0-2]))((0[1-9])|(1\\d)|(2[0-8])))|((((0[1,3-9])|(1[0-2]))(29|30))|(((0[13578])|(1[02]))31))))((\\d{3}(x|X))|(\\d{4}))",
                 CHINESE : "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$",
                 URL : "^http[s]?://[\\w\\.\\-]+$" ,
-                NOTNULL : "^.*$"   ,
-                DAY: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                NOTNULL : "^.*$"
             };
             var flag=false;
             if(para.rule=='OTHER') {//自定义的验证规则匹配
@@ -146,7 +175,17 @@
                 }
             }
             if(para.reg=='scharge'){
-                if(para.data<1){
+                if(para.data<10){
+                    flag=false;
+                }
+            }
+            if(para.reg=='province'){
+                if(para.data=="请选择省份名"){
+                    flag=false;
+                }
+            }
+            if(para.reg=='city'){
+                if(para.data=="请选择城市名"){
                     flag=false;
                 }
             }
@@ -208,4 +247,70 @@
             //todo
         }
     }
+</script>
+
+<script language="javascript">
+    var where = new Array(35);
+
+    function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
+    where[0]= new comefrom("请选择省份名","请选择城市名");
+    where[1] = new comefrom("北京","|东城|西城|崇文|宣武|朝阳|丰台|石景山|海淀|门头沟|房山|通州|顺义|昌平|大兴|平谷|怀柔|密云|延庆");
+    where[2] = new comefrom("上海","|黄浦|卢湾|徐汇|长宁|静安|普陀|闸北|虹口|杨浦|闵行|宝山|嘉定|浦东|金山|松江|青浦|南汇|奉贤|崇明");
+    where[3] = new comefrom("天津","|和平|东丽|河东|西青|河西|津南|南开|北辰|河北|武清|红挢|塘沽|汉沽|大港|宁河|静海|宝坻|蓟县");
+    where[4] = new comefrom("重庆","|万州|涪陵|渝中|大渡口|江北|沙坪坝|九龙坡|南岸|北碚|万盛|双挢|渝北|巴南|黔江|长寿|綦江|潼南|铜梁|大足|荣昌|壁山|梁平|城口|丰都|垫江|武隆|忠县|开县|云阳|奉节|巫山|巫溪|石柱|秀山|酉阳|彭水|江津|合川|永川|南川");
+    where[5] = new comefrom("河北","|石家庄|邯郸|邢台|保定|张家口|承德|廊坊|唐山|秦皇岛|沧州|衡水");
+    where[6] = new comefrom("山西","|太原|大同|阳泉|长治|晋城|朔州|吕梁|忻州|晋中|临汾|运城");
+    where[7] = new comefrom("内蒙古","|呼和浩特|包头|乌海|赤峰|呼伦贝尔盟|阿拉善盟|哲里木盟|兴安盟|乌兰察布盟|锡林郭勒盟|巴彦淖尔盟|伊克昭盟");
+    where[8] = new comefrom("辽宁","|沈阳|大连|鞍山|抚顺|本溪|丹东|锦州|营口|阜新|辽阳|盘锦|铁岭|朝阳|葫芦岛");
+    where[9] = new comefrom("吉林","|长春|吉林|四平|辽源|通化|白山|松原|白城|延边");
+    where[10] = new comefrom("黑龙江","|哈尔滨|齐齐哈尔|牡丹江|佳木斯|大庆|绥化|鹤岗|鸡西|黑河|双鸭山|伊春|七台河|大兴安岭");
+    where[11] = new comefrom("江苏","|南京|镇江|苏州|南通|扬州|盐城|徐州|连云港|常州|无锡|宿迁|泰州|淮安");
+    where[12] = new comefrom("浙江","|杭州|宁波|温州|嘉兴|湖州|绍兴|金华|衢州|舟山|台州|丽水");
+    where[13] = new comefrom("安徽","|合肥|芜湖|蚌埠|马鞍山|淮北|铜陵|安庆|黄山|滁州|宿州|池州|淮南|巢湖|阜阳|六安|宣城|亳州");
+    where[14] = new comefrom("福建","|福州|厦门|莆田|三明|泉州|漳州|南平|龙岩|宁德");
+    where[15] = new comefrom("江西","|南昌市|景德镇|九江|鹰潭|萍乡|新馀|赣州|吉安|宜春|抚州|上饶");
+    where[16] = new comefrom("山东","|济南|青岛|淄博|枣庄|东营|烟台|潍坊|济宁|泰安|威海|日照|莱芜|临沂|德州|聊城|滨州|菏泽");
+    where[17] = new comefrom("河南","|郑州|开封|洛阳|平顶山|安阳|鹤壁|新乡|焦作|濮阳|许昌|漯河|三门峡|南阳|商丘|信阳|周口|驻马店|济源");
+    where[18] = new comefrom("湖北","|武汉|宜昌|荆州|襄樊|黄石|荆门|黄冈|十堰|恩施|潜江|天门|仙桃|随州|咸宁|孝感|鄂州");
+    where[19] = new comefrom("湖南","|长沙|常德|株洲|湘潭|衡阳|岳阳|邵阳|益阳|娄底|怀化|郴州|永州|湘西|张家界");
+    where[20] = new comefrom("广东","|广州|深圳|珠海|汕头|东莞|中山|佛山|韶关|江门|湛江|茂名|肇庆|惠州|梅州|汕尾|河源|阳江|清远|潮州|揭阳|云浮");
+    where[21] = new comefrom("广西","|南宁|柳州|桂林|梧州|北海|防城港|钦州|贵港|玉林|南宁地区|柳州地区|贺州|百色|河池");
+    where[22] = new comefrom("海南","|海口|三亚");
+    where[23] = new comefrom("四川","|成都|绵阳|德阳|自贡|攀枝花|广元|内江|乐山|南充|宜宾|广安|达川|雅安|眉山|甘孜|凉山|泸州");
+    where[24] = new comefrom("贵州","|贵阳|六盘水|遵义|安顺|铜仁|黔西南|毕节|黔东南|黔南");
+    where[25] = new comefrom("云南","|昆明|大理|曲靖|玉溪|昭通|楚雄|红河|文山|思茅|西双版纳|保山|德宏|丽江|怒江|迪庆|临沧");
+    where[26] = new comefrom("西藏","|拉萨|日喀则|山南|林芝|昌都|阿里|那曲");
+    where[27] = new comefrom("陕西","|西安|宝鸡|咸阳|铜川|渭南|延安|榆林|汉中|安康|商洛");
+    where[28] = new comefrom("甘肃","|兰州|嘉峪关|金昌|白银|天水|酒泉|张掖|武威|定西|陇南|平凉|庆阳|临夏|甘南");
+    where[29] = new comefrom("宁夏","|银川|石嘴山|吴忠|固原");
+    where[30] = new comefrom("青海","|西宁|海东|海南|海北|黄南|玉树|果洛|海西");
+    where[31] = new comefrom("新疆","|乌鲁木齐|石河子|克拉玛依|伊犁|巴音郭勒|昌吉|克孜勒苏柯尔克孜|博尔塔拉|吐鲁番|哈密|喀什|和田|阿克苏");
+    where[32] = new comefrom("香港","");
+    where[33] = new comefrom("澳门","");
+    where[34] = new comefrom("台湾","|台北|高雄|台中|台南|屏东|南投|云林|新竹|彰化|苗栗|嘉义|花莲|桃园|宜兰|基隆|台东|金门|马祖|澎湖");
+    where[35] = new comefrom("其它","|北美洲|南美洲|亚洲|非洲|欧洲|大洋洲");
+
+    function select() {
+        with(document.creator.province) { var loca2 = options[selectedIndex].value; }
+        for(i = 0;i < where.length;i ++) {
+            if (where[i].loca == loca2) {
+                loca3 = (where[i].locacity).split("|");
+                for(j = 0;j < loca3.length;j++) { with(document.creator.city) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
+                break;
+            }}
+        document.creator.newlocation.value=loca2+loca4;
+    }
+
+    function init() {
+        with(document.creator.province) {
+            length = where.length;
+            for(k=0;k<where.length;k++) { options[k].text = where[k].loca; options[k].value = where[k].loca; }
+            options[selectedIndex].text = where[0].loca; options[selectedIndex].value = where[0].loca;
+        }
+        with(document.creator.city) {
+            loca3 = (where[0].locacity).split("|");
+            length = loca3.length;
+            for(l=0;l<length;l++) { options[l].text = loca3[l]; options[l].value = loca3[l]; }
+            options[selectedIndex].text = loca3[0]; options[selectedIndex].value = loca3[0];
+        }}
 </script>

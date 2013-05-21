@@ -22,7 +22,7 @@
     <% @webuser.each do |b| %>
 
         <tr>
-          <% if b.address == nil || (b.address != nil && @hash_reference[b.id][0] ==nil) %>
+          <% if b.address == nil || (b.address != nil && (b.tel=="" || b.tel=="1" || b.tel==nil || @hash_reference[b.id][0] ==nil)) %>
               <td class="hide"><%= b.id %></td>
               <% if @hash_reference[b.id][0] !=nil %>
                   <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
