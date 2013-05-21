@@ -3,39 +3,39 @@
 <%= stylesheet_link_tag "admin.css" %>
 
 <div class="main-content">
- <%= %>
-  <div class="main-body">
-    <div class="content">
-      <div class="fthb faded">
+<%= %>
+<div class="main-body">
+<div class="content">
+<div class="fthb faded">
 
-        <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+<table class="body-container" cellspacing="0" cellpadding="0" border="0">
 
-          <!-- tr head-->
-          <tr><td>
-            <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
-              <tr><td>
-                <div class="crumbs">
-                  <a href="/">首页</a>&nbsp; >&nbsp;
-                  <a href="/admin/" >admin管理页面</a>
-                </div>
-              </td></tr>
-            </table>
-          </td>
-          </tr>
+<!-- tr head-->
+<tr><td>
+  <table width="100%" class="body-header" cellspacing="0" cellpadding="0">
+    <tr><td>
+      <div class="crumbs">
+        <a href="/">首页</a>&nbsp; >&nbsp;
+        <a href="/admin/" >admin管理页面</a>
+      </div>
+    </td></tr>
+  </table>
+</td>
+</tr>
 
-          <!-- tr body-content-->
-          <tr>
-            <!-- td body-content-->
-            <td class="body-content">
-              <div class="body-content-wrapper" style="max-width: 1000px;">
-                <div class="page-interaction">
+<!-- tr body-content-->
+<tr>
+<!-- td body-content-->
+<td class="body-content">
+<div class="body-content-wrapper">
+<div class="page-interaction">
 
-                  <!-- div2-->
-                  <div>
-                    <!-- main table-->
-                    <table class="block">
-                    <% if session[:webusername]=='admin' %>
-                      <!--
+<!-- div2-->
+<div>
+<!-- main table-->
+<table class="block">
+<% if session[:webusername]=='admin' %>
+    <!--
                       <tr>
                         <td>
                           <h2>本金管理</h2><br>
@@ -65,7 +65,7 @@
                         </td>
                       </tr>
                       -->
-                      <!--
+    <!--
                       <tr>
                         <td>
                           <h2>利息管理</h2><br>
@@ -139,7 +139,7 @@
                       </tr>
                       -->
 
-                      <!--
+    <!--
                       <tr>
                         <td>
                           <h2>产品管理</h2><br>
@@ -219,55 +219,92 @@
                       </table>
                     </td></tr>
    -->
-                            <% end %>
+<% end %>
 
 <% if session[:webusername]=='admin' %>
     <tr>
       <td>
-        <h1>用户管理</h1><br>
+        <h1>投资人管理</h1><br>
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="users">
-    <thead><tr>
-            <th>用户名</th><th class="hide">密码</th><th>会员类型</th>
-            <th>会员属性</th><th>电子邮件</th><th>联系电话</th><th>资金量</th><th class="hide">ID</th>
-      <th>修改</th><th>删除</th><th>投资信息</th>
-    </tr></thead>
-    <tbody>
-     <% @webusers.each do |w|  %>
-       <tr>
-         <td><%= w.username%></td>
-         <td class="hide"><%= @hash_password[w.id]%></td>
-                <% if w.organuser=='1'%>
-                    <td>理财师</td>
-         <% else %>
-                    <td>投资人</td>
-         <% end %>
-                <% if w.address==nil %>
-                    <td>自动</td>
-                <% else %>
-                    <td>主动</td>
-                <% end %>
+          <thead><tr>
+            <th class="hide">ID</th>
+            <th style="width: 20%;">用户名</th>
+            <th class="hide">密码</th>
+            <th>电子邮件</th>
+            <th style="width: 12%;">联系电话</th>
+            <th style="width: 12%;">资金量</th>
+            <th style="width: 8%;">修改</th>
+            <th style="width: 8%;">删除</th>
+            <th style="width: 8%;">投资信息</th>
+          </tr></thead>
+          <tbody>
+          <% @webusers.each do |w|  %>
+              <tr>
+                <td class="hide"><%= w.id%></td>
+                <td><%= w.username%></td>
+                <td class="hide"><%= @hash_password[w.id]%></td>
                 <td><% if w.email!="1" %><%= w.email %><% end %></td>
                 <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
                 <td>
                   <% @personalfinance.each do |t|  %>
-                    <% if t.username==w.username && t.investamount!=nil %>
+                      <% if t.username==w.username && t.investamount!=nil %>
                           <%= format("%0.0f",t.investamount) %>
-                    <% end %>
+                      <% end %>
                   <% end %>
                 </td>
-         <td class="hide"><%= w.id%></td>
-         <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
-         <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
-         <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
-       </tr>
-    <% end %>
-    </tbody>
-  </table>
+                <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
+                <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
+                <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+        <br> <br>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <h1>理财师管理</h1><br>
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="organuser">
+          <thead><tr>
+            <th class="hide">ID</th>
+            <th style="width: 20%;">用户名</th>
+            <th class="hide">密码</th>
+            <th>电子邮件</th>
+            <th style="width: 12%;">联系电话</th>
+            <th style="width: 12%;">资金量</th>
+            <th style="width: 8%;">修改</th>
+            <th style="width: 8%;">删除</th>
+            <th style="width: 8%;">投资信息</th>
+          </tr></thead>
+          <tbody>
+          <% @organuser.each do |w|  %>
+              <tr>
+                <td class="hide"><%= w.id%></td>
+                <td><%= w.username%></td>
+                <td class="hide"><%= @hash_password[w.id]%></td>
+                <td><% if w.email!="1" %><%= w.email %><% end %></td>
+                <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
+                <td>
+                  <% @personalfinance.each do |t|  %>
+                      <% if t.username==w.username && t.investamount!=nil %>
+                          <%= format("%0.0f",t.investamount) %>
+                      <% end %>
+                  <% end %>
+                </td>
+                <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
+                <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
+                <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
         <br> <br>
       </td>
     </tr>
 <% end %>
-    <% if session[:webusername]=='admin' %>
+<% if session[:webusername]=='admin' %>
     <tr><td>
       <h1>经纪人上传产品管理</h1>
       <a href="/admin/bankfinanceconfig/0?organ=1">添加</a>
@@ -320,18 +357,18 @@
   </table>
 </td></tr>
 
-                    </table>
-                  </div>
-                </div>
+</table>
+</div>
+</div>
 
-              </div>
-            </td>
-          </tr>
+</div>
+</td>
+</tr>
 
-        </table>
-      </div>
-    </div>
-  </div>
+</table>
+</div>
+</div>
+</div>
 </div>
 
 <script>
@@ -346,7 +383,10 @@
             "aaSorting": [[ 5, "desc" ]]
         });
         var oTable = $('#users').dataTable({
-            "aaSorting": [[ 7, "desc" ]]
+            "aaSorting": [[ 0, "desc" ]]
+        });
+        var oTable = $('#organuser').dataTable({
+            "aaSorting": [[ 0, "desc" ]]
         });
     });
     function deleteajax(id,type){

@@ -1,45 +1,73 @@
+<style>
+  form{margin-bottom: 0;}
+  td{vertical-align: top;}
+</style>
+
 <div style="width: 700px;height: 700px;">
   <div>
-    用户名：<input type="text" name="username" id="username" title="用户名"> <br>
-    姓名：<input type="text" name="name" id="name" title="姓名"> <br>
-    会员等级：<select  name="memberlevel" id="memberlevel" title="会员等级">
-      <option value="0">中级会员</option>
-      <option value="1">高级会员</option>
-    </select><br>
-    密码：<input type="password" name="password" id="password" title="密码"> <br>
-    密码确认：<input type="password" name="passwordconfirm" id="passwordconfirm" title="密码确认"> <br>
-    电子邮箱：<input type="text" name="email" id="email" title="电子邮箱"> <br>
-    联系电话：<input type="text" name="tel" id="tel" title="联系电话"> <br>
-    公司：<input type="text" name="company" id="company" title="公司"> <br>
-    职务：<input type="text" name="post" id="post" title="职务"> <br>
-    通信地址：<input type="text" name="address" id="address" title="通信地址">  <br>
-    邮编：<input type="text" name="postcode" id="postcode" title="邮编"> <br>
-    <a href="javascript:void(0)" id="userconfig">确认</a>
+    <table>
+      <tr><td>用户名：</td><td><input type="text" name="username" id="username" title="用户名"></td></tr>
+      <tr><td>电子邮箱：</td><td><input type="text" name="email" id="email" title="电子邮箱地址"></td></tr>
+      <tr><td>联系电话：</td><td><input type="text" name="tel" id="tel" title="电话号码"></td></tr>
+      <tr><td>我的梦想：</td>
+        <td>
+          <select  name="dream" id="dream" title="我的梦想">
+            <option value="购房置业">购房置业</option>
+            <option value="购车">购车</option>
+            <option value="养老">养老</option>
+            <option value="子女教育">子女教育</option>
+            <option value="度假旅游">度假旅游</option>
+            <option value="结婚">结婚</option>
+            <option value="装修">装修</option>
+          </select>
+        </td>
+      </tr>
+      <tr><td>实现梦想金额：</td><td><input type="text" name="amount" id="amount" title="实现梦想金额"></td></tr>
+      <tr><td>何时梦想成真：</td>
+        <td>
+          <select name="realizetime" id="realizetime" title="何时梦想成真"></select>
+        </td>
+      </tr>
+      <tr><td>已有存款：</td><td><input type="text" name="investamount" id="investamount" title="已有存款"></td></tr>
+      <tr><td>每月可存款：</td><td><input type="text" name="monthpay" id="monthpay" title="每月可存款"></td></tr>
+      <tr><td>您愿意给理财师支付：</td><td><input type="text" name="scharge" id="scharge" title="您愿意给理财师支付"  placeholder="最低为10元"></td></tr>
+      <tr><td>备注：</td><td>
+        <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
+      </td></tr>
+      <tr><td colspan="2">
+        <a href="javascript:void(0)" id="userconfig" class="btn btn-primary pull-right">确认</a>
+      </td></tr>
+    </table>
   </div>
 </div>
 
   <script type="text/javascript">
-      <% if params[:id]!="0" %>
-      $("#username").attr("value",'<%= @userinfo[0]%>');
-      $("#username").attr("disabled",true);
-      $("#password").attr("value",'<%= @userinfo[1]%>');
-      $("#passwordconfirm").attr("value",'<%= @userinfo[1]%>');
-      $("#tel").attr("value",'<%= @userinfo[2]%>');
-      $("#address").attr("value",'<%= @userinfo[3]%>');
-      $("#postcode").attr("value",'<%= @userinfo[4]%>');
-      $("#name").attr("value",'<%= @userinfo[5]%>');
-      $("#email").attr("value",'<%= @userinfo[6]%>');
-      $("#company").attr("value",'<%= @userinfo[7]%>');
-      $("#post").attr("value",'<%= @userinfo[8]%>');
-      $("#memberlevel").attr("value",'<%= @userinfo[9]%>');
-      <% end %>
+      $(document).ready(function(){
+          for(var a=2014;a<=2064;a++){
+              document.getElementById("realizetime").options.add(new Option(a,a));
+          }
+          <% if params[:id]!="0" %>
+          $("#username").attr("value",'<%= @webuser.username %>');
+          $("#username").attr("disabled",true);
+          $("#email").attr("value",'<%= @webuser.email %>');
+          $("#tel").attr("value",'<%= @webuser.tel %>');
+          $("#dream").attr("value",'<%= @webuser.dream %>');
+          $("#amount").attr("value",'<%= @webuser.amount %>');
+          $("#realizetime").attr("value",'<%= @webuser.realizetime %>');
+          $("#investamount").attr("value",'<%=@hash_reference[0][0] %>');
+          $("#monthpay").attr("value",'<%= @webuser.monthpay %>');
+          $("#scharge").attr("value",'<%= @webuser.scharge %>');
+          $("#remark").attr("value",'<%= @webuser.remark %>');
+          <% end %>
+      });
+
 
       $("#userconfig").click(function(e){
          var o=document.getElementsByTagName("input");
           var nom_flag=0;
           for(var i=0;i<o.length;i++)
           {
-              if(o[i].value==""){
+              if(o[i].value=="" && o[i].title!=""){
                   alert(o[i].title+"为空！");
                   nom_flag=1;
                   break;
@@ -47,23 +75,10 @@
           }
 
           if(nom_flag==0){
-             if($("#password").attr("value")!=$("#passwordconfirm").attr("value")){
-                 alert("两次密码不一致！");
-             }
-              else if($("#password").attr("value")!=$("#passwordconfirm").attr("value")){
-                  alert("两次密码不一致！");
-              }
-             else if($("#tel").attr("value").match(/^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/)==null&&$("#tel").attr("value").match(/^1[3458]\d{9}$/)==null){
-                  alert("输入正确的号码！");
-              }
-             else if($("#postcode").attr("value").match(/^[1-9][0-9]{5}$/)==null) {
-                  alert("输入正确的邮编！");
-              }
-              else{
-                  $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),tel: $("#tel").attr("value"),
-                      password: $("#password").attr("value"),address: $("#address").attr("value"),postcode: $("#postcode").attr("value"),
-                      name: $("#name").attr("value"),email: $("#email").attr("value"),company: $("#company").attr("value"),
-                      post: $("#post").attr("value"),memberlevel: $("#memberlevel").attr("value")
+                  $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
+                      tel: $("#tel").attr("value"),dream: $("#dream").attr("value"),amount: $("#amount").attr("value"),
+                      realizetime: $("#realizetime").attr("value"),investamount: $("#investamount").attr("value"),monthpay: $("#monthpay").attr("value"),update: 1,
+                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value")
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");
@@ -77,7 +92,6 @@
                           location.href='/admin';
                       }
                   });
-              }
           }
       });
   </script>

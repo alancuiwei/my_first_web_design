@@ -3,7 +3,8 @@ class AdminController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
     if session[:webusername]=="admin" || session[:webusername]=="blog"
-      @webusers=Webuser.all
+      @webusers=Webuser.find_by_sql('select * from webuser where address is not null and organuser<>"1"')
+      @organuser=Webuser.find_by_sql('select * from webuser where address is not null and organuser="1"')
       @bankfinances=Bankfinance.all
       @bankfinance2=Bankfinance.find_all_by_isorgan(1)
       @personalfinance=Personalfinance.all
@@ -126,21 +127,13 @@ class AdminController < ApplicationController
     @userinfo=[]
     if params[:id]!="0"
       @webuser=Webuser.find_by_id(params[:id])
-      @personalfinance=Personalfinance.find_by_username(@webuser.username)
-      if @personalfinance
-        @userinfo[0]=@webuser.username
-        @userinfo[1]=decode(@webuser.password)
-        @userinfo[2]=@webuser.tel
-        @userinfo[3]=@webuser.address
-        @userinfo[4]=@webuser.postcode
-        @userinfo[5]=@personalfinance.name
-        @userinfo[6]=@personalfinance.email
-        @userinfo[7]=@personalfinance.company
-        @userinfo[8]=@personalfinance.post
-        @userinfo[9]=@webuser.memberlevel
-      else
-        redirect_to(:controller=>"admin")
-      end
+      @hash_reference=Hash.new
+        @add=Personalfinance.find_by_username(@webuser.username)
+        if @add!=nil
+          @hash_reference.store(0,[@add.investamount])
+        else
+          @hash_reference.store(0,[nil])
+        end
     end
   end
 
@@ -243,31 +236,12 @@ class AdminController < ApplicationController
     end
   end
 
-  def newpass( len )
-    chars =("1".."41").to_a
-    newpass = ""
-    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-    return newpass
-  end
-
-  def newpass2( len )
-    chars =("2033".."2055").to_a
-    newpass = ""
-    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-    return newpass
-  end
-
-  def newpass3( len )
-    chars =("10".."61").to_a
-    newpass = ""
-    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-    return newpass
-  end
-
   def  userconfigajax
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
+    if params[:password]!=nil
     password=encode(params[:password])
+   end
     if params[:id]=="0"
       if @webuser==nil
         Webuser.new do |w|
@@ -285,9 +259,6 @@ class AdminController < ApplicationController
           w.memberlevel=params[:memberlevel]
           w.risktolerance=params[:risktolerance]
           w.contact=params[:contact]
-          w.scharge=newpass(1).to_i*10
-          w.realizetime=newpass2(1)
-          w.monthpay=newpass3(1).to_i*100
           w.save
         end
         if params[:organuser]=='1'
@@ -380,10 +351,24 @@ class AdminController < ApplicationController
       end
 
     else
+      if params[:update]!='1'
       @webuser.update_attributes(:password=>password,:tel=>params[:tel],:name=>params[:name],
                                  :address=>params[:address],:postcode=>params[:postcode],:email=>params[:email],:company=>params[:company],:memberlevel=>params[:memberlevel])
       @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],
                                          :company=>params[:company],:post=>params[:post],:email=>params[:email],:memberlevel=>params[:memberlevel])
+      else
+        @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel],:dream=>params[:dream],
+                                   :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark])
+        if @personalfinance!=nil
+          @personalfinance.update_attributes(:investamount=>params[:investamount])
+        else
+          Personalfinance.new do |w|
+            w.username=params[:username]
+            w.investamount=params[:investamount]
+            w.save
+          end
+        end
+      end
       render :json => "s2".to_json
     end
   end
