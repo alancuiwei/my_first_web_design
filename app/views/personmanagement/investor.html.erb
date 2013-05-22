@@ -1,3 +1,4 @@
+<%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
 <%= stylesheet_link_tag "personmanagement.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "demo_page.css" %>
@@ -9,39 +10,169 @@
 </style>
 <div class="main-content investor">
   <a href="/">首页</a>  <br>
-  <h1 class="deploy">个人、家庭投资者：</h1>
+  <h1 class="deploy">梦想墙：</h1>
   <br>
+  <div id="optionsRadios">
+    <div class="box_sxtj">
+      <div class="box_sxtj_top">梦想墙－查询</div>
+      <div class="box_sxtj_center">
+        <dl class="fore" id="category_all">
+          <dt id="category-category_all">服务费:</dt>
+          <dd>
+            <label class="checkbox inline all">
+              <a id="category" class="curr category btn-link currbg">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="category1" class="curr category1 btn-link"> 1-10元 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="category10" class="curr category10 btn-link"> 10-100元 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="category100" class="curr category100 btn-link"> 100-400元 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="category400" class="curr category400 btn-link"> 400元以上 </a>
+            </label>
+          </dd>
+        </dl>
+        <dl class="fore">
+          <dt id="category-expectYID">梦想:</dt>
+          <dd>
+            <label class="checkbox inline all">
+              <a id="expectYID" class="curr expectYID btn-link currbg">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="expectYID3" class="curr expectYID3 btn-link"> 购房、装修 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="expectYID6" class="curr expectYID6 btn-link"> 购车 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="expectYID10" class="curr expectYID10 btn-link"> 子女教育 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="expectYID15" class="curr expectYID15 btn-link"> 退休计划 </a>
+            </label>
+            <label class="checkbox inline">
+              <a id="expectYID30" class="curr expectYID30 btn-link"> 度假旅游 </a>
+            </label>
+          </dd>
+        </dl>
+        <dl class="fore" id="duration">
+          <dt id="category-duration">梦想价值:</dt>
+          <dd>
+            <label class="checkbox inline all">
+              <a id="durations" class="curr duration btn-link currbg">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="duration0" class="curr duration0 btn-link"> 1万-10万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="duration90" class="curr duration90 btn-link"> 10万-20万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="duration180" class="curr duration180 btn-link"> 20万-50万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="duration365" class="curr duration365 btn-link"> 50万-100万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="duration730" class="curr duration730 btn-link"> 100万以上</a>
+            </label>
+          </dd>
+        </dl>
+
+        <dl class="fore" id="outset">
+          <dt id="category-outset">已有存款:</dt>
+          <dd>
+            <label class="checkbox inline all">
+              <a id="outsets" class="curr outset btn-link currbg">不限</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="outset50000" class="curr outset50000 btn-link">1万-10万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="outset100000" class="curr outset100000 btn-link">10万-20万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="outset200000" class="curr outset200000 btn-link">20万-50万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="outset500000" class="curr outset500000 btn-link">50万-100万</a>
+            </label>
+            <label class="checkbox inline">
+              <a id="outset1000000" class="curr outset1000000 btn-link">100万以上</a>
+            </label>
+          </dd>
+        </dl>
+      </div>
+
+      <div class="box_sxtj_bottom">
+        <dl class="fore">
+          <dt>已选择的筛选条件:&nbsp;</dt>
+          <dd id="selected">
+
+            <div id="s-category_all" class="del hide">
+              <h6 class="text" id="st-category_all" condition="">产品类型:不限</h6>
+              <a class="delete" cid="category_all"></a>
+            </div>
+
+            <div id="s-expectYID" class="del hide">
+              <h6 class="text" id="st-expectYID" condition="">预期年化收益率:不限</h6>
+              <a class="delete" cid="expectYID"></a>
+            </div>
+
+            <div id="s-duration" class="del hide">
+              <h6 class="text" id="st-duration" condition="">投资期限：不限</h6>
+              <a class="delete" cid="duration"></a>
+            </div>
+
+            <div id="s-outset" class="del hide">
+              <h6 class="text" id="st-outset" condition="">投资起点：不限</h6>
+              <a class="delete" cid="outset"></a>
+            </div>
+
+            <div id="s-risk" class="del hide">
+              <h6 class="text" id="st-risk" condition="">收益类型：不限</h6>
+              <a class="delete" cid="risk"></a>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
   <table class="table table-striped table-bordered" id="invsetor"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
       <th class="hide">ID</th><th>会员名</th><th>服务费（元）</th>
-      <th>城市</th><th>我的梦想</th><th>已有存款</th>
+      <th>城市</th><th>我的梦想</th><th>梦想价值（万）</th><th>已有存款</th>
       <th>每月存款</th><th>状态</th>
     </tr></thead>
+    <tfoot>
+    <tr>
+      <th class="hide">ID</th><th>会员名</th><th>服务费（元）</th>
+      <th>城市</th><th>我的梦想</th><th>梦想价值（万）</th><th>已有存款</th>
+      <th>每月存款</th><th>状态</th>
+    </tr></tfoot>
 
     <% @webuser.each do |b| %>
-
         <tr>
           <% if b.address == nil || b.tel=="" || b.tel=="1" || b.tel==nil || b.email==nil || b.email=="1" %>
               <td class="hide"><%= b.id %></td>
-              <% if @hash_reference[b.id][0] !=nil %>
-                  <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
-              <% else %>
-                  <td><a style="color: #000000;text-decoration: none!important;"><%= b.username%></a></td>
-              <% end %>
+              <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
               <% if b.scharge !=nil %><td><%= format("%0.0f", b.scharge) %></td><% else %><td></td><% end %>
               <td><%= b.city %></td>
               <td><%= b.dream %></td>
+              <td><%= b.amount %></td>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
               <td>完成</td>
           <% else %>
               <td class="hide"><%= b.id %></td>
-              <% if @hash_reference[b.id][0] !=nil %>
-                  <td><a href="/home/plan?username=<%= b.username%>"><%= b.username%></a></td>
-              <% else %>
-                  <td><a style="color: #000000;text-decoration: none!important;"><%= b.username%></a></td>
-              <% end %>
+              <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -53,10 +184,10 @@
     <% end %>
   </table>
 </div>
+
+
 <script>
-
     $(document).ready(function(){
-
         /* Initialise datatables */
         var oTable = $('#invsetor').dataTable({
             "iDisplayLength": 15,
@@ -67,5 +198,36 @@
             "bProcessing": true
     });
 
+        $('#invsetor').dataTable().columnFilter({
+            aoColumns: [
+                null,
+                null,
+                { type: "number-range" },
+                null,
+                { type: "text"},
+                { type: "number-range" },
+                { type: "number-range"},
+                { type: "number-range" },
+                null
+            ]
+        });
+    });
+</script>
+
+<script>
+
+    $("[class*='category']").click(function(){
+        $("[class*='category']").removeClass('currbg');
+        if(this.id=='category'){$("#invsetor_range_from_2").val('');$("#invsetor_range_to_2").val('');$("#s-category_all").addClass('hide');$("#category_all").addClass('currbg');}
+        else{
+            if(this.id=='expectYID3'){$("#bankfinance_range_from_2").val('3');$("#bankfinance_range_to_2").val('6');$("#expectYID3").addClass('currbg');};
+            if(this.id=='expectYID6'){$("#bankfinance_range_from_2").val('6');$("#bankfinance_range_to_2").val('10');$("#expectYID6").addClass('currbg');};
+            if(this.id=='expectYID10'){$("#bankfinance_range_from_2").val('10');$("#bankfinance_range_to_2").val('15');$("#expectYID10").addClass('currbg');};
+            if(this.id=='expectYID15'){$("#bankfinance_range_from_2").val('15');$("#bankfinance_range_to_2").val('30');$("#expectYID15").addClass('currbg');};
+            if(this.id=='expectYID30'){$("#bankfinance_range_from_2").val('30');$("#bankfinance_range_to_2").val('');$("#expectYID30").addClass('currbg');};
+            $("#s-expectYID").removeClass('hide');
+            $("#st-expectYID").html('预期年化收益率:'+$('#'+this.id).html());
+        }
+        $("#bankfinance_range_from_2").keyup();
     });
 </script>

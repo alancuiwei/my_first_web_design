@@ -5,6 +5,7 @@ class PersonmanagementController < ApplicationController
       @personal=[]
       if params[:id]!="0"
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
+        if @personalfinance
         @personal[0]=@personalfinance.age
         @personal[1]=@personalfinance.trade
         @personal[3]=@personalfinance.email
@@ -19,6 +20,7 @@ class PersonmanagementController < ApplicationController
         @personal[12]=@personalfinance.myfavorite
         @personal[13]=@personalfinance.tel
         @personal[14]=@personalfinance.memberlevel
+      end
       end
     else
       redirect_to(:controller=>"home")
@@ -210,26 +212,25 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
-
-    if  params[:username]!=nil
-      @personalfinance=Personalfinance.find_by_username(params[:username])
-      @comments=Comments.find_all_by_cid(@personalfinance.id)
-      @personalinfo=Personinvestinfo.find_all_by_username(params[:username])
-      session[:personname]=@personalfinance.username
-      if session[:webusername]!=nil
-        @webuser=Webuser.find_by_username(session[:webusername])
+    if  params[:id]!=nil
+      @webuser=Webuser.find_by_id(params[:id])
+      @hash=Hash.new
+      @add=Personalfinance.find_by_username(@webuser.username)
+      if @add!=nil
+        @hash.store(0,[@add.investamount,@add.wbreedinfo])
       else
-        @webuser=Webuser.find_by_username(params[:username])
+        @hash.store(0,[0,nil])
+      end
+    elsif session[:webusername]!=nil
+        @webuser=Webuser.find_by_username(session[:webusername])
+      @hash=Hash.new
+      @add=Personalfinance.find_by_username(@webuser.username)
+      if @add!=nil
+        @hash.store(0,[@add.investamount,@add.wbreedinfo])
+      else
+        @hash.store(0,[0,nil])
       end
     else
-      if session[:webusername]!=nil
-        @personalfinance=Personalfinance.find_by_username(session[:webusername])
-        @personalinfo=Personinvestinfo.find_all_by_username(session[:webusername])
-        @comments=Comments.find_all_by_cid(@personalfinance.id)
-        @webuser=Webuser.find_by_username(session[:webusername])
-      end
-    end
-    if @personalfinance==nil
       redirect_to(:controller=>"home")
     end
   end

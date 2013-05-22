@@ -15,12 +15,21 @@ class BlogController < ApplicationController
           @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
+        @tag=params[:tag].split(",")
+        @tags=""
+        for i in 0..@tag.size-1
+          if @tags==""
+            @tags='tag like "%'+ @tag[i] + '%"'
+          else
+            @tags=@tags+' and tag like "%'+ @tag[i] + '%"'
+          end
+        end
         if params[:classify]==nil
-          @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
+          @blog=Blog.find_by_sql('select * from blog where '+@tags)
+          @blogs=Blog.find_by_sql('select * from blog  where '+@tags+' order by publishdate desc,id desc limit '+bid+',7')
         else
-          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and '+@tags)
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and '+@tags+' order by publishdate desc,id desc limit '+bid+',7')
         end
       end
      @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')
@@ -41,12 +50,21 @@ class BlogController < ApplicationController
           @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
+        @tag=params[:tag].split(",")
+        @tags=""
+        for i in 0..@tag.size-1
+          if @tags==""
+            @tags='tag like "%'+ @tag[i] + '%"'
+          else
+            @tags=@tags+' and tag like "%'+ @tag[i] + '%"'
+          end
+        end
         if params[:classify]==nil
-          @blog=Blog.find_by_sql('select * from blog where tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog  where tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
+          @blog=Blog.find_by_sql('select * from blog where '+@tags)
+          @blogs=Blog.find_by_sql('select * from blog  where '+@tags+' order by publishdate desc,id desc limit '+bid+',7')
         else
-          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%"')
-          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and  tag like "%'+params[:tag]+'%" order by publishdate desc,id desc limit '+bid+',7')
+          @blog=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and '+@tags)
+          @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'" and '+@tags+' order by publishdate desc,id desc limit '+bid+',7')
         end
       end
       @popular=Blog.find_by_sql('select * from blog order by count desc,id desc limit 0,5')

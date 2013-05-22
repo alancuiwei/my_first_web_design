@@ -2,363 +2,121 @@
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 
-<div class="main-content finance">
-  <% if  @personalfinance%>
-      <div class="bs-docs-example">
-        <ul class="nav nav-tabs">
-          <% if params[:username]!=nil %>
-              <% if params[:username]!=session[:webusername] %>
-                 <li><a href="/home/plan?username=<%= params[:username] %>">家庭理财规划</a></li>
-              <% else %>
-                  <% if @webuser.risktolerance!=nil %>
-                      <li><a href="/home/plan?username=<%= session[:webusername] %>">家庭理财规划</a></li>
-                  <% else %>
-                      <li><a href="/home/questions">家庭理财规划</a></li>
-                  <% end %>
-              <% end %>
-          <% else %>
-              <% if @webuser.risktolerance!=nil %>
-                  <li><a href="/home/plan?username=<%= session[:webusername] %>">家庭理财规划</a></li>
-              <% else %>
-                  <li><a href="/home/questions">家庭理财规划</a></li>
-              <% end %>
-          <% end %>
-          <li class="active"><a href="#">个人投资信息</a></li>
-        </ul>
-      </div>
-      <h1><%= @personalfinance.username%>的投资页面</h1>
-      <br>
-      <h2 class="h2">个人信息：</h2>
-      <table class="table table-striped table-bordered">
-        <thead><tr>
-          <th>用户名</th><th>年龄</th><th>所在行业</th><th>流动总资金</th>
-          <% if session[:webusername]== @personalfinance.username%>
-              <th>操作</th>
-          <% end %>
-        </tr></thead>
-        <tr>
-          <td><%= @personalfinance.username%></td>
-          <% if @personalfinance.age !=nil %>
-          <td><%= format("%0.0f",@personalfinance.age)%></td>
-          <% else %>
-              <td></td>
-          <% end %>
-          <td><%= @personalfinance.trade%></td>
-          <td><strong  style="color: #ff0000;"><%= format("%0.0f",@personalfinance.investamount)%></strong></td>
-          <% if session[:webusername]== @personalfinance.username%>
-              <td><a href="/personmanagement/personinfo/1">修改</a></td>
-          <% end %>
-        </tr>
-      </table>
-      <br><br>
-     <!--
-      <table class="deploy" class="h2">
-        <tr>
-          <td class="col1"><h2>资产配置</h2></td>
-          <td class="col"><p style="width: 50px;height: 25px;background-color: #ff0000;"></p></td>
-          <td class="col1 col2">未购，等待您的推荐</td>
-          <td class="col"><p style="width: 50px;height: 25px;background-color: #9ACD32;"></p></td>
-          <td class="col2">已购，等待到期后再推荐</td>
-          <% if session[:webusername]== @personalfinance.username%>
-              <td class="col1 col2" style="text-align: center;"><a href="/personmanagement/personinformation/0">添加</a></td>
-          <% end %>
-        </tr>
-        <tr><td colspan="6" height='5'></td></tr>
-      </table>
-      <br>
-      <table class="table table-striped table-bordered" id="info">
-        <thead>
-        <tr>
-          <th>产品种类</th><th>百分比</th><th>可购金额</th>
-          <th>状态</th>
-          <th class="demo-tip-yellowsimple" title="已购产品 代表着已购产品的到期日期。<br>未购产品 代表着该产品目前等待专家推荐，一旦有合适的产品，应该在1周-2周内资金到账进行购买。">产品推荐日期</th>
-          <% if session[:webusername]== @personalfinance.username%> <th>操作</th> <% end %>
-        </tr></thead>
-
-        <% @personalinfo.each do |b| %>
-            <tr>
-              <td><%= b.producttype%></td>
-              <td><%= format("%0.1f",b.investamount/@personalfinance.investamount*100)%>%</td>
-              <td><%= format("%0.0f",b.investamount) %></td>
-              <% if b.purchasproducts=='未购'%>
-                  <td style="background-color: #ff0000;"><%= b.purchasproducts%></td>
-                  <td class="date"></td>
-              <% else %>
-                  <td style="background-color: #9ACD32;"><%= b.purchasproducts%></td>
-                  <td><%= b.collectperiod%></td>
-              <% end%>
-              <% if session[:webusername]== @personalfinance.username%>
-                  <td><a href="/personmanagement/personinformation/<%= b.id %>">修改</a></td>
-              <% end %>
-            </tr>
-        <% end %>
-      </table>
-      <br><br>
-      -->
-      <h2 class="h2">感兴趣的理财产品：</h2>
-      <% if @personalfinance.wbreedinfo!=nil %>
-      <table> <tr>
-      <% @personalfinance.wbreedinfo.split(",").each do |b|%>
-            <td style="width: 20px;">
-            <p style="width: 10px;height: 10px;background-color: #ff0000;"></p>
-             </td>
-            <td style="padding-right: 20px;">
-            <p class="text"><span style='color: #ff0000;white-space: nowrap;'> <%= b %> </span></p>
-            </td>
-      <% end %>
-        </tr></table>
-      <% end %>
-      <br><br>
-      <div id="favoriteedit">
-        <h2 class="h2">个人理财要求：
-          <% if session[:webusername]== @personalfinance.username%>
-              <button id="edit">修改</button>
-          <% end %>
-        </h2>
-        <p class="text"><%= @personalfinance.myfavorite%></p>
-      </div>
-      <% if session[:webusername]== @personalfinance.username%>
-          <div id="favoritefix">
-            <h2 class="h2">个人理财要求：<button id="fix">确定</button></h2>
-            <textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="myfavorite" id="myfavorite" title="我最喜欢的产品"><%= @personalfinance.myfavorite%></textarea>
-          </div>
-      <% end %>
-      <br><br>
-      <div id="profileedit">
-        <h2 class="h2">留言：
-          <% if session[:webusername]== @personalfinance.username%>
-              <button id="edit2">修改</button>
-          <% end %>
-        </h2>
-        <% if (@personalfinance.title==nil || @personalfinance.title=='') && (@personalfinance.article==nil || @personalfinance.article=='') %>
-            <p class="text2">标题：关于我的资产配置</p>
-            <p class="text2">正文：欢迎大家对于我的资产配置建议，如果有合适的产品，欢迎推荐。</p>
-        <% else %>
-            <p class="text2">标题：<%= @personalfinance.title%></p>
-            <p class="text2">正文：<%= @personalfinance.article%></p>
-        <% end %>
-      </div>
-      <% if session[:webusername]== @personalfinance.username%>
-          <div id="profilefix">
-            <h2 class="h2">留言：<button id="fix2">确定</button></h2>
-            标题：<input type="text" name="title" id="title" title="标题" value="<%= @personalfinance.title%>"> <br>
-            正文：<textarea class="ckeditor" cols="80" rows="8" style="width:100%;" name="article" id="article" title="正文"><%= @personalfinance.article%></textarea>
-          </div>
-      <% end %>
-      <% if @comments.length>0 %>
-          <br><br>
-          <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
-            <% @comments.each do |b| %>
-                <tr>
-                  <td>
-                    <% if @personalfinance.username == b.username %>
-                        <% if b.memberlevel=='1' %>
-                           <p class="text2"><%= b.username%>(高级会员) 说：</p>
-                        <% else %>
-                            <p class="text2"><%= b.username%>(中级会员) 说：</p>
-                        <% end %>
-                    <% else %>
-                        <p class="text2"><%= b.username%>(来自<%= b.company%>) 说：</p>
-                    <% end %>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                   <p class="text2"> <%= b.comments%> </p>
-                    <hr>
-                  </td>
-                </tr>
+<div class="main-content dream">
+  <h1>梦想实现</h1>
+  <div style="padding: 10px 20px 3px;background-color: #D6D6D6;">
+  <div class="row-fluid">
+    <div class="span8">
+      <p>等待理财师帮助实现梦想</p>
+    </div>
+    <div class="span2">
+      <p class=""><%= @webuser.city %> ￥<%= @webuser.scharge %>元</p>
+    </div>
+    <div class="span2">
+      <a class="btn btn-primary pull-right">我来帮助</a>
+    </div>
+  </div>
+  </div>
+  <div style="height: 30px;"></div>
+  <table style="width: 100%;">
+    <tr>
+      <td class="left">
+        <img src="/assets/121094.png">
+      </td>
+      <td>
+        <h2>1. 梦想表述</h2>
+        <p><%= @webuser.username %>现已有<%= @hash[0][0]/10000 %>万存款，每月可存款<%= @webuser.monthpay %>元，打算<span id="year"></span>年后<%= @webuser.dream %>。<br>
+            该用户已进行身份认证，愿意支付<%= @webuser.scharge %>元给理财师，得到专业服务。</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="left">
+        <img src="/assets/121093.png">
+      </td>
+      <td>
+        <h2>2. 个人信息：</h2>
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th>用户名</th>
+            <th>省市</th>
+            <th>已有存款</th>
+          <!--  <% if session[:webusername]== @webuser.username%>
+                <th>操作</th>
             <% end %>
-          </table>
-      <% end %>
-
-      <br>
-      <form id="commentform">
-        <p class="comment-form-comment"><label for="comment">评论</label>
-          <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
-        <a class="btn btn-primary" id="sub"  href="javascript:void(0)">发表</a>
-        </p>
-      </form>
-  <% end %>
+            -->
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td><%= @webuser.username %></td>
+            <td><%= @webuser.province %> <%= @webuser.city %></td>
+            <td><%= @hash[0][0]/10000 %></td>
+            <!--
+            <% if session[:webusername]== @webuser.username%>
+                <td><a href="/usersurvey/apply/1" target="_blank">修改</a></td>
+            <% end %>
+            -->
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td class="left">
+        <img src="/assets/121092.png">
+      </td>
+      <td>
+        <h2>3. <%= @webuser.username %>的风险承受度</h2>
+        <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+         <p>对于安益型投资人，其投资组合配置在风险最小的领域，如货币市场基金或中短债基金。此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，回报率的波动性较小。大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此</p>
+        <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
+         <p>对于保守型投资人，其投资组合较大比例配置债券类资产或债券型基金，同时也有一部分比例配制于股票类资产或股票型基金以及配置型基金。此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此</p>
+        <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
+         <p>对于稳健型投资人，其投资组合均衡配置股票类资产和债券类资产（或股票型基金和债券型基金）以及配置型基金。此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此</p>
+        <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
+         <p>对于积极型投资人，其投资组合较大比例配置股票类资产或股票型基金，同时还有小部分比例配置于债券和现金。此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此</p>
+        <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
+         <p>对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。大多数情况下，其长期回报率高于其它较为保守的投资方法</p>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td class="left">
+        <img src="/assets/121091.png">
+      </td>
+      <td>
+        <h2>4. 感兴趣的产品</h2>
+        <% if @hash[0][1]!=nil %>
+        <table> <tr>
+          <% @hash[0][1].split(",").each do |b|%>
+              <td style="width: 20px;vertical-align: middle;">
+                <p style="width: 10px;height: 10px;background-color: #ff0000;"></p>
+              </td>
+              <td style="padding-right: 20px;">
+                <p class="text"><span style='color: #ff0000;white-space: nowrap;'> <%= b %> </span></p>
+              </td>
+          <% end %>
+        </tr></table>
+          <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td class="left">
+        <img src="/assets/121090.png">
+      </td>
+      <td>
+        <h2>5. 其他</h2>
+      </td>
+    </tr>
+  </table>
 </div>
 
 <script>
-
-    window.onload=function(){
-        today=new Date();
-        var year = today.getFullYear();
-        var month = today.getMonth()+1;
-        var date = today.getDate();
-        $("#favoriteedit").show();
-        $("#favoritefix").hide();
-        $("#profileedit").show();
-        $("#profilefix").hide();
-        $(".date").html(year+'-'+month+'-'+date);
-        if(Request("comment")){
-            $("#comment").html(Request("comment"));
-        }
-    }
-    $("#edit").click(function(e){
-        $("#favoritefix").show();
-        $("#favoriteedit").hide();
+    $(document).ready(function(){
+        var today = new Date(); //新建一个Date对象
+       $("#year").html(parseInt(<%= @webuser.realizetime %>)-parseInt(today.getFullYear()));
     });
-    $("#edit2").click(function(e){
-        $("#profilefix").show();
-        $("#profileedit").hide();
-    });
-
-    $("#fix").click(function(e){
-        $("#favoriteedit").show();
-        $("#favoritefix").hide();
-        $.post("/personmanagement/myfavoriteconfigajax",{ myfavorite:$("#myfavorite").attr("value")
-        },function(data){
-            if(data=="s1"){
-                location.href='';
-            }
-        });
-    });
-
-    $("#fix2").click(function(e){
-        $("#profileedit").show();
-        $("#profilefix").hide();
-        $.post("/personmanagement/profileconfigajax",{ title:$("#title").attr("value"),article:$("#article").attr("value")
-        },function(data){
-            if(data=="s1"){
-                location.href='';
-            }
-        });
-    });
-
-    $("#sub").click(function(e){
-        var nom_flag=0;
-        var dateTime=new Date();
-        var hh=dateTime.getHours();
-        var mm=dateTime.getMinutes();
-        var ss=dateTime.getSeconds();
-
-        var yy=dateTime.getFullYear();
-        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
-        var dd=dateTime.getDate();
-
-        var week=dateTime.getDay();
-        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
-
-        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
-        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
-
-        if($('#comment').attr("value")==""){
-            alert("评论为空！");
-            nom_flag=1;
-              }
-
-        if('<%= session[:webusername] %>'=="" && nom_flag==0){
-            location.href="/sales/login?comment="+$("#comment").attr("value")+'&cid='+'<%= @personalfinance.id%>';
-            nom_flag=1;
-              }
-
-        if('<%= session[:organuser] %>'!='1' && '<%= session[:webusername] %>'!='<%= @personalfinance.username%>' &&  nom_flag==0){
-           alert('权限不够');
-                nom_flag=1;
-        }
-
-        var email=0;
-        if('<%= session[:organuser] %>'=='1' && '<%= session[:webusername] %>'!='<%= @personalfinance.username%>' &&  nom_flag==0){
-            email=1;
-        }
-
-        if(nom_flag==0){
-            $.post("/personmanagement/commentconfigajax",{ username: '<%= session[:webusername] %>',email: '<%= @personalfinance.email%>',
-                comment: $("#comment").attr("value"),cid: '<%= @personalfinance.id%>',time:time,memberlevel:'<%= @webuser.memberlevel%>',
-                company:'<%= @webuser.company%>',email2:email,accept:'<%= @personalfinance.email%>',aid:'<%= params[:id] %>'
-            },function(data){
-                if(data=="s1"){
-                    location.reload();
-                }
-            });
-        }
-    });
-
-    $(function(){
-        $('.demo-tip-yellowsimple').poshytip({
-            className: 'tip-yellowsimple',
-            showTimeout: 1,
-            alignTo: 'target',
-            alignX: 'center',
-            offsetY: 5,
-            allowTipHover: false
-        });
-        var flickrFeedsCache = {};
-        $('#demo-async-flickr > a').poshytip({
-            className: 'tip-darkgray',
-            bgImageFrameSize: 11,
-            alignY: 'bottom',
-            content: function(updateCallback) {
-                var rel = $(this).attr('rel');
-                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
-                    return flickrFeedsCache[rel].container;
-                if (!flickrFeedsCache[rel]) {
-                    flickrFeedsCache[rel] = { container: null };
-                    var tagsComma = rel.substring(4).replace('-', ',');
-                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
-                            function(data) {
-                                var container = $('<div/>').addClass('flickr-thumbs');
-                                $.each(data.items, function(i, item) {
-                                    $('<a/>')
-                                            .attr('href', item.link)
-                                            .append($('<img/>').attr('src', item.media.m))
-                                            .appendTo(container)
-                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
-                                    if (i == 4)
-                                        return false;
-                                });
-                                // add tips for the images inside the main tip
-                                container.find('a').poshytip({
-                                    content: function(){return $(this).data('tip');},
-                                    className: 'tip-yellowsimple',
-                                    showTimeout: 100,
-                                    alignTo: 'target',
-                                    alignX: 'center',
-                                    alignY: 'bottom',
-                                    offsetY: 5,
-                                    allowTipHover: false,
-                                    hideAniDuration: 0
-                                });
-                                // call the updateCallback function to update the content in the main tooltip
-                                // and also store the content in the cache
-                                updateCallback(flickrFeedsCache[rel].container = container);
-                            }
-                    );
-                }
-                return 'Loading images...';
-            }
-        });
-    });
-
-    function Request(sName)
-    {
-        var sURL = new String(window.location);
-        var sURL = document.location.href;
-        sURL=decodeURI(sURL);
-        var iQMark= sURL.lastIndexOf('?');
-        var iLensName=sName.length;
-        //retrieve loc. of sName
-        var iStart = sURL.indexOf('?' + sName +'=') //limitation 1
-        if (iStart==-1)
-        {//not found at start
-            iStart = sURL.indexOf('&' + sName +'=')//limitation 1
-            if (iStart==-1)
-            {//not found at end
-                return 0; //not found
-            }
-        }
-
-        iStart = iStart + + iLensName + 2;
-        var iTemp= sURL.indexOf('&',iStart); //next pair start
-        if (iTemp ==-1)
-        {//EOF
-            iTemp=sURL.length;
-        }
-        return sURL.slice(iStart,iTemp ) ;
-        sURL=null;//destroy String
-    }
 </script>
+
+

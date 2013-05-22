@@ -61,7 +61,7 @@
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
           <% if session[:organuser]!='1' %>
               <!--<a class="pull-right rounder" href="/sales/myorder">我的订单</a> -->
-                  <a class="pull-right rounder" href="/home/plan?username=<%=session[:webusername]%>"><%=session[:webusername]%> 的投资</a>
+                  <a class="pull-right rounder" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
           <% else %>
               <a class="pull-right rounder" href="/personmanagement/organfinance">我的产品</a>
           <% end %>
@@ -102,7 +102,7 @@
       <% if session[:webusername]!=nil %>
           <% if session[:organuser]!='1' %>
               <!--  <a class="full" href="/sales/myorder">我的订单</a>  -->
-              <a class="full" href="/home/plan?username=<%=session[:webusername]%>"><%=session[:webusername]%> 的投资</a>
+              <a class="full" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
               <% if session[:personname]!=0 %>
                   <a class="full" href="/personmanagement/personinfo/1">个人信息设置</a>
               <% else %>
