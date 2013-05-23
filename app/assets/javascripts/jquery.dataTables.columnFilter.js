@@ -112,7 +112,7 @@
                 search_init = '';
             }
 
-            var input = $('<input type="text" class="' + search_init + sCSSClass + '" value="' + inputvalue + '"/>');
+            var input = $('<input type="text" id="search'+i+'" class="' + search_init + sCSSClass + '" value="' + inputvalue + '"/>');
             if (iMaxLenght != undefined && iMaxLenght != -1) {
                 input.attr('maxlength', iMaxLenght);
             }
