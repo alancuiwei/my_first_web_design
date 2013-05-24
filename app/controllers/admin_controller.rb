@@ -259,6 +259,18 @@ class AdminController < ApplicationController
           w.memberlevel=params[:memberlevel]
           w.risktolerance=params[:risktolerance]
           w.contact=params[:contact]
+          w.scharge=params[:scharge]
+          w.realizetime=params[:realizetime]
+          w.monthpay=params[:monthpay]
+          w.city=params[:city]
+          w.dream=params[:dream]
+          w.amount=params[:amount]
+          w.remark=params[:remark]
+          w.province=params[:province]
+          w.certificate=params[:certificate]
+          if params[:investamount]!=nil
+            w.isauto=0
+          end
           w.save
         end
         if params[:organuser]=='1'
@@ -269,6 +281,14 @@ class AdminController < ApplicationController
               w.save
             end
           end
+        end
+       if params[:investamount]!=nil
+        Personalfinance.new do |w|
+          w.username=params[:username]
+          w.investamount=params[:investamount]
+          w.email=params[:email]
+          w.save
+        end
         end
 #      session[:webusername]=params[:username]
         Thread.new{

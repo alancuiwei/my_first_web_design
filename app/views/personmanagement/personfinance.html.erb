@@ -51,7 +51,7 @@
           <tr>
             <td><%= @webuser.username %></td>
             <td><%= @webuser.province %> <%= @webuser.city %></td>
-            <td><%= @hash[0][0]/10000 %></td>
+            <td><%= format("%0.0f",@hash[0][0]) %></td>
             <!--
             <% if session[:webusername]== @webuser.username%>
                 <td><a href="/usersurvey/apply/1" target="_blank">修改</a></td>

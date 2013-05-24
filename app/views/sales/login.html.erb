@@ -32,21 +32,21 @@
         </form>
       </div>
       <div class="organ">
-        <h1 class="h1">注册申请</h1>
+        <h1 class="h1">理财师 注册</h1>
         <form>
           <dl class="dl-horizontal">
             <dt>用户名 *:</dt>
             <dd><input id="username3" class="input_menum num" valType="NAME" msg="<font color=red>*</font>用户名开头字符不能是数字，用户名长度必须大于等于3个字符" title="用户名"  placeholder="用户名" type="text"></dd>
-            <dt>联系人姓名 *:</dt>
+            <dt>理财师姓名 *:</dt>
             <dd><input id="name" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入姓名" title="姓名" placeholder="姓名" type="text"></dd>
+            <dt>电子邮箱 *:</dt>
+            <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
             <dt>联系电话 :</dt>
             <dd><input id="tel" class="input_menum num" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="联系电话" placeholder="联系电话" type="text"></dd>
             <dt>密码 *:</dt>
             <dd><input id="password3" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入密码" title="密码" placeholder="密码" type="password"></dd>
             <dt>确认密码 *:</dt>
             <dd><input id="password4" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>两次密码不一致" title="确认密码" placeholder="密码" type="password"></dd>
-            <dt>电子邮箱 *:</dt>
-            <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
             <dt>行业 * :</dt>
             <dd>
               <select class="trade" id="trade"title="所在行业">
@@ -58,30 +58,22 @@
                 <option value="第三方理财机构">第三方理财机构</option>
               </select>
             </dd>
-            <dt>公司 :</dt>
+            <dt>公司名 :</dt>
             <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
             <dt>资格认证 *:</dt>
             <dd>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="AFP">&nbsp;AFP
-              </label>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="CFP">&nbsp;CFP
-              </label>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="ChFP">&nbsp;ChFP
-              </label>
-              <br>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="EFP">&nbsp;EFP
-              </label>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="CPB">&nbsp;CPB
-              </label>
-              <label class="checkbox inline">
-                <input type="checkbox" name="contact" value="其他">&nbsp;其他
-              </label>
+              <select class="contact" id="contact"title="资格认证">
+                <option value="CFP">CFP</option>
+                <option value="AFP">AFP</option>
+                <option value="ChFP">ChFP</option>
+                <option value="EFP">EFP</option>
+                <option value="CPB">CPB</option>
+                <option value="其他">其他</option>
+                <option value="没有相关证书">没有相关证书</option>
+              </select>
             </dd>
+            <dt>证书编号 :</dt>
+            <dd><input id="certificate" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入证书编号" title="证书编号" placeholder="证书编号" type="text"></dd>
           </dl>
           <br>
           <a class="btn btn-success pull-right" id="create2" type="submit">注册</a>
@@ -107,6 +99,22 @@
   </div>
 </div>
 
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="modal">
+    <div id="save">
+      <div class="modal-header">
+        <a class="close" href="javascript:">×</a>
+            <h3>理财师 注册</h3>
+      </div>
+      <div class="modal-body">
+          <p>感谢您的注册，我们将在2个工作日内给您答复，请留意查收您的邮件。</p>
+        </div>
+        <div class="modal-footer">
+          <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
+        </div>
+    </div>
+  </div>
+</div>
 
 <script>
     $(document).ready(function(){
@@ -236,13 +244,15 @@
                     alert("找不到该用户");
                 }
                 else if("<%= params[:monthpay] %>"!=""){
-                    location.href="/usersurvey/pay";
+                    $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
+                        location.href="/personmanagement/investor";
+                    });
                 }
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
                     location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";
                 }
                 else if (organ==3){
-                    location.href="/usersurvey/apply";
+                    location.href="/";
                 }
                 else if (organ==4){
                     location.href="/personmanagement/personfinance";
@@ -362,23 +372,9 @@
                 nom_flag=1;
             }
             if(nom_flag==0){
-                var tom=document.getElementsByName("contact");
-                var flag2='';
-                for(var i=0;i<tom.length;i++){
-                    if(flag2==""){
-                        if(tom[i].checked){
-                            flag2=tom[i].value
-                        }
-                    }
-                    else{
-                        if(tom[i].checked){
-                            flag2=flag2+','+tom[i].value
-                        }
-                    }
-                }
                 $.get("/admin/userconfigajax/0",{username:$('#username3').attr("value"),name:$('#name').attr("value"),tel:$('#tel').attr("value"),
                     password:$('#password3').attr("value"),email:$('#email').attr("value"),company:$('#company').attr("value"),
-                    trade:$('#trade').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2,contact:flag2},function(data){
+                    trade:$('#trade').attr("value"),certificate:$('#certificate').attr("value"),address: 1,postcode: 1,organuser:'1',securitiesnum:0,memberlevel:0,ulogin:2,contact:$('#contact').attr("value")},function(data){
                     if(data!="s"){
                         alert("用户名已注册！");
                     }
