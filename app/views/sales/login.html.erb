@@ -99,7 +99,7 @@
           <dt>密码 *:</dt>
           <dd><input id="password2" class="input_menum" placeholder="密码" type="password"></dd>
         </dl>
-        <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2',3))" type="submit">登录</a>
+        <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
         <div class="or-text"><div><b>或</b></div></div>
         <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
       </form>
@@ -241,14 +241,14 @@
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
                     location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";
                 }
-                else if (organ==3 && data=="g1"){
+                else if (organ==3){
+                    location.href="/usersurvey/apply";
+                }
+                else if (organ==4){
                     location.href="/personmanagement/personfinance";
                 }
-                else if (organ==3 && data=="g2"){
-                    location.href="/home/questions";
-                }
                 else if (organ==2){
-                    location.href="/home/questions";
+                    location.href="/usersurvey/apply";
                 }
                 else if('<%=params[:id] %>'=="1"){
                     location.href="/sales/revise";

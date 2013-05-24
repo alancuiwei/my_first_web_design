@@ -550,7 +550,7 @@ class AdminController < ApplicationController
     end
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
-        if params[:organ]=='3'
+        if params[:organ]=='3'|| params[:organ]=='4'
           if  @webuser.organuser=='1'
             session[:webusername]=@webuser.username
             session[:organuser]=@webuser.organuser

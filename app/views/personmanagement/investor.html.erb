@@ -182,14 +182,14 @@
 
     <% @webuser.each do |b| %>
         <tr>
-          <% if b.address == nil || b.tel=="" || b.tel=="1" || b.tel==nil || b.email==nil || b.email=="1" %>
+          <% if b.address == nil || b.tel=="" || b.tel=="1" || b.tel==nil || b.email==nil || b.email=="1" || b.isauto==1 %>
               <td class="hide"><%= b.id %></td>
               <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
               <% if b.scharge !=nil %><td><%= format("%0.0f", b.scharge) %></td><% else %><td></td><% end %>
               <td class="hide"><%= b.province %></td>
               <td><%= b.city %></td>
               <td><%= b.dream %></td>
-              <% if b.amount !=nil %><td><%= b.amount/10000 %></td><% else %><td></td><% end %>
+              <% if b.amount !=nil %><td><%= format("%0.0f",b.amount/10000) %></td><% else %><td></td><% end %>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
               <td>完成</td>
@@ -218,7 +218,7 @@
             "iDisplayLength": 15,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "aaSorting": [[ 0, "desc" ]],
+            "aaSorting": [[ 9, "desc" ],[0,"desc"]],
             "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
             "bProcessing": true
     });

@@ -1,3 +1,4 @@
+#encoding: utf-8
 class UsersurveyController < ApplicationController
   def userinfo
     if params[:id]!=nil
