@@ -8,6 +8,17 @@
     tr.odd td.sorting_1{ background-color: #fffafa!important;}
     .investor{padding-bottom: 50px;}
     form{margin: 0;}
+    .close {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #000000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        position: static;
+    }
 </style>
 <div class="main-content investor">
   <a href="/">首页</a>  <br>
@@ -193,9 +204,9 @@
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
               <% if b.isauto==0 %>
-                  <td>等待帮助</td>
+                  <td><a class="btn-link" onclick="waithelp(<%= b.id %>)">等待帮助</a></td>
               <% else %>
-              <td>完成</td>
+                  <td><span>完成</span></td>
               <% end %>
           <% else %>
               <td class="hide"><%= b.id %></td>
@@ -207,15 +218,62 @@
               <td></td>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <td></td>
-              <td>等待帮助</td>
+              <td><a class="btn-link" onclick="waithelp(<%= b.id %>)">等待帮助</a></td>
           <% end %>
         </tr>
     <% end %>
   </table>
 </div>
 
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="modal">
+    <div id="save">
+      <div class="modal-header">
+        <a class="close" href="javascript:">×</a>
+        <h3>我来帮助</h3>
+      </div>
+      <div class="modal-body">
+        <p>1. <span id="username"></span></p>
+        <p>2. 一旦您确认为该投资人进行梦想实现服务后，您必须在3个工作日内给投资人提供草稿方案，否则的话，如果客户投诉的话，我们将直接将您从理财师名单中除名。</p>
+        <p>3. 在您提交第一版本规划书之后，如果客户不满意的话，您有义务根据客户的要求，在1个工作日内修改提交给客户。</p>
+        <p>4. 在您提交第二版本规划书之后，如果客户还对您的规划书不满意的话，我们将直接将把这个梦想转为等待帮助状态，并且您不能再为该客户服务了，您也将无法获得客户的酬劳，所以请务必和客户进行密切沟通。</p>
+        <p>5. 一旦客户对您的理财规划满意后，客户将通知到我们，我们将和您联系，将客户的服务费转到您的支付宝账户。</p>
+        <p>6. 总结：周一您承接客户理财需求，周二您给客户提出初稿，周三您提交二稿，最晚周四您就可以得到客户的酬劳，并和该客户建立强联系。</p>
+      </div>
+      <div class="modal-footer">
+        <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
+    function waithelp(oid){
+        $("#login-box").show();
+        var loginBox = $(this).attr('href');
+        //Fade in the Popup and add close button
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+    }
+
+
+    $('a.close, #mask').live('click', function() {
+        $('#mask , .login-popup').fadeOut(300 , function() {
+            $('#mask').remove();
+        });
+        return false;
+    });
+
     $(document).ready(function(){
         /* Initialise datatables */
         var oTable = $('#invsetor').dataTable({

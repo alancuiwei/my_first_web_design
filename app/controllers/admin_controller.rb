@@ -123,6 +123,15 @@ class AdminController < ApplicationController
     end
   end
 
+  def organapprove
+    @webuser=Webuser.find_by_id(params[:id])
+    @webuser.update_attributes(:approve=>nil)
+    Thread.new{
+      UserMailer.organuser(@webuser.username,@webuser.email).deliver
+    }
+    render :json => "s".to_json
+  end
+
   def userconfig
     @userinfo=[]
     if params[:id]!="0"
@@ -271,6 +280,9 @@ class AdminController < ApplicationController
           if params[:investamount]!=nil
             w.isauto=0
           end
+          if params[:organuser]=='1'
+            w.approve=1
+          end
           w.save
         end
         if params[:organuser]=='1'
@@ -334,6 +346,7 @@ class AdminController < ApplicationController
           end
           render :json => "f".to_json
         else
+         if @webuser.approve!=1
           if params[:apply]=='1'
             @webuser=Webuser.find_by_username(params[:username])
             if @webuser.password==encode(params[:password])
@@ -367,6 +380,9 @@ class AdminController < ApplicationController
               render :json => "r4".to_json
             end
           end
+         else
+           render :json => "organ2".to_json
+         end
         end
       end
 
@@ -570,11 +586,12 @@ class AdminController < ApplicationController
     end
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
+        if @webuser.approve!=1
         if params[:organ]=='3'|| params[:organ]=='4'
           if  @webuser.organuser=='1'
             session[:webusername]=@webuser.username
             session[:organuser]=@webuser.organuser
-            render :json => "organ".to_json
+              render :json => "organ".to_json
           elsif  @webuser.username=="admin" || @webuser.username=="blog"
             session[:webusername]=@webuser.username
             session[:organuser]='0'
@@ -597,6 +614,9 @@ class AdminController < ApplicationController
           session[:organuser]='0'
           render :json => "s2".to_json
         end
+      else
+        render :json => "organ2".to_json
+      end
       else
         render :json => "f".to_json
       end

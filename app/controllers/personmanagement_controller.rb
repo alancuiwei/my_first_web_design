@@ -107,9 +107,9 @@ class PersonmanagementController < ApplicationController
     @webuser.each do |webuser|
       @add=Personalfinance.find_by_username(webuser.username)
       if @add!=nil
-        @hash_reference.store(webuser.id,[@add.investamount])
+        @hash_reference.store(webuser.id,[@add.investamount,webuser.username])
       else
-        @hash_reference.store(webuser.id,[nil])
+        @hash_reference.store(webuser.id,[nil,webuser.username])
       end
     end
   end

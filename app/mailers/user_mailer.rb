@@ -1,3 +1,4 @@
+#encoding: utf-8
 class UserMailer < ActionMailer::Base
   default from: "info@tongtianshun.com"
 
@@ -27,6 +28,11 @@ class UserMailer < ActionMailer::Base
      @trade=asset_allocation.split('|')[10]
      @goal=asset_allocation.split('|')[8]
      mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
+       end
+
+  def organuser(username,email)
+    @username = username
+    mail(:to => email,:subject => "理财师注册申请")
    end
 
   def applyuser(usename,tel,asset_allocation,wbreedinfo,title)

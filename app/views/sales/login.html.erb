@@ -117,6 +117,11 @@
 </div>
 
 <script>
+
+    $('a.close, #mask,#subscribe').live('click', function() {
+        location.href='/';
+    });
+
     $(document).ready(function(){
         if(Request('organ')==1){
             $('.normal').hide();
@@ -243,22 +248,16 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
+                else if( data=="organ2"){
+                    alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
+                }
                 else if("<%= params[:monthpay] %>"!=""){
                     $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
-                        location.href="/personmanagement/investor";
+                        location.href="/usersurvey/pay";
                     });
                 }
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
                     location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";
-                }
-                else if (organ==3){
-                    location.href="/";
-                }
-                else if (organ==4){
-                    location.href="/personmanagement/personfinance";
-                }
-                else if (organ==2){
-                    location.href="/usersurvey/apply";
                 }
                 else if('<%=params[:id] %>'=="1"){
                     location.href="/sales/revise";
@@ -274,6 +273,15 @@
                 }
                 else if(data=="admin" || data=="blog"){
                     location.href="/admin";
+                }
+                else if (organ==3){
+                    return false;
+                }
+                else if (organ==4){
+                    location.href="/personmanagement/personfinance";
+                }
+                else if (organ==2){
+                    location.href="/usersurvey/apply";
                 }
                 else if(data=="s1" || data=="s2"){
                     if(Request("bid")>0){
@@ -379,8 +387,21 @@
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
-                        alert("用户注册成功！");
-                        userlogin('#username3','#password3',3);
+                        $("#login-box").show();
+                        var loginBox = $(this).attr('href');
+                        //Fade in the Popup and add close button
+                        //Set the center alignment padding + border
+                        var popMargTop = ($(loginBox).height() + 24) / 2;
+                        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+                        $(loginBox).css({
+                            'margin-top' : -popMargTop,
+                            'margin-left' : -popMargLeft
+                        });
+
+                        // Add the mask to body
+                        $('body').append('<div id="mask"></div>');
+                        $('#mask').fadeIn(300);
                     }
                 })
             }

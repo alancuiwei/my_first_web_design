@@ -269,33 +269,33 @@
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="organuser">
           <thead><tr>
             <th class="hide">ID</th>
-            <th style="width: 20%;">用户名</th>
+            <th>用户名</th>
+            <th>理财师姓名</th>
             <th class="hide">密码</th>
             <th>电子邮件</th>
-            <th style="width: 12%;">联系电话</th>
-            <th style="width: 12%;">资金量</th>
-            <th style="width: 8%;">修改</th>
-            <th style="width: 8%;">删除</th>
-            <th style="width: 8%;">投资信息</th>
+            <th>联系电话</th>
+            <th>公司名称</th>
+            <th>资格认证</th>
+            <th>证书编号</th>
+            <th>状态</th>
           </tr></thead>
           <tbody>
           <% @organuser.each do |w|  %>
               <tr>
                 <td class="hide"><%= w.id%></td>
                 <td><%= w.username%></td>
+                <td><%= w.name%></td>
                 <td class="hide"><%= @hash_password[w.id]%></td>
                 <td><% if w.email!="1" %><%= w.email %><% end %></td>
                 <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
-                <td>
-                  <% @personalfinance.each do |t|  %>
-                      <% if t.username==w.username && t.investamount!=nil %>
-                          <%= format("%0.0f",t.investamount) %>
-                      <% end %>
-                  <% end %>
-                </td>
-                <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
-                <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
-                <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
+                <td><%= w.company%></td>
+                <td><%= w.contact%></td>
+                <td><%= w.certificate%></td>
+                <% if w.approve==1%>
+                <td class="approve<%= w.id %>"><a class="btn-link" onclick="approve(<%= w.id %>)">批准</a></td>
+                <% else %>
+                <td>通过</td>
+                <% end %>
               </tr>
           <% end %>
           </tbody>
@@ -372,6 +372,11 @@
 </div>
 
 <script>
+    function approve(oid){
+        $.get("/admin/organapprove/"+oid,function(data){
+           $(".approve"+oid).html("通过");
+        });
+    }
 
     $(document).ready(function(){
         $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ').dataTable();

@@ -13,8 +13,7 @@
 </style>
 
 <div class="main-content">
-  <h1 style="font-size: 26px;margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">说说我的梦想</h1>
-  <!--
+  <h1 style="font-size: 26px;margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">梦想登记</h1>
   <div class="tip">
     <li class="widget-container">
       <h3>付款方式 是您最熟悉的：</h3>
@@ -24,10 +23,9 @@
       </ul>
     </li>
   </div>
-	  -->
   <table style="margin: 0 auto;">
     <tr>
-     <!-- <td rowspan="9" style="width: 35%;"></td> -->
+      <td rowspan="9" style="width: 35%;"></td>
       <td style="width: 142px;"><p>我的梦想：</p></td>
       <td  style="width: 226px;" class="right"><select  name="dream" id="dream" title="我的梦想">
         <option value="购房置业">购房置业</option>
@@ -67,7 +65,7 @@
     <tr>
       <td colspan="2" class="present" style="vertical-align: bottom;">
         <br>
-        <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="submit"> 梦想成真 </a>
+        <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="submit"> 支付宝 支付 </a>
       </td>
     </tr>
   </table>
@@ -151,7 +149,7 @@
                 location.href="/sales/login?dream="+$("#dream").attr("value")+"&province="+$("#province").attr("value")+"&city="+$("#city").attr("value")+"&amount="+$("#amount").attr("value")+"&realizetime="+$("#realizetime").attr("value")+"&investamount="+$("#investamount").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&remark="+$("#remark").attr("value")+"&scharge=0";
             <% else %>
                 $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:0},function(data){
-                    location.href="/personmanagement/investor";
+                    location.href="/usersurvey/pay";
                 });
             <% end %>
             }
