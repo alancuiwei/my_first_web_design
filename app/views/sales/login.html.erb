@@ -253,9 +253,12 @@
                     alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
                 }
                 else if("<%= params[:monthpay] %>"!=""){
+                    location.href="/usersurvey/apply";
+                 /*
                     $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
                         location.href="/usersurvey/pay";
                     });
+                     */
                 }
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
                     location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";

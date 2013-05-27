@@ -42,10 +42,8 @@ class UsersurveyController < ApplicationController
     render :json => "s".to_json
   end
 
-  def pay
-    if session[:webusername]==nil
-      redirect_to(:controller=>"usersurvey", :action=>"apply")
-    else
+  def apply
+    if session[:webusername]!=nil
       @webuser = Webuser.find_by_username(session[:webusername])
       Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
       @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.id.to_s

@@ -38,7 +38,13 @@
           <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
           <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
         </div>
-        <div style="display: table; width: 89.2%;"><a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/usersurvey/apply">说说您的梦想</a></div>
+        <div style="display: table; width: 89.2%;">
+          <% if session[:webusername]==nil %>
+              <a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/sales/login?monthpay=1">梦想实现</a>
+          <% else %>
+              <a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/usersurvey/apply">梦想实现</a>
+          <% end %>
+        </div>
         <!-- <a class="pull-right" style="padding-right:10px;line-height: 52px;" href="/home/download/data?filename=理财师客户资产配置申请.ppt">PPT下载</a> -->
         <h1 style="margin:50px 0 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">示例</h1>
         <div style="margin: 0 10% 0 11%;">
