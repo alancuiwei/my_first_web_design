@@ -78,7 +78,7 @@
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
                       tel: $("#tel").attr("value"),dream: $("#dream").attr("value"),amount: $("#amount").attr("value"),
                       realizetime: $("#realizetime").attr("value"),investamount: $("#investamount").attr("value"),monthpay: $("#monthpay").attr("value"),update: 1,
-                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value")
+                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value"),isauto: 0
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");
