@@ -63,18 +63,16 @@
             <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
             <dt>资格认证 *:</dt>
             <dd>
-              <select class="contact" id="contact"title="资格认证">
-                <option value="CFP">CFP</option>
-                <option value="AFP">AFP</option>
-                <option value="ChFP">ChFP</option>
-                <option value="EFP">EFP</option>
-                <option value="CPB">CPB</option>
-                <option value="其他">其他</option>
-                <option value="没有相关证书">没有相关证书</option>
+              <select class="contact" id="contact"title="资格认证"  onclick="have()">
+                <option value="拥有CFP证书">拥有CFP证书</option>
+                <option value="没有CFP证书">没有CFP证书</option>
               </select>
+              <p id="zhifu" style="display: none;color: red;">您好，因为您没有相应的金融理财规划CFP证书，我们需要您通过支付宝50元，以保障您不会骚扰到我们的投资人客户以及给予客户高质量服务。</p>
             </dd>
-            <dt>证书编号 :</dt>
-            <dd><input id="certificate" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入证书编号" title="证书编号" placeholder="证书编号" type="text"></dd>
+            <div id="have">
+              <dt>证书编号 :</dt>
+              <dd><input id="certificate" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入证书编号" title="证书编号" placeholder="我们将人工验证编号" type="text"></dd>
+            </div>
           </dl>
           <br>
           <a class="btn btn-success pull-right" id="create2" type="submit">注册</a>
@@ -118,6 +116,18 @@
 </div>
 
 <script>
+
+    function have(){
+        if($("#contact").attr("value")=="拥有CFP证书"){
+            $("#have").show();
+            $("#zhifu").hide();
+            $("#certificate").val("");
+        } else {
+            $("#have").hide();
+            $("#zhifu").show();
+            $("#certificate").val("无");
+        }
+    }
 
     $('a.close, #mask,#subscribe').live('click', function() {
         location.href='/';
@@ -257,7 +267,7 @@
                  /*
                     $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
                         location.href="/usersurvey/pay";
-                    });
+                     });
                      */
                 }
                 else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
@@ -391,6 +401,7 @@
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
+                      if($("#contact").attr("value")=="拥有CFP证书"){
                         $("#login-box").show();
                         var loginBox = $(this).attr('href');
                         //Fade in the Popup and add close button
@@ -406,6 +417,12 @@
                         // Add the mask to body
                         $('body').append('<div id="mask"></div>');
                         $('#mask').fadeIn(300);
+                      }
+                      else{
+                          $.get("/sales/zhifubao",{username:$('#username3').attr("value"),scharge:$("#scharge").attr("value")},function(data){
+                              location.href=data;
+                          });
+                      }
                     }
                 })
             }
@@ -499,6 +516,7 @@
         }
     }
 </script>
+
 
 
 
