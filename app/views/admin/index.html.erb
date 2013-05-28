@@ -229,6 +229,7 @@
           <thead><tr>
             <th class="hide">ID</th>
             <th style="width: 20%;">用户名</th>
+            <th>会员信息审核</th>
             <th class="hide">密码</th>
             <th>电子邮件</th>
             <th style="width: 12%;">联系电话</th>
@@ -242,6 +243,7 @@
               <tr>
                 <td class="hide"><%= w.id%></td>
                 <td><%= w.username%></td>
+                <td><%= w.confirm%></td>
                 <td class="hide"><%= @hash_password[w.id]%></td>
                 <td><% if w.email!="1" %><%= w.email %><% end %></td>
                 <td><% if w.tel!="1" %><%= w.tel%><% end %></td>

@@ -3,7 +3,7 @@
   td{vertical-align: top;}
 </style>
 
-<div style="width: 700px;height: 700px;">
+<div style="width: 700px;">
   <div>
     <table>
       <tr><td>用户名：</td><td><input type="text" name="username" id="username" title="用户名"></td></tr>
@@ -31,6 +31,8 @@
       <tr><td>已有存款：</td><td><input type="text" name="investamount" id="investamount" title="已有存款"></td></tr>
       <tr><td>每月可存款：</td><td><input type="text" name="monthpay" id="monthpay" title="每月可存款"></td></tr>
       <tr><td>您愿意给理财师支付：</td><td><input type="text" name="scharge" id="scharge" title="您愿意给理财师支付"  placeholder="最低为10元"></td></tr>
+      <tr><td>会员信息审核：</td><td>
+        <textarea rows="8" name="confirm" id="confirm" title="会员信息审核"></textarea>
       <tr><td>备注：</td><td>
         <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
       </td></tr>
@@ -58,6 +60,7 @@
           $("#monthpay").attr("value",'<%= @webuser.monthpay %>');
           $("#scharge").attr("value",'<%= @webuser.scharge %>');
           $("#remark").attr("value",'<%= @webuser.remark %>');
+          $("#confirm").attr("value",'<%= @webuser.confirm %>');
           <% end %>
       });
 
@@ -78,7 +81,7 @@
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
                       tel: $("#tel").attr("value"),dream: $("#dream").attr("value"),amount: $("#amount").attr("value"),
                       realizetime: $("#realizetime").attr("value"),investamount: $("#investamount").attr("value"),monthpay: $("#monthpay").attr("value"),update: 1,
-                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value"),isauto: 0
+                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value"),confirm: $("#confirm").attr("value"),isauto: 0
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");

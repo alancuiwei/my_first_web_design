@@ -180,14 +180,14 @@
   <table class="table table-striped table-bordered" id="invsetor"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
-      <th class="hide">ID</th><th>会员名</th><th>服务费（元）</th>
-      <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值（万）</th><th>已有存款</th>
+      <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
+      <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
       <th>每月存款</th><th>状态</th>
     </tr></thead>
     <tfoot class="hide">
     <tr>
-      <th class="hide">ID</th><th>会员名</th><th>服务费（元）</th>
-      <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值（万）</th><th>已有存款</th>
+      <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
+      <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
       <th>每月存款</th><th>状态</th>
     </tr></tfoot>
 
@@ -196,6 +196,7 @@
           <% if b.address == nil || b.tel=="" || b.tel=="1" || b.tel==nil || b.email==nil || b.email=="1" || b.isauto==1 || b.isauto==0 %>
               <td class="hide"><%= b.id %></td>
               <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
+              <% if b.confirm !=nil %><td><%= b.confirm %></td><% else %><td>未确认</td><% end %>
               <% if b.scharge !=nil %><td><%= format("%0.0f", b.scharge) %></td><% else %><td></td><% end %>
               <td class="hide"><%= b.province %></td>
               <td><%= b.city %></td>
@@ -211,6 +212,7 @@
           <% else %>
               <td class="hide"><%= b.id %></td>
               <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
+              <% if b.confirm !=nil %><td><%= b.confirm %></td><% else %><td>未确认</td><% end %>
               <td></td>
               <td class="hide"></td>
               <td></td>
@@ -280,13 +282,14 @@
             "iDisplayLength": 15,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "aaSorting": [[ 9, "desc" ],[0,"desc"]],
+            "aaSorting": [[ 10, "desc" ],[0,"desc"]],
             "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
             "bProcessing": true
     });
 
         $('#invsetor').dataTable().columnFilter({
             aoColumns: [
+                null,
                 null,
                 null,
                 { type: "number-range" },
@@ -319,16 +322,16 @@
 <script>
     $("[class*='category']").click(function(){
         $("[class*='category']").removeClass('currbg');
-        if(this.id=='category'){$("#invsetor_range_from_2").val('');$("#invsetor_range_to_2").val('');$("#s-category").addClass('hide');$("#category").addClass('currbg');}
+        if(this.id=='category'){$("#invsetor_range_from_3").val('');$("#invsetor_range_to_3").val('');$("#s-category").addClass('hide');$("#category").addClass('currbg');}
         else{
-            if(this.id=='category1'){$("#invsetor_range_from_2").val('1');$("#invsetor_range_to_2").val('10');$("#category1").addClass('currbg');};
-            if(this.id=='category10'){$("#invsetor_range_from_2").val('10');$("#invsetor_range_to_2").val('100');$("#category10").addClass('currbg');};
-            if(this.id=='category100'){$("#invsetor_range_from_2").val('100');$("#invsetor_range_to_2").val('400');$("#category100").addClass('currbg');};
-            if(this.id=='category400'){$("#invsetor_range_from_2").val('400');$("#invsetor_range_to_2").val('');$("#category400").addClass('currbg');};
+            if(this.id=='category1'){$("#invsetor_range_from_3").val('1');$("#invsetor_range_to_3").val('10');$("#category1").addClass('currbg');};
+            if(this.id=='category10'){$("#invsetor_range_from_3").val('10');$("#invsetor_range_to_3").val('100');$("#category10").addClass('currbg');};
+            if(this.id=='category100'){$("#invsetor_range_from_3").val('100');$("#invsetor_range_to_3").val('400');$("#category100").addClass('currbg');};
+            if(this.id=='category400'){$("#invsetor_range_from_3").val('400');$("#invsetor_range_to_3").val('');$("#category400").addClass('currbg');};
             $("#s-category").removeClass('hide');
             $("#st-category").html('服务费:'+$('#'+this.id).html());
         }
-        $("#invsetor_range_from_2").keyup();
+        $("#invsetor_range_from_3").keyup();
     });
 
     $("[class*='expectYID']").click(function(){
@@ -349,33 +352,33 @@
 
     $("[class*='duration']").click(function(){
         $("[class*='duration']").removeClass('currbg');
-        if(this.id=='durations'){$("#invsetor_range_from_6").val('');$("#invsetor_range_to_6").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
+        if(this.id=='durations'){$("#invsetor_range_from_7").val('');$("#invsetor_range_to_7").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
         else{
-            if(this.id=='duration1'){$("#invsetor_range_from_6").val('1');$("#invsetor_range_to_6").val('10');$("#duration1").addClass('currbg');};
-            if(this.id=='duration10'){$("#invsetor_range_from_6").val('10');$("#invsetor_range_to_6").val('20');$("#duration10").addClass('currbg');};
-            if(this.id=='duration20'){$("#invsetor_range_from_6").val('20');$("#invsetor_range_to_6").val('50');$("#duration20").addClass('currbg');};
-            if(this.id=='duration50'){$("#invsetor_range_from_6").val('50');$("#invsetor_range_to_6").val('100');$("#duration50").addClass('currbg');};
-            if(this.id=='duration100'){$("#invsetor_range_from_6").val('100');$("#invsetor_range_to_6").val('');$("#duration100").addClass('currbg');};
+            if(this.id=='duration1'){$("#invsetor_range_from_7").val('1');$("#invsetor_range_to_7").val('10');$("#duration1").addClass('currbg');};
+            if(this.id=='duration10'){$("#invsetor_range_from_7").val('10');$("#invsetor_range_to_7").val('20');$("#duration10").addClass('currbg');};
+            if(this.id=='duration20'){$("#invsetor_range_from_7").val('20');$("#invsetor_range_to_7").val('50');$("#duration20").addClass('currbg');};
+            if(this.id=='duration50'){$("#invsetor_range_from_7").val('50');$("#invsetor_range_to_7").val('100');$("#duration50").addClass('currbg');};
+            if(this.id=='duration100'){$("#invsetor_range_from_7").val('100');$("#invsetor_range_to_7").val('');$("#duration100").addClass('currbg');};
             $("#s-duration").removeClass('hide');
             $("#st-duration").html('梦想价值:'+$('#'+this.id).html());
         }
-        $("#invsetor_range_from_6").keyup();
+        $("#invsetor_range_from_7").keyup();
     });
 
 
     $("[class*='outset']").click(function(){
         $("[class*='outset']").removeClass('currbg');
-        if(this.id=='outsets'){$("#invsetor_range_from_7").val('');$("#invsetor_range_to_7").val('');$("#s-outset").addClass('hide');$("#outsets").addClass('currbg');}
+        if(this.id=='outsets'){$("#invsetor_range_from_8").val('');$("#invsetor_range_to_9").val('');$("#s-outset").addClass('hide');$("#outsets").addClass('currbg');}
         else{
-            if(this.id=='outset1'){$("#invsetor_range_from_7").val('10000');$("#invsetor_range_to_7").val('100000');$("#outset1").addClass('currbg');};
-            if(this.id=='outset10'){$("#invsetor_range_from_7").val('100000');$("#invsetor_range_to_7").val('200000');$("#outset10").addClass('currbg');};
-            if(this.id=='outset20'){$("#invsetor_range_from_7").val('200000');$("#invsetor_range_to_7").val('500000');$("#outset20").addClass('currbg');};
-            if(this.id=='outset50'){$("#invsetor_range_from_7").val('500000');$("#invsetor_range_to_7").val('1000000');$("#outset50").addClass('currbg');};
-            if(this.id=='outset100'){$("#invsetor_range_from_7").val('1000000');$("#invsetor_range_to_7").val('');$("#outset100").addClass('currbg');};
+            if(this.id=='outset1'){$("#invsetor_range_from_8").val('10000');$("#invsetor_range_to_9").val('100000');$("#outset1").addClass('currbg');};
+            if(this.id=='outset10'){$("#invsetor_range_from_8").val('100000');$("#invsetor_range_to_9").val('200000');$("#outset10").addClass('currbg');};
+            if(this.id=='outset20'){$("#invsetor_range_from_8").val('200000');$("#invsetor_range_to_9").val('500000');$("#outset20").addClass('currbg');};
+            if(this.id=='outset50'){$("#invsetor_range_from_8").val('500000');$("#invsetor_range_to_9").val('1000000');$("#outset50").addClass('currbg');};
+            if(this.id=='outset100'){$("#invsetor_range_from_8").val('1000000');$("#invsetor_range_to_9").val('');$("#outset100").addClass('currbg');};
             $("#s-outset").removeClass('hide');
             $("#st-outset").html('已有存款:'+$('#'+this.id).html());
         }
-        $("#invsetor_range_from_7").keyup();
+        $("#invsetor_range_from_8").keyup();
     });
 
     $("#risks").click(function(){
@@ -385,9 +388,9 @@
         document.getElementById("city").options.delete;
         document.getElementById("city").options.add(new Option('全国','全国'));
         $("#city").val("全国");
-        $("#search3").val('');$("#search4").val('');$("#s-risk").addClass('hide');
-        $("#search3").keyup();
+        $("#search4").val('');$("#search5").val('');$("#s-risk").addClass('hide');
         $("#search4").keyup();
+        $("#search5").keyup();
     });
 
     $(".delete").click(function(){
@@ -395,8 +398,8 @@
         if($(this).attr("cid")=='category'){
             $("[class*='category']").removeClass('currbg');
             $("#category").addClass('currbg');
-            $("#invsetor_range_from_2").val('');$("#invsetor_range_to_2").val('');$("#s-category").addClass('hide');
-            $("#invsetor_range_from_2").keyup();
+            $("#invsetor_range_from_3").val('');$("#invsetor_range_to_3").val('');$("#s-category").addClass('hide');
+            $("#invsetor_range_from_3").keyup();
         }
         else if($(this).attr("cid")=='expectYID'){
             $("[class*='expectYID']").removeClass('currbg');
@@ -407,14 +410,14 @@
         else if($(this).attr("cid")=='duration'){
             $("[class*='duration']").removeClass('currbg');
             $("#durations").addClass('currbg');
-            $("#invsetor_range_from_6").val('');$("#invsetor_range_to_6").val('');$("#s-duration").addClass('hide');
-            $("#invsetor_range_from_6").keyup();
+            $("#invsetor_range_from_7").val('');$("#invsetor_range_to_7").val('');$("#s-duration").addClass('hide');
+            $("#invsetor_range_from_7").keyup();
         }
         else if($(this).attr("cid")=='outset'){
             $("[class*='outset']").removeClass('currbg');
             $("#outsets").addClass('currbg');
-            $("#invsetor_range_from_7").val('');$("#invsetor_range_to_7").val('');$("#s-outset").addClass('hide');
-            $("#invsetor_range_from_7").keyup();
+            $("#invsetor_range_from_8").val('');$("#invsetor_range_to_8").val('');$("#s-outset").addClass('hide');
+            $("#invsetor_range_from_8").keyup();
         }
         else if($(this).attr("cid")=='risk'){
             $("#risks").addClass('currbg');
@@ -423,9 +426,9 @@
             document.getElementById("city").options.delete;
             document.getElementById("city").options.add(new Option('全国','全国'));
             $("#city").val("全国");
-            $("#search3").val('');$("#search4").val('');$("#s-risk").addClass('hide');
-            $("#search3").keyup();
+            $("#search4").val('');$("#search5").val('');$("#s-risk").addClass('hide');
             $("#search4").keyup();
+            $("#search5").keyup();
         }
     });
 </script>
@@ -482,20 +485,20 @@
             }}
         document.creator.newlocation.value=loca2+" "+loca4;
         if (loca2=="全国"){
-            $("#search3").val("");
             $("#search4").val("");
+            $("#search5").val("");
             $("#risks").addClass('currbg');
             $("#s-risk").addClass('hide');
         }
         else{
-            $("#search3").val(loca2);
-            $("#search4").val(loca4);
+            $("#search4").val(loca2);
+            $("#search5").val(loca4);
             $("#risks").removeClass('currbg');
             $("#s-risk").removeClass('hide');
             $("#st-risk").html('省市:'+loca2+' '+loca4);
         }
-        $("#search3").keyup();
         $("#search4").keyup();
+        $("#search5").keyup();
     }
 
     function init() {
