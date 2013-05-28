@@ -65,62 +65,11 @@
     <tr>
       <td colspan="2" class="present" style="vertical-align: bottom;">
         <br>
-        <a class="btn btn-primary pull-right res login-window"  value="#alipay-box" href="javascript:void(0)" id="submit"> 支付宝 支付 </a>
+        <a class="btn btn-primary pull-right res" href="javascript:void(0)" id="submit"> 支付宝 支付 </a>
       </td>
     </tr>
   </table>
 </div>
-
-<div id="alipay-box" class="login-popup">
-  <div class="popup_alipay_content">
-    <p> 你的订单号是：<%= @subsribe_id %></p>
-    <p> 订购梦想规划</p>
-
-    <div class="popup_alipay_2buttons_confirm"><a href='<%= @alipy_url %>'>前往支付宝</a></div>
-    <div class="popup_alipay_2buttons_cancel"><a href="#" class="close"> 取消</a></div>
-  </div>
-
-</div>
-
-
-<script>
-
-    function box(id){
-        if (id=="#login-box"){
-            clickflag="login" ;
-        }
-        else{
-            clickflag="regedit";
-        }
-        var loginBox = id;
-        //Fade in the Popup and add close button
-        $(loginBox).fadeIn(300);
-
-        //Set the center alignment padding + border
-        var popMargTop = ($(loginBox).height() + 24) / 2;
-        var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        $(loginBox).css({
-            'margin-top' : -popMargTop,
-            'margin-left' : -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
-    }
-
-    $(document).ready(function(){
-// When clicking on the button close or the mask layer the popup closed
-        $('a.close, #mask').live('click', function() {
-            $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();
-            });
-            return false;
-        });
-    });
-</script>
-
 <script>
     $(document).ready(function(){
         <% if session[:webusername]==nil %>
@@ -204,10 +153,10 @@
             <% else %>
                 $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value")},function(data){
                 });
+                $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value")},function(data){
+                    location.href=data;
+                });
             <% end %>
-
-                box($(".login-window").attr('value'));
-                redirect=($(".login-window").attr("name"))
             }
         }
 

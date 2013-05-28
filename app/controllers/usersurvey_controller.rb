@@ -42,8 +42,7 @@ class UsersurveyController < ApplicationController
     render :json => "s".to_json
   end
 
-  def apply
-    if session[:webusername]!=nil
+  def zhifubao
       @webuser = Webuser.find_by_username(session[:webusername])
       Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
       @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.id.to_s
@@ -55,7 +54,7 @@ class UsersurveyController < ApplicationController
           'seller_email' => 'zhongrensoft@gmail.com',
           'out_trade_no' => @subsribe_id,
           'subject' => '梦想实现',
-          'price' => '0.01',
+        'price' => params[:scharge],
           'quantity' => '1',
           'payment_type' => '1',
           'logistics_type'=>'EMS',
@@ -77,6 +76,6 @@ class UsersurveyController < ApplicationController
       sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
       gateway = 'https://mapi.alipay.com/gateway.do?'
       @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
-    end
+    render :json => @alipy_url.to_json
   end
 end
