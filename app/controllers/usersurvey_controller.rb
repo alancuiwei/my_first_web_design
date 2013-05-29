@@ -28,7 +28,7 @@ class UsersurveyController < ApplicationController
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
 
-    @webuser.update_attributes(:dream=>params[:dream],:province=>params[:province],:city=>params[:city],
+    @webuser.update_attributes(:dream=>params[:dream],:province=>params[:province],:city=>params[:city],:organuser=>params[:organuser],
                                :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],:isauto=>0)
     if @personalfinance!=nil
       @personalfinance.update_attributes(:investamount=>params[:investamount])
@@ -50,7 +50,7 @@ class UsersurveyController < ApplicationController
           'service' => 'create_partner_trade_by_buyer',
           'partner' => '2088801189204575',
           '_input_charset' => 'utf-8',
-          'return_url' => 'http://www.tongtianshun.com/personmanagement/investor',
+        'return_url' => 'http://www.tongtianshun.com/personmanagement/investor?username='+params[:username],
           'seller_email' => 'zhongrensoft@gmail.com',
           'out_trade_no' => @subsribe_id,
           'subject' => '梦想实现',
@@ -77,5 +77,11 @@ class UsersurveyController < ApplicationController
       gateway = 'https://mapi.alipay.com/gateway.do?'
       @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
     render :json => @alipy_url.to_json
+  end
+
+  def dreamin
+    @webuser = Webuser.find_by_username(params[:username])
+    @webuser.update_attributes(:organuser=>0)
+    render :json => "s".to_json
   end
 end

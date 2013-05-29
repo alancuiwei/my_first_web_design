@@ -6,7 +6,9 @@
 
 <style>
     .main-footer{ display: none; }
-    #myTabContent{margin:auto;}
+    #myTabContent{float: left;}
+    .main-content{display: table;}
+    #myCarousel{float: right;margin-top: 100px;}
 </style>
 
 <div class="main-content">
@@ -23,7 +25,7 @@
             <dd><input id="password" class="input_menum" placeholder="密码" type="password"></dd>
             <dt>电子邮箱 *:</dt>
             <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
-            <dt>联系电话 :</dt>
+            <dt>联系电话 *:</dt>
             <dd><input id="tel2" class="input_menum" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
           </dl>
 
@@ -42,13 +44,13 @@
             <dd><input id="name" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入姓名" title="姓名" placeholder="姓名" type="text"></dd>
             <dt>电子邮箱 *:</dt>
             <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
-            <dt>联系电话 :</dt>
+            <dt>联系电话 *:</dt>
             <dd><input id="tel" class="input_menum num" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="联系电话" placeholder="联系电话" type="text"></dd>
             <dt>密码 *:</dt>
             <dd><input id="password3" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入密码" title="密码" placeholder="密码" type="password"></dd>
             <dt>确认密码 *:</dt>
             <dd><input id="password4" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>两次密码不一致" title="确认密码" placeholder="密码" type="password"></dd>
-            <dt>行业 * :</dt>
+            <dt>行业 *:</dt>
             <dd>
               <select class="trade" id="trade"title="所在行业">
                 <option value="银行">银行</option>
@@ -59,7 +61,7 @@
                 <option value="第三方理财机构">第三方理财机构</option>
               </select>
             </dd>
-            <dt>公司名 :</dt>
+            <dt>公司名 *:</dt>
             <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
             <dt>资格认证 *:</dt>
             <dd>
@@ -90,12 +92,36 @@
           <dt>密码 *:</dt>
           <dd><input id="password2" class="input_menum" placeholder="密码" type="password"></dd>
         </dl>
-        <a class="btn btn-success pull-right" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
+        <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
         <div class="or-text"><div><b>或</b></div></div>
         <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
       </form>
     </div>
   </div>
+
+  <% if params[:organ]!=nil %>
+      <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+          <div class="item active" style="padding: 0 85px;height:500px;">
+            <img src="/assets/121089.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:500px;">
+            <img src="/assets/121088.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:500px;">
+            <img src="/assets/121087.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:500px;">
+            <img src="/assets/121086.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:500px;">
+            <img src="/assets/121085.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+      </div>
+  <% end %>
 </div>
 
 <div id='login-box' class='login-popup modal' style="display: none;">
@@ -516,7 +542,6 @@
         }
     }
 </script>
-
 
 
 

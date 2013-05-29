@@ -234,6 +234,7 @@
             <th>电子邮件</th>
             <th style="width: 12%;">联系电话</th>
             <th style="width: 12%;">资金量</th>
+            <th style="width: 8%;" title="付款后批准进入梦想墙">状态</th>
             <th style="width: 8%;">修改</th>
             <th style="width: 8%;">删除</th>
             <th style="width: 8%;">投资信息</th>
@@ -254,6 +255,11 @@
                       <% end %>
                   <% end %>
                 </td>
+                <% if w.organuser=='2' %>
+                    <td><a id="organ<%= w.id %>" onclick="organ('<%= w.id %>','<%= w.username %>')" class="btn-link">批准</a></td>
+                <% else %>
+                    <td></td>
+                <% end %>
                 <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
                 <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
                 <td><a href="/usersurvey/userinfo/<%= w.id %>">查看</a></td>
@@ -377,6 +383,12 @@
     function approve(oid){
         $.get("/admin/organapprove/"+oid,function(data){
            $(".approve"+oid).html("通过");
+        });
+    }
+
+    function organ(oid,uid){
+        $.get("/usersurvey/dreamin",{username:uid},function(data){
+            $("#organ"+oid).html("");
         });
     }
 

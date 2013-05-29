@@ -60,7 +60,7 @@
       <td class="right"><input class="input-large demo-form-name nuser scharge" id="scharge" type="text" valType="NUMBER" msg="每月可存款必须是数字,且最低为10元！" title="每月可存款" placeholder="最低为10元"></td></tr>
     <tr><td><p>备注：</p></td>
       <td class="right">
-        <textarea rows="8" name="remark" id="remark"  title="备注"></textarea>
+        <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
       </td></tr>
     <tr>
       <td colspan="2" class="present" style="vertical-align: bottom;">
@@ -149,11 +149,11 @@
 
 
             <% if session[:webusername]==nil %>
-                location.href="/sales/login?dream="+$("#dream").attr("value")+"&province="+$("#province").attr("value")+"&city="+$("#city").attr("value")+"&amount="+$("#amount").attr("value")+"&realizetime="+$("#realizetime").attr("value")+"&investamount="+$("#investamount").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&remark="+$("#remark").attr("value")+"&scharge="+$("#scharge").attr("value");
+                location.href="/sales/login?dream="+$("#dream").attr("value")+"&organuser=2&province="+$("#province").attr("value")+"&city="+$("#city").attr("value")+"&amount="+$("#amount").attr("value")+"&realizetime="+$("#realizetime").attr("value")+"&investamount="+$("#investamount").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&remark="+$("#remark").attr("value")+"&scharge="+$("#scharge").attr("value");
             <% else %>
-                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value")},function(data){
+                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value"),organuser:2},function(data){
                 });
-                $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value")},function(data){
+                $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
                     location.href=data;
                 });
             <% end %>

@@ -182,13 +182,13 @@
     <tr>
       <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
       <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
-      <th>每月存款</th><th>状态</th>
+      <th>每月存款</th><th>状态</th><th class="hide"></th>
     </tr></thead>
     <tfoot class="hide">
     <tr>
       <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
       <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
-      <th>每月存款</th><th>状态</th>
+      <th>每月存款</th><th>状态</th><th class="hide"></th>
     </tr></tfoot>
 
     <% @webuser.each do |b| %>
@@ -204,11 +204,20 @@
               <% if b.amount !=nil %><td><%= format("%0.0f",b.amount/10000) %></td><% else %><td></td><% end %>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
-              <% if b.isauto==0 %>
-                  <td><a class="btn-link" onclick="waithelp(<%= b.id %>)">等待帮助</a></td>
+              <% if b.organusername==nil %>
+                  <% if b.isauto==0 %>
+                      <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
+                          <td id="status<%= b.id %>" onclick="waithelp(<%= b.id %>)"><a class="btn-link">等待帮助</a></td>
+                      <% else %>
+                          <td id="status<%= b.id %>" onclick="alert('只有理财师才能提供帮助')"><a class="btn-link">等待帮助</a></td>
+                      <% end %>
+                  <% else %>
+                      <td>完成</td>
+                  <% end %>
               <% else %>
-                  <td><span>完成</span></td>
+                  <td>处理中</td>
               <% end %>
+              <td class="hide" id="reference<%= b.id %>"><%= @hash_reference[b.id][1] %>,<%= @hash_reference[b.id][0] %>,<%= @hash_reference[b.id][2] %>,<%= @hash_reference[b.id][3] %></td>
           <% else %>
               <td class="hide"><%= b.id %></td>
               <td><a href="/personmanagement/personfinance/<%= b.id%>"><%= b.username%></a></td>
@@ -220,7 +229,16 @@
               <td></td>
               <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
               <td></td>
-              <td><a class="btn-link" onclick="waithelp(<%= b.id %>)">等待帮助</a></td>
+              <% if b.organusername==nil %>
+              <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
+                  <td id="status<%= b.id %>" onclick="waithelp(<%= b.id %>)"><a class="btn-link">等待帮助</a></td>
+              <% else %>
+                  <td id="status<%= b.id %>" onclick="alert('只有理财师才能提供帮助')"><a class="btn-link">等待帮助</a></td>
+              <% end %>
+              <% else %>
+                  <td>处理中</td>
+              <% end %>
+              <td class="hide" id="reference<%= b.id %>"><%= @hash_reference[b.id][1] %>,<%= @hash_reference[b.id][0] %>,<%= @hash_reference[b.id][2] %>,<%= @hash_reference[b.id][3] %></td>
           <% end %>
         </tr>
     <% end %>
@@ -236,12 +254,28 @@
         <h3>我来帮助</h3>
       </div>
       <div class="modal-body">
-        <p>1. <span id="username"></span></p>
+        <p>1.
+        <table class="table table-bordered">
+          <tr>
+            <td>用户名</td>
+            <td id="username"></td>
+            <td>已有存款</td>
+            <td id="investamount"></td>
+          </tr>
+          <tr>
+            <td>身份</td>
+            <td id="provinces"></td>
+            <td>城市</td>
+            <td id="cities"></td>
+          </tr>
+        </table>
+        </p>
         <p>2. 一旦您确认为该投资人进行梦想实现服务后，您必须在3个工作日内给投资人提供草稿方案，否则的话，如果客户投诉的话，我们将直接将您从理财师名单中除名。</p>
         <p>3. 在您提交第一版本规划书之后，如果客户不满意的话，您有义务根据客户的要求，在1个工作日内修改提交给客户。</p>
         <p>4. 在您提交第二版本规划书之后，如果客户还对您的规划书不满意的话，我们将直接将把这个梦想转为等待帮助状态，并且您不能再为该客户服务了，您也将无法获得客户的酬劳，所以请务必和客户进行密切沟通。</p>
         <p>5. 一旦客户对您的理财规划满意后，客户将通知到我们，我们将和您联系，将客户的服务费转到您的支付宝账户。</p>
         <p>6. 总结：周一您承接客户理财需求，周二您给客户提出初稿，周三您提交二稿，最晚周四您就可以得到客户的酬劳，并和该客户建立强联系。</p>
+        <input class="hide" id="statusid">
       </div>
       <div class="modal-footer">
         <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
@@ -267,14 +301,25 @@
         // Add the mask to body
         $('body').append('<div id="mask"></div>');
         $('#mask').fadeIn(300);
+        $('#username').html($('#reference'+oid).html().split(",")[0]);
+        $('#investamount').html($('#reference'+oid).html().split(",")[1]);
+        $('#provinces').html($('#reference'+oid).html().split(",")[2]);
+        $('#cities').html($('#reference'+oid).html().split(",")[3]);
+        $('#statusid').val(oid);
     }
 
 
-    $('a.close, #mask').live('click', function() {
+    $('a.close, #mask,#subscribe').live('click', function() {
         $('#mask , .login-popup').fadeOut(300 , function() {
             $('#mask').remove();
         });
         return false;
+    });
+
+    $('#subscribe').live('click', function() {
+        $.get("/personmanagement/stasus",{oid:$("#statusid").attr("value")},function(data){
+            $('#status'+$('#statusid').val()).html("处理中");
+        });
     });
 
     $(document).ready(function(){
@@ -283,7 +328,7 @@
             "iDisplayLength": 15,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "aaSorting": [[ 10, "desc" ],[0,"desc"]],
+            "aaSorting": [[ 10, "asc" ],[0,"desc"]],
             "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
             "bProcessing": true
     });
@@ -300,11 +345,18 @@
                 { type: "number-range" },
                 { type: "number-range"},
                 { type: "number-range" },
+                null,
                 null
             ]
         });
 
         init();
+
+        <% if params[:username]!=nil %>
+        $.get("/usersurvey/dreamin",{username:'<%= session[:webusername] %>'},function(data){
+            location.href='/personmanagement/investor';
+        });
+        <% end %>
     });
 
     function fnFilterGlobal ()

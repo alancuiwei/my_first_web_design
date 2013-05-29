@@ -102,16 +102,27 @@ class PersonmanagementController < ApplicationController
   end
 
   def investor
-    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and (organuser='0' || organuser is null) and scharge is not null")
+    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and organuser<>'2' and (organuser='0' || organuser is null) and scharge is not null")
+   if  session[:webusername]!=nil
+    @webusers=Webuser.find_by_username(session[:webusername])
+   else
+     @webusers=Webuser.find_by_username('admin')
+    end
     @hash_reference=Hash.new
     @webuser.each do |webuser|
       @add=Personalfinance.find_by_username(webuser.username)
       if @add!=nil
-        @hash_reference.store(webuser.id,[@add.investamount,webuser.username])
+        @hash_reference.store(webuser.id,[@add.investamount,webuser.username,webuser.province,webuser.city])
       else
-        @hash_reference.store(webuser.id,[nil,webuser.username])
+        @hash_reference.store(webuser.id,[nil,webuser.username,webuser.province,webuser.city])
       end
     end
+  end
+
+  def stasus
+    @webuser=Webuser.find_by_id(params[:oid])
+    @webuser.update_attributes(:organusername=>session[:webusername])
+    render :json => "s".to_json
   end
 
   def personconfigajax
