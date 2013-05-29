@@ -12,7 +12,11 @@
     <tr>
       <td>预期收益率</td>
       <% for i in 0..@compareobj.size-1%>
+          <% if @compareobj[i].returnrate!=nil%>
           <td><%=format("%0.1f",@compareobj[i].returnrate*100)%>%</td>
+          <% else %>
+              <td></td>
+          <% end %>
       <% end %>
     </tr>
     <tr>
@@ -34,7 +38,11 @@
     <tr>
       <td>投资期限</td>
       <% for i in 0..@compareobj.size-1%>
+          <% if @compareobj[i].investperiod!=nil%>
           <td><%=format("%0.0f",@compareobj[i].investperiod)%>天</td>
+          <% else %>
+              <td></td>
+          <% end %>
       <% end %>
     </tr>
     <tr>
