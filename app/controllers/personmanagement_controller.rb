@@ -223,23 +223,46 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
+    if  session[:webusername]!=nil
+      @webusers=Webuser.find_by_username(session[:webusername])
+    else
+      @webusers=Webuser.find_by_username('admin')
+    end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
+
+      @provides=Provide.find_by_username(@webuser.username)
+      @hash2=Hash.new
+      if @provides!=nil
+        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.trust,@provides.bankfinance,@provides.filename])
+      else
+        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil])
+      end
+
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade])
       else
-        @hash.store(0,[0,nil])
+        @hash.store(0,[0,nil,nil,nil,nil])
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+
+      @provides=Provide.find_by_username(@webuser.username)
+      @hash2=Hash.new
+      if @provides!=nil
+        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.trust,@provides.bankfinance,@provides.filename])
+      else
+        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil])
+      end
+
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade])
       else
-        @hash.store(0,[0,nil])
+        @hash.store(0,[0,nil,nil,nil,nil])
       end
     else
       redirect_to(:controller=>"home")
