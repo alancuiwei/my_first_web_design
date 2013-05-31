@@ -28,17 +28,19 @@ class PersonmanagementController < ApplicationController
   end
 
   def organfinance
+    @webusers=Webuser.find_all_by_organusername(session[:webusername])
     @personalfinance=Personalfinance.all
     @personinvestinfo=Personinvestinfo.all
     @hash={}
-    for i in 0..@personalfinance.size-1
-      @provide=Provide.find_by_username_and_managename(@personalfinance[i].username,session[:webusername])
+    for i in 0..@webusers.size-1
+      @add=Personalfinance.find_by_username(@webusers[i].username)
+      @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
       if @provide!=nil
         date=1
       else
         date=nil
       end
-      @hash.store(@personalfinance[i].username,[@personalfinance[i].id,@personalfinance[i].username,@personalfinance[i].investamount,@personalfinance[i].wbreedinfo,@personalfinance[i].contact,date])
+      @hash.store(@webusers[i].username,[@add.investamount,date])
     end
     if session[:webusername]==nil &&  params[:id]==nil
       redirect_to(:controller=>"home")
@@ -57,7 +59,6 @@ class PersonmanagementController < ApplicationController
       end
       @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
     end
-
   end
 
   def commentconfigajax

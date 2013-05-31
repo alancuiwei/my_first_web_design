@@ -24,6 +24,17 @@ class UsersurveyController < ApplicationController
     end
   end
 
+  def dreamrevise
+    @webuser=Webuser.find_by_id(params[:id])
+    @personalfinance=Personalfinance.find_by_username(@webuser.username)
+    @hash=Hash.new
+    if @personalfinance!=nil
+      @hash.store(0,[@personalfinance.investamount])
+    else
+      @hash.store(0,[nil])
+    end
+  end
+
   def dreamconfig
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
