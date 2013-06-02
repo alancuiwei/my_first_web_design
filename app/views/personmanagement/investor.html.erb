@@ -216,7 +216,11 @@
                       <td>完成</td>
                   <% end %>
               <% else %>
+                <% if @hash[b.username][0]!=1 %>
                   <td>处理中</td>
+                      <% else %>
+                      <td>完成</td>
+                <% end %>
               <% end %>
               <td class="hide" id="reference<%= b.id %>"><%= @hash_reference[b.id][1] %>,<%= @hash_reference[b.id][0] %>,<%= @hash_reference[b.id][2] %>,<%= @hash_reference[b.id][3] %></td>
           <% else %>

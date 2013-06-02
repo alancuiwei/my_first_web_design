@@ -1,3 +1,4 @@
+#encoding: utf-8
 class PersonmanagementController < ApplicationController
   def  personinfo
     if session[:webusername]!=nil
@@ -34,7 +35,9 @@ class PersonmanagementController < ApplicationController
       if params[:id]!=nil
         @webuser=Webuser.find_by_id(params[:id])
         @comments=Comments.find_all_by_wid(params[:id])
+        @webusers=Webuser.find_all_by_organusername(@webuser.username)
       else
+        @webusers=Webuser.find_all_by_organusername(session[:webusername])
         @webuser=Webuser.find_by_username(session[:webusername])
         @comments=Comments.find_all_by_wid(@webuser.id)
       end
@@ -45,7 +48,6 @@ class PersonmanagementController < ApplicationController
       end
       @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
 
-      @webusers=Webuser.find_all_by_organusername(session[:webusername])
       @personalfinance=Personalfinance.all
       @personinvestinfo=Personinvestinfo.all
       @hash={}
@@ -57,7 +59,11 @@ class PersonmanagementController < ApplicationController
         else
           date=nil
         end
+        if @add!=nil
         @hash.store(@webusers[i].username,[@add.investamount,date])
+        else
+          @hash.store(@webusers[i].username,[nil,date])
+        end
       end
     end
   end
@@ -118,6 +124,17 @@ class PersonmanagementController < ApplicationController
       else
         @hash_reference.store(webuser.id,[nil,webuser.username,webuser.province,webuser.city])
       end
+    end
+    @hash={}
+    @webuser2=Webuser.find_by_sql("select * from webuser where organusername is not null");
+    for i in 0..@webuser2.size-1
+      @provide=Provide.find_by_username(@webuser2[i].username)
+      if @provide!=nil
+        date=1
+      else
+        date=nil
+      end
+      @hash.store(@webuser2[i].username,[date])
     end
   end
 

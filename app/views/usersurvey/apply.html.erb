@@ -19,7 +19,7 @@
       <h3>付款方式 是您最熟悉的：</h3>
       <ul>
         <li>梦想家们先将支付金额存入支付宝，系统将自动通知理财规划师设计规划书。梦想家们在确认规划书对自己有价值后，资金自动进入理财规划师支付宝账户，完成交易。</li>
-        <li> 支付最低金额为10元，当然，您愿意支付的金额越高，您的梦想策划则会越快的被处理。</li>
+        <li> 支付最低金额为50元，当然，您愿意支付的金额越高，您的梦想策划则会越快的被处理。</li>
       </ul>
     </li>
   </div>
@@ -57,7 +57,7 @@
     <tr><td><p>每月可存款：</p></td>
       <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td></tr>
     <tr><td><p>您愿意给理财师支付：</p></td>
-      <td class="right"><input class="input-large demo-form-name nuser scharge" id="scharge" type="text" valType="NUMBER" msg="每月可存款必须是数字,且最低为10元！" title="每月可存款" placeholder="最低为10元"></td></tr>
+      <td class="right"><input class="input-large demo-form-name nuser scharge" id="scharge" type="text" valType="NUMBER" msg="每月可存款必须是数字,且最低为50元！" title="每月可存款" placeholder="最低为50元"></td></tr>
     <tr><td><p>备注：</p></td>
       <td class="right">
         <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
@@ -184,7 +184,7 @@
                 }
             }
             if(para.reg=='scharge'){
-                if(para.data<10){
+                if(para.data<50){
                     flag=false;
                 }
             }

@@ -85,6 +85,12 @@ class UserMailer < ActionMailer::Base
     mail(:to => email,:subject => title)
       end
 
+  def notify(username,email,id,title)
+    @username = username
+    @id = id
+    mail(:to => email,:subject => title)
+  end
+
   def comments(username,company,comment,accept,aid)
     @username = username
     @company = company
