@@ -33,7 +33,20 @@
   <div style="padding-left: 20px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
     <div class="row-fluid">
       <div class="span9">
-        <% if @webuser.organusername==nil %>
+        <% if (@webuser.dream ==nil || @webuser.organuser=='2') && @webuser.risktolerance !=nil %>
+            <p>
+              <a href="/usersurvey/apply"><b>1.</b> <span>尚未登记梦想</span></a>
+            </p>
+        <% elsif @webuser.dream !=nil && @webuser.organuser!='2' && @webuser.risktolerance ==nil %>
+            <p>
+              <a href="/home/questions"><b>1.</b> <span>尚未进行风险承受度测试</span></a>
+            </p>
+        <% elsif @webuser.dream ==nil || @webuser.organuser=='2'  %>
+            <p>
+              <a href="/home/questions"><b>1.</b> <span>尚未进行风险承受度测试</span></a> &nbsp;>&nbsp;
+              <a href="/usersurvey/apply"><b>2.</b> <span>尚未登记梦想</span></a>
+            </p>
+        <% elsif @webuser.organusername==nil %>
             <p><span id="wait">等待理财师帮助实现梦想</span>
               <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
                   <span id="status" class="btn-link"><a class="btn-link" onclick="waithelp()">我来帮助</a></span>
@@ -47,7 +60,9 @@
         <% end %>
       </div>
       <div class="span3">
-        <p class=""><%= @webuser.city %> ￥<%= @webuser.scharge %>元</p>
+        <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
+           <p class=""><%= @webuser.city %> ￥<% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %><% end %>元</p>
+        <% end %>
       </div>
     </div>
   </div>
@@ -58,7 +73,11 @@
         <div id="title" style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的风险承受度：<% if  @webuser.risktolerance!=nil %><%= @webuser.risktolerance %><% else %>0<% end %></div>
         <div id="container"></div>
         <% if @webuser.username == session[:webusername] %>
-          <a href="/home/questions" id="change-answers" style="font-size: 12px;">修改我的答案</a>
+            <% if @webuser.risktolerance ==nil %>
+                <a href="/home/questions" id="change-answers" style="font-size: 12px;">风险承受度测试</a>
+            <% else %>
+                <a href="/home/questions" id="change-answers" style="font-size: 12px;">修改我的答案</a>
+            <% end %>
         <% end %>
         <% if  @webuser.risktolerance!=nil %>
             <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
@@ -92,50 +111,54 @@
                   大多数情况下，其长期回报率高于其它较为保守的投资方法。
                 </p>
             <% end %>
-        <% else %>
-            <p class="risk"><%= @webuser.username %>，您还没做风险承受度测试，现在开始吧？</p>
         <% end %>
       </td>
       <td style="border-left:1px solid #E2E2E2;border-right:1px solid #E2E2E2;padding: 0 20px;">
         <div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
         <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;"><%= @webuser.username %>的梦想</span></p>
-        <p class="product-description" style="line-height: 12px;">因梦想而伟大</p>
+        <p class="product-description" style="line-height: 12px;">因梦想而伟大
+          <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
+              <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
+          <% end %>
+        </p>
         </div>
         <table style="width: 100%;">
           <tr>
             <td class="left">
-              <img src="/assets/121094.png">
+
             </td>
             <td style="vertical-align: middle;">
               <table id="allocation" class="table allocation report apply-asset-class-colors">
                 <tr  class="" data-type="US_STOCKS">
                   <td style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td style="border: 0;width: 180px;">梦想</td>
-                  <td style="border: 0;"><%= @webuser.dream %></td>
+                  <td style="border: 0;"><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.dream %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>梦想价值</td>
-                  <td><% if @webuser.amount !=nil %><%= format("%0.0f",@webuser.amount) %><% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><%= format("%0.0f",@webuser.amount) %><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>已有存款</td>
-                  <td><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>每月存款</td>
-                  <td><% if @webuser.monthpay !=nil %><%= format("%0.0f",@webuser.monthpay) %><% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><%= format("%0.0f",@webuser.monthpay) %><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>实现时间</td>
-                  <td><%= @webuser.realizetime %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.realizetime %><% else %>没有<% end %></td>
                 </tr>
               </table>
+              <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
               <% if @webuser.username == session[:webusername] %>
                  <a style="width: 98px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
+              <% end %>
               <% end %>
             </td>
           </tr>
@@ -154,7 +177,9 @@
                   </div>
                 </td>
                 <td style="width: 200px;">
+                  <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
                   <p class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @hash2[0][0] %>-<%= @hash2[0][1] %></p>
+                  <% end %>
                 </td>
               </tr>
               <tr>
@@ -218,17 +243,19 @@
                   </div>
                 </td>
               </tr>
+          <% if @webuser.dream != nil && @webuser.organuser!='2' %>
               <% if (@webuser.username == session[:webusername] || params[:id]==nil) && @hash2[0][3]!=nil %>
                   <tr>
                     <td></td>
                     <td class="pull-right" style="width: 100px;"><a id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a></td>
                   </tr>
-              <% else %>
-              <tr>
-                <td></td>
-                <td style="width: 100px;" class="pull-right">方案制作中</td>
-              </tr>
+              <% elsif @hash2[0][1]==nil %>
+                  <tr>
+                    <td></td>
+                    <td style="width: 100px;" class="pull-right">方案制作中</td>
+                  </tr>
               <% end %>
+          <% end %>
         </table>
       </td>
       <td style="width: 200px;padding: 0 15px;">
@@ -246,8 +273,6 @@
             <li class="answer"><%= @hash[0][1] %></li>
             <li>您所处的行业是?</li>
             <li class="answer"><%= @hash[0][4] %></li>
-            <% else %>
-                <li><%= @webuser.username %>，您还没做风险承受度测试，现在开始吧？</li>
             <% end %>
           </ul>
         </div>
@@ -323,7 +348,7 @@
 
     $('#subscribe').live('click', function() {
         $.get("/personmanagement/stasus",{oid:'<%= params[:id] %>'},function(data){
-            $('#status').html("处理中");
+            $('#status').html("实现中");
             $('#wait').html("目前由<%=session[:webusername] %>理财师帮助实现梦想");
         });
     });

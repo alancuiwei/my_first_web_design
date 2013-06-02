@@ -28,20 +28,6 @@ class PersonmanagementController < ApplicationController
   end
 
   def organfinance
-    @webusers=Webuser.find_all_by_organusername(session[:webusername])
-    @personalfinance=Personalfinance.all
-    @personinvestinfo=Personinvestinfo.all
-    @hash={}
-    for i in 0..@webusers.size-1
-      @add=Personalfinance.find_by_username(@webusers[i].username)
-      @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
-      if @provide!=nil
-        date=1
-      else
-        date=nil
-      end
-      @hash.store(@webusers[i].username,[@add.investamount,date])
-    end
     if session[:webusername]==nil &&  params[:id]==nil
       redirect_to(:controller=>"home")
     else
@@ -58,6 +44,21 @@ class PersonmanagementController < ApplicationController
         @webuser2=Webuser.find_by_username(@webuser.username)
       end
       @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
+
+      @webusers=Webuser.find_all_by_organusername(session[:webusername])
+      @personalfinance=Personalfinance.all
+      @personinvestinfo=Personinvestinfo.all
+      @hash={}
+      for i in 0..@webusers.size-1
+        @add=Personalfinance.find_by_username(@webusers[i].username)
+        @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
+        if @provide!=nil
+          date=1
+        else
+          date=nil
+        end
+        @hash.store(@webusers[i].username,[@add.investamount,date])
+      end
     end
   end
 

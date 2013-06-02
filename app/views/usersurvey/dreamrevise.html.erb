@@ -59,11 +59,17 @@
             document.getElementById("realizetime").options.add(new Option(a,a));
         }
         $("#dream").val("<%= @webuser.dream %>")
+        <% if @webuser.amount!=nil %>
         $("#amount").val("<%= format("%0.0f",@webuser.amount) %>")
+        <% end %>
         $("#realizetime").val("<%= @webuser.realizetime %>")
+        <% if @webuser.monthpay!=nil %>
         $("#monthpay").val("<%= format("%0.0f",@webuser.monthpay) %>")
+        <% end %>
         $("#remark").val("<%= @webuser.remark %>")
+        <% if @hash[0][0]!=nil %>
         $("#investamount").val("<%= format("%0.0f",@hash[0][0]) %>")
+        <% end %>
     });
 </script>
 
