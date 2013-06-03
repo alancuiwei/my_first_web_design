@@ -36,15 +36,46 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
+  <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") %>
+      <% if @webuser.risktolerance ==nil %>
+          <div id="xoverlay" style="display: block;">
+            <b>您能承受的风险度决定了您将得到的收益。</b> <a class="btns" href="/home/questions" target="_blank">测试看看</a>
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
+      <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
+          <div id="xoverlay" style="display: block;">
+            <b>没有规划的梦想，等同于痴人说梦，让理财师们来帮你。</b> <a class="btns" href="/usersurvey/apply" target="_blank">登记看看</a>
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
+      <% elsif @webuser.organusername==nil %>
+          <div id="xoverlay" style="display: block;">
+            <b>目前还没有理财师来帮您，请耐心等待，或提高理财师服务费。</b> <!--<a class="btns" href="#" target="_blank">提高服务费</a> -->
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
+      <% elsif @hash2[0][1] ==nil %>
+          <div id="xoverlay" style="display: block;">
+            <b>理财师正在辛勤的帮您规划，请耐心等待。如果三个工作日内还没有回复，请直接联系我们。</b> <!--<a class="btns" href="#" target="_blank"></a> -->
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
+      <% else %>
+          <div id="xoverlay" style="display: block;">
+            <b>您的家庭梦想规划书已制作完毕，还不清楚该怎么做嘛？</b> <!--<a class="btns" href="#" target="_blank">申请产品推荐</a> -->
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
 	<!--
-  <% if (params[:controller]=="home" && params[:action]=="index") || (params[:controller]=="blog" && (params[:action]=="blogarticle" || params[:action]=="article")) %>
   <div id="xoverlay" style="display: block;">
-  <b>通天顺家庭理财 庆六一 亲子活动日</b> <a class="btns" href="/childfinance/babygeniuses" target="_blank">查看详情</a>
+            <b>慢慢的，慢慢的，您距离您的梦想越来越近了。</b> <a class="btns" href="#" target="_blank">查看梦想实现</a>
     <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
   </div>
       <div id="lay2" style="height: 50px;"></div>
+          -->
+      <% end %>
   <% end %>
-		-->
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
   <div class='row-fluid beta'>
     <div class="span8">
@@ -89,7 +120,7 @@
       <h4 class="tcol">产品信息</h4>
       <!--<a href='/bankinvest/agentproducts/1' class='full'>团购产品</a>-->
       <a href='/bankinvest/agentproducts/0' class='full'>理财师推荐</a>
-      <a href='/bankinvest/index?category_all=banks' class='full'>所有产品</a>
+      <a href='/bankinvest/index?category_all=yhlc' class='full'>所有产品</a>
     </div>
     <div class="span2">
       <h4 class="tcol">联系我们</h4>

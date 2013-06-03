@@ -35,7 +35,7 @@
         </select>
       </td></tr>
     <tr><td><p>已有存款：</p></td>
-      <td class="right"><input class="input-large demo-form-name nuser investamount" id="investamount" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
+      <td class="right"><input class="input-large demo-form-name nuser exeitdeposit" id="exeitdeposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
     <tr><td><p>每月可存款：</p></td>
       <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td></tr>
     <tr><td><p>备注：</p></td>
@@ -67,8 +67,8 @@
         $("#monthpay").val("<%= format("%0.0f",@webuser.monthpay) %>")
         <% end %>
         $("#remark").val("<%= @webuser.remark %>")
-        <% if @hash[0][0]!=nil %>
-        $("#investamount").val("<%= format("%0.0f",@hash[0][0]) %>")
+        <% if @webuser.exeitdeposit!=nil %>
+        $("#exeitdeposit").val("<%= format("%0.0f",@webuser.exeitdeposit) %>")
         <% end %>
     });
 </script>
@@ -142,7 +142,7 @@
             <% if session[:webusername]==nil %>
                 location.href="/personmanagement/personfinance";
             <% else %>
-                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:"<%= @webuser.province %>",city: "<%= @webuser.city %>",amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:"<%= @webuser.scharge  %>",organuser:"<%= @webuser.organuser %>"},function(data){
+                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:"<%= @webuser.province %>",city: "<%= @webuser.city %>",amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),exeitdeposit:$('#exeitdeposit').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:"<%= @webuser.scharge  %>",organuser:"<%= @webuser.organuser %>"},function(data){
                     alert("修改成功！");
                     location.href="/personmanagement/personfinance";
                 });

@@ -54,16 +54,16 @@
           <dt id="category-category_all">产品类型:</dt>
           <dd>
             <label class="checkbox inline all">
-              <a class="curr category_all btn-link currbg">不限</a>
+              <a class="curr category_all btn-link currbg" href="/bankinvest/index">不限</a>
             </label>
             <label class="checkbox inline">
-              <a class="curr banks btn-link"> 银行理财 </a>
+              <a class="curr banks btn-link" href="/bankinvest/index?category_all=yhlc"> 银行理财 </a>
             </label>
             <label class="checkbox inline">
-              <a class="curr trust btn-link"> 信托产品 </a>
+              <a class="curr trader btn-link" href="/bankinvest/index?category_all=qslc"> 券商理财 </a>
             </label>
             <label class="checkbox inline">
-              <a class="curr trader btn-link"> 券商理财 </a>
+              <a class="curr trust btn-link" href="/bankinvest/index?category_all=xtcp"> 信托产品 </a>
             </label>
           </dd>
         </dl>
@@ -285,50 +285,6 @@
 
 <script>
 
-   $(".banks").click(function(){
-       $(".text_filter:last").removeClass('search_init');
-       $(".text_filter:last").val('yhlc');
-       $(".text_filter:last").keyup();
-       $(".banks").addClass('currbg');
-       $(".trust").removeClass('currbg');
-       $(".trader").removeClass('currbg');
-       $(".category_all").removeClass('currbg');
-       $("#s-category_all").removeClass('hide');
-       $("#st-category_all").html('产品类型:银行理财');
-   });
-   $(".trust").click(function(){
-       $(".text_filter:last").removeClass('search_init');
-       $(".text_filter:last").val('xtcp');
-       $(".text_filter:last").keyup();
-       $(".trust").addClass('currbg');
-       $(".banks").removeClass('currbg');
-       $(".trader").removeClass('currbg');
-       $(".category_all").removeClass('currbg');
-       $("#s-category_all").removeClass('hide');
-       $("#st-category_all").html('产品类型:信托产品');
-   });
-   $(".trader").click(function(){
-       $(".text_filter:last").removeClass('search_init');
-       $(".text_filter:last").val('qslc');
-       $(".text_filter:last").keyup();
-       $(".trader").addClass('currbg');
-       $(".banks").removeClass('currbg');
-       $(".trust").removeClass('currbg');
-       $(".category_all").removeClass('currbg');
-       $("#s-category_all").removeClass('hide');
-       $("#st-category_all").html('产品类型:券商理财');
-   });
-   $(".category_all").click(function(){
-       $(".text_filter:last").addClass('search_init');
-       $(".text_filter:last").val('');
-       $(".text_filter:last").keyup();
-       $(".category_all").addClass('currbg');
-       $(".banks").removeClass('currbg');
-       $(".trust").removeClass('currbg');
-       $(".trader").removeClass('currbg');
-       $("#s-category_all").addClass('hide');
-   });
-
    $("[class*='expectYID']").click(function(){
        $("[class*='expectYID']").removeClass('currbg');
        if(this.id=='expectYID'){$("#bankfinance_range_from_2").val('');$("#bankfinance_range_to_2").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
@@ -388,13 +344,7 @@
    $(".delete").click(function(){
        $('#s-'+$(this).attr("cid")).addClass('hide');
       if($(this).attr("cid")=='category_all'){
-          $(".text_filter:last").addClass('search_init');
-          $(".text_filter:last").val('');
-          $(".text_filter:last").keyup();
-          $(".category_all").addClass('currbg');
-          $(".banks").removeClass('currbg');
-          $(".trust").removeClass('currbg');
-          $(".trader").removeClass('currbg');
+          location.href="/bankinvest/index";
       }
       else if($(this).attr("cid")=='expectYID'){
           $("[class*='expectYID']").removeClass('currbg');
@@ -490,6 +440,34 @@
     }
 
     $(document).ready(function(){
+        <% if params[:category_all]=='yhlc' %>
+        $(".banks").addClass('currbg');
+        $(".trust").removeClass('currbg');
+        $(".trader").removeClass('currbg');
+        $(".category_all").removeClass('currbg');
+        $("#s-category_all").removeClass('hide');
+        $("#st-category_all").html('产品类型:银行理财');
+        <% elsif params[:category_all]=='xtcp' %>
+        $(".trust").addClass('currbg');
+        $(".banks").removeClass('currbg');
+        $(".trader").removeClass('currbg');
+        $(".category_all").removeClass('currbg');
+        $("#s-category_all").removeClass('hide');
+        $("#st-category_all").html('产品类型:信托产品');
+        <% elsif params[:category_all]=='qslc' %>
+        $(".trader").addClass('currbg');
+        $(".banks").removeClass('currbg');
+        $(".trust").removeClass('currbg');
+        $(".category_all").removeClass('currbg');
+        $("#s-category_all").removeClass('hide');
+        $("#st-category_all").html('产品类型:券商理财');
+        <% elsif params[:category_all]==nil %>
+        $(".category_all").addClass('currbg');
+        $(".banks").removeClass('currbg');
+        $(".trust").removeClass('currbg');
+        $(".trader").removeClass('currbg');
+        $("#s-category_all").addClass('hide');
+        <% end %>
 
         /* Initialise datatables */
         var oTable = $('#bankfinance').dataTable({

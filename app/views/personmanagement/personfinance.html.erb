@@ -30,6 +30,57 @@
 
 <div class="main-content dream">
   <h1><%= @webuser.username %>的个人首页</h1>
+  <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
+    <div class="row-fluid" style="height: 18px;">
+      <% if @webuser.risktolerance ==nil %>
+          <div class="span12">
+            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
+          </div>
+      <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
+          <div class="span12">
+            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+            <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
+          </div>
+      <% elsif @webuser.organusername==nil %>
+          <div class="span12">
+            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+            <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>
+            <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>
+            <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
+          </div>
+      <% elsif @hash2[0][1] ==nil %>
+          <div class="span12">
+            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+            <a><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
+            <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>
+            <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
+            <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
+          </div>
+      <% else %>
+          <div class="span12">
+          <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+          <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+          <a><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
+          <a>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span>
+          <b>5.</b> <span>投资产品购买</span><span class="separator"> > </span>
+          <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <!--
   <div style="padding-left: 20px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
     <div class="row-fluid">
       <div class="span9">
@@ -55,8 +106,13 @@
               <% end %>
            </p>
         <% else %>
+           <% if @hash2[0][2]==nil %>
             <p>目前由<%= @webuser.organusername %>理财师帮助实现梦想
               <span class="btn-link">实现中</span></p>
+           <% else %>
+                <p><%= @webuser.organusername %>已帮助完成梦想实现报告
+                  <% if @webuser.username == session[:webusername] %><a style="margin-left:55px;" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a><% end %></p>
+            <% end %>
         <% end %>
       </div>
       <div class="span3">
@@ -66,6 +122,7 @@
       </div>
     </div>
   </div>
+  -->
   <div style="height: 30px;"></div>
   <table style="width: 97%;margin-left: 3%;color: #555;">
     <tr>
@@ -119,6 +176,10 @@
         <p class="product-description" style="line-height: 12px;">因梦想而伟大
           <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
               <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
+          <% else %>
+              <% if @webuser.username == session[:webusername] %>
+                  <a style="width: 100px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
+              <% end %>
           <% end %>
         </p>
         </div>
@@ -131,35 +192,30 @@
               <table id="allocation" class="table allocation report apply-asset-class-colors">
                 <tr  class="" data-type="US_STOCKS">
                   <td style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td style="border: 0;width: 180px;">梦想</td>
+                  <td style="border: 0;width: 280px;">梦想</td>
                   <td style="border: 0;"><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.dream %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>梦想价值</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><%= format("%0.0f",@webuser.amount) %><% end %><% else %>没有<% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><span class="num"><%= format("%0.0f",@webuser.amount) %></span><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>已有存款</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %><% else %>没有<% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.exeitdeposit !=nil %><span class="num"><%= format("%0.0f",@webuser.exeitdeposit) %></span><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>每月存款</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><%= format("%0.0f",@webuser.monthpay) %><% end %><% else %>没有<% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><span class="num"><%= format("%0.0f",@webuser.monthpay) %></span><% end %><% else %>没有<% end %></td>
                 </tr>
                 <tr  class="" data-type="US_STOCKS">
                   <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                   <td>实现时间</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.realizetime %><% else %>没有<% end %></td>
+                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><span class="num"><%= @webuser.realizetime %></span><% else %>没有<% end %></td>
                 </tr>
               </table>
-              <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
-              <% if @webuser.username == session[:webusername] %>
-                 <a style="width: 98px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
-              <% end %>
-              <% end %>
             </td>
           </tr>
         </table>
@@ -171,19 +227,29 @@
                   <div class="account-types">
                     <div class="account-type-tab active taxable-account-type">
                       <p><span class="product" style="line-height: 20px;">梦想实现</span></p>
-                      <p class="product-description" style="line-height: 12px;">一步一步向上爬</p>
+                      <p class="product-description" style="line-height: 12px;"><span style="margin-right: 95px;">一步一步向上爬</span>
+                        <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
+                            <% if @webuser.organusername!=nil %>
+                                <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %>-<%= @webuser.organusername %></span>
+                            <% end %>
+                        <% end %>
+                        <% if @webuser.dream != nil && @webuser.organuser!='2' %>
+                            <% if (@webuser.username == session[:webusername] || params[:id]==nil) && @hash2[0][3]!=nil %>
+                                <a class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;" id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a>
+                            <% elsif @hash2[0][1]==nil %>
+                                <span class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;">方案制作中</span>
+                            <% else %>
+                                <span style="width: 100px;" class="pull-right">&nbsp;</span>
+                            <% end %>
+                        <% end %>
+                      </p>
                     </div>
                     <div class="clearfix"></div>
                   </div>
                 </td>
-                <td style="width: 200px;">
-                  <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
-                  <p class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @hash2[0][0] %>-<%= @hash2[0][1] %></p>
-                  <% end %>
-                </td>
               </tr>
               <tr>
-                <td colspan="2">
+                <td>
                   <div class="plan-details">
                     <section id="asset-allocation" class="">
                       <table style="width: 100%;">
@@ -208,7 +274,7 @@
                                 <span class="ktip-link"><a class="ktip-a">货币基金</a></span>
                               </td>
                               <td class="asset-class-percentage number"><% if @hash2[0][3]!=nil %><%= format("%0.0f",@hash2[0][3]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]*@hash[0][0]) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
                             </tr>
                             <tr class="" data-type="INTL_EMERGING">
                               <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
@@ -216,7 +282,7 @@
                                 <span class="ktip-link"><a class="ktip-a">债券基金</a></span>
                               </td>
                               <td class="asset-class-percentage number"><% if @hash2[0][4]!=nil %><%= format("%0.0f",@hash2[0][4]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]*@hash[0][0]) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
                             </tr>
                             <tr class="" data-type="DIV_STOCKS">
                               <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
@@ -224,7 +290,7 @@
                                 <span class="ktip-link"><a class="ktip-a">指数基金</a></span>
                               </td>
                               <td class="asset-class-percentage number"><% if @hash2[0][5]!=nil %><%= format("%0.0f",@hash2[0][5]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][5]!=nil %>￥<%= format("%0.0f",@hash2[0][5]*@hash[0][0]) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][5]!=nil %>￥<%= format("%0.0f",@hash2[0][5]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
                             </tr>
 
                             <tr class="" data-type="MUNI_BONDS">
@@ -233,7 +299,7 @@
                                 <span class="ktip-link"><a class="ktip-a">银行理财产品</a></span>
                               </td>
                               <td class="asset-class-percentage number"><% if @hash2[0][6]!=nil %><%= format("%0.0f",@hash2[0][6]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]*@hash[0][0]) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
                             </tr>
                             </tbody>
                           </table>
@@ -243,19 +309,6 @@
                   </div>
                 </td>
               </tr>
-          <% if @webuser.dream != nil && @webuser.organuser!='2' %>
-              <% if (@webuser.username == session[:webusername] || params[:id]==nil) && @hash2[0][3]!=nil %>
-                  <tr>
-                    <td></td>
-                    <td class="pull-right" style="width: 100px;"><a id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a></td>
-                  </tr>
-              <% elsif @hash2[0][1]==nil %>
-                  <tr>
-                    <td></td>
-                    <td style="width: 100px;" class="pull-right">方案制作中</td>
-                  </tr>
-              <% end %>
-          <% end %>
         </table>
       </td>
       <td style="width: 200px;padding: 0 15px;">
@@ -263,16 +316,22 @@
           <p>关于<%= @webuser.username %></p>
           <ul class="common-q">
             <% if @hash[0][1]!=nil %>
-            <li>您当前的年纪?</li>
-            <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
-            <li>您手头上拥有的现金或流动资产有多少?</li>
-            <li class="answer"><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %></li>
-            <li>您预期将这笔闲余资金投资多少时间?</li>
-            <li class="answer"><%= @hash[0][3] %></li>
-            <li>您对如下哪些产品比较感兴趣?</li>
-            <li class="answer"><%= @hash[0][1] %></li>
-            <li>您所处的行业是?</li>
-            <li class="answer"><%= @hash[0][4] %></li>
+                <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
+                <li class="answer"><%= @hash[0][7] %></li>
+                <li>投资收益率及风险承受度爱好：</li>
+                <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
+                <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
+                <li class="answer"><%= @hash[0][8] %></li>
+                <li>您当前的年纪?</li>
+                <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
+                <li>您手头上拥有的现金或流动资产有多少?</li>
+                <li class="answer"><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %></li>
+                <li>您预期将这笔闲余资金投资多少时间?</li>
+                <li class="answer"><%= @hash[0][3] %></li>
+                <li>您对如下哪些产品比较感兴趣?</li>
+                <li class="answer"><%= @hash[0][1] %></li>
+                <li>您所处的行业是?</li>
+                <li class="answer"><%= @hash[0][4] %></li>
             <% end %>
           </ul>
         </div>
@@ -299,7 +358,7 @@
           </tr>
           <tr>
             <td id="username"><%= @webuser.username %></td>
-            <td id="investamount"><%= @hash[0][0] %></td>
+            <td id="investamount"><%= @webuser.exeitdeposit %></td>
             <td id="provinces"><%= @webuser.province %></td>
             <td id="cities"><%= @webuser.city %></td>
           </tr>

@@ -168,12 +168,14 @@ class PersonmanagementController < ApplicationController
           b.tel=params[:tel]
           b.memberlevel=params[:memberlevel]
           b.trade=params[:trade]
+          b.fluctuation=params[:fluctuation]
+          b.quota=params[:quota]
           b.save
         end
         session[:personname]=params[:username]
         render :json => "s1".to_json
       else
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],:riskrate=>params[:riskrate])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],:quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],:riskrate=>params[:riskrate])
         if  params[:tel]!=nil
           @personalfinance.update_attributes(:tel=>params[:tel])
         end
@@ -251,6 +253,11 @@ class PersonmanagementController < ApplicationController
       @webuser=Webuser.find_by_id(params[:id])
 
       @provides=Provide.find_by_username(@webuser.username)
+      if @webuser.organusername!=nil
+        @webuser2=Webuser.find_by_username(@webuser.organusername)
+      else
+        @webuser2=Webuser.find_by_username("admin")
+      end
       @hash2=Hash.new
       if @provides!=nil
         @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.trust,@provides.bankfinance,@provides.filename])
@@ -261,13 +268,17 @@ class PersonmanagementController < ApplicationController
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota])
       else
-        @hash.store(0,[0,nil,nil,nil,nil])
+        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil])
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
-
+        if @webuser.organusername!=nil
+          @webuser2=Webuser.find_by_username(@webuser.organusername)
+        else
+          @webuser2=Webuser.find_by_username("admin")
+        end
       @provides=Provide.find_by_username(@webuser.username)
       @hash2=Hash.new
       if @provides!=nil
@@ -279,9 +290,9 @@ class PersonmanagementController < ApplicationController
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota])
       else
-        @hash.store(0,[0,nil,nil,nil,nil])
+        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil])
       end
     else
       redirect_to(:controller=>"home")
@@ -331,6 +342,10 @@ class PersonmanagementController < ApplicationController
         b.save
       end
       @webuser=Webuser.find_by_username(session[:webusername])
+      @webuser2=Webuser.find_by_username(params[:username])
+      Thread.new{
+        UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
+      }
       flash[:notice] = 'Photo was successfully created.'
       redirect_to(:controller=>"personmanagement", :action=>"organfinance", :id=>@webuser.id)
     else

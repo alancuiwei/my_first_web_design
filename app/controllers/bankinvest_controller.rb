@@ -51,7 +51,13 @@ class BankinvestController < ApplicationController
   end
 
   def index
+    if params[:category_all]=='xtcp'
+      @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE productstate="xtcp"')
+    elsif  params[:category_all]!=nil
+      @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE (collectperiod>=NOW() OR collectperiod IS NULL) AND productstate="'+params[:category_all]+'"')
+    else
     @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE collectperiod>=NOW() OR collectperiod IS NULL OR productstate="xtcp"')
+    end
     #   @bankfinances=Bankfinance.all
   end
 

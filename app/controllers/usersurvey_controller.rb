@@ -26,30 +26,13 @@ class UsersurveyController < ApplicationController
 
   def dreamrevise
     @webuser=Webuser.find_by_id(params[:id])
-    @personalfinance=Personalfinance.find_by_username(@webuser.username)
-    @hash=Hash.new
-    if @personalfinance!=nil
-      @hash.store(0,[@personalfinance.investamount])
-    else
-      @hash.store(0,[nil])
-    end
   end
 
   def dreamconfig
     @webuser=Webuser.find_by_username(params[:username])
-    @personalfinance=Personalfinance.find_by_username(params[:username])
 
-    @webuser.update_attributes(:dream=>params[:dream],:province=>params[:province],:city=>params[:city],:organuser=>params[:organuser],
+    @webuser.update_attributes(:dream=>params[:dream],:province=>params[:province],:city=>params[:city],:organuser=>params[:organuser],:exeitdeposit=>params[:exeitdeposit],
                                :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],:isauto=>0)
-    if @personalfinance!=nil
-      @personalfinance.update_attributes(:investamount=>params[:investamount])
-    else
-      Personalfinance.new do |w|
-        w.username=params[:username]
-        w.investamount=params[:investamount]
-        w.save
-      end
-    end
     render :json => "s".to_json
   end
 

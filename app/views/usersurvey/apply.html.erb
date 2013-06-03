@@ -53,7 +53,7 @@
         </select>
       </td></tr>
     <tr><td><p>已有存款：</p></td>
-      <td class="right"><input class="input-large demo-form-name nuser investamount" id="investamount" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
+      <td class="right"><input class="input-large demo-form-name nuser exeitdeposit" id="exeitdeposit" type="text" valType="NUMBER" msg="已有存款必须是数字！" title="已有存款"></td></tr>
     <tr><td><p>每月可存款：</p></td>
       <td class="right"><input class="input-large demo-form-name nuser monthpay" id="monthpay" type="text" valType="NUMBER" msg="每月可存款必须是数字！" title="每月可存款"></td></tr>
     <tr><td><p>您愿意给理财师支付：</p></td>
@@ -149,9 +149,9 @@
 
 
             <% if session[:webusername]==nil %>
-                location.href="/sales/login?dream="+$("#dream").attr("value")+"&organuser=2&province="+$("#province").attr("value")+"&city="+$("#city").attr("value")+"&amount="+$("#amount").attr("value")+"&realizetime="+$("#realizetime").attr("value")+"&investamount="+$("#investamount").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&remark="+$("#remark").attr("value")+"&scharge="+$("#scharge").attr("value");
+                location.href="/sales/login?dream="+$("#dream").attr("value")+"&organuser=2&province="+$("#province").attr("value")+"&city="+$("#city").attr("value")+"&amount="+$("#amount").attr("value")+"&realizetime="+$("#realizetime").attr("value")+"&exeitdeposit="+$("#exeitdeposit").attr("value")+"&monthpay="+$("#monthpay").attr("value")+"&remark="+$("#remark").attr("value")+"&scharge="+$("#scharge").attr("value");
             <% else %>
-                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),investamount:$('#investamount').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value"),organuser:2},function(data){
+                $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),exeitdeposit:$('#exeitdeposit').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value"),organuser:2},function(data){
                 });
                 $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
                     location.href=data;
