@@ -394,7 +394,8 @@ class AdminController < ApplicationController
                                          :company=>params[:company],:post=>params[:post],:email=>params[:email],:memberlevel=>params[:memberlevel])
       else
         @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel],:dream=>params[:dream],:isauto=>params[:isauto],:confirm=>params[:confirm],
-                                   :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark])
+                                   :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],
+                                   :bankfinancep=>params[:bankfinancep],:deptp=>params[:deptp],:stockp=>params[:stockp],:trustp=>params[:trustp])
         if @personalfinance!=nil
           @personalfinance.update_attributes(:investamount=>params[:investamount])
         else

@@ -73,7 +73,7 @@
             </dd>
             <div id="have">
               <dt>证书编号 :</dt>
-              <dd><input id="certificate" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入证书编号" title="证书编号" placeholder="我们将人工验证编号" type="text"></dd>
+              <dd><input id="certificate" class="input_menum num" valType="CFP" msg="<font color=red>*</font>您可能输入的是CFP的注册号，我们需要您输入CFP证书编号，麻烦您了。" title="证书编号" placeholder="我们将人工验证编号" type="text"></dd>
             </div>
           </dl>
           <br>
@@ -467,6 +467,7 @@
                 CHINESE : "^([\u4E00-\uFA29]|[\uE7C7-\uE7F3])*$",
                 URL : "^http[s]?://[\\w\\.\\-]+$" ,
                 NOTNULL : "^.*$"   ,
+                CFP : "^CFPCN.*$"   ,
                 NAME : "^\\D.{2}.*$"
             };
             var flag=false;

@@ -34,7 +34,7 @@
     <div class="row-fluid" style="height: 18px;">
       <% if @webuser.risktolerance ==nil %>
           <div class="span12">
-            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a href="/home/questions"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
             <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>
             <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
@@ -43,7 +43,7 @@
           </div>
       <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
           <div class="span12">
-            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
             <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
             <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
@@ -52,8 +52,8 @@
           </div>
       <% elsif @webuser.organusername==nil %>
           <div class="span12">
-            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
-            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
             <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>
             <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
@@ -61,19 +61,19 @@
           </div>
       <% elsif @hash2[0][1] ==nil %>
           <div class="span12">
-            <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
-            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
-            <a><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
             <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>
             <span class="disabled"><b>5.</b> <span>投资产品购买</span><span class="separator"> > </span></span>
             <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
           </div>
       <% else %>
           <div class="span12">
-          <a href="/home/questions" a><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
-          <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
-          <a><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
-          <a>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成">4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span>
           <b>5.</b> <span>投资产品购买</span><span class="separator"> > </span>
           <span class="disabled"><b>6.</b> <span>梦想成真中</span></span>
           </div>
@@ -230,7 +230,7 @@
                       <p class="product-description" style="line-height: 12px;"><span style="margin-right: 95px;">一步一步向上爬</span>
                         <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
                             <% if @webuser.organusername!=nil %>
-                                <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %>-<%= @webuser.organusername %></span>
+                                <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %> <%= @webuser.organusername %> 提供服务</span>
                             <% end %>
                         <% end %>
                         <% if @webuser.dream != nil && @webuser.organuser!='2' %>
@@ -262,44 +262,49 @@
                             <thead>
                             <tr>
                               <th></th>
-                              <th>投资品种</th>
-                              <th>%</th>
+                              <th style="width: 105px;">投资品种</th>
+                              <th style="width: 140px;">投资产品</th>
                               <th>总额</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="" data-type="US_STOCKS">
-                              <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a">货币基金</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><% if @hash2[0][3]!=nil %><%= format("%0.0f",@hash2[0][3]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
-                            </tr>
-                            <tr class="" data-type="INTL_EMERGING">
-                              <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a">债券基金</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><% if @hash2[0][4]!=nil %><%= format("%0.0f",@hash2[0][4]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
-                            </tr>
-                            <tr class="" data-type="DIV_STOCKS">
-                              <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a">指数基金</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><% if @hash2[0][5]!=nil %><%= format("%0.0f",@hash2[0][5]*100) %>%<% else %>0<% end %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][5]!=nil %>￥<%= format("%0.0f",@hash2[0][5]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
-                            </tr>
-
+                            <% if (@hash2[0][6]!=0 && @hash2[0][6]!=nil) || @hash2[0][1] ==nil %>
                             <tr class="" data-type="MUNI_BONDS">
                               <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                               <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a">银行理财产品</a></span>
+                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">银行理财产品</a></span>
                               </td>
-                              <td class="asset-class-percentage number"><% if @hash2[0][6]!=nil %><%= format("%0.0f",@hash2[0][6]*100) %>%<% else %>0<% end %></td>
+                              <td class="asset-class-percentage number"><%= @webuser.bankfinancep %></td>
                               <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                            </tr>
+                            <% end %>
+                            <% if (@hash2[0][4]!=0 && @hash2[0][4]!=nil) || @hash2[0][1] ==nil %>
+                            <tr class="" data-type="INTL_EMERGING">
+                              <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
+                              <td class="asset-class-name">
+                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">债券型基金</a></span>
+                              </td>
+                              <td class="asset-class-percentage number"><%= @webuser.deptp %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                            </tr>
+                            <% end %>
+                            <% if (@hash2[0][3]!=0 && @hash2[0][3]!=nil) || @hash2[0][1] ==nil %>
+                                <tr class="" data-type="US_STOCKS">
+                                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                                  <td class="asset-class-name">
+                                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="随存随取型产品">货币型基金</a></span>
+                                  </td>
+                                  <td class="asset-class-percentage number"><%= @webuser.stockp %></td>
+                                  <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                                </tr>
+                            <% end %>
+                            <tr class="" data-type="DIV_STOCKS">
+                              <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
+                              <td class="asset-class-name">
+                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
+                              </td>
+                              <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
+                              <td class="asset-class-amount number"><% if @webuser.monthpay !=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% end %></td>
                             </tr>
                             </tbody>
                           </table>
@@ -316,18 +321,18 @@
           <p>关于<%= @webuser.username %></p>
           <ul class="common-q">
             <% if @hash[0][1]!=nil %>
+                <li>年纪：</li>
+                <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
+                <li>所在城市：</li>
+                <li class="answer"><%= @webuser.city %></li>
+                <li>梦想规划服务费：</li>
+                <li class="answer"><% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %>元<% end %></li>
                 <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
                 <li class="answer"><%= @hash[0][7] %></li>
                 <li>投资收益率及风险承受度爱好：</li>
                 <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
                 <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
                 <li class="answer"><%= @hash[0][8] %></li>
-                <li>您当前的年纪?</li>
-                <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
-                <li>您手头上拥有的现金或流动资产有多少?</li>
-                <li class="answer"><% if @hash[0][0] !=nil %><%= format("%0.0f",@hash[0][0]) %><% end %></li>
-                <li>您预期将这笔闲余资金投资多少时间?</li>
-                <li class="answer"><%= @hash[0][3] %></li>
                 <li>您对如下哪些产品比较感兴趣?</li>
                 <li class="answer"><%= @hash[0][1] %></li>
                 <li>您所处的行业是?</li>
@@ -567,5 +572,62 @@
 
 // Apply the theme
         var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
+    });
+
+
+    $(function(){
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'center',
+            offsetY: 5,
+            allowTipHover: false
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
     });
 </script>

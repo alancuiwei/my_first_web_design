@@ -177,15 +177,6 @@
         </td>
       </tr>
       <tr>
-        <td>指数基金：</td>
-        <td>
-          <div class="input-append">
-            <input id="trust" type="text" title="指数基金" name="trust">
-            <span class="add-on">%</span>
-          </div>
-        </td>
-      </tr>
-      <tr>
         <td>银行理财产品：</td>
         <td>
           <div class="input-append">
@@ -368,7 +359,7 @@
         }
         else if(nom_flag==0){
             document.getElementById('myForm').action = "/personmanagement/create?username="+$("#name").html()+"&managename=<%= session[:webusername] %>&stock="+String($("#stock").attr("value")/100)+"&debt="
-                           +String($("#debt").attr("value")/100)+"&trust="+String($("#trust").attr("value")/100)+"&bankfinance="+String($("#bankfinance").attr("value")/100)+"&filename="+getFileName(document.getElementById("file_file").value)
+                           +String($("#debt").attr("value")/100)+"&trust=0&bankfinance="+String($("#bankfinance").attr("value")/100)+"&filename="+getFileName(document.getElementById("file_file").value)
                            +"&company=<%= @webuser2.company %>";
             document.getElementById("myForm").submit();
         }
