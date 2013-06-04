@@ -2,6 +2,7 @@
 <%= stylesheet_link_tag "common.css" %>
 <%= stylesheet_link_tag "homepage.css" %>
 <%= javascript_include_tag "highcharts.src.js" %>
+
 <style>
     .dollar-prefix{margin-top: -19px;}
     .applyvip{vertical-align: bottom;height: 35px;}
@@ -12,63 +13,97 @@
     .applyvip{vertical-align: bottom;height: 147px;}
 </style>
 <!--<![endif]-->
-<div class="welcomes">
-  <div class="hero-unit"> <!--主角单元-->
-    <div class="slide">
-      <table><tr><td>
-        <h1>为您提供<br/>家庭理财的<br/>方方面面</h1>
-        <!-- <p><a class="btn btn-success"  href='/bankinvest/index'><em>进来挑选</em></a></p> -->
-        <p class="description">在您家庭理财遇到的重大疑问时，<br>
-          我们向您提供针对性的策略建议，<br>
-          帮助您做出聪明的决策。</p>
-      </td><td style="padding: 15px 0 0 50px;">
-        <div id="control">
-          <div class="td numeral-col">
-            <div class="numeral">1</div>
-          </div>
-          <div class="td control-col">
-            <label for="amount">投资类型</label>
-            <select  name="patent" id="patent">
-              <option value="1">个人投资</option>
-              <option value="0">家庭投资</option>
-            </select>
-          </div>
-        </div>
-        <div id="amount-control">
-          <div class="td numeral-col">
-            <div class="numeral">2</div>
-          </div>
-          <div class="td control-col">
-            <label for="amount">投资金额</label>
-            <span style="position:relative;font-size:13px"><span class="dollar-prefix">￥</span><input id="amount" name="amount" style="margin-left: 5px;"  s value="50,000" type="text"></span>
-            <div id="minimum-note">
-              最低金额￥50000 元
-            </div>
-          </div>
-        </div>
-        <div id="age-control">
-          <div class="td numeral-col">
-            <div class="numeral">3</div>
-          </div>
-          <div class="td control-col">
-            <label for="age">您的年纪</label>
-            <button id="age-decrease" class="light-gray" tabindex="-1">−</button><input id="age" name="age" value="30" type="text"><button id="age-increase" class="light-gray" tabindex="-1">+</button>
-          </div>
-        </div>
-      </td><td style="min-width: 415px;">
-        <div class="td" id="plan-result">
-          <h2>您的家庭资产规划</h2>
-          <div id="container" style="min-width: 250px; height: 190px; margin: 0"></div>
-          <div class="row-fluid link">
-            <div class="span5 offset7">
-              <a class=" js-personalize-button personalize-button orange-button big-button" href='/home/questions'>点击自助规划 »</a>
-            </div>
-          </div>
-        </div>
-      </td></tr></table>
 
-    </div>
-  </div>
+
+<script>
+    var isProduction = true,
+            pageOther = 'https://s3.amazonaws.com/sa-g/files-1305301924/other'
+</script>
+
+<%= javascript_include_tag "jquery2.js" %>
+<%= javascript_include_tag "welcome.js" %>
+
+<div class="welcomes" style=" width: 1170px;">
+  <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+    <tbody><tr>
+      <td class="body-content">
+        <div class="body-content-wrapper">
+          <!--LayerSlider begin-->
+          <div id="slider-container">
+
+            <div id="slider" class="ls-container ls-skinsa" style="position: relative;">
+              <div class="ls-inner" style="background-color: transparent; width: 1170px; height: 500px;">
+                <div class="ls-layer ls-active" rel="slidedelay: 6000" style="visibility: visible; width: 1170px; height: 500px; display: none; left: 0px; right: auto; top: 0px; bottom: auto;">
+                  <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
+                  <img class="ls-s2" id="s-glow" src="/assets/glow.png" alt="sublayer" style="margin-left: 0px; margin-top: 0px; display: block;">
+                  <img class="ls-s3" id="s1-home" src="/assets/home.png" rel="slidedirection: right" style="margin-left: 0px; margin-top: 0px; display: block;">
+                  <img class="ls-s3" id="s1-hill" src="/assets/hill.png" rel="slidedirection: right" style="margin-left: 0px; margin-top: 0px; display: block;">
+                  <img class="ls-s4" id="s1-speech" src="/assets/121018.png" rel="slidedirection: right" style="margin-left: 0px; margin-top: 0px; display: block;">
+                  <img class="ls-s5" id="s1-man" src="/assets/man.png" rel="slidedirection: right" style="margin-left: 0px; margin-top: 0px; display: block;">
+
+                  <div class="ls-s3" id="s-caption" rel="slidedirection: right" style="margin-left: 0px; margin-top: 0px; display: block;">
+                    <h2>买房计划</h2>
+                    <b>通天顺家庭理财</b>帮您规划如何投资，确保您能买上称心如意的房子。
+                  </div>
+                </div>
+                <div class="ls-layer layer2" rel="slidedelay: 6000" style="width: 1170px; height: 500px; display: none; visibility: visible; left: auto; right: 0px; top: 0px; bottom: auto;">
+                  <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
+                  <img class="ls-s2" id="s-glow" src="/assets/glow.png" alt="sublayer" style="display: block; margin-left: 1053px; margin-top: 0px;">
+
+                  <img class="ls-s2" id="s2-carl" src="/assets/carl.png" rel="slidedirection: top" style="display: block; margin-left: 0px; margin-top: 450px;">
+                  <img class="ls-s2" id="s2-carr" src="/assets/carr.png" rel="slidedirection: top" style="display: block; margin-left: 0px; margin-top: 450px;">
+                  <img class="ls-s2" id="s2-hill" src="/assets/hill(1).png" rel="slidedirection: right" style="display: block; margin-left: -1053px; margin-top: 0px;">
+                  <img class="ls-s5" id="s2-woman" src="/assets/woman.png" rel="slidedirection: right" style="display: block; margin-left: -2632.5px; margin-top: 0px;">
+                  <img class="ls-s4" id="s2-speech" src="/assets/121017.png" rel="slidedirection: right" style="display: block; margin-left: -2106px; margin-top: 0px;">
+                  <div class="ls-s3" id="s-caption" rel="slidedirection: right" style="display: block; margin-left: -1579.5px; margin-top: 0px;">
+                    <h2>买车计划</h2>
+                    <b>通天顺家庭理财</b>帮您分析最适合您的，最合算的买车计划，让您尽早拥有爱车。
+                  </div>
+                </div>
+                <div class="ls-layer layer3" rel="slidedelay: 6000" style="width: 1170px; height: 500px;">
+                  <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
+                  <img class="ls-s2" id="s-glow" src="/assets/glow.png" alt="sublayer">
+
+                  <img class="ls-s2" id="s3-hill" src="/assets/hill(2).png" rel="slidedirection: bottom">
+                  <img class="ls-s2" id="s3-boy" src="/assets/boy.png" rel="slidedirection: right">
+                  <img class="ls-s2" id="s3-girl" src="/assets/girl.png" rel="slidedirection: right">
+                  <img class="ls-s4" id="s3-speech" src="/assets/121016.png" rel="slidedirection: right">
+                  <div class="ls-s3" id="s-caption" rel="slidedirection: right">
+                    <h2>结婚计划</h2>
+                    <b>通天顺家庭理财</b>作为您婚礼筹备的财务主管，伴您美妙度过这一生最宝贵的时光。
+                  </div>
+                </div>
+                <div class="ls-layer layer4" rel="slidedelay: 6000" style="width: 1170px; height: 500px;">
+                  <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
+                  <img class="ls-s2" id="s-glow" src="/assets/glow.png" alt="sublayer">
+
+                  <img class="ls-s2" id="s4-rainbow" src="/assets/rainbow.png" rel="slidedirection: right">
+                  <img class="ls-s2" id="s4-hill" src="/assets/hill(3).png" rel="slidedirection: bottom">
+                  <img class="ls-s2" id="s4-man" src="/assets/man(1).png" rel="slidedirection: right">
+                  <img class="ls-s4" id="s4-speech" src="/assets/121019.png" rel="slidedirection: right">>
+
+                  <div class="ls-s3" id="s-caption" rel="slidedirection: right">
+                    <h2>退休计划</h2>
+                    <b>通天顺家庭理财</b>帮助您长期规划，明智投资资金，早日环游世界。
+                  </div>
+                </div>
+              </div>
+
+              <h1 id="s-title">我们帮您<br>家庭理财规划<br>实现梦想</h1>
+
+              <h2 id="s-subtitle">
+                <a href="/home/scheme" class="button btn btn-success">美梦成真</a>
+                在您家庭理财遇到的重大疑问时，<br>
+                我们向您提供针对性的策略建议，<br>
+                帮助您做出聪明的决策。
+              </h2>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
   <br>
   <div class="welcme-content img">
     <h2 class="press">通天顺的服务</h2>
@@ -317,6 +352,7 @@
   </div>
 </div>
 
+
 <script>
     try{
         $(function() {
@@ -338,7 +374,7 @@
         });
     } catch(e) {w.trackJsError(e); throw e;}
 </script>
-
+  <!--
 <script type="text/javascript">
     var chart=null;
     var dataArray= [
@@ -566,7 +602,7 @@
         var highchartsOptions = Highcharts.setOptions(Highcharts.theme);
     });
 </script>
-
+ -->
 
 
 <script type="text/javascript">
@@ -588,4 +624,3 @@
         $(".welcomes").remove();
     }
 </script>
-
