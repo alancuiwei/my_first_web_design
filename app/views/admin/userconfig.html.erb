@@ -28,19 +28,19 @@
           <select name="realizetime" id="realizetime" title="何时梦想成真"></select>
         </td>
       </tr>
-      <tr><td>已有存款：</td><td><input type="text" name="investamount" id="investamount" title="已有存款"></td></tr>
+      <tr><td>已有存款：</td><td><input type="text" name="exeitdeposit" id="exeitdeposit" title="已有存款"></td></tr>
       <tr><td>每月可存款：</td><td><input type="text" name="monthpay" id="monthpay" title="每月可存款"></td></tr>
       <tr><td>您愿意给理财师支付：</td><td><input type="text" name="scharge" id="scharge" title="您愿意给理财师支付"  placeholder="最低为10元"></td></tr>
       <tr><td>会员信息审核：</td><td>
         <input type="text" name="confirm" id="confirm" title="会员信息审核"></td>
       <tr><td>银行理财产品：</td><td>
-        <input type="text" name="bankfinancep" id="bankfinancep" title="银行理财产品"></td>
+        <input type="text" name="bankfinancep" id="bankfinancep"></td>
       <tr><td>债券型基金：</td><td>
-        <input type="text" name="deptp" id="deptp" title="债券型基金"></td>
+        <input type="text" name="deptp" id="deptp"></td>
       <tr><td>货币型基金：</td><td>
-        <input type="text" name="stockp" id="stockp" title="货币型基金"></td>
+        <input type="text" name="stockp" id="stockp"></td>
       <tr><td>指数型基金：</td><td>
-        <input type="text" name="trustp" id="trustp" title="指数型基金"></td>
+        <input type="text" name="trustp" id="trustp"></td>
       <tr><td>备注：</td><td>
         <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
       </td></tr>
@@ -64,7 +64,7 @@
           $("#dream").attr("value",'<%= @webuser.dream %>');
           $("#amount").attr("value",'<%= @webuser.amount %>');
           $("#realizetime").attr("value",'<%= @webuser.realizetime %>');
-          $("#investamount").attr("value",'<%=@hash_reference[0][0] %>');
+          $("#exeitdeposit").attr("value",'<%= @webuser.exeitdeposit %>');
           $("#monthpay").attr("value",'<%= @webuser.monthpay %>');
           $("#scharge").attr("value",'<%= @webuser.scharge %>');
           $("#remark").attr("value",'<%= @webuser.remark %>');

@@ -20,13 +20,13 @@
         <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
           <dl class="dl-horizontal">
             <dt>用户名 *:</dt>
-            <dd><input id="username" class="input_menum" name="MMERGE3" placeholder="用户名" type="text"></dd>
+            <dd><input id="username" name="MMERGE3" placeholder="用户名" type="text"></dd>
             <dt>密码 *:</dt>
-            <dd><input id="password" class="input_menum" placeholder="密码" type="password"></dd>
+            <dd><input id="password" placeholder="密码" type="password"></dd>
             <dt>电子邮箱 *:</dt>
-            <dd><input id="email2" class="input_menum" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
+            <dd><input id="email2" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
             <dt>联系电话 *:</dt>
-            <dd><input id="tel2" class="input_menum" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
+            <dd><input id="tel2" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
           </dl>
 
           <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
@@ -69,7 +69,7 @@
                 <option value="拥有CFP证书">拥有CFP证书</option>
                 <option value="没有CFP证书">没有CFP证书</option>
               </select>
-              <p id="zhifu" style="display: none;color: red;">您好，因为您没有相应的金融理财规划CFP证书，我们需要您通过支付宝50元，以保障您不会骚扰到我们的投资人客户以及给予客户高质量服务。</p>
+              <p id="zhifu" style="display: none;color: red;">您好，因为您没有相应的金融理财规划CFP证书，我们需要您通过支付宝100元，以保障您不会骚扰到我们的投资人客户以及给予客户高质量服务。</p>
             </dd>
             <div id="have">
               <dt>证书编号 :</dt>
@@ -88,9 +88,9 @@
       <form>
         <dl class="dl-horizontal">
           <dt>用户名 *:</dt>
-          <dd><input id="username2" class="input_menum" placeholder="用户名" type="text"></dd>
+          <dd><input id="username2" placeholder="用户名" type="text"></dd>
           <dt>密码 *:</dt>
-          <dd><input id="password2" class="input_menum" placeholder="密码" type="password"></dd>
+          <dd><input id="password2" placeholder="密码" type="password"></dd>
         </dl>
         <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
         <div class="or-text"><div><b>或</b></div></div>
@@ -148,10 +148,11 @@
             $("#have").show();
             $("#zhifu").hide();
             $("#certificate").val("");
+            $("#certificate").addClass("input_menum");
         } else {
             $("#have").hide();
             $("#zhifu").show();
-            $("#certificate").val("无");
+            $("#certificate").removeClass("input_menum");
         }
     }
 
@@ -363,7 +364,7 @@
         if( this.id != 'mc-embedded-subscribe-form'){
         var flag=true;
         //alert($("[valType]").length);
-        $.each($("[valType]"),function(i, n) {
+        $.each($(".input_menum"),function(i, n) {
             //清除可能已有的提示信息
             $(n).poshytip('hide');
             if($(n).attr("valType")=='required') {//对不能为空的文本框进行验证
@@ -394,7 +395,7 @@
         $('form').bind('submit',beforeSubmit);
 
         //为带有valType属性的元素初始化提示信息并注册onblur事件
-        $.each($("[valType]"),function(i, n) {
+        $.each($(".input_menum"),function(i, n) {
             $(n).poshytip({
                 className: 'tip-yellowsimple',
                 content: $(n).attr('msg'),
@@ -543,6 +544,7 @@
         }
     }
 </script>
+
 
 
 

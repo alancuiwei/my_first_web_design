@@ -234,7 +234,7 @@
             <th>电子邮件</th>
             <th style="width: 12%;">联系电话</th>
             <th style="width: 12%;">资金量</th>
-            <th style="width: 8%;" title="付款后批准进入梦想墙">状态</th>
+            <th style="width: 8%;" title="梦想登记后没有付款，付款后直接关闭页面（没有等页面跳转到梦想墙页面）需要查看支付宝有没有收到付款再决定是否批准该用户进入梦想墙">状态</th>
             <th style="width: 8%;">修改</th>
             <th style="width: 8%;">删除</th>
             <th style="width: 8%;">投资信息</th>
@@ -248,13 +248,7 @@
                 <td class="hide"><%= @hash_password[w.id]%></td>
                 <td><% if w.email!="1" %><%= w.email %><% end %></td>
                 <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
-                <td>
-                  <% @personalfinance.each do |t|  %>
-                      <% if t.username==w.username && t.investamount!=nil %>
-                          <%= format("%0.0f",t.investamount) %>
-                      <% end %>
-                  <% end %>
-                </td>
+                <td><% if w.exeitdeposit!=nil %><%= format("%0.0f",w.exeitdeposit) %><% end %></td>
                 <% if w.organuser=='2' %>
                     <td><a id="organ<%= w.id %>" onclick="organ('<%= w.id %>','<%= w.username %>')" class="btn-link">批准</a></td>
                 <% else %>

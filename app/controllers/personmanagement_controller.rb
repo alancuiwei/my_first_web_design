@@ -47,22 +47,14 @@ class PersonmanagementController < ApplicationController
         @webuser2=Webuser.find_by_username(@webuser.username)
       end
       @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
-
-      @personalfinance=Personalfinance.all
       @personinvestinfo=Personinvestinfo.all
       @hash={}
       for i in 0..@webusers.size-1
-        @add=Personalfinance.find_by_username(@webusers[i].username)
         @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
         if @provide!=nil
-          date=1
+        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance])
         else
-          date=nil
-        end
-        if @add!=nil
-        @hash.store(@webusers[i].username,[@add.investamount,date])
-        else
-          @hash.store(@webusers[i].username,[nil,date])
+          @hash.store(@webusers[i].username,[0,@webusers[i].exeitdeposit,nil,nil,nil])
         end
       end
     end
@@ -330,6 +322,8 @@ class PersonmanagementController < ApplicationController
     @photo.url="/download/#{@filename}"   #保存文件路径字段
     @photo.name=@filename   #保存文件名字段
     if @photo.save
+      @provides=Provide.find_by_username_and_managename(params[:username],params[:managename])
+     if @provides==nil
       Provide.new do |b|
         b.username=params[:username]
         b.managename=params[:managename]
@@ -341,10 +335,14 @@ class PersonmanagementController < ApplicationController
         b.filename= @filename
         b.save
       end
+     else
+       File.delete("#{Rails.root}/app/assets/download/"+@provides.filename)
+       @provides.update_attributes(:stock=>params[:stock],:debt=>params[:debt],:bankfinance=>params[:bankfinance],:filename=>@filename)
+     end
       @webuser=Webuser.find_by_username(session[:webusername])
       @webuser2=Webuser.find_by_username(params[:username])
       Thread.new{
-        UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
+     #   UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
       }
       flash[:notice] = 'Photo was successfully created.'
       redirect_to(:controller=>"personmanagement", :action=>"organfinance", :id=>@webuser.id)

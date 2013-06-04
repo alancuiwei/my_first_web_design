@@ -7,7 +7,6 @@ class AdminController < ApplicationController
       @organuser=Webuser.find_by_sql('select * from webuser where address is not null and organuser="1"')
       @bankfinances=Bankfinance.all
       @bankfinance2=Bankfinance.find_all_by_isorgan(1)
-      @personalfinance=Personalfinance.all
       @blogs=Blog.all
       @products=Product.all
       @reserves=Reserve.all
@@ -136,13 +135,6 @@ class AdminController < ApplicationController
     @userinfo=[]
     if params[:id]!="0"
       @webuser=Webuser.find_by_id(params[:id])
-      @hash_reference=Hash.new
-        @add=Personalfinance.find_by_username(@webuser.username)
-        if @add!=nil
-          @hash_reference.store(0,[@add.investamount])
-        else
-          @hash_reference.store(0,[nil])
-        end
     end
   end
 

@@ -69,15 +69,15 @@
           <td><%= @webusers[i].province %></td>
           <td><%= @webusers[i].city %></td>
           <td><%= @webusers[i].dream %></td>
-          <td><%= @webusers[i].amount %></td>
-          <td><%= @hash[@webusers[i].username][0] %></td>
-          <td><%= @webusers[i].monthpay %></td>
+          <td><% if @webusers[i].amount !=nil %><%= format("%0.0f",@webusers[i].amount) %><% end %></td>
+          <td><% if @hash[@webusers[i].username][1] != nil %><%= format("%0.0f",@hash[@webusers[i].username][1]) %><% end %></td>
+          <td><% if @webusers[i].monthpay !=nil %><%= format("%0.0f",@webusers[i].monthpay) %><% end %></td>
           <td><%= @webusers[i].realizetime %></td>
           <% if session[:webusername]==@webuser.username %>
-              <% if @hash[@webusers[i].username][1]!=1 %>
+              <% if @hash[@webusers[i].username][0]!=1 %>
                   <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>">提供方案</a></td>
               <% else %>
-                  <td class="white">已提供</td>
+                  <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>,<%= format("%0.0f",@hash[@webusers[i].username][2]*100) %>,<%= format("%0.0f",@hash[@webusers[i].username][3]*100) %>,<%= format("%0.0f",@hash[@webusers[i].username][4]*100) %>">修改</a></td>
               <% end %>
           <% end %>
         </tr>
@@ -280,7 +280,10 @@
 
 <script>
     $('a.login-window').click(function() {
-        $("#name").html(this.id);
+        $("#name").html(this.id.split(",")[0]);
+        $("#stock").val(this.id.split(",")[1]);
+        $("#debt").val(this.id.split(",")[2]);
+        $("#bankfinance").val(this.id.split(",")[3]);
         var loginBox = $(this).attr('href');
         //Fade in the Popup and add close button
         $(loginBox).fadeIn(300);

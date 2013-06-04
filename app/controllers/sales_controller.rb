@@ -66,7 +66,7 @@ class SalesController < ApplicationController
         'seller_email' => 'zhongrensoft@gmail.com',
         'out_trade_no' => @subsribe_id,
         'subject' => '理财师支付',
-        'price' => '50',
+        'price' => '100',
         'quantity' => '1',
         'payment_type' => '1',
         'logistics_type'=>'EMS',
