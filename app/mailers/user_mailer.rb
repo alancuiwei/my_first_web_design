@@ -85,6 +85,13 @@ class UserMailer < ActionMailer::Base
     mail(:to => email,:subject => title)
       end
 
+  def handling(organname,company,username,email)
+    @organname = organname
+    @company = company
+    @username = username
+    mail(:to => email,:subject => "理财师为您服务")
+  end
+
   def notify(username,email,id,title)
     @username = username
     @id = id

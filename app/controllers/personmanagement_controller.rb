@@ -133,6 +133,10 @@ class PersonmanagementController < ApplicationController
   def stasus
     @webuser=Webuser.find_by_id(params[:oid])
     @webuser.update_attributes(:organusername=>session[:webusername])
+    @webuser2=Webuser.find_by_username(session[:webusername])
+    Thread.new{
+      UserMailer.handling(session[:webusername],@webuser2.company,@webuser.username,@webuser.email).deliver
+    }
     render :json => "s".to_json
   end
 
@@ -342,7 +346,7 @@ class PersonmanagementController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
       @webuser2=Webuser.find_by_username(params[:username])
       Thread.new{
-     #   UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
+        UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
       }
       flash[:notice] = 'Photo was successfully created.'
       redirect_to(:controller=>"personmanagement", :action=>"organfinance", :id=>@webuser.id)
