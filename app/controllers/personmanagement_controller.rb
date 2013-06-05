@@ -52,7 +52,7 @@ class PersonmanagementController < ApplicationController
       for i in 0..@webusers.size-1
         @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
         if @provide!=nil
-        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance,@provide.trust])
+        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance,@provide.insure])
         else
           @hash.store(@webusers[i].username,[0,@webusers[i].exeitdeposit,nil,nil,nil,nil])
         end
