@@ -214,8 +214,7 @@
             </td>
           </tr>
         </table>
-        <div style="height: 30px;margin-bottom: 20px;"></div>
-        <div style="height: 15px;"></div>
+        <div style="height: 55px;"></div>
         <table id="table" style="width: 100%;">
               <tr>
                 <td style="padding-left: 20px;">
@@ -270,7 +269,7 @@
                                 <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">银行理财产品</a></span>
                               </td>
                               <td class="asset-class-percentage number"><%= @webuser.bankfinancep %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]) %><% else %>0<% end %></td>
                             </tr>
                             <% end %>
                             <% if (@hash2[0][4]!=0 && @hash2[0][4]!=nil) || @hash2[0][1] ==nil %>
@@ -280,7 +279,7 @@
                                 <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">债券型基金</a></span>
                               </td>
                               <td class="asset-class-percentage number"><%= @webuser.deptp %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]) %><% else %>0<% end %></td>
                             </tr>
                             <% end %>
                             <% if (@hash2[0][3]!=0 && @hash2[0][3]!=nil) || @hash2[0][1] ==nil %>
@@ -290,7 +289,7 @@
                                     <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="随存随取型产品">货币型基金</a></span>
                                   </td>
                                   <td class="asset-class-percentage number"><%= @webuser.stockp %></td>
-                                  <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]*@webuser.exeitdeposit) %><% else %>0<% end %></td>
+                                  <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]) %><% else %>0<% end %></td>
                                 </tr>
                             <% end %>
                             <tr class="" data-type="DIV_STOCKS">
@@ -301,6 +300,16 @@
                               <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
                               <td class="asset-class-amount number"><% if @webuser.monthpay !=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% end %></td>
                             </tr>
+                            <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
+                            <tr class="" data-type="DIV_STOCKS">
+                              <td class="asset-class-color"><div class="legend DIV_STOCKS" style="background: #000000;"></div></td>
+                              <td class="asset-class-name">
+                                <span class="ktip-link"><a class="ktip-a">保险产品</a></span>
+                              </td>
+                              <td class="asset-class-percentage number"><%= @webuser.insurep %></td>
+                              <td class="asset-class-amount number"><% if @hash2[0][5] !=nil %>￥<%= format("%0.0f",@hash2[0][5]) %>/年<% else %>0<% end %></td>
+                            </tr>
+                            <% end %>
                             </tbody>
                           </table>
                         </td></tr></table>
@@ -520,7 +529,9 @@
     //图
     $(function () {
         <% if @hash2[0][3]!=nil %>
-          var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat(<%= @hash2[0][5] %>),parseFloat(<%= @hash2[0][6] %>)];
+          d = new Date(),
+          nowYear = d.getFullYear();
+          var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @webuser.monthpay %>),parseFloat(<%= @hash2[0][6] %>)];
         <% else %>
         var dataArray=[1]
         <% end %>

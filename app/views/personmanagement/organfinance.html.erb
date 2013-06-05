@@ -77,7 +77,7 @@
               <% if @hash[@webusers[i].username][0]!=1 %>
                   <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>">提供方案</a></td>
               <% else %>
-                  <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>,<%= format("%0.0f",@hash[@webusers[i].username][2]*100) %>,<%= format("%0.0f",@hash[@webusers[i].username][3]*100) %>,<%= format("%0.0f",@hash[@webusers[i].username][4]*100) %>">修改</a></td>
+                  <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>,<%= format("%0.0f",@hash[@webusers[i].username][2]) %>,<%= format("%0.0f",@hash[@webusers[i].username][3]) %>,<%= format("%0.0f",@hash[@webusers[i].username][4]) %>,<%= format("%0.0f",@hash[@webusers[i].username][5]) %>">修改</a></td>
               <% end %>
           <% end %>
         </tr>
@@ -161,27 +161,36 @@
       <tr>
         <td>货币基金：</td>
         <td>
-          <div class="input-append">
-            <input id="stock" type="text" title="货币基金" name="stock">
-            <span class="add-on">%</span>
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input id="stock" style="width: 180px;" type="text" title="货币基金" name="stock">
           </div>
         </td>
       </tr>
       <tr>
         <td>债券基金：</td>
         <td>
-          <div class="input-append">
-            <input id="debt" type="text" title="债券基金" name="debt">
-            <span class="add-on">%</span>
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input id="debt" style="width: 180px;" type="text" title="债券基金" name="debt">
           </div>
         </td>
       </tr>
       <tr>
         <td>银行理财产品：</td>
         <td>
-          <div class="input-append">
-            <input id="bankfinance" type="text" title="银行理财产品" name="bankfinance">
-            <span class="add-on">%</span>
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input id="bankfinance" style="width: 180px;" type="text" title="银行理财产品" name="bankfinance">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>保险：</td>
+        <td>
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input id="insure" style="width: 180px;" type="text" title="银行理财产品" name="bankfinance">
           </div>
         </td>
       </tr>
@@ -284,6 +293,7 @@
         $("#stock").val(this.id.split(",")[1]);
         $("#debt").val(this.id.split(",")[2]);
         $("#bankfinance").val(this.id.split(",")[3]);
+        $("#insure").val(this.id.split(",")[4]);
         var loginBox = $(this).attr('href');
         //Fade in the Popup and add close button
         $(loginBox).fadeIn(300);
@@ -341,28 +351,14 @@
             }
         }
 
-        if(nom_flag==0){
-            var a=0;
-            for(var i=0;i<o.length;i++)
-            {
-                if(o[i].title!=""){
-                    a=parseFloat(a)+parseFloat(o[i].value)
-                }
-            }
-            if(a!=100){
-                alert("比例之和须为100%！")
-                return false;
-                nom_flag=1;
-            }
-        }
         if(document.getElementById('file_file').value==''){
             alert('请选择您所要上传的文件');
             return false;
             nom_flag=1;
         }
         else if(nom_flag==0){
-            document.getElementById('myForm').action = "/personmanagement/create?username="+$("#name").html()+"&managename=<%= session[:webusername] %>&stock="+String($("#stock").attr("value")/100)+"&debt="
-                           +String($("#debt").attr("value")/100)+"&trust=0&bankfinance="+String($("#bankfinance").attr("value")/100)+"&filename="+getFileName(document.getElementById("file_file").value)
+            document.getElementById('myForm').action = "/personmanagement/create?username="+$("#name").html()+"&managename=<%= session[:webusername] %>&stock="+String($("#stock").attr("value"))+"&debt="
+                           +String($("#debt").attr("value"))+"&insure="+String($("#insure").attr("value"))+"&bankfinance="+String($("#bankfinance").attr("value"))+"&filename="+getFileName(document.getElementById("file_file").value)
                            +"&company=<%= @webuser2.company %>";
             document.getElementById("myForm").submit();
         }

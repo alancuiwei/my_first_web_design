@@ -41,6 +41,8 @@
         <input type="text" name="stockp" id="stockp"></td>
       <tr><td>指数型基金：</td><td>
         <input type="text" name="trustp" id="trustp"></td>
+      <tr><td>保险产品：</td><td>
+        <input type="text" name="insurep" id="insurep"></td>
       <tr><td>备注：</td><td>
         <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
       </td></tr>
@@ -73,6 +75,7 @@
           $("#deptp").attr("value",'<%= @webuser.deptp %>');
           $("#stockp").attr("value",'<%= @webuser.stockp %>');
           $("#trustp").attr("value",'<%= @webuser.trustp %>');
+          $("#insurep").attr("value",'<%= @webuser.insurep %>');
           <% end %>
       });
 
@@ -93,7 +96,7 @@
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
                       tel: $("#tel").attr("value"),dream: $("#dream").attr("value"),amount: $("#amount").attr("value"),
                       realizetime: $("#realizetime").attr("value"),investamount: $("#investamount").attr("value"),monthpay: $("#monthpay").attr("value"),update: 1,
-                      bankfinancep: $("#bankfinancep").attr("value"),deptp: $("#deptp").attr("value"), stockp: $("#stockp").attr("value"), trustp: $("#trustp").attr("value"),
+                      bankfinancep: $("#bankfinancep").attr("value"),deptp: $("#deptp").attr("value"), stockp: $("#stockp").attr("value"), trustp: $("#trustp").attr("value"),insurep: $("#insurep").attr("value"),
                       scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value"),confirm: $("#confirm").attr("value"),isauto: 0
                   },function(data){
                       if(data=="f"){
