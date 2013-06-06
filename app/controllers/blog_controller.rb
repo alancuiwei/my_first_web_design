@@ -50,7 +50,7 @@ class BlogController < ApplicationController
           @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
-        @tag=params[:tag].force_encoding("gb2312").split(",")
+        @tag=params[:tag].split(",")
         @tags=""
         for i in 0..@tag.size-1
           if @tags==""

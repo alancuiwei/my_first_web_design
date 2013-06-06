@@ -94,7 +94,7 @@
           </div>
           <div class="question">
             <p class="q-text">您当前的年纪?</p>
-            <input type="text" name="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">岁
+            <input type="text" name="age" id="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">岁
             <p class="why-do-we-ask">
               <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a demo-tip-yellowsimple" title="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
             </p>
@@ -104,9 +104,25 @@
               <span class="subtext">(例如：银行活期存款，股票，基金，期货等)</span>
             </p>
             <p>
-              <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+              <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" id="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
               <span style="padding-left:13px" class="subtext">最小投资金额是 ￥5,0000.</span>
             </p>
+            <p class="q-text">您资金主要放在哪家银行帐号里?</p>
+            <select  name="bank" id="bank" title="银行" style="margin-left: 15px;">
+              <option value="建设银行">建设银行</option>
+              <option value="中国银行">中国银行</option>
+              <option value="招商银行">招商银行</option>
+              <option value="广发银行">广发银行</option>
+              <option value="工商银行">工商银行</option>
+              <option value="中信银行">中信银行</option>
+              <option value="浦发银行">浦发银行</option>
+              <option value="交通银行">交通银行</option>
+              <option value="华夏银行">华夏银行</option>
+              <option value="民生银行">民生银行</option>
+              <option value="农业银行">农业银行</option>
+              <option value="兴业银行">兴业银行</option>
+              <option value="平安银行">平安银行</option>
+            </select>
             <p class="why-do-we-ask">
               <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a demo-tip-yellowsimple" title="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
             </p>
@@ -213,6 +229,9 @@
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
         var accountMin = 50000;
+        var save = "";
+        var stacked = "";
+        var risk="";
 
         $("#questionnaire-view .ktip-link").bind("tip.show", function() {
             w.trackEvent("OFA", "questionnaire_faq_show", this.id);
@@ -251,12 +270,24 @@
                                 if (this.value !== $qr.data("vals")[this.name]) {
                                     calculateRiskTol();
                                 }
+                                if(save=="") {
+                                    save=this.value;
+                                }
+                                else{
+                                    save=save+','+this.value;
+                                }
                             }).end()
                             .filter("[type=checkbox]").click(function(e) {
                                 this.focus();
                                 updateButtons(e, this, true);
                                 if (this.value !== $qr.data("vals")[this.name]) {
                                     calculateRiskTol();
+                                }
+                                if(stacked=="") {
+                                    stacked=this.value;
+                                }
+                                else{
+                                stacked=stacked+','+this.value;
                                 }
                             }).end()
                             .filter("[name=age]").each(function(){
@@ -300,7 +331,64 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                            document.getElementById('questionnaire').action ="/home/plan";
+                        <% if cookies[:asset_allocation]!=nil %>
+                        var returnrate=0;
+                        var riskrate=0;
+                        var investcycle=0;
+                        var wbreedinfo="";
+                        var fluctuation="";
+                        var trade="";
+                        var quota="";
+                        if(save.split(',')[1]=='A'){
+                            returnrate=0.06;
+                            riskrate=0;
+                        }
+                        else if(save.split(',')[1]=='B'){
+                            returnrate=0.1;
+                            riskrate=0.03;
+                        }
+                        else if(save.split(',')[1]=='C'){
+                            returnrate=0.2;
+                            riskrate=0.1;
+                        }
+
+                        if (save.split(',')[4]=='90'){investcycle='三个月';}
+                        else if(save.split(',')[4]=='180'){investcycle='六个月';}
+                        else if(save.split(',')[4]=='365'){investcycle='一年';}
+                        else if(save.split(',')[4]=='730'){investcycle='二年';}
+
+                        if (save.split(',')[0]=='sellAll'){fluctuation='卖掉所有股票';}
+                        else if(save.split(',')[0]=='sellSome'){fluctuation='卖掉一部分股票';}
+                        else if(save.split(',')[0]=='keepAll'){fluctuation='继续持有';}
+                        else if(save.split(',')[0]=='buyMore'){fluctuation='购买更多的股票';}
+
+                        if (save.split(',')[2]=='gain'){quota='最大利润';}
+                        else if(save.split(',')[2]=='loss'){quota='最小损失';}
+                        else if(save.split(',')[2]=='both'){quota='两者都很重要';}
+
+                        if (stacked.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
+                        if(stacked.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
+                        if(stacked.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
+                        if(stacked.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
+                        if(stacked.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+
+                        if (save.split(',')[5]=='true'){trade='计算机/互联网/电子';}
+                        else if(save.split(',')[5]=='A'){trade='银行/保险/证券等金融机构';}
+                        else if(save.split(',')[5]=='B'){trade='生物/制药/医疗';}
+                        else if(save.split(',')[5]=='C'){trade='广告/媒体/艺术';}
+                        else if(save.split(',')[5]=='D'){trade='建筑/房地产';}
+                        else if(save.split(',')[5]=='E'){trade='人事/行政/高级管理';}
+                        else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
+                        else if(save.split(',')[5]=='G'){trade='公务员';}
+                        var risktolerance=risk;
+                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,bank:$("#bank").attr("value"),
+                            investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
+                        },function(data){
+                            location.href='/personmanagement/personfinance'
+                        });
+                        <% end %>
+                        return false
+                        document.getElementById('questionnaire').action ="/personmanagement/personfinance";
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());
                         $qr.submit();
                     });
@@ -378,6 +466,7 @@
             vals.rec = +rec;
             $qr.data("vals", vals);
             $qr.triggerHandler("qr:change", +rec);
+            risk=tol;
         }
     });
 </script>

@@ -36,7 +36,7 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
-  <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") %>
+  <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") && @webuser.username==session[:webusername] %>
       <% if @webuser.risktolerance ==nil %>
           <div id="xoverlay" style="display: block;">
             <b>您能承受的风险度决定了您将得到的收益。</b> <a class="btns" href="/home/questions" target="_blank">测试看看</a>

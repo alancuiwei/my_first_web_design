@@ -269,6 +269,7 @@ class AdminController < ApplicationController
           w.remark=params[:remark]
           w.province=params[:province]
           w.certificate=params[:certificate]
+          w.exeitdeposit=params[:exeitdeposit]
           if params[:investamount]!=nil
             w.isauto=0
           end
@@ -385,18 +386,9 @@ class AdminController < ApplicationController
       @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],
                                          :company=>params[:company],:post=>params[:post],:email=>params[:email],:memberlevel=>params[:memberlevel])
       else
-        @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel],:dream=>params[:dream],:isauto=>params[:isauto],:confirm=>params[:confirm],
+        @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel],:dream=>params[:dream],:isauto=>params[:isauto],:confirm=>params[:confirm],:exeitdeposit=>params[:exeitdeposit],
                                    :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],
                                    :bankfinancep=>params[:bankfinancep],:deptp=>params[:deptp],:stockp=>params[:stockp],:trustp=>params[:trustp],:insurep=>params[:insurep])
-        if @personalfinance!=nil
-          @personalfinance.update_attributes(:investamount=>params[:investamount])
-        else
-          Personalfinance.new do |w|
-            w.username=params[:username]
-            w.investamount=params[:investamount]
-            w.save
-          end
-        end
       end
       render :json => "s2".to_json
     end

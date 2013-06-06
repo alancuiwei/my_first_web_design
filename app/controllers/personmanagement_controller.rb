@@ -145,7 +145,9 @@ class PersonmanagementController < ApplicationController
       if session[:webusername]==nil
       @personalfinance=Personalfinance.find_by_username(params[:username])
       else
+        @webuser=Webuser.find_by_username(session[:webusername])
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
+        @webuser.update_attributes(:risktolerance=>params[:risktolerance]);
       end
       if @personalfinance==nil
         Personalfinance.new do |b|
@@ -166,12 +168,16 @@ class PersonmanagementController < ApplicationController
           b.trade=params[:trade]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
+          b.bank=params[:bank]
           b.save
         end
         session[:personname]=params[:username]
         render :json => "s1".to_json
       else
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],:quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],:investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],:riskrate=>params[:riskrate])
+        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],
+                                           :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
+                                           :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],
+                                           :riskrate=>params[:riskrate],:bank=>params[:bank])
         if  params[:tel]!=nil
           @personalfinance.update_attributes(:tel=>params[:tel])
         end
@@ -183,9 +189,9 @@ class PersonmanagementController < ApplicationController
       @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
                                          :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:trade=>params[:trade],
                                          :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
-                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:contact=>params[:contact],
+                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:contact=>params[:contact],:bank=>params[:bank],
                                          :myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
-      render :json => "s1".to_json
+      render :json => "sd".to_json
     end
   end
 
@@ -264,9 +270,9 @@ class PersonmanagementController < ApplicationController
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota,@add.bank])
       else
-        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil])
+        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil,nil])
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
@@ -286,9 +292,9 @@ class PersonmanagementController < ApplicationController
       @hash=Hash.new
       @add=Personalfinance.find_by_username(@webuser.username)
       if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota])
+        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota,@add.bank])
       else
-        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil])
+        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil,nil])
       end
     else
       redirect_to(:controller=>"home")

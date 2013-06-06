@@ -88,6 +88,7 @@ class HomeController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
     else
+      redirect_to(:controller=>"sales", :action=>"login", :question=>1)
       @webuser=Webuser.find_by_username('admin')
     end
   end

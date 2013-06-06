@@ -329,6 +329,8 @@
                 <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
                 <li>所在城市：</li>
                 <li class="answer"><%= @webuser.city %></li>
+                <li>您所处的行业是?</li>
+                <li class="answer"><%= @hash[0][4] %></li>
                 <li>梦想规划服务费：</li>
                 <li class="answer"><% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %>元<% end %></li>
                 <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
@@ -337,10 +339,10 @@
                 <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
                 <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
                 <li class="answer"><%= @hash[0][8] %></li>
+                <li>您资金主要放在哪家银行帐号里?</li>
+                <li class="answer"><%= @hash[0][9] %></li>
                 <li>您对如下哪些产品比较感兴趣?</li>
                 <li class="answer"><%= @hash[0][1] %></li>
-                <li>您所处的行业是?</li>
-                <li class="answer"><%= @hash[0][4] %></li>
             <% end %>
           </ul>
         </div>
