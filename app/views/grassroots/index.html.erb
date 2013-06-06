@@ -148,11 +148,31 @@
     //跳转语句
     if(system.win||system.mac||system.xll){
         $(".blogs").click(function(){
-            window.open("/blog/index?tag="+this.title);
+            var tag=this.title.split(",")
+            var link="";
+            for(var i=0;i<tag.length;i++){
+               if(link==''){
+                   link='?tag='+tag[i]
+               }
+                else{
+                   link=link+'&tag'+i+'='+tag[i]
+               }
+            }
+            window.open("/blog/index"+link);
         })
     }else{
         $(".blogs").click(function(){
-            window.open("/blog/all?tag="+this.title);
+            var tag=this.title.split(",")
+            var link="";
+            for(var i=0;i<tag.length;i++){
+                if(link==''){
+                    link='?tag='+tag[i]
+                }
+                else{
+                    link=link+'&tag'+i+'='+tag[i]
+                }
+            }
+            window.open("/blog/all"+link);
         })
     }
 </script>

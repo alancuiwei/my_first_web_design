@@ -15,14 +15,18 @@ class BlogController < ApplicationController
           @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
-        @tag=params[:tag].force_encoding("gb2312").split(",")
-        @tags=""
-        for i in 0..@tag.size-1
-          if @tags==""
-            @tags='tag like "%'+ @tag[i] + '%"'
-          else
-            @tags=@tags+' and tag like "%'+ @tag[i] + '%"'
+        @tags='tag like "%'+ params[:tag] + '%"'
+        if params[:tag1]!=nil
+            @tags=@tags+' and tag like "%'+ params[:tag1] + '%"'
+        end
+        if params[:tag2]!=nil
+            @tags=@tags+' and tag like "%'+ params[:tag2] + '%"'
+        end
+        if params[:tag3]!=nil
+            @tags=@tags+' and tag like "%'+ params[:tag3] + '%"'
           end
+        if params[:tag4]!=nil
+            @tags=@tags+' and tag like "%'+ params[:tag4] + '%"'
         end
         if params[:classify]==nil
           @blog=Blog.find_by_sql('select * from blog where '+@tags)
@@ -50,14 +54,18 @@ class BlogController < ApplicationController
           @blogs=Blog.find_by_sql('select * from blog where bcolumn="'+params[:classify]+'"'+'order by publishdate desc,id desc limit '+bid+',7')
         end
       else
-        @tag=params[:tag].split(",")
-        @tags=""
-        for i in 0..@tag.size-1
-          if @tags==""
-            @tags='tag like "%'+ @tag[i] + '%"'
-          else
-            @tags=@tags+' and tag like "%'+ @tag[i] + '%"'
+        @tags='tag like "%'+ params[:tag] + '%"'
+        if params[:tag1]!=nil
+          @tags=@tags+' and tag like "%'+ params[:tag1] + '%"'
+        end
+        if params[:tag2]!=nil
+          @tags=@tags+' and tag like "%'+ params[:tag2] + '%"'
+        end
+        if params[:tag3]!=nil
+          @tags=@tags+' and tag like "%'+ params[:tag3] + '%"'
           end
+        if params[:tag4]!=nil
+          @tags=@tags+' and tag like "%'+ params[:tag4] + '%"'
         end
         if params[:classify]==nil
           @blog=Blog.find_by_sql('select * from blog where '+@tags)

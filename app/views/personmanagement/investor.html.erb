@@ -183,13 +183,13 @@
     <tr>
       <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
       <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
-      <th>每月存款</th><th>状态</th><th class="hide"></th>
+      <th>每月存款</th><th class="hide">状态</th><th>状态</th><th class="hide"></th>
     </tr></thead>
     <tfoot class="hide">
     <tr>
       <th class="hide">ID</th><th>会员名</th><th>会员信息审核</th><th>服务费(元)</th>
       <th class="hide">省份</th><th>城市</th><th>我的梦想</th><th>梦想价值(万)</th><th>已有存款</th>
-      <th>每月存款</th><th>状态</th><th class="hide"></th>
+      <th>每月存款</th><th class="hide">状态</th><th>状态</th><th class="hide"></th>
     </tr></tfoot>
 
     <% @webuser.each do |b| %>
@@ -209,17 +209,22 @@
                   <% if b.isauto==0 %>
                       <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
                           <td id="status<%= b.id %>" onclick="waithelp(<%= b.id %>)"><a class="btn-link">等待帮助</a></td>
+                          <td class="hide">2</td>
                       <% else %>
                           <td id="status<%= b.id %>" onclick="alert('只有理财师才能提供帮助')"><a class="btn-link">等待帮助</a></td>
+                          <td class="hide">2</td>
                       <% end %>
                   <% else %>
                       <td>完成</td>
+                      <td class="hide">3</td>
                   <% end %>
               <% else %>
                 <% if @hash[b.username][0]!=1 %>
                   <td>处理中</td>
-                      <% else %>
-                      <td>完成</td>
+                  <td class="hide">1</td>
+                <% else %>
+                  <td>完成</td>
+                  <td class="hide">3</td>
                 <% end %>
               <% end %>
               <td class="hide" id="reference<%= b.id %>"><%= @hash_reference[b.id][1] %>,<%= @hash_reference[b.id][0] %>,<%= @hash_reference[b.id][2] %>,<%= @hash_reference[b.id][3] %></td>
@@ -237,11 +242,14 @@
               <% if b.organusername==nil %>
               <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
                   <td id="status<%= b.id %>" onclick="waithelp(<%= b.id %>)"><a class="btn-link">等待帮助</a></td>
+                  <td class="hide">2</td>
               <% else %>
                   <td id="status<%= b.id %>" onclick="alert('只有理财师才能提供帮助')"><a class="btn-link">等待帮助</a></td>
+                  <td class="hide">2</td>
               <% end %>
               <% else %>
                   <td>处理中</td>
+                  <td class="hide">1</td>
               <% end %>
               <td class="hide" id="reference<%= b.id %>"><%= @hash_reference[b.id][1] %>,<%= @hash_reference[b.id][0] %>,<%= @hash_reference[b.id][2] %>,<%= @hash_reference[b.id][3] %></td>
           <% end %>
@@ -333,7 +341,7 @@
             "iDisplayLength": 15,
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "aaSorting": [[0,"desc"]],
+            "aaSorting": [[11,"asc"],[0,"desc"]],
             "aLengthMenu": [[15, 25, 50, 100], [15, 25, 50, 100]],
             "bProcessing": true
     });

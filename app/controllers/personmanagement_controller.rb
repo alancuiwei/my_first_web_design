@@ -102,7 +102,7 @@ class PersonmanagementController < ApplicationController
   end
 
   def investor
-    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and organuser<>'2' and (organuser='0' || organuser is null) and scharge is not null")
+    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and (organuser='0' || organuser is null) and scharge is not null")
    if  session[:webusername]!=nil
     @webusers=Webuser.find_by_username(session[:webusername])
    else
