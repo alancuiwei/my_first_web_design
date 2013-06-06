@@ -34,7 +34,7 @@
     <div class="row-fluid" style="height: 18px;">
       <% if @webuser.risktolerance ==nil %>
           <div class="span12">
-            <a href="/home/questions"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a href="/home/questions"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
             <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>
             <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
@@ -42,7 +42,7 @@
           </div>
       <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
           <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
             <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
             <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
@@ -50,7 +50,7 @@
           </div>
       <% elsif @webuser.organusername==nil %>
           <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
             <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
             <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>
             <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>
@@ -58,7 +58,7 @@
           </div>
       <% elsif @hash2[0][1] ==nil %>
           <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
             <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
             <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
             <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>
@@ -66,7 +66,7 @@
           </div>
       <% else %>
           <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度测试</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成">4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span>
@@ -75,54 +75,11 @@
       <% end %>
     </div>
   </div>
-  <!--
-  <div style="padding-left: 20px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
-    <div class="row-fluid">
-      <div class="span9">
-        <% if (@webuser.dream ==nil || @webuser.organuser=='2') && @webuser.risktolerance !=nil %>
-            <p>
-              <a href="/usersurvey/apply"><b>1.</b> <span>尚未登记梦想</span></a>
-            </p>
-        <% elsif @webuser.dream !=nil && @webuser.organuser!='2' && @webuser.risktolerance ==nil %>
-            <p>
-              <a href="/home/questions"><b>1.</b> <span>尚未进行风险承受度测试</span></a>
-            </p>
-        <% elsif @webuser.dream ==nil || @webuser.organuser=='2'  %>
-            <p>
-              <a href="/home/questions"><b>1.</b> <span>尚未进行风险承受度测试</span></a> &nbsp;>&nbsp;
-              <a href="/usersurvey/apply"><b>2.</b> <span>尚未登记梦想</span></a>
-            </p>
-        <% elsif @webuser.organusername==nil %>
-            <p><span id="wait">等待理财师帮助实现梦想</span>
-              <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>
-                  <span id="status" class="btn-link"><a class="btn-link" onclick="waithelp()">我来帮助</a></span>
-              <% else %>
-                  <span id="status" class="btn-link"><a class="btn-link" onclick="alert('只有理财师才能提供帮助')">我来帮助</a></span>
-              <% end %>
-           </p>
-        <% else %>
-           <% if @hash2[0][2]==nil %>
-            <p>目前由<%= @webuser.organusername %>理财师帮助实现梦想
-              <span class="btn-link">实现中</span></p>
-           <% else %>
-                <p><%= @webuser.organusername %>已帮助完成梦想实现报告
-                  <% if @webuser.username == session[:webusername] %><a style="margin-left:55px;" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a><% end %></p>
-            <% end %>
-        <% end %>
-      </div>
-      <div class="span3">
-        <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
-           <p class=""><%= @webuser.city %> ￥<% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %><% end %>元</p>
-        <% end %>
-      </div>
-    </div>
-  </div>
-  -->
   <div style="height: 30px;"></div>
   <table style="width: 97%;margin-left: 3%;color: #555;">
     <tr>
       <td style="width: 200px;padding: 0 15px;text-align: center;">
-        <div id="title" style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的风险承受度：<% if  @webuser.risktolerance!=nil %><%= @webuser.risktolerance %><% else %>0<% end %></div>
+        <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
         <div id="container"></div>
         <% if @webuser.username == session[:webusername] %>
             <% if @webuser.risktolerance ==nil %>
@@ -298,7 +255,7 @@
                                 <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
                               </td>
                               <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
-                              <td class="asset-class-amount number"><% if @webuser.monthpay !=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% end %></td>
+                              <td class="asset-class-amount number"><% if @webuser.monthpay !=nil && @hash2[0][1]!=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% else %>0<% end %></td>
                             </tr>
                             <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
                             <tr class="" data-type="DIV_STOCKS">
@@ -343,6 +300,8 @@
                 <li class="answer"><%= @hash[0][9] %></li>
                 <li>您对如下哪些产品比较感兴趣?</li>
                 <li class="answer"><%= @hash[0][1] %></li>
+            <% else %>
+                <li><%= @webuser.username %> 尚未进行 风险承受度评估</li>
             <% end %>
           </ul>
         </div>

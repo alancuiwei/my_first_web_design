@@ -1,6 +1,5 @@
 <%= stylesheet_link_tag "home.css" %>
-<%= stylesheet_link_tag "bootstrap.min.css" %>
-<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "swfobject.js" %>
 
 <style>
     body {
@@ -13,32 +12,25 @@
   <table>
     <tr>
       <td class="lefts" style="padding-top: 10px;padding-right: 30px\9;">
-<!--        <h1 style="margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">1. 介绍</h1>  -->
-        <div id="myCarousel" class="carousel slide">
-          <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1" class=""></li>
-            <li data-target="#myCarousel" data-slide-to="2" class=""></li>
-            <li data-target="#myCarousel" data-slide-to="3" class=""></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="item active" style="padding: 0 85px;height:500px;">
-              <img src="/assets/120095.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 700px;">
-            </div>
-            <div class="item" style="padding: 0 85px;height:500px;">
-              <img src="/assets/120110.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 700px;">
-            </div>
-            <div class="item" style="padding: 0 85px;height:500px;">
-              <img src="/assets/120109.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 700px;">
-            </div>
-            <div class="item" style="padding: 0 85px;height:500px;">
-              <img src="/assets/120108.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 700px;">
-            </div>
-          </div>
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
-        </div>
-        <div style="display: table; width: 89.2%;">
+        <h1 style="width: 850px; margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">1. 梦想实现过程</h1>
+        <FONT id=player1>&nbsp;</FONT>
+        <SCRIPT type=text/javascript>
+            var s1 = new SWFObject("/assets/flvplayer.swf","","850","600","7");
+            s1.addParam("allowfullscreen","true");
+            s1.addVariable("file","网站介绍录像.mp4");
+            s1.addVariable("image","/image/shiping.jpg");
+            s1.addVariable("width","850");
+            s1.addVariable("height","600");
+            s1.addVariable("loop","true");
+            s1.addVariable("repeat", "flase");
+            s1.addVariable("fontcolor","0XFFFFFF");
+            s1.addVariable("autoscroll","true");
+            s1.addVariable("logo","");
+            s1.addVariable("autostart","true");
+            s1.addVariable("smoothing","true");
+            s1.write("player1");
+        </SCRIPT>
+        <div style="display: table; width: 850px;margin-top: 20px;">
           <% if session[:webusername]==nil %>
               <a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/sales/login?monthpay=1">梦想实现</a>
           <% else %>
@@ -46,6 +38,7 @@
           <% end %>
         </div>
         <!-- <a class="pull-right" style="padding-right:10px;line-height: 52px;" href="/home/download/data?filename=理财师客户资产配置申请.ppt">PPT下载</a> -->
+       <!--
         <h1 style="margin:50px 0 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">示例</h1>
         <div style="margin: 0 10% 0 11%;">
         <p style="font-size: 18px;">王明是2012年本科毕业，现已有5万存款，月薪开销约2000元，暂时还没有买房，住在父母家，打算2年后买一辆年轻人喜欢的一汽大众高尔夫车。</p>
@@ -55,7 +48,9 @@
           <p style="font-size: 18px;">panda：已婚，小孩5岁，家庭年税前收入40万左右，无房贷，多套房，每月开销约8000-10000左右，目前可支配资金50万左右，目前投资股票、债券，预期年收益率7%，能承担极低风险。IT行业工作8年，项目经理。不愿意买银行理财产品，收益率过低。</p>
           <a class="pull-right" style="padding-right:10px;line-height: 52px;" href="/home/download/data?filename=长期规划方案示例.doc">中长期梦想实现 下载</a>
         </div>
+        -->
       </td>
+      <!--
       <td class="rights">
         <div style="position:relative;width: 204px;margin-left: 25px;">
           <div id="position-saver">
@@ -69,6 +64,7 @@
           </div>
         </div>
       </td>
+      -->
     </tr>
   </table>
 </div>
