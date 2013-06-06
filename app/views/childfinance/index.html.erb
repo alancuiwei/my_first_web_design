@@ -5,7 +5,7 @@
 <div class="main-contents">
 
   <div class="intro">
-    <div class="text-block2">
+    <div class="text-block2" id="text">
     </div>
     <div class="form-block">
       <div class="sub-box" style="display: table;width: 100%;">
@@ -156,6 +156,8 @@
             window.open("/blog/index"+link);
         })
     }else{
+        $("#text").removeClass("text-block2")
+        $("#text").html("<img src='/assets/120094.jpg'>")
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";
