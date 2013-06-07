@@ -184,7 +184,7 @@
       <div id="q-buttons">
         <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
         <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
-        <button class="q-button orange-button big-button" id="q-submit">我的规划</button>
+        <button class="q-button orange-button big-button" id="q-submit">评估结束</button>
 
         <p class="q-privacy">
           <span class="q-privacy-1">这是匿名的，所以你可以如实回答，</span>
@@ -331,7 +331,6 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                        <% if cookies[:asset_allocation]!=nil %>
                         var returnrate=0;
                         var riskrate=0;
                         var investcycle=0;
@@ -386,7 +385,6 @@
                         },function(data){
                             location.href='/personmanagement/personfinance'
                         });
-                        <% end %>
                         return false
                         document.getElementById('questionnaire').action ="/personmanagement/personfinance";
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());
