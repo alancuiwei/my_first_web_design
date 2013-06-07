@@ -1,7 +1,6 @@
 <%= stylesheet_link_tag "home.css" %>
 <%= stylesheet_link_tag "common.css" %>
 <%= stylesheet_link_tag "homepage.css" %>
-<%= javascript_include_tag "highcharts.src.js" %>
 
 <style>
     .dollar-prefix{margin-top: -19px;}
@@ -13,7 +12,6 @@
     .applyvip{vertical-align: bottom;height: 147px;}
 </style>
 <!--<![endif]-->
-
 
 <script>
     var isProduction = true,
@@ -32,6 +30,7 @@
           <div id="slider-container">
 
             <div id="slider" class="ls-container ls-skinsa" style="position: relative;">
+              <a href="/home/scheme" style="color: #000000;">
               <div class="ls-inner" style="background-color: transparent; width: 1170px; height: 500px;">
                 <div class="ls-layer ls-active" rel="slidedelay: 6000" style="visibility: visible; width: 1170px; height: 500px; display: none; left: 0px; right: auto; top: 0px; bottom: auto;">
                   <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
@@ -88,11 +87,11 @@
                   </div>
                 </div>
               </div>
-
+              </a>
               <h1 id="s-title">我们帮您<br>家庭理财规划<br>实现梦想</h1>
 
               <h2 id="s-subtitle">
-                <a href="/home/scheme" class="button btn btn-success">点击美梦成真</a>
+                <a href="/home/scheme" class="button btn btn-success">美梦成真</a>
                 在您家庭理财遇到的重大疑问时，<br>
                 我们向您提供针对性的策略建议，<br>
                 帮助您做出聪明的决策。
@@ -131,7 +130,7 @@
       </tr>
     </table>
     <hr>
-    <h2 class="press">家庭理财知识</h2>
+    <h2 class="press">特色服务</h2>
     <table class="select">
       <tr>
         <td style="width: 28%;"><h3><a href="/womenfinance" target="_blank">女子理财 >></a></h3><br></td>
@@ -145,7 +144,7 @@
         <td></td>
         <td style="text-align: left;padding-left: 3%;"><a href="/grassroots" target="_blank"><img class="hsw" style="height: 170px;" src="/assets/121096.png" alt="屌丝理财"></a></td>
         <td></td>
-        <td class="img" style="vertical-align: bottom;"><a href="/childfinance" target="_blank"><img class="hsw" style="height: 140px;" src="/assets/120112.png" alt="儿童理财"></a></td>
+        <td class="img" style="vertical-align: bottom;"><a href="/childfinance" target="_blank"><img class="hsw" style="height: 140px;margin-right: 10px;" src="/assets/120112.png" alt="儿童理财"></a></td>
       </tr>
       <tr>
         <td><p class="leader">我要高质量的生活，女子更要理财。</p></td>
@@ -212,51 +211,12 @@
   <div class="hero-unit"> <!--主角单元-->
     <div class="slide">
       <table><tr><td>
-        <h1>为您提供<br/>家庭理财的<br/>方方面面</h1>
-        <!-- <p><a class="btn btn-success"  href='/bankinvest/index'><em>进来挑选</em></a></p> -->
+        <h1>我们帮您<br/>家庭理财规划<br/>实现梦想</h1>
+        <p><a class="btn btn-success"  href='/home/scheme'><em>美梦成真</em></a></p>
         <p class="description">在您家庭理财遇到的重大疑问时，<br>
           我们向您提供针对性的策略建议，<br>
           帮助您做出聪明的决策。</p>
-        <div id="control">
-          <div class="td numeral-col">
-            <div class="numeral">1</div>
-          </div>
-          <div class="td control-col">
-            <label for="amount">投资类型</label>
-            <select  name="patent" id="patent">
-              <option value="1">个人投资</option>
-              <option value="0">家庭投资</option>
-            </select>
-          </div>
-        </div>
-        <div id="amount-control">
-          <div class="td numeral-col">
-            <div class="numeral">2</div>
-          </div>
-          <div class="td control-col">
-            <label for="amount">投资金额</label>
-            <span style="position:relative;font-size:13px"><span class="dollar-prefix">￥</span><input id="amount" name="amount" style="margin-left: 5px;"  s value="50,000" type="text"></span>
-            <div id="minimum-note">
-              最低金额￥50000 元
-            </div>
-          </div>
-        </div>
-        <div id="age-control">
-          <div class="td numeral-col">
-            <div class="numeral">3</div>
-          </div>
-          <div class="td control-col">
-            <label for="age">您的年纪</label>
-            <button id="age-decrease" class="light-gray" tabindex="-1">−</button><input id="age" name="age" value="30" type="text"><button id="age-increase" class="light-gray" tabindex="-1">+</button>
-          </div>
-        </div>
-          <h2 style="display: none;">您的家庭资产规划</h2>
-          <div style="display: none;" id="container" style="width: 240px; height: 190px; margin: 0"></div>
-        <div class="link">
-              <a class=" js-personalize-button personalize-button orange-button big-button" href='/home/questions'>点击自助规划 »</a>
-            </div>
       </td></tr></table>
-
     </div>
   </div>
   <br>
@@ -624,3 +584,4 @@
         $(".welcomes").remove();
     }
 </script>
+

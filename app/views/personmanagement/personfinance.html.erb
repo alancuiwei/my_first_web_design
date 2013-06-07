@@ -3,7 +3,12 @@
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
-
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+    //]]>
+</script>
 <style>
     .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
     h1,h2{font-weight: 600;}
@@ -272,6 +277,11 @@
                         </td></tr></table>
                       <div class="clearfix"></div>
                     </section>
+                  </div>
+                  <div id="sample" class="hide">
+                    <textarea name="area2" style="width: 100%;">
+                      Some Initial Content was in this textarea
+                    </textarea>
                   </div>
                 </td>
               </tr>
@@ -596,5 +606,15 @@
                 return 'Loading images...';
             }
         });
+    });
+</script>
+
+<script>
+    $("#submit").click(function(){
+        <% if @webuser.scharge!=nil %>
+        $.get("/usersurvey/zhifubao",{scharge:'<%= @webuser.scharge %>',username:'<%= session[:webusername] %>'},function(data){
+            location.href=data;
+        });
+        <% end %>
     });
 </script>

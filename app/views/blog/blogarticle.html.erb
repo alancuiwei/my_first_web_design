@@ -1,6 +1,8 @@
 <%= stylesheet_link_tag "blog.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
-
+<style>
+  .img{width: 100%;}
+</style>
 <div  class='main-content'>
   <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
   <a class="crumbs" href="/blog/index" >博客</a><br><br>
@@ -42,7 +44,7 @@
         <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
         <div class="news_tag"></div>
         <br>
-        <div><img class="alignleft size-medium " style="width: 100%\9;" src="/assets/<%= @bloginfo[5]%>"></div>
+        <div><img class="alignleft size-medium " id="img" src="/assets/<%= @bloginfo[5]%>"></div>
         <div class="article">
           <p><%=raw @bloginfo[3]%></p>
         </div>
@@ -122,6 +124,11 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
+        var di = document.getElementById('img');
+        var diw = di.width;
+        if(diw>640){
+           $("#img").addClass("img");
+        }
       <% if @bloginfo[7]!=nil %>
         var value = '<%= @bloginfo[7] %>';
         var tags = value.split(/,\s*|，\s*/);
