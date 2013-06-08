@@ -14,9 +14,9 @@
       <td class="lefts" style="padding-top: 10px;padding-right: 30px\9;">
         <h1 style="width: 850px; margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">1. 梦想实现过程
           <% if session[:webusername]==nil %>
-              <a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/sales/login?monthpay=1">梦想实现</a>
+              <a id="link" class="btn pull-right" href="/sales/login?monthpay=1">梦想实现</a>
           <% else %>
-              <a style="margin-bottom: 0px;" class="btn btn-primary pull-right" href="/personmanagement/personfinance">梦想实现</a>
+              <a id="link" class="btn pull-right" href="/personmanagement/personfinance">梦想实现</a>
           <% end %>
         </h1>
         <FONT id=player1>&nbsp;</FONT>
@@ -32,7 +32,7 @@
             s1.addVariable("fontcolor","0XFFFFFF");
             s1.addVariable("autoscroll","true");
             s1.addVariable("logo","");
-            s1.addVariable("autostart","true");
+            s1.addVariable("autostart","false");
             s1.addVariable("smoothing","true");
             s1.write("player1");
         </SCRIPT>
