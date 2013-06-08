@@ -39,7 +39,7 @@ class UsersurveyController < ApplicationController
   def zhifubao
       @webuser = Webuser.find_by_username(session[:webusername])
       Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
-      @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.id.to_s
+      @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.username
       parameters = {
           'service' => 'create_partner_trade_by_buyer',
           'partner' => '2088801189204575',

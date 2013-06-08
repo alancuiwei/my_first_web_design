@@ -6,122 +6,124 @@
 
 <style>
     .main-footer{ display: none; }
-    #myTabContent{float: left;}
     .main-content{display: table;}
-    #myCarousel{float: right;margin-top: 100px;}
+    .span7{padding-top: 93px;}
 </style>
 
 <div class="main-content">
-  <div id="myTabContent" class="tab-content">
-    <div class="overlay tab-pane fade" id="create">
-      <a href="/">首页</a>
-      <div class="normal">
-        <h1 class="h1">注册</h1>
-        <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
-          <dl class="dl-horizontal">
-            <dt>用户名 *:</dt>
-            <dd><input id="username" name="MMERGE3" placeholder="用户名" type="text"></dd>
-            <dt>密码 *:</dt>
-            <dd><input id="password" placeholder="密码" type="password"></dd>
-            <dt>电子邮箱 *:</dt>
-            <dd><input id="email2" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
-            <dt>联系电话 *:</dt>
-            <dd><input id="tel2" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
-          </dl>
+  <div class="row-fluid">
+    <div class="span5">
+      <div id="myTabContent" class="tab-content">
+        <a href="/">首页</a><br><br>
+        <div class="overlay tab-pane fade" id="create">
+          <div class="bs-docs-example">
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#home" data-toggle="tab">投资人注册</a></li>
+              <li class=""><a href="#profile" data-toggle="tab">理财师注册</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="home">
+                <!--<h1 class="h1">注册</h1>-->
+                <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
+                  <dl class="dl-horizontal">
+                    <dt>用户名 *:</dt>
+                    <dd><input id="username" name="MMERGE3" placeholder="用户名" type="text"></dd>
+                    <dt>密码 *:</dt>
+                    <dd><input id="password" placeholder="密码" type="password"></dd>
+                    <dt>电子邮箱 *:</dt>
+                    <dd><input id="email2" name="EMAIL" title="电子邮箱" placeholder="我们将通过此,发送规划书给您" type="text"></dd>
+                    <dt>联系电话 *:</dt>
+                    <dd><input id="tel2" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></dd>
+                  </dl>
 
-          <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
-          <div class="or-text"><div><b>或</b></div></div>
-          <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
-        </form>
-      </div>
-      <div class="organ">
-        <h1 class="h1">理财师 注册</h1>
-        <form>
-          <dl class="dl-horizontal">
-            <dt>用户名 *:</dt>
-            <dd><input id="username3" class="input_menum num" valType="NAME" msg="<font color=red>*</font>用户名开头字符不能是数字，用户名长度必须大于等于3个字符" title="用户名"  placeholder="用户名" type="text"></dd>
-            <dt>理财师姓名 *:</dt>
-            <dd><input id="name" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入姓名" title="姓名" placeholder="姓名" type="text"></dd>
-            <dt>电子邮箱 *:</dt>
-            <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
-            <dt>联系电话 *:</dt>
-            <dd><input id="tel" class="input_menum num" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="联系电话" placeholder="联系电话" type="text"></dd>
-            <dt>密码 *:</dt>
-            <dd><input id="password3" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入密码" title="密码" placeholder="密码" type="password"></dd>
-            <dt>确认密码 *:</dt>
-            <dd><input id="password4" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>两次密码不一致" title="确认密码" placeholder="密码" type="password"></dd>
-            <dt>行业 *:</dt>
-            <dd>
-              <select class="trade" id="trade"title="所在行业">
-                <option value="银行">银行</option>
-                <option value="证券公司">证券公司</option>
-                <option value="期货公司">期货公司</option>
-                <option value="保险公司">保险公司</option>
-                <option value="P2P信贷公司">P2P信贷公司</option>
-                <option value="第三方理财机构">第三方理财机构</option>
-              </select>
-            </dd>
-            <dt>公司名 *:</dt>
-            <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
-            <dt>资格认证 *:</dt>
-            <dd>
-              <select class="contact" id="contact"title="资格认证"  onclick="have()">
-                <option value="拥有CFP证书">拥有CFP证书</option>
-                <option value="没有CFP证书">没有CFP证书</option>
-              </select>
-              <p id="zhifu" style="display: none;color: red;">您好，因为您没有相应的金融理财规划CFP证书，我们需要您通过支付宝100元，以保障您不会骚扰到我们的投资人客户以及给予客户高质量服务。</p>
-            </dd>
-            <div id="have">
-              <dt>证书编号 :</dt>
-              <dd><input id="certificate" class="input_menum num" valType="CFP" msg="<font color=red>*</font>您可能输入的是CFP的注册号，我们需要您输入CFP证书编号，麻烦您了。" title="证书编号" placeholder="我们将人工验证编号" type="text"></dd>
+                  <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
+                  <div class="or-text"><div><b>或</b></div></div>
+                  <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="profile">
+                <!--<h1 class="h1">理财师 注册</h1>-->
+                <form>
+                  <dl class="dl-horizontal">
+                    <dt>用户名 *:</dt>
+                    <dd><input id="username3" class="input_menum num" valType="NAME" msg="<font color=red>*</font>用户名开头字符不能是数字，用户名长度必须大于等于3个字符" title="用户名"  placeholder="用户名" type="text"></dd>
+                    <dt>理财师姓名 *:</dt>
+                    <dd><input id="name" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入姓名" title="姓名" placeholder="姓名" type="text"></dd>
+                    <dt>电子邮箱 *:</dt>
+                    <dd><input id="email" class="input_menum num" valType="MAIL" msg="<font color=red>*</font>电子邮箱格式不正确" title="电子邮箱" placeholder="电子邮箱" type="text"></dd>
+                    <dt>联系电话 *:</dt>
+                    <dd><input id="tel" class="input_menum num" valType="MOBILE" msg="<font color=red>*</font>手机格式不正确" title="联系电话" placeholder="联系电话" type="text"></dd>
+                    <dt>密码 *:</dt>
+                    <dd><input id="password3" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入密码" title="密码" placeholder="密码" type="password"></dd>
+                    <dt>确认密码 *:</dt>
+                    <dd><input id="password4" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>两次密码不一致" title="确认密码" placeholder="密码" type="password"></dd>
+                    <dt>行业 *:</dt>
+                    <dd>
+                      <select class="trade" id="trade"title="所在行业">
+                        <option value="银行">银行</option>
+                        <option value="证券公司">证券公司</option>
+                        <option value="期货公司">期货公司</option>
+                        <option value="保险公司">保险公司</option>
+                        <option value="P2P信贷公司">P2P信贷公司</option>
+                        <option value="第三方理财机构">第三方理财机构</option>
+                      </select>
+                    </dd>
+                    <dt>公司名 *:</dt>
+                    <dd><input id="company" class="input_menum num" valType="NOTNULL" msg="<font color=red>*</font>请输入公司" title="公司" placeholder="公司" type="text"></dd>
+                    <dt>资格认证 *:</dt>
+                    <dd>
+                      <select class="contact" id="contact"title="资格认证"  onclick="have()">
+                        <option value="拥有CFP证书">拥有CFP证书</option>
+                        <option value="没有CFP证书">没有CFP证书</option>
+                      </select>
+                      <p id="zhifu" style="display: none;color: red;">您好，因为您没有相应的金融理财规划CFP证书，我们需要您通过支付宝100元，以保障您不会骚扰到我们的投资人客户以及给予客户高质量服务。</p>
+                    </dd>
+                    <div id="have">
+                      <dt>证书编号 :</dt>
+                      <dd><input id="certificate" class="input_menum num" valType="CFP" msg="<font color=red>*</font>您可能输入的是CFP的注册号，我们需要您输入CFP证书编号，麻烦您了。" title="证书编号" placeholder="我们将人工验证编号" type="text"></dd>
+                    </div>
+                  </dl>
+                  <br>
+                  <a class="btn btn-success pull-right" id="create2" type="submit">注册</a>
+                  <div class="or-text"><div><b>或</b></div></div>
+                  <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
+                </form></div>
             </div>
-          </dl>
-          <br>
-          <a class="btn btn-success pull-right" id="create2" type="submit">注册</a>
-          <div class="or-text"><div><b>或</b></div></div>
-          <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
-        </form>
-      </div>
-    </div>
-    <div class="overlay tab-pane fade in active" id="login">
-      <h1 class="h1">登录</h1>
-      <form>
-        <dl class="dl-horizontal">
-          <dt>用户名 *:</dt>
-          <dd><input id="username2" placeholder="用户名" type="text"></dd>
-          <dt>密码 *:</dt>
-          <dd><input id="password2" placeholder="密码" type="password"></dd>
-        </dl>
-        <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
-        <div class="or-text"><div><b>或</b></div></div>
-        <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
-      </form>
-    </div>
-  </div>
-
-  <% if params[:organ]!=nil %>
-      <div id="myCarousel" class="carousel slide">
-        <div class="carousel-inner">
-          <div class="item active" style="padding: 0 85px;height:500px;">
-            <img src="/assets/121089.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
           </div>
-          <div class="item" style="padding: 0 85px;height:500px;">
-            <img src="/assets/121088.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          <div class="normal">
           </div>
-          <div class="item" style="padding: 0 85px;height:500px;">
-            <img src="/assets/121087.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
-          </div>
-          <div class="item" style="padding: 0 85px;height:500px;">
-            <img src="/assets/121086.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
-          </div>
-          <div class="item" style="padding: 0 85px;height:500px;">
-            <img src="/assets/121085.png" alt="" style="margin: 0 auto;max-height: 500px;max-width: 600px;">
+          <div class="organ">
           </div>
         </div>
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+        <div class="overlay tab-pane fade in active" id="login">
+          <h1 class="h1">登录</h1>
+          <form>
+            <dl class="dl-horizontal">
+              <dt>用户名 *:</dt>
+              <dd><input id="username2" placeholder="用户名" type="text"></dd>
+              <dt>密码 *:</dt>
+              <dd><input id="password2" placeholder="密码" type="password"></dd>
+            </dl>
+            <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
+            <div class="or-text"><div><b>或</b></div></div>
+            <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
+          </form>
+        </div>
       </div>
-  <% end %>
+    </div>
+    <div class="span7">
+      <% if params[:logintype]=='creat' %>
+      <dl class="qrcode-panel">
+        <dt style="margin-bottom: 5px;">
+          <img src="/assets/1.jpg" alt="">
+        </dt>
+        <dd style="font-size:12px;color: #717375;line-height: 1.6;">
+          微信扫描，<br>关注家庭理财
+        </dd>
+      </dl>
+     <% end %>
+    </div>
+  </div>
 </div>
 
 <div id='login-box' class='login-popup modal' style="display: none;">
@@ -129,14 +131,14 @@
     <div id="save">
       <div class="modal-header">
         <a class="close" href="javascript:">×</a>
-            <h3>理财师 注册</h3>
+        <h3>理财师 注册</h3>
       </div>
       <div class="modal-body">
-          <p>感谢您的注册，我们将在2个工作日内给您答复，请留意查收您的邮件。</p>
-        </div>
-        <div class="modal-footer">
-          <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
-        </div>
+        <p>感谢您的注册，我们将在2个工作日内给您答复，请留意查收您的邮件。</p>
+      </div>
+      <div class="modal-footer">
+        <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -158,17 +160,6 @@
 
     $('a.close, #mask,#subscribe').live('click', function() {
         location.href='/';
-    });
-
-    $(document).ready(function(){
-        if(Request('organ')==1){
-            $('.normal').hide();
-            $('.organ').show();
-        }
-        else{
-            $('.normal').show();
-            $('.organ').hide();
-        }
     });
 
     function question(name)
@@ -294,9 +285,9 @@
                 }
                 else if("<%= params[:monthpay] %>"!=""){
                     location.href="/personmanagement/personfinance";
-                 /*
-                    $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
-                        location.href="/usersurvey/pay";
+                    /*
+                     $.get("/usersurvey/dreamconfig",{username:$(uid).attr("value"),dream:"<%= params[:dream] %>",province:"<%= params[:province] %>",city: "<%= params[:city] %>",amount: "<%= params[:amount] %>",realizetime:"<%= params[:realizetime] %>",investamount:"<%= params[:investamount] %>",monthpay:"<%= params[:monthpay] %>",remark:"<%= params[:remark] %>",scharge:"<%= params[:scharge] %>"},function(data){
+                     location.href="/usersurvey/pay";
                      });
                      */
                 }
@@ -334,8 +325,8 @@
                                 location.href='/personmanagement/personinfo/0?bid='+Request("bid")+"&reserve=1";
                             }
                             else {
-                        location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
-                    }
+                                location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
+                            }
                         })
                     }
                     else if(Request("order")>0){
@@ -365,33 +356,33 @@
     //submit之前对所有表单进行验证
     function beforeSubmit() {
         if( this.id != 'mc-embedded-subscribe-form'){
-        var flag=true;
-        //alert($("[valType]").length);
-        $.each($(".input_menum"),function(i, n) {
-            //清除可能已有的提示信息
-            $(n).poshytip('hide');
-            if($(n).attr("valType")=='required') {//对不能为空的文本框进行验证
-                if($(n).val()=='') {
-                    //显示tips
-                    $(n).poshytip('show');
-                    flag=false;
+            var flag=true;
+            //alert($("[valType]").length);
+            $.each($(".input_menum"),function(i, n) {
+                //清除可能已有的提示信息
+                $(n).poshytip('hide');
+                if($(n).attr("valType")=='required') {//对不能为空的文本框进行验证
+                    if($(n).val()=='') {
+                        //显示tips
+                        $(n).poshytip('show');
+                        flag=false;
+                    }
                 }
-            }
-            else if($(n).attr("valType")=='OTHER') {//对自定义的文本框进行验证
-                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')}))) {
-                    $(n).poshytip('show');
-                    flag=false;
+                else if($(n).attr("valType")=='OTHER') {//对自定义的文本框进行验证
+                    if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'), regString:$(this).attr('regString')}))) {
+                        $(n).poshytip('show');
+                        flag=false;
+                    }
                 }
-            }
-            else {//对使用已定义规则的文本框进行验证
-                if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'),reg:$(this).attr('id')}))) {
-                    $(n).poshytip('show');
-                    flag=false;
+                else {//对使用已定义规则的文本框进行验证
+                    if(!($(this).val()!=''&&$.Validator.match({data:$(this).val(), rule:$(this).attr('valType'),reg:$(this).attr('id')}))) {
+                        $(n).poshytip('show');
+                        flag=false;
+                    }
                 }
-            }
-        });
-        return flag;
-    }
+            });
+            return flag;
+        }
     }
     $(function(){
         //拦截form,在form提交前进行验证
@@ -431,28 +422,28 @@
                         alert("用户名已注册！");
                     }
                     else if(data=="s"){
-                      if($("#contact").attr("value")=="拥有CFP证书"){
-                        $("#login-box").show();
-                        var loginBox = $(this).attr('href');
-                        //Fade in the Popup and add close button
-                        //Set the center alignment padding + border
-                        var popMargTop = ($(loginBox).height() + 24) / 2;
-                        var popMargLeft = ($(loginBox).width() + 24) / 2;
+                        if($("#contact").attr("value")=="拥有CFP证书"){
+                            $("#login-box").show();
+                            var loginBox = $(this).attr('href');
+                            //Fade in the Popup and add close button
+                            //Set the center alignment padding + border
+                            var popMargTop = ($(loginBox).height() + 24) / 2;
+                            var popMargLeft = ($(loginBox).width() + 24) / 2;
 
-                        $(loginBox).css({
-                            'margin-top' : -popMargTop,
-                            'margin-left' : -popMargLeft
-                        });
+                            $(loginBox).css({
+                                'margin-top' : -popMargTop,
+                                'margin-left' : -popMargLeft
+                            });
 
-                        // Add the mask to body
-                        $('body').append('<div id="mask"></div>');
-                        $('#mask').fadeIn(300);
-                      }
-                      else{
-                          $.get("/sales/zhifubao",{username:$('#username3').attr("value"),scharge:$("#scharge").attr("value")},function(data){
-                              location.href=data;
-                          });
-                      }
+                            // Add the mask to body
+                            $('body').append('<div id="mask"></div>');
+                            $('#mask').fadeIn(300);
+                        }
+                        else{
+                            $.get("/sales/zhifubao",{username:$('#username3').attr("value"),scharge:$("#scharge").attr("value")},function(data){
+                                location.href=data;
+                            });
+                        }
                     }
                 })
             }
