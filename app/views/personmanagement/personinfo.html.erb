@@ -189,14 +189,12 @@
 <script>
 
     <% if params[:id]!="0" %>
-    $("#age").attr("value",'<%= format("%0.0f",@personal[0])%>');
-    $("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');
+    <% if @personal[0]!=nil %>$("#age").attr("value",'<%= format("%0.0f",@personal[0])%>'); <% end %>
+    <% if @personal[4]!=nil %>$("#investamount").attr("value",'<%= format("%0.0f",@personal[4])%>');<% end %>
     $("#investcycle").attr("value",'<%= @personal[5]%>');
     $("#trade").attr("value",'<%= @personal[1]%>');
-    $("#returnrate").attr("value",'<%= format("%0.0f",@personal[6]*100)%>');
-    <% if @personal[7]!=nil %>
-    $("#riskrate").attr("value",'<%= format("%0.0f",@personal[7]*100)%>');
-    <% end %>
+    <% if @personal[6]!=nil %>$("#returnrate").attr("value",'<%= format("%0.0f",@personal[6]*100)%>'); <% end %>
+    <% if @personal[7]!=nil %>$("#riskrate").attr("value",'<%= format("%0.0f",@personal[7]*100)%>');<% end %>
     $("#name").attr("value",'<%= @personal[10]%>');
     $("#tel").attr("value",'<%= @personal[13]%>');
     var tom=document.getElementsByName("contact");
