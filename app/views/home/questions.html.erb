@@ -230,6 +230,13 @@
         var $qr = $("#questionnaire");
         var accountMin = 50000;
         var save = "";
+        var save0 = "";
+        var save1 = "";
+        var save2 = "";
+        var save3 = "";
+        var save4 = "";
+        var save5 = "";
+        var save6 = "";
         var stacked = "";
         var risk="";
 
@@ -270,12 +277,13 @@
                                 if (this.value !== $qr.data("vals")[this.name]) {
                                     calculateRiskTol();
                                 }
-                                if(save=="") {
-                                    save=this.value;
-                                }
-                                else{
-                                    save=save+','+this.value;
-                                }
+                                if(this.name=='response'){save0=this.value;}
+                                if(this.name=='portfolio'){save1=this.value;}
+                                if(this.name=='concern'){save2=this.value;}
+                                if(this.name=='options'){save3=this.value;}
+                                if(this.name=='income'){save4=this.value;}
+                                if(this.name=='angel'){save5=this.value;}
+                                if(this.name=='goal'){save6=this.value;}
                             }).end()
                             .filter("[type=checkbox]").click(function(e) {
                                 this.focus();
@@ -338,6 +346,7 @@
                         var fluctuation="";
                         var trade="";
                         var quota="";
+                        save=save0+','+save1+','+save2+','+save3+','+save4+','+save5+','+save6
                         if(save.split(',')[1]=='A'){
                             returnrate=0.06;
                             riskrate=0;
@@ -383,10 +392,10 @@
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,bank:$("#bank").attr("value"),
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                         },function(data){
-                            location.href='/personmanagement/personfinance'
+                            location.href='/personmanagement/personfinance';
                         });
                         return false
-                        document.getElementById('questionnaire').action ="/personmanagement/personfinance";
+                      //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());
                         $qr.submit();
                     });

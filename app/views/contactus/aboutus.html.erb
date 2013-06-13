@@ -34,8 +34,8 @@
                   <p>创始人 & CEO</p>
                   <div class='subtext'>
                     南京大学计算机系硕士研究生<br>
-                    上海贝尔阿尔卡特7年项目管理开发经验。<br>
-                    2011年11月创建重人软件。
+                    互联网金融行业8年工作经验。<br>
+                    2011年11月创建通天顺家庭理财。
                   </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@
                   <h1>梅洁</h1>
                   <p>金融产品研发总监</p>
                   <div class='subtext'>
-                    南京大学商学院金融系博士<br>负责金融产品研发以及风险控制。
+                    南京大学商学院金融系博士<br>负责金融产品研究以及风险控制。
                   </div>
                 </div>
               </div>
@@ -84,7 +84,7 @@
                   <h1>程仲汉</h1>
                   <p>数据挖掘研发总监</p>
                   <div class='subtext'>
-                    南京大学计算机系博士<br><br>应用数据挖掘技术解决产品和客户的数据匹配研发。
+                    南京大学计算机系博士<br><br>应用数据挖掘技术解决金融产品和客户的数据匹配研发。
                   </div>
                 </div>
               </div>
@@ -255,7 +255,7 @@
         <a  name='联系我们'><h1 style='margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000'>联系我们</h1></a>
          <table id="contact" style="width: 100%;">
            <tr>
-             <td style="width: 10%;">电子邮件:</td>
+             <td id="left" style="white-space:nowrap;">电子邮件:</td>
              <td><a href="mailto:info@tongtianshun.com">info@tongtianshun.com</a></td>
            </tr>
            <tr>
@@ -331,3 +331,23 @@
         }
     }
 </script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+    }else{
+        $("#erweima").remove();
+    }
+</script>
+

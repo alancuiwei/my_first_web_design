@@ -3,7 +3,7 @@
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<%= javascript_include_tag "nicEdit-latest.js" %>
 <script type="text/javascript">
     //<![CDATA[
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
@@ -34,363 +34,314 @@
 </style>
 
 <div class="main-content dream">
-  <h1><%= @webuser.username %>的个人首页</h1>
-  <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
-    <div class="row-fluid" style="height: 18px;">
-      <% if @webuser.risktolerance ==nil %>
-          <div class="span12">
-            <a href="/home/questions"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
-            <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>
-            <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
-            <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
-            <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
-          </div>
-      <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
-          <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
-            <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
-            <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
-            <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
-            <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
-          </div>
-      <% elsif @webuser.organusername==nil %>
-          <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
-            <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
-            <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>
-            <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>
-            <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
-          </div>
-      <% elsif @hash2[0][1] ==nil %>
-          <div class="span12">
-            <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
-            <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
-            <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
-            <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>
-            <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
-          </div>
-      <% else %>
-          <div class="span12">
+<h1><%= @webuser.username %>的个人首页</h1>
+<div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
+  <div class="row-fluid" style="height: 18px;">
+    <% if @webuser.risktolerance ==nil %>
+        <div class="span12">
+          <a href="/home/questions"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
+          <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>
+          <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
+          <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
+          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+        </div>
+    <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
+        <div class="span12">
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
+          <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+          <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>
+          <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>
+          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+        </div>
+    <% elsif @webuser.organusername==nil %>
+        <div class="span12">
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+          <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>
+          <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>
+          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+        </div>
+    <% elsif @hash2[0][1] ==nil %>
+        <div class="span12">
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
+          <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>
+          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+        </div>
+    <% else %>
+        <div class="span12">
           <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span>
           <a class="demo-tip-yellowsimple" title="已完成">4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span>
           <b>5.</b> <span>梦想成真中</span>
-          </div>
-      <% end %>
-    </div>
-  </div>
-  <div style="height: 30px;"></div>
-  <table style="width: 97%;margin-left: 3%;color: #555;">
-    <tr>
-      <td style="width: 200px;padding: 0 15px;text-align: center;">
-        <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
-        <div id="container"></div>
-        <% if @webuser.username == session[:webusername] %>
-            <% if @webuser.risktolerance ==nil %>
-                <a href="/home/questions" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
-            <% else %>
-                <a href="/home/questions" id="change-answers" style="font-size: 12px;">修改我的答案</a>
-            <% end %>
-        <% end %>
-        <% if  @webuser.risktolerance!=nil %>
-            <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-                <p class="risk">
-                  对于安益型投资人，其投资组合配置在风险最小的领域，如货币市场基金或中短债基金。<br>
-                  此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，回报率的波动性较小。<br>
-                  大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
-                </p>
-            <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                <p class="risk">
-                  对于保守型投资人，其投资组合较大比例配置债券类资产或债券型基金，同时也有一部分比例配制于股票类资产或股票型基金以及配置型基金。<br>
-                  此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。<br>
-                  大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
-                </p>
-            <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                <p class="risk">
-                  对于稳健型投资人，其投资组合均衡配置股票类资产和债券类资产（或股票型基金和债券型基金）以及配置型基金。<br>
-                  此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
-                  大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
-                </p>
-            <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                <p class="risk">
-                  对于积极型投资人，其投资组合较大比例配置股票类资产或股票型基金，同时还有小部分比例配置于债券和现金。<br>
-                  此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
-                  大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
-                </p>
-            <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-                <p class="risk">
-                  对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。<br>
-                  为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。<br>
-                  大多数情况下，其长期回报率高于其它较为保守的投资方法。
-                </p>
-            <% end %>
-        <% end %>
-      </td>
-      <td style="border-left:1px solid #E2E2E2;border-right:1px solid #E2E2E2;padding: 0 20px;">
-        <div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
-        <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;"><%= @webuser.username %>的梦想</span></p>
-        <p class="product-description" style="line-height: 12px;">因梦想而伟大
-          <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
-              <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
-          <% else %>
-              <% if @webuser.username == session[:webusername] %>
-                  <a style="width: 100px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
-              <% end %>
-          <% end %>
-        </p>
         </div>
-        <table style="width: 100%;">
-          <tr>
-            <td class="left">
+    <% end %>
+  </div>
+</div>
+<div style="height: 30px;"></div>
+<table style="width: 97%;margin-left: 3%;color: #555;">
+<tr>
+<td style="width: 200px;padding: 0 15px;text-align: center;">
+  <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
+  <div id="container"></div>
+  <% if @webuser.username == session[:webusername] %>
+      <% if @webuser.risktolerance ==nil %>
+          <a href="/home/questions" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
+      <% else %>
+          <a href="/home/questions" id="change-answers" style="font-size: 12px;">修改我的答案</a>
+      <% end %>
+  <% end %>
+  <% if  @webuser.risktolerance!=nil %>
+      <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+          <p class="risk">
+            对于安益型投资人，其投资组合配置在风险最小的领域，如货币市场基金或中短债基金。<br>
+            此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，回报率的波动性较小。<br>
+            大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
+          </p>
+      <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
+          <p class="risk">
+            对于保守型投资人，其投资组合较大比例配置债券类资产或债券型基金，同时也有一部分比例配制于股票类资产或股票型基金以及配置型基金。<br>
+            此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。<br>
+            大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
+          </p>
+      <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
+          <p class="risk">
+            对于稳健型投资人，其投资组合均衡配置股票类资产和债券类资产（或股票型基金和债券型基金）以及配置型基金。<br>
+            此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
+            大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
+          </p>
+      <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
+          <p class="risk">
+            对于积极型投资人，其投资组合较大比例配置股票类资产或股票型基金，同时还有小部分比例配置于债券和现金。<br>
+            此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
+            大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
+          </p>
+      <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
+          <p class="risk">
+            对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。<br>
+            为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。<br>
+            大多数情况下，其长期回报率高于其它较为保守的投资方法。
+          </p>
+      <% end %>
+  <% end %>
+</td>
+<td style="border-left:1px solid #E2E2E2;border-right:1px solid #E2E2E2;padding: 0 20px;">
+  <div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
+    <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;"><%= @webuser.username %>的梦想</span></p>
+    <p class="product-description" style="line-height: 12px;">因梦想而伟大
+      <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
+          <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
+      <% else %>
+          <% if @webuser.username == session[:webusername] %>
+              <a style="width: 100px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
+          <% end %>
+      <% end %>
+    </p>
+  </div>
+  <table style="width: 100%;">
+    <tr>
+      <td class="left">
 
-            </td>
-            <td style="vertical-align: middle;">
-              <table id="allocation" class="table allocation report apply-asset-class-colors">
-                <tr  class="" data-type="US_STOCKS">
-                  <td style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td style="border: 0;width: 280px;">梦想</td>
-                  <td style="border: 0;"><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.dream %><% else %>没有<% end %></td>
-                </tr>
-                <tr  class="" data-type="US_STOCKS">
-                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td>梦想价值</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><span class="num"><%= format("%0.0f",@webuser.amount) %></span><% end %><% else %>没有<% end %></td>
-                </tr>
-                <tr  class="" data-type="US_STOCKS">
-                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td>已有存款</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.exeitdeposit !=nil %><span class="num"><%= format("%0.0f",@webuser.exeitdeposit) %></span><% end %><% else %>没有<% end %></td>
-                </tr>
-                <tr  class="" data-type="US_STOCKS">
-                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td>每月存款</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><span class="num"><%= format("%0.0f",@webuser.monthpay) %></span><% end %><% else %>没有<% end %></td>
-                </tr>
-                <tr  class="" data-type="US_STOCKS">
-                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                  <td>实现时间</td>
-                  <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><span class="num"><%= @webuser.realizetime %></span><% else %>没有<% end %></td>
-                </tr>
-              </table>
-            </td>
+      </td>
+      <td style="vertical-align: middle;">
+        <table id="allocation" class="table allocation report apply-asset-class-colors">
+          <tr  class="" data-type="US_STOCKS">
+            <td style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+            <td style="border: 0;width: 280px;">梦想</td>
+            <td style="border: 0;"><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.dream %><% else %>没有<% end %></td>
+          </tr>
+          <tr  class="" data-type="US_STOCKS">
+            <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+            <td>梦想价值</td>
+            <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><span class="num"><%= format("%0.0f",@webuser.amount) %></span><% end %><% else %>没有<% end %></td>
+          </tr>
+          <tr  class="" data-type="US_STOCKS">
+            <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+            <td>已有存款</td>
+            <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.exeitdeposit !=nil %><span class="num"><%= format("%0.0f",@webuser.exeitdeposit) %></span><% end %><% else %>没有<% end %></td>
+          </tr>
+          <tr  class="" data-type="US_STOCKS">
+            <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+            <td>每月存款</td>
+            <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><span class="num"><%= format("%0.0f",@webuser.monthpay) %></span><% end %><% else %>没有<% end %></td>
+          </tr>
+          <tr  class="" data-type="US_STOCKS">
+            <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+            <td>实现时间</td>
+            <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><span class="num"><%= @webuser.realizetime %></span><% else %>没有<% end %></td>
           </tr>
         </table>
-        <div style="height: 55px;"></div>
-        <table id="table" style="width: 100%;">
-              <tr>
-                <td style="padding-left: 20px;">
-                  <div class="account-types">
-                    <div class="account-type-tab active taxable-account-type">
-                      <p><span class="product" style="line-height: 20px;">梦想实现</span></p>
-                      <p class="product-description" style="line-height: 12px;"><span style="margin-right: 95px;">一步一步向上爬</span>
-                        <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
-                            <% if @webuser.organusername!=nil %>
-                                <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %> <%= @webuser.organusername %> 提供服务</span>
-                            <% end %>
-                        <% end %>
-                        <% if @webuser.dream != nil && @webuser.organuser!='2' %>
-                            <% if (@webuser.username == session[:webusername] || params[:id]==nil) && @hash2[0][3]!=nil %>
-                                <a class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;" id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a>
-                            <% elsif @hash2[0][1]==nil %>
-                                <span class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;">方案制作中</span>
-                            <% else %>
-                                <span style="width: 100px;" class="pull-right">&nbsp;</span>
-                            <% end %>
-                        <% end %>
-                      </p>
-                    </div>
-                    <div class="clearfix"></div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="plan-details">
-                    <section id="asset-allocation" class="">
-                      <table style="width: 100%;">
-                        <tr><td style="width: 135px;height: 200px;padding-top: 20px;">
-                          <div class="allocation-chart-container">
-                            <div id="container2" style="width: 130px;height: 130px;"></div>
-                          </div>
-                        </td><td>
-                          <table id="table2" class="table allocation report apply-asset-class-colors">
-                            <thead>
-                            <tr>
-                              <th></th>
-                              <th style="width: 105px;">投资品种</th>
-                              <th style="width: 140px;">投资产品</th>
-                              <th style="width: 95px;">总额</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <% if (@hash2[0][6]!=0 && @hash2[0][6]!=nil) || @hash2[0][1] ==nil %>
-                            <tr class="" data-type="MUNI_BONDS">
-                              <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">银行理财产品</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><%= @webuser.bankfinancep %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]) %><% else %>0<% end %></td>
-                            </tr>
-                            <% end %>
-                            <% if (@hash2[0][4]!=0 && @hash2[0][4]!=nil) || @hash2[0][1] ==nil %>
-                            <tr class="" data-type="INTL_EMERGING">
-                              <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">债券型基金</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><%= @webuser.deptp %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]) %><% else %>0<% end %></td>
-                            </tr>
-                            <% end %>
-                            <% if (@hash2[0][3]!=0 && @hash2[0][3]!=nil) || @hash2[0][1] ==nil %>
-                                <tr class="" data-type="US_STOCKS">
-                                  <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-                                  <td class="asset-class-name">
-                                    <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="随存随取型产品">货币型基金</a></span>
-                                  </td>
-                                  <td class="asset-class-percentage number"><%= @webuser.stockp %></td>
-                                  <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]) %><% else %>0<% end %></td>
-                                </tr>
-                            <% end %>
-                            <tr class="" data-type="DIV_STOCKS">
-                              <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
-                              <td class="asset-class-amount number"><% if @webuser.monthpay !=nil && @hash2[0][1]!=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% else %>0<% end %></td>
-                            </tr>
-                            <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
-                            <tr class="" data-type="DIV_STOCKS">
-                              <td class="asset-class-color"><div class="legend DIV_STOCKS" style="background: #000000;"></div></td>
-                              <td class="asset-class-name">
-                                <span class="ktip-link"><a class="ktip-a">保险产品</a></span>
-                              </td>
-                              <td class="asset-class-percentage number"><%= @webuser.insurep %></td>
-                              <td class="asset-class-amount number"><% if @hash2[0][5] !=nil %>￥<%= format("%0.0f",@hash2[0][5]) %>/年<% else %>0<% end %></td>
-                            </tr>
-                            <% end %>
-                            </tbody>
-                          </table>
-                        </td></tr></table>
-                      <div class="clearfix"></div>
-                    </section>
-                  </div>
-                  <div id="sample" class="hide">
-                    <textarea name="area2" style="width: 100%;">
-                      Some Initial Content was in this textarea
-                    </textarea>
-                  </div>
-                </td>
-              </tr>
-        </table>
-      </td>
-      <td style="width: 200px;padding: 0 15px;">
-        <div class="faq-container">
-          <p>关于<%= @webuser.username %></p>
-          <ul class="common-q">
-            <% if @hash[0][1]!=nil %>
-                <li>年纪：</li>
-                <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
-                <li>所在城市：</li>
-                <li class="answer"><%= @webuser.city %></li>
-                <li>您所处的行业是?</li>
-                <li class="answer"><%= @hash[0][4] %></li>
-                <li>梦想规划服务费：</li>
-                <li class="answer"><% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %>元<% end %></li>
-                <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
-                <li class="answer"><%= @hash[0][7] %></li>
-                <li>投资收益率及风险承受度爱好：</li>
-                <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
-                <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
-                <li class="answer"><%= @hash[0][8] %></li>
-                <li>您资金主要放在哪家银行帐号里?</li>
-                <li class="answer"><%= @hash[0][9] %></li>
-                <li>您对如下哪些产品比较感兴趣?</li>
-                <li class="answer"><%= @hash[0][1] %></li>
-            <% else %>
-                <li><%= @webuser.username %> 尚未进行 风险承受度评估</li>
-            <% end %>
-          </ul>
-        </div>
       </td>
     </tr>
   </table>
-</div>
-
-<div id='login-box' class='login-popup modal' style="display: none;">
-  <div class="modal">
-    <div id="save">
-      <div class="modal-header">
-        <a class="close" href="javascript:">×</a>
-        <h3>我来帮助</h3>
-      </div>
-      <div class="modal-body">
-        <p>1.
-        <table class="table table-bordered">
-          <tr>
-            <td>用户名</td>
-            <td>已有存款</td>
-            <td>省份</td>
-            <td>城市</td>
-          </tr>
-          <tr>
-            <td id="username"><%= @webuser.username %></td>
-            <td id="investamount"><%= @webuser.exeitdeposit %></td>
-            <td id="provinces"><%= @webuser.province %></td>
-            <td id="cities"><%= @webuser.city %></td>
-          </tr>
-        </table>
-        </p>
-        <p>2. 一旦您确认为该投资人进行梦想实现服务后，您必须在3个工作日内给投资人提供草稿方案，否则的话，如果客户投诉的话，我们将直接将您从理财师名单中除名。</p>
-        <p>3. 在您提交第一版本规划书之后，如果客户不满意的话，您有义务根据客户的要求，在1个工作日内修改提交给客户。</p>
-        <p>4. 在您提交第二版本规划书之后，如果客户还对您的规划书不满意的话，我们将直接将把这个梦想转为等待帮助状态，并且您不能再为该客户服务了，您也将无法获得客户的酬劳，所以请务必和客户进行密切沟通。</p>
-        <p>5. 一旦客户对您的理财规划满意后，客户将通知到我们，我们将和您联系，将客户的服务费转到您的支付宝账户。</p>
-        <p>6. 总结：周一您承接客户理财需求，周二您给客户提出初稿，周三您提交二稿，最晚周四您就可以得到客户的酬劳，并和该客户建立强联系。</p>
-      </div>
-      <div class="modal-footer">
-        <div class="clear"><input type="submit" value="确定" name="subscribe" id="subscribe" class="btn btn-primary"></div>
-      </div>
-    </div>
+  <div style="height: 55px;"></div>
+  <table id="table" style="width: 100%;">
+    <tr>
+      <td style="padding-left: 20px;">
+        <div class="account-types">
+          <div class="account-type-tab active taxable-account-type">
+            <p><span class="product" style="line-height: 20px;">梦想实现</span></p>
+            <p class="product-description" style="line-height: 12px;"><span style="margin-right: 95px;">一步一步向上爬</span>
+              <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
+                  <% if @webuser.organusername!=nil %>
+                      <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %> <%= @webuser.organusername %> 提供服务</span>
+                  <% end %>
+              <% end %>
+              <% if @webuser.dream != nil && @webuser.organuser!='2' %>
+                  <% if (@webuser.username == session[:webusername] || params[:id]==nil) && @hash2[0][3]!=nil %>
+                      <a class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;" id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a>
+                  <% elsif @hash2[0][1]==nil %>
+                      <span class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;">方案制作中</span>
+                  <% else %>
+                      <span style="width: 100px;" class="pull-right">&nbsp;</span>
+                  <% end %>
+              <% end %>
+            </p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="plan-details">
+          <section id="asset-allocation" class="">
+            <table style="width: 100%;">
+              <tr><td style="width: 135px;height: 200px;padding-top: 20px;">
+                <div class="allocation-chart-container">
+                  <div id="container2" style="width: 130px;height: 130px;"></div>
+                </div>
+              </td><td>
+                <table id="table2" class="table allocation report apply-asset-class-colors">
+                  <thead>
+                  <tr>
+                    <th></th>
+                    <th style="width: 105px;">投资品种</th>
+                    <th style="width: 140px;">投资产品</th>
+                    <th style="width: 95px;">总额</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <% if (@hash2[0][6]!=0 && @hash2[0][6]!=nil) || @hash2[0][1] ==nil %>
+                      <tr class="" data-type="MUNI_BONDS">
+                        <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                        <td class="asset-class-name">
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">银行理财产品</a></span>
+                        </td>
+                        <td class="asset-class-percentage number"><%= @webuser.bankfinancep %></td>
+                        <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]) %><% else %>0<% end %></td>
+                      </tr>
+                  <% end %>
+                  <% if (@hash2[0][4]!=0 && @hash2[0][4]!=nil) || @hash2[0][1] ==nil %>
+                      <tr class="" data-type="INTL_EMERGING">
+                        <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
+                        <td class="asset-class-name">
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">债券型基金</a></span>
+                        </td>
+                        <td class="asset-class-percentage number"><%= @webuser.deptp %></td>
+                        <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]) %><% else %>0<% end %></td>
+                      </tr>
+                  <% end %>
+                  <% if (@hash2[0][3]!=0 && @hash2[0][3]!=nil) || @hash2[0][1] ==nil %>
+                      <tr class="" data-type="US_STOCKS">
+                        <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                        <td class="asset-class-name">
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="随存随取型产品">货币型基金</a></span>
+                        </td>
+                        <td class="asset-class-percentage number"><%= @webuser.stockp %></td>
+                        <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]) %><% else %>0<% end %></td>
+                      </tr>
+                  <% end %>
+                  <tr class="" data-type="DIV_STOCKS">
+                    <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
+                    <td class="asset-class-name">
+                      <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
+                    </td>
+                    <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
+                    <td class="asset-class-amount number"><% if @webuser.monthpay !=nil && @hash2[0][1]!=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% else %>0<% end %></td>
+                  </tr>
+                  <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
+                      <tr class="" data-type="DIV_STOCKS">
+                        <td class="asset-class-color"><div class="legend DIV_STOCKS" style="background: #000000;"></div></td>
+                        <td class="asset-class-name">
+                          <span class="ktip-link"><a class="ktip-a">保险产品</a></span>
+                        </td>
+                        <td class="asset-class-percentage number"><%= @webuser.insurep %></td>
+                        <td class="asset-class-amount number"><% if @hash2[0][5] !=nil %>￥<%= format("%0.0f",@hash2[0][5]) %>/年<% else %>0<% end %></td>
+                      </tr>
+                  <% end %>
+                  </tbody>
+                </table>
+              </td></tr></table>
+            <div class="clearfix"></div>
+          </section>
+        </div>
+       <!--
+        <% if @webuser.username==session[:webusername] && @hash2[0][1] != nil %>
+            <div id="comment">
+              <a name='评论'><div style="height: 30px;"></div></a>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+                <% @comments.each do |b| %>
+                    <tr>
+                      <td>
+                        <p class="text2"><%= b.username%>：</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="text2"> <%=raw b.comments%> </p>
+                        <hr>
+                      </td>
+                    </tr>
+                <% end %>
+              </table>
+              <div id="sample">
+                <textarea id="area2" name="area2" style="width: 100%;height: 150px;"></textarea><br>
+                <a class="btn btn-primary pull-right" id="saved" href="javascript:;">发布评论</a>
+              </div>
+            </div>
+        <% end %>
+        -->
+      </td>
+    </tr>
+  </table>
+</td>
+<td style="width: 200px;padding: 0 15px;">
+  <div class="faq-container">
+    <p>关于<%= @webuser.username %></p>
+    <ul class="common-q">
+      <% if @hash[0][1]!=nil %>
+          <li>年纪：</li>
+          <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
+          <li>所在城市：</li>
+          <li class="answer"><%= @webuser.city %></li>
+          <li>您所处的行业是?</li>
+          <li class="answer"><%= @hash[0][4] %></li>
+          <li>梦想规划服务费：</li>
+          <li class="answer"><% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %>元<% end %></li>
+          <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
+          <li class="answer"><%= @hash[0][7] %></li>
+          <li>投资收益率及风险承受度爱好：</li>
+          <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
+          <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
+          <li class="answer"><%= @hash[0][8] %></li>
+          <li>您资金主要放在哪家银行帐号里?</li>
+          <li class="answer"><%= @hash[0][9] %></li>
+          <li>您对如下哪些产品比较感兴趣?</li>
+          <li class="answer"><%= @hash[0][1] %></li>
+      <% else %>
+          <li><%= @webuser.username %> 尚未进行 风险承受度评估</li>
+      <% end %>
+    </ul>
   </div>
+</td>
+</tr>
+</table>
 </div>
 
 <script>
-
-    function waithelp(oid){
-        $("#login-box").show();
-        var loginBox = $(this).attr('href');
-        //Fade in the Popup and add close button
-        //Set the center alignment padding + border
-        var popMargTop = ($(loginBox).height() + 24) / 2;
-        var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        $(loginBox).css({
-            'margin-top' : -popMargTop,
-            'margin-left' : -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
-    }
-
-
-    $('a.close, #mask,#subscribe').live('click', function() {
-        $('#mask , .login-popup').fadeOut(300 , function() {
-            $('#mask').remove();
-        });
-        return false;
-    });
-
-    $('#subscribe').live('click', function() {
-        $.get("/personmanagement/stasus",{oid:'<%= params[:id] %>'},function(data){
-            $('#status').html("实现中");
-            $('#wait').html("目前由<%=session[:webusername] %>理财师帮助实现梦想");
-        });
-    });
 
     $(function () {
         var chart;
@@ -500,9 +451,9 @@
     //图
     $(function () {
         <% if @hash2[0][3]!=nil %>
-          d = new Date(),
-          nowYear = d.getFullYear();
-          var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @webuser.monthpay %>),parseFloat(<%= @hash2[0][6] %>)];
+        d = new Date(),
+                nowYear = d.getFullYear();
+        var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @webuser.monthpay %>),parseFloat(<%= @hash2[0][6] %>)];
         <% else %>
         var dataArray=[1]
         <% end %>
@@ -617,5 +568,47 @@
             location.href=data;
         });
         <% end %>
+    });
+</script>
+
+<script>
+    $("#sample").click(function(){
+        <% if session[:webusername]==nil %>
+        location.href="/sales/login?pid=<%= params[:id] %>&comments=1";
+        <% end %>
+    });
+
+    $(".btns").click(function(){
+        $("#comment").show();
+    });
+
+    $("#saved").click(function(){
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+//  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+
+        if($(".nicEdit-main").html()=="<br>"){
+            alert("评论为空！");
+            nom_flag=1;
+        }
+
+        if(nom_flag==0){
+            $.get("/personmanagement/comment3configajax",{username:'<%= session[:webusername] %>',email:'<%= @webusers.email %>',comments:$(".nicEdit-main").html(),
+                time:time,company:'<%= @webusers.company %>',pid:'<%= @webuser.id %>' },function(data){
+                location.reload();
+            });
+        }
     });
 </script>

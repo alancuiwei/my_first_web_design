@@ -14,8 +14,9 @@
   <div class="row-fluid">
     <div class="span5">
       <div id="myTabContent" class="tab-content">
-        <a href="/">首页</a><br><br>
+        <a href="/">首页</a><br>
         <div class="overlay tab-pane fade" id="create">
+          <br>
           <div class="bs-docs-example">
             <ul id="myTab" class="nav nav-tabs">
               <li class="active"><a href="#home" data-toggle="tab">投资人注册</a></li>
@@ -112,7 +113,6 @@
       </div>
     </div>
     <div class="span7">
-      <% if params[:logintype]=='creat' %>
       <dl class="qrcode-panel">
         <dt style="margin-bottom: 5px;">
           <img src="/assets/1.jpg" alt="">
@@ -121,7 +121,6 @@
           微信扫描，<br>关注家庭理财
         </dd>
       </dl>
-     <% end %>
     </div>
   </div>
 </div>
@@ -215,7 +214,7 @@
         if($("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email2').attr("value")=="" || $('#tel2').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email2').attr("value")) || !phone.test($('#tel2').attr("value"))){
             return false;
         }else{
-            return true;
+            return false;
         }
     }
     function userconfig(uid,pid){
@@ -279,6 +278,9 @@
                 }
                 else if('<%= params[:question] %>'=='1'){
                     location.href="/home/questions";
+                }
+                else if('<%= params[:comments] %>'=='1'){
+                    location.href="/personmanagement/personfinance/<%= params[:pid] %>";
                 }
                 else if( data=="organ2"){
                     alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
@@ -538,6 +540,7 @@
         }
     }
 </script>
+
 
 
 

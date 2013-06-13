@@ -6,6 +6,19 @@ class HomeController < ApplicationController
     @num=@username.length
   end
 
+  def scheme
+    @comments=Comments.find_by_sql('select * from comments where pid is not null order by id desc')
+    @hash={}
+    @comments.each do |b|
+      @add=Webuser.find_by_username(b.username)
+      if @add!=nil
+        @hash.store(b.id,[@add.dream,@add.realizetime,@add.exeitdeposit])
+      else
+        @hash.store(b.id,[nil,nil,nil])
+      end
+    end
+  end
+
   def productindex
     if session[:webusername]=="admin"
       if params[:id]!=nil

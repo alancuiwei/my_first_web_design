@@ -101,6 +101,24 @@ class PersonmanagementController < ApplicationController
     render :json => "s1".to_json
   end
 
+  def comment3configajax
+    Comments.new do |b|
+      b.username=params[:username]
+      b.email=params[:email]
+      b.comments=params[:comments]
+      b.time=params[:time]
+      b.company=params[:company]
+      b.pid=params[:pid]
+      b.save
+    end
+    if  params[:email2]=='1'
+      Thread.new{
+        UserMailer.comments2(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
+      }
+    end
+    render :json => "s1".to_json
+  end
+
   def investor
     @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and (organuser='0' || organuser is null) and scharge is not null")
    if  session[:webusername]!=nil
@@ -253,7 +271,7 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
-
+      @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
       if @webuser.organusername!=nil
         @webuser2=Webuser.find_by_username(@webuser.organusername)
@@ -276,6 +294,7 @@ class PersonmanagementController < ApplicationController
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+        @comments=Comments.find_all_by_pid(@webuser.id)
         if @webuser.organusername!=nil
           @webuser2=Webuser.find_by_username(@webuser.organusername)
         else

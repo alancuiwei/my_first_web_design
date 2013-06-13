@@ -5,6 +5,9 @@
     body {
         background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
     }
+        hr{
+            width: 100%;
+        }
 </style>
 
 <div class="main-contents present">
@@ -36,6 +39,26 @@
             s1.addVariable("smoothing","true");
             s1.write("player1");
         </SCRIPT>
+        <!--
+        <h1 style="width: 850px; margin-bottom: 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">2. 客户反馈</h1>
+        <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments" style="width: 850px;">
+          <% @comments.each do |b| %>
+              <tr>
+                <td rowspan="2" style="width: 200px;"></td>
+                <td>
+                  <p class="text2"><%= b.username%>：</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="text2"> <%=raw b.comments%> </p>
+                  <p><%= b.time %>&nbsp;梦想：<%= @hash[b.id][0] %>&nbsp;实现年限：<%= @hash[b.id][1] %>年&nbsp;现有储蓄：<%= @hash[b.id][2] %></p>
+                  <hr>
+                </td>
+              </tr>
+          <% end %>
+        </table>
+        -->
         <!-- <a class="pull-right" style="padding-right:10px;line-height: 52px;" href="/home/download/data?filename=理财师客户资产配置申请.ppt">PPT下载</a> -->
        <!--
         <h1 style="margin:50px 0 30px; padding-bottom: 20px; color: #000; border-bottom: 2px solid #000">示例</h1>
