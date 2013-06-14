@@ -52,9 +52,9 @@ class PersonmanagementController < ApplicationController
       for i in 0..@webusers.size-1
         @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
         if @provide!=nil
-        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance,@provide.insure])
+        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance,@provide.insure,@provide.trust])
         else
-          @hash.store(@webusers[i].username,[0,@webusers[i].exeitdeposit,nil,nil,nil,nil])
+          @hash.store(@webusers[i].username,[0,@webusers[i].exeitdeposit,nil,nil,nil,nil,nil])
         end
       end
     end
@@ -280,9 +280,9 @@ class PersonmanagementController < ApplicationController
       end
       @hash2=Hash.new
       if @provides!=nil
-        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename])
+        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename,@provides.trust])
       else
-        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil])
+        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil,nil])
       end
 
       @hash=Hash.new
@@ -303,9 +303,9 @@ class PersonmanagementController < ApplicationController
       @provides=Provide.find_by_username(@webuser.username)
       @hash2=Hash.new
       if @provides!=nil
-        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename])
+        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename,@provides.trust])
       else
-        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil])
+        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil,nil])
       end
 
       @hash=Hash.new
@@ -360,6 +360,7 @@ class PersonmanagementController < ApplicationController
         b.debt=params[:debt]
         b.insure=params[:insure]
         b.bankfinance=params[:bankfinance]
+        b.trust=params[:trust]
         b.company=params[:company]
         b.filename= @filename
         b.save
@@ -369,7 +370,7 @@ class PersonmanagementController < ApplicationController
        if flag==true
        File.delete("#{Rails.root}/app/assets/download/"+@provides.filename)
        end
-       @provides.update_attributes(:stock=>params[:stock],:debt=>params[:debt],:insure=>params[:insure],:bankfinance=>params[:bankfinance],:filename=>@filename)
+       @provides.update_attributes(:stock=>params[:stock],:debt=>params[:debt],:insure=>params[:insure],:bankfinance=>params[:bankfinance],:trust=>params[:trust],:filename=>@filename)
      end
       @webuser=Webuser.find_by_username(session[:webusername])
       @webuser2=Webuser.find_by_username(params[:username])

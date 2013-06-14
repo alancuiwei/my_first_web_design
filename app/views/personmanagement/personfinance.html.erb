@@ -264,7 +264,7 @@
                       <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
                     </td>
                     <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
-                    <td class="asset-class-amount number"><% if @webuser.monthpay !=nil && @hash2[0][1]!=nil %>￥<%= format("%0.0f",@webuser.monthpay) %>/月<% else %>0<% end %></td>
+                    <td class="asset-class-amount number"><% if @hash2[0][8]!=nil %>￥<%= format("%0.0f",@hash2[0][8]) %>/月<% else %>0<% end %></td>
                   </tr>
                   <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
                       <tr class="" data-type="DIV_STOCKS">
@@ -458,7 +458,7 @@
         <% if @hash2[0][3]!=nil %>
         d = new Date(),
                 nowYear = d.getFullYear();
-        var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @webuser.monthpay %>),parseFloat(<%= @hash2[0][6] %>)];
+        var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @hash2[0][8] %>),parseFloat(<%= @hash2[0][6] %>)];
         <% else %>
         var dataArray=[1]
         <% end %>

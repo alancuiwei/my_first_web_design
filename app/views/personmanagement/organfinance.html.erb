@@ -77,7 +77,7 @@
               <% if @hash[@webusers[i].username][0]!=1 %>
                   <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>">提供方案</a></td>
               <% else %>
-                  <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>,<%= format("%0.0f",@hash[@webusers[i].username][2]) %>,<%= format("%0.0f",@hash[@webusers[i].username][3]) %>,<%= format("%0.0f",@hash[@webusers[i].username][4]) %>,<%= format("%0.0f",@hash[@webusers[i].username][5]) %>">修改</a></td>
+                  <td class="white"><a class="login-window" href="#login-box" id="<%= @webusers[i].username %>,<%= format("%0.0f",@hash[@webusers[i].username][2]) %>,<%= format("%0.0f",@hash[@webusers[i].username][3]) %>,<%= format("%0.0f",@hash[@webusers[i].username][4]) %>,<%= format("%0.0f",@hash[@webusers[i].username][5]) %>,<%= format("%0.0f",@hash[@webusers[i].username][6]) %>">修改</a></td>
               <% end %>
           <% end %>
         </tr>
@@ -190,7 +190,16 @@
         <td>
           <div class="input-prepend">
             <span class="add-on">￥</span>
-            <input id="insure" style="width: 180px;" type="text" title="银行理财产品" name="bankfinance">
+            <input id="insure" style="width: 180px;" type="text" title="保险" name="insure">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>指数基金：</td>
+        <td>
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input id="trust" style="width: 180px;" type="text" title="指数基金" name="trust">
           </div>
         </td>
       </tr>
@@ -294,6 +303,7 @@
         $("#debt").val(this.id.split(",")[2]);
         $("#bankfinance").val(this.id.split(",")[3]);
         $("#insure").val(this.id.split(",")[4]);
+        $("#trust").val(this.id.split(",")[5]);
         var loginBox = $(this).attr('href');
         //Fade in the Popup and add close button
         $(loginBox).fadeIn(300);
@@ -358,7 +368,7 @@
         }
         else if(nom_flag==0){
             document.getElementById('myForm').action = "/personmanagement/create?username="+$("#name").html()+"&managename=<%= session[:webusername] %>&stock="+String($("#stock").attr("value"))+"&debt="
-                           +String($("#debt").attr("value"))+"&insure="+String($("#insure").attr("value"))+"&bankfinance="+String($("#bankfinance").attr("value"))+"&filename="+getFileName(document.getElementById("file_file").value)
+                           +String($("#debt").attr("value"))+"&insure="+String($("#insure").attr("value"))+"&trust="+String($("#trust").attr("value"))+"&bankfinance="+String($("#bankfinance").attr("value"))+"&filename="+getFileName(document.getElementById("file_file").value)
                            +"&company=<%= @webuser2.company %>";
             document.getElementById("myForm").submit();
         }
