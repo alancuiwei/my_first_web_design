@@ -7,7 +7,7 @@
   <div class="intro">
     <div class="text-block3" id="text">
     </div>
-    <div class="form-block">
+    <div class="form-block first">
       <div class="sub-box" style="display: table;width: 100%;">
         <div class="holder">
           <div class="ct">
@@ -121,6 +121,37 @@
       </div>
     </div>
   </div>
+  <div class="form-block second">
+    <div class="sub-box" style="display: table;width: 100%;">
+      <div class="holder">
+        <div class="ct">
+          <!-- Begin MailChimp Signup Form -->
+          <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+          <style type="text/css">
+              #mc_embed_signup{background:#f5866c; clear:left; font:14px Helvetica,Arial,sans-serif; }
+              #mc_embed_signup label {
+                  display: block;
+                  font-size: 24px;
+                  padding-bottom: 10px;
+                  font-weight: bold;
+                  line-height: 40px;
+                  margin-bottom:0px;
+              }
+              #mc_embed_signup input.email {
+                  width: 65%;
+              }
+          </style>
+          <div id="mc_embed_signup">
+            <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+              <label for="mce-EMAIL">订阅邮件后，理财知识、规划、小技巧每天寄送给您。</label>
+              <input type="email" value="" name="EMAIL" style="float: left;" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
+              <div class="clear"><input type="submit" value="订阅" name="subscribe" id="mc-embedded-subscribe" class="btn"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="ads-block">
     <div ad_dot_com="300250" class="box">
       <a href="http://weibo.com/u/3429002842" target="_blank"><img src="/assets/120101.jpg" style="max-width: 340px;width: 100%;"></a>
@@ -147,6 +178,7 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
+        $(".second").remove();
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";
@@ -161,6 +193,7 @@
             window.open("/blog/index"+link);
         })
     }else{
+        $(".first").remove();
         $("#erweima").remove();
         $(".social-networks").remove();
         $("#text").removeClass("text-block3")
