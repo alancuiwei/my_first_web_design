@@ -28,7 +28,9 @@
           <div class="bs-docs-example">
             <ul id="myTab" class="nav nav-tabs">
               <li class="active"><a href="#home" data-toggle="tab">投资人注册</a></li>
+             <% if params[:actions]!='1' %>
               <li class=""><a href="#profile" data-toggle="tab">理财师注册</a></li>
+             <% end %>
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade active in" id="home">
@@ -302,6 +304,11 @@
                 }
                 else if(data=="f2"){
                     alert("找不到该用户");
+                }
+                else if('<%= params[:actions] %>'=='1'){
+                    $.get("/sales/zhifubao",{username:$('#username').attr("value"),scharge:'50',actions:1},function(data){
+                        location.href=data;
+                    });
                 }
                 else if('<%= params[:question] %>'=='1'){
                     location.href="/home/questions";

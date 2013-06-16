@@ -58,15 +58,24 @@ class SalesController < ApplicationController
     @webuser = Webuser.find_by_username(params[:username])
     Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
     @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.username
+    if params[:actions]=='1'
+      @subject='上班族财富管理讲座 报名费'
+      @price=50
+      @return_url= 'http://www.tongtianshun.com'
+    else
+      @subject='理财师支付'
+      @price=100
+      @return_url= 'http://www.tongtianshun.com/personmanagement/investor'
+    end
     parameters = {
         'service' => 'create_partner_trade_by_buyer',
         'partner' => '2088801189204575',
         '_input_charset' => 'utf-8',
-        'return_url' => 'http://www.tongtianshun.com/personmanagement/investor',
+        'return_url' => @return_url,
         'seller_email' => 'zhongrensoft@gmail.com',
         'out_trade_no' => @subsribe_id,
-        'subject' => '理财师支付',
-        'price' => '100',
+        'subject' => @subject,
+        'price' => @price,
         'quantity' => '1',
         'payment_type' => '1',
         'logistics_type'=>'EMS',
