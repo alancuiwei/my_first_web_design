@@ -96,16 +96,6 @@ class HomeController < ApplicationController
     end
   end
 
-  def questions
-    session[:userlog]=1
-    if session[:webusername]!=nil
-      @webuser=Webuser.find_by_username(session[:webusername])
-    else
-      redirect_to(:controller=>"sales", :action=>"login", :question=>1)
-      @webuser=Webuser.find_by_username('admin')
-    end
-  end
-
   def download
     send_file "app/assets/download/"+params[:filename] unless params[:filename].blank?
   end

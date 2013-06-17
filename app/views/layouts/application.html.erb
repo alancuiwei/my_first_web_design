@@ -7,6 +7,7 @@
   <meta name="description" content="通天顺--站在中立、客观的第三方理财机构角度，提供家庭理财规划方案服务，提供团购理财产品服务，为您提供银行理财产品，券商理财产品，保险产品，最大化您的投资收益。" />
   <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
   <meta property="wb:webmaster" content="7b427579f6099f50" />
+  <meta property="qc:admins" content="256222163764767411630566375" />
   <%= javascript_include_tag "jquery.min.js" %>
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
   <%= stylesheet_link_tag "bootstrap.css" %>
@@ -37,6 +38,13 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
+  <% if (params[:controller]=="sales" && params[:action]=="login") && params[:risk]!=nil %>
+      <div id="xoverlay" style="display: block;">
+        <b>您需要输入正确的手机号码，才方便我们直接手机充值话费。</b>
+        <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+      </div>
+      <div id="lay2" style="height: 50px;"></div>
+  <% end %>
   <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") && @webuser.username==session[:webusername] %>
       <% if @webuser.organuser=='2' %>
           <div id="xoverlay" style="display: block;">

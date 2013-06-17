@@ -409,11 +409,15 @@
                         else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
                         else if(save.split(',')[5]=='G'){trade='公务员';}
                         var risktolerance=risk;
+                        <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,bank:$("#bank").attr("value"),
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                         },function(data){
-                            location.href='/personmanagement/personfinance';
+                              location.href='/personmanagement/share?risk='+risktolerance;
                         });
+                        <% else %>
+                          location.href='/personmanagement/share?risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&bank='+$("#bank").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','');
+                        <% end %>
                         return false
                       //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
                         w.trackEvent("OFA", "submit_questionnaire", qPayload());

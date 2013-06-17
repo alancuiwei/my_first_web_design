@@ -287,7 +287,7 @@ class AdminController < ApplicationController
             end
           end
         end
-       if params[:investamount]!=nil
+       if params[:investamount]!=nil && params[:risk]==nil
         Personalfinance.new do |w|
           w.username=params[:username]
           w.investamount=params[:investamount]
