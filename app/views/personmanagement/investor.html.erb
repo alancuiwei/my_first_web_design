@@ -224,7 +224,7 @@
               <td><%= b.city %></td>
               <td><%= b.dream %></td>
               <% if b.amount !=nil %><td><%= format("%0.0f",b.amount/10000) %></td><% else %><td></td><% end %>
-              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
+              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>0</td><% end %>
               <% if b.monthpay !=nil %><td><%= format("%0.0f", b.monthpay) %></td><% else %><td></td><% end %>
               <% if b.organusername==nil %>
                   <% if b.isauto==0 %>
@@ -258,7 +258,7 @@
               <td></td>
               <td></td>
               <td></td>
-              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>50000</td><% end %>
+              <% if @hash_reference[b.id][0] !=nil %><td><%= format("%0.0f", @hash_reference[b.id][0]) %></td><% else %><td>0</td><% end %>
               <td></td>
               <% if b.organusername==nil %>
               <% if session[:webusername]!=nil && session[:webusername]!='admin' && @webusers.organuser=='1' %>

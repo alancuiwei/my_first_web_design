@@ -305,11 +305,11 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
-                else if('<%= params[:actions] %>'=='1'){
-                    $.get("/sales/zhifubao",{username:$('#username').attr("value"),scharge:'50',actions:1},function(data){
-                        location.href=data;
-                    });
-                }
+               // else if('<%= params[:actions] %>'=='1'){
+               //     $.get("/sales/zhifubao",{username:$('#username').attr("value"),scharge:'50',actions:1},function(data){
+               //         location.href=data;
+               //     });
+               // }
                 else if('<%= params[:question] %>'=='1'){
                     location.href="/home/questions";
                 }

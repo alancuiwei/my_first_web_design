@@ -58,15 +58,17 @@ class SalesController < ApplicationController
     @webuser = Webuser.find_by_username(params[:username])
     Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
     @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.username
+=begin
     if params[:actions]=='1'
       @subject='上班族财富管理讲座 报名费'
       @price=50
       @return_url= 'http://www.tongtianshun.com'
     else
+    end
+=end
       @subject='理财师支付'
       @price=100
       @return_url= 'http://www.tongtianshun.com/personmanagement/investor'
-    end
     parameters = {
         'service' => 'create_partner_trade_by_buyer',
         'partner' => '2088801189204575',

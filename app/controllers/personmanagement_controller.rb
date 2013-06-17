@@ -128,12 +128,7 @@ class PersonmanagementController < ApplicationController
     end
     @hash_reference=Hash.new
     @webuser.each do |webuser|
-      @add=Personalfinance.find_by_username(webuser.username)
-      if @add!=nil
-        @hash_reference.store(webuser.id,[@add.investamount,webuser.username,webuser.province,webuser.city])
-      else
-        @hash_reference.store(webuser.id,[nil,webuser.username,webuser.province,webuser.city])
-      end
+        @hash_reference.store(webuser.id,[webuser.exeitdeposit,webuser.username,webuser.province,webuser.city])
     end
     @hash={}
     @webuser2=Webuser.find_by_sql("select * from webuser where organusername is not null");
