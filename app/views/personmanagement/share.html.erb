@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
 
 <style>
-    p {
+    p{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 14px;
         line-height: 20px;
@@ -24,9 +24,23 @@
         border-bottom: 1px solid #E2E2E2;
         margin-bottom: 10px;
     }
+    p.share{
+        max-width: 450px;
+    }
+    @media screen and (max-width: 767px){
+      .content{
+          width: 90%;
+          margin: 0 auto;
+      }
+        textarea {
+            width: 97%!important;
+            height: 180px!important;
+        }
+    }
 </style>
 
 <div class="main-content">
+ <div class="content">
   <p class="product">风险承受度评估结果：</p>
    <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
       <p>您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
@@ -50,28 +64,45 @@
       <p>大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。</p>
    <% end %>
    <br>
+   <p class="product">发布到微博：</p>
+   <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
+       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
+       <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish>
+   <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
+       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
+       <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish>
+   <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
+       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
+       <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish>
+   <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
+       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
+       <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish>
+   <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
+       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
+       <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish>
+   <% end %>
+   <!--
   <div class="zm-tab-content weibo-panel" id="tb-webshare-sina-content" style="">
     <div class="zg-section">
-      <p class="product">分享到微博</p>
+      <p class="product">发布到微博</p>
       <label>
         <input data-bindurl="/oauth/auth/sina?next=/oauth/callback" class="sina-checkbox" checked type="checkbox">
         <span class="zg-ico-sina"></span> 新浪微博</label>
     </div>
     <div class="zg-section">
       <div class="zg-form-text-input">
-        <textarea style="width: 99%; white-space: pre; height: 66px; min-height: 66px;" ><% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://sina.lt/hVn
-          <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://sina.lt/hVn
-          <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://sina.lt/hVn
-          <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://sina.lt/hVn
-          <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://sina.lt/hVn
+        <textarea style="width: 99%; white-space: pre; height: 66px; min-height: 66px;" ><% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
+          <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
+          <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
+          <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
+          <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
           <% end %>
         </textarea>
       </div>
     </div>
     <div class="zm-command">
-      <!-- Baidu Button BEGIN -->
       <div class="baidu_btn">
-        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float: right;" data="{'url':'http://www.tongtianshun.com/sales/login?logintype=creat'}">
+        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float: right;" data="{'url':'http://www.tongtianshun.com/home/questions'}">
           <a class="bds_tsina btn btn-primary" style="float: right;color: #ffffff;padding: 4px 12px;line-height: 16px;">分享到微博</a>
         </div>
         <div id="notcheck" class="bdshare_t bds_tools get-codes-bdshare hide">
@@ -94,9 +125,10 @@
           <% end %>
           document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
       </script>
-      <!-- Baidu Button END -->
     </div>
   </div>
+  -->
+ </div>
 </div>
 
 <script>
