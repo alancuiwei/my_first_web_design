@@ -213,6 +213,7 @@
            $(".mobile").remove();
     }else{
         $("#erweima").remove();
+        $("#container").remove();
     }
 </script>
 
@@ -445,6 +446,7 @@
 
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
+              //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
                 }
@@ -632,7 +634,7 @@
 
                                 });
                         }
-                        else{
+                       /* else{
                             var chart = new Highcharts.Chart({
 
                                         chart: {
@@ -742,6 +744,7 @@
 
                                     });
                         }
+                        */
                     });
                 })
                 .submit(function(e) {
