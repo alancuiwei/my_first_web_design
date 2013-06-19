@@ -39,6 +39,13 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
+  <% if (params[:controller]=="personmanagement" && params[:action]=="share") %>
+      <div id="xoverlay" style="display: block;">
+        <b>发布到微博上，即可参与手机充值话费活动。</b> <a class="btns"  href="#">参与手机充值活动</a>
+        <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+      </div>
+      <div id="lay2" style="height: 50px;"></div>
+  <% end %>
   <% if (params[:controller]=="sales" && params[:action]=="login") && params[:risk]!=nil %>
       <div id="xoverlay" style="display: block;">
         <b>您需要输入正确的手机号码，才方便我们直接手机充值话费。</b>

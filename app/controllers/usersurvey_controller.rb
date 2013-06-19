@@ -78,6 +78,48 @@ class UsersurveyController < ApplicationController
     render :json => @alipy_url.to_json
   end
 
+  def zhifubaoformobile
+      @webuser = Webuser.find_by_username(session[:webusername])
+      Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
+      @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.username
+      if session[:webusername]=='tester'
+         @tester='0.01'
+      else
+         @tester=params[:scharge]
+      end
+      parameters = {
+          'service' => 'alipay.wap.trade.create.direct',
+          'format' => 'xml',
+          'v' => '2.0',
+          'partner' => '2088801189204575',
+          'req_id' => @subsribe_id,   # ???
+          'sec_id' => 'MD5',
+          'subject' => '梦想实现',
+          'out_trade_no' => @subsribe_id,
+          'total_fee' => @tester,
+          'seller_account_name' => 'zhongrensoft@gmail.com',
+          'call_back_url' => 'http://www.tongtianshun.com/personmanagement/investor?username='+params[:username]
+      }
+ #     parameters = {
+ #         'service' => 'alipay.wap.auth.authAndExecute',
+ #         'format' => 'xml',
+ #         'v' => '2.0',
+ #         'partner' => '2088801189204575',
+ #         'sec_id' => 'MD5',
+ #         'request_token' => ''
+ #     }
+      values = {}
+      # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
+      parameters.keys.sort.each do |k|
+        values[k] = parameters[k];
+      end
+      # 一定要先unescape后再生成sign，否则支付宝会报ILLEGAL SIGN
+      sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
+      gateway = 'https://mapi.alipay.com/gateway.do?'
+      @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
+    render :json => @alipy_url.to_json
+  end
+
   def dreamin
     @webuser = Webuser.find_by_username(params[:username])
     @webuser.update_attributes(:organuser=>0)
