@@ -28,6 +28,10 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+   def movablewall
+     @blogs= Blog.find_by_sql('select * from blog where tag like "%活动%" order by id')
+   end
+
   def organfinance
     if session[:webusername]==nil &&  params[:id]==nil
       redirect_to(:controller=>"home")

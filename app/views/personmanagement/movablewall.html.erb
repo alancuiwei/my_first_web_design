@@ -1,0 +1,67 @@
+<%= javascript_include_tag "grid.min.js" %>
+<%= javascript_include_tag "modernizr-2.6.1.min.js" %>
+<%= javascript_include_tag "common.min.js" %>
+
+<style>
+    .polaroid{
+        width: 236px;
+        padding: 18px 0 10px 0;
+        background-color: #fff;
+        -moz-transition: box-shadow 0.15s ease-out;
+        -o-transition: box-shadow 0.15s ease-out;
+        -webkit-transition: box-shadow 0.15s ease-out;
+        -ms-transition: box-shadow 0.15s ease-out;
+        transition: box-shadow 0.15s ease-out;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        display: none;
+        border: 1px solid #dedede;
+    }
+
+    .polaroid .imageLink {
+        padding-left: 18px;
+        margin-bottom: 8px;
+        display: block;
+        position: relative;
+    }
+
+    .polaroid .imageLink {
+        d-webkit-transition: -webkit-filter 0.15s ease-out;
+        d-webkit-backface-visibility: hidden;
+        d-webkit-filter: contrast(101%) saturate(101%);
+    }
+
+    .polaroid .imageLink img {
+        display: block;
+    }
+
+    a:link img {
+        border: none;
+    }
+
+    #images {
+        position: relative;
+    }
+
+    #main {
+        padding: 0;
+        margin: 50px 0 100px 0;
+        max-width: 1320px;
+    }
+</style>
+<div id="images" style="max-width: 1100px; margin-left: auto; margin-right: auto;display:block;">
+<% @blogs.each do |b| %>
+      <div class="polaroid tile" id="image_<%= b.id %>" >
+        <a href="/blog/blogarticle/<%= b.id %>" class="imageLink">
+          <img src="/assets/<%= b.imagepath%>" alt="<%= b.btitle%>" width="200">
+        </a>
+      </div>
+  <% end %>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".beta,.main-footer").hide();
+    });
+</script>
