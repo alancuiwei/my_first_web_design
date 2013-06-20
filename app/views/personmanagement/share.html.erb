@@ -145,7 +145,12 @@
           <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
           <div class="cell">
             <p class="q-text">历史中奖纪录</p>
-            <wb:topic column="n" border="n" width="560" height="1190" tags="%E9%80%9A%E5%A4%A9%E9%A1%BA%E7%90%86%E8%B4%A2%E8%BD%AC%E5%8F%91%E5%85%85%E8%AF%9D%E8%B4%B9" language="zh_cn" version="base" refer="n" appkey="5Y299a" footbar="y" filter="n" ></wb:topic>
+            <div id="win">
+                <wb:topic column="n" border="n" width="560" height="1190" tags="通天顺家庭理财-手机充值活动" language="zh_cn" version="base" refer="n" appkey="5Y299a" footbar="y" filter="n" ></wb:topic>
+            </div>
+            <div id="mobile">
+                <a style="font-family: arial;" href="http://huati.weibo.com/224570?from=510&order=time">点击查看</a>
+            </div>
           </div>
         </div>
 
@@ -268,6 +273,7 @@
         <% end %>
     });
 </script>
+
 <script type="text/javascript">
     //平台、设备和操作系统
     var system ={
@@ -282,6 +288,8 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
+        $("#mobile").remove();
     }else{
+        $("#win").remove();
     }
 </script>
