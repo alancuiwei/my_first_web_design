@@ -132,7 +132,7 @@
             <p class="q-text">微博分享</p>
           </div>
         </div>
-        <br>
+        <div class="win"><br></div>
         <div class="table">
           <div class="cell" style="width: 32px;"> <h1><b>2</b></h1> </div>
           <div class="cell">
@@ -145,7 +145,7 @@
           <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
           <div class="cell">
             <p class="q-text">历史中奖纪录</p>
-            <div id="win">
+            <div class="win">
                 <wb:topic column="n" border="n" width="560" height="1190" tags="通天顺家庭理财-手机充值活动" language="zh_cn" version="base" refer="n" appkey="5Y299a" footbar="y" filter="n" ></wb:topic>
             </div>
             <div id="mobile">
@@ -290,6 +290,10 @@
     if(system.win||system.mac||system.xll){
         $("#mobile").remove();
     }else{
-        $("#win").remove();
+        $(".win").remove();
+        var mid1=$(".press-table tr:eq(0)").html()
+        var mid2=$(".press-table tr:eq(2)").html()
+        $(".press-table tr:eq(0)").html(mid2)
+        $(".press-table tr:eq(2)").html(mid1)
     }
 </script>

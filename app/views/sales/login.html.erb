@@ -136,6 +136,10 @@
             </table>
             <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
             <div class="or-text"><div><b>或</b></div></div>
+            <% if params[:aaa]=='1' %>
+            <wb:login-button type="3,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
+            <div class="or-text"><div><b>或</b></div></div>
+            <% end %>
             <a class="chear see info-button" href="#create" data-toggle="tab" type="submit" id="change_creat">注册</a>
           </form>
         </div>
