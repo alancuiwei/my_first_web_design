@@ -59,7 +59,11 @@
       <td class="left" style="width: 35%;">
         <h1>家庭梦想 理财规划服务</h1>
         <br>
-        <a id="clicks" class="btn btn-primary">开始</a>
+        <% if session[:webusername]!=nil %>
+            <a id="clicks" class="btn btn-primary" href="/personmanagement/personfinance">开始</a>
+        <% else %>
+            <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>">开始</a>
+        <% end %>
       </td>
       <td>
         <div class="table">
@@ -262,28 +266,6 @@
 -->
 </div>
 
-<script>
-  /*
-    $(".sina-checkbox").click(function(){
-        var a=document.getElementsByClassName("sina-checkbox");
-        if(a[0].checked){
-            $("#bdshare").show();
-            $("#notcheck").hide();
-        }
-        else{
-            $("#bdshare").hide();
-            $("#notcheck").show();
-        }
-    });
-  */
-    $("#clicks").click(function(){
-        <% if session[:webusername]!=nil %>
-          location.href='/personmanagement/personfinance'
-        <% else %>
-          location.href='/sales/login?logintype=creat&risk='+ '<%= params[:risk] %>' + '&save='+'<%= params[:save] %>' + '&stacked='+ '<%= params[:stacked] %>' + '&age='+ '<%= params[:age] %>' + '&bank='+ '<%= params[:bank] %>' + '&investamount='+ '<%= params[:investamount] %>'
-        <% end %>
-    });
-</script>
 <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
 <script type="text/javascript" id="bdshell_js"></script>
 <script type="text/javascript">
