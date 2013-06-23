@@ -1,0 +1,54 @@
+<%= stylesheet_link_tag "personmanagement.css" %>
+
+<div class="main-content">
+  <h1 id="state"></h1>
+  <h2>活动名称</h2>
+  <p><%= @activity.name %></p>
+  <div id="ing">
+    <img src="/assets/1.jpg" style="width: 100%;max-width: 200px;">
+  </div>
+  <div id="before">
+    <h2>活动结果</h2>
+    <p><%= @activity.result %></p>
+  </div>
+  <h2>活动性质</h2>
+  <p><%= @activity.naturef %>-<%= @activity.natures %></p>
+  <h2>主办方</h2>
+  <p><%= @activity.organizer %></p>
+  <h2>活动开始时间</h2>
+  <p><%= @activity.begintime %></p>
+  <h2>活动结束时间</h2>
+  <p><%= @activity.endtime %></p>
+  <h2>活动介绍</h2>
+  <p><%= @activity.result %></p>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var arr='<%= @activity.begintime %>'.split("-");
+        var starttime=new Date(arr[0],arr[1],arr[2]);
+        var starttimes=starttime.getTime();
+
+        var arrs='<%= @activity.endtime %>'.split("-");
+        var lktime=new Date(arrs[0],arrs[1],arrs[2]);
+        var lktimes=lktime.getTime();
+
+        var myDate = new Date();
+        var todaydate= new Date(myDate.getFullYear(),myDate.getMonth()+1,myDate.getDate());
+        var todaydates=todaydate.getTime();
+
+        if(todaydates>lktimes)
+        {
+            $("#state").html("活动已结束");
+            $("#ing").remove();
+        }
+        else if(todaydates<starttimes){
+            $("#state").html("活动未开始");
+            $("#before").remove();
+        }
+        else{
+            $("#state").html("活动进行中");
+            $("#before").remove();
+        }
+    });
+</script>

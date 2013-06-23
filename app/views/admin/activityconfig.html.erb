@@ -1,0 +1,143 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+
+<style>
+    #current_tags_panel span {
+        display: inline-block;
+        margin: 0 5px 5px 0;
+        padding: 0px 10px;
+        background-color: #5d7a9b;
+        color: #FFF;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -o-border-radius: 30px;
+        border-radius: 30px;
+    }
+</style>
+
+<div>
+  活动名称：<input type="text" name="name" id="name" title="活动名称"> <br>
+  <form method="post" name="creator" enctype="multipart/form-data">
+  活动性质：<select name="naturef" id="naturef" onChange = "select()"></select>
+  <select style="margin-left: 60px;" name="natures" id="natures" onChange = "select()"></select>
+  <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
+  </form>
+  活动主办方：<input type="text" name="organizer" id="organizer" title="活动主办方"> <br>
+  活动开始时间：<input type="text" name="begintime" id="begintime" title="活动开始时间" onclick="WdatePicker()" class="Wdate"> <br>
+  活动结束时间：<input type="text" name="endtime" id="endtime" title="活动结束时间" onclick="WdatePicker()" class="Wdate"> <br>
+  <% if params[:id]!="0" %>
+      活动介绍：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="introduce" id="introduce" title="活动介绍"><%= @activity.introduce %></textarea><br>
+      活动结果：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="result" id="result" title="活动结果"><%= @activity.result %></textarea> <br>
+  <% else %>
+      活动介绍：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="introduce" id="introduce" title="活动介绍"></textarea><br>
+      活动结果：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="result" id="result" title="活动结果"></textarea> <br>
+  <% end %>
+  <a href="javascript:void(0)" class="btn btn-primary" id="activityconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    <% if params[:id]!="0" %>
+    $("#name").attr("value",'<%= @activity.name %>');
+    $("#naturef").attr("value",'<%= @activity.naturef %>');
+    $("#natures").attr("value",'<%= @activity.natures %>');
+    $("#organizer").attr("value",'<%= @activity.organizer %>');
+    $("#begintime").attr("value",'<%= @activity.begintime %>');
+    $("#endtime").attr("value",'<%= @activity.endtime %>');
+    <% end %>
+
+    $("#activityconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(($("#naturef").attr("value")=='请选择'||$("#natures").attr("value")=='') && nom_flag==0){
+        <% if params[:id]!="0" %>
+            alert("请选择活动性质！(之前的选择：<%= @activity.naturef %>-<%= @activity.natures %>)");
+        <% else %>
+            alert("请选择活动性质！");
+        <% end %>
+
+            nom_flag=1;
+        }
+
+            var arr=$("#begintime").attr("value").split("-");
+            var starttime=new Date(arr[0],arr[1],arr[2]);
+            var starttimes=starttime.getTime();
+
+            var arrs=$("#endtime").attr("value").split("-");
+            var lktime=new Date(arrs[0],arrs[1],arrs[2]);
+            var lktimes=lktime.getTime();
+
+            if(starttimes>lktimes && nom_flag==0)
+            {
+                alert("开始时间大于结束时间")
+                nom_flag=1;
+            }
+
+            if($("#introduce").attr("value")=="" && nom_flag==0)
+            {
+                alert("活动介绍为空！")
+                nom_flag=1;
+            }
+
+
+        if(nom_flag==0){
+            $.post("/admin/activityconfigajax/<%= params[:id] %>",{ name: $("#name").attr("value"),naturef: $("#naturef").attr("value"),
+                natures: $("#natures").attr("value"),organizer: $("#organizer").attr("value"),begintime: $("#begintime").attr("value"),
+                endtime: $("#endtime").attr("value"),introduce:$("#introduce").attr("value"),result:$("#result").attr("value")
+            },function(data){
+                if(data=="s1"){
+                    alert("活动创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+
+
+<script language="javascript">
+    var where = new Array(2);
+
+    function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
+    where[0]= new comefrom("请选择","请选择");
+    where[1] = new comefrom("线上活动","|微信活动");
+
+    function select() {
+        with(document.creator.naturef) { var loca2 = options[selectedIndex].value; }
+        for(i = 0;i < where.length;i ++) {
+            if (where[i].loca == loca2) {
+                loca3 = (where[i].locacity).split("|");
+                for(j = 0;j < loca3.length;j++) { with(document.creator.natures) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
+                break;
+            }}
+        document.creator.newlocation.value=loca2+" "+loca4;
+    }
+
+    function init() {
+        with(document.creator.naturef) {
+            length = where.length;
+            for(k=0;k<where.length;k++) { options[k].text = where[k].loca; options[k].value = where[k].loca; }
+            options[selectedIndex].text = where[0].loca; options[selectedIndex].value = where[0].loca;
+        }
+        with(document.creator.natures) {
+            loca3 = (where[0].locacity).split("|");
+            length = loca3.length;
+            for(l=0;l<length;l++) { options[l].text = loca3[l]; options[l].value = loca3[l]; }
+            options[selectedIndex].text = loca3[0]; options[selectedIndex].value = loca3[0];
+        }}
+
+    $(document).ready(function(){
+        init();
+    });
+</script>

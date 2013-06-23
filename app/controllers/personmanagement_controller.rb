@@ -29,7 +29,15 @@ class PersonmanagementController < ApplicationController
   end
 
    def movablewall
-     @blogs= Blog.find_by_sql('select * from blog where tag like "%活动%" order by id')
+     @activity=Activity.all
+   end
+
+   def activity
+    if params[:id]!=nil
+      @activity=Activity.find_by_id(params[:id])
+    else
+      redirect_to(:controller=>"personmanagement", :action=>"movablewall")
+    end
    end
 
   def organfinance

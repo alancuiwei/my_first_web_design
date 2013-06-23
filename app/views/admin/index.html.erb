@@ -305,6 +305,31 @@
         <br> <br>
       </td>
     </tr>
+
+    <tr><td>
+      <h1>活动管理</h1>
+      <a href="/admin/activityconfig/0?organ=1">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
+        <thead><tr>
+          <th class="hide">ID</th><th>活动名称</th><th>活动性质</th><th>活动主办方</th>
+          <th>活动开始</th><th>活动结束</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @activity.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.name%></td>
+              <td><%= b.naturef + '-' + b.natures%></td>
+              <td><%= b.organizer%></td>
+              <td><%= b.begintime%></td>
+              <td><%= b.endtime%></td>
+              <td><a href="/admin/activityconfig/<%= b.id %>?optype=edit">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','activitydeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
 <% end %>
 <% if session[:webusername]=='admin' %>
     <tr><td>
@@ -399,6 +424,9 @@
             "aaSorting": [[ 0, "desc" ]]
         });
         var oTable = $('#organuser').dataTable({
+            "aaSorting": [[ 0, "desc" ]]
+        });
+        var oTable = $('#activity').dataTable({
             "aaSorting": [[ 0, "desc" ]]
         });
     });

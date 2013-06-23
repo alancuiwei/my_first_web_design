@@ -8,6 +8,7 @@ class AdminController < ApplicationController
       @bankfinances=Bankfinance.all
       @bankfinance2=Bankfinance.find_all_by_isorgan(1)
       @blogs=Blog.all
+      @activity=Activity.all
       @products=Product.all
       @reserves=Reserve.all
       @bankproducts=Bankproducts_t.all
@@ -897,6 +898,52 @@ class AdminController < ApplicationController
       end
     end
   end
+
+  def activityconfig
+    if session[:webusername]!=nil
+      @bloginfo=[]
+      if params[:id]!="0"
+        @activity=Activity.find_by_id(params[:id])
+      end
+    else
+      redirect_to(:controller=>"home")
+    end
+  end
+
+  def activityconfigajax
+    if params[:id]=="0"
+      Activity.new do |b|
+        b.name=params[:name]
+        b.naturef=params[:naturef]
+        b.natures=params[:natures]
+        b.organizer=params[:organizer]
+        b.begintime=params[:begintime]
+        b.endtime=params[:endtime]
+        b.introduce=params[:introduce]
+        b.result=params[:result]
+        b.save
+      end
+      render :json => "s1".to_json
+
+    else
+      @activity=Activity.find_by_id(params[:id])
+      @activity.update_attributes(:name=>params[:name],:naturef=>params[:naturef],:natures=>params[:natures],
+                              :organizer=>params[:organizer],:begintime=>params[:begintime],:endtime=>params[:endtime],
+                              :introduce=>params[:introduce],:result=>params[:result])
+      render :json => "s2".to_json
+    end
+  end
+
+   def activitydeleteajax
+     @activity=Activity.find_by_id(params[:id])
+     if @activity!=nil
+       if @activity.destroy
+         render :json => "s".to_json
+       else
+         render :json => "f".to_json
+       end
+     end
+   end
 
   def blogconfig
     if session[:webusername]!=nil

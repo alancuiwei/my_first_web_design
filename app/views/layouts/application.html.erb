@@ -95,8 +95,9 @@
     <div class="span4">
       <% if session[:webusername]!=nil %>
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
-          <% if session[:organuser]!='1' %>
-              <!--<a class="pull-right rounder" href="/sales/myorder">我的订单</a> -->
+          <% if session[:webusername]=='admin' %>
+              <a class="pull-right rounder" href="/admin"><%=session[:webusername]%>管理页面</a>
+          <% elsif session[:organuser]!='1' %>
                   <a class="pull-right rounder" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
           <% else %>
               <a class="pull-right rounder" href="/personmanagement/organfinance">我的产品</a>
