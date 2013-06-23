@@ -1,26 +1,69 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+
+<style>
+  .btn{
+      padding: 8px 24px;
+      font-size: 18px;
+  }
+  .table td{text-align: left;vertical-align: middle;}
+  .press td{padding: 15px 10px;}
+  .press p.q-text {margin: 0;}
+</style>
 
 <div class="main-content">
-  <h1 id="state"></h1>
-  <h2>活动名称</h2>
-  <p><%= @activity.name %></p>
-  <div id="ing">
-    <img src="/assets/1.jpg" style="width: 100%;max-width: 200px;">
-  </div>
-  <div id="before">
-    <h2>活动结果</h2>
-    <p><%= @activity.result %></p>
-  </div>
-  <h2>活动性质</h2>
-  <p><%= @activity.naturef %>-<%= @activity.natures %></p>
-  <h2>主办方</h2>
-  <p><%= @activity.organizer %></p>
-  <h2>活动开始时间</h2>
-  <p><%= @activity.begintime %></p>
-  <h2>活动结束时间</h2>
-  <p><%= @activity.endtime %></p>
-  <h2>活动介绍</h2>
-  <p><%= @activity.result %></p>
+  <h1 id="h1"><%= @activity.name %></h1>
+
+  <% if @activity.natures=="网络教学" %>
+    <a class="btn btn-primary enroll">报 名</a><br><br>
+  <% end %>
+  <table class="table table-striped table-bordered press" style="width: 100%;">
+    <% if @activity.natures!="网络教学" %>
+    <tr id="ing">
+      <td class="left"><h1>要报名，扫一扫</h1></td>
+      <td>
+        <img src="/assets/1.jpg" style="width: 100%;max-width: 100px;">
+      </td>
+    </tr>
+    <tr id="before">
+      <td class="left"><h1>活动结果：</h1></td>
+      <td><p class="q-text"><%= @activity.result %></p></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="left" style="width: 200px;"><h1>活动性质：</h1></td>
+      <td><p class="q-text"><%= @activity.naturef %>/<%= @activity.natures %></p></td>
+    </tr>
+    <% if @activity.natures=="网络教学" %>
+        <tr>
+          <td class="left"><h1>收费标准：</h1></td>
+          <td><p class="q-text"><%= format("%0.0f",@activity.charge) %>元</p></td>
+        </tr>
+    <% end %>
+    <tr>
+      <td class="left"><h1>活动主办方：</h1></td>
+      <td><p class="q-text"><%= @activity.organizer %></p></td>
+    </tr>
+    <tr>
+      <td class="left"><h1>活动时间：</h1></td>
+      <td><p class="q-text"><%= @activity.begintime.to_s.split("-")[0] %>年<%= @activity.begintime.to_s.split("-")[1] %>月<%= @activity.begintime.to_s.split("-")[2] %>日 -
+              <%= @activity.endtime.to_s.split("-")[0] %>年<%= @activity.endtime.to_s.split("-")[1] %>月<%= @activity.endtime.to_s.split("-")[2] %>日</p></td>
+    </tr>
+    <% if @activity.natures=="网络教学" %>
+        <tr>
+          <td class="left"><h1>地址：</h1></td>
+          <td><p class="q-text"><%= @activity.address %></p></td>
+        </tr>
+    <% end %>
+    <tr>
+      <td class="left"><h1>活动介绍：</h1></td>
+      <td><p class="q-text"><%= @activity.result %></p></td>
+    </tr>
+  </table>
+
+  <% if @activity.natures=="网络教学" %>
+      <div id="container" style="width: 100%;max-width: 400px; height: 400px;"></div>
+  <% end %>
 </div>
 
 <script>
@@ -39,16 +82,85 @@
 
         if(todaydates>lktimes)
         {
-            $("#state").html("活动已结束");
+           // $("#state").html("活动已结束");
             $("#ing").remove();
         }
         else if(todaydates<starttimes){
-            $("#state").html("活动未开始");
+           // $("#state").html("活动未开始");
             $("#before").remove();
         }
         else{
-            $("#state").html("活动进行中");
+           // $("#state").html("活动进行中");
             $("#before").remove();
         }
+
+        <% if params[:username] ==session[:webusername] && session[:webusername]!=nil %>
+        $.get("/personmanagement/enroll",{name:'<%= @activity.name %>',aid:'<%= @activity.id %>',username:'<%= session[:webusername] %>',ischarge:0},function(data){
+        });
+        <% end %>
     });
+
+
+     $(".enroll").click(function(){
+        <% if session[:webusername]!=nil %>
+         $.get("/personmanagement/enroll",{name:'<%= @activity.name %>',aid:'<%= @activity.id %>',username:'<%= session[:webusername] %>',ischarge:1},function(data){
+         });
+         $.get("/personmanagement/zhifubao",{scharge:'<%= @activity.charge %>',username:'<%= session[:webusername] %>',aid:'<%= params[:id] %>'},function(data){
+             location.href=data;
+         });
+        <% else %>
+            location.href="/sales/login?activity=1&aid=<%= params[:id] %>"
+         <% end %>
+     });
+
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '当前报名人数（满20名后举办）'
+            },
+            xAxis: {
+                categories: ['人数']
+            },
+            yAxis: {
+                tickInterval: 1,  //自定义刻度
+                max:20,//纵轴的最大值
+                min: 0,
+                title: {
+                    text: '报名总人数'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            credits:false,
+            legend: false,
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                            '总共: '+ this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    }
+                }
+            },
+            series: [{
+                name: '人数',
+                data: [<%= @enroll.length %>]
+            }]
+        });
+    });
+
 </script>

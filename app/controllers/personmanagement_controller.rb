@@ -35,10 +35,74 @@ class PersonmanagementController < ApplicationController
    def activity
     if params[:id]!=nil
       @activity=Activity.find_by_id(params[:id])
+      @enroll=Enroll.find_all_by_aid_and_ischarge(params[:id],0)
     else
       redirect_to(:controller=>"personmanagement", :action=>"movablewall")
     end
    end
+
+  def enroll
+    @enroll=Enroll.find_by_name_and_username(params[:name],params[:username])
+    if @enroll==nil
+      Enroll.new do |b|
+        b.name=params[:name]
+        b.username=params[:username]
+        b.ischarge=1
+        b.aid=params[:aid]
+        b.save
+      end
+    elsif params[:ischarge]=='0'
+      @enroll.update_attributes(:ischarge=>0,:name=>params[:name],:username=>params[:username],:aid=>params[:aid]);
+    end
+  end
+
+  def enrollapprove
+    @enroll=Enroll.find_by_id(params[:aid])
+    @enroll.update_attributes(:ischarge=>0);
+    render :json => "s".to_json
+  end
+
+  def zhifubao
+    @webuser = Webuser.find_by_username(session[:webusername])
+    Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
+    @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.username
+    if session[:webusername]=='tester'
+      @tester='0.01'
+    else
+      @tester=params[:scharge]
+    end
+    parameters = {
+        'service' => 'create_partner_trade_by_buyer',
+        'partner' => '2088801189204575',
+        '_input_charset' => 'utf-8',
+        'return_url' => 'http://www.tongtianshun.com/personmanagement/activity/'+params[:aid]+'?username='+session[:webusername],
+        'seller_email' => 'zhongrensoft@gmail.com',
+        'out_trade_no' => @subsribe_id,
+        'subject' => '活动报名',
+        'price' => @tester,
+        'quantity' => '1',
+        'payment_type' => '1',
+        'logistics_type'=>'EMS',
+        'logistics_fee' => '0',
+        'logistics_payment'=>'BUYER_PAY',
+        'logistics_type_1'=>'POST',
+        'logistics_fee_1' => '0',
+        'logistics_payment_1'=>'BUYER_PAY',
+        'logistics_type_2'=>'EXPRESS',
+        'logistics_fee_2' => '0',
+        'logistics_payment_2'=>'BUYER_PAY'
+    }
+    values = {}
+    # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
+    parameters.keys.sort.each do |k|
+      values[k] = parameters[k];
+    end
+    # 一定要先unescape后再生成sign，否则支付宝会报ILLEGAL SIGN
+    sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
+    gateway = 'https://mapi.alipay.com/gateway.do?'
+    @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
+    render :json => @alipy_url.to_json
+  end
 
   def organfinance
     if session[:webusername]==nil &&  params[:id]==nil

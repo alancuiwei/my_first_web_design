@@ -9,6 +9,7 @@ class AdminController < ApplicationController
       @bankfinance2=Bankfinance.find_all_by_isorgan(1)
       @blogs=Blog.all
       @activity=Activity.all
+      @enroll=Enroll.all
       @products=Product.all
       @reserves=Reserve.all
       @bankproducts=Bankproducts_t.all
@@ -921,6 +922,8 @@ class AdminController < ApplicationController
         b.endtime=params[:endtime]
         b.introduce=params[:introduce]
         b.result=params[:result]
+        b.charge=params[:charge]
+        b.address=params[:address]
         b.save
       end
       render :json => "s1".to_json
@@ -929,7 +932,7 @@ class AdminController < ApplicationController
       @activity=Activity.find_by_id(params[:id])
       @activity.update_attributes(:name=>params[:name],:naturef=>params[:naturef],:natures=>params[:natures],
                               :organizer=>params[:organizer],:begintime=>params[:begintime],:endtime=>params[:endtime],
-                              :introduce=>params[:introduce],:result=>params[:result])
+                              :introduce=>params[:introduce],:result=>params[:result],:charge=>params[:charge],:address=>params[:address])
       render :json => "s2".to_json
     end
   end

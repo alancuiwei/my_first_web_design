@@ -309,6 +309,9 @@
                 else if(data=="f2"){
                     alert("找不到该用户");
                 }
+                else if( data=="organ2"){
+                    alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
+                }
                // else if('<%= params[:actions] %>'=='1'){
                //     $.get("/sales/zhifubao",{username:$('#username').attr("value"),scharge:'50',actions:1},function(data){
                //         location.href=data;
@@ -372,11 +375,11 @@
                         location.href="/personmanagement/personfinance";
                     });
                 }
+                else if('<%= params[:activity] %>'=='1'){
+                    location.href="/personmanagement/activity/<%= params[:aid] %>";
+                }
                 else if('<%= params[:comments] %>'=='1'){
                     location.href="/personmanagement/personfinance/<%= params[:pid] %>";
-                }
-                else if( data=="organ2"){
-                    alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
                 }
                 else if("<%= params[:monthpay] %>"!=""){
                     location.href="/personmanagement/personfinance";
