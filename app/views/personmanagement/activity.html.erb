@@ -57,8 +57,14 @@
     <% end %>
     <tr>
       <td class="left"><h1>活动介绍：</h1></td>
-      <td><p class="q-text"><%= @activity.result %></p></td>
+      <td><p class="q-text"><%= @activity.introduce %></p></td>
     </tr>
+    <% if @activity.id==415 %>
+    <tr>
+      <td class="left"><h1>活动视频介绍：</h1></td>
+      <td><iframe height=498 width=510 src="http://player.youku.com/embed/XNTcyODY4MDc2" frameborder=0 allowfullscreen></iframe></td>
+    </tr>
+    <% end %>
   </table>
 
   <% if @activity.natures=="网络教学" %>
