@@ -41,6 +41,7 @@
             font-size: 30px;
             line-height: 36px;
             padding: 0 0 0 10px!important;
+            font-weight: normal;
         }
 </style>
 
@@ -63,16 +64,16 @@
         <div class="span12 well-c">
 
           <div id="founding-inputs" class="row">
-            <div class="span3"><h2 style="font-size: 24px;">您的资料</h2></div>
+            <div class="span3"><h2 style="font-size: 24px;font-weight: normal;">您的资料</h2></div>
             <div class="span3">
               <span class="title">年龄</span><br>
               <span class="control-group">
                 <select  name="age" id="age" title="年龄">
-                  <option value="20~25岁">20~25岁</option>
-                  <option value="25~30岁">25~30岁</option>
-                  <option value="30~35岁">30~35岁</option>
-                  <option value="35~40岁">35~40岁</option>
-                  <option value="40~45岁">40~45岁</option>
+                  <option value="0">20~25岁</option>
+                  <option value="1">25~30岁</option>
+                  <option value="2">30~35岁</option>
+                  <option value="3">35~40岁</option>
+                  <option value="4">40~45岁</option>
                 </select>
               </span>
             </div>
@@ -101,20 +102,24 @@
 
               <div class="row">
                 <div class="span3 control-group">
-                  <select  name="variety" id="variety" title="资产品种">
-                    <option value="银行活期存款">银行活期存款</option>
+                  <select  name="variety" id="variety" class="founder-name" title="资产品种">
+                    <option value="银行活期">银行活期</option>
+                    <option value="现金">现金</option>
                     <option value="银行理财产品">银行理财产品</option>
+                    <option value="银行定期">银行定期</option>
                     <option value="基金">基金</option>
+                    <option value="股票">股票</option>
+                    <option value="其它">其它</option>
                   </select>
                 </div>
                 <div class="span3 control-group" style="text-align: left;">
                   <div class="input-prepend">
                     <span class="add-on">￥</span>
-                    <input class="span2" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
+                    <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
                   </div>
                 </div>
                 <div class="span2" style="text-align: center;">
-                  <select  name="pname" id="pname" title="产品名称">
+                  <select  name="pname" id="pname" class="diluted-dist" title="产品名称">
                     <option value="-">-</option>
                     <option value="理财产品">理财产品</option>
                   </select>
@@ -131,13 +136,27 @@
 
         </div>
       </div>
-
+    </div>
+    <div style="text-align: center;">
+      <a onclick="run()" class="btn btn-primary" style="margin-top: 20px;">立即体检</a>
     </div>
   </div>
 
 </div>
 <script>
-
+   function run(){
+       var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
+       var variety=document.getElementsByClassName("founder-name")  //资产品种
+       var amount=document.getElementsByClassName("init-share")  //资产金额
+       var xianjin;
+       var wenjian;
+       var fenxian;
+       // alert($("#age").attr("value"));  年龄层次
+      for(i=0;i<variety.length;i++){
+          alert(variety[i].value)
+          alert(amount[i].value)
+      }
+   }
 
     var eCalcShareHolders = new Object();
     var settingSavedUser = false;
@@ -147,12 +166,13 @@
     // use to add founders
     function addFounder(founder, isFirst)
     {
+        var aaa = genId(eCalcShareHolders);
         var f = founder;
         if(f == null) // create a new share holder
         {
             f = new ShareHolder();
             f.setupShareHolder(true, false, false);
-            f.id= "founder-" + genId(eCalcShareHolders);
+            f.id= "founder-" + aaa;
             f.name = "Founder " + getNewNameNumber(eCalcShareHolders, "founder");
             eCalcShareHolders[f.id] = f;
         }
@@ -165,8 +185,10 @@
             $(fi).attr("fid", fid);
             // put values in
             $(fi).find(".founder-name").val(f.name).blur(fNameChange);
+            $(fi).find(".founder-name").attr("id",'variety'+aaa);
             $(fi).find(".init-share").val(f.percentStake).keyup(initShareChange);
-            $(fi).find(".diluted-dist").val(0);
+            $(fi).find(".init-share").attr("id",'amount'+aaa);
+            $(fi).find(".diluted-dist").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
         }
         else

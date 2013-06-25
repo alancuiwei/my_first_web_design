@@ -924,6 +924,8 @@ class AdminController < ApplicationController
         b.result=params[:result]
         b.charge=params[:charge]
         b.address=params[:address]
+        b.link=params[:link]
+        b.reward=params[:reward]
         b.save
       end
       render :json => "s1".to_json
@@ -932,7 +934,8 @@ class AdminController < ApplicationController
       @activity=Activity.find_by_id(params[:id])
       @activity.update_attributes(:name=>params[:name],:naturef=>params[:naturef],:natures=>params[:natures],
                               :organizer=>params[:organizer],:begintime=>params[:begintime],:endtime=>params[:endtime],
-                              :introduce=>params[:introduce],:result=>params[:result],:charge=>params[:charge],:address=>params[:address])
+                              :introduce=>params[:introduce],:result=>params[:result],:charge=>params[:charge],
+                              :address=>params[:address],:link=>params[:link],:reward=>params[:reward])
       render :json => "s2".to_json
     end
   end

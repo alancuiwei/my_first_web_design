@@ -1,20 +1,8 @@
 <%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
 
-<style>
-    #current_tags_panel span {
-        display: inline-block;
-        margin: 0 5px 5px 0;
-        padding: 0px 10px;
-        background-color: #5d7a9b;
-        color: #FFF;
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
-        -o-border-radius: 30px;
-        border-radius: 30px;
-    }
-</style>
-
-<div>
+<div style="width: 700px;">
   活动名称：<input type="text" name="name" id="name" title="活动名称"> <br>
   <form method="post" name="creator" enctype="multipart/form-data">
   活动性质：<select name="naturef" id="naturef" onChange = "select()"></select>
@@ -28,13 +16,22 @@
   活动主办方：<input type="text" name="organizer" id="organizer" title="活动主办方"> <br>
   活动开始时间：<input type="text" name="begintime" id="begintime" title="活动开始时间" onclick="WdatePicker()" class="Wdate"> <br>
   活动结束时间：<input type="text" name="endtime" id="endtime" title="活动结束时间" onclick="WdatePicker()" class="Wdate"> <br>
+  活动链接：<input type="text" name="link" id="link"> <br>
   <% if params[:id]!="0" %>
-      活动介绍：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="introduce" id="introduce" title="活动介绍"><%= @activity.introduce %></textarea><br>
-      活动结果：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="result" id="result" title="活动结果"><%= @activity.result %></textarea> <br>
+      活动介绍：<br><textarea class="ckeditor" cols="80" rows="15" name="introduce" id="introduce" title="活动介绍"><%= @activity.introduce %></textarea><br>
+      活动结果：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="result" id="result" title="活动结果"><%= @activity.result %></textarea> <br>
+      奖励方式：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="reward" id="reward" title="奖励方式"><%= @activity.reward %></textarea> <br>
   <% else %>
-      活动介绍：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="introduce" id="introduce" title="活动介绍"></textarea><br>
-      活动结果：<br><textarea class="ckeditor" style="width: 50%;" rows="10" name="result" id="result" title="活动结果"></textarea> <br>
+      活动介绍：<br><textarea class="ckeditor" cols="80" rows="15" name="introduce" id="introduce" title="活动介绍"></textarea><br>
+      活动结果：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="result" id="result" title="活动结果"></textarea> <br>
+      奖励方式：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="reward" id="reward" title="奖励方式"></textarea> <br>
   <% end %>
+  <script type="text/javascript">
+      CKEDITOR.replace('introduce', {
+          toolbar : 'Full',
+          uiColor : '#c6e4ee'
+      });
+  </script><br>
   <a href="javascript:void(0)" class="btn btn-primary" id="activityconfig">确认</a>
 </div>
 
@@ -46,8 +43,13 @@
     $("#organizer").attr("value",'<%= @activity.organizer %>');
     $("#begintime").attr("value",'<%= @activity.begintime %>');
     $("#endtime").attr("value",'<%= @activity.endtime %>');
+    $("#link").attr("value",'<%= @activity.link %>');
     <% end %>
-
+    function CKupdate() {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
     $("#activityconfig").click(function(e){
         var o=document.getElementsByTagName("input");
         var nom_flag=0;
@@ -59,6 +61,7 @@
                 break;
             }
         }
+        CKupdate();
         if(($("#naturef").attr("value")=='请选择'||$("#natures").attr("value")=='') && nom_flag==0){
         <% if params[:id]!="0" %>
             alert("请选择活动性质！(之前的选择：<%= @activity.naturef %>-<%= @activity.natures %>)");
@@ -104,7 +107,7 @@
             $.post("/admin/activityconfigajax/<%= params[:id] %>",{ name: $("#name").attr("value"),naturef: $("#naturef").attr("value"),
                 natures: $("#natures").attr("value"),organizer: $("#organizer").attr("value"),begintime: $("#begintime").attr("value"),
                 endtime: $("#endtime").attr("value"),introduce:$("#introduce").attr("value"),result:$("#result").attr("value"),
-                charge:$("#charge").attr("value"),address:$("#address").attr("value")
+                charge:$("#charge").attr("value"),address:$("#address").attr("value"),link:$("#link").attr("value"),reward:$("#reward").attr("value")
             },function(data){
                 if(data=="s1"){
                     alert("活动创建成功！");

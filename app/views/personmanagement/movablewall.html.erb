@@ -26,7 +26,7 @@
 </style>
 <div class="main-content investor">
 <a href="/">首页</a>  <br>
-<h1 class="deploy">活动墙：</h1>
+<h1 class="deploy">有奖活动：</h1>
 <br>
 <table class="table table-striped table-bordered" id="activity"  cellpadding="0" cellspacing="0" border="0">
   <thead>
@@ -39,11 +39,11 @@
       <tr>
         <td class="hide"><%= b.id%></td>
         <td><a href="/personmanagement/activity/<%= b.id%>"><%= b.name %></a></td>
-        <td><%= b.naturef + ' / ' + b.natures%></td>
+        <td style="white-space:nowrap;"><%= b.naturef + ' / ' + b.natures%></td>
         <td><%= b.organizer%></td>
-        <td><%= b.begintime%></td>
-        <td><%= b.endtime%></td>
-        <td></td>
+        <td style="white-space:nowrap;"><%= b.begintime%></td>
+        <td style="white-space:nowrap;"><%= b.endtime%></td>
+        <td style="white-space:nowrap;"></td>
       </tr>
   <% end %>
 </table>
