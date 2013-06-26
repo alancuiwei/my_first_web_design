@@ -29,7 +29,7 @@ class PersonmanagementController < ApplicationController
   end
 
    def movablewall
-     @activity=Activity.all
+     @activity=Activity.find_by_sql("select * from activity order by id desc")
    end
 
    def activity

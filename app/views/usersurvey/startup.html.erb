@@ -43,6 +43,24 @@
             padding: 0 0 0 10px!important;
             font-weight: normal;
         }
+
+    #loadbar{
+        display: none;
+        width:280px;
+        background-color:#000;
+        border:1px solid #000;
+        margin: 20px auto;
+        border-radius: 8px;
+    }
+    #bar{
+        display:block;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:12px;
+        background-color:#00d0ff;
+        text-align:center;
+        border-radius: 8px;
+    }
+
 </style>
 
 <div class="container" style="width: 940px;">
@@ -138,24 +156,75 @@
       </div>
     </div>
     <div style="text-align: center;">
-      <a onclick="run()" class="btn btn-primary" style="margin-top: 20px;">立即体检</a>
+      <a onclick="startbar()" class="btn btn-primary" style="margin-top: 20px;">立即体检</a> <br>
+
+      <div id="loadbar">
+        <strong id="bar" style="width:0%">0%</strong>
+      </div>
+
+      <p id="score" style="margin-top: 20px;"></p>
     </div>
   </div>
 
 </div>
 <script>
+
+    function startbar(){
+        $("#loadbar").show();
+        j=0;
+        showbar=setInterval("setbar()",200);
+    }
+    function setbar(){
+        j+=1;
+        if(j>=100){
+            clearInterval(showbar);
+            run();
+        }
+        document.getElementById("bar").style.width=j+"%";
+        document.getElementById("bar").innerHTML=j+"%";
+    }
+
    function run(){
        var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
        var variety=document.getElementsByClassName("founder-name")  //资产品种
        var amount=document.getElementsByClassName("init-share")  //资产金额
-       var xianjin;
-       var wenjian;
-       var fenxian;
+       var xianjin=0;
+       var wenjian=0;
+       var fengxian=0;
        // alert($("#age").attr("value"));  年龄层次
       for(i=0;i<variety.length;i++){
-          alert(variety[i].value)
-          alert(amount[i].value)
+          if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
+          else if(variety[i].value=="现金"){xianjin=xianjin+parseFloat(amount[i].value)}
+          else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
+          else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
+          else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
+          else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
+          else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
       }
+       var total=xianjin+wenjian+fengxian;//总资金
+       if(total*array[$("#age").attr("value")][0]>xianjin)
+       {
+           var total1=xianjin/(total*array[$("#age").attr("value")][0])
+       }
+       else{
+           var total1=total*array[$("#age").attr("value")][0]/xianjin
+       }
+       if(total*array[$("#age").attr("value")][1]>wenjian)
+       {
+           var total2=wenjian/(total*array[$("#age").attr("value")][1])
+       }
+       else{
+           var total2=total*array[$("#age").attr("value")][1]/wenjian
+       }
+       if(total*array[$("#age").attr("value")][2]>fengxian)
+       {
+           var total3=fengxian/(total*array[$("#age").attr("value")][2])
+       }
+       else{
+           var total3=total*array[$("#age").attr("value")][2]/fengxian
+       }
+       var score=total1*100*array[$("#age").attr("value")][0]+total2*100*array[$("#age").attr("value")][1]+total3*100*array[$("#age").attr("value")][2]
+       $("#score").html("您的得分为："+score.toFixed(1))
    }
 
     var eCalcShareHolders = new Object();
@@ -186,19 +255,11 @@
             // put values in
             $(fi).find(".founder-name").val(f.name).blur(fNameChange);
             $(fi).find(".founder-name").attr("id",'variety'+aaa);
-            $(fi).find(".init-share").val(f.percentStake).keyup(initShareChange);
+            $(fi).find(".init-share").val(0);
             $(fi).find(".init-share").attr("id",'amount'+aaa);
             $(fi).find(".diluted-dist").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
         }
-        else
-        {
-            $("div.founder-inputs div.op-input.first .founder-name").val(f.name).blur(fNameChange);
-            $("div.founder-inputs div.op-input.first .init-share").val(f.percentStake).keyup(initShareChange);
-            $("div.founder-inputs div.op-input.first .diluted-dist").html("0");
-            $("div.founder-inputs div.op-input.first").attr("fid", f.id);
-        }
-
     }
 
 
@@ -209,15 +270,6 @@
         // update the share holder
         eCalcShareHolders[fid].name = $(e.target).val();
     }
-
-    // use to handle init share change
-    function initShareChange(e)
-    {
-        var fid = $(e.target).closest("div.op-input").attr("fid");
-        // update the share holder
-        eCalcShareHolders[fid].percentStake = getFloat($(e.target).val());
-    }
-
 
     // use to remove founders
     function removeFounder(e)
