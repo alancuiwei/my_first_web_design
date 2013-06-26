@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
 
 <style>
     .container {
@@ -43,24 +44,11 @@
             padding: 0 0 0 10px!important;
             font-weight: normal;
         }
-
-    #loadbar{
-        display: none;
-        width:280px;
-        background-color:#000;
-        border:1px solid #000;
+    #topLoader {
+        width: 256px;
+        height: 256px;
         margin: 20px auto;
-        border-radius: 8px;
     }
-    #bar{
-        display:block;
-        font-family:Arial, Helvetica, sans-serif;
-        font-size:12px;
-        background-color:#00d0ff;
-        text-align:center;
-        border-radius: 8px;
-    }
-
 </style>
 
 <div class="container" style="width: 940px;">
@@ -156,35 +144,65 @@
       </div>
     </div>
     <div style="text-align: center;">
-      <a onclick="startbar()" class="btn btn-primary" style="margin-top: 20px;">立即体检</a> <br>
-
-      <div id="loadbar">
-        <strong id="bar" style="width:0%">0%</strong>
+      <a id="animateButton" class="btn btn-primary" style="margin-top: 20px;">立即体检</a> <br>
+      <div id="topLoader">
       </div>
-
-      <p id="score" style="margin-top: 20px;"></p>
     </div>
   </div>
 
 </div>
 <script>
 
-    function startbar(){
-        $("#loadbar").show();
-        j=0;
-        showbar=setInterval("setbar()",200);
-    }
-    function setbar(){
-        j+=1;
-        if(j>=100){
-            clearInterval(showbar);
-            run();
-        }
-        document.getElementById("bar").style.width=j+"%";
-        document.getElementById("bar").innerHTML=j+"%";
-    }
+    $(function() {
+        var $topLoader = $("#topLoader").percentageLoader({width: 256, height: 256, controllable : false, progress : 0, onProgressUpdate : function(val) {
+            $topLoader.setValue(Math.round(val * 100.0));
+        }});
 
-   function run(){
+        var topLoaderRunning = false;
+        $("#animateButton").click(function() {
+            if (topLoaderRunning) {
+                return;
+            }
+            topLoaderRunning = true;
+            $topLoader.setProgress(0);
+            $topLoader.setValue('0kb');
+            var kb = 0;
+            var totalKb = 999;
+
+            var animateFunc = function() {
+                kb += 5;
+
+                $topLoader.setProgress(kb / totalKb);
+                //$topLoader.setValue(kb.toString() + 'kb');
+                if(kb<=200){
+                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
+                }
+                else if(kb<=400){
+                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
+                }
+                else if(kb<=600){
+                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
+                }
+                else if(kb<=800){
+                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
+                }
+                else if(kb<=1000){
+                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
+                }
+
+                if (kb < totalKb) {
+                    setTimeout(animateFunc, 25);
+                } else {
+                    topLoaderRunning = false;
+                }
+            }
+
+            setTimeout(animateFunc, 25);
+
+        });
+    });
+
+    function run(){
        var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
        var variety=document.getElementsByClassName("founder-name")  //资产品种
        var amount=document.getElementsByClassName("init-share")  //资产金额
@@ -224,7 +242,7 @@
            var total3=total*array[$("#age").attr("value")][2]/fengxian
        }
        var score=total1*100*array[$("#age").attr("value")][0]+total2*100*array[$("#age").attr("value")][1]+total3*100*array[$("#age").attr("value")][2]
-       $("#score").html("您的得分为："+score.toFixed(1))
+       return  score.toFixed(1);
    }
 
     var eCalcShareHolders = new Object();
