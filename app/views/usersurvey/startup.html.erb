@@ -36,13 +36,14 @@
         background-repeat: repeat;
         margin-top: 0;
     }
-        #main{width: 940px!important}
+
 
         h1{
-            font-size: 30px;
+            font-size: 20px;
             line-height: 36px;
             padding: 0 0 0 10px!important;
             font-weight: normal;
+			color:black;
         }
     #topLoader {
         width: 256px;
@@ -50,9 +51,20 @@
         margin: 20px auto;
     }
 </style>
-
-<div class="container" style="width: 940px;">
-
+<div class="container">
+  <div class="top-tabs-content">
+    <div style="width: 940px;margin: 0 auto;padding-left: 20px;">
+    <b>1.</b> <span> 家庭资产体检</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>2.</b> 风险承受力评估</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>3.</b> 梦想目标设定</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>4.</b> 规划建议书生成</span>
+    </div>
+  </div>
+ <div style="width: 940px;margin: 0 auto;">
+  <h1 class="content">家庭资产体检</h1>
   <div class="row s-op">
     <div class="span12 well-b">
 
@@ -60,21 +72,30 @@
       <div class="row title">
         <div class="span12">
           <div class="box c1">
-            <h1 class="op-title">家庭资产体检</h1>
-            <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="f" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div>
+            <h1 class="op-title">您的个人资料</h1>
+          <!--  <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="s" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div> -->
           </div>
         </div>
       </div>
 
-      <div style="display: block;" class="row tgl-content-f">
+      <div style="display: block;" class="row tgl-content-s">
         <div class="span12 well-c">
 
-          <div id="founding-inputs" class="row">
-            <div class="span3"><h2 style="font-size: 24px;font-weight: normal;">您的资料</h2></div>
-            <div class="span3">
-              <span class="title">年龄</span><br>
+          <div class="row op-label">
+            <div class="span3">年龄</div>
+            <div class="span3" style="text-align: left;">每月薪水</div>
+            <div class="span2" style="text-align: left;">日常开销</div>
+            <div class="span1"></div>
+          </div>
+          <div class="seperator thick"></div>
+
+          <div class="founding-inputs">
+            <div class="op-input first" fid="founder">
+              <div class="seperator bottom"></div>
+              <div class="row">
+                <div class="span3">
               <span class="control-group">
-                <select  name="age" id="age" title="年龄">
+                <select class="age" name="age" id="age" title="年龄">
                   <option value="0">20~25岁</option>
                   <option value="1">25~30岁</option>
                   <option value="2">30~35岁</option>
@@ -82,75 +103,105 @@
                   <option value="4">40~45岁</option>
                 </select>
               </span>
-            </div>
-            <div class="span3">
-              <span class="title">性别</span><br>
-              <select  name="sex" id="sex" title="性别">
-                <option value="男">男</option>
-                <option value="女">女</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="row op-label">
-            <div class="span3">资产品种</div>
-            <div class="span3" style="text-align: left;">资产金额</div>
-            <div class="span2" style="text-align: left;">产品名称（可选）</div>
-            <div class="span1"></div>
-          </div>
-
-          <div class="seperator thick"></div>
-
-          <div class="founder-inputs">
-
-            <div class="op-input first" fid="founder">
-              <div class="seperator bottom"></div>
-
-              <div class="row">
-                <div class="span3 control-group">
-                  <select  name="variety" id="variety" class="founder-name" title="资产品种">
-                    <option value="银行活期">银行活期</option>
-                    <option value="现金">现金</option>
-                    <option value="银行理财产品">银行理财产品</option>
-                    <option value="银行定期">银行定期</option>
-                    <option value="基金">基金</option>
-                    <option value="股票">股票</option>
-                    <option value="其它">其它</option>
-                  </select>
                 </div>
-                <div class="span3 control-group" style="text-align: left;">
+                <div class="span3">
                   <div class="input-prepend">
                     <span class="add-on">￥</span>
-                    <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
+                    <input class="span2 salary" id="salary" style="width: 180px;" type="text" placeholder="">
                   </div>
                 </div>
-                <div class="span2" style="text-align: center;">
-                  <select  name="pname" id="pname" class="diluted-dist" title="产品名称">
-                    <option value="-">-</option>
-                    <option value="理财产品">理财产品</option>
-                  </select>
+                <div class="span2">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input class="span2 expenses" id="expenses" style="width: 180px;" type="text" placeholder="">
+                  </div>
                 </div>
                 <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
               </div>
             </div>
-
           </div>
 
           <div class="seperator bottom thick"></div>
-
-          <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"><b>+ 添加资产</b></a>
-
+          <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="add(null, false);"> + 添加伴侣信息 </a>
         </div>
       </div>
     </div>
-    <div style="text-align: center;">
-      <a id="animateButton" class="btn btn-primary" style="margin-top: 20px;">立即体检</a> <br>
-      <div id="topLoader">
-      </div>
-    </div>
   </div>
+   <div class="row s-op">
+     <div class="span12 well-b">
 
+
+       <div class="row title">
+         <div class="span12">
+           <div class="box c1">
+             <h1 class="op-title">您的资产分配</h1>
+            <!-- <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="f" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div>-->
+           </div>
+         </div>
+       </div>
+
+       <div style="display: block;" class="row tgl-content-f">
+         <div class="span12 well-c">
+
+           <div class="row op-label">
+             <div class="span3">资产品种</div>
+             <div class="span3" style="text-align: left;">资产金额</div>
+             <div class="span2" style="text-align: left;">产品名称（可选）</div>
+             <div class="span1"></div>
+           </div>
+
+           <div class="seperator thick"></div>
+
+           <div class="founder-inputs">
+
+             <div class="op-input first" fid="founder">
+               <div class="seperator bottom"></div>
+
+               <div class="row">
+                 <div class="span3 control-group">
+                   <select  name="variety" id="variety" class="founder-name" title="资产品种">
+                     <option value="银行活期">银行活期</option>
+                     <option value="现金">现金</option>
+                     <option value="银行理财产品">银行理财产品</option>
+                     <option value="银行定期">银行定期</option>
+                     <option value="基金">基金</option>
+                     <option value="股票">股票</option>
+                     <option value="其它">其它</option>
+                   </select>
+                 </div>
+                 <div class="span3 control-group" style="text-align: left;">
+                   <div class="input-prepend">
+                     <span class="add-on">￥</span>
+                     <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
+                   </div>
+                 </div>
+                 <div class="span2" style="text-align: center;">
+                   <input class="span2" id="pname" style="width: 208px;" type="text" placeholder="产品名称">
+                 </div>
+                 <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+               </div>
+             </div>
+
+           </div>
+
+           <div class="seperator bottom thick"></div>
+
+           <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加资产 </a>
+
+         </div>
+       </div>
+     </div>
+     <div style="text-align: center;">
+       <a id="animateButton"><img style="margin-top: 20px;" src="/assets/121081.jpg"></a> <br>
+      <!-- <div id="topLoader">
+       </div>
+       -->
+     </div>
+   </div>
+
+ </div>
 </div>
+
 <script>
 
     $(function() {
@@ -277,6 +328,35 @@
             $(fi).find(".init-share").attr("id",'amount'+aaa);
             $(fi).find(".diluted-dist").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
+        }
+    }
+
+    // use to add founders
+    function add(founder, isFirst)
+    {
+        var aaa = genId(eCalcShareHolders);
+        var f = founder;
+        if(f == null) // create a new share holder
+        {
+            f = new ShareHolder();
+            f.setupShareHolder(true, false, false);
+            f.id= "founder-" + aaa;
+            f.name = "Founder " + getNewNameNumber(eCalcShareHolders, "founder");
+            eCalcShareHolders[f.id] = f;
+        }
+
+        if(!isFirst)
+        {
+            var fi = $("div.founding-inputs div.op-input").last().clone().removeClass("first");
+            $(fi).find(".icon-remove-sign").show();
+            var fid = f.id;
+            $(fi).attr("fid", fid);
+            // put values in
+            $(fi).find(".age").val(f.name).blur(fNameChange);
+            $(fi).find(".age").attr("id",'age'+aaa);
+            $(fi).find(".salary").attr("id",'salary'+aaa);
+            $(fi).find(".expenses").attr("id",'expenses'+aaa);
+            $("div.founding-inputs").append(fi);
         }
     }
 
