@@ -1,4 +1,6 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
 
 <style>
     p{
@@ -12,7 +14,7 @@
         font-family: "Source Sans Pro",Tahoma,sans-serif;
     }
     .main-content{
-        padding-bottom: 50px;
+        padding: 0px;
     }
 
     p.product {
@@ -48,28 +50,42 @@
         font-weight: normal;
         margin: 0px;
     }
+
+   td.left{
+       padding-left: 20px;
+   }
 </style>
 
 <div class="main-content">
-
-  <h1 id="next" style="font-size: 55px; margin-bottom: 30px; margin-top: 20px;padding-bottom: 30px;">下一步</h1>
+<div class="top-tabs-content">
+  <div style="padding-left: 20px;">
+    <b>1.</b> <span> 家庭资产体检</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span><b>2.</b> 风险承受力评估</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>3.</b> 梦想目标设定</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>4.</b> 规划建议书生成</span>
+  </div>
+</div>
+  <div style="padding: 20px 20px 50px;">
   <table class="press-table" border="0" style="width: 100%;" >
     <tbody>
     <tr>
+      <td colspan="2">
+        <h1 class="content">风险承受度评估结果</h1>
+      </td>
+    </tr>
+    <tr>
       <td class="left" style="width: 35%;">
-        <h1>家庭梦想 理财规划服务</h1>
         <br>
-        <% if session[:webusername]!=nil %>
-            <a id="clicks" class="btn btn-primary" href="/personmanagement/personfinance">开始</a>
-        <% else %>
-            <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>">开始</a>
-        <% end %>
+        <p style="padding-left: 80px;">您的风险承受度</p>
+        <div id="container"></div>
       </td>
       <td>
+        <br>
         <div class="table">
-          <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
           <div class="cell">
-            <p class="q-text">风险承受度评估结果</p>
             <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
                 <p>您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
                 <p>为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。</p>
@@ -93,29 +109,44 @@
             <% end %>
           </div>
         </div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div style="height: 60px;"></div>
+        <h1 class="content">梦想目标设定</h1>
+      </td>
+    </tr>
+    <tr>
+      <td class="left" style="width: 35%;">
+        <br>
+        <a id="clicks" class="btn btn-primary" href="/usersurvey/dreamset">开始</a>
+        <!--
+        <% if session[:webusername]!=nil %>
+            <a id="clicks" class="btn btn-primary" href="/personmanagement/personfinance">开始</a>
+        <% else %>
+            <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>">开始</a>
+        <% end %>
+        -->
+      </td>
+      <td>
         <br>
         <div class="table">
-          <div class="cell" style="width: 40px;"> <h1><b>2</b></h1> </div>
           <div class="cell">
-            <p class="q-text">申请规划服务</p>
-            <p>您已经完成风险承受度评估。您下面要做的是：<br>
-              - 注册：<br>
-              - 家庭梦想登记：<br>
-              - 家庭梦想规划：<br>
-              - 梦想成真：<br>
-            </p>
+            <p>您已经完成风险承受度评估。您下面要做的是：梦想目标设定。</p>
+            <p>- 我们将为您罗列月光族目标、买房、买车等目标，目前我们将免费为月光族做规划服务哦。</p>
           </div>
         </div>
       </td>
     </tr>
     <tr>
       <td colspan="2">
-        <div class="or-text"> <div><b>或</b></div> </div>
+        <div style="height: 60px;"></div>
+        <h1 class="content">参与手机充值活动</h1>
       </td>
     </tr>
     <tr>
       <td class="left">
-        <h1>手机充值活动</h1>
         <br>
         <div class="win">
         <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
@@ -140,130 +171,13 @@
         </div>
       </td>
       <td>
-
-        <div class="table">
-          <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
-          <div class="cell">
-            <p class="q-text">微博分享</p>
-          </div>
-        </div>
-        <div class="win"><br></div>
-        <div class="table">
-          <div class="cell" style="width: 32px;"> <h1><b>2</b></h1> </div>
-          <div class="cell">
-            <p class="q-text">参与抽奖</p>
-            <p>每天下午选取一名朋友，进行手机充值20元。<br>第三方公信抽奖平台抽奖，真实可信。</p>
-          </div>
-        </div>
         <br>
-        <div class="table">
-          <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
-          <div class="cell">
-            <p class="q-text">历史中奖纪录</p>
-            <div class="win">
-                <wb:topic column="n" border="n" width="560" height="1190" tags="通天顺家庭理财-手机充值活动" language="zh_cn" version="base" refer="n" appkey="5Y299a" footbar="y" filter="n" ></wb:topic>
-            </div>
-            <div id="mobile">
-                <a style="font-family: arial;" href="http://huati.weibo.com/238912?from=510&order=time">点击查看</a>
-            </div>
-          </div>
-        </div>
-
+        <p>每天下午选取一名朋友，进行手机充值20元。<br>第三方公信抽奖平台抽奖，真实可信。</p>
+        <p><a style="font-family: arial;" href="http://huati.weibo.com/238912?from=510&order=time">点击查看</a> 中奖纪录</p>
       </td>
     </tr>
-
     </tbody></table>
-
-  <!--
- <div class="content">
-  <p class="product">风险承受度评估结果：</p>
-   <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
-      <p>您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
-      <p>为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。</p>
-      <p>大多数情况下，其长期回报率高于其它较为保守的投资方法。</p>
-   <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
-      <p>您是积极型投资人，其投资组合较大比例配置股票类资产或股票型基金，同时还有小部分比例配置于债券和现金。</p>
-      <p>此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。</p>
-      <p>大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。</p>
-   <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
-      <p>您是稳健型投资人，其投资组合均衡配置股票类资产和债券类资产（或股票型基金和债券型基金）以及配置型基金。</p>
-      <p>此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。</p>
-      <p>大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。</p>
-   <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
-      <p>您是保守型投资人，其投资组合较大比例配置债券类资产或债券型基金，同时也有一部分比例配制于股票类资产或股票型基金以及配置型基金。</p>
-      <p>此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。</p>
-      <p>大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。</p>
-   <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
-      <p>对于安益型投资人，其投资组合配置在风险最小的领域，如货币市场基金或中短债基金。</p>
-      <p>此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，回报率的波动性较小。</p>
-      <p>大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。</p>
-   <% end %>
-   <br>
-   <p class="product">发布到微博：</p>
-   <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
-       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
-       <div id="click" style="width: 111px;"><wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish></div>
-   <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
-       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
-       <div id="click" style="width: 111px;"><wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish></div>
-   <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
-       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
-       <div id="click" style="width: 111px;"><wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish></div>
-   <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
-       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
-       <div id="click" style="width: 111px;"><wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish></div>
-   <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
-       <p class="share">我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR</p><br>
-       <div id="click" style="width: 111px;"><wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="middle" default_text="我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR" refer="y" appkey="5Y299a" ></wb:publish></div>
-   <% end %>
-
-  <div class="zm-tab-content weibo-panel" id="tb-webshare-sina-content" style="">
-    <div class="zg-section">
-      <p class="product">发布到微博</p>
-      <label>
-        <input data-bindurl="/oauth/auth/sina?next=/oauth/callback" class="sina-checkbox" checked type="checkbox">
-        <span class="zg-ico-sina"></span> 新浪微博</label>
     </div>
-    <div class="zg-section">
-      <div class="zg-form-text-input">
-        <textarea style="width: 99%; white-space: pre; height: 66px; min-height: 66px;" ><% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
-          <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
-          <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
-          <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
-          <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，http://t.cn/zTXvDMR
-          <% end %>
-        </textarea>
-      </div>
-    </div>
-    <div class="zm-command">
-      <div class="baidu_btn">
-        <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float: right;" data="{'url':'http://www.tongtianshun.com/home/questions'}">
-          <a class="bds_tsina btn btn-primary" style="float: right;color: #ffffff;padding: 4px 12px;line-height: 16px;">分享到微博</a>
-        </div>
-        <div id="notcheck" class="bdshare_t bds_tools get-codes-bdshare hide">
-          <a class="bds_tsina btn btn-primary" onclick="alert('请选择微博后再进行分享！');" style="float: right;padding: 4px 12px;line-height: 16px;background: #eee;color: #888;">分享到微博</a>
-        </div>
-      </div>
-      <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
-      <script type="text/javascript" id="bdshell_js"></script>
-      <script type="text/javascript">
-          <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
-          var bds_config = {'bdText':'我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。  参与评估活动可手机充值抽奖，'} ;
-          <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
-          var bds_config = {'bdText':'我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，'} ;
-          <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
-          var bds_config = {'bdText':'我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，'} ;
-          <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
-          var bds_config = {'bdText':'我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，'} ;
-          <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
-          var bds_config = {'bdText':'我在 @通天顺家庭理财 参与美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，'} ;
-          <% end %>
-          document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
-      </script>
-    </div>
-  </div>
- </div>
--->
 </div>
 
 <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
@@ -305,4 +219,110 @@
         $(".press-table tr:eq(0)").html(mid2)
         $(".press-table tr:eq(2)").html(mid1)
     }
+
+    $(function () {
+        var chart;
+
+        <% if params[:risk]!=nil %>
+        var dataArray2= [<%= params[:risk] %>];
+        <% else %>
+        var dataArray2= [0];
+        <% end %>
+
+        $(document).ready(function() {
+            var chart = new Highcharts.Chart({
+
+                chart: {
+                    renderTo: 'container',
+                    type: 'gauge',
+                    plotBorderWidth: 1,
+                    plotBackgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#FFF4C6'],
+                            [0.3, '#FFFFFF'],
+                            [1, '#FFF4C6']
+                        ]
+                    },
+                    plotBackgroundImage: null,
+                    height: 160,
+                    width: 280
+                },
+
+                title: false,
+
+                pane: [{
+                    startAngle: -45,
+                    endAngle: 45,
+                    background: null,
+                    center: ['50%', '145%'],
+                    size: 280
+                }],
+
+                yAxis: [{
+                    min: 0,
+                    max: 10,
+                    tickInterval: 2,
+                    minorTickPosition: 'outside',
+                    tickPosition: 'outside',
+                    labels: {
+                        rotation: 'auto',
+                        distance: 20
+                    },
+                    plotBands: [{
+                        from: 0,
+                        to: 2,
+                        color: '#09a509',
+                        innerRadius: '100%',
+                        outerRadius: '105%'
+                    },{
+                        from: 2,
+                        to: 4,
+                        color: '#69c908',
+                        innerRadius: '100%',
+                        outerRadius: '105%'
+                    },{
+                        from: 4,
+                        to: 6,
+                        color: '#eded07',
+                        innerRadius: '100%',
+                        outerRadius: '105%'
+                    },{
+                        from: 6,
+                        to: 8,
+                        color: '#fa8c1e',
+                        innerRadius: '100%',
+                        outerRadius: '105%'
+                    },{
+                        from: 8,
+                        to: 10,
+                        color: '#C02316',
+                        innerRadius: '100%',
+                        outerRadius: '105%'
+                    }],
+                    pane: 0,
+                    title: false
+                }],
+
+                plotOptions: {
+                    gauge: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        dial: {
+                            radius: '90%'
+                        }
+                    }
+                },
+                series: [{
+                    data: dataArray2,
+                    yAxis: 0
+                }],
+                credits: {
+                    enabled: false
+                }
+            });
+        });
+    });
+
 </script>
