@@ -276,7 +276,7 @@ see the file license.txt that was included with the plugin bundle.
 
                 percentageText.innerHTML = string;
                 if(string=="100%"){
-                    percentageText.innerHTML='<span style="font-size: 55px;font-family: Microsoft YaHei;">'+run()+'<span style="font-size: 30px;">分</span></span>';
+                    percentageText.innerHTML='<span style="font-size: 30px;font-family: Microsoft YaHei;">'+run()+'<span style="font-size: 15px;">分</span></span>';
                 }
                 /* Calculate font and placement of small 'value' text */
                 smallSize = cX / 5.5;

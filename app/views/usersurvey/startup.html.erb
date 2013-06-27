@@ -37,23 +37,30 @@
         margin-top: 0;
     }
 
+    h1{
+        font-size: 20px;
+        line-height: 36px;
+        padding: 0 0 0 10px!important;
+        font-weight: normal;
+        color:black;
+    }
 
-        h1{
-            font-size: 20px;
-            line-height: 36px;
-            padding: 0 0 0 10px!important;
-            font-weight: normal;
-			color:black;
-        }
     #topLoader {
-        width: 256px;
-        height: 256px;
-        margin: 20px auto;
+        width: 150px;
+        height: 150px;
+        margin: 20px;
+    }
+
+    td.left{
+        width: 35%;
+        padding-left: 20px;
+        vertical-align: top;
+        padding-top: 20px;
     }
 </style>
 <div class="container">
-  <div class="top-tabs-content">
-    <div style="width: 940px;margin: 0 auto;padding-left: 20px;">
+<div class="top-tabs-content">
+  <div style="width: 940px;margin: 0 auto;padding-left: 20px;">
     <b>1.</b> <span> 家庭资产体检</span>
     <b>&nbsp;&gt;&nbsp;</b>
     <span class="disabled"><b>2.</b> 风险承受力评估</span>
@@ -61,9 +68,9 @@
     <span class="disabled"><b>3.</b> 梦想目标设定</span>
     <b>&nbsp;&gt;&nbsp;</b>
     <span class="disabled"><b>4.</b> 规划建议书生成</span>
-    </div>
   </div>
- <div style="width: 940px;margin: 0 auto;">
+</div>
+<div class="tijian" style="width: 940px;margin: 0 auto;">
   <h1 class="content">家庭资产体检</h1>
   <div class="row s-op">
     <div class="span12 well-b">
@@ -73,7 +80,7 @@
         <div class="span12">
           <div class="box c1">
             <h1 class="op-title">您的个人资料</h1>
-          <!--  <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="s" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div> -->
+            <!--  <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="s" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div> -->
           </div>
         </div>
       </div>
@@ -127,90 +134,200 @@
       </div>
     </div>
   </div>
-   <div class="row s-op">
-     <div class="span12 well-b">
+  <div class="row s-op">
+    <div class="span12 well-b">
 
 
-       <div class="row title">
-         <div class="span12">
-           <div class="box c1">
-             <h1 class="op-title">您的资产分配</h1>
+      <div class="row title">
+        <div class="span12">
+          <div class="box c1">
+            <h1 class="op-title">您的资产分配</h1>
             <!-- <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="f" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div>-->
-           </div>
-         </div>
-       </div>
+          </div>
+        </div>
+      </div>
 
-       <div style="display: block;" class="row tgl-content-f">
-         <div class="span12 well-c">
+      <div style="display: block;" class="row tgl-content-f">
+        <div class="span12 well-c">
 
-           <div class="row op-label">
-             <div class="span3">资产品种</div>
-             <div class="span3" style="text-align: left;">资产金额</div>
-             <div class="span2" style="text-align: left;">产品名称（可选）</div>
-             <div class="span1"></div>
-           </div>
+          <div class="row op-label">
+            <div class="span3">资产品种</div>
+            <div class="span3" style="text-align: left;">资产金额</div>
+            <div class="span2" style="text-align: left;">产品名称（可选）</div>
+            <div class="span1"></div>
+          </div>
 
-           <div class="seperator thick"></div>
+          <div class="seperator thick"></div>
 
-           <div class="founder-inputs">
+          <div class="founder-inputs">
 
-             <div class="op-input first" fid="founder">
-               <div class="seperator bottom"></div>
+            <div class="op-input first" fid="founder">
+              <div class="seperator bottom"></div>
 
-               <div class="row">
-                 <div class="span3 control-group">
-                   <select  name="variety" id="variety" class="founder-name" title="资产品种">
-                     <option value="银行活期">银行活期</option>
-                     <option value="现金">现金</option>
-                     <option value="银行理财产品">银行理财产品</option>
-                     <option value="银行定期">银行定期</option>
-                     <option value="基金">基金</option>
-                     <option value="股票">股票</option>
-                     <option value="其它">其它</option>
-                   </select>
-                 </div>
-                 <div class="span3 control-group" style="text-align: left;">
-                   <div class="input-prepend">
-                     <span class="add-on">￥</span>
-                     <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
-                   </div>
-                 </div>
-                 <div class="span2" style="text-align: center;">
-                   <input class="span2" id="pname" style="width: 208px;" type="text" placeholder="产品名称">
-                 </div>
-                 <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
-               </div>
-             </div>
+              <div class="row">
+                <div class="span3 control-group">
+                  <select  name="variety" id="variety" class="founder-name" title="资产品种">
+                    <option value="银行活期">银行活期</option>
+                    <option value="银行理财产品">银行理财产品</option>
+                    <option value="银行定期">银行定期</option>
+                    <option value="基金">基金</option>
+                    <option value="股票">股票</option>
+                    <option value="其它">其它</option>
+                  </select>
+                </div>
+                <div class="span3 control-group" style="text-align: left;">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
+                  </div>
+                </div>
+                <div class="span2" style="text-align: center;">
+                  <input class="span2" id="pname" style="width: 208px;" type="text" placeholder="产品名称">
+                </div>
+                <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+              </div>
+            </div>
 
-           </div>
+          </div>
 
-           <div class="seperator bottom thick"></div>
+          <div class="seperator bottom thick"></div>
 
-           <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加资产 </a>
+          <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加资产 </a>
 
-         </div>
-       </div>
-     </div>
-     <div style="text-align: center;">
-       <a id="animateButton"><img style="margin-top: 20px;" src="/assets/121081.jpg"></a> <br>
-      <!-- <div id="topLoader">
-       </div>
-       -->
-     </div>
-   </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center;">
+      <a id="animateButton"><img style="margin-top: 20px;" src="/assets/121081.jpg"></a> <br>
+    </div>
+  </div>
 
- </div>
+</div>
+
+<div class="jieguo hide" style="width: 940px;margin: 0 auto;">
+  <h1 class="content">体检结果</h1>
+  <table class="press-table" border="0" style="width: 100%;" >
+    <tbody>
+    <tr>
+      <td style="width: 35%;">
+        <div id="topLoader"></div>
+        <a id="retest" style="font-size: 15px;padding-left: 65px;">重新体检</a>
+      </td>
+      <td>
+        <div class="table">
+          <div class="cell">
+            <p class="q-text">您的家庭资产体检报告：</p>
+            <p id="liudong"></p>
+            <p id="baoben"></p>
+            <p id="fengxian"></p>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div id="next" class="hide">
+    <div style="height: 60px;"></div>
+    <h1 class="content">风险承受度评估</h1>
+    <table class="press-table" border="0" style="width: 100%;" >
+      <tbody>
+      <tr>
+        <td class="left">
+          <a class="btn btn-primary" href="/home/questions" style="padding: 5px 46px;font-size: 16px;">开始</a>
+        </td>
+        <td style="padding-top: 20px;">
+          <div class="table">
+            <div class="cell">
+              <p class="q-text">您已经完成家庭资产体检。您下面要做的是：风险承受度评估</p>
+              <p>- 这个风险承受度评估系统是我们引用美国高盛公司的开源资产风险度管理模型，通过10个问题，包含投资取向，个人资金状况，个人工作情况，个人投资经验，从而了解您的风险承受度。</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div style="height: 60px;"></div>
+    <h1 class="content">参与手机充值活动</h1>
+    <table class="press-table" border="0" style="width: 100%;" >
+      <tbody>
+      <tr>
+        <td class="left">
+          <wb:publish action="pubilish" type="web" language="zh_cn" button_type="red" button_size="big" tag="通天顺家庭理财-手机充值活动" refer="y" appkey="5Y299a" ></wb:publish>
+        </td>
+        <td style="padding-top: 20px;">
+          <div class="table">
+            <div class="cell">
+              <p>每天下午选取一名朋友，进行手机充值20元。第三方公信抽奖平台抽奖，真实可信！</p>
+              <p><a style="font-family: arial;" href="http://huati.weibo.com/238912?from=510&order=time">点击查看</a> 中奖纪录</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 </div>
 
 <script>
 
     $(function() {
-        var $topLoader = $("#topLoader").percentageLoader({width: 256, height: 256, controllable : false, progress : 0, onProgressUpdate : function(val) {
+        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
             $topLoader.setValue(Math.round(val * 100.0));
         }});
 
         var topLoaderRunning = false;
+
+        $("#retest").click(function() {
+            $("#next").hide();
+            $(".jieguo").hide();
+            $(".tijian").show();
+            $("#liudong").html("");
+            $("#baoben").html("");
+            $("#fengxian").html("");
+        });
+
         $("#animateButton").click(function() {
+            $(".tijian").hide();
+            $(".jieguo").show();
+            var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
+            var variety=document.getElementsByClassName("founder-name")  //资产品种
+            var amount=document.getElementsByClassName("init-share")  //资产金额
+            var xianjin=0;
+            var wenjian=0;
+            var fengxian=0;
+            // alert($("#age").attr("value"));  年龄层次
+            for(i=0;i<variety.length;i++){
+                if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
+                else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
+            }
+            var total=xianjin+wenjian+fengxian;//总资金
+            if(total*array[$("#age").attr("value")][0]>xianjin)
+            {
+                var score1=1;
+            }
+            else if(total*array[$("#age").attr("value")][0]<xianjin){
+                var score1=0;
+            }
+            if(total*array[$("#age").attr("value")][1]>wenjian)
+            {
+                var score2=1;
+            }
+            else if(total*array[$("#age").attr("value")][1]<wenjian){
+                var score2=0;
+            }
+            if(total*array[$("#age").attr("value")][2]>fengxian)
+            {
+                var score3=1;
+            }
+            else if(total*array[$("#age").attr("value")][2]<fengxian){
+                var score3=0;
+            }
+
             if (topLoaderRunning) {
                 return;
             }
@@ -226,24 +343,40 @@
                 $topLoader.setProgress(kb / totalKb);
                 //$topLoader.setValue(kb.toString() + 'kb');
                 if(kb<=200){
-                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
                 }
                 else if(kb<=400){
-                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
+                    if(kb==400){
+                        if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
+                        else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
+                        else{$("#liudong").html("您的流动性资产配置 适中。");}
+                    }
                 }
                 else if(kb<=600){
-                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
+                    if(kb==600){
+                        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
+                        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
+                        else{$("#baoben").html("您的保本性资产配置 适中。");}
+                    }
                 }
                 else if(kb<=800){
-                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
+                    if(kb==800){
+                        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
+                        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
+                        else{$("#fengxian").html("您的风险性资产配置 适中。");}
+                    }
                 }
                 else if(kb<=1000){
-                    $topLoader.setValue('<span style="font-size: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
                 }
 
                 if (kb < totalKb) {
                     setTimeout(animateFunc, 25);
                 } else {
+                    $("#next").show();
                     topLoaderRunning = false;
                 }
             }
@@ -254,47 +387,46 @@
     });
 
     function run(){
-       var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
-       var variety=document.getElementsByClassName("founder-name")  //资产品种
-       var amount=document.getElementsByClassName("init-share")  //资产金额
-       var xianjin=0;
-       var wenjian=0;
-       var fengxian=0;
-       // alert($("#age").attr("value"));  年龄层次
-      for(i=0;i<variety.length;i++){
-          if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
-          else if(variety[i].value=="现金"){xianjin=xianjin+parseFloat(amount[i].value)}
-          else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
-          else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
-          else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
-          else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
-          else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
-      }
-       var total=xianjin+wenjian+fengxian;//总资金
-       if(total*array[$("#age").attr("value")][0]>xianjin)
-       {
-           var total1=xianjin/(total*array[$("#age").attr("value")][0])
-       }
-       else{
-           var total1=total*array[$("#age").attr("value")][0]/xianjin
-       }
-       if(total*array[$("#age").attr("value")][1]>wenjian)
-       {
-           var total2=wenjian/(total*array[$("#age").attr("value")][1])
-       }
-       else{
-           var total2=total*array[$("#age").attr("value")][1]/wenjian
-       }
-       if(total*array[$("#age").attr("value")][2]>fengxian)
-       {
-           var total3=fengxian/(total*array[$("#age").attr("value")][2])
-       }
-       else{
-           var total3=total*array[$("#age").attr("value")][2]/fengxian
-       }
-       var score=total1*100*array[$("#age").attr("value")][0]+total2*100*array[$("#age").attr("value")][1]+total3*100*array[$("#age").attr("value")][2]
-       return  score.toFixed(1);
-   }
+        var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
+        var variety=document.getElementsByClassName("founder-name")  //资产品种
+        var amount=document.getElementsByClassName("init-share")  //资产金额
+        var xianjin=0;
+        var wenjian=0;
+        var fengxian=0;
+        // alert($("#age").attr("value"));  年龄层次
+        for(i=0;i<variety.length;i++){
+            if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
+            else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
+            else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
+            else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
+            else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
+            else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
+        }
+        var total=xianjin+wenjian+fengxian;//总资金
+        if(total*array[$("#age").attr("value")][0]>xianjin)
+        {
+            var total1=xianjin/(total*array[$("#age").attr("value")][0])
+        }
+        else{
+            var total1=total*array[$("#age").attr("value")][0]/xianjin
+        }
+        if(total*array[$("#age").attr("value")][1]>wenjian)
+        {
+            var total2=wenjian/(total*array[$("#age").attr("value")][1])
+        }
+        else{
+            var total2=total*array[$("#age").attr("value")][1]/wenjian
+        }
+        if(total*array[$("#age").attr("value")][2]>fengxian)
+        {
+            var total3=fengxian/(total*array[$("#age").attr("value")][2])
+        }
+        else{
+            var total3=total*array[$("#age").attr("value")][2]/fengxian
+        }
+        var score=total1*100*array[$("#age").attr("value")][0]+total2*100*array[$("#age").attr("value")][1]+total3*100*array[$("#age").attr("value")][2]
+        return  score.toFixed(1);
+    }
 
     var eCalcShareHolders = new Object();
     var settingSavedUser = false;
