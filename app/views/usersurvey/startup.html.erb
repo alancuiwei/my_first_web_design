@@ -105,13 +105,7 @@
               <div class="row">
                 <div class="span3">
               <span class="control-group">
-                <select class="age" name="age" id="age" title="年龄">
-                  <option value="0">20~25岁</option>
-                  <option value="1">25~30岁</option>
-                  <option value="2">30~35岁</option>
-                  <option value="3">35~40岁</option>
-                  <option value="4">40~45岁</option>
-                </select>
+                <input class="span2 age" id="age" style="width: 206px;" type="text" placeholder="年龄">
               </span>
                 </div>
                 <div class="span3">
@@ -274,7 +268,7 @@
 
             $(".tijian").hide();
             $(".jieguo").show();
-            var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
+         //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
             var variety=document.getElementsByClassName("founder-name")  //资产品种
             var amount=document.getElementsByClassName("init-share")  //资产金额
             var pname=document.getElementsByClassName("pname")  //产品名称
@@ -329,25 +323,28 @@
             });
             <% end %>
             var total=xianjin+wenjian+fengxian;//总资金
-            if(total*array[$("#age").attr("value")][0]>xianjin)
+            var xian=parseFloat($("#expenses").attr("value"))*3;
+            var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
+            var wen=total-xian-feng;
+            if(xian>xianjin)
             {
                 var score1=1;
             }
-            else if(total*array[$("#age").attr("value")][0]<xianjin){
+            else if(xian<xianjin){
                 var score1=0;
             }
-            if(total*array[$("#age").attr("value")][1]>wenjian)
+            if(wen>wenjian)
             {
                 var score2=1;
             }
-            else if(total*array[$("#age").attr("value")][1]<wenjian){
+            else if(wen<wenjian){
                 var score2=0;
             }
-            if(total*array[$("#age").attr("value")][2]>fengxian)
+            if(feng>fengxian)
             {
                 var score3=1;
             }
-            else if(total*array[$("#age").attr("value")][2]<fengxian){
+            else if(feng<fengxian){
                 var score3=0;
             }
 
@@ -410,7 +407,7 @@
     });
 
     function run(){
-        var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
+     //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
         var variety=document.getElementsByClassName("founder-name")  //资产品种
         var amount=document.getElementsByClassName("init-share")  //资产金额
         var xianjin=0;
@@ -426,28 +423,31 @@
             else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
         }
         var total=xianjin+wenjian+fengxian;//总资金
-        if(total*array[$("#age").attr("value")][0]>xianjin)
+        var xian=parseFloat($("#expenses").attr("value"))*3;
+        var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
+        var wen=total-xian-feng;
+        if(xian>xianjin)
         {
-            var total1=xianjin/(total*array[$("#age").attr("value")][0])
+            var total1=xianjin/xian
         }
         else{
-            var total1=total*array[$("#age").attr("value")][0]/xianjin
+            var total1=xian/xianjin
         }
-        if(total*array[$("#age").attr("value")][1]>wenjian)
+        if(wen>wenjian)
         {
-            var total2=wenjian/(total*array[$("#age").attr("value")][1])
+            var total2=wenjian/wen
         }
         else{
-            var total2=total*array[$("#age").attr("value")][1]/wenjian
+            var total2=wen/wenjian
         }
-        if(total*array[$("#age").attr("value")][2]>fengxian)
+        if(feng>fengxian)
         {
-            var total3=fengxian/(total*array[$("#age").attr("value")][2])
+            var total3=fengxian/feng
         }
         else{
-            var total3=total*array[$("#age").attr("value")][2]/fengxian
+            var total3=feng/fengxian
         }
-        var score=total1*100*array[$("#age").attr("value")][0]+total2*100*array[$("#age").attr("value")][1]+total3*100*array[$("#age").attr("value")][2]
+        var score=total1*100*xian/total+total2*100*wen/total+total3*100*feng/total
         return  score.toFixed(1);
     }
 
