@@ -178,11 +178,11 @@
                 <div class="span3 control-group" style="text-align: left;">
                   <div class="input-prepend">
                     <span class="add-on">￥</span>
-                    <input class="span2 init-share" id="amount" style="width: 180px;" value="200000" type="text" placeholder="资产金额">
+                    <input class="span2 init-share" id="amount" style="width: 180px;" value="0" type="text" placeholder="资产金额">
                   </div>
                 </div>
                 <div class="span2" style="text-align: center;">
-                  <input class="span2" id="pname" style="width: 208px;" type="text" placeholder="产品名称">
+                  <input class="span2 pname" id="pname" style="width: 208px;" type="text" placeholder="产品名称">
                 </div>
                 <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
               </div>
@@ -233,7 +233,7 @@
       <tbody>
       <tr>
         <td class="left">
-          <a class="btn btn-primary" href="/home/questions" style="padding: 5px 54px;font-size: 16px;">开始</a>
+          <a id="risk" class="btn btn-primary" style="padding: 5px 54px;font-size: 16px;">开始</a>
         </td>
         <td style="padding-top: 20px;">
           <div class="table">
@@ -270,6 +270,15 @@
 </div>
 
 <script>
+     var perfinance=0;
+     var varietys,amounts,pnames,ages,salarys,expensess;
+    $("#risk").click(function() {
+        <% if session[:webusername]!=nil %>
+        location.href='/home/questions';
+        <% else %>
+        location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+ages+'&salary='+salarys+'&expenses='+expensess;
+        <% end %>
+    });
 
     $(function() {
         var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
@@ -288,11 +297,17 @@
         });
 
         $("#animateButton").click(function() {
+
             $(".tijian").hide();
             $(".jieguo").show();
             var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
             var variety=document.getElementsByClassName("founder-name")  //资产品种
             var amount=document.getElementsByClassName("init-share")  //资产金额
+            var pname=document.getElementsByClassName("pname")  //产品名称
+            var age=document.getElementsByClassName("age")  //年龄
+            var salary=document.getElementsByClassName("salary")  //每月薪水
+            var expenses=document.getElementsByClassName("expenses")  //日常开销
+
             var xianjin=0;
             var wenjian=0;
             var fengxian=0;
@@ -304,7 +319,41 @@
                 else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
+                if(i==0){
+                    varietys=variety[i].value;
+                    amounts=amount[i].value;
+                    pnames=pname[i].value;
+                }
+                else{
+                    varietys=varietys+','+variety[i].value;
+                    amounts=amounts+','+amount[i].value;
+                    pnames=pnames+','+pname[i].value;
+                }
             }
+            for(i=0;i<age.length;i++){
+                if(i==0){
+                    if(age[i].value==0){ages='20~25岁';}
+                    else if(age[i].value==1){ages='25~30岁';}
+                    else if(age[i].value==2){ages='30~35岁';}
+                    else if(age[i].value==3){ages='35~40岁';}
+                    else if(age[i].value==4){ages='40~45岁';}
+                    salarys=salary[i].value;
+                    expensess=expenses[i].value;
+                }
+                else{
+                    if(age[i].value==0){ages=ages+','+'20~25岁';}
+                    else if(age[i].value==1){ages=ages+','+'25~30岁';}
+                    else if(age[i].value==2){ages=ages+','+'30~35岁';}
+                    else if(age[i].value==3){ages=ages+','+'35~40岁';}
+                    else if(age[i].value==4){ages=ages+','+'40~45岁';}
+                    salarys=salarys+','+salary[i].value;
+                    expensess=expensess+','+expenses[i].value;
+                }
+            }
+            <% if session[:webusername]!=nil %>
+            $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:ages,salary:salarys,expenses:expensess},function(data){
+            });
+            <% end %>
             var total=xianjin+wenjian+fengxian;//总资金
             if(total*array[$("#age").attr("value")][0]>xianjin)
             {
@@ -454,11 +503,10 @@
             var fid = f.id;
             $(fi).attr("fid", fid);
             // put values in
-            $(fi).find(".founder-name").val(f.name).blur(fNameChange);
             $(fi).find(".founder-name").attr("id",'variety'+aaa);
             $(fi).find(".init-share").val(0);
             $(fi).find(".init-share").attr("id",'amount'+aaa);
-            $(fi).find(".diluted-dist").attr("id",'pname'+aaa);
+            $(fi).find(".pname").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
         }
     }
@@ -484,21 +532,11 @@
             var fid = f.id;
             $(fi).attr("fid", fid);
             // put values in
-            $(fi).find(".age").val(f.name).blur(fNameChange);
             $(fi).find(".age").attr("id",'age'+aaa);
             $(fi).find(".salary").attr("id",'salary'+aaa);
             $(fi).find(".expenses").attr("id",'expenses'+aaa);
             $("div.founding-inputs").append(fi);
         }
-    }
-
-
-    // change in a founder name
-    function fNameChange(e)
-    {
-        var fid = $(e.target).closest("div.op-input").attr("fid");
-        // update the share holder
-        eCalcShareHolders[fid].name = $(e.target).val();
     }
 
     // use to remove founders
@@ -519,7 +557,7 @@
             console.log(message);
         }
     }
-
+ /*
 
     function toggleButton(e)
     {
@@ -538,6 +576,7 @@
             $(e).find("i").removeClass().addClass("icon-minus");
         }
     }
+*/
 </script>
 
 <script>

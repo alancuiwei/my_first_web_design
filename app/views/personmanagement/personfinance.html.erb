@@ -4,6 +4,7 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "nicEdit-latest.js" %>
+<%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
 <script type="text/javascript">
     //<![CDATA[
     bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
@@ -84,6 +85,13 @@
 <table id="person" style="width: 97%;margin-left: 3%;color: #555;">
 <tr>
 <td style="width: 200px;padding: 0 15px;text-align: center;">
+  <div style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的家庭诊断</div>
+  <div id="topLoader" style="width: 150px;height: 150px;margin: auto;"></div>
+   <div style="height: 30px;">
+  <% if @webuser.username == session[:webusername] %>
+     <a href="/usersurvey/startup" id="change-answers" style="font-size: 12px;">重新体检</a>
+  <% end %>
+   </div>
   <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
   <div id="container"></div>
   <% if @webuser.username == session[:webusername] %>
@@ -143,7 +151,7 @@
   <table style="width: 100%;">
     <tr>
       <td class="left">
-
+         <img src="/assets/girl_credit_cards.jpg">
       </td>
       <td style="vertical-align: middle;">
         <table id="allocation" class="table allocation report apply-asset-class-colors">
@@ -346,6 +354,7 @@
   </table>
 </td>
 <td style="width: 200px;padding: 0 15px;">
+  <!--
   <div class="faq-container">
     <div class="mobile" style="height:20px;"><hr></div>
     <p>关于<%= @webuser.username %></p>
@@ -374,12 +383,27 @@
       <% end %>
     </ul>
   </div>
+  -->
 </td>
 </tr>
 </table>
 </div>
 
 <script>
+     var perfinance=1;
+    $(function() {
+       <% if @webuser.score!=nil %>
+        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
+            $topLoader.setValue(Math.round(val * 100.0));
+        }});
+        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
+        <% else %>
+        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
+            $topLoader.setValue(Math.round(val * 100.0));
+        }});
+        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">尚未体检</span>');
+        <% end %>
+    });
 
     $(function () {
         var chart;

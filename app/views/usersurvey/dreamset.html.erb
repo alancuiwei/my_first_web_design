@@ -71,8 +71,13 @@
             <span class="num">1</span>
           </div>
           <div class="cell" style="padding-bottom: 50px;">
-            <a href="#" style="padding-left: 30px;">月光族计划</a><br><br>
-            <a href="#"><img src="/assets/girl_credit_cards.jpg"></a>
+            <% if session[:webusername]!=nil %>
+                <a href="/personmanagement/personfinance" style="padding-left: 30px;">月光族计划</a><br><br>
+                <a href="/personmanagement/personfinance"><img src="/assets/girl_credit_cards.jpg"></a>
+            <% else %>
+                <a href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>" style="padding-left: 30px;">月光族计划</a><br><br>
+                <a href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>"><img src="/assets/girl_credit_cards.jpg"></a>
+            <% end %>
           </div>
         </td>
         <td style="width: 28%;">

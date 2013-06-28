@@ -26,15 +26,17 @@
         <div class="overlay tab-pane fade" id="create">
           <br>
           <div class="bs-docs-example">
+            <!--
             <ul id="myTab" class="nav nav-tabs">
               <li class="active"><a href="#home" data-toggle="tab">投资人注册</a></li>
              <% if params[:actions]!='1' %>
               <li class=""><a href="#profile" data-toggle="tab">理财师注册</a></li>
              <% end %>
             </ul>
+            -->
             <div class="tab-content">
               <div class="tab-pane fade active in" id="home">
-                <!--<h1 class="h1">注册</h1>-->
+                <h1 class="h1">注册</h1>
                 <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate onsubmit="return func()">
                   <table class="log">
                     <tr>
@@ -57,8 +59,8 @@
                   <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
                 </form>
               </div>
+              <!--
               <div class="tab-pane fade" id="profile">
-                <!--<h1 class="h1">理财师 注册</h1>-->
                 <form>
                   <table class="log">
                     <tr>
@@ -115,6 +117,7 @@
                   <div class="or-text"><div><b>或</b></div></div>
                   <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
                 </form></div>
+              -->
             </div>
           </div>
           <div class="normal">
@@ -369,6 +372,10 @@
                     else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
                     else if(save.split(',')[5]=='G'){trade='公务员';}
                     var risktolerance='<%= params[:risk] %>';
+                    $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',
+                        amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',expenses:'<%= params[:expenses] %>'},function(data){
+
+                    });
                     $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= params[:age] %>',risktolerance:risktolerance,bank: '<%= params[:bank] %>',
                         investamount:  '<%= params[:investamount] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                     },function(data){

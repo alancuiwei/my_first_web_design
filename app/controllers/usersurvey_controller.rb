@@ -16,6 +16,29 @@ class UsersurveyController < ApplicationController
     end
   end
 
+  def savescore
+    @webuser=Webuser.find_by_username(params[:username])
+    @webuser.update_attributes(:score=>params[:score])
+    @examination=Examination.find_by_username(params[:username])
+    if @examination==nil
+      Examination.new do |e|
+        e.username=params[:username]
+        e.variety=params[:variety]
+        e.amount=params[:amount]
+        e.pname=params[:pname]
+        e.age=params[:age]
+        e.salary=params[:salary]
+        e.expenses=params[:expenses]
+        e.save
+      end
+    else
+      @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
+                 :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],
+                 :salary=>params[:salary],:expenses=>params[:expenses])
+    end
+    render :json => "s".to_json
+  end
+
   def freeapply
     if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
