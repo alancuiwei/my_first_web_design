@@ -54,6 +54,9 @@
    td.left{
        padding-left: 20px;
    }
+   .table{
+	   margin-bottom:30px;
+   }
 </style>
 
 <div class="main-content">
@@ -68,7 +71,7 @@
     <span class="disabled"><b>4.</b> 规划建议书生成</span>
   </div>
 </div>
-  <div style="padding: 20px 20px 50px;">
+  <div style="padding: 0 20px 50px;">
   <table class="press-table" border="0" style="width: 100%;" >
     <tbody>
     <tr>
@@ -79,13 +82,36 @@
     <tr>
       <td class="left" style="width: 35%;">
         <br>
-        <p style="padding-left: 80px;">您的风险承受度</p>
+        <p style="padding-left: 90px;">您的风险承受度</p>
         <div id="container"></div>
+        <a id="retest" style="font-size: 15px;padding-left: 110px;" href="/home/questions?score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">重新评估</a><br>
+        <div class="win" style="padding: 10px 0 0 95px;">
+          <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
+              <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，"></wb:share-button></div>
+          <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
+              <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，"></wb:share-button></div>
+          <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
+              <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，"></wb:share-button></div>
+          <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
+              <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，"></wb:share-button></div>
+          <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
+              <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，"></wb:share-button></div>
+          <% end %>
+        </div>
+        <div class="zm-command" style="padding-left: 90px;">
+          <div class="baidu_btn">
+            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>'}">
+              <a class="bds_tsina">分享到微博</a>
+            </div>
+          </div>
+        </div>
       </td>
       <td>
         <br>
         <div class="table">
+          <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
           <div class="cell">
+            <p class="q-text">评估结果：</p>
             <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
                 <p>您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
                 <p>为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。</p>
@@ -109,68 +135,18 @@
             <% end %>
           </div>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <div style="height: 60px;"></div>
-        <h1 class="content">梦想目标设定</h1>
-      </td>
-    </tr>
-    <tr>
-      <td class="left" style="width: 35%;">
-        <br>
-        <% if session[:webusername]!=nil %>
-        <a id="clicks" class="btn btn-primary" href="/usersurvey/dreamset">开始</a>
-        <% else %>
-            <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">开始</a>
-        <% end %>
-      </td>
-      <td>
-        <br>
         <div class="table">
+          <div class="cell" style="width: 32px;"> <h1><b>2</b></h1> </div>
           <div class="cell">
-            <p>您已经完成风险承受度评估。您下面要做的是：梦想目标设定。</p>
+            <p class="q-text">下一步：梦想目标设定</p>
             <p>- 我们将为您罗列月光族目标、买房、买车等目标，目前我们将免费为月光族做规划服务哦。</p>
+            <% if session[:webusername]!=nil %>
+                <a id="clicks" class="btn btn-primary" href="/usersurvey/dreamset">下一步</a>
+            <% else %>
+                <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&bank=<%= params[:bank] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">下一步</a>
+            <% end %>
           </div>
         </div>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <div style="height: 60px;"></div>
-        <h1 class="content">参与手机充值活动</h1>
-      </td>
-    </tr>
-    <tr>
-      <td class="left">
-        <br>
-        <div class="win">
-        <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
-            <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" size="big" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，"></wb:share-button></div>
-        <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
-            <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" size="big" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。参与评估活动可手机充值抽奖，"></wb:share-button></div>
-        <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
-            <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" size="big" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”参与评估活动可手机充值抽奖，"></wb:share-button></div>
-        <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
-            <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" size="big" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。参与评估活动可手机充值抽奖，"></wb:share-button></div>
-        <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
-            <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" size="big" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，"></wb:share-button></div>
-        <% end %>
-        </div>
-        <div class="zm-command">
-          <div class="baidu_btn">
-            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>'}">
-              <a class="bds_tsina">分享到微博</a>
-            </div>
-          </div>
-
-        </div>
-      </td>
-      <td>
-        <br>
-        <p>每天下午选取一名朋友，进行手机充值20元。<br>第三方公信抽奖平台抽奖，真实可信。</p>
-        <p><a style="font-family: arial;" href="http://huati.weibo.com/238912?from=510&order=time">点击查看</a> 中奖纪录</p>
       </td>
     </tr>
     </tbody></table>
