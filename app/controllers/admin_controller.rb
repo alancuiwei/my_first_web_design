@@ -10,6 +10,8 @@ class AdminController < ApplicationController
       @blogs=Blog.all
       @activity=Activity.all
       @enroll=Enroll.all
+      @category1=Category_1.all
+      @category2=Category_2.all
       @products=Product.all
       @reserves=Reserve.all
       @bankproducts=Bankproducts_t.all
@@ -121,6 +123,75 @@ class AdminController < ApplicationController
 
     else
       redirect_to(:controller=>"home")
+    end
+  end
+
+  def category1config
+      if params[:id]!="0"
+        @category1=Category_1.find_by_id(params[:id])
+      else
+        @category1=Category_1.limit(1)
+      end
+  end
+
+  def category1configajax
+    if params[:id]=="0"
+      Category_1.new do |b|
+        b.category=params[:category]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @category1=Category_1.find_by_id(params[:id])
+      @category1.update_attributes(:category=>params[:category])
+      render :json => "s2".to_json
+    end
+  end
+
+  def category1deleteajax
+    @category1=Category_1.find_by_id(params[:id])
+    if @category1!=nil
+      if @category1.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def category2config
+      @category1=Category_1.all
+      if params[:id]!="0"
+        @category2=Category_2.find_by_id(params[:id])
+      else
+        @category2=Category_2.limit(1)
+      end
+  end
+
+  def category2configajax
+    if params[:id]=="0"
+      Category_2.new do |b|
+        b.category=params[:category]
+        b.risklevel=params[:risklevel]
+        b.classify=params[:classify]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @category2=Category_2.find_by_id(params[:id])
+      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify])
+      render :json => "s2".to_json
+    end
+  end
+
+  def category2deleteajax
+    @category2=Category_2.find_by_id(params[:id])
+    if @category2!=nil
+      if @category2.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
     end
   end
 

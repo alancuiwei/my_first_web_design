@@ -307,6 +307,50 @@
     </tr>
 
     <tr><td>
+      <h1>理财产品大类管理</h1>
+      <a href="/admin/category1config/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category1">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品大类</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @category1.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.category%></td>
+              <td></td>
+              <td><a href="/admin/category1config/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category1deleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td>
+      <h1>理财产品小类管理</h1>
+      <a href="/admin/category2config/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category2">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品小类</th><th>风险级别</th><th>产品大类</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @category2.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.classify%></td>
+              <td><%= b.risklevel%></td>
+              <td><%= b.category%></td>
+              <td></td>
+              <td><a href="/admin/category2config/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category2deleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td>
       <h1>活动管理</h1>
       <a href="/admin/activityconfig/0?organ=1">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
@@ -440,7 +484,7 @@
     }
 
     $(document).ready(function(){
-        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ').dataTable();
+        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
 

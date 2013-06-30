@@ -156,13 +156,13 @@
                 $.get("/usersurvey/dreamconfig",{username:'<%= session[:webusername] %>',dream:$("#dream").attr("value"),province:$('#province').attr("value"),city: $('#city').attr("value"),amount: $("#amount").attr("value"),realizetime:$("#realizetime").attr("value"),exeitdeposit:$('#exeitdeposit').attr("value"),monthpay:$("#monthpay").attr("value"),remark:$("#remark").attr("value"),scharge:$("#scharge").attr("value"),organuser:2},function(data){
                 });
             //    if(system.win||system.mac||system.xll){
-                $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
+         //       $.get("/usersurvey/zhifubao",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
+         //           location.href=data;
+         //       });
+         //       }else{
+                    $.get("/usersurvey/zhifubaoformobile",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
                     location.href=data;
                 });
-            //    }else{
-            //        $.get("/usersurvey/zhifubaoformobile",{scharge:$("#scharge").attr("value"),username:'<%= session[:webusername] %>'},function(data){
-            //            location.href=data;
-            //        });
             //    }
             <% end %>
             }

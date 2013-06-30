@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'open-uri'
 class UsersurveyController < ApplicationController
   def userinfo
     if params[:id]!=nil
@@ -117,20 +118,16 @@ class UsersurveyController < ApplicationController
           'partner' => '2088801189204575',
           'req_id' => @subsribe_id,   # ???
           'sec_id' => 'MD5',
-          'subject' => '梦想实现',
-          'out_trade_no' => @subsribe_id,
-          'total_fee' => @tester,
-          'seller_account_name' => 'zhongrensoft@gmail.com',
-          'call_back_url' => 'http://www.tongtianshun.com/personmanagement/investor?username='+params[:username]
+       #   'subject' => '梦想实现',
+       #   'out_trade_no' => @subsribe_id,
+       #   'total_fee' => @tester,
+       #   'seller_account_name' => 'zhongrensoft@gmail.com',
+       #   'call_back_url' => 'http://www.tongtianshun.com/personmanagement/investor?username='+params[:username],
+          'req_data' => '<direct_trade_create_req><subject>梦想实现</subject><out_trade_no>'+@subsribe_id+'</out_trade_no><total_fee>'+@tester+
+              '</total_fee><seller_account_name>zhongrensoft@gmail.com</seller_account_name><call_back_url>http://www.tongtianshun.com/personmanagement/investor?username='+params[:username]+
+              '</call_back_url></direct_trade_create_req>'
       }
- #     parameters = {
- #         'service' => 'alipay.wap.auth.authAndExecute',
- #         'format' => 'xml',
- #         'v' => '2.0',
- #         'partner' => '2088801189204575',
- #         'sec_id' => 'MD5',
- #         'request_token' => ''
- #     }
+
       values = {}
       # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
       parameters.keys.sort.each do |k|
@@ -138,8 +135,32 @@ class UsersurveyController < ApplicationController
       end
       # 一定要先unescape后再生成sign，否则支付宝会报ILLEGAL SIGN
       sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
-      gateway = 'https://mapi.alipay.com/gateway.do?'
-      @alipy_url= gateway + values.to_query + '&sign=' + sign + '&sign_type=MD5'
+      gateway = 'http://wappaygw.alipay.com/service/rest.htm?'
+      @alipy_url= gateway + values.to_query + '&sign=' + sign
+
+      open(@alipy_url){|x|
+        while line = x.gets
+          if(line.include?('request_token'))
+            @ss=line.split('request_token%3E')[1].split('%3C%2Frequest_token')[0].gsub("%3C%2F",'')
+          end
+        end
+      }
+      parameters = {
+          'service' => 'alipay.wap.auth.authAndExecute',
+          'format' => 'xml',
+          'v' => '2.0',
+          'partner' => '2088801189204575',
+          'sec_id' => 'MD5',
+          'req_data' => '<auth_and_execute_req><request_token>'+@ss+'</request_token></auth_and_execute_req>'
+      }
+      values = {}
+      # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort
+      parameters.keys.sort.each do |k|
+        values[k] = parameters[k];
+      end
+      sign = Digest::MD5.hexdigest(CGI.unescape(values.to_query) + 'xf1fj8kltbbc766co0ziulq1wowejpzm')
+      gateway = 'http://wappaygw.alipay.com/service/rest.htm?'
+      @alipy_url= gateway + values.to_query + '&sign=' + sign
     render :json => @alipy_url.to_json
   end
 
