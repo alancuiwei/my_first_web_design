@@ -322,32 +322,32 @@
             $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:ages,salary:salarys,expenses:expensess},function(data){
             });
             <% end %>
-            var total=xianjin+wenjian+fengxian;//总资金
+            var jixu=xianjin+wenjian+fengxian;//积蓄
+            var total=jixu+(parseFloat($("#salary").attr("value"))-parseFloat($("#expenses").attr("value")))*12;//积蓄
             var xian=parseFloat($("#expenses").attr("value"))*3;
             var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
             var wen=total-xian-feng;
-            if(xian>xianjin)
+            if(xian/total>xianjin/jixu)
             {
                 var score1=1;
             }
-            else if(xian<xianjin){
+            else if(xian/total<xianjin/jixu){
                 var score1=0;
             }
-            if(wen>wenjian)
+            if(wen/total>wenjian/jixu)
             {
                 var score2=1;
             }
-            else if(wen<wenjian){
+            else if(wen/total<wenjian/jixu){
                 var score2=0;
             }
-            if(feng>fengxian)
+            if(feng/total>fengxian/jixu)
             {
                 var score3=1;
             }
-            else if(feng<fengxian){
+            else if(feng/total<fengxian/jixu){
                 var score3=0;
             }
-
             if (topLoaderRunning) {
                 return;
             }
@@ -422,32 +422,13 @@
             else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
             else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
         }
-        var total=xianjin+wenjian+fengxian;//总资金
+        var jixu=xianjin+wenjian+fengxian;//积蓄
+        var total=(parseFloat($("#salary").attr("value"))-parseFloat($("#expenses").attr("value")))*12+jixu;//积蓄
         var xian=parseFloat($("#expenses").attr("value"))*3;
         var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
         var wen=total-xian-feng;
-        if(xian>xianjin)
-        {
-            var total1=xianjin/xian
-        }
-        else{
-            var total1=xian/xianjin
-        }
-        if(wen>wenjian)
-        {
-            var total2=wenjian/wen
-        }
-        else{
-            var total2=wen/wenjian
-        }
-        if(feng>fengxian)
-        {
-            var total3=fengxian/feng
-        }
-        else{
-            var total3=feng/fengxian
-        }
-        var score=total1*100*xian/total+total2*100*wen/total+total3*100*feng/total
+
+        var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
         return  score.toFixed(1);
     }
 
