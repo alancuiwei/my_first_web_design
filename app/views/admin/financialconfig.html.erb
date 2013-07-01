@@ -1,0 +1,95 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  <form method="post" name="creator" enctype="multipart/form-data">
+    产品大类：<select name="category" id="category" onChange = "select()"></select><br>
+    产品小类：<select name="classify" id="classify" onChange = "select()"></select>
+    <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
+  </form>
+  产品名称：<input type="text" name="pname" id="pname" title="产品名称"><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+
+    $("#categoryconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value")
+            },function(data){
+                if(data=="s1"){
+                    alert("理财产品创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+    var where = new Array(2);
+
+    function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
+    where[0]= new comefrom("请选择","请选择");
+    <% for i in 0..@category.size-1 %>
+    where["<%= @hash[@category[i].category][0] %>"] = new comefrom("<%= @category[i].category %>","<%= @hash[@category[i].category][1] %>");
+    <% end %>
+
+    function select() {
+        with(document.creator.category) { var loca2 = options[selectedIndex].value; }
+        for(i = 0;i < where.length;i ++) {
+            if (where[i].loca == loca2) {
+                loca3 = (where[i].locacity).split("|");
+                for(j = 0;j < loca3.length;j++) { with(document.creator.classify) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
+                break;
+            }}
+
+        document.creator.newlocation.value=loca2+" "+loca4;
+    }
+
+    function init() {
+        with(document.creator.category) {
+            length = where.length;
+            for(k=0;k<where.length;k++) { options[k].text = where[k].loca; options[k].value = where[k].loca; }
+            options[selectedIndex].text = where[0].loca; options[selectedIndex].value = where[0].loca;
+        }
+        with(document.creator.classify) {
+            loca3 = (where[0].locacity).split("|");
+            length = loca3.length;
+            for(l=0;l<length;l++) { options[l].text = loca3[l]; options[l].value = loca3[l]; }
+            options[selectedIndex].text = loca3[0]; options[selectedIndex].value = loca3[0];
+        }}
+
+    $(document).ready(function(){
+        init();
+        <% if params[:id]!="0" %>
+        $("#pname").attr("value",'<%= @financial.pname%>');
+        $("#category").attr("value",'<%= @financial.category%>');
+        select()
+        $("#classify").attr("value",'<%= @financial.classify%>');
+        <% end %>
+    });
+</script>

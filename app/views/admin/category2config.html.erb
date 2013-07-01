@@ -25,6 +25,8 @@
 <script type="text/javascript">
     <% if params[:id]!="0" %>
     $("#category").attr("value",'<%= @category2.category%>');
+    $("#classify").attr("value",'<%= @category2.classify%>');
+    $("#risklevel").attr("value",'<%= @category2.risklevel%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -42,7 +44,7 @@
             $.post("/admin/category2configajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),risklevel: $("#risklevel").attr("value")
             },function(data){
                 if(data=="s1"){
-                    alert("产品大类创建成功！");
+                    alert("产品小类创建成功！");
                     location.href='/admin';
                 }
                 else{

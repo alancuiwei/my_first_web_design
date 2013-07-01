@@ -12,6 +12,7 @@ class AdminController < ApplicationController
       @enroll=Enroll.all
       @category1=Category_1.all
       @category2=Category_2.all
+      @financial=Financial.all
       @products=Product.all
       @reserves=Reserve.all
       @bankproducts=Bankproducts_t.all
@@ -188,6 +189,54 @@ class AdminController < ApplicationController
     @category2=Category_2.find_by_id(params[:id])
     if @category2!=nil
       if @category2.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def financialconfig
+      if params[:id]!="0"
+        @financial=Financial.find_by_id(params[:id])
+      else
+        @financial=Financial.limit(1)
+      end
+      @hash={}
+      @category=Category_2.find_by_sql("select distinct category from category_2")
+      for i in 0..@category.size-1
+         @category2=Category_2.find_all_by_category(@category[i].category)
+         for j in 0..@category2.size-1
+           if j==0
+             @cate='|'+@category2[j].classify
+           else
+             @cate=@cate+'|'+@category2[j].classify
+           end
+         end
+         @hash.store(@category2[0].category,[i+1,@cate])
+      end
+  end
+
+  def financialconfigajax
+    if params[:id]=="0"
+      Financial.new do |b|
+        b.category=params[:category]
+        b.pname=params[:pname]
+        b.classify=params[:classify]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @financial=Financial.find_by_id(params[:id])
+      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify])
+      render :json => "s2".to_json
+    end
+  end
+
+  def financialdeleteajax
+    @financial=Financial.find_by_id(params[:id])
+    if @financial!=nil
+      if @financial.destroy
         render :json => "s".to_json
       else
         render :json => "f".to_json
