@@ -373,7 +373,8 @@
                     else if(save.split(',')[5]=='G'){trade='公务员';}
                     var risktolerance='<%= params[:risk] %>';
                     $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',
-                        amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',expenses:'<%= params[:expenses] %>'},function(data){
+                        amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',additional:'<%= params[:additional] %>',
+                        rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>',pinmoney:'<%= params[:pinmoney] %>'},function(data){
 
                     });
                     $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= params[:age] %>',risktolerance:risktolerance,bank: '<%= params[:bank] %>',
