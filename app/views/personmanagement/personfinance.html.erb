@@ -32,6 +32,9 @@
         filter: alpha(opacity=20);
         position: static;
     }
+        .asset-class-percentage,.asset-class-amount{
+            text-align: center!important;
+        }
 </style>
 
 <div class="main-content dream">
@@ -190,13 +193,16 @@
       <td style="padding-left: 20px;">
         <div class="account-types">
           <div class="account-type-tab active taxable-account-type">
-            <p><span class="product" style="line-height: 20px;">梦想实现</span></p>
-            <p class="product-description" style="line-height: 12px;"><span style="margin-right: 95px;">一步一步向上爬</span><div class="mobile"><br></div>
-              <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
+            <p><span class="product" style="line-height: 20px;">战略性资产分配</span></p>
+            <p class="product-description" style="line-height: 12px;">
+              <span style="margin-right: 95px;">我们的建议</span><div class="mobile"><br></div>
+            <!--
+            <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
                   <% if @webuser.organusername!=nil %>
                       <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %> <%= @webuser.organusername %> 提供服务</span>
                   <% end %>
-              <% end %><div class="mobile"><br></div>
+              <% end %>
+            <div class="mobile"><br></div>
               <% if @webuser.dream != nil && @webuser.organuser!='2' %>
                   <% if @hash2[0][3]!=nil %>
                     <% if @webuser.username == session[:webusername] || params[:id]==nil %>
@@ -210,6 +216,7 @@
                       <span style="width: 100px;" class="pull-right">&nbsp;</span>
                   <% end %>
               <% end %>
+             -->
             </p>
           </div>
           <div class="clearfix"></div>
@@ -230,60 +237,40 @@
                   <thead>
                   <tr>
                     <th id="th1"></th>
-                    <th id="th2" style="width: 105px;">投资品种</th>
-                    <th id="th3" style="width: 140px;">投资产品</th>
-                    <th id="th4" style="width: 95px;">总额</th>
+                    <th id="th2" style="width: 105px;">理财产品大类</th>
+                    <th id="th3" style="width: 140px;text-align: center;">建议配置<br>%</th>
+                    <th id="th4" style="width: 95px;text-align: center;">当前情况<br>%</th>
+                    <th id="th5" style="width: 95px;text-align: center;">当前情况<br>金额</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <% if (@hash2[0][6]!=0 && @hash2[0][6]!=nil) || @hash2[0][1] ==nil %>
                       <tr class="" data-type="MUNI_BONDS">
                         <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                         <td class="asset-class-name">
-                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">银行理财产品</a></span>
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="流动性资产">流动性资产</a></span>
                         </td>
-                        <td class="asset-class-percentage number"><%= @webuser.bankfinancep %></td>
-                        <td class="asset-class-amount number"><% if @hash2[0][6]!=nil %>￥<%= format("%0.0f",@hash2[0][6]) %><% else %>0<% end %></td>
+                        <td id="proposed1" class="asset-class-percentage number"></td>
+                        <td id="rate1" class="asset-class-amount number"></td>
+                        <td id="amount1" class="asset-class-amount number"></td>
                       </tr>
-                  <% end %>
-                  <% if (@hash2[0][4]!=0 && @hash2[0][4]!=nil) || @hash2[0][1] ==nil %>
                       <tr class="" data-type="INTL_EMERGING">
                         <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                         <td class="asset-class-name">
-                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型产品">债券型基金</a></span>
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型资产">保本型资产</a></span>
                         </td>
-                        <td class="asset-class-percentage number"><%= @webuser.deptp %></td>
-                        <td class="asset-class-amount number"><% if @hash2[0][4]!=nil %>￥<%= format("%0.0f",@hash2[0][4]) %><% else %>0<% end %></td>
+                        <td id="proposed2" class="asset-class-percentage number"></td>
+                        <td id="rate2" class="asset-class-amount number"></td>
+                        <td id="amount2" class="asset-class-amount number"></td>
                       </tr>
-                  <% end %>
-                  <% if (@hash2[0][3]!=0 && @hash2[0][3]!=nil) || @hash2[0][1] ==nil %>
                       <tr class="" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td class="asset-class-name">
-                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="随存随取型产品">货币型基金</a></span>
+                          <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="风险型资产">风险型资产</a></span>
                         </td>
-                        <td class="asset-class-percentage number"><%= @webuser.stockp %></td>
-                        <td class="asset-class-amount number"><% if @hash2[0][3]!=nil %>￥<%= format("%0.0f",@hash2[0][3]) %><% else %>0<% end %></td>
+                        <td id="proposed3" class="asset-class-percentage number"></td>
+                        <td id="rate3" class="asset-class-amount number"></td>
+                        <td id="amount3" class="asset-class-amount number"></td>
                       </tr>
-                  <% end %>
-                  <tr class="" data-type="DIV_STOCKS">
-                    <td class="asset-class-color"><div class="legend DIV_STOCKS"></div></td>
-                    <td class="asset-class-name">
-                      <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="定投产品">指数基金</a></span>
-                    </td>
-                    <td class="asset-class-percentage number"><%= @webuser.trustp %></td>
-                    <td class="asset-class-amount number"><% if @hash2[0][8]!=nil %>￥<%= format("%0.0f",@hash2[0][8]) %>/月<% else %>0<% end %></td>
-                  </tr>
-                  <% if (@hash2[0][5]!=0 && @hash2[0][5]!=nil) || @hash2[0][1] ==nil %>
-                      <tr class="" data-type="DIV_STOCKS">
-                        <td class="asset-class-color"><div class="legend DIV_STOCKS" style="background: #000000;"></div></td>
-                        <td class="asset-class-name">
-                          <span class="ktip-link"><a class="ktip-a">保险产品</a></span>
-                        </td>
-                        <td class="asset-class-percentage number"><%= @webuser.insurep %></td>
-                        <td class="asset-class-amount number"><% if @hash2[0][5] !=nil %>￥<%= format("%0.0f",@hash2[0][5]) %>/年<% else %>0<% end %></td>
-                      </tr>
-                  <% end %>
                   </tbody>
                 </table>
               </td></tr></table>
@@ -391,6 +378,7 @@
 
 <script>
      var perfinance=1;
+
     $(function() {
        <% if @webuser.score!=nil %>
         var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
@@ -512,13 +500,47 @@
 
     //图
     $(function () {
-        <% if @hash2[0][3]!=nil %>
         d = new Date(),
                 nowYear = d.getFullYear();
-        var dataArray= [parseFloat(<%= @hash2[0][3] %>),parseFloat(<%= @hash2[0][4] %>),parseFloat((<%= @webuser.realizetime %>-nowYear)*12*<%= @hash2[0][8] %>),parseFloat(<%= @hash2[0][6] %>)];
+      <% if @examination !=nil %>
+        var xianjin=0;
+        var wenjian=0;
+        var fengxian=0;
+        var variety='<%= @examination.variety %>'.split(",");
+        var amount='<%= @examination.amount %>'.split(",");
+        for(i=0;i<variety.length;i++){
+            if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
+            else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
+            else if(variety[i]=="基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
+        }
+        var jixu=xianjin+wenjian+fengxian;
+        var total=(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'))*12+jixu;//总资产
+        var xian=(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))*3;
+        var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
+        var wen=total-xian-feng;
+        if(wen<1000){
+            wen=1000;
+            xian=xian+wen-1000;
+        }
+
+        $("#amount1").html(xianjin);
+        $("#amount2").html(wenjian);
+        $("#amount3").html(fengxian);
+        $("#rate1").html((xianjin/jixu*100).toFixed(1)+'%');
+        $("#rate2").html((wenjian/jixu*100).toFixed(1)+'%');
+        $("#rate3").html((fengxian/jixu*100).toFixed(1)+'%');
+
+        $("#proposed1").html((xian/total*100).toFixed(1)+'%');
+        $("#proposed2").html((wen/total*100).toFixed(1)+'%');
+        $("#proposed3").html((feng/total*100).toFixed(1)+'%');
+        var dataArray= [xian/total,wen/total,feng/total];
         <% else %>
-        var dataArray=[1]
+        var dataArray= [1,1,1];
         <% end %>
+
         $(document).ready(function () {
 
             // Build the chart
@@ -557,7 +579,7 @@
             });
         });
         Highcharts.theme = {
-            colors: ['#d76f32', '#f1b77a', '#9c7746', '#294b6e']
+            colors: ['#294b6e','#f1b77a','#d76f32']
         };
 
 // Apply the theme

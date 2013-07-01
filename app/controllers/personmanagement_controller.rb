@@ -342,6 +342,8 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
+      @examination=Examination.find_by_username(@webuser.username)
+
       @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
       if @webuser.organusername!=nil
@@ -365,6 +367,7 @@ class PersonmanagementController < ApplicationController
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+        @examination=Examination.find_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
         if @webuser.organusername!=nil
           @webuser2=Webuser.find_by_username(@webuser.organusername)
