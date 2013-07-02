@@ -70,7 +70,7 @@
       <tr>
         <td><%= f.pname %></td>
         <td><%= f.trusts %></td>
-        <td><% if f.rate !=nil %><%= format("%0.1f",f.rate*100) %>%<% end %></td>
+        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
         <td><% if f.startvalue !=nil %><%= format("%0.0f",f.startvalue) %><% end %></td>
         <td><% if f.poundage !=nil %><%=  format("%0.1f",f.poundage) %>%<% end %></td>
         <td><a href="/bankinvest/productdetails/<%= f.id %>">查看</a></td>

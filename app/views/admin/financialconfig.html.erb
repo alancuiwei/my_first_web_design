@@ -29,6 +29,7 @@
       风险提示：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risktip" id="risktip" title="风险提示"></textarea><br>
       产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"></textarea> <br>
   <% end %>
+  官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
   <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
 
@@ -58,16 +59,8 @@
         }
 
         if(nom_flag==0){
-            if( numfor.test($("#rate").attr("value"))==false){
-                alert("近1年收益率必须为数字！");
-                nom_flag=1;
-            }
-            else if(numfor.test($("#startvalue").attr("value"))==false){
+            if(numfor.test($("#startvalue").attr("value"))==false){
                 alert("最低投资金额必须为数字！");
-                nom_flag=1;
-            }
-            else if(numfor.test($("#investperiod").attr("value"))==false){
-                alert("投资期限必须为数字！");
                 nom_flag=1;
             }
             else if(numfor.test($("#poundage").attr("value"))==false){
@@ -76,9 +69,17 @@
             }
         }
 
+
+        if(numfor.test($("#rate").attr("value"))==false){
+            var rate=$("#rate").attr("value");
+        }
+        else{
+            var rate= ($("#rate").attr("value")/100).toFixed(5);
+        }
+
         if(nom_flag==0){
             $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rate: $("#rate").attr("value")/100,startvalue: $("#startvalue").attr("value"),
+                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -133,11 +134,16 @@
         $("#pname").attr("value",'<%= @financial.pname%>');
         $("#trusts").attr("value",'<%= @financial.trusts %>');
         <% if @financial.rate!=nil %>
-        $("#rate").attr("value",'<%= @financial.rate*100 %>');
+        <% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.rate %>
+        $("#rate").attr("value",'<%= format("%0.3f",@financial.rate.to_f*100) %>');
+        <% else %>
+        $("#rate").attr("value",'<%= @financial.rate %>');
+        <% end %>
         <% end %>
         $("#startvalue").attr("value",'<%= @financial.startvalue%>');
         $("#investperiod").attr("value",'<%= @financial.investperiod%>');
         $("#poundage").attr("value",'<%= @financial.poundage%>');
+        $("#link").attr("value",'<%= @financial.link%>');
         $("#category").attr("value",'<%= @financial.category%>');
         select()
         $("#classify").attr("value",'<%= @financial.classify%>');

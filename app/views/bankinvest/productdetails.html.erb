@@ -40,7 +40,7 @@
     <div class="box_left_title2_left" style="width: 100%;">
       <ul>
         <li>
-          <span class="qq_bankbig red"><% if @financial.rate !=nil %><%=  format("%0.1f",@financial.rate*100)%>%<% end %></span>
+          <span class="qq_bankbig red"><% if @financial.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.rate %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %><%= @financial.rate %><% end %><% end %></span>
           <span class="qq_banksmall">近1年收益率</span>
         </li>
         <li>
@@ -90,6 +90,10 @@
     <tr>
       <td class="left">产品简介</td>
       <td class="right"><%= @financial.pintroduction %></td>
+    </tr>
+    <tr>
+      <td class="left">官网介绍</td>
+      <td class="right"><% if @financial.link!=nil %><a href="<%= @financial.link %>">点击查看</a><% end %></td>
     </tr>
   </table>
     </div>
