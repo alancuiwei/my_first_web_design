@@ -39,6 +39,7 @@
 </script>
 <body>
 <div id='main' class='welcome' style="width: 100%;">
+  <!--
   <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") && @webuser.username==session[:webusername] %>
       <% if @webuser.organuser=='2' %>
           <div id="xoverlay" style="display: block;">
@@ -60,13 +61,13 @@
           <div id="lay2" style="height: 50px;"></div>
       <% elsif @webuser.organusername==nil %>
           <div id="xoverlay" style="display: block;">
-            <b>目前还没有理财师来帮您。</b> <!--<a class="btns" href="#" target="_blank">提高服务费</a> -->
+            <b>目前还没有理财师来帮您。</b>
             <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
           </div>
           <div id="lay2" style="height: 50px;"></div>
       <% elsif @hash2[0][1] ==nil %>
           <div id="xoverlay" style="display: block;">
-            <b>理财师正在辛勤的帮您规划，请耐心等待。如果三个工作日内还没有回复，请直接联系我们。</b> <!--<a class="btns" href="#" target="_blank"></a> -->
+            <b>理财师正在辛勤的帮您规划，请耐心等待。如果三个工作日内还没有回复，请直接联系我们。</b>
             <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
           </div>
           <div id="lay2" style="height: 50px;"></div>
@@ -78,6 +79,7 @@
           <div id="lay2" style="height: 50px;"></div>
       <% end %>
   <% end %>
+   -->
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
   <div class='row-fluid beta'>
     <div class="span8">
@@ -116,7 +118,7 @@
       <h4 class="tcol">家庭理财服务</h4>
       <a href='/home/questions' class='full' target="_blank">风险承受度评估</a>
       <a href='/home/scheme' class='full' target="_blank">规划服务</a>
-      <a href='/bankinvest/index?category_all=yhlc' class='full' target="_blank">理财产品</a>
+      <a href='/bankinvest/products' class='full' target="_blank">理财产品</a>
     </div>
     <div class="span2">
       <h4 class="tcol">家庭理财知识</h4>

@@ -520,10 +520,29 @@
     where[0]= new comefrom("请选择","请选择");
     var dateNow = new Date();
     var yearNow = dateNow.getFullYear();
+    var monthNow = dateNow.getMonth()+1;
     var y=yearNow;
-    for(var a=1;a<=20;a++){
-        where[a]= new comefrom(y+"年","|1月|2月|3月|4月|5月|6月|7月|8月|9月|10月|11月|12月");
+    var thisyear="",nextyear="";
+    for(i=monthNow;i<=12;i++){
+       if(thisyear==""){
+           thisyear='|'+i+'月';
+       }
+        else{
+           thisyear=thisyear+'|'+i+'月';
+       }
+    }
+    for(i=1;i<monthNow;i++){
+       if(nextyear==""){
+           nextyear='|'+i+'月';
+       }
+        else{
+           nextyear=nextyear+'|'+i+'月';
+       }
+    }
+    where[1]= new comefrom(y+"年",thisyear);
         y=y+1;
+    if(nextyear!=""){
+    where[2]= new comefrom(y+"年",nextyear);
     }
 
     function select() {
