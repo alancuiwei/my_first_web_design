@@ -218,6 +218,8 @@ class AdminController < ApplicationController
   end
 
   def financialconfigajax
+    @category2=Category_2.find_by_category_and_classify(params[:category],params[:classify])
+    @risklevel=@category2.risklevel
     if params[:id]=="0"
       Financial.new do |b|
         b.category=params[:category]
@@ -226,7 +228,7 @@ class AdminController < ApplicationController
         b.trusts=params[:trusts]
         b.rate=params[:rate]
         b.startvalue=params[:startvalue]
-        b.risklevel=params[:risklevel]
+        b.risklevel=@risklevel
         b.risktip=params[:risktip]
         b.pintroduction=params[:pintroduction]
         b.investperiod=params[:investperiod]
@@ -237,7 +239,7 @@ class AdminController < ApplicationController
     else
       @financial=Financial.find_by_id(params[:id])
       @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],
-             :rate=>params[:rate],:startvalue=>params[:startvalue],:risklevel=>params[:risklevel],:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
+             :rate=>params[:rate],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
       render :json => "s2".to_json
     end
   end

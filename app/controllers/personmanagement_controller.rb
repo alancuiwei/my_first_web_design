@@ -335,6 +335,11 @@ class PersonmanagementController < ApplicationController
   end
 
   def personfinance
+    @financial=Financial.all
+    @hash3={}
+    for i in 0..@financial.size-1
+      @hash3.store(@financial[i].category+@financial[i].classify,[@financial[i].pname])
+    end
     if  session[:webusername]!=nil
       @webusers=Webuser.find_by_username(session[:webusername])
     else

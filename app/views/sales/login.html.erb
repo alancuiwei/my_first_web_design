@@ -372,11 +372,13 @@
                     else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
                     else if(save.split(',')[5]=='G'){trade='公务员';}
                     var risktolerance='<%= params[:risk] %>';
+                  <% if params[:score]!="" %>
                     $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',
                         amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',additional:'<%= params[:additional] %>',
                         rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>',pinmoney:'<%= params[:pinmoney] %>'},function(data){
 
                     });
+                  <% end %>
                     $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= params[:age] %>',risktolerance:risktolerance,bank: '<%= params[:bank] %>',
                         investamount:  '<%= params[:investamount] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                     },function(data){

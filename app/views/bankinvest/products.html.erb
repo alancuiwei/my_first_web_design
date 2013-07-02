@@ -51,27 +51,27 @@
 
 <div class="main-content organ">
   <a href="/">首页</a>
-  <h1 class="deploy">理财产品：</h1>
+  <h1 class="deploy" style="padding-bottom: 0;">理财产品<br>
+    <span style="font-size: 14px;">我们为您提供最及时的理财产品信息，供你做选择。</span>
+  </h1>
 
   <table class="table table-striped table-bordered footable" id="products"  cellpadding="0" cellspacing="0" border="0">
     <thead>
     <tr>
-      <th data-sort-initial="descending" data-class="expand">管理机构</th>
       <th data-sort-ignore="true" style="min-width: 50px;">产品名称</th>
+      <th data-sort-initial="descending" data-class="expand">管理机构</th>
       <th data-hide="phone,tablet">近1年收益率</th>
-      <th data-hide="phone,tablet">起售价</th>
-      <th data-hide="phone,tablet">投资期限</th>
+      <th data-hide="phone,tablet">起售价(元)</th>
       <th data-hide="phone,tablet">手续费</th>
       <th data-hide="phone">详情</th>
     </tr></thead>
 
   <% @financial.each do |f| %>
       <tr>
-        <td><%= f.trusts %></td>
         <td><%= f.pname %></td>
+        <td><%= f.trusts %></td>
         <td><% if f.rate !=nil %><%= format("%0.1f",f.rate*100) %>%<% end %></td>
         <td><% if f.startvalue !=nil %><%= format("%0.0f",f.startvalue) %><% end %></td>
-        <td><%= f.investperiod %></td>
         <td><% if f.poundage !=nil %><%=  format("%0.1f",f.poundage) %>%<% end %></td>
         <td><a href="/bankinvest/productdetails/<%= f.id %>">查看</a></td>
       </tr>

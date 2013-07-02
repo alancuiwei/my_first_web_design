@@ -2,23 +2,27 @@
 
 <style>
   .details td.right{
-      width: 26%;
-      white-space:pre-line;
-      line-height: 20px;
-      font-size: 12px;
-      text-align: center;
-      background-color: #ffffff!important;
+      font-family: "Open Sans",Helvetica,Arial,sans-serif;
+      margin: 0;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(68, 68, 68);
   }
   .details td.left{
-      width:24%;
+      width:15%;
       vertical-align: middle;
-      color: #000000;
       background-color: #fbfbfb;
       font-weight: normal;
-      font-size: 14px;
+      font-size: 17px;
+      line-height: 17px;
       text-align: left;
       padding-left: 10px;
+      font-family: "helvetica neue",helvetica,arial,sans-serif;
+      font-weight: 600;
+      color: rgb(51, 51, 51);
   }
+
   .box_left_title1 {
       padding-bottom: 10px;
   }
@@ -36,16 +40,16 @@
     <div class="box_left_title2_left" style="width: 100%;">
       <ul>
         <li>
-          <span class="qq_bankbig red"><%=  format("%0.1f",@financial.rate*100)%>%</span>
+          <span class="qq_bankbig red"><% if @financial.rate !=nil %><%=  format("%0.1f",@financial.rate*100)%>%<% end %></span>
           <span class="qq_banksmall">近1年收益率</span>
         </li>
         <li>
           <span class="qq_bankbig red">
-            <% if @financial.risklevel==1 %>低
-            <% elsif  @financial.risklevel==2 %>中低
-            <% elsif  @financial.risklevel==3 %>中
-            <% elsif  @financial.risklevel==4 %>中高
-            <% elsif  @financial.risklevel==5 %>高
+            <% if @financial.risklevel==1 %>无风险
+            <% elsif  @financial.risklevel==2 %>低风险
+            <% elsif  @financial.risklevel==3 %>中级风险
+            <% elsif  @financial.risklevel==4 %>高风险
+            <% elsif  @financial.risklevel==5 %>极高风险
             <% end %>
           </span>
           <span class="qq_banksmall">风险级别</span>
@@ -66,22 +70,26 @@
     <tr>
       <td class="left">管理机构</td>
       <td class="right"><%= @financial.trusts %></td>
+    </tr>
+    <tr>
       <td class="left">最低投资金额</td>
       <td class="right"><%= @financial.startvalue %></td>
     </tr>
     <tr>
       <td class="left">手续费</td>
       <td class="right"><% if @financial.poundage !=nil %><%=  format("%0.1f",@financial.poundage) %>%<% end %></td>
+    </tr>
+    <tr>
       <td class="left">投资期限</td>
       <td class="right"><%= @financial.investperiod %></td>
     </tr>
     <tr>
       <td class="left">风险提示</td>
-      <td class="right" colspan="3"><%= @financial.risktip %></td>
+      <td class="right"><%= @financial.risktip %></td>
     </tr>
     <tr>
       <td class="left">产品简介</td>
-      <td class="right" colspan="3"><%= @financial.pintroduction %></td>
+      <td class="right"><%= @financial.pintroduction %></td>
     </tr>
   </table>
     </div>
