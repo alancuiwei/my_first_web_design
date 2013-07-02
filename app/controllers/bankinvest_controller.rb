@@ -15,6 +15,18 @@ class BankinvestController < ApplicationController
     @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,session[:webusername])
   end
 
+  def products
+    @financial=Financial.order("id DESC").all
+  end
+
+  def productdetails
+    if params[:id]!=nil
+      @financial=Financial.find_by_id(params[:id])
+    else
+      redirect_to(:controller=>"bankinvest", :action=>"products")
+    end
+  end
+
   def details
     @banfinance=Bankfinance.find_by_id(params[:bid])
     @reserve=Reserve.find_all_by_bname(@banfinance.bname)

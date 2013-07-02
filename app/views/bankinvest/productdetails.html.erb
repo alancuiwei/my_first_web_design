@@ -1,0 +1,88 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<style>
+  .details td.right{
+      width: 26%;
+      white-space:pre-line;
+      line-height: 20px;
+      font-size: 12px;
+      text-align: center;
+      background-color: #ffffff!important;
+  }
+  .details td.left{
+      width:24%;
+      vertical-align: middle;
+      color: #000000;
+      background-color: #fbfbfb;
+      font-weight: normal;
+      font-size: 14px;
+      text-align: left;
+      padding-left: 10px;
+  }
+  .box_left_title1 {
+      padding-bottom: 10px;
+  }
+</style>
+
+<div class="main-content details">
+  <div style="width: 60%;min-width: 692px;">
+  <a href="/">首页</a>&nbsp;>&nbsp;<a href="/bankinvest/products">理财产品</a>
+  <br><br>
+  <div class="box_left_title1">
+    <span style="line-height: 35px;">产品名称：<%= @financial.pname %></span><br>
+    <span style="font-size: 12px;">我们为您提供最及时的理财产品信息，供你做选择。</span>
+  </div>
+  <div class="box_left_title2">
+    <div class="box_left_title2_left" style="width: 100%;">
+      <ul>
+        <li>
+          <span class="qq_bankbig red"><%=  format("%0.1f",@financial.rate*100)%>%</span>
+          <span class="qq_banksmall">近1年收益率</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red">
+            <% if @financial.risklevel==1 %>低
+            <% elsif  @financial.risklevel==2 %>中低
+            <% elsif  @financial.risklevel==3 %>中
+            <% elsif  @financial.risklevel==4 %>中高
+            <% elsif  @financial.risklevel==5 %>高
+            <% end %>
+          </span>
+          <span class="qq_banksmall">风险级别</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><%= @financial.category %></span>
+          <span class="qq_banksmall">产品大类</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><%= @financial.classify %></span>
+          <span class="qq_banksmall">产品小类</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered">
+    <tr>
+      <td class="left">管理机构</td>
+      <td class="right"><%= @financial.trusts %></td>
+      <td class="left">最低投资金额</td>
+      <td class="right"><%= @financial.startvalue %></td>
+    </tr>
+    <tr>
+      <td class="left">手续费</td>
+      <td class="right"><% if @financial.poundage !=nil %><%=  format("%0.1f",@financial.poundage) %>%<% end %></td>
+      <td class="left">投资期限</td>
+      <td class="right"><%= @financial.investperiod %></td>
+    </tr>
+    <tr>
+      <td class="left">风险提示</td>
+      <td class="right" colspan="3"><%= @financial.risktip %></td>
+    </tr>
+    <tr>
+      <td class="left">产品简介</td>
+      <td class="right" colspan="3"><%= @financial.pintroduction %></td>
+    </tr>
+  </table>
+    </div>
+</div>

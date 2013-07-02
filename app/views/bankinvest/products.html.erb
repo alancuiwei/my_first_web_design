@@ -1,0 +1,88 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
+
+<style>
+    #products th,#products td{
+        text-align: center;
+    }
+    tr.even td.sorting_1 {
+        background-color: #ffffff;
+    }
+    .footable.breakpoint > tbody > tr > td.expand {
+        background: url('/assets/plus.png') no-repeat 5px center;
+        padding-left: 40px!important;
+    }
+    .dataTables_length {
+        font: 80% Hiragino Sans GB W3;
+        width: 40%;
+        margin: 5px;
+        float: left;
+    }
+    .dataTables_filter {
+        font: 80% Hiragino Sans GB W3;
+        width: 50%;
+        margin: 5px;
+        float: right;
+        text-align: right;
+    }
+    .dataTables_paginate {
+        font: 80% Hiragino Sans GB W3;
+        float: right;
+        text-align: right;
+    }
+    .paginate_disabled_previous, .paginate_enabled_previous {
+        padding-left: 23px;
+    }
+    .paginate_disabled_previous, .paginate_disabled_next {
+        color: #666 !important;
+    }
+    .paginate_disabled_next, .paginate_enabled_next {
+        padding-right: 23px;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="main-content organ">
+  <a href="/">首页</a>
+  <h1 class="deploy">理财产品：</h1>
+
+  <table class="table table-striped table-bordered footable" id="products"  cellpadding="0" cellspacing="0" border="0">
+    <thead>
+    <tr>
+      <th data-sort-initial="descending" data-class="expand">管理机构</th>
+      <th data-sort-ignore="true" style="min-width: 50px;">产品名称</th>
+      <th data-hide="phone,tablet">近1年收益率</th>
+      <th data-hide="phone,tablet">起售价</th>
+      <th data-hide="phone,tablet">投资期限</th>
+      <th data-hide="phone,tablet">手续费</th>
+      <th data-hide="phone">详情</th>
+    </tr></thead>
+
+  <% @financial.each do |f| %>
+      <tr>
+        <td><%= f.trusts %></td>
+        <td><%= f.pname %></td>
+        <td><% if f.rate !=nil %><%= format("%0.1f",f.rate*100) %>%<% end %></td>
+        <td><% if f.startvalue !=nil %><%= format("%0.0f",f.startvalue) %><% end %></td>
+        <td><%= f.investperiod %></td>
+        <td><% if f.poundage !=nil %><%=  format("%0.1f",f.poundage) %>%<% end %></td>
+        <td><a href="/bankinvest/productdetails/<%= f.id %>">查看</a></td>
+      </tr>
+  <% end %>
+  </table>
+
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('#products').dataTable();
+    });
+</script>
