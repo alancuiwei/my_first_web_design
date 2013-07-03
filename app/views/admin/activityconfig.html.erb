@@ -17,6 +17,7 @@
   活动开始时间：<input type="text" name="begintime" id="begintime" title="活动开始时间" onclick="WdatePicker()" class="Wdate"> <br>
   活动结束时间：<input type="text" name="endtime" id="endtime" title="活动结束时间" onclick="WdatePicker()" class="Wdate"> <br>
   活动链接：<input type="text" name="link" id="link"> <br>
+  活动视频：<input type="text" name="video" id="video"> <br>
   <% if params[:id]!="0" %>
       活动介绍：<br><textarea class="ckeditor" cols="80" rows="15" name="introduce" id="introduce" title="活动介绍"><%= @activity.introduce %></textarea><br>
       活动结果：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="result" id="result" title="活动结果"><%= @activity.result %></textarea> <br>
@@ -36,15 +37,7 @@
 </div>
 
 <script type="text/javascript">
-    <% if params[:id]!="0" %>
-    $("#name").attr("value",'<%= @activity.name %>');
-    $("#naturef").attr("value",'<%= @activity.naturef %>');
-    $("#natures").attr("value",'<%= @activity.natures %>');
-    $("#organizer").attr("value",'<%= @activity.organizer %>');
-    $("#begintime").attr("value",'<%= @activity.begintime %>');
-    $("#endtime").attr("value",'<%= @activity.endtime %>');
-    $("#link").attr("value",'<%= @activity.link %>');
-    <% end %>
+
     function CKupdate() {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
@@ -63,11 +56,7 @@
         }
         CKupdate();
         if(($("#naturef").attr("value")=='请选择'||$("#natures").attr("value")=='') && nom_flag==0){
-        <% if params[:id]!="0" %>
-            alert("请选择活动性质！(之前的选择：<%= @activity.naturef %>-<%= @activity.natures %>)");
-        <% else %>
             alert("请选择活动性质！");
-        <% end %>
             nom_flag=1;
         }
         if($("#natures").attr("value")=='网络教学' && nom_flag==0){
@@ -102,12 +91,12 @@
                 nom_flag=1;
             }
 
-
+            var video=$("#video").attr("value").replace('width=510','style="width: 100%;max-width: 511px;"')
         if(nom_flag==0){
             $.post("/admin/activityconfigajax/<%= params[:id] %>",{ name: $("#name").attr("value"),naturef: $("#naturef").attr("value"),
                 natures: $("#natures").attr("value"),organizer: $("#organizer").attr("value"),begintime: $("#begintime").attr("value"),
                 endtime: $("#endtime").attr("value"),introduce:$("#introduce").attr("value"),result:$("#result").attr("value"),
-                charge:$("#charge").attr("value"),address:$("#address").attr("value"),link:$("#link").attr("value"),reward:$("#reward").attr("value")
+                charge:$("#charge").attr("value"),address:$("#address").attr("value"),link:$("#link").attr("value"),reward:$("#reward").attr("value"),video:video
             },function(data){
                 if(data=="s1"){
                     alert("活动创建成功！");
@@ -165,5 +154,18 @@
 
     $(document).ready(function(){
         init();
+        <% if params[:id]!="0" %>
+        $("#name").attr("value",'<%= @activity.name %>');
+        $("#naturef").attr("value",'<%= @activity.naturef %>');
+        $("#natures").attr("value",'<%= @activity.natures %>');
+        $("#organizer").attr("value",'<%= @activity.organizer %>');
+        $("#begintime").attr("value",'<%= @activity.begintime %>');
+        $("#endtime").attr("value",'<%= @activity.endtime %>');
+        $("#link").attr("value",'<%= @activity.link %>');
+        $("#video").attr("value",'<%=raw @activity.video %>');
+        $("#naturef").attr("value",'<%= @activity.naturef %>');
+        select();
+        $("#natures").attr("value",'<%= @activity.natures %>');
+        <% end %>
     });
 </script>

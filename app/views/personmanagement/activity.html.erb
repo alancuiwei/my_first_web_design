@@ -75,10 +75,10 @@
       <td class="left"><h1>奖励方式：</h1></td>
       <td><p class="q-text"><%=raw @activity.reward %></p></td>
     </tr>
-    <% if @activity.id==415 %>
+    <% if @activity.video!=nil %>
     <tr>
       <td class="left"><h1>活动视频介绍：</h1></td>
-      <td><iframe height=498 style="width: 100%;max-width: 510px;" src="http://player.youku.com/embed/XNTcyODY4MDc2" frameborder=0 allowfullscreen></iframe></td>
+      <td><%=raw @activity.video %></td>
     </tr>
     <% end %>
     <tr>
