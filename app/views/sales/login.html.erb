@@ -315,11 +315,11 @@
                 else if( data=="organ2"){
                     alert("该用户为理财师，注册信息正在审核中，我们将在注册后2个工作日内给您答复");
                 }
-               // else if('<%= params[:actions] %>'=='1'){
-               //     $.get("/sales/zhifubao",{username:$('#username').attr("value"),scharge:'50',actions:1},function(data){
-               //         location.href=data;
-               //     });
-               // }
+                else if('<%= params[:dreamset] %>'!=""){
+                    $.get("/usersurvey/dreamsset",{username:$(uid).attr("value"),dreamset:'<%= params[:dreamset] %>'},function(data){
+                        location.href="/personmanagement/personfinance";
+                    });
+                }
                 else if('<%= params[:risk] %>'!=''){
                     var returnrate=0;
                     var riskrate=0;

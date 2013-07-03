@@ -38,45 +38,33 @@
 <h1><%= @webuser.username %>的个人首页</h1>
 <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
   <div class="row-fluid" style="height: 18px;">
-    <% if @webuser.risktolerance ==nil %>
+    <% if @webuser.score ==nil %>
         <div class="span12">
-          <a href="/home/questions"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <span class="disabled"><b>2.</b> <span>登记梦想</span><span class="separator"> > </span></span>   <div class="mobile"><br></div>
-          <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span> <div class="mobile"><br></div>
-          <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span> <div class="mobile"><br></div>
-          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+          <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
+          <span class="disabled"><b>2.</b> <span>风险承受力评估</span><span class="separator"> > </span></span>   <div class="mobile"><br></div>
+          <span class="disabled"><b>3.</b> <span>梦想目标设定</span><span class="separator"> > </span></span> <div class="mobile"><br></div>
+          <span class="disabled"><b>4.</b> <span>规划建议书生成</span></span>
         </div>
-    <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
+    <% elsif @webuser.risktolerance ==nil %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <a href="/usersurvey/apply"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <span class="disabled"><b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span></span>  <div class="mobile"><br></div>
-          <span class="disabled"><b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span></span>  <div class="mobile"><br></div>
-          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
+          <a href="/home/questions"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <span class="disabled"><b>3.</b> <span>梦想目标设定</span><span class="separator"> > </span></span>  <div class="mobile"><br></div>
+          <span class="disabled"><b>4.</b> <span>规划建议书生成</span></span>
         </div>
-    <% elsif @webuser.organusername==nil %>
+    <% elsif @webuser.dreamset ==nil %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <b>3.</b> <span>等待理财师帮助</span><span class="separator"> > </span>       <div class="mobile"><br></div>
-          <span class="disabled"><b>4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span></span>   <div class="mobile"><br></div>
-          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
-        </div>
-    <% elsif @hash2[0][1] ==nil %>
-        <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <b>4.</b> <span>梦想规划设计</span><span class="separator"> > </span>   <div class="mobile"><br></div>
-          <span class="disabled"><b>5.</b> <span>梦想成真中</span></span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/dreamset"><b>3.</b> <span>梦想目标设定</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <span class="disabled"><b>4.</b> <span>规划建议书生成</span></span>
         </div>
     <% else %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>风险承受度评估</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>登记梦想</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>等待理财师帮助</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成">4.</b> <span>梦想规划设计</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <b>5.</b> <span>梦想成真中</span>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>梦想目标设定</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <b>4.</b> <span>规划建议书生成</span>
         </div>
     <% end %>
   </div>
@@ -139,6 +127,7 @@
 <div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
   <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;"><%= @webuser.username %>的梦想</span></p>
   <p class="product-description" style="line-height: 12px;width: 69%;">因梦想而伟大
+    <!--
     <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
         <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
     <% else %>
@@ -146,6 +135,7 @@
             <a style="width: 100px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
         <% end %>
     <% end %>
+     -->
   </p>
 </div>
 <table style="width: 100%;">
@@ -158,27 +148,27 @@
         <tr  class="" data-type="US_STOCKS">
           <td id="td1" style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
           <td id="td2" style="border: 0;width: 47%;">梦想</td>
-          <td id="td3" style="border: 0;"><% if @webuser.dream !=nil && @webuser.organuser!='2' %><%= @webuser.dream %><% else %>没有<% end %></td>
+          <td id="td3" style="border: 0;"><% if @webuser.dreamset !=nil %><%= @webuser.dreamset %><% else %>没有<% end %></td>
         </tr>
         <tr  class="" data-type="US_STOCKS">
           <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
           <td>梦想价值</td>
-          <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.amount !=nil %><span class="num"><%= format("%0.0f",@webuser.amount) %></span><% end %><% else %>没有<% end %></td>
+          <td><% if @webuser.dreamset !=nil %>无价<% else %>没有<% end %></td>
         </tr>
         <tr  class="" data-type="US_STOCKS">
           <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
           <td>已有存款</td>
-          <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.exeitdeposit !=nil %><span class="num"><%= format("%0.0f",@webuser.exeitdeposit) %></span><% end %><% else %>没有<% end %></td>
+          <td id="jixu"></td>
         </tr>
         <tr  class="" data-type="US_STOCKS">
           <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
           <td>每月存款</td>
-          <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><% if @webuser.monthpay !=nil %><span class="num"><%= format("%0.0f",@webuser.monthpay) %></span><% end %><% else %>没有<% end %></td>
+          <td id="deposit"></td>
         </tr>
         <tr  class="" data-type="US_STOCKS">
           <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
           <td>实现时间</td>
-          <td><% if @webuser.dream !=nil && @webuser.organuser!='2' %><span class="num"><%= @webuser.realizetime %></span><% else %>没有<% end %></td>
+          <td><% if @webuser.dreamset !=nil %>1年<% else %>没有<% end %></td>
         </tr>
       </table>
     </td>
@@ -540,7 +530,7 @@
        }
     }
     where[1]= new comefrom(y+"年",thisyear);
-        y=y+1;
+    y=y+1;
     if(nextyear!=""){
     where[2]= new comefrom(y+"年",nextyear);
     }
@@ -731,7 +721,13 @@
             wen=1000;
             xian=xian+wen-1000;
         }
-
+        <% if @webuser.dreamset !=nil %>
+        $("#jixu").html(jixu);
+        $("#deposit").html(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'));
+        <% else %>
+        $("#jixu").html("没有");
+        $("#deposit").html("没有");
+        <% end %>
         $("#amount1").html(xianjin);
         $("#amount2").html(wenjian);
         $("#amount3").html(fengxian);

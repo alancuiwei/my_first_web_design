@@ -52,6 +52,14 @@ class UsersurveyController < ApplicationController
     end
   end
 
+  def dreamsset
+    @webuser = Webuser.find_by_username(params[:username])
+   if @webuser!=nil
+    @webuser.update_attributes(:dreamset=>params[:dreamset])
+   end
+    render :json => "s".to_json
+  end
+
   def dreamrevise
     @webuser=Webuser.find_by_id(params[:id])
   end
