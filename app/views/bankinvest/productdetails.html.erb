@@ -74,7 +74,7 @@
     </tr>
     <tr>
       <td class="left">最低投资金额</td>
-      <td class="right"><%= @financial.startvalue %></td>
+      <td class="right"><% if @financial.startvalue!=nil %><%= @financial.startvalue %>元<% end %></td>
     </tr>
     <tr>
       <td class="left">手续费</td>
@@ -82,7 +82,7 @@
     </tr>
     <tr>
       <td class="left">投资期限</td>
-      <td class="right"><%= @financial.investperiod %></td>
+      <td class="right"><% if @financial.investperiod!=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.investperiod %><%= @financial.investperiod %>天<% else %><%= @financial.investperiod %><% end %><% end %></td>
     </tr>
     <tr>
       <td class="left">风险提示</td>

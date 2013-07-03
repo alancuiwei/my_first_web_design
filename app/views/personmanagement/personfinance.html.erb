@@ -235,7 +235,7 @@
               <tr class="" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="流动性资产">流动性资产</a></span>
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="流动型资产">流动型资产</a></span>
                 </td>
                 <td id="proposed1" class="asset-class-percentage number"></td>
                 <td id="rate1" class="asset-class-amount number"></td>
@@ -377,82 +377,82 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="" data-type="MUNI_BONDS">
+              <tr class="monthpay1" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
                 <td>月开销</td>
                 <td>吃喝住行</td>
-                <td class="amount"></td>
+                <td class="amounts1"></td>
                 <td></td>
               </tr>
-              <tr class="" data-type="MUNI_BONDS">
-                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                <td>流动型资产</td>
-                <td>货币基金</td>
-                <td><%= @hash3['随存随取型资产货币基金'][0] %></td>
-                <td class="amount"></td>
-                <td></td>
-              </tr>
-              <tr class="" data-type="MUNI_BONDS">
+              <tr class="monthpay3" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
                 <td>银行活期</td>
                 <td><%= @hash3['随存随取型资产活期存款'][0] %></td>
-                <td class="amount"></td>
+                <td class="amounts3"></td>
                 <td></td>
               </tr>
-              <tr class="" data-type="INTL_EMERGING">
+              <tr class="monthpay2" data-type="MUNI_BONDS">
+                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                <td>流动型资产</td>
+                <td>货币基金</td>
+                <td><%= @hash3['随存随取型资产货币基金'][0] %></td>
+                <td class="amounts2"></td>
+                <td></td>
+              </tr>
+              <tr class="monthpay4" data-type="INTL_EMERGING">
                 <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                 <td>保本型资产</td>
                 <td>保本型基金</td>
                 <td><%= @hash3['保本型资产保本型基金'][0] %></td>
-                <td class="amount"></td>
+                <td class="amounts4"></td>
                 <td></td>
               </tr>
               <% if  @webuser.risktolerance!=nil %>
                   <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-                      <tr class="" data-type="US_STOCKS">
+                      <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>保本型基金</td>
                         <td></td>
-                        <td class="amount"></td>
+                        <td class="amounts5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                      <tr class="" data-type="US_STOCKS">
+                      <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>纯债型基金</td>
                         <td><%= @hash3['风险型资产纯债型基金'][0] %></td>
-                        <td class="amount"></td>
+                        <td class="amounts5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                      <tr class="" data-type="US_STOCKS">
+                      <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>偏债型基金</td>
                         <td><%= @hash3['风险型资产偏债型基金'][0] %></td>
-                        <td class="amount"></td>
+                        <td class="amounts5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                      <tr class="" data-type="US_STOCKS">
+                      <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>指数型基金</td>
                         <td><%= @hash3['风险型资产指数型基金'][0] %></td>
-                        <td class="amount"></td>
+                        <td class="amounts5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-                      <tr class="" data-type="US_STOCKS">
+                      <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>P2P理财产品</td>
-                        <td><%= @hash3['风险型资产P2P理财产品'][0] %></td>
-                        <td class="amount"></td>
+                        <td></td>
+                        <td class="amounts5"></td>
                         <td></td>
                       </tr>
                   <% end %>
@@ -536,6 +536,32 @@
     }
 
     function select() {
+
+    <% if @examination !=nil %>
+        var xianjin=0;
+        var wenjian=0;
+        var fengxian=0;
+        var variety='<%= @examination.variety %>'.split(",");
+        var amount='<%= @examination.amount %>'.split(",");
+        for(i=0;i<variety.length;i++){
+            if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
+            else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
+            else if(variety[i]=="基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
+        }
+        var jixu=xianjin+wenjian+fengxian;
+        var total=(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'))*12+jixu;//总资产
+        var xian=(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))*3;
+        var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
+        var wen=total-xian-feng;
+        if(wen<1000){
+            wen=1000;
+            xian=xian+wen-1000;
+        }
+    <% end %>
+
         with(document.creator.year) { var loca2 = options[selectedIndex].value; }
         for(i = 0;i < where.length;i ++) {
             if (where[i].loca == loca2) {
@@ -543,7 +569,71 @@
                 for(j = 0;j < loca3.length;j++) { with(document.creator.month) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
                 break;
             }}
-        $(".amount").html(loca2+" "+loca4);
+    <% if @examination !=nil %>
+        $(".amounts1").html(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'));
+       if(xianjin>1/3*xian){
+        $(".amounts3").html(1/3*xian);
+        var remain1=xianjin-1/3*xian;
+           if(remain1>2/3*xian){
+               $(".amounts2").html(2/3*xian);
+               var remain2=remain1-2/3*xian;
+               if(wen<=wenjian){
+                   $(".monthpay4").hide();
+                   var remain3=remain2;
+                   if(feng<=fengxian){
+                       $(".monthpay5").hide();
+                   }
+                   else{
+                       if(remain3+fengxian>feng){
+                           $(".amounts5").html(feng-fengxian);
+                           var remain4=remain3+fengxian-feng;
+                           $(".amounts4").html(wen-wenjian+remain4);
+                       }
+                       else{
+                           $(".amounts5").html(remain3);
+                       }
+                   }
+               }
+               else{
+                   if(remain2+wenjian>wen){
+                       $(".amounts4").html(wen-wenjian);
+                       var remain3=remain2+wenjian-wen;
+                       if(feng<=fengxian){
+                           $(".monthpay5").hide();
+                           var remain4=remain3;
+                           $(".amounts4").html(wen-wenjian+remain4);
+                       }
+                       else{
+                           if(remain3+fengxian>feng){
+                               $(".amounts5").html(feng-fengxian);
+                               var remain4=remain3+fengxian-feng;
+                               $(".amounts4").html(wen-wenjian+remain4);
+                   }
+                   else{
+                       $(".amounts5").html(remain3);
+                   }
+               }
+                   }
+               else{
+                   $(".amounts4").html(remain2);
+               }
+           }
+           }
+           else{
+               $(".amounts2").html(remain1);
+           }
+       }
+        else{
+           $(".amounts3").html(xianjin);
+       }
+
+        if(wen<=wenjian){
+            $(".monthpay4").hide();
+        }
+        if(feng<=fengxian){
+            $(".monthpay5").hide();
+        }
+    <% end %>
         document.creator.newlocation.value=loca2+" "+loca4;
     }
 

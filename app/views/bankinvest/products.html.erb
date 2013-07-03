@@ -62,6 +62,7 @@
       <th data-sort-initial="descending" data-class="expand">管理机构</th>
       <th data-hide="phone,tablet">收益率</th>
       <th data-hide="phone,tablet">起售价(元)</th>
+      <th data-hide="phone,tablet">风险级别</th>
       <th data-hide="phone,tablet">手续费</th>
       <th data-hide="phone">详情</th>
     </tr></thead>
@@ -72,6 +73,14 @@
         <td><%= f.trusts %></td>
         <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
         <td><% if f.startvalue !=nil %><%= format("%0.0f",f.startvalue) %><% end %></td>
+        <td>
+          <% if f.risklevel==1 %>无风险
+          <% elsif  f.risklevel==2 %>低风险
+          <% elsif  f.risklevel==3 %>中级风险
+          <% elsif  f.risklevel==4 %>高风险
+          <% elsif  f.risklevel==5 %>极高风险
+          <% end %>
+        </td>
         <td><% if f.poundage !=nil %><%=  format("%0.1f",f.poundage) %>%<% end %></td>
         <td><a href="/bankinvest/productdetails/<%= f.id %>">查看</a></td>
       </tr>
