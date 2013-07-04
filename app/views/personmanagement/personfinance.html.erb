@@ -514,27 +514,28 @@
     var y=yearNow;
     var thisyear="",nextyear="";
     for(i=monthNow;i<=12;i++){
-       if(thisyear==""){
-           thisyear='|'+i+'月';
-       }
+        if(thisyear==""){
+            thisyear='|'+i+'月';
+        }
         else{
-           thisyear=thisyear+'|'+i+'月';
-       }
+            thisyear=thisyear+'|'+i+'月';
+        }
     }
-    for(i=1;i<monthNow;i++){
-       if(nextyear==""){
-           nextyear='|'+i+'月';
-       }
+    for(i=1;i<=monthNow;i++){
+        if(nextyear==""){
+            nextyear='|'+i+'月';
+        }
         else{
-           nextyear=nextyear+'|'+i+'月';
-       }
+            nextyear=nextyear+'|'+i+'月';
+        }
     }
     where[1]= new comefrom(y+"年",thisyear);
     y=y+1;
     if(nextyear!=""){
-    where[2]= new comefrom(y+"年",nextyear);
+        where[2]= new comefrom(y+"年",nextyear);
     }
 
+    var arrayObj = new Array();
     function select() {
 
     <% if @examination !=nil %>
@@ -552,7 +553,8 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
-        var total=(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'))*12+jixu;//总资产
+        var monthdeposit=parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>');
+        var total=monthdeposit*12+jixu;//总资产
         var xian=(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))*3;
         var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         var wen=total-xian-feng;
@@ -561,7 +563,6 @@
             xian=xian+wen-1000;
         }
     <% end %>
-
         with(document.creator.year) { var loca2 = options[selectedIndex].value; }
         for(i = 0;i < where.length;i ++) {
             if (where[i].loca == loca2) {
@@ -569,71 +570,362 @@
                 for(j = 0;j < loca3.length;j++) { with(document.creator.month) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
                 break;
             }}
-    <% if @examination !=nil %>
-        $(".amounts1").html(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'));
-       if(xianjin>1/3*xian){
-        $(".amounts3").html(1/3*xian);
-        var remain1=xianjin-1/3*xian;
-           if(remain1>2/3*xian){
-               $(".amounts2").html(2/3*xian);
-               var remain2=remain1-2/3*xian;
-               if(wen<=wenjian){
-                   $(".monthpay4").hide();
-                   var remain3=remain2;
-                   if(feng<=fengxian){
-                       $(".monthpay5").hide();
-                   }
-                   else{
-                       if(remain3+fengxian>feng){
-                           $(".amounts5").html(feng-fengxian);
-                           var remain4=remain3+fengxian-feng;
-                           $(".amounts4").html(wen-wenjian+remain4);
-                       }
-                       else{
-                           $(".amounts5").html(remain3);
-                       }
-                   }
-               }
-               else{
-                   if(remain2+wenjian>wen){
-                       $(".amounts4").html(wen-wenjian);
-                       var remain3=remain2+wenjian-wen;
-                       if(feng<=fengxian){
-                           $(".monthpay5").hide();
-                           var remain4=remain3;
-                           $(".amounts4").html(wen-wenjian+remain4);
-                       }
-                       else{
-                           if(remain3+fengxian>feng){
-                               $(".amounts5").html(feng-fengxian);
-                               var remain4=remain3+fengxian-feng;
-                               $(".amounts4").html(wen-wenjian+remain4);
-                   }
-                   else{
-                       $(".amounts5").html(remain3);
-                   }
-               }
-                   }
-               else{
-                   $(".amounts4").html(remain2);
-               }
-           }
-           }
-           else{
-               $(".amounts2").html(remain1);
-           }
-       }
-        else{
-           $(".amounts3").html(xianjin);
-       }
 
-        if(wen<=wenjian){
-            $(".monthpay4").hide();
+        if(yearNow+'年'==loca2 && monthNow+'月'==loca4){
+        <% if @examination !=nil %>
+        //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
+        //    alert(a)
+            var amounts1=parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>');
+            $(".amounts1").html(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'));
+            $(".amounts2").html('');
+            $(".amounts3").html('');
+            $(".amounts4").html('');
+            $(".amounts5").html('');
+            if(xianjin>1/3*xian){
+                var amounts3=0;
+                $(".amounts3").html(1/3*xian);
+                var remain1=xianjin-1/3*xian;
+                if(remain1>2/3*xian){
+                    var amounts2=0;
+                    $(".amounts2").html(2/3*xian);
+                    var remain2=remain1-2/3*xian;
+                    if(wen<=wenjian){
+                        var amounts4=0;
+                        $(".monthpay4").hide();
+                        var remain3=remain2;
+                        if(feng<=fengxian){
+                            var amounts5=0;
+                            $(".monthpay5").hide();
+                        }
+                        else{
+                            if(remain3+fengxian>feng){
+                                var amounts5=0;
+                                $(".amounts5").html(feng-fengxian);
+                                var remain4=remain3+fengxian-feng;
+                                $(".amounts4").html(wen-wenjian+remain4);
+                            }
+                            else{
+                                var amounts5=feng-fengxian-remain3;
+                                $(".amounts5").html(remain3);
+                            }
+                        }
+                    }
+                    else{
+                        if(remain2+wenjian>wen){
+                            var amounts4=0;
+                            $(".amounts4").html(wen-wenjian);
+                            var remain3=remain2+wenjian-wen;
+                            if(feng<=fengxian){
+                                var amounts5=0;
+                                $(".monthpay5").hide();
+                                var remain4=remain3;
+                                $(".amounts4").html(wen-wenjian+remain4);
+                            }
+                            else{
+                                if(remain3+fengxian>feng){
+                                    var amounts5=0;
+                                    $(".amounts5").html(feng-fengxian);
+                                    var remain4=remain3+fengxian-feng;
+                                    $(".amounts4").html(wen-wenjian+remain4);
+                                }
+                                else{
+                                    var amounts5=feng-fengxian-remain3;
+                                    $(".amounts5").html(remain3);
+                                }
+                            }
+                        }
+                        else{
+                            var amounts4=wen-wenjian-remain2;
+                            var amounts5=feng-fengxian;
+                            $(".amounts4").html(remain2);
+                        }
+                    }
+                }
+                else{
+                    var amounts2=2/3*xian-remain1;
+                    var amounts4=wen-wenjian;
+                    var amounts5=feng-fengxian;
+                    $(".amounts2").html(remain1);
+                }
+            }
+            else{
+                var amounts3=1/3*xian-xianjin;
+                var amounts2=2/3*xian;
+                var amounts4=wen-wenjian;
+                var amounts5=feng-fengxian;
+                $(".amounts3").html(xianjin);
+            }
+
+            if(wen<=wenjian){
+                $(".monthpay4").hide();
+            }
+            if(feng<=fengxian){
+                $(".monthpay5").hide();
+            }
+        <% end %>
+            arrayObj[0]=[$(".amounts1").html(),amounts3,amounts2,amounts4,amounts5];
         }
-        if(feng<=fengxian){
-            $(".monthpay5").hide();
+        if(!(yearNow+'年'==loca2 && monthNow+'月'==loca4) && loca4!=""){
+            if(yearNow+'年'==loca2){
+                var month=parseFloat(loca4.replace("月",""))-monthNow;
+            }
+            else{
+                var month=parseFloat(loca4.replace("月",""))+12-monthNow;
+            }
+
+            for(i=1;i<=12;i++){
+                if(arrayObj[i-1][3]<=0){
+                    if(arrayObj[i-1][1]<=0){
+                        if(arrayObj[i-1][2]<=0){
+                            if(arrayObj[i-1][4]<=0){
+                                arrayObj[i]=[arrayObj[0][0],0,0,0,0,0,0,0,0];
+                            }
+                            else{
+                                if(feng/12<monthdeposit){
+                                    arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,0,0,0,feng/12];
+                                }
+                                else{
+                                    var a=arrayObj[i-1][4]-monthdeposit
+                                    arrayObj[i]=[arrayObj[0][0],0,0,0,a,0,0,0,monthdeposit];
+                                }
+                            }
+                        }
+                        else{
+                            if(arrayObj[i-1][2]<=monthdeposit){
+                                 if(arrayObj[i-1][4]<=0){
+                                     arrayObj[i]=[arrayObj[0][0],0,0,0,0,0,arrayObj[i-1][2],0,0];
+                                 }
+                                 else{
+                                     if(feng/12<monthdeposit-arrayObj[i-1][2]){
+                                         arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,0,arrayObj[i-1][2],0,feng/12];
+                                     }
+                                     else{
+                                         var a=arrayObj[i-1][4]-(monthdeposit-arrayObj[i-1][2])
+                                         arrayObj[i]=[arrayObj[0][0],0,0,0,a,0,arrayObj[i-1][2],0,monthdeposit-arrayObj[i-1][2]];
+                                     }
+                                 }
+                            }
+                            else{
+                                arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-monthdeposit,0,arrayObj[i-1][4],0,monthdeposit,0,0];
+                            }
+                        }
+                    }
+                    else{
+                        if(arrayObj[i-1][1]<=monthdeposit){
+                            var b=monthdeposit-arrayObj[i-1][1];
+                            if(arrayObj[i-1][2]<=0){
+                                if(arrayObj[i-1][4]<=0){
+                                    arrayObj[i]=[arrayObj[0][0],0,0,0,0,arrayObj[i-1][1],0,0,0];
+                                }
+                                else{
+                                    if(feng/12<b){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,arrayObj[i-1][1],0,0,feng/12];
+                                    }
+                                    else{
+                                        var a=arrayObj[0][4]-b
+                                        arrayObj[i]=[arrayObj[0][0],0,0,0,a,arrayObj[i-1][1],0,0,b];
+                                    }
+                                }
+                            }
+                            else{
+                                if(arrayObj[i-1][2]<=b){
+                                    if(arrayObj[i-1][4]<=0){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,0,0,arrayObj[i-1][1],arrayObj[i-1][2],0,0];
+                                    }
+                                    else{
+                                        if(feng/12<b-arrayObj[i-1][2]){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,arrayObj[i-1][1],arrayObj[i-1][2],0,feng/12];
+                                        }
+                                        else{
+                                            var a=arrayObj[i-1][4]-(b-arrayObj[i-1][2])
+                                            arrayObj[i]=[arrayObj[0][0],0,0,0,a,arrayObj[i-1][1],arrayObj[i-1][2],0,b-arrayObj[i-1][2]];
+                                        }
+                                    }
+                                }
+                                else{
+                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,0,arrayObj[i-1][4],0,b,0,0];
+                                }
+                            }
+                        }
+                        else{
+                            arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-monthdeposit,arrayObj[i-1][2],0,arrayObj[i-1][4],monthdeposit,0,0,0];
+                        }
+                    }
+                }
+                else{
+                    if(wen/12<monthdeposit){
+                        var d=monthdeposit-wen/12;
+                        if(arrayObj[i-1][1]<=0){
+                            if(arrayObj[i-1][2]<=0){
+                                if(arrayObj[i-1][4]<=0){
+                                    arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,0,0,0,wen/12,0];
+                                }
+                                else{
+                                    if(feng/12<d){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,arrayObj[0][4]-feng/12,0,0,wen/12,feng/12];
+                                    }
+                                    else{
+                                        var a=arrayObj[i-1][4]-d
+                                        arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,a,0,0,wen/12,d];
+                                    }
+                                }
+                            }
+                            else{
+                                if(arrayObj[i-1][2]<=d){
+                                    if(arrayObj[i-1][4]<=0){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,0,0,arrayObj[i-1][2],wen/12,0];
+                                    }
+                                    else{
+                                        if(feng/12<d-arrayObj[i-1][2]){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,arrayObj[0][4]-feng/12,0,arrayObj[i-1][2],wen/12,feng/12];
+                                        }
+                                        else{
+                                            var a=arrayObj[i-1][4]-(d-arrayObj[i-1][2])
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,a,0,arrayObj[i-1][2],wen/12,d-arrayObj[i-1][2]];
+                                        }
+                                    }
+                                }
+                                else{
+                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-d,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,d,wen/12,0];
+                                }
+                            }
+                        }
+                        else{
+                            if(arrayObj[i-1][1]<=d){
+                                var b=d-arrayObj[i-1][1];
+                                if(arrayObj[i-1][2]<=0){
+                                    if(arrayObj[i-1][4]<=0){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,0,arrayObj[i-1][1],0,wen/12,0];
+                                    }
+                                    else{
+                                        if(feng/12<b){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,arrayObj[0][4]-feng/12,arrayObj[i-1][1],0,wen/12,feng/12];
+                                        }
+                                        else{
+                                            var a=arrayObj[i-1][4]-b
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,a,arrayObj[i-1][1],0,wen/12,b];
+                                        }
+                                    }
+                                }
+                                else{
+                                    if(arrayObj[i-1][2]<=b){
+                                        if(arrayObj[i-1][4]<=0){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,0,arrayObj[i-1][1],arrayObj[i-1][2],wen/12,0];
+                                        }
+                                        else{
+                                            if(feng/12<b-arrayObj[i-1][2]){
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,arrayObj[0][4]-feng/12,arrayObj[i-1][1],arrayObj[i-1][2],wen/12,feng/12];
+                                            }
+                                            else{
+                                                var a=arrayObj[i-1][4]-(b-arrayObj[i-1][2])
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-wen/12,a,arrayObj[i-1][1],arrayObj[i-1][2],wen/12,b-arrayObj[i-1][2]];
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,b,wen/12,0];
+                                    }
+                                }
+                            }
+                            else{
+                                arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-d,arrayObj[i-1][2],arrayObj[0][3]-wen/12,arrayObj[i-1][4],d,0,wen/12,0];
+                            }
+                        }
+                    }
+                    else{
+                        if(arrayObj[i-1][3]<monthdeposit) {
+                            var c=monthdeposit-arrayObj[i-1][3];
+                            if(arrayObj[i-1][1]<=0){
+                                if(arrayObj[i-1][2]<=0){
+                                    if(arrayObj[i-1][4]<=0){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],0,0,0,arrayObj[i-1][3],0];
+                                    }
+                                    else{
+                                        if(feng/12<c){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[0][4]-feng/12,0,0,arrayObj[i-1][3],feng/12];
+                                        }
+                                        else{
+                                            var a=arrayObj[i-1][4]-c
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],a,0,0,arrayObj[i-1][3],c];
+                                        }
+                                    }
+                                }
+                                else{
+                                    if(arrayObj[i-1][2]<=c){
+                                        if(arrayObj[i-1][4]<=0){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],0,0,arrayObj[i-1][2],arrayObj[i-1][3],0];
+                                        }
+                                        else{
+                                            if(feng/12<c-arrayObj[i-1][2]){
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[0][4]-feng/12,0,arrayObj[i-1][2],arrayObj[i-1][3],feng/12];
+                                            }
+                                            else{
+                                                var a=arrayObj[i-1][4]-(c-arrayObj[i-1][2])
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],a,0,arrayObj[i-1][2],arrayObj[i-1][3],c-arrayObj[i-1][2]];
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-c,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,c,arrayObj[i-1][3],0];
+                                    }
+                                }
+                            }
+                            else{
+                                if(arrayObj[i-1][1]<=c){
+                                    var b=c-arrayObj[i-1][1];
+                                    if(arrayObj[i-1][2]<=0){
+                                        if(arrayObj[i-1][4]<=0){
+                                            arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],0,arrayObj[i-1][1],0,arrayObj[i-1][3],0];
+                                        }
+                                        else{
+                                            if(feng/12<b){
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[0][4]-feng/12,arrayObj[i-1][1],0,arrayObj[i-1][3],feng/12];
+                                            }
+                                            else{
+                                                var a=arrayObj[i-1][4]-b
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],a,arrayObj[i-1][1],0,arrayObj[i-1][3],b];
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        if(arrayObj[i-1][2]<=b){
+                                            if(arrayObj[i-1][4]<=0){
+                                                arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],0,arrayObj[i-1][1],arrayObj[i-1][2],arrayObj[i-1][3],0];
+                                            }
+                                            else{
+                                                if(feng/12<b-arrayObj[i-1][2]){
+                                                    arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[0][4]-feng/12,arrayObj[i-1][1],arrayObj[i-1][2],arrayObj[i-1][3],feng/12];
+                                                }
+                                                else{
+                                                    var a=arrayObj[i-1][4]-(b-arrayObj[i-1][2])
+                                                    arrayObj[i]=[arrayObj[0][0],0,0,arrayObj[0][3]-arrayObj[i-1][3],a,arrayObj[i-1][1],arrayObj[i-1][2],arrayObj[i-1][3],b-arrayObj[i-1][2]];
+                                                }
+                                            }
+                                        }
+                                        else{
+                                            arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,b,arrayObj[i-1][3],0];
+                                        }
+                                    }
+                                }
+                                else{
+                                    arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-c,arrayObj[i-1][2],arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],c,0,arrayObj[i-1][3],0];
+                                }
+                            }
+                        }
+                        else{
+                            arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1],arrayObj[i-1][2],arrayObj[i-1][3]-monthdeposit,arrayObj[i-1][4],0,0,monthdeposit,0];
+                        }
+                    }
+                }
+            }
+
+            $(".amounts1").html(arrayObj[month][0])
+            $(".amounts2").html(arrayObj[month][6])
+            $(".amounts3").html(arrayObj[month][5])
+            $(".amounts4").html(arrayObj[month][7])
+            $(".amounts5").html(arrayObj[month][8])
         }
-    <% end %>
+
         document.creator.newlocation.value=loca2+" "+loca4;
     }
 
