@@ -4,12 +4,10 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "nicEdit-latest.js" %>
+<!--[if !IE]><!-->
 <%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
-<script type="text/javascript">
-    //<![CDATA[
-    bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-    //]]>
-</script>
+<!--<![endif]-->
+
 <style>
     .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
     h1,h2{font-weight: 600;}
@@ -141,7 +139,7 @@
 <table style="width: 100%;">
   <tr>
     <td class="left">
-      <img src="/assets/girl_credit_cards.jpg">
+      <img style="width: 135px;" src="/assets/girl_credit_cards.jpg">
     </td>
     <td style="vertical-align: middle;">
       <table id="allocation" style="width: 85%;" class="table allocation report apply-asset-class-colors">
@@ -952,14 +950,13 @@
         $("#month").attr("value",monthNow)
         select();
     });
-</script>
-
-<script>
     var perfinance=1;
-
+</script>
+<!--[if !IE]><!-->
+<script>
     $(function() {
         <% if @webuser.score!=nil %>
-        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
+         $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
             $topLoader.setValue(Math.round(val * 100.0));
         }});
         $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
@@ -970,6 +967,10 @@
         $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">尚未体检</span>');
         <% end %>
     });
+</script>
+<!--<![endif]-->
+
+<script>
 
     $(function () {
         var chart;
