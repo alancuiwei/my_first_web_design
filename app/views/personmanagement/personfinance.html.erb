@@ -357,12 +357,12 @@
   <td>
     <div class="plan-details">
       <section class="asset-allocation" class="">
-        <table style="width: 100%;float: left;margin-left: 20px;">
+        <table style="width: 100%;float: left;">
           <tr><td style="width: 135px;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div id="container3" style="width: 130px;height: 130px;"></div>
             </div>
-          </td><td>
+          </td><td style="padding-left: 20px;">
             <table class="table allocation report apply-asset-class-colors">
               <thead>
               <tr>
@@ -371,7 +371,7 @@
                 <th style="width: 20%;">理财产品小类</th>
                 <th style="width: 20%;">投资产品</th>
                 <th style="width: 20%;">本月金额</th>
-                <th>进展</th>
+                <th>产品详情</th>
               </tr>
               </thead>
               <tbody>
@@ -379,33 +379,41 @@
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
                 <td>月开销</td>
-                <td>吃喝住行</td>
+                <td class="name1">吃喝住行</td>
                 <td class="amounts1"></td>
+                <td></td>
+              </tr>
+              <tr class="" data-type="MUNI_BONDS">
+                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
+                <td>流动型资产</td>
+                <td>月开销</td>
+                <td class="name0">零花钱</td>
+                <td class="amounts0"><%= format("%0.0f",@examination.pinmoney) %></td>
                 <td></td>
               </tr>
               <tr class="monthpay3" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
                 <td>银行活期</td>
-                <td><%= @hash3['随存随取型资产活期存款'][0] %></td>
+                <td class="name3"><%= @hash3['随存随取型资产活期存款'][0] %></td>
                 <td class="amounts3"></td>
-                <td></td>
+                <td><a href="/bankinvest/productdetails/<%= @hash3['随存随取型资产活期存款'][1] %>">查看</a></td>
               </tr>
               <tr class="monthpay2" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
                 <td>货币基金</td>
-                <td><%= @hash3['随存随取型资产货币基金'][0] %></td>
+                <td class="name2"><%= @hash3['随存随取型资产货币基金'][0] %></td>
                 <td class="amounts2"></td>
-                <td></td>
+                <td><a href="/bankinvest/productdetails/<%= @hash3['随存随取型资产货币基金'][1] %>">查看</a></td>
               </tr>
               <tr class="monthpay4" data-type="INTL_EMERGING">
                 <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                 <td>保本型资产</td>
                 <td>保本型基金</td>
-                <td><%= @hash3['保本型资产保本型基金'][0] %></td>
+                <td class="name4"><%= @hash3['保本型资产保本型基金'][0] %></td>
                 <td class="amounts4"></td>
-                <td></td>
+                <td><a href="/bankinvest/productdetails/<%= @hash3['保本型资产保本型基金'][1] %>">查看</a></td>
               </tr>
               <% if  @webuser.risktolerance!=nil %>
                   <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
@@ -413,7 +421,7 @@
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>保本型基金</td>
-                        <td></td>
+                        <td class="name5"></td>
                         <td class="amounts5"></td>
                         <td></td>
                       </tr>
@@ -422,34 +430,34 @@
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>纯债型基金</td>
-                        <td><%= @hash3['风险型资产纯债型基金'][0] %></td>
+                        <td class="name5"><%= @hash3['风险型资产纯债型基金'][0] %></td>
                         <td class="amounts5"></td>
-                        <td></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产纯债型基金'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>偏债型基金</td>
-                        <td><%= @hash3['风险型资产偏债型基金'][0] %></td>
+                        <td class="name5"><%= @hash3['风险型资产偏债型基金'][0] %></td>
                         <td class="amounts5"></td>
-                        <td></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产偏债型基金'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>指数型基金</td>
-                        <td><%= @hash3['风险型资产指数型基金'][0] %></td>
+                        <td class="name5"><%= @hash3['风险型资产指数型基金'][0] %></td>
                         <td class="amounts5"></td>
-                        <td></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产指数型基金'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td>P2P理财产品</td>
-                        <td></td>
+                        <td class="name5"></td>
                         <td class="amounts5"></td>
                         <td></td>
                       </tr>
@@ -557,8 +565,8 @@
         var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         var wen=total-xian-feng;
         if(wen<1000){
-            wen=1000;
             xian=xian+wen-1000;
+            wen=1000;
         }
     <% end %>
         with(document.creator.year) { var loca2 = options[selectedIndex].value; }
@@ -571,21 +579,21 @@
 
         if(yearNow+'年'==loca2 && monthNow+'月'==loca4){
         <% if @examination !=nil %>
-        //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
-        //    alert(a)
+            //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
+            //    alert(a)
             var amounts1=parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>');
-            $(".amounts1").html(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'));
+            $(".amounts1").html(parseInt((parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))/100)*100);
             $(".amounts2").html('');
             $(".amounts3").html('');
             $(".amounts4").html('');
             $(".amounts5").html('');
             if(xianjin>1/3*xian){
                 var amounts3=0;
-                $(".amounts3").html(1/3*xian);
+                $(".amounts3").html(parseInt(1/3*xian/100)*100);
                 var remain1=xianjin-1/3*xian;
                 if(remain1>2/3*xian){
                     var amounts2=0;
-                    $(".amounts2").html(2/3*xian);
+                    $(".amounts2").html(parseInt(2/3*xian/100)*100);
                     var remain2=remain1-2/3*xian;
                     if(wen<=wenjian){
                         var amounts4=0;
@@ -598,44 +606,44 @@
                         else{
                             if(remain3+fengxian>feng){
                                 var amounts5=0;
-                                $(".amounts5").html(feng-fengxian);
+                                $(".amounts5").html(parseInt(feng-fengxian/100)*100);
                                 var remain4=remain3+fengxian-feng;
-                                $(".amounts4").html(wen-wenjian+remain4);
+                                $(".amounts4").html(parseInt(wen-wenjian+remain4/100)*100);
                             }
                             else{
                                 var amounts5=feng-fengxian-remain3;
-                                $(".amounts5").html(remain3);
+                                $(".amounts5").html(parseInt(remain3/100)*100);
                             }
                         }
                     }
                     else{
                         if(remain2+wenjian>wen){
                             var amounts4=0;
-                            $(".amounts4").html(wen-wenjian);
+                            $(".amounts4").html(parseInt(wen-wenjian/100)*100);
                             var remain3=remain2+wenjian-wen;
                             if(feng<=fengxian){
                                 var amounts5=0;
                                 $(".monthpay5").hide();
                                 var remain4=remain3;
-                                $(".amounts4").html(wen-wenjian+remain4);
+                                $(".amounts4").html(parseInt(wen-wenjian+remain4/100)*100);
                             }
                             else{
                                 if(remain3+fengxian>feng){
                                     var amounts5=0;
-                                    $(".amounts5").html(feng-fengxian);
+                                    $(".amounts5").html(parseInt(feng-fengxian/100)*100);
                                     var remain4=remain3+fengxian-feng;
-                                    $(".amounts4").html(wen-wenjian+remain4);
+                                    $(".amounts4").html(parseInt(wen-wenjian+remain4/100)*100);
                                 }
                                 else{
                                     var amounts5=feng-fengxian-remain3;
-                                    $(".amounts5").html(remain3);
+                                    $(".amounts5").html(parseInt(remain3/100)*100);
                                 }
                             }
                         }
                         else{
                             var amounts4=wen-wenjian-remain2;
                             var amounts5=feng-fengxian;
-                            $(".amounts4").html(remain2);
+                            $(".amounts4").html(parseInt(remain2/100)*100);
                         }
                     }
                 }
@@ -643,7 +651,7 @@
                     var amounts2=2/3*xian-remain1;
                     var amounts4=wen-wenjian;
                     var amounts5=feng-fengxian;
-                    $(".amounts2").html(remain1);
+                    $(".amounts2").html(parseInt(remain1/100)*100);
                 }
             }
             else{
@@ -651,13 +659,25 @@
                 var amounts2=2/3*xian;
                 var amounts4=wen-wenjian;
                 var amounts5=feng-fengxian;
-                $(".amounts3").html(xianjin);
+                $(".amounts3").html(parseInt(xianjin/100)*100);
             }
 
-            if(wen<=wenjian){
+            if($(".amounts2").html()!="" || $(".amounts2").html()!="0"){
+                $(".monthpay2").show();
+            }
+            if($(".amounts3").html()!="" || $(".amounts3").html()!="0"){
+                $(".monthpay3").show();
+            }
+            if($(".amounts4").html()!="" || $(".amounts4").html()!="0"){
+                $(".monthpay4").show();
+            }
+            if($(".amounts5").html()!="" || $(".amounts5").html()!="0"){
+                $(".monthpay5").show();
+            }
+            if(wen<wenjian+100){
                 $(".monthpay4").hide();
             }
-            if(feng<=fengxian){
+            if(feng<fengxian+100){
                 $(".monthpay5").hide();
             }
         <% end %>
@@ -690,18 +710,18 @@
                         }
                         else{
                             if(arrayObj[i-1][2]<=monthdeposit){
-                                 if(arrayObj[i-1][4]<=0){
-                                     arrayObj[i]=[arrayObj[0][0],0,0,0,0,0,arrayObj[i-1][2],0,0];
-                                 }
-                                 else{
-                                     if(feng/12<monthdeposit-arrayObj[i-1][2]){
-                                         arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,0,arrayObj[i-1][2],0,feng/12];
-                                     }
-                                     else{
-                                         var a=arrayObj[i-1][4]-(monthdeposit-arrayObj[i-1][2])
-                                         arrayObj[i]=[arrayObj[0][0],0,0,0,a,0,arrayObj[i-1][2],0,monthdeposit-arrayObj[i-1][2]];
-                                     }
-                                 }
+                                if(arrayObj[i-1][4]<=0){
+                                    arrayObj[i]=[arrayObj[0][0],0,0,0,0,0,arrayObj[i-1][2],0,0];
+                                }
+                                else{
+                                    if(feng/12<monthdeposit-arrayObj[i-1][2]){
+                                        arrayObj[i]=[arrayObj[0][0],0,0,0,arrayObj[0][4]-feng/12,0,arrayObj[i-1][2],0,feng/12];
+                                    }
+                                    else{
+                                        var a=arrayObj[i-1][4]-(monthdeposit-arrayObj[i-1][2])
+                                        arrayObj[i]=[arrayObj[0][0],0,0,0,a,0,arrayObj[i-1][2],0,monthdeposit-arrayObj[i-1][2]];
+                                    }
+                                }
                             }
                             else{
                                 arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-monthdeposit,0,arrayObj[i-1][4],0,monthdeposit,0,0];
@@ -917,11 +937,36 @@
                 }
             }
 
-            $(".amounts1").html(arrayObj[month][0])
-            $(".amounts2").html(arrayObj[month][6])
-            $(".amounts3").html(arrayObj[month][5])
-            $(".amounts4").html(arrayObj[month][7])
-            $(".amounts5").html(arrayObj[month][8])
+            $(".amounts1").html(parseInt(arrayObj[month][0]/100)*100)
+            $(".amounts2").html(parseInt(arrayObj[month][6]/100)*100)
+            $(".amounts3").html(parseInt(arrayObj[month][5]/100)*100)
+            $(".amounts4").html(parseInt(arrayObj[month][7]/100)*100)
+            $(".amounts5").html(parseInt(arrayObj[month][8]/100)*100)
+
+            if(parseInt(arrayObj[month][5]/100)*100<=0){
+                $(".monthpay3").hide();
+            }
+            else{
+                $(".monthpay3").show();
+            }
+            if(parseInt(arrayObj[month][6]/100)*100<=0){
+                $(".monthpay2").hide();
+            }
+            else{
+                $(".monthpay2").show();
+            }
+            if(parseInt(arrayObj[month][7]/100)*100<=0){
+                $(".monthpay4").hide();
+            }
+            else{
+                $(".monthpay4").show();
+            }
+            if(parseInt(arrayObj[month][8]/100)*100<=0){
+                $(".monthpay5").hide();
+            }
+            else{
+                $(".monthpay5").show();
+            }
         }
 
         document.creator.newlocation.value=loca2+" "+loca4;
@@ -956,7 +1001,7 @@
 <script>
     $(function() {
         <% if @webuser.score!=nil %>
-         $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
+        $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
             $topLoader.setValue(Math.round(val * 100.0));
         }});
         $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
@@ -1074,6 +1119,77 @@
                     enabled: false
                 }
             });
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container3',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    events:{
+                        load: function(){
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function() {
+                                var data = [];
+                                var a1= parseFloat($(".amounts1").html());
+                                var a0= parseFloat($(".amounts0").html());
+                                var a3= parseFloat($(".amounts3").html());
+                                var a2= parseFloat($(".amounts2").html());
+                                var a4= parseFloat($(".amounts4").html());
+                                var a5= parseFloat($(".amounts5").html());
+                                var numfor= /^[-+]?[0-9]+(\.[0-9]+)?$/
+                                if(numfor.test(a1)==false){a1=0}
+                                if(numfor.test(a0)==false){a0=0}
+                                if(numfor.test(a3)==false){a3=0}
+                                if(numfor.test(a2)==false){a2=0}
+                                if(numfor.test(a4)==false){a4=0}
+                                if(numfor.test(a5)==false){a5=0}
+                                data.push([$(".name1").html(),a1]);
+                                data.push([$(".name0").html(),a0]);
+                                data.push([$(".name3").html(),a3]);
+                                data.push([$(".name2").html(),a2]);
+                                data.push([$(".name4").html(),a4]);
+                                data.push([$(".name5").html(),a5]);
+                                series.setData(data);
+                            }, 500);
+                        }
+                    }
+                },
+                title: {
+                    text: false
+                },
+                tooltip: {
+                    pointFormat: ''         //???
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: false,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true,
+                        size: 120,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    data: [
+                        [$(".name1").html(), parseFloat($(".amounts1").html())],
+                        [$(".name0").html(), parseFloat($(".amounts0").html())],
+                        [$(".name3").html(), parseFloat($(".amounts3").html())],
+                        [$(".name2").html(), parseFloat($(".amounts2").html())],
+                        [$(".name4").html(), parseFloat($(".amounts4").html())],
+                        [$(".name5").html(), parseFloat($(".amounts5").html())]
+                    ]
+                }],
+                legend: false,
+                credits: {
+                    enabled: false
+                }
+            });
         });
     });
 
@@ -1101,9 +1217,10 @@
         var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         var wen=total-xian-feng;
         if(wen<1000){
-            wen=1000;
             xian=xian+wen-1000;
+            wen=1000;
         }
+
         <% if @webuser.dreamset !=nil %>
         $("#jixu").html(jixu);
         $("#deposit").html(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'));
