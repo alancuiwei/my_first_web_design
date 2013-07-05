@@ -141,7 +141,7 @@
     <td class="left">
       <img style="width: 135px;" src="/assets/girl_credit_cards.jpg">
     </td>
-    <td style="vertical-align: middle;">
+    <td style="vertical-align: middle;padding-left: 20px;">
       <table id="allocation" style="width: 85%;" class="table allocation report apply-asset-class-colors">
         <tr  class="" data-type="US_STOCKS">
           <td id="td1" style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
@@ -217,7 +217,7 @@
             <div class="allocation-chart-container">
               <div id="container2" style="width: 130px;height: 130px;"></div>
             </div>
-          </td><td>
+          </td><td style="padding-left: 20px;">
             <table id="table2" style="width: 100%;" class="table allocation report apply-asset-class-colors">
               <thead>
               <tr>
@@ -662,17 +662,29 @@
                 $(".amounts3").html(parseInt(xianjin/100)*100);
             }
 
-            if($(".amounts2").html()!="" || $(".amounts2").html()!="0"){
+            if($(".amounts2").html()!="" && $(".amounts2").html()!="0"){
                 $(".monthpay2").show();
             }
-            if($(".amounts3").html()!="" || $(".amounts3").html()!="0"){
+            else{
+                $(".monthpay2").hide();
+            }
+            if($(".amounts3").html()!="" && $(".amounts3").html()!="0"){
                 $(".monthpay3").show();
             }
-            if($(".amounts4").html()!="" || $(".amounts4").html()!="0"){
+            else{
+                $(".monthpay3").hide();
+            }
+            if($(".amounts4").html()!="" && $(".amounts4").html()!="0"){
                 $(".monthpay4").show();
             }
-            if($(".amounts5").html()!="" || $(".amounts5").html()!="0"){
+            else{
+                $(".monthpay4").hide();
+            }
+            if($(".amounts5").html()!="" && $(".amounts5").html()!="0"){
                 $(".monthpay5").show();
+            }
+            else{
+                $(".monthpay5").hide();
             }
             if(wen<wenjian+100){
                 $(".monthpay4").hide();
