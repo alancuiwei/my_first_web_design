@@ -19,9 +19,18 @@ class BankinvestController < ApplicationController
     @financial=Financial.order("id DESC").all
   end
 
+  def salescompany
+    if params[:id]!=nil
+      @salescompany=Salescompany.find_by_id(params[:id])
+    else
+      redirect_to(:controller=>"home", :action=>"index")
+    end
+  end
+
   def productdetails
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])
+      @salescompany=Salescompany.all
     else
       redirect_to(:controller=>"bankinvest", :action=>"products")
     end

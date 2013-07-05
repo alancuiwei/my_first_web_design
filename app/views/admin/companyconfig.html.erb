@@ -1,0 +1,66 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  基金网站名称：<input type="text" name="fundname" id="fundname" title="基金网站名称"><br>
+  公司名称：<input type="text" name="company" id="company" title="公司名称"><br>
+  注册资本：<input type="text" name="capital" id="capital" title="注册资本"><br>
+  <% if params[:id]!="0" %>
+      公司简介：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="profile" id="profile" title="公司简介"><%= @salescompany.profile %></textarea><br>
+  <% else %>
+      公司简介：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="profile" id="profile" title="公司简介"></textarea><br>
+  <% end %>
+  官网介绍：<input type="text" name="introduced" id="introduced" title="官网介绍"><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="companyconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+
+    $("#companyconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/admin/companyconfigajax/<%= params[:id] %>",{ fundname: $("#fundname").attr("value"),company: $("#company").attr("value"),capital: $("#capital").attr("value"),
+                profile: $("#profile").attr("value"),introduced: $("#introduced").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("理财产品销售公司创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#fundname").attr("value",'<%= @salescompany.fundname%>');
+        $("#company").attr("value",'<%= @salescompany.company %>');
+        $("#capital").attr("value",'<%= @salescompany.capital%>');
+        $("#introduced").attr("value",'<%= @salescompany.introduced%>');
+        <% end %>
+    });
+</script>

@@ -10,6 +10,7 @@ class AdminController < ApplicationController
       @blogs=Blog.all
       @activity=Activity.all
       @enroll=Enroll.all
+      @salescompany=Salescompany.all
       @category1=Category_1.all
       @category2=Category_2.all
       @financial=Financial.all
@@ -249,6 +250,43 @@ class AdminController < ApplicationController
     @financial=Financial.find_by_id(params[:id])
     if @financial!=nil
       if @financial.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def companyconfig
+      if params[:id]!="0"
+        @salescompany=Salescompany.find_by_id(params[:id])
+      else
+        @salescompany=Salescompany.limit(1)
+      end
+  end
+
+  def companyconfigajax
+    if params[:id]=="0"
+      Salescompany.new do |b|
+        b.fundname=params[:fundname]
+        b.company=params[:company]
+        b.capital=params[:capital]
+        b.profile=params[:profile]
+        b.introduced=params[:introduced]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @salescompany=Salescompany.find_by_id(params[:id])
+      @salescompany.update_attributes(:fundname=>params[:fundname],:company=>params[:company],:capital=>params[:capital],:profile=>params[:profile],:introduced=>params[:introduced])
+      render :json => "s2".to_json
+    end
+  end
+
+  def companydeleteajax
+    @salescompany=Salescompany.find_by_id(params[:id])
+    if @salescompany!=nil
+      if @salescompany.destroy
         render :json => "s".to_json
       else
         render :json => "f".to_json

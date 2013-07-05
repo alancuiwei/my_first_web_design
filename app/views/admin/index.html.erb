@@ -374,6 +374,29 @@
     </td></tr>
 
     <tr><td>
+      <h1>理财产品销售公司</h1>
+      <a href="/admin/companyconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="company">
+        <thead><tr>
+          <th class="hide">ID</th><th>基金网站名称</th><th>公司名称</th><th>注册资本</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @salescompany.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.fundname%></td>
+              <td><%= b.company%></td>
+              <td><%= b.capital%></td>
+              <td><a href="/bankinvest/salescompany/<%= b.id %>">查看</a></td>
+              <td><a href="/admin/companyconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','companydeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td>
       <h1>活动管理</h1>
       <a href="/admin/activityconfig/0?organ=1">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
@@ -508,7 +531,7 @@
     }
 
     $(document).ready(function(){
-        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial').dataTable();
+        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial,#company').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
 

@@ -109,11 +109,10 @@
         <h2 class="">
           在哪儿买这个理财产品?
         </h2>
-        <a target="_blank" href="" class="">天天基金网 ( 手续费 0.6% )</a><br>
-        <a target="_blank" href="" class="">好买基金网 ( 手续费 0.6% )</a><br>
-        <a target="_blank" href="" class="">基金买卖网 ( 手续费 0.6% )</a><br>
-        <a target="_blank" href="" class="">数米基金网 ( 手续费 0.6% )</a><br>
-        <a href="">查看6家购买详情 ( 手续费 0.5% 起 )</a>
+        <% @salescompany.each do |b| %>
+          <a target="_blank" href="/bankinvest/salescompany/<%= b.id %>" class=""><%= b.fundname %> ( 手续费 0.6% )</a><br>
+        <% end %>
+        <a href="">查看<%= @salescompany.length %>家购买详情 ( 手续费 0.5% 起 )</a>
       </div>
     </div>
   </div>
