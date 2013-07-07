@@ -257,7 +257,6 @@ class PersonmanagementController < ApplicationController
           b.trade=params[:trade]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
-          b.bank=params[:bank]
           b.save
         end
         session[:personname]=params[:username]
@@ -266,7 +265,7 @@ class PersonmanagementController < ApplicationController
         @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],
                                            :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
                                            :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],
-                                           :riskrate=>params[:riskrate],:bank=>params[:bank])
+                                           :riskrate=>params[:riskrate])
         if  params[:tel]!=nil
           @personalfinance.update_attributes(:tel=>params[:tel])
         end

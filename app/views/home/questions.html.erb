@@ -107,8 +107,8 @@
             </p>
             <p>
               <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" id="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
-              <span style="padding-left:13px" class="subtext">最小投资金额是 ￥5,0000.</span>
             </p>
+           <!--
             <p class="q-text">您资金主要放在哪家银行帐号里?</p>
             <select  name="bank" id="bank" title="银行" style="margin-left: 15px;">
               <option value="建设银行">建设银行</option>
@@ -125,6 +125,7 @@
               <option value="兴业银行">兴业银行</option>
               <option value="平安银行">平安银行</option>
             </select>
+            -->
             <div class="mobile"><br></div>
             <p class="why-do-we-ask">
               <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a demo-tip-yellowsimple" title="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
@@ -257,7 +258,7 @@
     $(function() {
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
-        var accountMin = 50000;
+        var accountMin = 0;
         var save = "";
         var save0 = "";
         var save1 = "";
@@ -419,13 +420,13 @@
                         else if(save.split(',')[5]=='G'){trade='公务员';}
                         var risktolerance=risk;
                         <% if session[:webusername]!=nil %>
-                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,bank:$("#bank").attr("value"),
+                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                         },function(data){
                               location.href='/personmanagement/share?risk='+risktolerance;
                         });
                         <% else %>
-                          location.href='/personmanagement/share?risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&bank='+$("#bank").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+
+                          location.href='/personmanagement/share?risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+
                                   '&score='+'<%= params[:score] %>'+'&variety='+'<%= params[:variety] %>'+'&pname='+'<%= params[:pname] %>'+'&amount='+'<%= params[:amount] %>'+'&age='+'<%= params[:age] %>'+'&salary='+'<%= params[:salary] %>'+
                                   '&additional='+'<%= params[:additional] %>'+'&rent='+'<%= params[:rent] %>'+'&wages='+'<%= params[:wages] %>'+'&pinmoney='+'<%= params[:pinmoney] %>';
                         <% end %>
