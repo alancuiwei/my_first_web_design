@@ -388,7 +388,7 @@
                 <td>流动型资产</td>
                 <td>月开销</td>
                 <td class="name0">零花钱</td>
-                <td class="amounts0"><%= format("%0.0f",@examination.pinmoney) %></td>
+                <td class="amounts0"><%= format("%0.0f",@examination.salary-@examination.rent-@examination.wages) %></td>
                 <td></td>
               </tr>
               <tr class="monthpay3" data-type="MUNI_BONDS">
@@ -559,9 +559,9 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
-        var monthdeposit=parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>');
+        var monthdeposit=parseFloat('<%= @examination.wages %>');
         var total=monthdeposit*12+jixu;//总资产
-        var xian=(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))*3;
+        var xian=parseFloat('<%= @examination.rent %>')*3;
         var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         var wen=total-xian-feng;
         if(wen<1000){
@@ -581,8 +581,8 @@
         <% if @examination !=nil %>
             //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
             //    alert(a)
-            var amounts1=parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>');
-            $(".amounts1").html(parseInt((parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))/100)*100);
+            var amounts1=parseFloat('<%= @examination.rent %>');
+            $(".amounts1").html(parseInt(parseFloat('<%= @examination.rent %>')/100)*100);
             $(".amounts2").html('');
             $(".amounts3").html('');
             $(".amounts4").html('');
@@ -1224,8 +1224,8 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
-        var total=(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'))*12+jixu;//总资产
-        var xian=(parseFloat('<%= @examination.rent %>')+parseFloat('<%= @examination.wages %>'))*3;
+        var total=parseFloat('<%= @examination.wages %>')*12+jixu;//总资产
+        var xian=parseFloat('<%= @examination.rent %>')*3;
         var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         var wen=total-xian-feng;
         if(wen<1000){
@@ -1235,7 +1235,7 @@
 
         <% if @webuser.dreamset !=nil %>
         $("#jixu").html(jixu);
-        $("#deposit").html(parseFloat('<%= @examination.salary %>')+parseFloat('<%= @examination.additional %>')-parseFloat('<%= @examination.rent %>')-parseFloat('<%= @examination.wages %>')-parseFloat('<%= @examination.pinmoney %>'));
+        $("#deposit").html(parseFloat('<%= @examination.wages %>'));
         <% else %>
         $("#jixu").html("没有");
         $("#deposit").html("没有");

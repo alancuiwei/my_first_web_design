@@ -1,5 +1,9 @@
 <%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
+<!--[if !IE]><!-->
 <%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
+<!--<![endif]-->
 
 <style>
     .container {
@@ -114,8 +118,8 @@
 
             <div class="row op-label">
               <div class="span3" style="text-align: left;">年龄</div>
-              <div class="span3" style="text-align: left;">每月薪水</div>
-              <div class="span2" style="text-align: left;">每月额外收入</div>
+              <div class="span3" style="text-align: left;">平均月收入</div>
+              <div class="span2" style="text-align: left;"></div>
             </div>
             <div class="seperator thick"></div>
 
@@ -131,41 +135,45 @@
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 salary" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 salary" title="平均月收入：每个月到手的收入，包括工资加上额外收入。" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span2">
+                    <!--
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
                       <input class="span2 additional" id="additional" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
+                    -->
                   </div>
                 </div>
               </div>
               <div class="row op-label" style="margin: 10px 0 10px -30px;">
-                <div class="span3">房租</div>
-                <div class="span3" style="text-align: left;">伙食费</div>
-                <div class="span2" style="text-align: left;">零花钱</div>
+                <div class="span3">衣食住行</div>
+                <div class="span3" style="text-align: left;">每月至少储蓄</div>
+                <div class="span2" style="text-align: left;"></div>
               </div>
               <div class="op-input" fid="founder-1">
                 <div class="row">
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 rent" id="rent" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 rent" title="衣食住行:包括房租、房贷、伙食费等衣食住行，仅供维持最低生活标准的费用。" id="rent" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 wages" id="wages" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 wages" title="每月至少储蓄：您目标每月储蓄的金额，请不要过分苛求自己。" id="wages" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span2">
+                    <!--
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
                       <input class="span2 pinmoney" id="pinmoney" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
+                    -->
                   </div>
                 </div>
               </div>
@@ -218,11 +226,11 @@
                   <div class="span3 control-group" style="text-align: left;">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 init-share" id="amount" style="width: 180px;" value="0" type="text" placeholder="资产金额">
+                      <input class="init-share" id="amount" style="width: 180px;" value="0" type="text" placeholder="资产金额">
                     </div>
                   </div>
                   <div class="span2" style="text-align: center;">
-                    <input class="span2 pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
+                    <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
                   </div>
                   <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
                 </div>
@@ -300,6 +308,15 @@
   </div>
 </div>
 
+<!--[if !IE]><!-->
+<script>
+    var perfinance=0;
+    var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
+        $topLoader.setValue(Math.round(val * 100.0));
+    }});
+</script>
+<!--<![endif]-->
+
 <script>
     function waithelp(){
         $("#login-box").show();
@@ -326,24 +343,19 @@
         return false;
     });
 
-    var perfinance=0;
+
     var varietys,amounts,pnames;
     $("#risk").click(function() {
         <% if session[:webusername]!=nil %>
         location.href='/home/questions';
         <% else %>
         location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                +'&salary='+$("#salary").attr("value")+'&additional='+$("#additional").attr("value")+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value")+'&pinmoney='+$("#pinmoney").attr("value");
+                +'&salary='+$("#salary").attr("value")+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value");
         <% end %>
     });
 
-    $(function() {
-        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
-            $topLoader.setValue(Math.round(val * 100.0));
-        }});
-
         var topLoaderRunning = false;
-
+        var ie = !-[1,];
         $("#retest").click(function() {
             $("#next").hide();
             $(".jieguo").hide();
@@ -351,21 +363,40 @@
             $("#liudong").html("");
             $("#baoben").html("");
             $("#fengxian").html("");
+            $("#topLoader").html("");
         });
 
+    var variety,amount,pname,jixu,total,xian,feng,wen;
+    var xianjin= 0,wenjian= 0,fengxian=0;
+    var score1,score2,score3;
         $("#animateButton").click(function() {
-
+            if(ie){
+                document.getElementsByClassName = function(){
+                    var tTagName ="*";
+                    if(arguments.length > 1){
+                        tTagName = arguments[1];
+                    }
+                    if(arguments.length > 2){
+                        var pObj = arguments[2]
+                    }
+                    else{
+                        var pObj = document;
+                    }
+                    var objArr = pObj.getElementsByTagName(tTagName);
+                    var tRObj = new Array();
+                    for(var i=0; i<objArr.length; i++){
+                        if(objArr[i].className == arguments[0]){
+                            tRObj.push(objArr[i]);
+                        }
+                    }
+                    return tRObj;
+                }
+            }
             //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
-            var variety=document.getElementsByClassName("founder-name")  //资产品种
-            var amount=document.getElementsByClassName("init-share")  //资产金额
-            var pname=document.getElementsByClassName("pname")  //产品名称
-            var age=document.getElementsByClassName("age")  //年龄
-            var salary=document.getElementsByClassName("salary")  //每月薪水
-            var expenses=document.getElementsByClassName("expenses")  //日常开销
+             variety=document.getElementsByClassName("founder-name")  //资产品种
+             amount=document.getElementsByClassName("init-share")  //资产金额
+             pname=document.getElementsByClassName("pname")  //产品名称
 
-            var xianjin=0;
-            var wenjian=0;
-            var fengxian=0;
             // alert($("#age").attr("value"));  年龄层次
             for(i=0;i<variety.length;i++){
                 if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
@@ -374,12 +405,44 @@
                 else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
+                if(i==0){
+                    varietys=variety[i].value;
+                    amounts=amount[i].value;
+                    pnames=pname[i].value;
+                }
+                else{
+                    varietys=varietys+','+variety[i].value;
+                    amounts=amounts+','+amount[i].value;
+                    pnames=pnames+','+pname[i].value;
+                }
             }
-            var jixu=xianjin+wenjian+fengxian;//积蓄
-            var total=(parseFloat($("#salary").attr("value"))+parseFloat($("#additional").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value"))-parseFloat($("#pinmoney").attr("value")))*12+jixu;//总资产
-            var xian=(parseFloat($("#rent").attr("value"))+parseFloat($("#wages").attr("value")))*3;
-            var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
-            var wen=total-xian-feng;
+             jixu=xianjin+wenjian+fengxian;//积蓄
+             total=parseFloat($("#wages").attr("value"))*12+jixu;//总资产
+             xian=parseFloat($("#rent").attr("value"))*3;
+             feng=(total*(80-parseFloat($("#age").attr("value")))/100);
+             wen=total-xian-feng;
+
+            if(xian/total>xianjin/jixu)
+            {
+                score1=1;
+            }
+            else if(xian/total<xianjin/jixu){
+                score1=0;
+            }
+            if(wen/total>wenjian/jixu)
+            {
+                score2=1;
+            }
+            else if(wen/total<wenjian/jixu){
+                score2=0;
+            }
+            if(feng/total>fengxian/jixu)
+            {
+                score3=1;
+            }
+            else if(feng/total<fengxian/jixu){
+                score3=0;
+            }
 
             if(wen<=0 || parseFloat($("#pinmoney").attr("value"))/total>=2/3){
                 $("#tishi").html("您每个月的零花钱会不会太多了？");
@@ -407,154 +470,123 @@
         $("#sub").click(function() {
             animate();
         });
+ </script>
 
-        function animate() {
-
-            //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
-            var variety=document.getElementsByClassName("founder-name")  //资产品种
-            var amount=document.getElementsByClassName("init-share")  //资产金额
-            var pname=document.getElementsByClassName("pname")  //产品名称
-            var age=document.getElementsByClassName("age")  //年龄
-            var salary=document.getElementsByClassName("salary")  //每月薪水
-            var expenses=document.getElementsByClassName("expenses")  //日常开销
-
-            var xianjin=0;
-            var wenjian=0;
-            var fengxian=0;
-            // alert($("#age").attr("value"));  年龄层次
-            for(i=0;i<variety.length;i++){
-                if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
-                else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
-                if(i==0){
-                    varietys=variety[i].value;
-                    amounts=amount[i].value;
-                    pnames=pname[i].value;
+<script>
+    function animate() {
+        if(ie){
+            $(".tijian").hide();
+            $(".jieguo").show();
+        <% if session[:webusername]!=nil %>
+            $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
+                salary:$("#salary").attr("value"),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
+            });
+        <% end %>
+            var kb = 0;
+            var totalKb = 999;
+            var animateFunc = function() {
+                kb += 5;
+              if(kb<=400){
+                    if(kb==400){
+                        if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
+                        else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
+                        else{$("#liudong").html("您的流动性资产配置 适中。");}
+                    }
                 }
-                else{
-                    varietys=varietys+','+variety[i].value;
-                    amounts=amounts+','+amount[i].value;
-                    pnames=pnames+','+pname[i].value;
+                else if(kb<=600){
+                    if(kb==600){
+                        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
+                        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
+                        else{$("#baoben").html("您的保本性资产配置 适中。");}
+                    }
+                }
+                else if(kb<=800){
+                    if(kb==800){
+                        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
+                        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
+                        else{$("#fengxian").html("您的风险性资产配置 适中。");}
+                    }
+                }
+
+                if (kb < totalKb) {
+                    setTimeout(animateFunc, 25);
+                } else {
+                    $("#next").show();
+                    $("#topLoader").html("<h1 style='font-style: 30px;text-align: center;'>您的家庭资产体检得分为：<br>"+run()+"分</h1>");
                 }
             }
-            var jixu=xianjin+wenjian+fengxian;//积蓄
-            var total=(parseFloat($("#salary").attr("value"))+parseFloat($("#additional").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value"))-parseFloat($("#pinmoney").attr("value")))*12+jixu;//总资产
-            var xian=(parseFloat($("#rent").attr("value"))+parseFloat($("#wages").attr("value")))*3;
-            var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
-            var wen=total-xian-feng;
-
-                $(".tijian").hide();
-                $(".jieguo").show();
-            <% if session[:webusername]!=nil %>
-                $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                    salary:$("#salary").attr("value"),additional:$("#additional").attr("value"),rent:$("#rent").attr("value"),wages:$("#wages").attr("value"),pinmoney:$("#pinmoney").attr("value")},function(data){
-                });
-            <% end %>
-
-                if(xian/total>xianjin/jixu)
-                {
-                    var score1=1;
-                }
-                else if(xian/total<xianjin/jixu){
-                    var score1=0;
-                }
-                if(wen/total>wenjian/jixu)
-                {
-                    var score2=1;
-                }
-                else if(wen/total<wenjian/jixu){
-                    var score2=0;
-                }
-                if(feng/total>fengxian/jixu)
-                {
-                    var score3=1;
-                }
-                else if(feng/total<fengxian/jixu){
-                    var score3=0;
-                }
-                if (topLoaderRunning) {
-                    return;
-                }
-                topLoaderRunning = true;
-                $topLoader.setProgress(0);
-                $topLoader.setValue('0kb');
-                var kb = 0;
-                var totalKb = 999;
-
-                var animateFunc = function() {
-                    kb += 5;
-
-                    $topLoader.setProgress(kb / totalKb);
-                    //$topLoader.setValue(kb.toString() + 'kb');
-                    if(kb<=200){
-                        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
-                    }
-                    else if(kb<=400){
-                        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
-                        if(kb==400){
-                            if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
-                            else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
-                            else{$("#liudong").html("您的流动性资产配置 适中。");}
-                        }
-                    }
-                    else if(kb<=600){
-                        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
-                        if(kb==600){
-                            if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
-                            else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
-                            else{$("#baoben").html("您的保本性资产配置 适中。");}
-                        }
-                    }
-                    else if(kb<=800){
-                        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
-                        if(kb==800){
-                            if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
-                            else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
-                            else{$("#fengxian").html("您的风险性资产配置 适中。");}
-                        }
-                    }
-                    else if(kb<=1000){
-                        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
-                    }
-
-                    if (kb < totalKb) {
-                        setTimeout(animateFunc, 25);
-                    } else {
-                        $("#next").show();
-                        topLoaderRunning = false;
-                    }
-                }
-
-                setTimeout(animateFunc, 25);
+            setTimeout(animateFunc, 25);
         }
-    });
+        else{
+            $(".tijian").hide();
+            $(".jieguo").show();
+        <% if session[:webusername]!=nil %>
+            $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
+                salary:$("#salary").attr("value"),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
+            });
+        <% end %>
+
+            if (topLoaderRunning) {
+                return;
+            }
+            topLoaderRunning = true;
+            $topLoader.setProgress(0);
+            $topLoader.setValue('0kb');
+            var kb = 0;
+            var totalKb = 999;
+
+            var animateFunc = function() {
+                kb += 5;
+
+                $topLoader.setProgress(kb / totalKb);
+                //$topLoader.setValue(kb.toString() + 'kb');
+                if(kb<=200){
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
+                }
+                else if(kb<=400){
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
+                    if(kb==400){
+                        if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
+                        else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
+                        else{$("#liudong").html("您的流动性资产配置 适中。");}
+                    }
+                }
+                else if(kb<=600){
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
+                    if(kb==600){
+                        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
+                        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
+                        else{$("#baoben").html("您的保本性资产配置 适中。");}
+                    }
+                }
+                else if(kb<=800){
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
+                    if(kb==800){
+                        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
+                        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
+                        else{$("#fengxian").html("您的风险性资产配置 适中。");}
+                    }
+                }
+                else if(kb<=1000){
+                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
+                }
+
+                if (kb < totalKb) {
+                    setTimeout(animateFunc, 25);
+                } else {
+                    $("#next").show();
+                    topLoaderRunning = false;
+                }
+            }
+
+            setTimeout(animateFunc, 25);
+        }
+    }
+ </script>
+
+<script>
 
     function run(){
-        //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
-        var variety=document.getElementsByClassName("founder-name")  //资产品种
-        var amount=document.getElementsByClassName("init-share")  //资产金额
-        var xianjin=0;
-        var wenjian=0;
-        var fengxian=0;
-        // alert($("#age").attr("value"));  年龄层次
-        for(i=0;i<variety.length;i++){
-            if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
-            else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
-            else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
-            else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
-            else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
-            else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
-        }
-        var jixu=xianjin+wenjian+fengxian;//积蓄
-
-        var total=(parseFloat($("#salary").attr("value"))+parseFloat($("#additional").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value"))-parseFloat($("#pinmoney").attr("value")))*12+jixu;//总资产
-        var xian=(parseFloat($("#rent").attr("value"))+parseFloat($("#wages").attr("value")))*3;
-        var feng=(total*(80-parseFloat($("#age").attr("value")))/100);
-        var wen=total-xian-feng;
-
         var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
         return  score.toFixed(1);
     }
@@ -762,4 +794,62 @@
         }
         return latestId;
     }
+</script>
+
+<script>
+  $(function(){
+      $('.demo-form-name').poshytip({
+          className: 'tip-yellowsimple',
+          showOn: 'focus',
+          alignTo: 'target',
+          alignX: 'right',
+          alignY: 'center',
+          offsetX: 5
+      });
+    var flickrFeedsCache = {};
+    $('#demo-async-flickr > a').poshytip({
+        className: 'tip-darkgray',
+        bgImageFrameSize: 11,
+        alignY: 'bottom',
+        content: function(updateCallback) {
+            var rel = $(this).attr('rel');
+            if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                return flickrFeedsCache[rel].container;
+            if (!flickrFeedsCache[rel]) {
+                flickrFeedsCache[rel] = { container: null };
+                var tagsComma = rel.substring(4).replace('-', ',');
+                $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                        function(data) {
+                            var container = $('<div/>').addClass('flickr-thumbs');
+                            $.each(data.items, function(i, item) {
+                                $('<a/>')
+                                        .attr('href', item.link)
+                                        .append($('<img/>').attr('src', item.media.m))
+                                        .appendTo(container)
+                                        .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                if (i == 4)
+                                    return false;
+                            });
+                            // add tips for the images inside the main tip
+                            container.find('a').poshytip({
+                                content: function(){return $(this).data('tip');},
+                                className: 'tip-yellowsimple',
+                                showTimeout: 100,
+                                alignTo: 'target',
+                                alignX: 'center',
+                                alignY: 'bottom',
+                                offsetY: 5,
+                                allowTipHover: false,
+                                hideAniDuration: 0
+                            });
+                            // call the updateCallback function to update the content in the main tooltip
+                            // and also store the content in the cache
+                            updateCallback(flickrFeedsCache[rel].container = container);
+                        }
+                );
+            }
+            return 'Loading images...';
+        }
+    });
+});
 </script>

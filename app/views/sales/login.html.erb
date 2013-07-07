@@ -374,8 +374,8 @@
                     var risktolerance='<%= params[:risk] %>';
                   <% if params[:score]!="" %>
                     $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',
-                        amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',additional:'<%= params[:additional] %>',
-                        rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>',pinmoney:'<%= params[:pinmoney] %>'},function(data){
+                        amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',
+                        rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>'},function(data){
 
                     });
                   <% end %>
