@@ -47,7 +47,7 @@
                             }
                         })
                 var dom= document.getElementById("qqLoginBtn"),
-                        _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance">{nickname}</a>&nbsp;<a href="#" onclick="QC.Login.signOut();">退出</a>'].join("");
+                        _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance" style="font-size: 14px;">{nickname}</a>&nbsp;<a href="#" style="font-size: 14px;" onclick="QC.Login.signOut();">退出</a>'].join("");
                 dom && (dom.innerHTML =QC.String.format(_logoutTemplate,{
                     nickname: QC.String.escHTML(reqData.nickname),
                     figureurl: reqData.figureurl
@@ -159,6 +159,7 @@
 <!--      <a href='/home/questions' class='full' target="_blank">风险承受度评估</a>   -->
       <a href='/usersurvey/startup' class='full' target="_blank">理财规划</a>
       <a href='/bankinvest/products' class='full' target="_blank">理财产品</a>
+      <a href='/personmanagement/movablewall' class='full' target="_blank">有奖活动</a>
     </div>
     <div class="span2">
       <h4 class="tcol">家庭理财知识</h4>

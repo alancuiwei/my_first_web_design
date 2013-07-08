@@ -33,6 +33,7 @@
 </style>
 
 <div class="main-content dream">
+<a href="/">首页</a>
 <h1><%= @webuser.username %>的个人首页</h1>
 <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
   <div class="row-fluid" style="height: 18px;">
@@ -45,23 +46,23 @@
         </div>
     <% elsif @webuser.risktolerance ==nil %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
+          <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
           <a href="/home/questions"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <span class="disabled"><b>3.</b> <span>梦想目标设定</span><span class="separator"> > </span></span>  <div class="mobile"><br></div>
           <span class="disabled"><b>4.</b> <span>规划建议书生成</span></span>
         </div>
     <% elsif @webuser.dreamset ==nil %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/home/questions"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <a href="/usersurvey/dreamset"><b>3.</b> <span>梦想目标设定</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <span class="disabled"><b>4.</b> <span>规划建议书生成</span></span>
         </div>
     <% else %>
         <div class="span12">
-          <a class="demo-tip-yellowsimple" title="已完成"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a class="demo-tip-yellowsimple" title="已完成"><b>3.</b> <span>梦想目标设定</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/home/questions"><b>2.</b> <span>风险承受力评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/dreamset"><b>3.</b> <span>梦想目标设定</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <b>4.</b> <span>规划建议书生成</span>
         </div>
     <% end %>
@@ -72,14 +73,15 @@
 <tr>
 <td style="width: 200px;padding: 0 15px;text-align: center;">
   <div style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的家庭诊断</div>
-  <div id="topLoader" style="width: 150px;height: 150px;margin: auto;"></div>
+  <div id="topLoader" style="width: 100px;height: 100px;margin: auto;"></div>
   <div style="height: 30px;">
     <% if @webuser.username == session[:webusername] %>
         <a href="/usersurvey/startup" id="change-answers" style="font-size: 12px;">重新体检</a>
     <% end %>
   </div>
+  <hr>
   <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
-  <div id="container"></div>
+  <div id="container" style="width: 130px;margin: auto;"></div>
   <% if @webuser.username == session[:webusername] %>
       <% if @webuser.risktolerance ==nil %>
           <a href="/home/questions" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
@@ -89,34 +91,15 @@
   <% end %>
   <% if  @webuser.risktolerance!=nil %>
       <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-          <p class="risk">
-            对于安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。<br>
-            此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的波动。投资期限内，回报率的波动性较小。<br>
-            大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
-          </p>
+          <p class="risk">对于安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。</p>
       <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-          <p class="risk">
-            对于保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。<br>
-            投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
-          </p>
+          <p class="risk">对于保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。</p>
       <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-          <p class="risk">
-            对于稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。<br>
-            此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
-            大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
-          </p>
+          <p class="risk"> 对于稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。</p>
       <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-          <p class="risk">
-            对于积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。<br>
-            此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
-            大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
-          </p>
+          <p class="risk">对于积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。</p>
       <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-          <p class="risk">
-            对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。<br>
-            为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。<br>
-            大多数情况下，其长期回报率高于其它较为保守的投资方法。
-          </p>
+          <p class="risk">对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
       <% end %>
   <% end %>
 </td>
@@ -178,8 +161,8 @@
     <div class="account-types">
       <div class="account-type-tab active taxable-account-type">
         <p><span class="product" style="line-height: 20px;">战略性资产分配</span></p>
-        <p class="product-description" style="line-height: 12px;">
-          <span style="margin-right: 95px;">我们的建议</span><div class="mobile"><br></div>
+        <p class="product-description" style="line-height: 16px;">
+          <span style="margin-right: 95px;">您应该如何分配月收入：您将通过科学精确的每月工资收入分配计算，帮助得到最理想的家庭资产分配，即符合您个人家庭的需求，又能享受合适的投资收益回报。</span><div class="mobile"><br></div>
         <!--
             <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
                   <% if @webuser.organusername!=nil %>
@@ -232,7 +215,7 @@
               <tr class="" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="流动型资产">流动型资产</a></span>
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="一般指随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。">流动型资产</a></span>
                 </td>
                 <td id="proposed1" class="asset-class-percentage number"></td>
                 <td id="rate1" class="asset-class-amount number"></td>
@@ -241,7 +224,7 @@
               <tr class="" data-type="INTL_EMERGING">
                 <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                 <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="保本型资产">保本型资产</a></span>
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="顾名思义，您的投入本金是不会亏损的，当前市场上该类产品有银行定期存款，国债，保本型基金等。">保本型资产</a></span>
                 </td>
                 <td id="proposed2" class="asset-class-percentage number"></td>
                 <td id="rate2" class="asset-class-amount number"></td>
@@ -250,7 +233,7 @@
               <tr class="" data-type="US_STOCKS">
                 <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                 <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="风险型资产">风险型资产</a></span>
+                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="很有可能会亏损本金的投资资产。当然，我们会结合您的具体风险承受评估来给您做相应产品的介绍。当前市场上风险最高，预期利润最高的是股票和股票型基金。">风险型资产</a></span>
                 </td>
                 <td id="proposed3" class="asset-class-percentage number"></td>
                 <td id="rate3" class="asset-class-amount number"></td>
@@ -330,14 +313,19 @@
       <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
         <table>
           <tr>
-            <td>
+            <td colspan="3">
               <div class="account-type-tab active taxable-account-type">
                 <p><span class="product" style="line-height: 20px;">摆脱月光族</span></p>
-                <p class="product-description" style="line-height: 12px;">
-                  <span style="margin-right: 95px;">一步一步向上爬</span><div class="mobile"><br></div>
+                <p class="product-description" style="line-height: 16px;">
+                  <span style="margin-right: 95px;">我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划： 我们将主要遵循如下几个原则：1）身边要保留3个月左右的现金或活期，以应对个人、家庭特殊紧急情况。
+2）保本型资产必不可少，作为家庭财务配置的平衡力量。 3）年轻时，风险承受能力强，风险性资产占有比重会多一些。</span><div class="mobile"><br></div>
                 </p>
               </div>
               <div class="clearfix"></div>
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 180px;">
             </td>
             <td style="width: 255px;">
               <select name="year" id="year" onChange = "select()" style="margin-left: 0;"></select>
@@ -1016,12 +1004,12 @@
 <script>
     $(function() {
         <% if @webuser.score!=nil %>
-        $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
+        $topLoader = $("#topLoader").percentageLoader({width: 100, height: 100, controllable : false, progress : <%= format("%0.3f",@webuser.score/100) %>, onProgressUpdate : function(val) {
             $topLoader.setValue(Math.round(val * 100.0));
         }});
-        $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
+        $topLoader.setValue('');
         <% else %>
-        var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
+        var $topLoader = $("#topLoader").percentageLoader({width: 100, height: 100, controllable : false, progress : 0, onProgressUpdate : function(val) {
             $topLoader.setValue(Math.round(val * 100.0));
         }});
         $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">尚未体检</span>');
@@ -1057,8 +1045,8 @@
                         ]
                     },
                     plotBackgroundImage: null,
-                    height: 105,
-                    width: 200
+                    height: 80,
+                    width: 130
                 },
 
                 title: false,
@@ -1068,7 +1056,7 @@
                     endAngle: 45,
                     background: null,
                     center: ['50%', '145%'],
-                    size: 150
+                    size: 80
                 }],
 
                 yAxis: [{

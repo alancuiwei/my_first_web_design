@@ -119,7 +119,7 @@
             <div class="row op-label">
               <div class="span3" style="text-align: left;">年龄</div>
               <div class="span3" style="text-align: left;">平均月收入</div>
-              <div class="span2" style="text-align: left;"></div>
+              <div class="span2 member hide" style="text-align: left;">家庭成员收入</div>
             </div>
             <div class="seperator thick"></div>
 
@@ -138,14 +138,13 @@
                       <input class="ctl demo-form-name span2 salary" title="平均月收入：每个月到手的收入，包括工资加上额外收入。" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
-                  <div class="span2">
-                    <!--
+                  <div class="span2 member hide">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 additional" id="additional" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="span2 salary" id="salary2" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
-                    -->
                   </div>
+                  <div class="span1 top5 member hide" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="margin-left: 20px;font-size: 24px;" onclick="move();">&nbsp;&nbsp;</i></div>
                 </div>
               </div>
               <div class="row op-label" style="margin: 10px 0 10px -30px;">
@@ -179,6 +178,7 @@
               </div>
             </div>
             <div class="seperator bottom thick"></div>
+            <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="add();"> + 添加家庭成员收入 </a>
           </div>
         </div>
       </div>
@@ -236,7 +236,7 @@
                   <div class="span2" style="text-align: center;">
                     <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
                   </div>
-                  <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+                  <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
                 </div>
               </div>
 
@@ -353,8 +353,9 @@
         <% if session[:webusername]!=nil %>
         location.href='/home/questions';
         <% else %>
+        var salary= $("#salary").attr("value")+$("#salary").attr("value");
         location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                +'&salary='+$("#salary").attr("value")+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value");
+                +'&salary='+salary+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value");
         <% end %>
     });
 
@@ -454,7 +455,7 @@
                 score3=0;
             }
 
-            if(wen<=0 || (parseFloat($("#salary").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value")))/total>=2/3){
+            if(wen<=0 || (parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value")))/total>=2/3){
                 $("#tishi").html("您每个月的零花钱会不会太多了？");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");
@@ -488,8 +489,9 @@
             $(".tijian").hide();
             $(".jieguo").show();
         <% if session[:webusername]!=nil %>
+
             $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                salary:$("#salary").attr("value"),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
+                salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
             });
         <% end %>
             var kb = 0;
@@ -532,7 +534,7 @@
             $(".jieguo").show();
         <% if session[:webusername]!=nil %>
             $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                salary:$("#salary").attr("value"),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
+                salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
             });
         <% end %>
 
@@ -633,6 +635,16 @@
             $(fi).find(".pname").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
         }
+    }
+
+    function add()
+    {
+        $(".member").removeClass("hide");
+    }
+    function move()
+    {
+        $(".member").addClass("hide");
+        $("#salary2").attr("value",0);
     }
 
     // use to remove founders
@@ -862,4 +874,29 @@
         }
     });
 });
+
+  $(document).ready(function(){
+      <% if session[:webusername]!=nil %>
+         $("#age").attr("value",parseInt('<%= @examination.age %>'));
+         $("#salary").attr("value",parseInt('<%= @examination.salary %>'));
+         $("#rent").attr("value",parseInt('<%= @examination.rent %>'));
+         $("#wages").attr("value",parseInt('<%= @examination.wages %>'));
+         var variety='<%= @examination.variety %>'.split(",");
+         var amount='<%= @examination.amount %>'.split(",");
+         var pname='<%= @examination.pname %>'.split(",");
+        for(i=0;i<variety.length;i++){
+            if(i==0){
+                $("#variety").attr("value",variety[i]);
+                $("#amount").attr("value",amount[i]);
+                $("#pname").attr("value",pname[i]);
+            }
+            else{
+                addFounder(null, false);
+                $("#variety"+i).attr("value",variety[i]);
+                $("#amount"+i).attr("value",amount[i]);
+                $("#pname"+i).attr("value",pname[i]);
+            }
+        }
+      <% end %>
+  });
 </script>

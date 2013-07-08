@@ -277,7 +277,7 @@ see the file license.txt that was included with the plugin bundle.
                 percentageText.innerHTML = string;
                 if(perfinance==1)
                 {
-                    percentageText.innerHTML = '<span style="font-size: 30px;font-family: Microsoft YaHei;">'+(progress * 100.0).toFixed(1)+'<span style="font-size: 15px;">分</span></span>';
+                    percentageText.innerHTML = '<span style="font-size: 20px;font-family: Microsoft YaHei;">'+(progress * 100.0).toFixed(1)+'<span style="font-size: 10px;">分</span></span>';
                 }
                 if(string=="100%"){
                     percentageText.innerHTML='<span style="font-size: 30px;font-family: Microsoft YaHei;">'+run()+'<span style="font-size: 15px;">分</span></span>';
