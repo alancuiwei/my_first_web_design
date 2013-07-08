@@ -216,10 +216,14 @@
                   <div class="span3 control-group">
                     <select  name="variety" id="variety" class="founder-name" title="资产品种">
                       <option value="银行活期">银行活期</option>
-                      <option value="银行理财产品">银行理财产品</option>
                       <option value="银行定期">银行定期</option>
-                      <option value="基金">基金</option>
+                      <option value="银行理财产品">银行理财产品</option>
+                      <option value="余额宝">余额宝</option>
+                      <option value="其他货币基金">其他货币基金</option>
+                      <option value="债券型基金">债券型基金</option>
                       <option value="股票">股票</option>
+                      <option value="股票型基金">股票型基金</option>
+                      <option value="贵金属">贵金属</option>
                       <option value="其它">其它</option>
                     </select>
                   </div>
@@ -363,7 +367,9 @@
             $("#liudong").html("");
             $("#baoben").html("");
             $("#fengxian").html("");
+           if(ie){
             $("#topLoader").html("");
+           }
         });
 
     var variety,amount,pname,jixu,total,xian,feng,wen;
@@ -400,10 +406,14 @@
             // alert($("#age").attr("value"));  年龄层次
             for(i=0;i<variety.length;i++){
                 if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
+                else if(variety[i].value=="余额宝"){xianjin=xianjin+parseFloat(amount[i].value)}
+                else if(variety[i].value=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i].value)}
                 else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="基金"){fengxian=fengxian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="债券型基金"){wenjian=wenjian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="股票型基金"){fengxian=fengxian+parseFloat(amount[i].value)}
+                else if(variety[i].value=="贵金属"){fengxian=fengxian+parseFloat(amount[i].value)}
                 else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
                 if(i==0){
                     varietys=variety[i].value;
@@ -444,7 +454,7 @@
                 score3=0;
             }
 
-            if(wen<=0 || parseFloat($("#pinmoney").attr("value"))/total>=2/3){
+            if(wen<=0 || (parseFloat($("#salary").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value")))/total>=2/3){
                 $("#tishi").html("您每个月的零花钱会不会太多了？");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");

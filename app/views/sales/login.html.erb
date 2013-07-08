@@ -371,6 +371,7 @@
                     else if(save.split(',')[5]=='E'){trade='人事/行政/高级管理';}
                     else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
                     else if(save.split(',')[5]=='G'){trade='公务员';}
+                    else if(save.split(',')[5]=='H'){trade='其他';}
                     var risktolerance='<%= params[:risk] %>';
                   <% if params[:score]!="" %>
                     $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',

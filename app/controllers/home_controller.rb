@@ -110,4 +110,87 @@ class HomeController < ApplicationController
     @number=Downloadnum.find_by_id(1);
     @number.update_attributes(:pdfnumber=>params[:pdfnumber],:jpgnumber=>params[:jpgnumber])
   end
+
+  def userconfig
+    @webuser=Webuser.find_by_username(params[:username])
+    if params[:password]!=nil
+      password=encode(params[:password])
+    end
+    if @webuser==nil
+      Webuser.new do |w|
+        w.username=params[:username]
+        w.password=password
+        w.tel=params[:tel]
+        w.address=params[:address]
+        w.postcode=params[:postcode]
+        w.name=params[:name]
+        w.email=params[:email]
+        w.company=params[:company]
+        w.trade=params[:trade]
+        w.organuser=params[:organuser]
+        w.securitiesnum=params[:securitiesnum]
+        w.memberlevel=params[:memberlevel]
+        w.risktolerance=params[:risktolerance]
+        w.contact=params[:contact]
+        w.scharge=params[:scharge]
+        w.realizetime=params[:realizetime]
+        w.monthpay=params[:monthpay]
+        w.city=params[:city]
+        w.dream=params[:dream]
+        w.amount=params[:amount]
+        w.remark=params[:remark]
+        w.province=params[:province]
+        w.certificate=params[:certificate]
+        w.exeitdeposit=params[:exeitdeposit]
+        if params[:investamount]!=nil
+          w.isauto=0
+        end
+        if params[:organuser]=='1'
+          w.approve=1
+        end
+        w.save
+      end
+    end
+    render :json => "s".to_json
+  end
+
+  def qquserconfigajax
+     @qquser=Qquser.find_by_openid(params[:openid])
+     if @qquser==nil
+       Qquser.new do |i|
+         i.username=params[:username]
+         i.openid=params[:openid]
+         i.accesstoken=params[:accesstoken]
+         i.save
+       end
+     end
+     render :json => "s".to_json
+  end
+end
+
+
+
+require 'openssl'
+require 'base64'
+ALG = 'DES-EDE3-CBC'  #算法
+KEY = "mZ4Wjs6L"  #8位密钥
+DES_KEY = "nZ4wJs6L"
+
+#加密
+def encode(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.encrypt
+  cipher = des.update(str)
+  cipher << des.final
+  return Base64.encode64(cipher) #Base64编码，才能保存到数据库
+end
+
+#解密
+def decode(str)
+  str = Base64.decode64(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.decrypt
+  des.update(str) + des.final
 end

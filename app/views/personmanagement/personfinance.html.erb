@@ -90,25 +90,24 @@
   <% if  @webuser.risktolerance!=nil %>
       <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
           <p class="risk">
-            对于安益型投资人，其投资组合配置在风险最小的领域，如货币市场基金或中短债基金。<br>
-            此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，回报率的波动性较小。<br>
+            对于安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。<br>
+            此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的波动。投资期限内，回报率的波动性较小。<br>
             大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
           </p>
       <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
           <p class="risk">
-            对于保守型投资人，其投资组合较大比例配置债券类资产或债券型基金，同时也有一部分比例配制于股票类资产或股票型基金以及配置型基金。<br>
-            此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。<br>
-            大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
+            对于保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。<br>
+            投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
           </p>
       <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
           <p class="risk">
-            对于稳健型投资人，其投资组合均衡配置股票类资产和债券类资产（或股票型基金和债券型基金）以及配置型基金。<br>
+            对于稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。<br>
             此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
             大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
           </p>
       <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
           <p class="risk">
-            对于积极型投资人，其投资组合较大比例配置股票类资产或股票型基金，同时还有小部分比例配置于债券和现金。<br>
+            对于积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。<br>
             此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
             大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
           </p>
@@ -388,7 +387,7 @@
                 <td>流动型资产</td>
                 <td>月开销</td>
                 <td class="name0">零花钱</td>
-                <td class="amounts0"><%= format("%0.0f",@examination.salary-@examination.rent-@examination.wages) %></td>
+                <td class="amounts0"><% if @examination!=nil %><%= format("%0.0f",@examination.salary-@examination.rent-@examination.wages) %><% end %></td>
                 <td></td>
               </tr>
               <tr class="monthpay3" data-type="MUNI_BONDS">
@@ -552,10 +551,14 @@
         var amount='<%= @examination.amount %>'.split(",");
         for(i=0;i<variety.length;i++){
             if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="余额宝"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i])}
             else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
             else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="债券型基金"){wenjian=wenjian+parseFloat(amount[i])}
             else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="股票型基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="贵金属"){fengxian=fengxian+parseFloat(amount[i])}
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
@@ -692,8 +695,8 @@
             if(feng<fengxian+100){
                 $(".monthpay5").hide();
             }
-        <% end %>
             arrayObj[0]=[$(".amounts1").html(),amounts3,amounts2,amounts4,amounts5];
+        <% end %>
         }
         if(!(yearNow+'年'==loca2 && monthNow+'月'==loca4) && loca4!=""){
             if(yearNow+'年'==loca2){
@@ -1217,10 +1220,14 @@
         var amount='<%= @examination.amount %>'.split(",");
         for(i=0;i<variety.length;i++){
             if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="余额宝"){xianjin=xianjin+parseFloat(amount[i])}
+            else if(variety[i]=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i])}
             else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
             else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="债券型基金"){wenjian=wenjian+parseFloat(amount[i])}
             else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="股票型基金"){fengxian=fengxian+parseFloat(amount[i])}
+            else if(variety[i]=="贵金属"){fengxian=fengxian+parseFloat(amount[i])}
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;

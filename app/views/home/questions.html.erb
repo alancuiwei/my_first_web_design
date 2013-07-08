@@ -168,6 +168,7 @@
             <label class="stacked"><input type="radio" name="angel" value="E" tabindex="-1"><span>人事/行政/高级管理</span></label>
             <label class="stacked"><input type="radio" name="angel" value="F" tabindex="-1"><span>咨询/法律/教育/科研</span></label>
             <label class="stacked"><input type="radio" name="angel" value="G" tabindex="-1"><span>公务员</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="H" tabindex="-1"><span>其他</span></label>
             <div style="clear:both"></div>
             <div class="mobile"><br></div>
             <p class="why-do-we-ask">
@@ -418,6 +419,7 @@
                         else if(save.split(',')[5]=='E'){trade='人事/行政/高级管理';}
                         else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
                         else if(save.split(',')[5]=='G'){trade='公务员';}
+                        else if(save.split(',')[5]=='H'){trade='其他';}
                         var risktolerance=risk;
                         <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,

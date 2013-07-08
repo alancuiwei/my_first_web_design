@@ -312,6 +312,7 @@ class AdminController < ApplicationController
 
   def userlogout
     session[:webusername]=nil
+    session[:qq]=nil
     render :json => "s".to_json
   end
 
@@ -734,6 +735,9 @@ class AdminController < ApplicationController
   end
 
   def userlogin
+    if params[:login]!='qq'
+      session[:qq]=1
+    end
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
     if @personalfinance
