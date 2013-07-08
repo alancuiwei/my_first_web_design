@@ -10,6 +10,7 @@ class AdminController < ApplicationController
       @blogs=Blog.all
       @activity=Activity.all
       @enroll=Enroll.all
+      @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Category_1.all
       @category2=Category_2.all
@@ -287,6 +288,44 @@ class AdminController < ApplicationController
     @salescompany=Salescompany.find_by_id(params[:id])
     if @salescompany!=nil
       if @salescompany.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def poundageconfig
+    if params[:id]!="0"
+      @productcompany=Productcompany.find_by_id(params[:id])
+    else
+      @productcompany=Productcompany.limit(1)
+    end
+    @financial=Financial.all
+    @salescompany=Salescompany.all
+  end
+
+  def poundageconfigajax
+    if params[:id]=="0"
+      Productcompany.new do |p|
+        p.pname=params[:pname]
+        p.fundname=params[:fundname]
+        p.poundage=params[:poundage]
+        p.link=params[:link]
+        p.save
+      end
+      render :json => "s1".to_json
+    else
+      @productcompany=Productcompany.find_by_id(params[:id])
+      @productcompany.update_attributes(:pname=>params[:pname],:fundname=>params[:fundname],:poundage=>params[:poundage],:link=>params[:link])
+      render :json => "s2".to_json
+    end
+  end
+
+  def poundagedeleteajax
+    @productcompany=Productcompany.find_by_id(params[:id])
+    if @productcompany!=nil
+      if @productcompany.destroy
         render :json => "s".to_json
       else
         render :json => "f".to_json
