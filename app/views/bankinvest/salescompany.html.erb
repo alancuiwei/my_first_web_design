@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag "bootstrap.min.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
 <style>
-    .details td.right{
+     td.right{
         font-family: "Open Sans",Helvetica,Arial,sans-serif;
         margin: 0;
         font-style: italic;
@@ -10,7 +10,7 @@
         line-height: 24px;
         color: rgb(68, 68, 68);
     }
-    .details td.left{
+     td.left{
         width:15%;
         vertical-align: middle;
         background-color: #fbfbfb;
@@ -32,10 +32,19 @@
     body {
         background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
     }
+     a:hover {
+         background-color: #37a;
+         color: white;
+         text-decoration: none;
+     }
+      a{color: #37a;}
+     h2{font-weight: normal;}
 </style>
 
-<div class="main-content details">
-  <div style="width: 60%;min-width: 692px;">
+<div class="main-content">
+  <table>
+    <tr>
+      <td style="width: 60%;min-width: 692px;">
     <a href="/">首页</a>
     <br><br>
     <div class="box_left_title1">
@@ -61,9 +70,10 @@
         <td class="right"><% if @salescompany.introduced!=nil %><a href="<%= @salescompany.introduced %>" target="_blank">点击查看</a><% end %></td>
       </tr>
     </table>
-  </div>
   <% if @salescompany.fundname=="数米基金网" %>
       <div style="height: 30px;"></div>
+            <h1 style="font-weight: normal;">基金购买流程</h1>
+            <h2 style="font-size: 20px;">1.开户</h2>
       <div id="myCarousel" class="carousel slide">
         <ol class="carousel-indicators">
           <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -73,24 +83,66 @@
           <li data-target="#myCarousel" data-slide-to="4" class=""></li>
         </ol>
         <div class="carousel-inner">
-          <div class="item active" style="padding: 0 85px;height: 470px;">
-            <img src="/assets/121074.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+                <div class="item active" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/121074.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
-          <div class="item" style="padding: 0 85px;height: 470px;">
-            <img src="/assets/121075.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/121075.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
-          <div class="item" style="padding: 0 85px;height: 470px;">
-            <img src="/assets/121076.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/121076.jpg" alt="" style="margin: 0 auto;max-height: 470px;width: 522px;">
           </div>
-          <div class="item" style="padding: 0 85px;height:470px;">
-            <img src="/assets/121077.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+                <div class="item" style="padding: 0 85px;height:370px;">
+                  <img src="/assets/121077.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
-          <div class="item" style="padding: 0 85px;height:470px;">
-            <img src="/assets/121078.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+                <div class="item" style="padding: 0 85px;height:370px;">
+                  <img src="/assets/121078.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
         </div>
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
         <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
       </div>
+            <h2 style="font-size: 20px;">2.基金交易</h2>
+            <div id="Carousel" class="carousel slide">
+              <ol class="carousel-indicators">
+                <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Carousel" data-slide-to="1" class=""></li>
+                <li data-target="#Carousel" data-slide-to="2" class=""></li>
+                <li data-target="#Carousel" data-slide-to="3" class=""></li>
+                <li data-target="#Carousel" data-slide-to="4" class=""></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="item active" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou01.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou02.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou03.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height:370px;">
+                  <img src="/assets/dingtou04.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+              </div>
+              <a class="left carousel-control" href="#Carousel" data-slide="prev">‹</a>
+              <a class="right carousel-control" href="#Carousel" data-slide="next">›</a>
+            </div>
   <% end %>
+      </td>
+      <td>
+        <% if params[:pid]!=nil %>
+        <div style="height: 100px;"></div>
+        <div class="gray_ad" id="buyinfo">
+          <div id="buyinfo-printed">
+            <h2 class="">
+              <%= @financial.pname %> 在 <%= @salescompany.fundname %> :
+            </h2>
+            <a href="<%= @productcompany.link %>" target="_blank">点击进行基金购买</a>
+          </div>
+        </div>
+        <% end %>
+      </td>
+    </tr>
+  </table>
 </div>

@@ -110,9 +110,9 @@
           在哪儿买这个理财产品?
         </h2>
         <% @productcompany.each do |b| %>
-          <a target="_blank" href="/bankinvest/salescompany/<%= @hash[b.fundname][0] %>" class=""><%= b.fundname %> ( 手续费 <%= b.poundage %>% )</a><br>
+          <a href="/bankinvest/salescompany/<%= @hash[b.fundname][0] %>?pid=<%= params[:id] %>" class=""><%= b.fundname %> ( 手续费 <%= b.poundage %>% )</a><br>
         <% end %>
-        <a href="/bankinvest/buylinks/<%= params[:id] %>">查看<%= @productcompany.length %>家购买详情 ( 手续费 0.5% 起 )</a>
+        <a href="/bankinvest/buylinks/<%= params[:id] %>">查看<%= @productcompany.length %>家购买详情 ( 手续费 <%= @min %>% 起 )</a>
       </div>
     </div>
   </div>

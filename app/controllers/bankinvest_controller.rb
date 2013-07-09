@@ -40,6 +40,10 @@ class BankinvestController < ApplicationController
   def salescompany
     if params[:id]!=nil
       @salescompany=Salescompany.find_by_id(params[:id])
+      if params[:pid]!=nil
+        @financial=Financial.find_by_id(params[:pid])
+        @productcompany=Productcompany.find_by_pname_and_fundname(@financial.pname,@salescompany.fundname)
+      end
     else
       redirect_to(:controller=>"home", :action=>"index")
     end
@@ -56,6 +60,11 @@ class BankinvestController < ApplicationController
           @hash.store(@productcompany[i].fundname,[@salescompany.id])
         else
           @hash.store(@productcompany[i].fundname,[nil,nil,nil])
+        end
+        if i==0
+          @min=@productcompany[i].poundage
+        elsif @min>@productcompany[i].poundage
+          @min=@productcompany[i].poundage
         end
       end
     else
