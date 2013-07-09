@@ -20,10 +20,48 @@
       公司简介：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="profile" id="profile" title="公司简介"></textarea><br>
   <% end %>
   官网介绍：<input type="text" name="introduced" id="introduced" title="官网介绍"><br>
+  <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+    公司logo: <input id="file_file" name="file[file]" type="file"><br><br>
+    <input name="commit" id="create" value="上传图片" type="submit">
+  </form>
+  <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+    基金销售许可证图: <input id="file" name="file[file]" type="file"><br><br>
+    <input name="commit" id="create2" value="上传图片" type="submit">
+  </form>
+  有无购买指导：<select  name="guide" id="guide" title="有无购买指导">
+  <option value="有">有</option>
+  <option value="无">无</option>
+</select><br>
+  购买时间：<input type="text" name="time" id="time" title="购买时间"><br>
   <a class="btn btn-primary" href="javascript:void(0)" id="companyconfig">确认</a>
 </div>
 
 <script type="text/javascript">
+     var logo='';
+     var license='';
+     function getFileName(path){
+         var pos1 = path.lastIndexOf('/');
+         var pos2 = path.lastIndexOf('\\');
+         var pos  = Math.max(pos1, pos2)
+         if( pos<0 )
+             return path;
+         else
+             return path.substring(pos+1);
+     }
+     $("#create").click(function(e){
+         if(document.getElementById('file_file').value==''){
+             alert('请选择公司logo');
+             return false;
+         }
+         logo=getFileName(document.getElementById("file_file").value);
+     });
+     $("#create2").click(function(e){
+         if(document.getElementById('file').value==''){
+             alert('请选择基金销售许可证图');
+             return false;
+         }
+         license=getFileName(document.getElementById("file").value);
+     });
 
     $("#companyconfig").click(function(e){
         var o=document.getElementsByTagName("input");
@@ -37,10 +75,13 @@
                 break;
             }
         }
-
+        <% if params[:id]!="0" %>
+             if(logo==""){logo='<%= @salescompany.logo%>'}
+             if(license==""){license='<%= @salescompany.license%>'}
+        <% end %>
         if(nom_flag==0){
             $.post("/admin/companyconfigajax/<%= params[:id] %>",{ fundname: $("#fundname").attr("value"),company: $("#company").attr("value"),capital: $("#capital").attr("value"),
-                profile: $("#profile").attr("value"),introduced: $("#introduced").attr("value")},function(data){
+                profile: $("#profile").attr("value"),introduced: $("#introduced").attr("value"),logo:logo,license:license,guide:$("#guide").attr("value"),time:$("#time").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品销售公司创建成功！");
                     location.href='/admin';
@@ -61,6 +102,8 @@
         $("#company").attr("value",'<%= @salescompany.company %>');
         $("#capital").attr("value",'<%= @salescompany.capital%>');
         $("#introduced").attr("value",'<%= @salescompany.introduced%>');
+        $("#guide").attr("value",'<%= @salescompany.guide%>');
+        $("#time").attr("value",'<%= @salescompany.time%>');
         <% end %>
     });
 </script>

@@ -1,4 +1,6 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 <style>
     .details td.right{
         font-family: "Open Sans",Helvetica,Arial,sans-serif;
@@ -27,7 +29,9 @@
         padding-bottom: 10px;
         margin-bottom: 10px;
     }
-
+    body {
+        background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
+    }
 </style>
 
 <div class="main-content details">
@@ -58,4 +62,35 @@
       </tr>
     </table>
   </div>
+  <% if @salescompany.fundname=="数米基金网" %>
+      <div style="height: 30px;"></div>
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="4" class=""></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="item active" style="padding: 0 85px;height: 470px;">
+            <img src="/assets/121074.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height: 470px;">
+            <img src="/assets/121075.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height: 470px;">
+            <img src="/assets/121076.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:470px;">
+            <img src="/assets/121077.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+          </div>
+          <div class="item" style="padding: 0 85px;height:470px;">
+            <img src="/assets/121078.jpg" alt="" style="margin: 0 auto;max-height: 470px;">
+          </div>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+      </div>
+  <% end %>
 </div>

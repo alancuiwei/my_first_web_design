@@ -19,6 +19,24 @@ class BankinvestController < ApplicationController
     @financial=Financial.order("id DESC").all
   end
 
+  def buylinks
+    if params[:id]!=nil
+      @financial=Financial.find_by_id(params[:id])
+      @productcompany=Productcompany.find_all_by_pname(@financial.pname)
+      @hash={}
+      for i in 0..@productcompany.size-1
+        @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
+        if @salescompany!=nil
+          @hash.store(@productcompany[i].fundname,[@salescompany.logo,@salescompany.guide,@salescompany.time])
+        else
+          @hash.store(@productcompany[i].fundname,[nil,nil,nil])
+        end
+      end
+    else
+      redirect_to(:controller=>"bankinvest", :action=>"products")
+    end
+  end
+
   def salescompany
     if params[:id]!=nil
       @salescompany=Salescompany.find_by_id(params[:id])
@@ -30,7 +48,16 @@ class BankinvestController < ApplicationController
   def productdetails
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])
-      @salescompany=Salescompany.all
+      @productcompany=Productcompany.find_all_by_pname(@financial.pname)
+      @hash={}
+      for i in 0..@productcompany.size-1
+        @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
+        if @salescompany!=nil
+          @hash.store(@productcompany[i].fundname,[@salescompany.id])
+        else
+          @hash.store(@productcompany[i].fundname,[nil,nil,nil])
+        end
+      end
     else
       redirect_to(:controller=>"bankinvest", :action=>"products")
     end
