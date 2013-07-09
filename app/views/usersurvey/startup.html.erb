@@ -145,13 +145,13 @@
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="ctl demo-form-name span2 salary" title="平均月收入：每个月到手的收入，包括工资加上额外收入。" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 salary" title="平均月收入：每个月到手的收入，包括工资加上额外收入。" onMouseOver="if(this.value==0){this.value='';}" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span2 member hide">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="span2 salary" id="salary2" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="span2 salary" id="salary2" value="0" onMouseOver="if(this.value==0){this.value='';}" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span1 top5 member hide" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="margin-left: 20px;font-size: 24px;" onclick="move();">&nbsp;&nbsp;</i></div>
@@ -167,13 +167,13 @@
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="ctl demo-form-name span2 rent" title="衣食住行:包括房租、房贷、伙食费等衣食住行，仅供维持最低生活标准的费用。" id="rent" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 rent" title="衣食住行:包括房租、房贷、伙食费等衣食住行，仅供维持最低生活标准的费用。" onMouseOver="if(this.value==0){this.value='';}" id="rent" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span3">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="ctl demo-form-name span2 wages" title="每月至少储蓄：您目标每月储蓄的金额，请不要过分苛求自己。" id="wages" value="0" style="width: 180px;" type="text" placeholder="">
+                      <input class="ctl demo-form-name span2 wages" title="每月至少储蓄：您目标每月储蓄的金额，请不要过分苛求自己。" onMouseOver="if(this.value==0){this.value='';}" id="wages" value="0" style="width: 180px;" type="text" placeholder="">
                     </div>
                   </div>
                   <div class="span2">
@@ -240,7 +240,7 @@
                   <div class="span3 control-group" style="text-align: left;">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="init-share" id="amount" style="width: 180px;" value="0" type="text" placeholder="资产金额">
+                      <input class="init-share" id="amount" style="width: 180px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
                     </div>
                   </div>
                   <div class="span2" style="text-align: center;">
@@ -387,6 +387,9 @@
     var xianjin= 0,wenjian= 0,fengxian=0;
     var score1,score2,score3;
         $("#animateButton").click(function() {
+            if($("#salary2").attr("value")==''){
+                $("#salary2").attr("value",0);
+            }
             if(ie){
                 document.getElementsByClassName = function(){
                     var tTagName ="*";
@@ -416,6 +419,7 @@
 
             // alert($("#age").attr("value"));  年龄层次
             for(i=0;i<variety.length;i++){
+                if(amount[i].value==''){amount[i].value=0;}
                 if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
                 else if(variety[i].value=="余额宝"){xianjin=xianjin+parseFloat(amount[i].value)}
                 else if(variety[i].value=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i].value)}
@@ -471,19 +475,19 @@
                 $("#subscribe").addClass("btn-primary");
                 waithelp();
             }
-            else if(parseFloat($("#salary").attr("value"))<=0){
+            else if(parseFloat($("#salary").attr("value"))<=0 || $("#salary").attr("value")==""){
                 $("#tishi").html("请输入您的平均月收入。");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");
                 waithelp();
             }
-            else if(parseFloat($("#rent").attr("value"))<=0){
+            else if(parseFloat($("#rent").attr("value"))<=0 || $("#rent").attr("value")==""){
                 $("#tishi").html("请输入您平均每月的衣食住行开销。");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");
                 waithelp();
             }
-            else if(parseFloat($("#wages").attr("value"))<=0){
+            else if(parseFloat($("#wages").attr("value"))<=0 || $("#wages").attr("value")==""){
                 $("#tishi").html("请输入您每月至少储蓄多少钱。");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");

@@ -2,25 +2,24 @@
 
 <div class="main-content buylinks">
   <a href="/">首页</a>
-  <h1><%= @financial.pname %></h1>
+  <h1>通天顺家庭理财：<%= @financial.pname %></h1>
   <div class="grid-16-8 clearfix">
     <div class="article">
       <div class="indent">
         <p class="pl">手续费定价: <%= @financial.poundage %>%</p>
         <br>
-        <table class="olt" id="buylink-table">
+        <table class="olt table table-striped table-bordered" id="buylink-table">
           <tbody><tr>
             <th width="108"></th>
-            <th class="m" width="150">直达链接</th>
             <th class="m price">购买指导</th>
-            <th class="m price">手续费</th>
-            <th class="m" width="180">节省<br>(假设购买10000元)</th>
             <th class="m">购买时间</th>
+            <th class="m price">手续费</th>
+            <th class="m" width="180">每万元节省</th>
+            <th class="m" width="150">直达链接</th>
           </tr>
           <% @productcompany.each do |b| %>
           <tr>
-            <td height="39"><img src="/assets/<%= @hash[b.fundname][0] %>" width="96" alt="<%= b.fundname %>"></td>
-            <td class="pl2"><a href="<%= b.link %>" target="_blank"><%= b.fundname %></a></td>
+            <td height="39"><img src="/assets/<%= @hash[b.fundname][0] %>" style="width: 96px;" alt="<%= b.fundname %>"></td>
             <td class="pl2" align="left">
               <% if @hash[b.fundname][1]=='有' %>
                  了解详情
@@ -28,9 +27,10 @@
                   无
               <% end %>
             </td>
-            <td class="pl2" align="left"><% if b.poundage!=nil %><%= b.poundage %>%<% end %></td>
-            <td><% if b.poundage!=nil && @financial.poundage!=nil %><%= format("%0.0f",(@financial.poundage-b.poundage)*100) %><% end %></td>
             <td><%= @hash[b.fundname][2] %></td>
+            <td class="pl2" align="left"><% if b.poundage!=nil %><%= b.poundage %>%<% end %></td>
+            <td><% if b.poundage!=nil && @financial.poundage!=nil %><%= format("%0.0f",(@financial.poundage-b.poundage)*100) %>元<% end %></td>
+            <td class="pl2" style="white-space:nowrap"><a href="<%= b.link %>" target="_blank"><%= b.fundname %></a></td>
           </tr>
           <% end %>
           </tbody>

@@ -177,12 +177,14 @@ class AdminController < ApplicationController
         b.category=params[:category]
         b.risklevel=params[:risklevel]
         b.classify=params[:classify]
+        b.ptype=params[:ptype]
+        b.prisk=params[:prisk]
         b.save
       end
       render :json => "s1".to_json
     else
       @category2=Category_2.find_by_id(params[:id])
-      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify])
+      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk])
       render :json => "s2".to_json
     end
   end
