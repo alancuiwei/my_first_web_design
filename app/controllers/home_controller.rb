@@ -6,6 +6,12 @@ class HomeController < ApplicationController
     @num=@username.length
   end
 
+  def questions
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+    end
+  end
+
   def scheme
     @comments=Comments.find_by_sql('select * from comments where pid is not null order by id desc')
     @hash={}

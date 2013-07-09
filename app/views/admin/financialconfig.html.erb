@@ -30,6 +30,7 @@
       产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"></textarea> <br>
   <% end %>
   官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
+  产品代码：<input type="text" name="productcode" id="productcode"><br>
   <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
 
@@ -67,6 +68,12 @@
                 alert("手续费必须为数字！");
                 nom_flag=1;
             }
+            else if($("#productcode").attr("value")!=""){
+              if(numfor.test($("#productcode").attr("value"))==false){
+                alert("产品代码必须为数字！");
+                nom_flag=1;
+              }
+            }
         }
 
 
@@ -79,7 +86,7 @@
 
         if(nom_flag==0){
             $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),
+                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -141,9 +148,10 @@
         <% end %>
         <% end %>
         $("#startvalue").attr("value",'<%= @financial.startvalue%>');
+        $("#link").attr("value",'<%= @financial.link%>');
         $("#investperiod").attr("value",'<%= @financial.investperiod%>');
         $("#poundage").attr("value",'<%= @financial.poundage%>');
-        $("#link").attr("value",'<%= @financial.link%>');
+        $("#productcode").attr("value",'<%= @financial.productcode%>');
         $("#category").attr("value",'<%= @financial.category%>');
         select()
         $("#classify").attr("value",'<%= @financial.classify%>');

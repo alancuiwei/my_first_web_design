@@ -219,6 +219,12 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def share
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+    end
+  end
+
   def stasus
     @webuser=Webuser.find_by_id(params[:oid])
     @webuser.update_attributes(:organusername=>session[:webusername])

@@ -19,13 +19,19 @@
   <div id="page-wrapper">
     <div id="top-tabs">
       <div class="top-tabs-content">
-        <b>1.</b> <span>家庭资产体检</span>
+        <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <b>2.</b> <span>风险承受力评估</span>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
+        <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+            <a href="/usersurvey/dreamset"><b>3.</b> 梦想目标设定</a>
+            <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
+            <a href="/personmanagement/personfinance"><b>4.</b> 规划建议书生成</a>
+        <% else %>
         <span class="disabled"><b>3.</b> 梦想目标设定</span>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <span class="disabled"><b>4.</b> 规划建议书生成</span>
+         <% end %>
       </div>
     </div>
 

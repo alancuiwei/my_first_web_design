@@ -236,12 +236,13 @@ class AdminController < ApplicationController
         b.link=params[:link]
         b.investperiod=params[:investperiod]
         b.poundage=params[:poundage]
+        b.productcode=params[:productcode]
         b.save
       end
       render :json => "s1".to_json
     else
       @financial=Financial.find_by_id(params[:id])
-      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],
+      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],
              :rate=>params[:rate],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
       render :json => "s2".to_json
     end

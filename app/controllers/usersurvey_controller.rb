@@ -20,6 +20,7 @@ class UsersurveyController < ApplicationController
   def startup
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
+      @webuser=Webuser.find_by_username(session[:webusername])
     end
   end
 
@@ -52,6 +53,12 @@ class UsersurveyController < ApplicationController
      @webuser=Webuser.find_by_username(session[:webusername])
     else
      @webuser=Webuser.find_by_username("admin")
+    end
+  end
+
+  def dreamset
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
     end
   end
 

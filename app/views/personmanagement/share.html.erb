@@ -62,13 +62,19 @@
 <div class="main-content">
 <div class="top-tabs-content">
   <div style="padding-left: 20px;">
-    <b>1.</b> <span> 家庭资产体检</span>
-    <b>&nbsp;&gt;&nbsp;</b>
-    <span><b>2.</b> 风险承受力评估</span>
-    <b>&nbsp;&gt;&nbsp;</b>
+    <a href="/usersurvey/startup"><b>1.</b> <span>家庭资产体检</span></a>
+    <b>&nbsp;>&nbsp;</b>
+    <b>2.</b> <span>风险承受力评估</span>
+    <b>&nbsp;>&nbsp;</b>
+    <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+        <a href="/usersurvey/dreamset"><b>3.</b> 梦想目标设定</a>
+        <b>&nbsp;>&nbsp;</b>
+        <a href="/personmanagement/personfinance"><b>4.</b> 规划建议书生成</a>
+    <% else %>
     <span class="disabled"><b>3.</b> 梦想目标设定</span>
-    <b>&nbsp;&gt;&nbsp;</b>
+        <b>&nbsp;>&nbsp;</b>
     <span class="disabled"><b>4.</b> 规划建议书生成</span>
+    <% end %>
   </div>
 </div>
   <div style="padding: 0 20px 50px;">

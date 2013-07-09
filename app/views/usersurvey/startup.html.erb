@@ -91,11 +91,21 @@
     <div style="width: 940px;margin: 0 auto;padding-left: 20px;">
       <b>1.</b> <span> 家庭资产体检</span>
       <b>&nbsp;&gt;&nbsp;</b>
+      <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
+          <a href="/home/questions"><b>2.</b> 风险承受力评估</a>
+      <% else %>
       <span class="disabled"><b>2.</b> 风险承受力评估</span>
+      <% end %>
       <b>&nbsp;&gt;&nbsp;</b>
+      <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+          <a href="/usersurvey/dreamset"><b>3.</b> 梦想目标设定</a>
+      <b>&nbsp;&gt;&nbsp;</b>
+          <a href="/personmanagement/personfinance"><b>4.</b> 规划建议书生成</a>
+      <% else %>
       <span class="disabled"><b>3.</b> 梦想目标设定</span>
       <b>&nbsp;&gt;&nbsp;</b>
       <span class="disabled"><b>4.</b> 规划建议书生成</span>
+      <% end %>
     </div>
   </div>
   <div class="tijian" style="width: 940px;margin: 0 auto;">
@@ -457,6 +467,30 @@
 
             if(wen<=0 || (parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value")))/total>=2/3){
                 $("#tishi").html("您每个月的零花钱会不会太多了？");
+                $("#sub").hide();
+                $("#subscribe").addClass("btn-primary");
+                waithelp();
+            }
+            else if(parseFloat($("#salary").attr("value"))<=0){
+                $("#tishi").html("请输入您的平均月收入。");
+                $("#sub").hide();
+                $("#subscribe").addClass("btn-primary");
+                waithelp();
+            }
+            else if(parseFloat($("#rent").attr("value"))<=0){
+                $("#tishi").html("请输入您平均每月的衣食住行开销。");
+                $("#sub").hide();
+                $("#subscribe").addClass("btn-primary");
+                waithelp();
+            }
+            else if(parseFloat($("#wages").attr("value"))<=0){
+                $("#tishi").html("请输入您每月至少储蓄多少钱。");
+                $("#sub").hide();
+                $("#subscribe").addClass("btn-primary");
+                waithelp();
+            }
+            else if(parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value"))<=0){
+                $("#tishi").html("月收入必须大于衣食住行与每月储蓄金额之和。");
                 $("#sub").hide();
                 $("#subscribe").addClass("btn-primary");
                 waithelp();
