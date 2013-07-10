@@ -44,6 +44,9 @@
             width: 97%!important;
             height: 180px!important;
         }
+      .phone{
+          padding-left: 45px!important;
+      }
     }
     h1, h2, h3 {
         font-family: "Oswald", "arial narrow", sans-serif;
@@ -88,9 +91,9 @@
     <tr>
       <td class="left" style="width: 35%;">
         <br>
-        <p style="padding-left: 90px;">您的风险承受度</p>
+        <p class="phone" style="padding-left: 90px;">您的风险承受度</p>
         <div id="container"></div>
-        <a id="retest" style="font-size: 15px;padding-left: 110px;" href="/home/questions?score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">重新评估</a><br>
+        <a id="retest" class="phone" style="font-size: 15px;padding-left: 110px;" href="/home/questions?score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">重新评估</a><br>
         <div class="win" style="padding: 10px 0 0 95px;">
           <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
               <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，"></wb:share-button></div>
@@ -104,7 +107,7 @@
               <div id="click" style="width: 111px;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”。参与评估活动可手机充值抽奖，"></wb:share-button></div>
           <% end %>
         </div>
-        <div class="zm-command" style="padding-left: 90px;">
+        <div class="zm-command phone" style="padding-left: 90px;">
           <div class="baidu_btn">
             <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" data="{'url':'http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>'}">
               <a class="bds_tsina">分享到微博</a>
@@ -209,6 +212,7 @@
         <% end %>
 
         $(document).ready(function() {
+            if(system.win||system.mac||system.xll){
             var chart = new Highcharts.Chart({
 
                 chart: {
@@ -301,6 +305,101 @@
                     enabled: false
                 }
             });
+            }
+            else{
+                var chart = new Highcharts.Chart({
+
+                    chart: {
+                        renderTo: 'container',
+                        type: 'gauge',
+                        plotBorderWidth: 1,
+                        plotBackgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#FFF4C6'],
+                                [0.3, '#FFFFFF'],
+                                [1, '#FFF4C6']
+                            ]
+                        },
+                        plotBackgroundImage: null,
+                        height: 110,
+                        width: 200
+                    },
+
+                    title: false,
+
+                    pane: [{
+                        startAngle: -45,
+                        endAngle: 45,
+                        background: null,
+                        center: ['50%', '145%'],
+                        size: 150
+                    }],
+
+                    yAxis: [{
+                        min: 0,
+                        max: 10,
+                        tickInterval: 2,
+                        minorTickPosition: 'outside',
+                        tickPosition: 'outside',
+                        labels: {
+                            rotation: 'auto',
+                            distance: 20
+                        },
+                        plotBands: [{
+                            from: 0,
+                            to: 2,
+                            color: '#09a509',
+                            innerRadius: '100%',
+                            outerRadius: '105%'
+                        },{
+                            from: 2,
+                            to: 4,
+                            color: '#69c908',
+                            innerRadius: '100%',
+                            outerRadius: '105%'
+                        },{
+                            from: 4,
+                            to: 6,
+                            color: '#eded07',
+                            innerRadius: '100%',
+                            outerRadius: '105%'
+                        },{
+                            from: 6,
+                            to: 8,
+                            color: '#fa8c1e',
+                            innerRadius: '100%',
+                            outerRadius: '105%'
+                        },{
+                            from: 8,
+                            to: 10,
+                            color: '#C02316',
+                            innerRadius: '100%',
+                            outerRadius: '105%'
+                        }],
+                        pane: 0,
+                        title: false
+                    }],
+
+                    plotOptions: {
+                        gauge: {
+                            dataLabels: {
+                                enabled: false
+                            },
+                            dial: {
+                                radius: '90%'
+                            }
+                        }
+                    },
+                    series: [{
+                        data: dataArray2,
+                        yAxis: 0
+                    }],
+                    credits: {
+                        enabled: false
+                    }
+                });
+            }
         });
     });
 

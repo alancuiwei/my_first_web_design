@@ -8,7 +8,18 @@
 <%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
 <!--<![endif]-->
 
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
+
 <style>
+    .footable.breakpoint > tbody > tr > td.expand {
+        background: url('/assets/plus.png') no-repeat 5px center;
+        padding-left: 40px!important;
+    }
     .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
     h1,h2{font-weight: 600;}
     #table th,#table td,#allocation th,#allocation td{text-align: left;}
@@ -33,6 +44,7 @@
 </style>
 
 <div class="main-content dream">
+<div class="mobile"><br></div>
 <a href="/">首页</a>
 <h1><%= @webuser.username %>的个人首页</h1>
 <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
@@ -196,7 +208,7 @@
     <div class="plan-details">
       <section id="asset-allocation" class="">
         <table style="width: 100%;">
-          <tr><td style="width: 135px;height: 200px;padding-top: 20px;">
+          <tr><td class="high" style="width: 135px;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div id="container2" style="width: 130px;height: 130px;"></div>
             </div>
@@ -345,20 +357,28 @@
     <div class="plan-details">
       <section class="asset-allocation" class="">
         <table style="width: 100%;float: left;">
-          <tr><td style="width: 135px;height: 200px;padding-top: 20px;">
+          <tr><td class="cation high" style="width: 135px;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div id="container3" style="width: 130px;height: 130px;"></div>
             </div>
-          </td><td style="padding-left: 20px;">
-            <table class="table allocation report apply-asset-class-colors">
+          </td><td class="cation" style="padding-left: 20px;">
+            <table class="table allocation report apply-asset-class-colors footable">
               <thead>
-              <tr>
+              <tr class="win">
                 <th></th>
                 <th style="width: 20%">理财产品大类</th>
                 <th style="width: 20%;">理财产品小类</th>
                 <th style="width: 20%;">投资产品</th>
                 <th style="width: 20%;">本月金额</th>
                 <th>产品详情</th>
+              </tr>
+              <tr class="mobile">
+                <th data-sort-initial="descending" data-class="expand" style="width: 40px;"></th>
+                <th data-hide="phone,tablet">理财产品大类</th>
+                <th data-sort-ignore="true">理财产品小类</th>
+                <th data-hide="phone,tablet">投资产品</th>
+                <th>本月金额</th>
+                <th data-hide="phone,tablet">产品详情</th>
               </tr>
               </thead>
               <tbody>
@@ -1440,6 +1460,6 @@
     if(system.win||system.mac||system.xll){
         $(".mobile").remove();
     }else{
-        $("#erweima").remove();
+        $(".win").remove();
     }
 </script>
