@@ -33,6 +33,11 @@
   <option value="无">无</option>
 </select><br>
   购买时间：<input type="text" name="time" id="time" title="购买时间"><br>
+  <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+    基金购买帮助图片: <input id="file3" name="file[file]" type="file"><br>
+    <input name="commit" id="create3" value="上传图片" type="submit"><br><br>
+    <input type="text" name="assist" id="assist" placeholder="基金购买帮助图片">
+  </form>
   <a class="btn btn-primary" href="javascript:void(0)" id="companyconfig">确认</a>
 </div>
 
@@ -62,6 +67,19 @@
          }
          license=getFileName(document.getElementById("file").value);
      });
+     $("#create3").click(function(e){
+         if(document.getElementById('file3').value==''){
+             alert('基金购买帮助图片');
+             return false;
+         }
+         var assist=getFileName(document.getElementById("file3").value);
+         if($("#assist").attr("value")==""){
+             $("#assist").attr("value",assist)
+         }
+         else{
+             $("#assist").attr("value",$("#assist").attr("value")+','+assist)
+         }
+     });
 
     $("#companyconfig").click(function(e){
         var o=document.getElementsByTagName("input");
@@ -81,7 +99,7 @@
         <% end %>
         if(nom_flag==0){
             $.post("/admin/companyconfigajax/<%= params[:id] %>",{ fundname: $("#fundname").attr("value"),company: $("#company").attr("value"),capital: $("#capital").attr("value"),
-                profile: $("#profile").attr("value"),introduced: $("#introduced").attr("value"),logo:logo,license:license,guide:$("#guide").attr("value"),time:$("#time").attr("value")},function(data){
+                profile: $("#profile").attr("value"),introduced: $("#introduced").attr("value"),logo:logo,license:license,guide:$("#guide").attr("value"),time:$("#time").attr("value"),assist:$("#assist").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品销售公司创建成功！");
                     location.href='/admin';
@@ -104,6 +122,7 @@
         $("#introduced").attr("value",'<%= @salescompany.introduced%>');
         $("#guide").attr("value",'<%= @salescompany.guide%>');
         $("#time").attr("value",'<%= @salescompany.time%>');
+        $("#assist").attr("value",'<%= @salescompany.assist%>');
         <% end %>
     });
 </script>

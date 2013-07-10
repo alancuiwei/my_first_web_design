@@ -281,13 +281,14 @@ class AdminController < ApplicationController
         b.license=params[:license]
         b.guide=params[:guide]
         b.time=params[:time]
+        b.assist=params[:assist]
         b.save
       end
       render :json => "s1".to_json
     else
       @salescompany=Salescompany.find_by_id(params[:id])
       @salescompany.update_attributes(:fundname=>params[:fundname],:company=>params[:company],:capital=>params[:capital],:profile=>params[:profile],:introduced=>params[:introduced],
-                                      :logo=>params[:logo],:license=>params[:license],:guide=>params[:guide],:time=>params[:time])
+                                      :logo=>params[:logo],:license=>params[:license],:guide=>params[:guide],:time=>params[:time],:assist=>params[:assist])
       render :json => "s2".to_json
     end
   end

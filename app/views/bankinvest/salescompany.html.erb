@@ -32,13 +32,34 @@
     body {
         background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
     }
-     a:hover {
+   .main-content a:hover {
          background-color: #37a;
          color: white;
          text-decoration: none;
      }
-      a{color: #37a;}
+    .main-content a{color: #37a;}
      h2{font-weight: normal;}
+
+    .login-popup{
+        display:none;
+        padding: 10px;
+        border: 0px solid white;
+        float: left;
+        font-size: 1.2em;
+        position: fixed;
+        top: 50%; left: 40%;
+        z-index: 99999;
+        width:600px
+    }
+
+    #mask {
+        display: none;
+        background: #000;
+        position: fixed; left: 0; top: 0;
+        width: 100%; height: 100%;
+        opacity: 0.3;
+        z-index: 999;
+    }
 </style>
 
 <div class="main-content">
@@ -62,6 +83,10 @@
         <td class="right"><%= @salescompany.capital %></td>
       </tr>
       <tr>
+            <td class="left">基金销售业务资格证书</td>
+            <td class="right"><% if @salescompany.license!=nil %><a class="img" href="#"><img style="width: 100px;" src="/assets/<%= @salescompany.license %>"></a><% end %></td>
+          </tr>
+          <tr>
         <td class="left">公司简介</td>
         <td class="right"><%= @salescompany.profile %></td>
       </tr>
@@ -70,7 +95,7 @@
         <td class="right"><% if @salescompany.introduced!=nil %><a href="<%= @salescompany.introduced %>" target="_blank">点击查看</a><% end %></td>
       </tr>
     </table>
-  <% if @salescompany.fundname=="数米基金网" %>
+        <% if @salescompany.assist!=nil && @salescompany.assist!='' %>
       <div style="height: 30px;"></div>
             <h1 style="font-weight: normal;">基金购买流程</h1>
             <h2 style="font-size: 20px;">1.开户</h2>
@@ -84,24 +109,19 @@
         </ol>
         <div class="carousel-inner">
                 <div class="item active" style="padding: 0 85px;height: 370px;">
-                  <img src="/assets/121074.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                  <img src="/assets/<%= @saleshelp[0] %>" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
+                <% for i in 1..@saleshelp.size-1 %>
                 <div class="item" style="padding: 0 85px;height: 370px;">
-                  <img src="/assets/121075.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                       <img src="/assets/<%= @saleshelp[i] %>" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
           </div>
-                <div class="item" style="padding: 0 85px;height: 370px;">
-                  <img src="/assets/121076.jpg" alt="" style="margin: 0 auto;max-height: 470px;width: 522px;">
-          </div>
-                <div class="item" style="padding: 0 85px;height:370px;">
-                  <img src="/assets/121077.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
-          </div>
-                <div class="item" style="padding: 0 85px;height:370px;">
-                  <img src="/assets/121078.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
-          </div>
+                <% end %>
         </div>
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
         <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
       </div>
+        <% end %>
+        <% if @salescompany.fundname=="数米基金网" %>
             <h2 style="font-size: 20px;">2.基金交易</h2>
             <div id="Carousel" class="carousel slide">
               <ol class="carousel-indicators">
@@ -146,3 +166,40 @@
     </tr>
   </table>
 </div>
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="image">
+    <img style="width: 100%;" src="/assets/<%= @salescompany.license %>">
+  </div>
+</div>
+
+<script>
+    function waithelp(){
+        $("#login-box").show();
+        var loginBox = $(this).attr('href');
+        //Fade in the Popup and add close button
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+    }
+
+    $(' #mask,.image').live('click', function() {
+        $('#mask , .login-popup').fadeOut(300 , function() {
+            $('#mask').remove();
+        });
+        return false;
+    });
+
+    $(".img").click(function(){
+        waithelp();
+    });
+</script>
+
