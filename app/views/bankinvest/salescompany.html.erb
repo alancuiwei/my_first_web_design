@@ -84,7 +84,7 @@
       </tr>
       <tr>
             <td class="left">基金销售业务资格证书</td>
-            <td class="right"><% if @salescompany.license!=nil %><a class="img" href="#"><img style="width: 100px;" src="/assets/<%= @salescompany.license %>"></a><% end %></td>
+            <td class="right"><% if @salescompany.license!=nil && @salescompany.license!='' %><a class="img" href="#"><img style="width: 100px;" src="/assets/<%= @salescompany.license %>"></a><% end %></td>
           </tr>
           <tr>
         <td class="left">公司简介</td>
@@ -166,6 +166,7 @@
     </tr>
   </table>
 </div>
+
 <div id='login-box' class='login-popup modal' style="display: none;">
   <div class="image">
     <img style="width: 100%;" src="/assets/<%= @salescompany.license %>">

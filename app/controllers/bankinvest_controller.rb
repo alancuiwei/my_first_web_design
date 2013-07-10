@@ -40,7 +40,9 @@ class BankinvestController < ApplicationController
   def salescompany
     if params[:id]!=nil
       @salescompany=Salescompany.find_by_id(params[:id])
+      if @salescompany.assist!=nil
       @saleshelp=@salescompany.assist.split(",")
+      end
       if params[:pid]!=nil
         @financial=Financial.find_by_id(params[:pid])
         @productcompany=Productcompany.find_by_pname_and_fundname(@financial.pname,@salescompany.fundname)

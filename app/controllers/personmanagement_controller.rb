@@ -339,6 +339,17 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def recordconfigajax
+    Record.new do |r|
+      r.username=params[:username]
+      r.date=params[:date]
+      r.pname=params[:pname]
+      r.amount=params[:amount]
+      r.save
+    end
+    render :json => "s1".to_json
+  end
+
   def personfinance
     @financial=Financial.all
     @hash3={}
@@ -353,7 +364,7 @@ class PersonmanagementController < ApplicationController
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
       @examination=Examination.find_by_username(@webuser.username)
-
+      @record=Record.find_all_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
       if @webuser.organusername!=nil
@@ -378,6 +389,7 @@ class PersonmanagementController < ApplicationController
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @examination=Examination.find_by_username(@webuser.username)
+        @record=Record.find_all_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
         if @webuser.organusername!=nil
           @webuser2=Webuser.find_by_username(@webuser.organusername)
