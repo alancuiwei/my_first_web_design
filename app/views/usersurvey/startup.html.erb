@@ -371,7 +371,7 @@
         <% if session[:webusername]!=nil %>
         location.href='/home/questions';
         <% else %>
-        var salary= $("#salary").attr("value")+$("#salary").attr("value");
+        var salary= parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"));
         location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
                 +'&salary='+salary+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value");
         <% end %>
@@ -923,7 +923,7 @@
 });
 
   $(document).ready(function(){
-      <% if session[:webusername]!=nil %>
+      <% if session[:webusername]!=nil && @examination!=nil %>
          $("#age").attr("value",parseInt('<%= @examination.age %>'));
          $("#salary").attr("value",parseInt('<%= @examination.salary %>'));
          $("#rent").attr("value",parseInt('<%= @examination.rent %>'));

@@ -107,7 +107,12 @@
 <tr>
 <td style="width: 200px;padding: 0 15px;text-align: center;">
   <div style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的家庭诊断</div>
+  <!--[if !IE]><!-->
   <div id="topLoader" style="width: 100px;height: 100px;margin: auto;"></div>
+  <!--<![endif]-->
+  <!--[if IE]>
+  <div id="topLoader" style="width: 100px;height: 100px;margin: auto;"><h1><%= @webuser.score %>分</h1></div>
+  <![endif]-->
   <div style="height: 30px;">
     <% if @webuser.username == session[:webusername] %>
         <a href="/usersurvey/startup" id="change-answers" style="font-size: 12px;">重新体检</a>
