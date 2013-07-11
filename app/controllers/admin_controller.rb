@@ -184,6 +184,10 @@ class AdminController < ApplicationController
       render :json => "s1".to_json
     else
       @category2=Category_2.find_by_id(params[:id])
+      @financial=Financial.find_all_by_category_and_classify(params[:category],params[:classify])
+      for i in 0..@financial.size-1
+        @financial[i].update_attributes(:risklevel=>params[:risklevel]);
+      end
       @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk])
       render :json => "s2".to_json
     end
@@ -239,12 +243,13 @@ class AdminController < ApplicationController
         b.investperiod=params[:investperiod]
         b.poundage=params[:poundage]
         b.productcode=params[:productcode]
+        b.person=params[:person]
         b.save
       end
       render :json => "s1".to_json
     else
       @financial=Financial.find_by_id(params[:id])
-      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],
+      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],:person=>params[:person],
              :rate=>params[:rate],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
       render :json => "s2".to_json
     end

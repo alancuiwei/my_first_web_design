@@ -364,10 +364,12 @@ class PersonmanagementController < ApplicationController
 
   def personfinance
     @financial=Financial.all
+    @finance=Financial.find_by_sql("select * from financial where person is not null and person<>''")
     @hash3={}
-    for i in 0..@financial.size-1
-      @hash3.store(@financial[i].category+@financial[i].classify,[@financial[i].pname,@financial[i].id])
+    for i in 0..@finance.size-1
+      @hash3.store(@finance[i].person,[@finance[i].pname,@finance[i].id,@finance[i].classify])
     end
+    @hash3.store('风险1',['定期存款','','定期存款'])
     if  session[:webusername]!=nil
       @webusers=Webuser.find_by_username(session[:webusername])
     else

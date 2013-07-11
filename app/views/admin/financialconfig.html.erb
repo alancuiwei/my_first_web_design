@@ -31,6 +31,16 @@
   <% end %>
   官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
   产品代码：<input type="text" name="productcode" id="productcode"><br>
+  个人首页显示产品选择：<select name="person" id="person">
+                    <option value=""></option>
+                    <option value="流动">流动</option>
+                    <option value="保本">保本</option>
+                    <option value="风险1">风险1</option>
+                    <option value="风险2">风险2</option>
+                    <option value="风险3">风险3</option>
+                    <option value="风险4">风险4</option>
+                    <option value="风险5">风险5</option>
+  </select><br>
   <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
 
@@ -86,7 +96,7 @@
 
         if(nom_flag==0){
             $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),
+                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -153,6 +163,7 @@
         $("#poundage").attr("value",'<%= @financial.poundage%>');
         $("#productcode").attr("value",'<%= @financial.productcode%>');
         $("#category").attr("value",'<%= @financial.category%>');
+        $("#person").attr("value",'<%= @financial.person%>');
         select()
         $("#classify").attr("value",'<%= @financial.classify%>');
         <% end %>

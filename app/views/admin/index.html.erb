@@ -355,13 +355,14 @@
       <a href="/admin/financialconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="financial">
         <thead><tr>
-          <th class="hide">ID</th><th>产品名称</th><th>产品小类</th><th>产品大类</th>
+          <th class="hide">ID</th><th>个人首页显示</th><th>产品名称</th><th>产品小类</th><th>产品大类</th>
           <th>查看</th><th>修改</th><th>删除</th>
         </tr></thead>
 
         <% @financial.each do |b| %>
             <tr>
               <td class="hide"><%= b.id%></td>
+              <td><%= b.person%></td>
               <td><%= b.pname%></td>
               <td><%= b.classify%></td>
               <td><%= b.category%></td>

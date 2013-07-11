@@ -17,6 +17,9 @@
 </script>
 
 <style>
+    #target td,#target th{
+        font-family: Hiragino Sans GB W3;
+    }
     .footable.breakpoint > tbody > tr > td.expand {
         background: url('/assets/plus.png') no-repeat 5px center;
         padding-left: 40px!important;
@@ -365,11 +368,11 @@
     <div class="plan-details">
       <section class="asset-allocation" class="">
         <table style="width: 100%;float: left;">
-          <tr><td class="cation high" style="width: 135px;height: 200px;padding-top: 20px;">
+          <tr><td class="cation high" style="width: 150px;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
-              <div id="container3" style="width: 130px;height: 130px;"></div>
+              <div id="container3" style="width: 150px;height: 130px;"></div>
             </div>
-          </td><td class="cation" style="padding-left: 20px;">
+          </td><td class="cation" style="padding-left: 5px;">
             <table class="table allocation report apply-asset-class-colors footable">
               <thead>
               <tr class="win">
@@ -392,59 +395,32 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="monthpay1" data-type="MUNI_BONDS">
-                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                <td>流动型资产</td>
-                <td>月开销</td>
-                <td class="name1">吃喝住行</td>
-                <td class="amounts1"></td>
-                <td class="finish1"></td>
-                <td></td>
-              </tr>
-              <tr class="" data-type="MUNI_BONDS">
-                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                <td>流动型资产</td>
-                <td>月开销</td>
-                <td class="name0">零花钱</td>
-                <td class="amounts0"><% if @examination!=nil %><%= format("%0.0f",@examination.salary-@examination.rent-@examination.wages) %><% end %></td>
-                <td class="finish0"></td>
-                <td></td>
-              </tr>
-              <tr class="monthpay3" data-type="MUNI_BONDS">
-                <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
-                <td>流动型资产</td>
-                <td>银行活期</td>
-                <td class="name3"><%= @hash3['随存随取型资产活期存款'][0] %></td>
-                <td class="amounts3"></td>
-                <td class="finish3"></td>
-                <td><a href="/bankinvest/productdetails/<%= @hash3['随存随取型资产活期存款'][1] %>">查看</a></td>
-              </tr>
               <tr class="monthpay2" data-type="MUNI_BONDS">
                 <td class="asset-class-color"><div class="legend MUNI_BONDS"></div></td>
                 <td>流动型资产</td>
-                <td>货币基金</td>
-                <td class="name2"><%= @hash3['随存随取型资产货币基金'][0] %></td>
+                <td><%= @hash3['流动'][2] %></td>
+                <td class="name2"><%= @hash3['流动'][0] %></td>
                 <td class="amounts2"></td>
                 <td class="finish2"></td>
-                <td><a href="/bankinvest/productdetails/<%= @hash3['随存随取型资产货币基金'][1] %>">查看</a></td>
+                <td><a href="/bankinvest/productdetails/<%= @hash3['流动'][1] %>">查看</a></td>
               </tr>
               <tr class="monthpay4" data-type="INTL_EMERGING">
                 <td class="asset-class-color"><div class="legend INTL_EMERGING"></div></td>
                 <td>保本型资产</td>
-                <td>保本型基金</td>
-                <td class="name4"><%= @hash3['保本型资产保本型基金'][0] %></td>
+                <td><%= @hash3['保本'][2] %></td>
+                <td class="name4"><%= @hash3['保本'][0] %></td>
                 <td class="amounts4"></td>
                 <td class="finish4"></td>
-                <td><a href="/bankinvest/productdetails/<%= @hash3['保本型资产保本型基金'][1] %>">查看</a></td>
+                <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>">查看</a></td>
               </tr>
               <% if  @webuser.risktolerance!=nil %>
                   <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
-                        <td>保本型基金</td>
-                        <td class="name5"></td>
-                        <td class="amounts5"></td>
+                        <td><%= @hash3['风险1'][2] %></td>
+                        <td class="name5"><%= @hash3['风险1'][0] %></td>
+                        <td class="amounts5"><%= @hash3['风险1'][1] %></td>
                         <td class="finish5"></td>
                         <td></td>
                       </tr>
@@ -452,39 +428,39 @@
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
-                        <td>纯债型基金</td>
-                        <td class="name5"><%= @hash3['风险型资产纯债型基金'][0] %></td>
+                        <td><%= @hash3['风险2'][2] %></td>
+                        <td class="name5"><%= @hash3['风险2'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
-                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产纯债型基金'][1] %>">查看</a></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险2'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
-                        <td>偏债型基金</td>
-                        <td class="name5"><%= @hash3['风险型资产偏债型基金'][0] %></td>
+                        <td><%= @hash3['风险3'][2] %></td>
+                        <td class="name5"><%= @hash3['风险3'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
-                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产偏债型基金'][1] %>">查看</a></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险3'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
-                        <td>指数型基金</td>
-                        <td class="name5"><%= @hash3['风险型资产指数型基金'][0] %></td>
+                        <td><%= @hash3['风险4'][2] %></td>
+                        <td class="name5"><%= @hash3['风险4'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
-                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险型资产指数型基金'][1] %>">查看</a></td>
+                        <td><a href="/bankinvest/productdetails/<%= @hash3['风险4'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
-                        <td>P2P理财产品</td>
-                        <td class="name5"></td>
-                        <td class="amounts5"></td>
+                        <td><%= @hash3['风险5'][2] %></td>
+                        <td class="name5"><%= @hash3['风险5'][0] %></td>
+                        <td class="amounts5"><%= @hash3['风险5'][1] %></td>
                         <td class="finish5"></td>
                         <td></td>
                       </tr>
@@ -550,8 +526,6 @@
           <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
           <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
    </table>
 </div>
 </div>
@@ -577,17 +551,18 @@
         <td>投资产品：</td>
         <td>
           <select name="pname" id="pname">
-            <option style="" value="<%= @hash3['随存随取型资产活期存款'][0] %>"><%= @hash3['随存随取型资产活期存款'][0] %></option>
-            <option value="<%= @hash3['随存随取型资产货币基金'][0] %>"><%= @hash3['随存随取型资产货币基金'][0] %></option>
-            <option value="<%= @hash3['保本型资产保本型基金'][0] %>"><%= @hash3['保本型资产保本型基金'][0] %></option>
+            <option value="<%= @hash3['流动'][0] %>"><%= @hash3['流动'][0] %></option>
+            <option value="<%= @hash3['保本'][0] %>"><%= @hash3['保本'][0] %></option>
             <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+                <option value="<%= @hash3['风险1'][0] %>"><%= @hash3['风险1'][0] %></option>
             <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                <option value="<%= @hash3['风险型资产纯债型基金'][0] %>"><%= @hash3['风险型资产纯债型基金'][0] %></option>
+                <option value="<%= @hash3['风险2'][0] %>"><%= @hash3['风险2'][0] %></option>
             <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                <option value="<%= @hash3['风险型资产偏债型基金'][0] %>"><%= @hash3['风险型资产偏债型基金'][0] %></option>
+                <option value="<%= @hash3['风险3'][0] %>"><%= @hash3['风险3'][0] %></option>
             <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                <option value="<%= @hash3['风险型资产指数型基金'][0] %>"><%= @hash3['风险型资产指数型基金'][0] %></option>
+                <option value="<%= @hash3['风险4'][0] %>"><%= @hash3['风险4'][0] %></option>
             <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
+                <option value="<%= @hash3['风险5'][0] %>"><%= @hash3['风险5'][0] %></option>
             <% end %>
           </select>
         </td>
@@ -609,17 +584,18 @@
 </div>
 
 <script language="javascript">
-    var a3="<%= @hash3['随存随取型资产活期存款'][0] %>";
-    var a2="<%= @hash3['随存随取型资产货币基金'][0] %>";
-    var a4="<%= @hash3['保本型资产保本型基金'][0] %>";
+    var a2="<%= @hash3['流动'][0] %>";
+    var a4="<%= @hash3['保本'][0] %>";
     <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+    var a5="<%= @hash3['风险1'][0] %>";
     <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-    var a5="<%= @hash3['风险型资产纯债型基金'][0] %>";
-            <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-    var a5="<%= @hash3['风险型资产偏债型基金'][0] %>";
-            <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-    var a5="<%= @hash3['风险型资产指数型基金'][0] %>";
+    var a5="<%= @hash3['风险2'][0] %>";
+    <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
+    var a5="<%= @hash3['风险3'][0] %>";
+    <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
+    var a5="<%= @hash3['风险4'][0] %>";
     <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
+    var a5="<%= @hash3['风险5'][0] %>";
     <% end %>
     function jsSelectIsExitItem(objSelect, objItemValue) {
         var isExit = false;
@@ -684,7 +660,6 @@
         }
         else if($("#nature").attr("value")=='赎回取现'){
             addoption(document.getElementById("pname"),a2,a2);
-            addoption(document.getElementById("pname"),a3,a3);
             addoption(document.getElementById("pname"),a4,a4);
             addoption(document.getElementById("pname"),a5,a5);
             removeoption(document.getElementById("pname"),'其他流动性产品');
@@ -720,16 +695,7 @@
                     var amount=0-parseInt($("#amount").attr("value"))
                 }
 
-                if($("#pname").attr("value")=='<%= @hash3['随存随取型资产活期存款'][0] %>'){
-                    if($(".finish3").html()=="") {
-                        $(".finish3").html(amount);
-                    }
-                    else{
-                        $(".finish3").html(amount+parseInt($(".finish3").html()))
-                    }
-                    $("#amount1").html(amount+parseInt($("#amount1").html()));
-                }
-                else if($("#pname").attr("value")=='<%= @hash3['随存随取型资产货币基金'][0] %>'){
+                if($("#pname").attr("value")=='<%= @hash3['流动'][0] %>'){
                     if($(".finish2").html()=="") {
                         $(".finish2").html(amount);
                     }
@@ -738,7 +704,7 @@
                     }
                     $("#amount1").html(amount+parseInt($("#amount1").html()));
                 }
-                else if($("#pname").attr("value")=='<%= @hash3['保本型资产保本型基金'][0] %>'){
+                else if($("#pname").attr("value")=='<%= @hash3['保本'][0] %>'){
                     if($(".finish4").html()=="") {
                         $(".finish4").html(amount);
                     }
@@ -747,25 +713,7 @@
                     }
                     $("#amount2").html(amount+parseInt($("#amount2").html()));
                 }
-                else if($("#pname").attr("value")=='<%= @hash3['风险型资产纯债型基金'][0] %>'){
-                    if($(".finish5").html()=="") {
-                        $(".finish5").html(amount);
-                    }
-                    else{
-                        $(".finish5").html(amount+parseInt($(".finish5").html()))
-                    }
-                    $("#amount3").html(amount+parseInt($("#amount3").html()));
-                }
-                else if($("#pname").attr("value")=='<%= @hash3['风险型资产偏债型基金'][0] %>'){
-                    if($(".finish5").html()=="") {
-                        $(".finish5").html(amount);
-                    }
-                    else{
-                        $(".finish5").html(amount+parseInt($(".finish5").html()))
-                    }
-                    $("#amount3").html(amount+parseInt($("#amount3").html()));
-                }
-                else if($("#pname").attr("value")=='<%= @hash3['风险型资产指数型基金'][0] %>'){
+                else if($("#pname").attr("value")=='<%= @hash3['风险1'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险2'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险3'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险4'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险5'][0] %>'){
                     if($(".finish5").html()=="") {
                         $(".finish5").html(amount);
                     }
@@ -795,7 +743,12 @@
     });
 
     var where = new Array(2);
-
+    var amounts1=0;
+    var amounts0=0;
+    <% if @examination!=nil %>
+        amounts1=parseFloat('<%= @examination.rent %>');
+        amounts0=parseFloat('<%= @examination.salary-@examination.rent-@examination.wages %>');
+    <% end %>
     function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
     where[0]= new comefrom("请选择","请选择");
     var dateNow = new Date();
@@ -870,8 +823,6 @@
         <% if @examination !=nil %>
             //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
             //    alert(a)
-            var amounts1=parseFloat('<%= @examination.rent %>');
-            $(".amounts1").html(parseInt(parseFloat('<%= @examination.rent %>')/100)*100);
             $(".amounts2").html('');
             $(".amounts3").html('');
             $(".amounts4").html('');
@@ -953,8 +904,6 @@
                 $(".monthpay2").hide();
                 removeoption(document.getElementById("pname"),a2);
             }
-             $(".monthpay3").show();
-             addoption(document.getElementById("pname"),a3,a3);
             if($(".amounts4").html()!="" && $(".amounts4").html()!="0"){
                 $(".monthpay4").show();
                 addoption(document.getElementById("pname"),a4,a4);
@@ -979,50 +928,42 @@
                 $(".monthpay5").hide();
                 removeoption(document.getElementById("pname"),a5);
             }
-            arrayObj[0]=[$(".amounts1").html(),amounts3,amounts2,amounts4,amounts5,$(".amounts3").html(),$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
+            arrayObj[0]=[amounts1,amounts3,amounts2,amounts4,amounts5,$(".amounts3").html(),$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
             array();
             $(".finish2").html('');
-            $(".finish3").html('');
             $(".finish4").html('');
             $(".finish5").html('');
            <% @record.each do |r| %>
               if('<%= r.date %>'.split('-')[0]+'年'==loca2 && parseInt('<%= r.date %>'.split('-')[1]).toString()+'月'==loca4){
                   if('<%= r.nature %>'=='买入'){
-                     var amount=parseInt('<%= r.amount %>')
+                     var aa=parseInt('<%= r.amount %>')
                   }
                   else if('<%= r.nature %>'=='赎回取现'){
-                      var amount=0-parseInt('<%= r.amount %>')
+                      var aa=0-parseInt('<%= r.amount %>')
                   }
                   if('<%= r.pname %>'==a2){
                       if($(".finish2").html()=="") {
-                        $(".finish2").html(amount);
+                        $(".finish2").html(aa);
                       }
                       else{
-                          $(".finish2").html(amount+parseInt($(".finish2").html()))
+                          $(".finish2").html(aa+parseInt($(".finish2").html()))
                       }
                   }
-                  if('<%= r.pname %>'==a3){
-                      if($(".finish3").html()=="") {
-                          $(".finish3").html(amount);
-                      }
-                      else{
-                          $(".finish3").html(amount+parseInt($(".finish3").html()))
-                      }
-                  }
+
                   if('<%= r.pname %>'==a4){
                       if($(".finish4").html()=="") {
-                          $(".finish4").html(amount);
+                          $(".finish4").html(aa);
                       }
                       else{
-                          $(".finish4").html(amount+parseInt($(".finish4").html()))
+                          $(".finish4").html(aa+parseInt($(".finish4").html()))
                       }
                   }
                   if('<%= r.pname %>'==a5){
                       if($(".finish5").html()=="") {
-                          $(".finish5").html(amount);
+                          $(".finish5").html(aa);
                       }
                       else{
-                          $(".finish5").html(amount+parseInt($(".finish5").html()))
+                          $(".finish5").html(aa+parseInt($(".finish5").html()))
                       }
                   }
               }
@@ -1047,7 +988,6 @@
                 var month=parseFloat(loca4.replace("月",""))+12-monthNow;
             }
 
-            $(".amounts1").html(parseInt(arrayObj[month][0]/100)*100)
             $(".amounts2").html(parseInt(arrayObj[month][6]/100)*100)
             $(".amounts3").html(parseInt(arrayObj[month][5]/100)*100)
             $(".amounts4").html(parseInt(arrayObj[month][7]/100)*100)
@@ -1062,14 +1002,7 @@
                 removeoption(document.getElementById("pname"),'其他保本性产品');
                 removeoption(document.getElementById("pname"),'其他风险性产品');
             }
-            if(parseInt(arrayObj[month][5]/100)*100<=0){
-                $(".monthpay3").hide();
-                removeoption(document.getElementById("pname"),a3);
-            }
-            else{
-                $(".monthpay3").show();
-                addoption(document.getElementById("pname"),a3,a3);
-            }
+
             if(parseInt(arrayObj[month][6]/100)*100<=0){
                 $(".monthpay2").hide();
                 removeoption(document.getElementById("pname"),a2);
@@ -1094,47 +1027,39 @@
                 addoption(document.getElementById("pname"),a5,a5);
             }
             $(".finish2").html('');
-            $(".finish3").html('');
             $(".finish4").html('');
             $(".finish5").html('');
         <% @record.each do |r| %>
             if('<%= r.date %>'.split('-')[0]+'年'==loca2 && parseInt('<%= r.date %>'.split('-')[1]).toString()+'月'==loca4){
                 if('<%= r.nature %>'=='买入'){
-                    var amount=parseInt('<%= r.amount %>')
+                    var aa=parseInt('<%= r.amount %>')
                 }
                 else if('<%= r.nature %>'=='赎回取现'){
-                    var amount=0-parseInt('<%= r.amount %>')
+                    var aa=0-parseInt('<%= r.amount %>')
                 }
                 if('<%= r.pname %>'==a2){
                     if($(".finish2").html()=="") {
-                        $(".finish2").html(amount);
+                        $(".finish2").html(aa);
                     }
                     else{
-                        $(".finish2").html(amount+parseInt($(".finish2").html()))
+                        $(".finish2").html(aa+parseInt($(".finish2").html()))
                     }
                 }
-                if('<%= r.pname %>'==a3){
-                    if($(".finish3").html()=="") {
-                        $(".finish3").html(amount);
-                    }
-                    else{
-                        $(".finish3").html(amount+parseInt($(".finish3").html()))
-                    }
-                }
+
                 if('<%= r.pname %>'==a4){
                     if($(".finish4").html()=="") {
-                        $(".finish4").html(amount);
+                        $(".finish4").html(aa);
                     }
                     else{
-                        $(".finish4").html(amount+parseInt($(".finish4").html()))
+                        $(".finish4").html(aa+parseInt($(".finish4").html()))
                     }
                 }
                 if('<%= r.pname %>'==a5){
                     if($(".finish5").html()=="") {
-                        $(".finish5").html(amount);
+                        $(".finish5").html(aa);
                     }
                     else{
-                        $(".finish5").html(amount+parseInt($(".finish5").html()))
+                        $(".finish5").html(aa+parseInt($(".finish5").html()))
                     }
                 }
             }
@@ -1393,19 +1318,17 @@
         var mon=(thisyear+nextyear).split('|')
         $("#target tr:eq(0) td:eq(0)").html('理财产品');
         $("#target tr:eq(0) td:eq(13)").html(mon[13]);
-        $("#target tr:eq(1) td:eq(0)").html(a3);
-        $("#target tr:eq(2) td:eq(0)").html(a2);
-        $("#target tr:eq(3) td:eq(0)").html(a4);
-        $("#target tr:eq(4) td:eq(0)").html(a5);
+        $("#target tr:eq(1) td:eq(0)").html(a2);
+        $("#target tr:eq(2) td:eq(0)").html(a4);
+        $("#target tr:eq(3) td:eq(0)").html(a5);
         for(i=0;i<13;i++){
             var a=i+1;
             if(i!=0){
                 $("#target tr:eq(0) td:eq("+i+")").html(mon[i]);
             }
-            $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][5]/100)*100);
-            $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
-            $("#target tr:eq(3) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
-            $("#target tr:eq(4) td:eq("+a+")").html(parseInt(arrayObj[i][8]/100)*100);
+            $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
+            $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
+            $("#target tr:eq(3) td:eq("+a+")").html(parseInt(arrayObj[i][8]/100)*100);
         }
     }
 
@@ -1568,22 +1491,19 @@
                             var series = this.series[0];
                             setInterval(function() {
                                 var data = [];
-                                var a1= parseFloat($(".amounts1").html());
-                                var a0= parseFloat($(".amounts0").html());
-                                var a3= parseFloat($(".amounts3").html());
+                                var a1= amounts1;
+                                var a0= amounts0;
                                 var a2= parseFloat($(".amounts2").html());
                                 var a4= parseFloat($(".amounts4").html());
                                 var a5= parseFloat($(".amounts5").html());
                                 var numfor= /^[-+]?[0-9]+(\.[0-9]+)?$/
                                 if(numfor.test(a1)==false){a1=0}
                                 if(numfor.test(a0)==false){a0=0}
-                                if(numfor.test(a3)==false){a3=0}
                                 if(numfor.test(a2)==false){a2=0}
                                 if(numfor.test(a4)==false){a4=0}
                                 if(numfor.test(a5)==false){a5=0}
-                                data.push([$(".name1").html(),a1]);
-                                data.push([$(".name0").html(),a0]);
-                                data.push([$(".name3").html(),a3]);
+                                data.push(['吃喝住行',a1]);
+                                data.push(['零花钱',a0]);
                                 data.push([$(".name2").html(),a2]);
                                 data.push([$(".name4").html(),a4]);
                                 data.push([$(".name5").html(),a5]);
@@ -1595,15 +1515,21 @@
                 title: {
                     text: false
                 },
-                tooltip: {
-                    pointFormat: ''         //???
-                },
+                tooltip: false,
                 plotOptions: {
                     pie: {
                         allowPointSelect: false,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            color: '#000000',
+                            distance: -20,
+                            connectorColor: '#000000',
+                            formatter:function(index) {
+                                if(this.point.percentage>0){
+                                return  '<span style="color: red;">'+this.point.name + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                                }
+                            }
                         },
                         showInLegend: true,
                         size: 120,
@@ -1614,8 +1540,8 @@
                     type: 'pie',
                     name: 'Browser share',
                     data: [
-                        [$(".name1").html(), parseFloat($(".amounts1").html())],
-                        [$(".name0").html(), parseFloat($(".amounts0").html())],
+                        ['吃喝住行', amounts1],
+                        ['零花钱', amounts0],
                         [$(".name3").html(), parseFloat($(".amounts3").html())],
                         [$(".name2").html(), parseFloat($(".amounts2").html())],
                         [$(".name4").html(), parseFloat($(".amounts4").html())],
@@ -1679,9 +1605,6 @@
                 jin=0-parseInt('<%= r.amount %>')
             }
             if('<%= r.pname %>'==a2){
-                xian1=xian1+jin;
-            }
-            else if('<%= r.pname %>'==a3){
                 xian1=xian1+jin;
             }
             else if('<%= r.pname %>'==a4){
