@@ -345,6 +345,7 @@ class PersonmanagementController < ApplicationController
       r.date=params[:date]
       r.pname=params[:pname]
       r.amount=params[:amount]
+      r.nature=params[:nature]
       r.save
     end
     render :json => "s1".to_json
