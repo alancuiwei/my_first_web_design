@@ -321,6 +321,17 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def record
+      if params[:id]!=nil
+        @webuser=Webuser.find_by_id(params[:id])
+        @record=Record.find_all_by_username(@webuser.username)
+      elsif session[:webusername]!=nil
+        @record=Record.find_all_by_username(session[:webusername])
+      else
+         redirect_to(:controller=>"home")
+      end
+  end
+
   def personinformation
     if session[:webusername]!=nil
       @personalfinance=Personalfinance.find_by_username(session[:webusername])

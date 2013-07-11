@@ -1,0 +1,40 @@
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+<%= stylesheet_link_tag "personmanagement.css" %>
+
+<style>
+    tr.even td.sorting_1 {
+        background-color: #ffffff;
+    }
+</style>
+
+<div class="main-content">
+  <a href="/">首页</a>
+  <h1>历史投资记录</h1>
+  <table class="table table-striped table-bordered" id="record">
+    <thead>
+    <tr>
+      <th>日期</th>
+      <th>属性</th>
+      <th>投资产品</th>
+      <th>金额(元)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @record.each do |r| %>
+        <tr>
+          <td><%= r.date %></td>
+          <td><%= r.nature %></td>
+          <td><%= r.pname %></td>
+          <td><%= r.amount %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#record').dataTable();
+    });
+</script>
