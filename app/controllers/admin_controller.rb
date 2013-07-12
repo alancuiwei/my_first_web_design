@@ -207,9 +207,12 @@ class AdminController < ApplicationController
   def financialconfig
       if params[:id]!="0"
         @financial=Financial.find_by_id(params[:id])
+        @productcompany=Productcompany.find_all_by_pname(@financial.pname)
       else
         @financial=Financial.limit(1)
+        @productcompany=Productcompany.limit(1)
       end
+      @salescompany=Salescompany.all
       @hash={}
       @category=Category_2.find_by_sql("select distinct category from category_2")
       for i in 0..@category.size-1

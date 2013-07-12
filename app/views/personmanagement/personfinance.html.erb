@@ -827,7 +827,18 @@
             $(".amounts3").html('');
             $(".amounts4").html('');
             $(".amounts5").html('');
+            var before=0;
+        <% @record.each do |r| %>
+            if(parseInt('<%= r.date %>'.split('-')[0])<parseInt(loca2.replace('年','')) || (parseInt('<%= r.date %>'.split('-')[0])==parseInt(loca2.replace('年',''))&& parseInt('<%= r.date %>'.split('-')[1])<=loca4.replace('月',''))){
 
+                if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==a2){
+                    before=before+parseInt('<%= r.amount %>')
+                }
+                else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==a2){
+                    before=before-parseInt('<%= r.amount %>')
+                }
+            }
+        <% end %>
                 var amounts3=0;
                 var remain1=xianjin;
                 if(remain1>xian){
@@ -890,7 +901,7 @@
                     }
                 }
                 else{
-                    var amounts2=xian-remain1;
+                    var amounts2=xian-remain1-before;
                     var amounts4=wen-wenjian;
                     var amounts5=feng-fengxian;
                     $(".amounts2").html(parseInt(remain1/100)*100);
@@ -980,6 +991,8 @@
                 removeoption(document.getElementById("pname"),'其他风险性产品');
             }
         }
+
+        //
         if(!(yearNow+'年'==loca2 && monthNow+'月'==loca4) && loca4!=""){
             if(yearNow+'年'==loca2){
                 var month=parseFloat(loca4.replace("月",""))-monthNow;
@@ -1071,6 +1084,27 @@
 
     function array(){
         for(i=1;i<=12;i++){
+            var months=monthNow+i;
+            if(months>12){
+               months=months-12;
+                var year=yearNow+1;
+            }
+            else{
+                var year=yearNow;
+            }
+            var thismonth=0;
+        <% @record.each do |r| %>
+            if(parseInt('<%= r.date %>'.split('-')[0])== year && parseInt('<%= r.date %>'.split('-')[1])==months){
+
+                if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==a2){
+                    thismonth=thismonth+parseInt('<%= r.amount %>')
+                }
+                else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==a2){
+                    thismonth=thismonth-parseInt('<%= r.amount %>')
+                }
+            }
+        <% end %>
+
             if(arrayObj[i-1][3]<=0){
                 if(arrayObj[i-1][1]<=0){            //arrayObj[i-1][1]=0;活期存款
                     if(arrayObj[i-1][2]<=0){
@@ -1103,7 +1137,7 @@
                             }
                         }
                         else{
-                            arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-monthdeposit,0,arrayObj[i-1][4],0,monthdeposit,0,0];
+                            arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-monthdeposit-thismonth,0,arrayObj[i-1][4],0,monthdeposit,0,0];
                         }
                     }
                 }
@@ -1140,12 +1174,12 @@
                                 }
                             }
                             else{
-                                arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,0,arrayObj[i-1][4],0,b,0,0];
+                                arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b-thismonth,0,arrayObj[i-1][4],0,b,0,0];
                             }
                         }
                     }
                     else{
-                        arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-monthdeposit,arrayObj[i-1][2],0,arrayObj[i-1][4],monthdeposit,0,0,0];
+                        arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-monthdeposit,arrayObj[i-1][2]-thismonth,0,arrayObj[i-1][4],monthdeposit,0,0,0];
                     }
                 }
             }
@@ -1183,7 +1217,7 @@
                                 }
                             }
                             else{
-                                arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-d,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,d,wen/12,0];
+                                arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-d-thismonth,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,d,wen/12,0];
                             }
                         }
                     }
@@ -1220,12 +1254,12 @@
                                     }
                                 }
                                 else{
-                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,b,wen/12,0];
+                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b-thismonth,arrayObj[0][3]-wen/12,arrayObj[i-1][4],0,b,wen/12,0];
                                 }
                             }
                         }
                         else{
-                            arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-d,arrayObj[i-1][2],arrayObj[0][3]-wen/12,arrayObj[i-1][4],d,0,wen/12,0];
+                            arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-d,arrayObj[i-1][2]-thismonth,arrayObj[0][3]-wen/12,arrayObj[i-1][4],d,0,wen/12,0];
                         }
                     }
                 }
@@ -1263,7 +1297,7 @@
                                     }
                                 }
                                 else{
-                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-c,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,c,arrayObj[i-1][3],0];
+                                    arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-c-thismonth,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,c,arrayObj[i-1][3],0];
                                 }
                             }
                         }
@@ -1300,17 +1334,17 @@
                                         }
                                     }
                                     else{
-                                        arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,b,arrayObj[i-1][3],0];
+                                        arrayObj[i]=[arrayObj[0][0],0,arrayObj[i-1][2]-b-thismonth,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],0,b,arrayObj[i-1][3],0];
                                     }
                                 }
                             }
                             else{
-                                arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-c,arrayObj[i-1][2],arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],c,0,arrayObj[i-1][3],0];
+                                arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1]-c,arrayObj[i-1][2]-thismonth,arrayObj[0][3]-arrayObj[i-1][3],arrayObj[i-1][4],c,0,arrayObj[i-1][3],0];
                             }
                         }
                     }
                     else{
-                        arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1],arrayObj[i-1][2],arrayObj[i-1][3]-monthdeposit,arrayObj[i-1][4],0,0,monthdeposit,0];
+                        arrayObj[i]=[arrayObj[0][0],arrayObj[i-1][1],arrayObj[i-1][2]-thismonth,arrayObj[i-1][3]-monthdeposit,arrayObj[i-1][4],0,0,monthdeposit,0];
                     }
                 }
             }
