@@ -1,5 +1,7 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
 <script src="http://code.highcharts.com/highcharts.js"></script>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <style>
   .btn{
@@ -44,10 +46,12 @@
       <td><p class="q-text"><%= @activity.naturef %>/<%= @activity.natures %></p></td>
     </tr>
     <% if @activity.natures=="网络教学" %>
+        <% if @activity.charge!=nil && @activity.charge!='' %>
         <tr>
           <td class="left"><h1>收费标准：</h1></td>
           <td><p class="q-text"><%= format("%0.0f",@activity.charge) %>元</p></td>
         </tr>
+    <% end %>
     <% end %>
     <tr>
       <td class="left"><h1>活动主办方：</h1></td>
@@ -59,24 +63,60 @@
               <%= @activity.endtime.to_s.split("-")[0] %>年<%= @activity.endtime.to_s.split("-")[1] %>月<%= @activity.endtime.to_s.split("-")[2] %>日</p></td>
     </tr>
     <% if @activity.natures=="网络教学" %>
+        <% if @activity.address!=nil && @activity.address!='' %>
         <tr>
           <td class="left"><h1>地址：</h1></td>
           <td><p class="q-text"><%= @activity.address %></p></td>
         </tr>
     <% end %>
+    <% end %>
+    <% if @activity.introduce!=nil && @activity.introduce!='' %>
     <tr>
       <td class="left"><h1>活动介绍：</h1></td>
       <td><p class="q-text"><%=raw @activity.introduce %></p></td>
     </tr>
+    <% end %>
+    <% if @activity.show!=nil && @activity.show!='' %>
+    <tr>
+      <td class="left"><h1>图片展示：</h1></td>
+      <td>
+        <div id="myCarousel" class="carousel slide">
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="4" class=""></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active" style="padding: 0 85px;height: 300px;">
+              <img src="/assets/<%= @activity.show.split(",")[0] %>" alt="" style="margin: 0 auto;max-height: 300px;width: 390px;">
+            </div>
+            <% for i in 1..@activity.show.split(",").size-1 %>
+                <div class="item" style="padding: 0 85px;height: 300px;">
+                  <img src="/assets/<%= @activity.show.split(",")[i] %>" alt="" style="margin: 0 auto;max-height: 300px;width: 390px;">
+                </div>
+            <% end %>
+          </div>
+          <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+          <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+    <% if @activity.link!=nil && @activity.link!='' %>
     <tr>
       <td class="left"><h1>活动链接：</h1></td>
       <td><p class="q-text"><a href="<%= @activity.link %>" style="table-layout:fixed; word-break: break-all; overflow:hidden;"><%= @activity.link %></a></p></td>
     </tr>
+    <% end %>
+    <% if @activity.reward!=nil && @activity.reward!='' %>
     <tr>
       <td class="left"><h1>奖励方式：</h1></td>
       <td><p class="q-text"><%=raw @activity.reward %></p></td>
     </tr>
-    <% if @activity.video!=nil %>
+    <% end %>
+    <% if @activity.video!=nil && @activity.video!='' %>
     <tr>
       <td class="left"><h1>活动视频介绍：</h1></td>
       <td><%=raw @activity.video %></td>

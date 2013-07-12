@@ -5,6 +5,7 @@
 <script type="text/javascript">
     $(function() {
         $('table').footable();
+       $(".hide").hide();
     });
 </script>
 
@@ -60,6 +61,7 @@
       <th data-hide="phone,tablet">收益率</th>
       <th data-hide="phone,tablet">起售价(元)</th>
       <th data-hide="phone,tablet">风险级别</th>
+      <th class='hide'>风险级别</th>
       <th data-hide="phone,tablet">手续费</th>
       <th data-hide="phone">详情</th>
     </tr></thead>
@@ -78,6 +80,7 @@
           <% elsif  f.risklevel==5 %>极高风险
           <% end %>
         </td>
+        <td class="hide"><%= f.risklevel %></td>
         <td><% if f.poundage !=nil %><%=  format("%0.1f",f.poundage) %>%<% end %></td>
         <td><a href="/bankinvest/productdetails/<%= f.id %>">查看</a></td>
       </tr>
@@ -89,6 +92,9 @@
 
 <script>
     $(document).ready(function(){
-        $('#products').dataTable();
+        $('#products').dataTable({
+            "iDisplayLength": 50,
+            "aaSorting": [[ 5, "asc" ]]
+        });
     });
 </script>

@@ -1157,6 +1157,7 @@ class AdminController < ApplicationController
         b.link=params[:link]
         b.reward=params[:reward]
         b.video=params[:video]
+        b.show=params[:show]
         b.save
       end
       render :json => "s1".to_json
@@ -1166,7 +1167,7 @@ class AdminController < ApplicationController
       @activity.update_attributes(:name=>params[:name],:naturef=>params[:naturef],:natures=>params[:natures],
                               :organizer=>params[:organizer],:begintime=>params[:begintime],:endtime=>params[:endtime],
                               :introduce=>params[:introduce],:result=>params[:result],:charge=>params[:charge],
-                              :address=>params[:address],:link=>params[:link],:reward=>params[:reward],:video=>params[:video])
+                              :address=>params[:address],:link=>params[:link],:reward=>params[:reward],:video=>params[:video],:show=>params[:show])
       render :json => "s2".to_json
     end
   end
