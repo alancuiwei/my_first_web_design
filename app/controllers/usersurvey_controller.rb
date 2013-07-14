@@ -38,12 +38,20 @@ class UsersurveyController < ApplicationController
         e.salary=params[:salary]
         e.rent=params[:rent]
         e.wages=params[:wages]
+        e.xian=params[:xian]
+        e.wen=params[:wen]
+        e.feng=params[:feng]
+        e.xianp=params[:xianp]
+        e.wenp=params[:wenp]
+        e.fengp=params[:fengp]
         e.save
       end
     else
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],
-                 :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages])
+                 :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:xianp=>params[:xianp],
+                 :wenp=>params[:wenp],:fengp=>params[:fengp])
     end
     render :json => "s".to_json
   end

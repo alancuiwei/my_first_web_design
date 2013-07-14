@@ -6,6 +6,17 @@
 <!--<![endif]-->
 
 <style>
+    input[readonly]{
+        background-color: #ffffff;
+    }
+    input.invalid{
+        background-color: #FFC1BB;
+    }
+
+    .table table.table th,.table table.table td{
+        text-align: center;
+    }
+
     .container {
         position: relative;
         display: table;
@@ -52,7 +63,7 @@
     #topLoader {
         width: 150px;
         height: 150px;
-        margin: 20px;
+        margin: 20px auto;
     }
 
     td.left{
@@ -279,30 +290,102 @@
     <table class="press-table" border="0" style="width: 100%;" >
       <tbody>
       <tr>
-        <td style="width: 35%;vertical-align: top;">
-          <div id="topLoader"></div>
-          <a id="retest" style="font-size: 15px;padding-left: 65px;">重新体检</a><br>
-          <div style="padding: 10px 0 0 50px;">
-            <wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/usersurvey/startup" title=""></wb:share-button>
-          </div>
-        </td>
         <td>
           <div class="table">
             <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
             <div class="cell">
-              <p class="q-text">您的家庭资产体检报告：</p>
-              <p id="liudong"></p>
+              <p class="q-text">家庭资产体检系统介绍：</p>
+               <p>我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划。</p>
+               <p>我们将您每个月可存的资金累加上您的已有资产进行规划和分配，我们将投资分配为三类资产：流动性资产，风险性资产，保本性资产。</p>
+            <!--  <p id="liudong"></p>
               <p id="baoben"></p>
-              <p id="fengxian"></p>
+              <p id="fengxian"></p> -->
             </div>
           </div>
-          <div id="next" class="table hide">
+          <div class="table">
             <div class="cell" style="width: 32px;"> <h1><b>2</b></h1> </div>
             <div class="cell">
-              <p class="q-text">下一步：风险承受度评估</p>
-              <p>- 这个风险承受度评估系统是我们引用美国高盛公司的开源资产风险度管理模型，通过10个问题，包含投资取向，个人资金状况，个人工作情况，个人投资经验，从而了解您的风险承受度。</p>
-              <a id="risk" class="btn btn-primary" style="margin-top: 20px;padding: 5px 46px;font-size: 16px;">下一步</a>
+              <p class="q-text">流动性资产分析：</p>
+              <p>所谓流动性资产指 随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。</p>
+              <p>您需要为家庭预留3个月日常生活费用的流动性资产，以应对个人、家庭特殊紧急情况，由于您家庭的衣食住行每月开销为<span id="rents" style="color: red;">1500</span>元，所以您需要预留<span id="xian" style="color: red;">4500</span>元流动性资产。</p>
             </div>
+          </div>
+          <div class="table">
+            <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
+            <div class="cell">
+              <p class="q-text">风险性资产分析：</p>
+              <p>对于理财规划而言，年龄和风险承受能力是两个最核心的因素。正常而言，年轻人的资产比例中，风险性投资产品应该占有大比重，这主要是因为：一来资金少，适合以小博大，二来年轻能承受的风险能力强。</p>
+              <p>正常而言，<span style="color: red;">20岁到40岁左右的年轻人，我们建议应将风险产品比例放在50%左右，</span>具体的产品将在下一步风险评估中进行分析和推荐。也就是说如果您是极度保守的风险承受能力，即使您是20岁，我们也将只向推荐保本产品。</p>
+            </div>
+          </div>
+          <div class="table">
+            <div class="cell" style="width: 32px;"> <h1><b>4</b></h1> </div>
+            <div class="cell">
+              <p class="q-text">保本性资产分析：</p>
+              <p>保本性资产的重要性不言而喻，他将作为您保值增值的定心丸。这部分资产投资周期将会较长，收益率也将会较高，并且他的核心属性就是保本。</p>
+              <p style="color: red;">在除去流动性资产和风险性资产外，我们可以将其余的资产都用于保本性资产投资。</p>
+            </div>
+          </div>
+          <div class="table">
+            <div class="cell" style="width: 32px;"> <h1><b>5</b></h1> </div>
+            <div class="cell" style="width: 95%;">
+              <p class="q-text">资产体检概要：</p>
+              <table class="table table-striped table-bordered" style="width: 100%;">
+                <tr>
+                  <th>理财产品大类</th>
+                  <th>当前状况</th>
+                  <th>配置目标</th>
+                  <th>目标金额</th>
+                </tr>
+                <tr>
+                  <td>流动性资产</td>
+                  <td id="xianjin"></td>
+                  <td id="xian0"></td>
+                  <td>
+                    <button id="age-decrease0" class="light-gray" tabindex="-1">−</button>
+                    <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+                    <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>保本性资产</td>
+                  <td id="wenjian"></td>
+                  <td id="wen"></td>
+                  <td>
+                    <button id="age-decrease1" class="light-gray" tabindex="-1">−</button>
+                    <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+                    <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>风险性资产</td>
+                  <td id="fengxian"></td>
+                  <td id="feng"></td>
+                  <td>
+                    <button id="age-decrease2" class="light-gray" tabindex="-1">−</button>
+                    <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+                    <button id="age-increase2" class="light-gray" tabindex="-1">+</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>年总积蓄</td>
+                  <td>100%</td>
+                  <td>100%</td>
+                  <td id="total" style="text-align: center;"></td>
+                </tr>
+              </table>
+              <a class="risk btn btn-primary" style="margin-top: 20px;padding: 5px 46px;font-size: 16px;">下一步</a>
+            </div>
+          </div>
+        </td>
+        <td style="width: 35%;vertical-align: top;text-align: center;">
+          <div style="width: 200px;background-color: #f6f6f1;margin: 20px auto 0; display: table;">
+          <div id="topLoader"></div>
+          <a id="retest" style="font-size: 15px;">重新体检</a><br>
+          <div style="padding-top: 10px;">
+            <wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/usersurvey/startup" title=""></wb:share-button>
+          </div>
+            <a class="risk btn btn-primary" style="margin: -20px 0 10px;padding: 5px 46px;font-size: 16px;">下一步</a>
           </div>
         </td>
       </tr>
@@ -364,16 +447,77 @@
         });
         return false;
     });
+    $("#age-decrease0").click(function(){
+        if(parseInt(xian*0.9)<parseInt($("#xian1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#xian1").attr("value"))>=200){
+            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))-100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
+            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#xian1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+        }
+        else{
+            if(parseInt(xian*0.9)>=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+        }
+    });
+    $("#age-increase0").click(function(){
+        if(parseInt(xian*1.1)>parseInt($("#xian1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
+            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))+100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
+            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#xian1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+        }
+        else{
+            if(parseInt(xian*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+        }
+    });
 
+    $("#age-decrease1,#age-increase2").click(function(){
+        if(parseInt(wen*0.9)<parseInt($("#wen1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#wen1").attr("value"))>=200){
+            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))-100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
+            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#wen1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+        }
+        else{
+            if(parseInt(wen*0.9)>=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
+            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+        }
+    });
+    $("#age-increase1,#age-decrease2").click(function(){
+        if(parseInt(wen*1.1)>parseInt($("#wen1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
+            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))+100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
+            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#wen1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+        }
+        else{
+            if(parseInt(wen*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+        }
+    });
 
     var varietys,amounts,pnames;
-    $("#risk").click(function() {
+    $(".risk").click(function() {
         <% if session[:webusername]!=nil %>
+        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
+            salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value"),
+            xian:xian,wen:wen,feng:feng,xianp:$("#xian1").attr("value"),wenp:$("#wen1").attr("value"),fengp:$("#feng1").attr("value")},function(data){
+        });
         location.href='/home/questions';
         <% else %>
         var salary= parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"));
         location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                +'&salary='+salary+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value");
+                +'&salary='+salary+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value")+'&xian='+xian
+                +'&wen='+wen+'&feng='+feng+'&xianp='+$("#xian1").attr("value")+'&wenp='+$("#wen1").attr("value")+'&fengp='+$("#feng1").attr("value");
         <% end %>
     });
 
@@ -450,10 +594,21 @@
                 }
             }
              jixu=xianjin+wenjian+fengxian;//积蓄
-             total=parseFloat($("#wages").attr("value"))*12+jixu;//总资产
-             xian=parseFloat($("#rent").attr("value"))*3;
-             feng=(total*(80-parseFloat($("#age").attr("value")))/100);
+             total=parseInt((parseFloat($("#wages").attr("value"))*12+jixu)/100)*100;//总资产
+             xian=parseInt((parseFloat($("#rent").attr("value"))*3)/100)*100;
+             feng=parseInt((total*(80-parseFloat($("#age").attr("value")))/100)/100)*100;
              wen=total-xian-feng;
+
+            $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
+            $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
+            $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
+            $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+            $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
+            $("#xian1").attr("value",xian);
+            $("#wen1").attr("value",wen);
+            $("#feng1").attr("value",feng);
+            $("#total").html(total);
 
             if(xian/total>xianjin/jixu)
             {
@@ -520,6 +675,8 @@
                 waithelp();
             }
             else{
+                $("#rents").html(parseFloat($("#rent").attr("value")));
+                $("#xian").html(xian);
                 animate();
             }
         });
@@ -534,35 +691,29 @@
         if(ie){
             $(".tijian").hide();
             $(".jieguo").show();
-        <% if session[:webusername]!=nil %>
-
-            $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
-            });
-        <% end %>
             var kb = 0;
             var totalKb = 999;
             var animateFunc = function() {
                 kb += 5;
               if(kb<=400){
                     if(kb==400){
-                        if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
-                        else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
-                        else{$("#liudong").html("您的流动性资产配置 适中。");}
+              //          if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
+              //          else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
+              //          else{$("#liudong").html("您的流动性资产配置 适中。");}
                     }
                 }
                 else if(kb<=600){
                     if(kb==600){
-                        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
-                        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
-                        else{$("#baoben").html("您的保本性资产配置 适中。");}
+                //        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
+                //        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
+                //        else{$("#baoben").html("您的保本性资产配置 适中。");}
                     }
                 }
                 else if(kb<=800){
                     if(kb==800){
-                        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
-                        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
-                        else{$("#fengxian").html("您的风险性资产配置 适中。");}
+                //        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
+                //        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
+                //        else{$("#fengxian").html("您的风险性资产配置 适中。");}
                     }
                 }
 
@@ -578,11 +729,6 @@
         else{
             $(".tijian").hide();
             $(".jieguo").show();
-        <% if session[:webusername]!=nil %>
-            $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value")},function(data){
-            });
-        <% end %>
 
             if (topLoaderRunning) {
                 return;
@@ -604,25 +750,25 @@
                 else if(kb<=400){
                     $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
                     if(kb==400){
-                        if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
-                        else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
-                        else{$("#liudong").html("您的流动性资产配置 适中。");}
+            //            if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
+            //            else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
+            //            else{$("#liudong").html("您的流动性资产配置 适中。");}
                     }
                 }
                 else if(kb<=600){
                     $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
                     if(kb==600){
-                        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
-                        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
-                        else{$("#baoben").html("您的保本性资产配置 适中。");}
+            //            if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
+            //            else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
+            //            else{$("#baoben").html("您的保本性资产配置 适中。");}
                     }
                 }
                 else if(kb<=800){
                     $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
                     if(kb==800){
-                        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
-                        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
-                        else{$("#fengxian").html("您的风险性资产配置 适中。");}
+            //            if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
+            //            else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
+            //            else{$("#fengxian").html("您的风险性资产配置 适中。");}
                     }
                 }
                 else if(kb<=1000){

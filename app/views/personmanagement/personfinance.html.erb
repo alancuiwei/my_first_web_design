@@ -1613,10 +1613,12 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
-        var total=parseFloat('<%= @examination.wages %>')*12+jixu;//总资产
-        var xian=parseFloat('<%= @examination.rent %>')*3;
-        var feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
-        var wen=total-xian-feng;
+
+        var xian=parseFloat('<%= @examination.xian %>');
+        var feng=parseFloat('<%= @examination.feng %>');
+        var wen=parseFloat('<%= @examination.wen %>');
+        var total=parseFloat('<%= @examination.xian %>')+parseFloat('<%= @examination.feng %>')+parseFloat('<%= @examination.wen %>');
+
         if(wen<1000){
             xian=xian+wen-1000;
             wen=1000;
