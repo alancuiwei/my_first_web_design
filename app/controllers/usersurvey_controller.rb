@@ -26,7 +26,9 @@ class UsersurveyController < ApplicationController
 
   def savescore
     @webuser=Webuser.find_by_username(params[:username])
+    if @webuser!=nil
     @webuser.update_attributes(:score=>params[:score])
+    end
     @examination=Examination.find_by_username(params[:username])
     if @examination==nil
       Examination.new do |e|

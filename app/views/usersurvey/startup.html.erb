@@ -26,6 +26,7 @@
         background-color: #ffffff;
         padding-bottom: 30px;
         margin-bottom: 20px;
+        min-height: 500px;
     }
 
     .span12 {
@@ -291,6 +292,7 @@
       <tbody>
       <tr>
         <td>
+          <div id="next" class="hide">
           <div class="table">
             <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
             <div class="cell">
@@ -330,12 +332,16 @@
             <div class="cell" style="width: 32px;"> <h1><b>5</b></h1> </div>
             <div class="cell" style="width: 95%;">
               <p class="q-text">资产体检概要：</p>
+              <div class="alert hide">
+                <a class="close" data-dismiss="alert" onclick="$('.alert').hide();">×</a>
+                我们建议您不要过大幅度的调整金额。
+              </div>
               <table class="table table-striped table-bordered" style="width: 100%;">
                 <tr>
                   <th>理财产品大类</th>
-                  <th>当前状况</th>
-                  <th>配置目标</th>
-                  <th>目标金额</th>
+                  <th>当前比例</th>
+                  <th>建议比例</th>
+                  <th>建议金额</th>
                 </tr>
                 <tr>
                   <td>流动性资产</td>
@@ -377,9 +383,10 @@
               <a class="risk btn btn-primary" style="margin-top: 20px;padding: 5px 46px;font-size: 16px;">下一步</a>
             </div>
           </div>
+          </div>
         </td>
         <td style="width: 35%;vertical-align: top;text-align: center;">
-          <div style="width: 200px;background-color: #f6f6f1;margin: 20px auto 0; display: table;">
+          <div style="width: 200px;background-color: #f6f6f1;margin:0 0 0 150px; display: table;position: fixed;top:210px;">
           <div id="topLoader"></div>
           <a id="retest" style="font-size: 15px;">重新体检</a><br>
           <div style="padding-top: 10px;">
@@ -455,10 +462,12 @@
             $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
             $("#xian1").removeClass("invalid");
             $("#feng1").removeClass("invalid");
+            $(".alert").hide();
         }
         else{
             if(parseInt(xian*0.9)>=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
             if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
         }
     });
     $("#age-increase0").click(function(){
@@ -469,10 +478,12 @@
             $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
             $("#xian1").removeClass("invalid");
             $("#feng1").removeClass("invalid");
+            $(".alert").hide();
         }
         else{
             if(parseInt(xian*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
             if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
         }
     });
 
@@ -484,10 +495,12 @@
             $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
             $("#wen1").removeClass("invalid");
             $("#feng1").removeClass("invalid");
+            $(".alert").hide();
         }
         else{
             if(parseInt(wen*0.9)>=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
             if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
         }
     });
     $("#age-increase1,#age-decrease2").click(function(){
@@ -498,10 +511,12 @@
             $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
             $("#wen1").removeClass("invalid");
             $("#feng1").removeClass("invalid");
+            $(".alert").hide();
         }
         else{
-            if(parseInt(wen*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(wen*1.1)<=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
             if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
         }
     });
 

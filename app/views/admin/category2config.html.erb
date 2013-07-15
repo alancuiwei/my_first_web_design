@@ -18,8 +18,16 @@
 </select><br>
   产品小类：<input type="text" name="classify" id="classify" title="产品小类"> <br>
   风险级别：<input type="text" name="risklevel" id="risklevel" title="风险级别"> <br>
-  产品类型介绍：<input type="text" name="ptype" id="ptype" title="产品类型介绍"> <br>
-  产品风险介绍：<input type="text" name="prisk" id="prisk" title="产品风险介绍"> <br>
+  <% if params[:id]!="0" %>
+      产品类型介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="ptype" id="ptype" title="产品类型介绍"><%= @category2.ptype %></textarea><br>
+      产品风险介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="prisk" id="prisk" title="产品风险介绍"><%= @category2.prisk %></textarea><br>
+      潜在收益回报：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="returns" id="returns" title="潜在收益回报"><%= @category2.returns %></textarea><br>
+  <% else %>
+      产品类型介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="ptype" id="ptype" title="产品类型介绍"></textarea><br>
+      产品风险介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="prisk" id="prisk" title="产品风险介绍"></textarea><br>
+      潜在收益回报：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="returns" id="returns" title="潜在收益回报"></textarea><br>
+  <% end %>
+  最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"> <br>
 
   <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
@@ -29,8 +37,7 @@
     $("#category").attr("value",'<%= @category2.category%>');
     $("#classify").attr("value",'<%= @category2.classify%>');
     $("#risklevel").attr("value",'<%= @category2.risklevel%>');
-    $("#ptype").attr("value",'<%= @category2.ptype%>');
-    $("#prisk").attr("value",'<%= @category2.prisk%>');
+    $("#startvalue").attr("value",'<%= @category2.startvalue%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -46,7 +53,7 @@
         }
         if(nom_flag==0){
             $.post("/admin/category2configajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),risklevel: $("#risklevel").attr("value"),
-                ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value")
+                ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value"),returns: $("#returns").attr("value"),startvalue: $("#startvalue").attr("value")
             },function(data){
                 if(data=="s1"){
                     alert("产品小类创建成功！");

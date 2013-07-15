@@ -179,6 +179,8 @@ class AdminController < ApplicationController
         b.classify=params[:classify]
         b.ptype=params[:ptype]
         b.prisk=params[:prisk]
+        b.returns=params[:returns]
+        b.startvalue=params[:startvalue]
         b.save
       end
       render :json => "s1".to_json
@@ -188,7 +190,7 @@ class AdminController < ApplicationController
       for i in 0..@financial.size-1
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
       end
-      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk])
+      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
       render :json => "s2".to_json
     end
   end
