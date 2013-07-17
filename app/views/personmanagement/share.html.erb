@@ -1,8 +1,24 @@
 <%= stylesheet_link_tag "personmanagement.css" %>
+<%= stylesheet_link_tag "red.css" %>
+<%= javascript_include_tag "jquery.icheck.js" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
 
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
+
 <style>
+    .footable.breakpoint > tbody > tr.footable-detail-show > td.expand {
+        background: url('/assets/minus.png') no-repeat 5px center;
+    }
+    .footable.breakpoint > tbody > tr > td.expand {
+        background: url('/assets/plus.png') no-repeat 5px center;
+        padding-left: 40px!important;
+    }
     p{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 14px;
@@ -60,9 +76,19 @@
     .table{
         margin-bottom:30px;
     }
-    #category td{
-        width: 8.33%;
+    #type td{
+        text-align: left;
         vertical-align: middle;
+    }
+    #category td,#category th{
+        vertical-align: middle;
+        background-color: #ffffff;
+    }
+    #category td.first,#category th.first{
+        background-color: #f9f9f9;
+    }
+    #category td.second,#category th.second,tr.third td{
+        background-color: #CCCCCC!important;
     }
     #finance td{
         vertical-align: middle;
@@ -131,16 +157,194 @@
             <p>此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的波动。投资期限内，回报率的波动性较小。</p>
             <p>大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。</p>
         <% end %>
+        <br>
+        <table id="type" class="table table-striped table-bordered footable">
+          <thead>
+          <tr>
+            <th data-sort-initial="descending" data-class="expand" style="width: 120px;">风险类型</th>
+            <th data-sort-ignore="true" style="width: 150px;">一句话点评</th>
+            <th data-hide="phone,tablet,hides">行家解释</th>
+            <th data-hide="phone">类型代表</th>
+          </tr>
+          </thead>
+          <tr>
+            <td>安逸型</td>
+            <td>保本是第一位的。</td>
+            <td>
+              您是安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。<br>
+              此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的波动。投资期限内，回报率的波动性较小。<br>
+              大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
+            </td>
+            <td>
+              我是安益型投资人，勤奋、意志坚定、深入细节、善于分析，我深思熟虑后才会选择适合自己的投资，尽一切可能来降低风险，和史玉柱一样，“手握资金，等待投资机会上门”
+            </td>
+          </tr>
+          <tr>
+            <td>保守型</td>
+            <td>每做出一个投资决定，我都需要从各个角度调查研究透彻。</td>
+            <td>
+              您是保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。<br>
+              投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。<br>
+              大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
+            </td>
+            <td>我是保守型投资人，我以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。和我相似的约翰•伯格，被誉为“指数基金教父”，投资回报资产高达9500亿美元。</td>
+          </tr>
+          <tr>
+            <td>稳健型</td>
+            <td>能抵制住投资市场的诱惑，愿意承担一些风险换取较高的收益率。</td>
+            <td>
+              您是稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。<br>
+              此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
+              大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
+            </td>
+            <td>我是稳健型投资人，自我保护、善于观察的我能够轻易抵制住投资市场所带来的诱惑，我和巴菲特不谋而合，“避开我们不能评估其未来的业务， 无论他们的产品可能多么激动人心。”</td>
+          </tr>
+          <tr>
+            <td>积极型</td>
+            <td>注重获得丰厚的投资回报。</td>
+            <td>
+              您是积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。<br>
+              此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
+              大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
+            </td>
+            <td>我是积极型投资人，以冷静著称的我有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。和我一样的复兴集团掌门人郭广昌帮我做了最好的诠释。</td>
+          </tr>
+          <tr>
+            <td>激进型</td>
+            <td>马克思说，有300%的投资回报，就敢犯任何罪行，甚至去冒绞首的危险。</td>
+            <td>
+              您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。<br>
+              为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。<br>
+              大多数情况下，其长期回报率高于其它较为保守的投资方法。
+            </td>
+            <td>我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="table">
+      <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
+      <div class="cell" style="width: 96%;">
+        <p class="q-text">品种挑选：</p>
+        <table id="category" class="table table-striped table-bordered footable" style="width: 100%;">
+          <thead>
+          <tr>
+            <th data-sort-initial="descending" data-class="expand" style="width: 120px;">风险类型</th>
+            <th data-sort-ignore="true" style="width: 150px;">投资品种</th>
+            <th data-hide="phone" style="width: 173px;">品种风险介绍</th>
+            <th data-hide="phone" style="width: 173px;">潜在收益回报</th>
+            <th data-hide="phone,tablet,hides">投资品种介绍</th>
+            <th data-sort-ignore="true" style="width: 40px;"></th>
+          </tr>
+          </thead>
+          <% if params[:risk].to_f>=0 && params[:risk].to_f<=4 %>
+              <% for i in 0..@category1.size-1 %>
+                  <tr>
+                    <td>安逸型</td>
+                    <td><%= @category1[i].classify %></td>
+                    <td><%= @category1[i].prisk %></td>
+                    <td><%= @category1[i].returns %></td>
+                    <td><%= @category1[i].ptype %></td>
+                    <td><input type="radio" name="iCheck" class="<%= @category1[i].id %>,<%= @category1[i].classify %>"></td>
+                  </tr>
+              <% end %>
+          <% end %>
+          <% if params[:risk].to_f>0 && params[:risk].to_f<=6 %>
+              <% for i in 0..@category2.size-1 %>
+                  <tr>
+                    <td>保守型</td>
+                    <td><%= @category2[i].classify %></td>
+                    <td><%= @category2[i].prisk %></td>
+                    <td><%= @category2[i].returns %></td>
+                    <td><%= @category2[i].ptype %></td>
+                    <td><input type="radio" name="iCheck" class="<%= @category2[i].id %>,<%= @category2[i].classify %>"></td>
+                  </tr>
+              <% end %>
+          <% end %>
+          <% if params[:risk].to_f>2 && params[:risk].to_f<=8 %>
+              <% for i in 0..@category3.size-1 %>
+                  <tr>
+                    <td>稳健型</td>
+                    <td><%= @category3[i].classify %></td>
+                    <td><%= @category3[i].prisk %></td>
+                    <td><%= @category3[i].returns %></td>
+                    <td><%= @category3[i].ptype %></td>
+                    <td><input type="radio" name="iCheck" class="<%= @category3[i].id %>,<%= @category3[i].classify %>"></td>
+                  </tr>
+              <% end %>
+          <% end %>
+          <% if params[:risk].to_f>4 && params[:risk].to_f<=10 %>
+              <% for i in 0..@category4.size-1 %>
+                  <tr>
+                    <td>积极型</td>
+                    <td><%= @category4[i].classify %></td>
+                    <td><%= @category4[i].prisk %></td>
+                    <td><%= @category4[i].returns %></td>
+                    <td><%= @category4[i].ptype %></td>
+                    <td><input type="radio" name="iCheck" class="<%= @category4[i].id %>,<%= @category4[i].classify %>"></td>
+                  </tr>
+              <% end %>
+          <% end %>
+          <% if params[:risk].to_f>6 && params[:risk].to_f<=10 %>
+              <% for i in 0..@category5.size-1 %>
+                  <tr>
+                    <td>激进型</td>
+                    <td><%= @category5[i].classify %></td>
+                    <td><%= @category5[i].prisk %></td>
+                    <td><%= @category5[i].returns %></td>
+                    <td><%= @category5[i].ptype %></td>
+                    <td><input type="radio" name="iCheck" class="<%= @category5[i].id %>,<%= @category5[i].classify %>"></td>
+                  </tr>
+              <% end %>
+          <% end %>
+        </table>
+      </div>
+    </div>
+    <div id="finance" class="table hide">
+      <div class="cell" style="width: 32px;"> <h1><b>4</b></h1> </div>
+      <div class="cell" style="width: 96%;">
+        <p class="q-text">产品挑选：</p>
+        <table class="table table-striped table-bordered footable" style="width: 100%;">
+          <thead>
+             <tr>
+               <th data-sort-initial="descending" data-class="expand" style="width: 120px;">投资品种</th>
+               <th data-sort-ignore="true" style="width: 150px;">理财产品</th>
+               <th data-sort-ignore="true" style="width: 85px;">近1年<br>收益率</th>
+               <th data-sort-ignore="true">排名</th>
+               <th data-sort-ignore="true" style="width: 85px;">近3年<br>收益率</th>
+               <th data-sort-ignore="true">排名</th>
+               <th data-hide="phone,tablet,hides">理财产品详细介绍</th>
+               <th data-sort-ignore="true" style="width: 40px;">选择</th>
+             </tr>
+          </thead>
+          <% @financial2.each do |f| %>
+          <tr class="finance<%= f.id %> hide">
+             <td><%= f.classify %></td>
+             <td><%= f.pname %></td>
+             <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
+             <td><%= f.rank %></td>
+             <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% end %></td>
+             <td><%= f.rank1 %></td>
+             <td><%= f.pintroduction %></td>
+             <td><input type="radio" name="iCheck2" class="<%= f.id %>"></td>
+          </tr>
+          <% end %>
+        </table>
+        <% if session[:webusername]!=nil %>
+            <a id="clicks" class="btn btn-primary hide" href="/personmanagement/personfinance">下一步</a>
+        <% else %>
+            <a id="clicks" class="btn btn-primary hide" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
+        <% end %>
       </div>
     </div>
   </td>
-  <td class="left" style="width: 35%;">
-    <div style="width: 300px;background-color: #f6f6f1;margin: 20px auto 0; display: table;text-align: center;">
+  <td class="left" style="width: 31%;">
+    <div style="width: 300px;height: 300px;background-color: #f6f6f1;margin: 20px 0 0 20px; display: table;text-align: center;position: fixed;top:200px;">
       <br>
       <p class="phone">您的风险承受度</p>
       <div id="container" style="margin-left: 10px;"></div>
       <a id="retest" class="phone" style="font-size: 15px;" href="/home/questions?score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&expenses=<%= params[:expenses] %>">重新评估</a><br>
-      <div class="win" style="padding-top: 10px;height: 20px;">
+      <div class="win" style="padding: 10px 0;height: 20px;">
         <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
             <div id="click" style="width: 111px;margin: 0 auto;"><wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/personmanagement/share?risk=<%= params[:risk] %>" title="我在@通天顺家庭理财 参与了美国高盛公司的开源资产风险度承受评估：我是激进型投资人，偏爱高风险投资，高风险的投资产品，这能激发我热情参与的动力，我和李嘉诚一样，推崇“大手笔、大投资、大收益”，与生俱来的霸气让您得到更多的收获。 “ 参与评估活动可手机充值抽奖，"></wb:share-button></div>
         <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
@@ -161,213 +365,9 @@
         </div>
       </div>
       <% if session[:webusername]!=nil %>
-          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary" href="/usersurvey/dreamset">下一步</a>
+          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary hide" href="/personmanagement/personfinance">下一步</a>
       <% else %>
-          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
-      <% end %>
-    </div>
-  </td>
-</tr>
-<tr>
-  <td colspan="2">
-    <table id="category" class="table table-striped table-bordered">
-      <tr>
-        <th></th>
-        <th colspan="<%= @category1.size %>">安逸型</th>
-        <th colspan="<%= @category2.size %>">保守型</th>
-        <th colspan="<%= @category3.size %>">稳健型</th>
-        <th colspan="<%= @category4.size %>">积极型</th>
-        <th colspan="<%= @category5.size %>">激进型</th>
-      </tr>
-      <tr>
-        <td>特点</td>
-        <td colspan="<%= @category1.size %>">保本是第一位的。</td>
-        <td colspan="<%= @category2.size %>">每做出一个投资决定，我都需要从各个角度调查研究透彻。</td>
-        <td colspan="<%= @category3.size %>">能抵制住投资市场的诱惑，愿意承担一些风险换取较高的收益率。</td>
-        <td colspan="<%= @category4.size %>">注重获得丰厚的投资问寿</td>
-        <td colspan="<%= @category5.size %>">马克思说，有300%的投资回报，就敢犯任何罪行，甚至去冒---的危险</td>
-      </tr>
-      <tr>
-        <td>投资品种</td>
-        <% @category1.each do |c| %>
-            <td><%= c.classify %></td>
-        <% end %>
-        <% @category2.each do |c| %>
-            <td><%= c.classify %></td>
-        <% end %>
-        <% @category3.each do |c| %>
-            <td><%= c.classify %></td>
-        <% end %>
-        <% @category4.each do |c| %>
-            <td><%= c.classify %></td>
-        <% end %>
-        <% @category5.each do |c| %>
-            <td><%= c.classify %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <td>投资品种介绍</td>
-        <% @category1.each do |c| %>
-            <td><%= c.ptype %></td>
-        <% end %>
-        <% @category2.each do |c| %>
-            <td><%= c.ptype %></td>
-        <% end %>
-        <% @category3.each do |c| %>
-            <td><%= c.ptype %></td>
-        <% end %>
-        <% @category4.each do |c| %>
-            <td><%= c.ptype %></td>
-        <% end %>
-        <% @category5.each do |c| %>
-            <td><%= c.ptype %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <td>投资产品风险度介绍</td>
-        <% @category1.each do |c| %>
-            <td><%= c.prisk %></td>
-        <% end %>
-        <% @category2.each do |c| %>
-            <td><%= c.prisk %></td>
-        <% end %>
-        <% @category3.each do |c| %>
-            <td><%= c.prisk %></td>
-        <% end %>
-        <% @category4.each do |c| %>
-            <td><%= c.prisk %></td>
-        <% end %>
-        <% @category5.each do |c| %>
-            <td><%= c.prisk %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <td>潜在收益回报</td>
-        <% @category1.each do |c| %>
-            <td><%= c.returns %></td>
-        <% end %>
-        <% @category2.each do |c| %>
-            <td><%= c.returns %></td>
-        <% end %>
-        <% @category3.each do |c| %>
-            <td><%= c.returns %></td>
-        <% end %>
-        <% @category4.each do |c| %>
-            <td><%= c.returns %></td>
-        <% end %>
-        <% @category5.each do |c| %>
-            <td><%= c.returns %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <td>最低投资金额</td>
-        <% @category1.each do |c| %>
-            <td><%= c.startvalue %></td>
-        <% end %>
-        <% @category2.each do |c| %>
-            <td><%= c.startvalue %></td>
-        <% end %>
-        <% @category3.each do |c| %>
-            <td><%= c.startvalue %></td>
-        <% end %>
-        <% @category4.each do |c| %>
-            <td><%= c.startvalue %></td>
-        <% end %>
-        <% @category5.each do |c| %>
-            <td><%= c.startvalue %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <td></td>
-        <% @category1.each do |c| %>
-            <% if params[:risk].to_f>=0 && params[:risk].to_f<=4 %>
-                <td><a class="btn btn-primary" onclick="finance(<%= c.id %>)">选择</a></td>
-            <% else %>
-                <td></td>
-            <% end %>
-        <% end %>
-        <% @category2.each do |c| %>
-            <% if params[:risk].to_f>0 && params[:risk].to_f<=6 %>
-                <td><a class="btn btn-primary" onclick="finance(<%= c.id %>)">选择</a></td>
-            <% else %>
-                <td></td>
-            <% end %>
-        <% end %>
-        <% @category3.each do |c| %>
-            <% if params[:risk].to_f>2 && params[:risk].to_f<=8 %>
-                <td><a class="btn btn-primary" onclick="finance(<%= c.id %>)">选择</a></td>
-            <% else %>
-                <td></td>
-            <% end %>
-        <% end %>
-        <% @category4.each do |c| %>
-            <% if params[:risk].to_f>4 && params[:risk].to_f<=10 %>
-                <td><a class="btn btn-primary" onclick="finance(<%= c.id %>)">选择</a></td>
-            <% else %>
-                <td></td>
-            <% end %>
-        <% end %>
-        <% @category5.each do |c| %>
-            <% if params[:risk].to_f>6 && params[:risk].to_f<=10 %>
-                <td><a class="btn btn-primary" onclick="finance(<%= c.id %>)">选择</a></td>
-            <% else %>
-                <td></td>
-            <% end %>
-        <% end %>
-      </tr>
-    </table>
-  </td>
-</tr>
-<tr>
-  <td colspan="2">
-    <div id="finance" class="table hide">
-      <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
-      <div class="cell">
-        <p class="q-text">产品挑选：</p>
-      </div>
-      <table class="table table-striped table-bordered">
-        <tr>
-          <td style="width: 8.33%;"></td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><%= f.pname %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>最低投资金额</td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><%= f.startvalue %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>投资期限</td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><%= f.investperiod %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>风险提示</td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><%= f.risktip %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>产品简介</td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><%= f.pintroduction %></td>
-          <% end %>
-        </tr>
-        <tr>
-          <td>操作</td>
-          <% @financial2.each do |f| %>
-              <td class="finance<%= f.id %> hide"><a class="btn btn-primary" onclick="products(<%= f.id %>);">选择</a></td>
-          <% end %>
-        </tr>
-      </table>
-      <h1 id="product"></h1>
-      <% if session[:webusername]!=nil %>
-          <a id="clicks" class="btn btn-primary" href="/usersurvey/dreamset">下一步</a>
-      <% else %>
-          <a id="clicks" class="btn btn-primary" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
+          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary hide" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
       <% end %>
     </div>
   </td>
@@ -393,24 +393,39 @@
     document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
 </script>
 <script type="text/javascript">
-    function finance(e){
+
+    $('input').on('ifChecked', function(event){
+       if(this.name=='iCheck'){
+        var eq=this.className.split(",");
+        $("#category td").removeClass("second");
+        var length=$("#category").find("tr").size();
+        for(i=0;i<length;i++){
+            if($("#category tr:eq("+i+") td:eq(1)").html()==eq[1]){
+                for(j=0;j<7;j++){
+                    $("#category tr:eq("+i+") td:eq("+j+")").addClass("second")
+                }
+            }
+        }
         $("#finance").show();
         $('[class*="finance"]').hide();
-    <%  for i in 0..@hash.size-1 %>
-        if(e=='<%= @hash[i][0] %>'){
+        <%  for i in 0..@hash.size-1 %>
+        if(eq[0]=='<%= @hash[i][0] %>'){
             var pid= '<%= @hash[i][2] %>'.split(",");
             for(var k=0;k<pid.length;k++){
                 $('.finance'+pid[k]).show();
             }
         }
-    <% end %>
-    }
-    function products(e){
-    <% @financial2.each do |f| %>
-       if(e=='<%= f.id %>'){
-           $("#product").html('<%= f.pname %>');
+        <% end %>
        }
-    <% end %>
+        else if(this.name=='iCheck2'){
+           $("tr").removeClass("third");
+           $(".finance"+this.className).addClass("third");
+           $(".btn-primary").show();
+       }
+    });
+
+    function products(e){
+
     }
     //平台、设备和操作系统
     var system ={
@@ -635,5 +650,31 @@
             }
         });
     });
+    $(document).ready(function(){
+        var length=$("#category").find("tr").size();
+        <% if params[:risk].to_f>8 && params[:risk].to_f<=10 %>
+        var type='激进型'
+        <% elsif params[:risk].to_f>6 && params[:risk].to_f<=8 %>
+        var type='积极型'
+        <% elsif params[:risk].to_f>4 && params[:risk].to_f<=6 %>
+        var type='稳健型'
+        <% elsif params[:risk].to_f>2 && params[:risk].to_f<=4 %>
+        var type='保守型'
+        <% elsif params[:risk].to_f>=0 && params[:risk].to_f<=2 %>
+        var type='安逸型'
+        <% end %>
+        for(i=0;i<length;i++){
+            if($("#category tr:eq("+i+") td:eq(0)").html()==type){
+                for(j=0;j<7;j++){
+                    $("#category tr:eq("+i+") td:eq("+j+")").addClass("first")
+                }
+            }
+        }
 
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-red',
+            radioClass: 'iradio_square-red',
+            increaseArea: '20%' // optional
+        });
+    });
 </script>

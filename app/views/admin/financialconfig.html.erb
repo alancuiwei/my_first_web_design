@@ -18,7 +18,10 @@
   </form>
   产品名称：<input type="text" name="pname" id="pname" title="产品名称"><br>
   管理机构：<input type="text" name="trusts" id="trusts" title="管理机构"><br>
-  收益率：<input type="text" name="rate" id="rate" title="收益率">%<br>
+  近1年收益率：<input type="text" name="rate" id="rate" title="近1年收益率">%<br>
+  近1年排名：<input type="text" name="rank" id="rank" title="近1年排名"><br>
+  近3年收益率：<input type="text" name="rate1" id="rate1" title="近3年收益率">%<br>
+  近3年排名：<input type="text" name="rank1" id="rank1" title="近3年排名"><br>
   最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"><br>
   投资期限：<input type="text" name="investperiod" id="investperiod" title="投资期限"><br>
   手续费：<input type="text" name="poundage" id="poundage" title="手续费">%<br>
@@ -300,6 +303,13 @@
             var rate= ($("#rate").attr("value")/100).toFixed(5);
         }
 
+        if(numfor.test($("#rate1").attr("value"))==false){
+            var rate1=$("#rate1").attr("value");
+        }
+        else{
+            var rate1= ($("#rate1").attr("value")/100).toFixed(5);
+        }
+
         if(nom_flag==0){
             var a=document.getElementsByClassName("idd");
             for(var i=0;i<a.length;i++){
@@ -312,7 +322,7 @@
             }
 
             $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rate: rate,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
+                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rate: rate,rate1: rate1,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -366,11 +376,20 @@
         <% if params[:id]!="0" %>
         $("#pname").attr("value",'<%= @financial.pname%>');
         $("#trusts").attr("value",'<%= @financial.trusts %>');
+        $("#rank").attr("value",'<%= @financial.rank %>');
+        $("#rank1").attr("value",'<%= @financial.rank1 %>');
         <% if @financial.rate!=nil %>
         <% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.rate %>
         $("#rate").attr("value",'<%= format("%0.3f",@financial.rate.to_f*100) %>');
         <% else %>
         $("#rate").attr("value",'<%= @financial.rate %>');
+        <% end %>
+        <% end %>
+        <% if @financial.rate1!=nil %>
+        <% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.rate1 %>
+        $("#rate1").attr("value",'<%= format("%0.3f",@financial.rate1.to_f*100) %>');
+        <% else %>
+        $("#rate1").attr("value",'<%= @financial.rate1 %>');
         <% end %>
         <% end %>
         $("#startvalue").attr("value",'<%= @financial.startvalue%>');
