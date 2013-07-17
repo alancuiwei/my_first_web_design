@@ -330,11 +330,7 @@
           </tr>
           <% end %>
         </table>
-        <% if session[:webusername]!=nil %>
-            <a id="clicks" class="btn btn-primary hide" href="/personmanagement/personfinance">下一步</a>
-        <% else %>
-            <a id="clicks" class="btn btn-primary hide" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
-        <% end %>
+        <a id="clicks" class="btn btn-primary hide">下一步</a>
       </div>
     </div>
   </td>
@@ -364,11 +360,7 @@
           </div>
         </div>
       </div>
-      <% if session[:webusername]!=nil %>
-          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary hide" href="/personmanagement/personfinance">下一步</a>
-      <% else %>
-          <a id="clicks" style="margin: 10px 0;" class="btn btn-primary hide" href="/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>">下一步</a>
-      <% end %>
+      <a id="clicks" style="margin: 10px 0;" class="btn btn-primary hide">下一步</a>
     </div>
   </td>
 </tr>
@@ -393,6 +385,16 @@
     document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
 </script>
 <script type="text/javascript">
+    var selection="";
+    $(".btn-primary").click(function(){
+        <% if session[:webusername]!=nil %>
+        $.post("/personmanagement/selectproduct",{ username: '<%= session[:webusername] %>',selection: selection},function(data){
+            location.href='/personmanagement/personfinance';
+            });
+        <% else %>
+          location.href='/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&stacked=<%= params[:stacked] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>&selection='+selection;
+        <% end %>
+    });
 
     $('input').on('ifChecked', function(event){
        if(this.name=='iCheck'){
@@ -421,6 +423,11 @@
            $("tr").removeClass("third");
            $(".finance"+this.className).addClass("third");
            $(".btn-primary").show();
+       <% @financial2.each do |f| %>
+           if(this.className=='<%= f.id %>'){
+               selection='<%= f.pname %>';
+           }
+       <% end %>
        }
     });
 

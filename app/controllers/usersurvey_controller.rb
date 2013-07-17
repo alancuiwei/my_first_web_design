@@ -75,7 +75,7 @@ class UsersurveyController < ApplicationController
   def dreamsset
     @webuser = Webuser.find_by_username(params[:username])
    if @webuser!=nil
-    @webuser.update_attributes(:dreamset=>params[:dreamset])
+    @webuser.update_attributes(:dreamset=>params[:dreamset],:selection=>params[:selection])
    end
     render :json => "s".to_json
   end

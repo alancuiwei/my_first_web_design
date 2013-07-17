@@ -376,11 +376,11 @@
                   <% if params[:score]!="" %>
                     $.post("/usersurvey/savescore",{username:$(uid).attr("value"),score:'<%= params[:score] %>',variety:'<%= params[:variety] %>',pname:'<%= params[:pname] %>',
                         amount:'<%= params[:amount] %>',age:'<%= params[:age] %>',salary:'<%= params[:salary] %>',
-                        rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>',xian:'<%= params[:xian] %>',wen:'<%= params[:wen] %>',feng:'<%= params[:feng] %>',xianp:'<%= params[:xianp] %>',wenp:'<%= params[:wenp] %>',fengp:'<%= params[:fengp] %>'},function(data){
+                        rent:'<%= params[:rent] %>',wages:'<%= params[:wages] %>',xian:'<%= params[:xian] %>',wen:'<%= params[:wen] %>',feng:'<%= params[:feng] %>',xianp:'<%= params[:xianp] %>',wenp:'<%= params[:wenp] %>',fengp:'<%= params[:fengp] %>',fengp:'<%= params[:fengp] %>'},function(data){
 
                     });
                   <% end %>
-                    $.post("/usersurvey/dreamsset",{ username:$(uid).attr("value"),dreamset:'不做月光族！'},function(data){
+                    $.post("/usersurvey/dreamsset",{ username:$(uid).attr("value"),dreamset:'不做月光族！',selection:'<%= params[:selection] %>'},function(data){
                     });
                     $.post("/personmanagement/personconfigajax/0",{ username:$(uid).attr("value"),age: '<%= params[:age] %>',risktolerance:risktolerance,
                         investamount:  '<%= params[:investamount] %>',returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate

@@ -417,13 +417,23 @@
                 <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>">查看</a></td>
               </tr>
               <% if  @webuser.risktolerance!=nil %>
-                  <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+                  <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+                      <tr class="monthpay5" data-type="US_STOCKS">
+                        <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
+                        <td>风险型资产</td>
+                        <td><%= @finances.classify %></td>
+                        <td class="name5"><%= @webuser.selection %></td>
+                        <td class="amounts5"></td>
+                        <td class="finish5"></td>
+                        <td></td>
+                      </tr>
+                  <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
                       <tr class="monthpay5" data-type="US_STOCKS">
                         <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
                         <td>风险型资产</td>
                         <td><%= @hash3['风险1'][2] %></td>
                         <td class="name5"><%= @hash3['风险1'][0] %></td>
-                        <td class="amounts5"><%= @hash3['风险1'][1] %></td>
+                        <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td></td>
                       </tr>
@@ -556,7 +566,9 @@
           <select name="pname" id="pname">
             <option value="<%= @hash3['流动'][0] %>"><%= @hash3['流动'][0] %></option>
             <option value="<%= @hash3['保本'][0] %>"><%= @hash3['保本'][0] %></option>
-            <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+            <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+                <option value="<%= @hash3[@finances.pname][0] %>"><%= @hash3[@finances.pname][0] %></option>
+            <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
                 <option value="<%= @hash3['风险1'][0] %>"><%= @hash3['风险1'][0] %></option>
             <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
                 <option value="<%= @hash3['风险2'][0] %>"><%= @hash3['风险2'][0] %></option>
@@ -589,7 +601,9 @@
 <script language="javascript">
     var a2="<%= @hash3['流动'][0] %>";
     var a4="<%= @hash3['保本'][0] %>";
-    <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+    <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+    var a5="<%= @hash3[@finances.pname][0] %>";
+    <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
     var a5="<%= @hash3['风险1'][0] %>";
     <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
     var a5="<%= @hash3['风险2'][0] %>";
@@ -716,7 +730,7 @@
                     }
                     $("#amount2").html(amount+parseInt($("#amount2").html()));
                 }
-                else if($("#pname").attr("value")=='<%= @hash3['风险1'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险2'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险3'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险4'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险5'][0] %>'){
+                else if($("#pname").attr("value")=='<%= @hash3[@finances.pname][0] %>' ||$("#pname").attr("value")=='<%= @hash3['风险1'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险2'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险3'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险4'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险5'][0] %>'){
                     if($(".finish5").html()=="") {
                         $(".finish5").html(amount);
                     }

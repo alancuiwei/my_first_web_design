@@ -28,6 +28,12 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def selectproduct
+    @webuser = Webuser.find_by_username(params[:username])
+    @webuser.update_attributes(:selection=>params[:selection])
+    render :json => "s".to_json
+  end
+
    def movablewall
      @activity=Activity.find_by_sql("select * from activity order by id desc")
    end
@@ -397,6 +403,8 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
+      @finances=Financial.find_by_selection(@webuser.selection)
+      @hash3.store(@finances.person,[@finances.pname,@finances.id,@finances.classify])
       @examination=Examination.find_by_username(@webuser.username)
       @record=Record.find_all_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
@@ -422,6 +430,8 @@ class PersonmanagementController < ApplicationController
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+        @finances=Financial.find_by_pname(@webuser.selection)
+        @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
         @examination=Examination.find_by_username(@webuser.username)
         @record=Record.find_all_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
