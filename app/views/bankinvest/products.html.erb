@@ -81,9 +81,9 @@
           <% elsif  f.risklevel==5 %>极高风险
           <% end %>
         </td>
-        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
-        <td><% if f.rate1 !=nil %><%= format("%0.2f",f.rate1.to_f*100) %>%<% end %></td>
-        <td><%= f.rank1 %></td>
+        <td><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><% end %></td>
+        <td><% if f.rate1 !=nil %><% if f.rate1.to_f !=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %><% end %></td>
+        <td><% if f.rank1 !='0' %><%= f.rank1 %><% else %>--<% end %></td>
       </tr>
   <% end %>
   </table>

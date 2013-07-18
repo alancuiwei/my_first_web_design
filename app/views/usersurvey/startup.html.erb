@@ -112,22 +112,18 @@
 <div class="container">
   <div class="top-tabs-content">
     <div class="contents" style="width: 940px;margin: 0 auto;padding-left: 20px;">
-      <b>1.</b> <span> 家庭资产体检</span>
+      <b>1.</b> <span> 资产体检</span>
       <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
       <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
-          <a href="/home/questions"><b>2.</b> 风险承受力评估</a>
+          <a href="/home/questions"><b>2.</b> 风险评估</a>
       <% else %>
-      <span class="disabled"><b>2.</b> 风险承受力评估</span>
+      <span class="disabled"><b>2.</b> 风险评估</span>
       <% end %>
       <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
       <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
-          <a href="/usersurvey/dreamset"><b>3.</b> 梦想目标设定</a>
-      <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
-          <a href="/personmanagement/personfinance"><b>4.</b> 规划建议书生成</a>
+          <a href="/personmanagement/personfinance"><b>4.</b> 理财建议</a>
       <% else %>
-      <span class="disabled"><b>3.</b> 梦想目标设定</span>
-      <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
-      <span class="disabled"><b>4.</b> 规划建议书生成</span>
+      <span class="disabled"><b>4.</b> 理财建议</span>
       <% end %>
     </div>
   </div>
