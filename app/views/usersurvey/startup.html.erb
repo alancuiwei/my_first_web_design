@@ -1,9 +1,8 @@
 <%= stylesheet_link_tag "founder.css" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "jquery.easy-pie-chart.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
-<!--[if !IE]><!-->
-<%= javascript_include_tag "jquery.percentageloader-0.1.js" %>
-<!--<![endif]-->
 
 <style>
     input[readonly]{
@@ -27,6 +26,7 @@
         padding-bottom: 30px;
         margin-bottom: 20px;
         min-height: 500px;
+        width: 100%;
     }
 
     .span12 {
@@ -61,7 +61,7 @@
         color:black;
     }
 
-    #topLoader {
+    .percentage {
         width: 150px;
         height: 150px;
         margin: 20px auto;
@@ -97,7 +97,18 @@
         opacity: 0.3;
         z-index: 999;
     }
+    .easyPieChart {
+        position: relative;
+        text-align: center;
+    }
+
+    .easyPieChart canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 </style>
+
 <div class="container">
   <div class="top-tabs-content">
     <div class="contents" style="width: 940px;margin: 0 auto;padding-left: 20px;">
@@ -124,8 +135,6 @@
     <h1 class="content">家庭资产体检</h1>
     <div class="row s-op">
       <div class="span12 well-b">
-
-
         <div class="row title">
           <div class="span12">
             <div class="box c1">
@@ -286,7 +295,7 @@
 
   </div>
 
-  <div class="jieguo hide" style="width: 940px;margin: 0 auto;">
+  <div class="jieguo" style="width: 940px;margin: 0 auto;">
     <h1 class="content">体检结果</h1>
     <table class="press-table" border="0" style="width: 100%;" >
       <tbody>
@@ -299,9 +308,6 @@
               <p class="q-text">家庭资产体检系统介绍：</p>
                <p>我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划。</p>
                <p>我们将您每个月可存的资金累加上您的已有资产进行规划和分配，我们将投资分配为三类资产：流动性资产，风险性资产，保本性资产。</p>
-            <!--  <p id="liudong"></p>
-              <p id="baoben"></p>
-              <p id="fengxian"></p> -->
             </div>
           </div>
           <div class="table">
@@ -387,7 +393,7 @@
         </td>
         <td style="width: 35%;vertical-align: top;text-align: center;">
           <div style="width: 200px;background-color: #f6f6f1;margin:0 0 0 150px; display: table;position: fixed;top:210px;">
-          <div id="topLoader"></div>
+            <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
           <a id="retest" style="font-size: 15px;">重新体检</a><br>
           <div style="padding-top: 10px;">
             <wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/usersurvey/startup" title=""></wb:share-button>
@@ -419,15 +425,6 @@
     </div>
   </div>
 </div>
-
-<!--[if !IE]><!-->
-<script>
-    var perfinance=0;
-    var $topLoader = $("#topLoader").percentageLoader({width: 150, height: 150, controllable : false, progress : 0, onProgressUpdate : function(val) {
-        $topLoader.setValue(Math.round(val * 100.0));
-    }});
-</script>
-<!--<![endif]-->
 
 <script>
     function waithelp(){
@@ -526,8 +523,8 @@
         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
             salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value"),
             xian:xian,wen:wen,feng:feng,xianp:$("#xian1").attr("value"),wenp:$("#wen1").attr("value"),fengp:$("#feng1").attr("value")},function(data){
+            location.href='/home/questions';
         });
-        location.href='/home/questions';
         <% else %>
         var salary= parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"));
         location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
@@ -542,12 +539,10 @@
             $("#next").hide();
             $(".jieguo").hide();
             $(".tijian").show();
-            $("#liudong").html("");
-            $("#baoben").html("");
-            $("#fengxian").html("");
-           if(ie){
-            $("#topLoader").html("");
-           }
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(0);
+                $('span', this).text(0);
+            });
         });
 
     var variety,amount,pname,jixu,total,xian,feng,wen;
@@ -583,7 +578,9 @@
              variety=document.getElementsByClassName("founder-name")  //资产品种
              amount=document.getElementsByClassName("init-share")  //资产金额
              pname=document.getElementsByClassName("pname")  //产品名称
-
+            xianjin=0;
+            wenjian=0;
+            fengxian=0;
             // alert($("#age").attr("value"));  年龄层次
             for(i=0;i<variety.length;i++){
                 if(amount[i].value==''){amount[i].value=0;}
@@ -613,7 +610,6 @@
              xian=parseInt((parseFloat($("#rent").attr("value"))*3)/100)*100;
              feng=parseInt((total*(80-parseFloat($("#age").attr("value")))/100)/100)*100;
              wen=total-xian-feng;
-
             $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
             $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
             $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
@@ -692,116 +688,40 @@
             else{
                 $("#rents").html(parseFloat($("#rent").attr("value")));
                 $("#xian").html(xian);
-                animate();
+                $(".tijian").hide();
+                $(".jieguo").show();
+                animate(0,run());
             }
         });
 
         $("#sub").click(function() {
-            animate();
+            animate(0,run());
         });
  </script>
 
-<script>
-    function animate() {
-        if(ie){
-            $(".tijian").hide();
-            $(".jieguo").show();
-            var kb = 0;
-            var totalKb = 999;
-            var animateFunc = function() {
-                kb += 5;
-              if(kb<=400){
-                    if(kb==400){
-              //          if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
-              //          else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
-              //          else{$("#liudong").html("您的流动性资产配置 适中。");}
-                    }
-                }
-                else if(kb<=600){
-                    if(kb==600){
-                //        if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
-                //        else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
-                //        else{$("#baoben").html("您的保本性资产配置 适中。");}
-                    }
-                }
-                else if(kb<=800){
-                    if(kb==800){
-                //        if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
-                //        else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
-                //        else{$("#fengxian").html("您的风险性资产配置 适中。");}
-                    }
-                }
-
-                if (kb < totalKb) {
-                    setTimeout(animateFunc, 25);
-                } else {
-                    $("#next").show();
-                    $("#topLoader").html("<h1 style='font-style: 30px;text-align: center;'>您的家庭资产体检得分为：<br>"+run()+"分</h1>");
-                }
-            }
-            setTimeout(animateFunc, 25);
+<script type="text/javascript">
+    var initPieChart = function() {
+        $('.percentage').easyPieChart({
+            animate: 1000
+        });
+    };
+    function animate(i,a){
+        if(i<a){
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(i);
+                $('span', this).text(i);
+            });
+            setTimeout("animate("+(i+1).toString()+','+a+")",50);
         }
         else{
-            $(".tijian").hide();
-            $(".jieguo").show();
-
-            if (topLoaderRunning) {
-                return;
-            }
-            topLoaderRunning = true;
-            $topLoader.setProgress(0);
-            $topLoader.setValue('0kb');
-            var kb = 0;
-            var totalKb = 999;
-
-            var animateFunc = function() {
-                kb += 5;
-
-                $topLoader.setProgress(kb / totalKb);
-                //$topLoader.setValue(kb.toString() + 'kb');
-                if(kb<=200){
-                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">个人资产信息分析</span>');
-                }
-                else if(kb<=400){
-                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">流动性资金分布分析</span>');
-                    if(kb==400){
-            //            if(score1==1){$("#liudong").html("您的流动性资产配置 过低。");}
-            //            else if (score1==0){$("#liudong").html("您的流动性资产配置 过高。");}
-            //            else{$("#liudong").html("您的流动性资产配置 适中。");}
-                    }
-                }
-                else if(kb<=600){
-                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">保本性资金分布分析</span>');
-                    if(kb==600){
-            //            if(score2==1){$("#baoben").html("您的保本性资产配置 过低。");}
-            //            else if (score2==0){$("#baoben").html("您的保本性资产配置 过高。");}
-            //            else{$("#baoben").html("您的保本性资产配置 适中。");}
-                    }
-                }
-                else if(kb<=800){
-                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">风险性资金分布分析</span>');
-                    if(kb==800){
-            //            if(score3==1){$("#fengxian").html("您的风险性资产配置 过低。");}
-            //            else if (score3==0){$("#fengxian").html("您的风险性资产配置 过高。");}
-            //            else{$("#fengxian").html("您的风险性资产配置 适中。");}
-                    }
-                }
-                else if(kb<=1000){
-                    $topLoader.setValue('<span style="font-size: 12px;line-height: 12px;font-family: Microsoft YaHei;">生成概述报告</span>');
-                }
-
-                if (kb < totalKb) {
-                    setTimeout(animateFunc, 25);
-                } else {
-                    $("#next").show();
-                    topLoaderRunning = false;
-                }
-            }
-
-            setTimeout(animateFunc, 25);
+            $("#next").show();
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(a);
+                $('span', this).text(a);
+            });
         }
     }
- </script>
+</script>
 
 <script>
 
@@ -1084,6 +1004,8 @@
 });
 
   $(document).ready(function(){
+      initPieChart();
+      $(".jieguo").hide();
       <% if session[:webusername]!=nil && @examination!=nil %>
          $("#age").attr("value",parseInt('<%= @examination.age %>'));
          $("#salary").attr("value",parseInt('<%= @examination.salary %>'));

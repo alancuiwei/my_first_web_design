@@ -48,14 +48,15 @@ class UsersurveyController < ApplicationController
         e.fengp=params[:fengp]
         e.save
       end
+      render :json => "s1".to_json
     else
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
                  :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:xianp=>params[:xianp],
                  :wenp=>params[:wenp],:fengp=>params[:fengp])
+      render :json => "s2".to_json
     end
-    render :json => "s".to_json
   end
 
   def freeapply
