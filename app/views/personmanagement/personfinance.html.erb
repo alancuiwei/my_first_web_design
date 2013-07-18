@@ -29,10 +29,9 @@
     }
     .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
     h1,h2{font-weight: 600;}
-    #table th,#table td,#allocation th,#allocation td{text-align: left;}
+
     .table th {
         font-family: Georgia;
-        font-weight: normal;
         text-transform: uppercase;
         height: 10px;
         font-size: 14px;
@@ -55,7 +54,9 @@
         position: relative;
         text-align: center;
     }
-
+    .table th,.table td{
+        font-family: Hiragino Sans GB W3;
+    }
     .easyPieChart canvas {
         position: absolute;
         top: 0;
@@ -63,6 +64,10 @@
     }
         .percentage{
             margin-left:80px;
+        }
+
+        #records_length,#records_filter{
+            display: none;
         }
 </style>
 
@@ -188,30 +193,6 @@
     <div class="account-types">
       <div class="account-type-tab active taxable-account-type">
         <p><span class="product" style="line-height: 20px;">理想资产比例</span></p>
-        <p class="product-description" style="line-height: 25px;">
-          <span style="margin-right: 95px;">朝着这个方向努力！</span><div class="mobile"><br></div>
-        <!--
-            <% if @webuser.dream !=nil && @webuser.organuser!='2' %>
-                  <% if @webuser.organusername!=nil %>
-                      <span style="font-size: 14px;font-style: normal;" class="product-description" style="margin-top: 0px;font-size: 12px;"><%= @webuser2.company %> <%= @webuser.organusername %> 提供服务</span>
-                  <% end %>
-              <% end %>
-            <div class="mobile"><br></div>
-              <% if @webuser.dream != nil && @webuser.organuser!='2' %>
-                  <% if @hash2[0][3]!=nil %>
-                    <% if @webuser.username == session[:webusername] || params[:id]==nil %>
-                       <a class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;" id="picture" href="/home/download/data?filename=<%= @hash2[0][7] %>">报告下载</a>
-                    <% else %>
-                        <a class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;" id="picture" href="#" onclick="alert('您不能下载其他用户的理财规划报告！');">报告下载</a>
-                    <% end %>
-                  <% elsif @hash2[0][1]==nil %>
-                      <span class="pull-right" style="width: 100px;font-size: 14px;font-style: normal;">方案制作中</span>
-                  <% else %>
-                      <span style="width: 100px;" class="pull-right">&nbsp;</span>
-                  <% end %>
-              <% end %>
-             -->
-        </p>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -219,44 +200,38 @@
 </tr>
 <tr>
   <td>
-    <div class="plan-details">
+    <div class="plan-details" style="border-bottom: 1px solid #E2E2E2;">
       <section id="asset-allocation" class="">
         <table style="width: 100%;">
           <tr><td class="high" style="width: 30%;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
             </div>
-          </td><td style="padding-left: 5px;">
-            <table id="table2" style="width: 100%;" class="table table-striped table-bordered allocation report apply-asset-class-colors">
+          </td><td>
+            <table id="table2" style="width: 100%;" class="table table-striped table-bordered">
               <thead>
               <tr>
-                <th id="th2" style="width: 25%;">理财产品大类</th>
-                <th id="th3" style="width: 25%;">建议比例</th>
-                <th id="th4" style="width: 25%;">当前比例</th>
-                <th id="th5" style="width: 25%;">当前金额</th>
+                <th style="width: 25%;">理财产品大类</th>
+                <th style="width: 25%;">建议比例</th>
+                <th style="width: 25%;">当前比例</th>
+                <th style="width: 25%;">当前金额</th>
               </tr>
               </thead>
               <tbody>
-              <tr class="" data-type="MUNI_BONDS">
-                <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="一般指随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。">流动型资产</a></span>
-                </td>
+              <tr>
+                <td class="demo-tip-yellowsimple" title="一般指随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。">流动型资产</td>
                 <td id="proposed1" class="asset-class-percentage number"></td>
                 <td id="rate1" class="asset-class-amount number"></td>
                 <td id="amount1" class="asset-class-amount number"></td>
               </tr>
-              <tr class="" data-type="INTL_EMERGING">
-                <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="顾名思义，您的投入本金是不会亏损的，当前市场上该类产品有银行定期存款，国债，保本型基金等。">保本型资产</a></span>
-                </td>
+              <tr>
+                <td class="ktip-a demo-tip-yellowsimple" title="顾名思义，您的投入本金是不会亏损的，当前市场上该类产品有银行定期存款，国债，保本型基金等。">保本型资产</td>
                 <td id="proposed2" class="asset-class-percentage number"></td>
                 <td id="rate2" class="asset-class-amount number"></td>
                 <td id="amount2" class="asset-class-amount number"></td>
               </tr>
-              <tr class="" data-type="US_STOCKS">
-                <td class="asset-class-name">
-                  <span class="ktip-link"><a class="ktip-a demo-tip-yellowsimple" title="很有可能会亏损本金的投资资产。当然，我们会结合您的具体风险承受评估来给您做相应产品的介绍。当前市场上风险最高，预期利润最高的是股票和股票型基金。">风险型资产</a></span>
-                </td>
+              <tr>
+                <td class="ktip-a demo-tip-yellowsimple" title="很有可能会亏损本金的投资资产。当然，我们会结合您的具体风险承受评估来给您做相应产品的介绍。当前市场上风险最高，预期利润最高的是股票和股票型基金。">风险型资产</td>
                 <td id="proposed3" class="asset-class-percentage number"></td>
                 <td id="rate3" class="asset-class-amount number"></td>
                 <td id="amount3" class="asset-class-amount number"></td>
@@ -332,20 +307,17 @@
   <td style="padding-left: 20px;">
     <div class="account-types">
       <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
-        <table>
+        <table style="width: 100%;">
           <tr>
             <td colspan="3">
               <div class="account-type-tab active taxable-account-type">
                 <p><span class="product" style="line-height: 20px;">本月目标</span></p>
-                <p class="product-description" style="line-height: 25px;">
-                  <span>要完成，必须的！</span><div class="mobile"><br></div>
-                </p>
               </div>
               <div class="clearfix"></div>
             </td>
           </tr>
           <tr>
-            <td style="width: 30%;vertical-align: middle;">
+            <td style="width: 28.5%;vertical-align: middle;">
               <a href="#" onclick="targets()">全年目标</a>
             </td>
             <td style="width: 255px;">
@@ -362,16 +334,16 @@
   </td>
 </tr>
 <tr>
-  <td>
+  <td  style="border-bottom: 1px solid #E2E2E2;" >
     <div class="plan-details">
-      <section class="asset-allocation" class="">
+
         <table style="width: 100%;float: left;">
           <tr><td class="cation high" style="width: 30%;height: 300px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div id="container3" style="width: 300px;height: 300px;"></div>
             </div>
-          </td><td class="cation" style="padding-left: 5px;">
-            <table class="table table-striped table-bordered allocation report apply-asset-class-colors footable">
+          </td><td class="cation">
+            <table class="table table-striped table-bordered footable">
               <thead>
               <tr class="win">
                 <th style="width: 25%;">投资产品</th>
@@ -387,13 +359,13 @@
               </tr>
               </thead>
               <tbody>
-              <tr class="monthpay2" data-type="MUNI_BONDS">
+              <tr class="monthpay2">
                 <td class="name2"><%= @hash3['流动'][0] %></td>
                 <td class="amounts2"></td>
                 <td class="finish2"></td>
                 <td><a href="/bankinvest/productdetails/<%= @hash3['流动'][1] %>">查看</a></td>
               </tr>
-              <tr class="monthpay4" data-type="INTL_EMERGING">
+              <tr class="monthpay4">
                 <td class="name4"><%= @hash3['保本'][0] %></td>
                 <td class="amounts4"></td>
                 <td class="finish4"></td>
@@ -401,42 +373,42 @@
               </tr>
               <% if  @webuser.risktolerance!=nil %>
                   <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @webuser.selection %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @hash3['风险1'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @hash3['风险2'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td><a href="/bankinvest/productdetails/<%= @hash3['风险2'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @hash3['风险3'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td><a href="/bankinvest/productdetails/<%= @hash3['风险3'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @hash3['风险4'][0] %></td>
                         <td class="amounts5"></td>
                         <td class="finish5"></td>
                         <td><a href="/bankinvest/productdetails/<%= @hash3['风险4'][1] %>">查看</a></td>
                       </tr>
                   <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-                      <tr class="monthpay5" data-type="US_STOCKS">
+                      <tr class="monthpay5">
                         <td class="name5"><%= @hash3['风险5'][0] %></td>
                         <td class="amounts5"><%= @hash3['风险5'][1] %></td>
                         <td class="finish5"></td>
@@ -448,14 +420,13 @@
             </table>
             <p>*产品是完全根据您的风险评估结果来推荐的。重新进行<a href="/home/questions">风险评估</a></p>
           </td></tr></table>
-        <div class="clearfix"></div>
-      </section>
+
     </div>
   </td>
 </tr>
 </table>
-<div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
-  <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;">投资记录</span></p>
+<div class="account-type-tab active" id="taxable-account-type" style="padding-left: 20px;margin-bottom: 20px;">
+  <p style="padding-top: 20px;"><span class="product" style="line-height: 20px;">投资记录</span></p>
 </div>
 <table style="width: 100%;">
   <tr>
