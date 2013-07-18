@@ -403,8 +403,11 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
+      @record=Record.find_all_by_username(@webuser.username)
       @finances=Financial.find_by_selection(@webuser.selection)
+      if @finances!=nil
       @hash3.store(@finances.person,[@finances.pname,@finances.id,@finances.classify])
+      end
       @examination=Examination.find_by_username(@webuser.username)
       @record=Record.find_all_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
@@ -430,8 +433,11 @@ class PersonmanagementController < ApplicationController
       end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+        @record=Record.find_all_by_username(session[:webusername])
         @finances=Financial.find_by_pname(@webuser.selection)
+        if @finances!=nil
         @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
+        end
         @examination=Examination.find_by_username(@webuser.username)
         @record=Record.find_all_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
