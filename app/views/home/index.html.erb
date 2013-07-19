@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "home.css" %>
 <%= stylesheet_link_tag "common.css" %>
-
+<%= javascript_include_tag "bootstrap.js" %>
 <!--
 <%= stylesheet_link_tag "homepage.css" %>
 <script>
@@ -98,32 +98,51 @@
   </table>
   <div class="welcme-content img">
     <div class="containers">
-      <div class="row" style="margin: 0;">
-      <table style="width: 90%;margin: 0 auto;">
+      <div class="row">
+        <table style="width: 85%;margin: 0 auto;">
             <tr>
             <td colspan="5">
                  <h2>服务流程</h2>
                </td>
             </tr>
+          <tr>
+            <td colspan="5" class="tab-content">
+              <div class="tab-content" id="hiw-tab-content">
+                <img src="/assets/laptop.png">
+                <div class="tab-pane fade active in demo-screen" id="step1">
+                  <img alt="Ideal_portfolio" src="/assets/121063.jpg">
+                </div>
+                <div class="tab-pane fade demo-screen" id="step2">
+                  <img alt="Action_plan" src="/assets/121064.jpg">
+                </div>
+                <div class="tab-pane fade demo-screen" id="step3">
+                  <img alt="Premium_dashboard" src="/assets/121062.jpg">
+                </div>
+              </div>
+            </td>
+          </tr>
             <tr class="subtle-tabs" id="hiw-tabs">
-              <td class="hero-message hero-message-small active">
-            <h4>1. 资产体检</h4>
-            <div class="explanation">通过您收入、日常开销的资产体检，分析您月光的根源。</div>
+            <td class="hero-message active">
+              <a class="subtle1 under" onclick="add('subtle1')" href="#step1" data-toggle="tab"><h4>1. 资产体检</h4>
+                <div class="explanation">通过您收入、日常开销的资产体检，分析您月光的根源。</div></a>
               </td>
               <td class="center"></td>
-              <td class="hero-message hero-message-small">
-            <h4>2. 风险评估</h4>
-            <div class="explanation">引用美国高盛公司的开源资产风险度模型，进行风险评估。</div>
+            <td class="hero-message">
+              <a class="subtle2" onclick="add('subtle2')" href="#step2" data-toggle="tab"><h4>2. 风险评估</h4>
+                <div class="explanation">引用美国高盛公司的开源资产风险度模型，进行风险评估。</div> </a>
               </td>
               <td class="center"></td>
-              <td class="hero-message hero-message-small">
-            <h4>3. 解决月光</h4>
-            <div class="explanation">通过收入分配、推荐及定期购买产品，彻底解决月光。</div>
+            <td class="hero-message">
+              <a class="subtle3" onclick="add('subtle3')" href="#step3" data-toggle="tab"><h4>3. 解决月光</h4>
+                <div class="explanation">通过收入分配、推荐及定期购买产品，彻底解决月光。</div></a>
                         </td>
           </tr>
+          </table>
+        </div>
+      <div>
+        <table style="width: 85%;margin: 0 auto;">
           <tr>
-            <td colspan="5">
-              <hr>
+            <td colspan="7">
               <h2>媒体报道</h2>
             </td>
           </tr>
@@ -139,6 +158,10 @@
             <td class="hero-message hero-message-small">
               <a href="http://www.it-times.com.cn/wangzhidaohang/21500.jhtml" target="_blank"><img src="/assets/121065.jpg" style="width: 120px;"></a>
               </td>
+            <td class="center"></td>
+            <td class="hero-message hero-message-small">
+              <a href="http://cn.technode.com/post/2013-04-18/40051201429" target="_blank"><img src="/assets/121061.png" style="width: 150px;padding-top: 15px;"></a>
+            </td>
             </tr>
           </table>
       </div>
@@ -249,7 +272,7 @@
   <div class="welcme-content img">
     <div class="containers">
         <h2>我们是如何为您服务</h2>
-      <div class="hero-message hero-message-small active">
+      <div class="hero-message active">
         <h4>1. 资产体检</h4>
         <div class="explanation">根据您年收入，日常开销，分析您月光的根源，并给出初步建议。</div>
         <h4>2. 风险评估</h4>
@@ -369,4 +392,9 @@
     }else{
         $(".welcomes").remove();
     }
+
+        function add(e){
+            $("[class*='subtle']").removeClass('under');
+            $("."+e).addClass('under');
+        }
 </script>
