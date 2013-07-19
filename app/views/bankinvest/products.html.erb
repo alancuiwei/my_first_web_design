@@ -134,14 +134,14 @@
     <tr>
       <th rowspan="2">理财产品</th>
       <th rowspan="2">产品名称</th>
-      <th rowspan="2" style="min-width: 50px;">类型</th>
+      <th rowspan="2">类型</th>
       <th rowspan="2" class="hide">风险级别</th>
       <th rowspan="2">风险级别</th>
-      <th colspan="3">近1年</th>
+      <th colspan="2">近1年</th>
       <th colspan="2">近3年</th>
+      <th rowspan="2" class="hide">收益率</th>
     </tr>
     <tr>
-      <th class="hide">收益率</th>
       <th>收益率</th>
       <th>排名</th>
       <th>收益率</th>
@@ -152,17 +152,17 @@
     <tr>
       <th rowspan="2">理财产品</th>
       <th rowspan="2">产品名称</th>
-      <th rowspan="2" style="min-width: 50px;">类型</th>
+      <th rowspan="2">类型</th>
       <th rowspan="2" class="hide">风险级别</th>
       <th rowspan="2">风险级别</th>
-      <th class="hide">收益率</th>
       <th>收益率</th>
       <th>排名</th>
       <th>收益率</th>
       <th>排名</th>
+      <th rowspan="2" class="hide">收益率</th>
     </tr>
     <tr>
-      <th colspan="3">近1年</th>
+      <th colspan="2">近1年</th>
       <th colspan="2">近3年</th>
     </tr>
     </tfoot>
@@ -179,10 +179,10 @@
             <% elsif  f.risklevel==5 %><td>极高风险</td><td class="hide">5</td>
           <% end %>
         <td><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><% end %></td>
-          <td class="hide"><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %><% else %>--<% end %><% end %></td>
           <td><% if f.rank !='0' %><%= f.rank %><% else %>--<% end %></td>
         <td><% if f.rate1 !=nil %><% if f.rate1.to_f !=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %><% end %></td>
         <td><% if f.rank1 !='0' %><%= f.rank1 %><% else %>--<% end %></td>
+        <td class="hide"><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %><% else %>--<% end %><% end %></td>
       </tr>
   <% end %>
   </table>
@@ -205,10 +205,10 @@
                 null,
                 { type: "number" },
                 null,
-                { type: "number-range" },
                 null,
                 null,
-                null
+                null,
+                { type: "number-range" }
             ]
         });
     });
@@ -228,15 +228,15 @@
 
     $("[class*='expectYID']").click(function(){
         $("[class*='expectYID']").removeClass('currbg');
-        if(this.id=='expectYID'){$("#products_range_from_6").val('');$("#products_range_to_6").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
+        if(this.id=='expectYID'){$("#products_range_from_9").val('');$("#products_range_to_9").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
         else{
-            if(this.id=='expectYID1'){$("#products_range_from_6").val('0');$("#products_range_to_6").val('3');$("#expectYID1").addClass('currbg');};
-            if(this.id=='expectYID2'){$("#products_range_from_6").val('3');$("#products_range_to_6").val('6');$("#expectYID2").addClass('currbg');};
-            if(this.id=='expectYID3'){$("#products_range_from_6").val('6');$("#products_range_to_6").val('10');$("#expectYID3").addClass('currbg');};
+            if(this.id=='expectYID1'){$("#products_range_from_9").val('0');$("#products_range_to_9").val('3');$("#expectYID1").addClass('currbg');};
+            if(this.id=='expectYID2'){$("#products_range_from_9").val('3');$("#products_range_to_9").val('6');$("#expectYID2").addClass('currbg');};
+            if(this.id=='expectYID3'){$("#products_range_from_9").val('6');$("#products_range_to_9").val('10');$("#expectYID3").addClass('currbg');};
             $("#s-expectYID").removeClass('hide');
             $("#st-expectYID").html('年收益率:'+$('#'+this.id).html());
         }
-        $("#products_range_from_6").keyup();
+        $("#products_range_from_9").keyup();
     });
 
     $("[class*='duration']").click(function(){
@@ -266,8 +266,8 @@
         else if($(this).attr("cid")=='expectYID'){
             $("[class*='expectYID']").removeClass('currbg');
             $("#expectYID").addClass('currbg');
-            $("#products_range_from_6").val('');$("#products_range_to_6").val('');$("#s-expectYID").addClass('hide');
-            $("#products_range_from_6").keyup();
+            $("#products_range_from_9").val('');$("#products_range_to_9").val('');$("#s-expectYID").addClass('hide');
+            $("#products_range_from_9").keyup();
         }
         else if($(this).attr("cid")=='duration'){
             $("[class*='duration']").removeClass('currbg');
