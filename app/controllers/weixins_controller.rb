@@ -15,19 +15,12 @@ class WeixinsController < ApplicationController
 		render "rtn100", :formats => :xml
 	  when "200"
 		render "rtn200", :formats => :xml		
+    when "300"
+	  render "rtn300", :formats => :xml		
+    
 	  else
 	    render "echo", :formats => :xml
 	  end      
-	when "image"
-	  case params[:xml][:Content]
-	  when "100"
-		render "rtn100", :formats => :xml
-	  when "200"
-		render "rtn200", :formats => :xml		
-	  else
-	    render "echo", :formats => :xml
-	  end  	
-	end
   end
 
   private

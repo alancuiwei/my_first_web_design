@@ -26,27 +26,12 @@
 </style>
 
 <script type="text/javascript">
-
+    <% if params[:controller]!="sales" || params[:action]!="login" %>
     QC.Login({
                 btnId:"qqLoginBtn"	//插入按钮的节点id
             },function(reqData,opts){
                 $("#log").hide();
-                var paras = {};
-                QC.api("get_user_info", paras)
-                        .success(function(s){//成功回调
-                            // alert("获取用户信息成功！当前用户昵称为："+s.data.nickname);
-                            if(QC.Login.check()){//如果已登录
-                                QC.Login.getMe(function(openId, accessToken){
-                                      $.get("/home/userconfig/0",{username:s.data.nickname,password:'tongtianshun',tel:'',address: 1,postcode: 1,name:1,email:'',company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
-                                          $.get("/admin/userlogin",{username:s.data.nickname,password:'tongtianshun',login:'qq'},function(data){
-                                          });
-                                      })
-                                    $.get("/home/qquserconfigajax/0",{username:s.data.nickname,openid:openId,accesstoken: accessToken},function(data){
-                                    })
-                                });
-                            }
-                        })
-                var dom= document.getElementById("qqLoginBtn"),
+                var dom= document.getElementById("qqLogin"),
                         _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance" style="font-size: 14px;">{nickname}</a>&nbsp;<a href="#" style="font-size: 14px;" onclick="QC.Login.signOut();">退出</a>'].join("");
                 dom && (dom.innerHTML =QC.String.format(_logoutTemplate,{
                     nickname: QC.String.escHTML(reqData.nickname),
@@ -57,6 +42,7 @@
                 logout();
             }
     );
+  <% end %>
 </script>
 
 <script type="text/javascript">
@@ -146,7 +132,7 @@
       <% end %>
     </div>
       <% if session[:qq]!=1 %>
-      <span id="qqLoginBtn" class="pull-right" style="margin: 29px 20px 0 0;"></span>
+      <span id="qqLogin" class="pull-right" style="margin: 29px 20px 0 0;"></span>
           <% end %>
     </div>
   </div>

@@ -56,7 +56,6 @@
                     <td colspan="2" style="padding: 10px 0;"><input id="check" checked type="checkbox">订阅邮件，发送理财产品介绍、技巧及规划内容。</td>
                   </tr>
                   </table>
-
                   <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
                   <div class="or-text"><div><b>或</b></div></div>
                   <a class="chear see info-button" href="#login" data-toggle="tab" type="submit">登录</a>
@@ -142,6 +141,8 @@
             </table>
             <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
             <div class="or-text"><div><b>或</b></div></div>
+            <span id="qqLoginBtn"></span>
+            <div class="or-text" style="margin: 20px 0;"><div><b>或</b></div></div>
             <% if params[:aaa]=='1' %>
             <wb:login-button type="3,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
             <div class="or-text"><div><b>或</b></div></div>
@@ -180,6 +181,41 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+
+    QC.Login({
+                btnId:"qqLoginBtn"	//插入按钮的节点id
+            },function(reqData,opts){
+                $("#log").hide();
+                var paras = {};
+                QC.api("get_user_info", paras)
+                        .success(function(s){//成功回调
+                            // alert("获取用户信息成功！当前用户昵称为："+s.data.nickname);
+                            if(QC.Login.check()){//如果已登录
+                                QC.Login.getMe(function(openId, accessToken){
+                                    $.get("/home/userconfig/0",{username:s.data.nickname,password:'tongtianshun',tel:'',address: 1,postcode: 1,name:1,email:'',company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
+                                        $.get("/admin/userlogin",{username:s.data.nickname,password:'tongtianshun',login:'qq'},function(data){
+                                            location.href="/personmanagement/personfinance";
+                                        });
+                                    })
+                                    $.get("/home/qquserconfigajax/0",{username:s.data.nickname,openid:openId,accesstoken: accessToken},function(data){
+                                    })
+                                });
+                            }
+                        })
+                var dom= document.getElementById("qqLogin"),
+                        _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance" style="font-size: 14px;">{nickname}</a>&nbsp;<a href="#" style="font-size: 14px;" onclick="QC.Login.signOut();">退出</a>'].join("");
+                dom && (dom.innerHTML =QC.String.format(_logoutTemplate,{
+                    nickname: QC.String.escHTML(reqData.nickname),
+                    figureurl: reqData.figureurl
+                }))
+            },function(opts){
+                $("#log").show();
+                logout();
+            }
+    );
+</script>
 
 <script>
 
