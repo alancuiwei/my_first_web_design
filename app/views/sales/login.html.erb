@@ -3,7 +3,7 @@
 <%= javascript_include_tag "bootstrap.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
-
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="100467657" charset="utf-8"></script>
 <style>
     .main-footer{ display: none; }
     .main-content{display: table;}
@@ -183,15 +183,22 @@
 </div>
 
 <script type="text/javascript">
-
     QC.Login({
-                btnId:"qqLoginBtn"	//插入按钮的节点id
+                btnId:"qqLoginBtn",	//插入按钮的节点id
+                size : 'A_L',//按钮样式，A、B、C为三种样式，
+                             //S、M、L、XL为同一种样式的不同尺寸，支持如下 :
+                             //A_S, A_M, A_L, A_XL;
+                             //B_S, B_M, B_L;
+                             //C_S;
+                clientId : '100467657'//appId
             },function(reqData,opts){
-                $("#log").hide();
+             //   $("#log").hide();
                 var paras = {};
                 QC.api("get_user_info", paras)
                         .success(function(s){//成功回调
                             // alert("获取用户信息成功！当前用户昵称为："+s.data.nickname);
+
+                            <% if session[:qq]!=2 && session[:qq]!=1 %>
                             if(QC.Login.check()){//如果已登录
                                 QC.Login.getMe(function(openId, accessToken){
                                     $.get("/home/userconfig/0",{username:s.data.nickname,password:'tongtianshun',tel:'',address: 1,postcode: 1,name:1,email:'',company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,ulogin:1},function(data){
@@ -203,8 +210,9 @@
                                     })
                                 });
                             }
+                            <% end %>
                         })
-                var dom= document.getElementById("qqLogin"),
+                var dom= document.getElementById("qqLoginBtn"),
                         _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance" style="font-size: 14px;">{nickname}</a>&nbsp;<a href="#" style="font-size: 14px;" onclick="QC.Login.signOut();">退出</a>'].join("");
                 dom && (dom.innerHTML =QC.String.format(_logoutTemplate,{
                     nickname: QC.String.escHTML(reqData.nickname),

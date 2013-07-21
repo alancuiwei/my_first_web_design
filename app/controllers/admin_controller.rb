@@ -798,6 +798,8 @@ class AdminController < ApplicationController
   def userlogin
     if params[:login]!='qq'
       session[:qq]=1
+    else
+      session[:qq]=2
     end
     @webuser=Webuser.find_by_username(params[:username])
     @personalfinance=Personalfinance.find_by_username(params[:username])
