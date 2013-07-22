@@ -8,11 +8,18 @@ class WeixinsController < ApplicationController
   end
 
   def create
+  
+	if params[:xml][:Event] == "subscribe"
+		render "welcome", :formats => :xml
+	end
+	
     case params[:xml][:MsgType] 
 	when "text"
 	  case params[:xml][:Content]
 	  when "100"
 		render "rtn100", :formats => :xml
+    when "101"
+	  render "rtn101", :formats => :xml
 	  when "200"
 		render "rtn200", :formats => :xml		
     when "300"
@@ -22,6 +29,7 @@ class WeixinsController < ApplicationController
 	    render "echo", :formats => :xml
 	  end      
   end
+end
 
   private
   # 根据参数校验请求是否合法，如果非法返回错误页面

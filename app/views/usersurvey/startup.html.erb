@@ -1,43 +1,16 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "d3.js" %>
+<%= javascript_include_tag "plan.js" %>
+<%= javascript_include_tag "risk.js" %>
+
 <%= stylesheet_link_tag "founder.css" %>
-<%= javascript_include_tag "jquery.poshytip.js" %>
-<%= javascript_include_tag "excanvas.js" %>
-<%= javascript_include_tag "jquery.easy-pie-chart.js" %>
-<%= stylesheet_link_tag "tip-yellowsimple.css" %>
-
 <style>
-    input[readonly]{
-        background-color: #ffffff;
-    }
-    input.invalid{
-        background-color: #FFC1BB;
-    }
-
-    .table table.table th,.table table.table td{
-        text-align: center;
-    }
-
-    .container {
-        position: relative;
-        display: table;
-        border-width: 2px 1px;
-        border-style: solid;
-        border-color: #555 #CCC;
-        background-color: #ffffff;
-        padding-bottom: 30px;
-        margin-bottom: 20px;
-        min-height: 500px;
-        width: 100%;
-    }
-
-    .span12 {
-        width: 940px;
-    }
-
-    .span3{
-        width: 270px!important;
-        float: left;
-    }
-
+    #questionnaire-view,#questionnaire{width: 100%;}
+    .question {padding: 0 0 0 56px;}
+    th,td{vertical-align: middle!important;}
+    input{font-size: 14px!important;}
+    div.seperator{margin-left: 0;}
     [class^="icon-"], [class*=" icon-"] {
         font-family: FontAwesome;
         font-style: normal;
@@ -52,686 +25,704 @@
         background-repeat: repeat;
         margin-top: 0;
     }
-
-    h1{
-        font-size: 20px;
-        line-height: 36px;
-        padding: 0 0 0 10px!important;
-        font-weight: normal;
-        color:black;
-    }
-
-    .percentage {
-        width: 150px;
-        height: 150px;
-        margin: 20px auto;
-    }
-
-    td.left{
-        width: 35%;
-        padding-left: 20px;
-        vertical-align: top;
-        padding-top: 20px;
-    }
-    td{
-        vertical-align: top!important;
-    }
-
-    .login-popup{
-        display:none;
-        padding: 10px;
-        border: 0px solid white;
-        float: left;
-        font-size: 1.2em;
-        position: fixed;
-        top: 50%; left: 50%;
-        z-index: 99999;
-        width:430px
-    }
-
-    #mask {
-        display: none;
-        background: #000;
-        position: fixed; left: 0; top: 0;
-        width: 100%; height: 100%;
-        opacity: 0.3;
-        z-index: 999;
-    }
-    .easyPieChart {
-        position: relative;
+    #q-fade-b{height: 0;}
+    .center {width: 98%;height: 296px;}
+    .well-c{height: 296px;overflow: auto;width: 98%;}
+    .question .table th,.question .table td{
         text-align: center;
     }
-
-    .easyPieChart canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
 </style>
+<script>
+    t0=new Date
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
 
-<div class="container">
+<div class="welcomes">
+<div class="ofa-funnel-pages">
+<div id="page-wrapper">
+<div id="top-tabs">
   <div class="top-tabs-content">
-    <div class="contents" style="width: 940px;margin: 0 auto;padding-left: 20px;">
-      <b>1.</b> <span> 资产体检</span>
-      <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
-      <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
-          <a href="/home/questions"><b>2.</b> 风险评估</a>
-      <% else %>
-      <span class="disabled"><b>2.</b> 风险评估</span>
-      <% end %>
-      <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
-      <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
-          <a href="/personmanagement/personfinance"><b>3.</b> 理财建议</a>
-      <% else %>
-      <span class="disabled"><b>3.</b> 理财建议</span>
-      <% end %>
-    </div>
-  </div>
-  <div class="tijian" style="width: 940px;margin: 0 auto;">
-    <h1 class="content">家庭资产体检</h1>
-    <div class="row s-op">
-      <div class="span12 well-b">
-        <div class="row title">
-          <div class="span12">
-            <div class="box c1">
-              <h1 class="op-title">您的个人资料</h1>
-              <!--  <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="s" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div> -->
-            </div>
-          </div>
-        </div>
-
-        <div style="display: block;" class="row tgl-content-s">
-          <div class="span12 well-c">
-
-            <div class="row op-label win">
-              <div class="span3" style="text-align: left;">年龄</div>
-              <div class="span3" style="text-align: left;">平均月收入</div>
-              <div class="span2 member hide" style="text-align: left;">家庭成员收入</div>
-            </div>
-            <div class="seperator thick"></div>
-
-            <div class="founding-inputs">
-              <div class="op-input first" fid="founder">
-                <div class="seperator bottom"></div>
-                <div class="row">
-                  <div class="span3">
-                    <div class="mobile">年龄</div>
-              <span class="control-group">
-                <input class="age" id="age" style="width: 206px;" type="text" placeholder="年龄">
-              </span>
-                  </div>
-                  <div class="span3">
-                    <div class="mobile">平均月收入</div>
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="ctl demo-form-site salary" title="平均月收入：每个月到手的收入，包括工资加上额外收入。" onMouseOver="if(this.value==0){this.value='';}" id="salary" value="0" style="width: 180px;" type="text" placeholder="">
-                    </div>
-                  </div>
-                  <div class="span2 member hide">
-                    <div class="mobile">家庭成员收入</div>
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="salary" id="salary2" value="0" onMouseOver="if(this.value==0){this.value='';}" style="width: 180px;" type="text" placeholder="">
-                    </div>
-                  </div>
-                  <div class="span1 top5 member hide" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="margin-left: 20px;font-size: 24px;" onclick="move();">&nbsp;&nbsp;</i></div>
-                </div>
-              </div>
-              <div class="row op-label win" style="margin: 10px 0 10px -30px;">
-                <div class="span3">衣食住行</div>
-                <div class="span3" style="text-align: left;">每月至少储蓄</div>
-                <div class="span2" style="text-align: left;"></div>
-              </div>
-              <div class="op-input" fid="founder-1">
-                <div class="row">
-                  <div class="span3">
-                    <div class="mobile">衣食住行</div>
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="ctl demo-form-site rent" title="衣食住行:包括房租、房贷、伙食费等衣食住行，仅供维持最低生活标准的费用。" onMouseOver="if(this.value==0){this.value='';}" id="rent" value="0" style="width: 180px;" type="text" placeholder="">
-                    </div>
-                  </div>
-                  <div class="span3">
-                    <div class="mobile">每月至少储蓄</div>
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="ctl demo-form-site wages" title="每月至少储蓄：您目标每月储蓄的金额，请不要过分苛求自己。" onMouseOver="if(this.value==0){this.value='';}" id="wages" value="0" style="width: 180px;" type="text" placeholder="">
-                    </div>
-                  </div>
-                  <div class="span2">
-                    <!--
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="span2 pinmoney" id="pinmoney" value="0" style="width: 180px;" type="text" placeholder="">
-                    </div>
-                    -->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="seperator bottom thick"></div>
-            <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="add();"> + 添加家庭成员收入 </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row s-op">
-      <div class="span12 well-b">
-
-        <div class="row title">
-          <div class="span12">
-            <div class="box c1">
-              <h1 class="op-title">您的资产分配</h1>
-              <!-- <div class="toggle-btn pull-right" style="margin: 20px 20px 0 0;"><a tid="f" onclick="toggleButton(this);"><span>关闭</span>&nbsp;&nbsp;<i class="icon-minus" style="font-size: 14px;">&nbsp;&nbsp;</i></a></div>-->
-            </div>
-          </div>
-        </div>
-
-        <div style="display: block;" class="row tgl-content-f">
-          <div class="span12 well-c">
-
-            <div class="row op-label win">
-              <div class="span3">资产品种</div>
-              <div class="span3" style="text-align: left;">资产金额</div>
-              <div class="span2" style="text-align: left;">产品名称（可选）</div>
-              <div class="span1"></div>
-            </div>
-
-            <div class="seperator thick"></div>
-
-            <div class="founder-inputs">
-
-              <div class="op-input first" fid="founder">
-                <div class="seperator bottom"></div>
-
-                <div class="row">
-                  <div class="span3 control-group">
-                    <div class="mobile">资产品种</div>
-                    <select  name="variety" id="variety" class="founder-name" title="资产品种">
-                      <option value="银行活期">银行活期</option>
-                      <option value="银行定期">银行定期</option>
-                      <option value="银行理财产品">银行理财产品</option>
-                      <option value="余额宝">余额宝</option>
-                      <option value="其他货币基金">其他货币基金</option>
-                      <option value="债券型基金">债券型基金</option>
-                      <option value="股票">股票</option>
-                      <option value="股票型基金">股票型基金</option>
-                      <option value="贵金属">贵金属</option>
-                      <option value="其它">其它</option>
-                    </select>
-                  </div>
-                  <div class="span3 control-group" style="text-align: left;">
-                    <div class="mobile">资产金额</div>
-                    <div class="input-prepend">
-                      <span class="add-on">￥</span>
-                      <input class="init-share" id="amount" style="width: 180px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
-                    </div>
-                  </div>
-                  <div class="span2" style="text-align: center;">
-                    <div class="mobile">产品名称</div>
-                    <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
-                  </div>
-                  <div class="span1 top5" style="margin-top: 10px;margin-left: 70px\9;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
-                </div>
-              </div>
-
-            </div>
-
-            <div class="seperator bottom thick"></div>
-
-            <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加资产 </a>
-
-          </div>
-        </div>
-      </div>
-      <div style="text-align: center;">
-        <a id="animateButton"  href="#login-box"><img style="margin-top: 20px;" src="/assets/121081.jpg"></a> <br>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="jieguo" style="width: 940px;margin: 0 auto;">
-    <h1 class="content">体检结果</h1>
-    <table class="press-table" border="0" style="width: 100%;" >
-      <tbody>
-      <tr>
-        <td>
-          <div id="next" class="hide">
-          <div class="table">
-            <div class="cell" style="width: 32px;"> <h1><b>1</b></h1> </div>
-            <div class="cell">
-              <p class="q-text">家庭资产体检系统介绍：</p>
-               <p>我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划。</p>
-               <p>我们将您每个月可存的资金累加上您的已有资产进行规划和分配，我们将投资分配为三类资产：流动性资产，风险性资产，保本性资产。</p>
-            </div>
-          </div>
-          <div class="table">
-            <div class="cell" style="width: 32px;"> <h1><b>2</b></h1> </div>
-            <div class="cell">
-              <p class="q-text">流动性资产分析：</p>
-              <p>所谓流动性资产指 随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。</p>
-              <p>您需要为家庭预留3个月日常生活费用的流动性资产，以应对个人、家庭特殊紧急情况，由于您家庭的衣食住行每月开销为<span id="rents" style="color: red;">1500</span>元，所以您需要预留<span id="xian" style="color: red;">4500</span>元流动性资产。</p>
-            </div>
-          </div>
-          <div class="table">
-            <div class="cell" style="width: 32px;"> <h1><b>3</b></h1> </div>
-            <div class="cell">
-              <p class="q-text">风险性资产分析：</p>
-              <p>对于理财规划而言，年龄和风险承受能力是两个最核心的因素。正常而言，年轻人的资产比例中，风险性投资产品应该占有大比重，这主要是因为：一来资金少，适合以小博大，二来年轻能承受的风险能力强。</p>
-              <p>正常而言，<span style="color: red;">20岁到40岁左右的年轻人，我们建议应将风险产品比例放在50%左右，</span>具体的产品将在下一步风险评估中进行分析和推荐。也就是说如果您是极度保守的风险承受能力，即使您是20岁，我们也将只向推荐保本产品。</p>
-            </div>
-          </div>
-          <div class="table">
-            <div class="cell" style="width: 32px;"> <h1><b>4</b></h1> </div>
-            <div class="cell">
-              <p class="q-text">保本性资产分析：</p>
-              <p>保本性资产的重要性不言而喻，他将作为您保值增值的定心丸。这部分资产投资周期将会较长，收益率也将会较高，并且他的核心属性就是保本。</p>
-              <p style="color: red;">在除去流动性资产和风险性资产外，我们可以将其余的资产都用于保本性资产投资。</p>
-            </div>
-          </div>
-          <div class="table">
-            <div class="cell" style="width: 32px;"> <h1><b>5</b></h1> </div>
-            <div class="cell" style="width: 95%;">
-              <p class="q-text">资产体检概要：</p>
-              <div class="alert hide">
-                <a class="close" data-dismiss="alert" onclick="$('.alert').hide();">×</a>
-                我们建议您不要过大幅度的调整金额。
-              </div>
-              <table class="table table-striped table-bordered" style="width: 100%;">
-                <tr>
-                  <th>理财产品大类</th>
-                  <th>当前比例</th>
-                  <th>建议比例</th>
-                  <th>建议金额</th>
-                </tr>
-                <tr>
-                  <td>流动性资产</td>
-                  <td id="xianjin"></td>
-                  <td id="xian0"></td>
-                  <td>
-                    <button id="age-decrease0" class="light-gray" tabindex="-1">−</button>
-                    <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-                    <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>保本性资产</td>
-                  <td id="wenjian"></td>
-                  <td id="wen"></td>
-                  <td>
-                    <button id="age-decrease1" class="light-gray" tabindex="-1">−</button>
-                    <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-                    <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>风险性资产</td>
-                  <td id="fengxian"></td>
-                  <td id="feng"></td>
-                  <td>
-                    <button id="age-decrease2" class="light-gray" tabindex="-1">−</button>
-                    <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-                    <button id="age-increase2" class="light-gray" tabindex="-1">+</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>年总积蓄</td>
-                  <td>100%</td>
-                  <td>100%</td>
-                  <td id="total" style="text-align: center;"></td>
-                </tr>
-              </table>
-              <a class="risk btn btn-primary" style="margin-top: 20px;padding: 5px 46px;font-size: 16px;">下一步</a>
-            </div>
-          </div>
-          </div>
-        </td>
-        <td style="width: 35%;vertical-align: top;text-align: center;">
-          <div style="width: 200px;background-color: #f6f6f1;margin:0 0 0 150px; display: table;position: fixed;top:210px;">
-            <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
-          <a id="retest" style="font-size: 15px;">重新体检</a><br>
-          <div style="padding-top: 10px;">
-            <wb:share-button count="n" type="button" appkey="3700511820" relateuid="3196249771" url="http://www.tongtianshun.com/usersurvey/startup" title=""></wb:share-button>
-          </div>
-            <a class="risk btn btn-primary" style="margin: -20px 0 10px;padding: 5px 46px;font-size: 16px;">下一步</a>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <b>1.</b> <span> 资产体检</span>
+    <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+    <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
+        <a href="/home/questions"><b>2.</b> 风险评估</a>
+    <% else %>
+        <span class="disabled"><b>2.</b> 风险评估</span>
+    <% end %>
+    <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+    <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+        <a href="/personmanagement/personfinance"><b>3.</b> 理财建议</a>
+    <% else %>
+        <span class="disabled"><b>3.</b> 理财建议</span>
+    <% end %>
   </div>
 </div>
 
-<div id='login-box' class='login-popup modal' style="display: none;">
-  <div class="modal">
-    <div id="save">
-      <div class="modal-header">
-        <a class="close" href="javascript:">×</a>
-        <h3>提示</h3>
-      </div>
-      <div class="modal-body">
-        <p id="tishi"></p>
-        <input class="hide" id="statusid">
-      </div>
-      <div class="modal-footer">
-        <div class="clear"><input type="submit" value="修改" name="subscribe" id="subscribe" class="btn btn-primary">
-          <input type="submit" value="确认" name="sub" id="sub" class="btn btn-primary"></div>
+<div id="page-content">
+<div class="clearfix"></div>
+<h1>
+  <span id="title">基本信息</span>
+  <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+</h1>
+
+<div id="questionnaire-view">
+<div id="questionnaire">
+<div class="question first">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <table>
+          <tr>
+            <td class="q-text" style="width: 120px;">年龄：</td>
+            <td><input type="text" name="age" id="age" tabindex="-1"></td>
+          </tr>
+          <tr>
+            <td class="q-text">性别：</td>
+            <td><select id="sex"><option value="男">男</option><option value="女">女</option></select></td>
+          </tr>
+        </table>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121079.png"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <table style="width: 100%;">
+          <tr>
+            <td class="q-text" style="width: 120px;">月收入：</td>
+            <td><input type="text" name="lnw" id="salary" tabindex="-1"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="q-text">每月衣食住行：</td>
+            <td><input type="text" name="lnw" id="rent" tabindex="-1"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="q-text">每月至少存储：</td>
+            <td><input type="text" name="lnw" id="wages" tabindex="-1"></td>
+            <td></td>
+          </tr>
+          <tr class="member hide">
+            <td class="q-text">家庭成员收入：</td>
+            <td><input type="text" id="salary2" tabindex="-1"></td>
+            <td style="font-size: 25px;"><a onclick="move()">×</a></td>
+          </tr>
+          <tr>
+            <td colspan="3"><a data-original-title="Click here to add another company founder" class="xtip pull-right" style="padding: 0 20px 10px 0;" onclick="add();"> + 添加家庭成员收入 </a></td>
+          </tr>
+        </table>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121060.png"></div>
+      </td>
+    </tr>
+  </table>
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <div class="well-c">
+    <div class="row op-label win">
+      <div class="span3">资产品种</div>
+      <div class="span3" style="text-align: left;">资产金额</div>
+      <div class="span2" style="text-align: left;">产品名称（可选）</div>
+      <div class="span1"></div>
+    </div>
+    <div class="seperator thick"></div>
+    <div class="founder-inputs">
+
+      <div class="op-input first" fid="founder">
+        <div class="seperator bottom"></div>
+
+        <div class="row">
+          <div class="span3 control-group">
+            <div class="mobile">资产品种</div>
+            <select  name="variety" id="variety" class="founder-name" title="资产品种">
+              <option value="银行活期">银行活期</option>
+              <option value="银行定期">银行定期</option>
+              <option value="银行理财产品">银行理财产品</option>
+              <option value="余额宝">余额宝</option>
+              <option value="其他货币基金">其他货币基金</option>
+              <option value="债券型基金">债券型基金</option>
+              <option value="股票">股票</option>
+              <option value="股票型基金">股票型基金</option>
+              <option value="贵金属">贵金属</option>
+              <option value="其它">其它</option>
+            </select>
+          </div>
+          <div class="span3 control-group" style="text-align: left;">
+            <div class="mobile">资产金额</div>
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input class="init-share" name="lnw" id="amount" style="width: 180px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+            </div>
+          </div>
+          <div class="span2" style="text-align: center;">
+            <div class="mobile">产品名称</div>
+            <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
+          </div>
+          <div class="span1 top5" style="margin-top: 10px;margin-left: 40px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+        </div>
       </div>
     </div>
+    <div class="seperator bottom thick"></div>
+    <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加资产 </a>
   </div>
+  <div class="mobile"><br></div>
+</div>
+<div class="question" style="margin: auto 0;">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <p class="q-text">我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划。</p>
+        <p class="q-text">我们将您每个月可存的资金累加上您的已有资产进行规划和分配，我们将投资分配为三类资产：流动性资产，风险性资产，保本性资产。</p>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121059.png"></div>
+      </td>
+    </tr>
+  </table>
+  <input type="checkbox" class="hide">
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <p class="q-text">所谓流动性资产指 随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。</p>
+        <p class="q-text">您需要为家庭预留3个月日常生活费用的流动性资产，以应对个人、家庭特殊紧急情况，由于您家庭的衣食住行每月开销为<span id="rents" style="color: red;">1000</span>元，所以您需要预留<span id="xian" style="color: red;">3000</span>元流动性资产。</p>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121058.png"></div>
+      </td>
+    </tr>
+  </table>
+  <input type="checkbox" class="hide">
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <p class="q-text">对于理财规划而言，年龄和风险承受能力是两个最核心的因素。正常而言，年轻人的资产比例中，风险性投资产品应该占有大比重，这主要是因为：一来资金少，适合以小博大，二来年轻能承受的风险能力强。</p>
+        <p class="q-text">正常而言，<span style="color: red;">20岁到40岁左右的年轻人，我们建议应将风险产品比例放在50%左右，</span>具体的产品将在下一步风险评估中进行分析和推荐。也就是说如果您是极度保守的风险承受能力，即使您是20岁，我们也将只向推荐保本产品。</p>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121057.png"></div>
+      </td>
+    </tr>
+  </table>
+  <input type="checkbox" class="hide">
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <table class="center">
+    <tr>
+      <td class="top">
+        <p class="q-text">保本性资产的重要性不言而喻，他将作为您保值增值的定心丸。这部分资产投资周期将会较长，收益率也将会较高，并且他的核心属性就是保本。</p>
+        <p class="q-text">在除去流动性资产和风险性资产外，我们可以将其余的资产都用于保本性资产投资。</p>
+      </td>
+      <td class="top">
+        <div style="width: 300px;float: right;"><img src="/assets/121056.png"></div>
+      </td>
+    </tr>
+  </table>
+  <input type="checkbox" name="income" class="hide"></label>
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
+  <table class="table table-striped table-bordered center" style="height: 290px;">
+    <tr>
+      <th>理财产品大类</th>
+      <th>当前比例</th>
+      <th>建议比例</th>
+      <th>建议金额</th>
+    </tr>
+    <tr>
+      <td>流动性资产</td>
+      <td id="xianjin"></td>
+      <td id="xian0"></td>
+      <td>
+        <button id="age-decrease0" class="light-gray" tabindex="-1">−</button>
+        <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+        <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
+      </td>
+    </tr>
+    <tr>
+      <td>保本性资产</td>
+      <td id="wenjian"></td>
+      <td id="wen"></td>
+      <td>
+        <button id="age-decrease1" class="light-gray" tabindex="-1">−</button>
+        <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+        <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
+      </td>
+    </tr>
+    <tr>
+      <td>风险性资产</td>
+      <td id="fengxian"></td>
+      <td id="feng"></td>
+      <td>
+        <button id="age-decrease2" class="light-gray" tabindex="-1">−</button>
+        <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
+        <button id="age-increase2" class="light-gray" tabindex="-1">+</button>
+      </td>
+    </tr>
+    <tr>
+      <td>年总积蓄</td>
+      <td>100%</td>
+      <td>100%</td>
+      <td id="total" style="text-align: center;"></td>
+    </tr>
+  </table>
+  <div class="mobile"><br></div>
+</div>
+
+<input type="hidden" name="rec" value="0.1" tabindex="-1">
+</div>
+<div id="q-fade-t"></div>
+<div id="q-fade-b"></div>
+</div>
+<div id="q-buttons">
+  <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
+  <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
+  <button class="q-button orange-button big-button" id="q-submit">结束体检</button>
+
+  <p class="q-privacy">
+    <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
+    <span class="win">我们不会问你的身份识别信息，除非阁下在决定投资我们。</span>
+  </p>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 <script>
-    function waithelp(){
-        $("#login-box").show();
-        var loginBox = $(this).attr('href');
-        //Fade in the Popup and add close button
-        //Set the center alignment padding + border
-        var popMargTop = ($(loginBox).height() + 24) / 2;
-        var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        $(loginBox).css({
-            'margin-top' : -popMargTop,
-            'margin-left' : -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
+    function add()
+    {
+        $(".member").removeClass("hide");
     }
+    function move()
+    {
+        $(".member").addClass("hide");
+        $("#salary2").attr("value",0);
+    }
+</script>
 
-    $('a.close, #mask,#subscribe,#sub').live('click', function() {
-        $('#mask , .login-popup').fadeOut(300 , function() {
-            $('#mask').remove();
-        });
-        return false;
-    });
-    $("#age-decrease0").click(function(){
-        if(parseInt(xian*0.9)<parseInt($("#xian1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#xian1").attr("value"))>=200){
-            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))-100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
-            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#xian1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(xian*0.9)>=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
-            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-    $("#age-increase0").click(function(){
-        if(parseInt(xian*1.1)>parseInt($("#xian1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
-            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))+100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
-            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#xian1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(xian*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
-            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-
-    $("#age-decrease1,#age-increase2").click(function(){
-        if(parseInt(wen*0.9)<parseInt($("#wen1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#wen1").attr("value"))>=200){
-            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))-100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
-            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#wen1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(wen*0.9)>=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
-            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-    $("#age-increase1,#age-decrease2").click(function(){
-        if(parseInt(wen*1.1)>parseInt($("#wen1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
-            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))+100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
-            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#wen1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(wen*1.1)<=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
-            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-
-    var varietys,amounts,pnames;
-    $(".risk").click(function() {
-        <% if session[:webusername]!=nil %>
-        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-            salary:parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value")),rent:$("#rent").attr("value"),wages:$("#wages").attr("value"),
-            xian:xian,wen:wen,feng:feng,xianp:$("#xian1").attr("value"),wenp:$("#wen1").attr("value"),fengp:$("#feng1").attr("value")},function(data){
-            location.href='/home/questions';
-        });
-        <% else %>
-        var salary= parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"));
-        location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                +'&salary='+salary+'&rent='+$("#rent").attr("value")+'&wages='+$("#wages").attr("value")+'&xian='+xian
-                +'&wen='+wen+'&feng='+feng+'&xianp='+$("#xian1").attr("value")+'&wenp='+$("#wen1").attr("value")+'&fengp='+$("#feng1").attr("value");
-        <% end %>
-    });
-
-        var topLoaderRunning = false;
-        var ie = !-[1,];
-        $("#retest").click(function() {
-            $("#next").hide();
-            $(".jieguo").hide();
-            $(".tijian").show();
-            $('.percentage').each(function() {
-                $(this).data('easyPieChart').update(0);
-                $('span', this).text(0);
-            });
-        });
-
-    var variety,amount,pname,jixu,total,xian,feng,wen;
-    var xianjin= 0,wenjian= 0,fengxian=0;
-    var score1,score2,score3;
-        $("#animateButton").click(function() {
-            if($("#salary2").attr("value")==''){
-                $("#salary2").attr("value",0);
-            }
-            if(ie){
-                document.getElementsByClassName = function(){
-                    var tTagName ="*";
-                    if(arguments.length > 1){
-                        tTagName = arguments[1];
-                    }
-                    if(arguments.length > 2){
-                        var pObj = arguments[2]
-                    }
-                    else{
-                        var pObj = document;
-                    }
-                    var objArr = pObj.getElementsByTagName(tTagName);
-                    var tRObj = new Array();
-                    for(var i=0; i<objArr.length; i++){
-                        if(objArr[i].className == arguments[0]){
-                            tRObj.push(objArr[i]);
-                        }
-                    }
-                    return tRObj;
-                }
-            }
-            //   var array=[[0.1,0.3,0.6],[0.1,0.35,0.55],[0.15,0.35,0.5],[0.15,0.4,0.45],[0.2,0.4,0.4]]
-             variety=document.getElementsByClassName("founder-name")  //资产品种
-             amount=document.getElementsByClassName("init-share")  //资产金额
-             pname=document.getElementsByClassName("pname")  //产品名称
-            xianjin=0;
-            wenjian=0;
-            fengxian=0;
-            // alert($("#age").attr("value"));  年龄层次
-            for(i=0;i<variety.length;i++){
-                if(amount[i].value==''){amount[i].value=0;}
-                if(variety[i].value=="银行活期"){xianjin=xianjin+parseFloat(amount[i].value)}
-                else if(variety[i].value=="余额宝"){xianjin=xianjin+parseFloat(amount[i].value)}
-                else if(variety[i].value=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i].value)}
-                else if(variety[i].value=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="银行定期"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="债券型基金"){wenjian=wenjian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="股票"){fengxian=fengxian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="股票型基金"){fengxian=fengxian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="贵金属"){fengxian=fengxian+parseFloat(amount[i].value)}
-                else if(variety[i].value=="其它"){fengxian=fengxian+parseFloat(amount[i].value)}
-                if(i==0){
-                    varietys=variety[i].value;
-                    amounts=amount[i].value;
-                    pnames=pname[i].value;
-                }
-                else{
-                    varietys=varietys+','+variety[i].value;
-                    amounts=amounts+','+amount[i].value;
-                    pnames=pnames+','+pname[i].value;
-                }
-            }
-             jixu=xianjin+wenjian+fengxian;//积蓄
-             total=parseInt((parseFloat($("#wages").attr("value"))*12+jixu)/100)*100;//总资产
-             xian=parseInt((parseFloat($("#rent").attr("value"))*3)/100)*100;
-             feng=parseInt((total*(80-parseFloat($("#age").attr("value")))/100)/100)*100;
-             wen=total-xian-feng;
-            $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
-            $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
-            $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
-            $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
-            $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
-            $("#xian1").attr("value",xian);
-            $("#wen1").attr("value",wen);
-            $("#feng1").attr("value",feng);
-            $("#total").html(total);
-
-            if(xian/total>xianjin/jixu)
-            {
-                score1=1;
-            }
-            else if(xian/total<xianjin/jixu){
-                score1=0;
-            }
-            if(wen/total>wenjian/jixu)
-            {
-                score2=1;
-            }
-            else if(wen/total<wenjian/jixu){
-                score2=0;
-            }
-            if(feng/total>fengxian/jixu)
-            {
-                score3=1;
-            }
-            else if(feng/total<fengxian/jixu){
-                score3=0;
-            }
-
-            if(wen<=0 || (parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value")))/total>=2/3){
-                $("#tishi").html("您每个月的零花钱会不会太多了？");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(parseFloat($("#salary").attr("value"))<=0 || $("#salary").attr("value")==""){
-                $("#tishi").html("请输入您的平均月收入。");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(parseFloat($("#rent").attr("value"))<=0 || $("#rent").attr("value")==""){
-                $("#tishi").html("请输入您平均每月的衣食住行开销。");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(parseFloat($("#wages").attr("value"))<=0 || $("#wages").attr("value")==""){
-                $("#tishi").html("请输入您每月至少储蓄多少钱。");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(parseFloat($("#salary").attr("value"))+parseFloat($("#salary2").attr("value"))-parseFloat($("#rent").attr("value"))-parseFloat($("#wages").attr("value"))<=0){
-                $("#tishi").html("月收入必须大于衣食住行与每月储蓄金额之和。");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(xianjin<=0){
-                $("#tishi").html("我们看您没有输入活期存款金额，您应该不会身上一分钱现金都没有吧？");
-                $("#sub").hide();
-                $("#subscribe").addClass("btn-primary");
-                waithelp();
-            }
-            else if(jixu>=500000){
-                $("#tishi").html("请不要把房屋资产也算进去哦。");
-                $("#sub").show();
-                $("#subscribe").removeClass("btn-primary");
-                waithelp();
-            }
-            else{
-                $("#rents").html(parseFloat($("#rent").attr("value")));
-                $("#xian").html(xian);
-                $(".tijian").hide();
-                $(".jieguo").show();
-                animate(0,run());
-            }
-        });
-
-        $("#sub").click(function() {
-            animate(0,run());
-        });
- </script>
 
 <script type="text/javascript">
-    var initPieChart = function() {
-        $('.percentage').easyPieChart({
-            animate: 1000
-        });
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
     };
-    function animate(i,a){
-        if(i<a){
-            $('.percentage').each(function() {
-                $(this).data('easyPieChart').update(i);
-                $('span', this).text(i);
-            });
-            setTimeout("animate("+(i+1).toString()+','+a+")",50);
-        }
-        else{
-            $("#next").show();
-            $('.percentage').each(function() {
-                $(this).data('easyPieChart').update(a);
-                $('span', this).text(a);
-            });
-        }
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
     }
 </script>
 
 <script>
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
+    w.requestId = "1092152607";
 
-    function run(){
-        var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
-        return  score.toFixed(1);
-    }
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
 
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
+    var variety,amount,pname,jixu,total,xian,feng,wen;
+    var xianjin= 0,wenjian= 0,fengxian=0;
+    $(function() {
+
+        var $qv = $("#questionnaire-view");
+        var $qr = $("#questionnaire");
+        var accountMin = 0;
+
+        $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+            w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+        });
+
+        $("#q-numbers").delegate(".q-num.past", "click", function() {
+            var $i = $qr.find(".invalid");
+            if ($i.length) {
+                $i.focus().select();
+            } else {
+                showQn($(this).index());
+            }
+        });
+
+        $qr.data("vals", valsFromDom($qr.find("input")))
+                .data("init", function(doCalc) {
+                    $qr.data("init", function() { showQn(0, true); })
+                            .keydown(function(e) {
+                                if ($qr.data("transition")) {
+                                    return false;
+                                }
+                                if (e.keyCode == 9 || e.keyCode == 13 && !e.shiftKey) {
+                                    var $b = $(e.shiftKey ? "#q-back" :
+                                            ("#q-next:visible" + (e.keyCode == 13 ? ",#q-submit:visible" : "")));
+                                    if ($b.is(":enabled")) {
+                                        e.preventDefault();
+                                        $b.triggerHandler("click");
+                                    }
+                                }
+                            })
+                            .find("a[href]").attr("tabindex", "-1").end()
+                            .find("input").attr("tabindex", "-1")
+                            .filter("[type=radio]").click(function(e) {
+                                this.focus();
+                                updateButtons(e, this, true);
+                                if (this.value !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[type=checkbox]").click(function(e) {
+                                this.focus();
+                                updateButtons(e, this, true);
+                                if (this.value !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=age]").each(function(){
+                                // jquery does not yet support on input
+                                this.oninput = function(e) {
+                                    $(this).keypress();
+                                }
+                            }).bind("keypress keyup", function(e) {
+                                var raw = this.value, val = ageFromDom(this), done = val != null;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=lnw]").bind("keypress keyup", function(e) {
+                                var raw = this.value, val = amountFromDom(this), done = val != null && val >= accountMin;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                if(this.id=='salary'|| this.id=='rent' || this.id=='wages'){
+                                    if($("#salary").attr("value")=="" || $("#rent").attr("value")=="" || $("#wages").attr("value")==""){
+                                        done=false;
+                                    }
+                                    if(this.id=='rent'){
+                                        $("#rents").html(parseFloat($("#rent").attr("value").replace(/,/g,'')));
+                                        $("#xian").html(parseFloat($("#rent").attr("value").replace(/,/g,''))*3);
+                                    }
+                                }
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                                if (done && this.selectionStart === raw.length) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            }).blur(function() {
+                                var val = amountFromDom(this);
+                                if (val != null) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            });
+
+                    $("#q-back,#q-next").click(function(e) {
+                        var back = this.id == "q-back";
+                        if (back) {
+                            w.trackEvent("OFA", "questionnaire_back");
+                        } else {
+                            w.trackEvent("OFA", "questionnaire_next", qPayload());
+                        }
+                        var new_q_num = $qr.data("q") + (back ? -1 : 1);
+                        showQn(new_q_num);
+                    });
+                    $("#q-submit").click(function(e) {
+                        <% if session[:webusername]!=nil %>
+                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
+                            salary:parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, "")),rent:$("#rent").attr("value").replace(/,/g, ""),wages:$("#wages").attr("value").replace(/,/g, ""),
+                            xian:xian,wen:wen,feng:feng,xianp:$("#xian1").attr("value"),wenp:$("#wen1").attr("value"),fengp:$("#feng1").attr("value")},function(data){
+                            location.href='/home/questions';
+                        });
+                        <% else %>
+                        var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
+                        location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
+                                +'&salary='+salary+'&rent='+$("#rent").attr("value").replace(/,/g, "")+'&wages='+$("#wages").attr("value").replace(/,/g, "")+'&xian='+xian
+                                +'&wen='+wen+'&feng='+feng+'&xianp='+$("#xian1").attr("value")+'&wenp='+$("#wen1").attr("value")+'&fengp='+$("#feng1").attr("value");
+                        <% end %>
+                        //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
+                        //   w.trackEvent("OFA", "submit_questionnaire", qPayload());
+                        //   $qr.submit();
+                    });
+                    function qPayload() {
+                        var $n = $qr.find("input[tabindex=0]").filter(":checked");
+                        if (!$n.length) {
+                            $n = $n.end();
+                        }
+                        return $n.attr("name") + ":" + $n.val();
+                    }
+
+                    showQn(0);
+                    if (doCalc) {
+                        calculateRiskTol();
+                    }
+                });
+
+        function showQn(i, immediately) {
+            if(i==0){$("#title").html("基本信息");}
+            if(i==1){$("#title").html("月收入支出");}
+            if(i==2){$("#title").html("已有资产情况");}
+            if(i==3){$("#title").html("资产体检 系统介绍");}
+            if(i==4){$("#title").html("流动性资产 介绍");}
+            if(i==5){$("#title").html("保本型资产 介绍");}
+            if(i==6){$("#title").html("风险型资产 介绍");}
+            if(i==7){$("#title").html("资产体检 总结");}
+            var ie = !-[1,];
+            if(i==7){
+                if($("#salary2").attr("value")==''){
+                    $("#salary2").attr("value",0);
+                }
+                if(ie){
+                    document.getElementsByClassName = function(){
+                        var tTagName ="*";
+                        if(arguments.length > 1){
+                            tTagName = arguments[1];
+                        }
+                        if(arguments.length > 2){
+                            var pObj = arguments[2]
+                        }
+                        else{
+                            var pObj = document;
+                        }
+                        var objArr = pObj.getElementsByTagName(tTagName);
+                        var tRObj = new Array();
+                        for(var i=0; i<objArr.length; i++){
+                            if(objArr[i].className == arguments[0]){
+                                tRObj.push(objArr[i]);
+                            }
+                        }
+                        return tRObj;
+                    }
+                }
+                variety=document.getElementsByClassName("founder-name")  //资产品种
+                amount=document.getElementsByClassName("init-share")  //资产金额
+                pname=document.getElementsByClassName("pname")  //产品名称
+                xianjin=0;
+                wenjian=0;
+                fengxian=0;
+                for(j=0;j<variety.length;j++){
+                    var ccc=amount[j].value.replace(/,/g, "");
+                    if(ccc==''){ccc=0;}
+                    if(variety[j].value=="银行活期"){xianjin=xianjin+parseFloat(ccc)}
+                    else if(variety[j].value=="余额宝"){xianjin=xianjin+parseFloat(ccc)}
+                    else if(variety[j].value=="其他货币基金"){xianjin=xianjin+parseFloat(ccc)}
+                    else if(variety[j].value=="银行理财产品"){wenjian=wenjian+parseFloat(ccc)}
+                    else if(variety[j].value=="银行定期"){wenjian=wenjian+parseFloat(ccc)}
+                    else if(variety[j].value=="债券型基金"){wenjian=wenjian+parseFloat(ccc)}
+                    else if(variety[j].value=="股票"){fengxian=fengxian+parseFloat(ccc)}
+                    else if(variety[j].value=="股票型基金"){fengxian=fengxian+parseFloat(ccc)}
+                    else if(variety[j].value=="贵金属"){fengxian=fengxian+parseFloat(ccc)}
+                    else if(variety[j].value=="其它"){fengxian=fengxian+parseFloat(ccc)}
+                    if(j==0){
+                        varietys=variety[j].value;
+                        amounts=ccc;
+                        pnames=pname[j].value;
+                    }
+                    else{
+                        varietys=varietys+','+variety[j].value;
+                        amounts=amounts+','+ccc;
+                        pnames=pnames+','+pname[j].value;
+                    }
+                }
+                jixu=xianjin+wenjian+fengxian;//积蓄
+                total=parseInt((parseFloat($("#wages").attr("value").replace(/,/g, ""))*12+jixu)/100)*100;//总资产
+                xian=parseInt((parseFloat($("#rent").attr("value").replace(/,/g, ""))*3)/100)*100;
+                feng=parseInt((total*(80-parseFloat($("#age").attr("value").replace(/,/g, "")))/100)/100)*100;
+                wen=total-xian-feng;
+                $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
+                $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
+                $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
+                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+                $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
+                $("#xian1").attr("value",xian);
+                $("#wen1").attr("value",wen);
+                $("#feng1").attr("value",feng);
+                $("#total").html(total);
+                if(wen<=0){
+                    alert("您每个月的零花钱会不会太多了？")
+                    i=1;
+                }
+                else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
+                    alert("月收入必须大于衣食住行与每月储蓄金额之和。");
+                    i=1;
+                }
+                else if(xianjin<=0){
+                    alert("我们看您没有输入活期存款金额，您应该不会身上一分钱现金都没有吧？");
+                    i=2;
+                }
+                else if(jixu>=500000){
+                    alert("请不要把房屋资产也算进去哦。");
+                }
+            }
+
+            var $qns = $qr.children(".question");
+            var $qn = $qns.eq(i);
+            if (i >= 0 && $qn.length) {
+                $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
+
+                $qr.data({q: i, transition: true});
+                var newTop = -i * $qn.height() + "px";
+                //  alert(newTop)
+                if (immediately) {
+                    $qr.css("top", newTop);
+                }
+                if (immediately || $qr.css("top") === newTop) {
+                    setTimeout(onAtQn, 5);
+                } else {
+                    $qr.animate({"top": newTop}, onAtQn);
+                }
+                $("#q-back span").text(i === 0 ? "上一题" : "上一题");
+                $("#q-back").attr("disabled", i == 0);
+
+                var isLastQn = i == $qns.length - 1;
+                $("#q-buttons").toggleClass("q-submit", isLastQn);
+
+                var $i = $qn.find("input");
+                var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
+            <% if session[:webusername]!=nil && @examination!=nil %>
+                if(i==0 && '<%= @examination.age %>'!=""){done=true;}
+            <% end %>
+                $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
+                $qr.trigger("qr:nav", i);
+
+                w.trackEvent("OFA", "question_display", (i+1) + "." + $i.attr("name"));
+            }
+
+            function onAtQn() {
+                $qr.removeData("transition");
+                $qn.find("input").attr("tabindex", "0")
+                        .filter("[checked=true],input:first").focus().select();
+            }
+        }
+
+        function updateButtons(e, inputEl, isDone) {
+            if (e.keyCode == 9 || e.keyCode == 13) {
+                return;
+            }
+            var $i = $(inputEl), $q = $i.closest(".question");
+            var isLastQn = $q.nextAll(".question:first").length == 0;
+            $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !isDone);
+            $("#q-back").attr("disabled", $i.hasClass("invalid") || $q.is(".first"));
+        }
+
+        function calculateRiskTol() {
+            var min = 0.1;
+            var max = 10;
+            var granularity = 10.0;
+            var $i = $qr.find("input");
+            var vals = valsFromDom($i);
+            var tol = recommendRiskTolerance2(vals, min, max, granularity);
+            var rec = tol.toFixed(1);
+            $i.filter("[name=rec]").val(rec);
+            vals.rec = +rec;
+            $qr.data("vals", vals);
+            $qr.triggerHandler("qr:change", +rec);
+        }
+    });
+</script>
+<script>
+    $(function() {
+        var currentModelNumber = "4"; //SAA201210
+        var moveMeter = attachRiskMeter("#risk-meter");
+
+        var $n = $("#q-numbers"), $qr = $("#questionnaire"), $qs = $qr.find(".question");
+        $n.find(".q-num").each(function(i) {
+            if ($qs.eq(i).find("input").filter(function() {return this.type == "radio" ? this.checked : !!this.value}).length) {
+                $(this).addClass("past");
+            } else {
+                return false;
+            }
+        });
+        $qr.bind("qr:nav", function(e, i) {
+            var $n = $("#q-numbers");
+            $n.children(".q-num.curr").removeClass("curr").addClass("past");
+            $n.children().eq(i).removeClass("past").addClass("curr");
+        })
+                .bind("qr:change", function(e, tol) {
+                    moveMeter(tol / 10);
+                })
+                .submit(function(e) {
+                    e.preventDefault();
+                    var $qr = $(this);
+                    if (!$qr.data("submitted")) {
+                        $qr.data("submitted", true);
+                        var cookieName = "asset_allocation";
+                        var o = deserializePlan(w.cookie(cookieName)) || {};
+                        $.each($qr.serializeArray(), function(i,v) {
+                            o[v.name] = v.value.replace(/[$,]/g, "");
+                        });
+                        o.tol = o.rec;
+                        o.amount = o.amount || o.lnw;
+                        var check=document.getElementsByName("stability");
+                        o.stability="";
+                        for(var i=0;i<check.length;i++){
+                            if(check[i].checked==true){
+                                if(o.stability==""){
+                                    o.stability=check[i].value;
+                                }
+                                else{
+                                    o.stability=o.stability+check[i].value;
+                                }
+                            }
+                        }
+                        w.cookie(cookieName, serializePlan(o, currentModelNumber), 14);
+                        location = $qr.attr("action");
+                    }
+                })
+                .data("init")(true);
+    });
+</script>
+
+
+
+
+<script>
     var eCalcShareHolders = new Object();
-    var settingSavedUser = false;
     var debug = false;
-    var econValidations;
 
-    // use to add founders
     function addFounder(founder, isFirst)
     {
         var aaa = genId(eCalcShareHolders);
@@ -760,57 +751,6 @@
         }
     }
 
-    function add()
-    {
-        $(".member").removeClass("hide");
-    }
-    function move()
-    {
-        $(".member").addClass("hide");
-        $("#salary2").attr("value",0);
-    }
-
-    // use to remove founders
-    function removeFounder(e)
-    {
-        var fi = $(e).closest("div.op-input");
-        var fid = $(fi).attr("fid");
-        delete eCalcShareHolders[fid];
-        $(fi).detach();
-        cslog("Removing share holder");
-        cslog(eCalcShareHolders);
-    }
-
-    function cslog(message)
-    {
-        if(debug == true)
-        {
-            console.log(message);
-        }
-    }
-    /*
-
-     function toggleButton(e)
-     {
-     var text = $(e).find("span").html();
-     if(text == "关闭")
-     {
-     $(".tgl-content-"+$(e).attr("tid")).slideUp();
-     $(e).find("span").html("打开");
-     $(e).find("i").removeClass().addClass("icon-plus");
-
-     }
-     else
-     {
-     $(".tgl-content-"+$(e).attr("tid")).slideDown();
-     $(e).find("span").html("关闭");
-     $(e).find("i").removeClass().addClass("icon-minus");
-     }
-     }
-     */
-</script>
-
-<script>
     var ShareHolder = function()
     {
         this.isFounder = true;
@@ -910,6 +850,7 @@
         return 0;
     }
 
+
     function getNewNameNumber(shareHolders, type)
     {
         var fRegex = /founder\s\d/i;
@@ -939,77 +880,95 @@
         }
         return latestId;
     }
-</script>
 
-<script>
-  $(function(){
-      $('.demo-form-site').poshytip({
-          className: 'tip-yellowsimple',
-          showOn: 'focus',
-          alignTo: 'target',
-          alignX: 'inner-left',
-          offsetX: 0,
-          offsetY: 5,
-          showTimeout: 100
-      });
-    var flickrFeedsCache = {};
-    $('#demo-async-flickr > a').poshytip({
-        className: 'tip-darkgray',
-        bgImageFrameSize: 11,
-        alignY: 'bottom',
-        content: function(updateCallback) {
-            var rel = $(this).attr('rel');
-            if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
-                return flickrFeedsCache[rel].container;
-            if (!flickrFeedsCache[rel]) {
-                flickrFeedsCache[rel] = { container: null };
-                var tagsComma = rel.substring(4).replace('-', ',');
-                $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
-                        function(data) {
-                            var container = $('<div/>').addClass('flickr-thumbs');
-                            $.each(data.items, function(i, item) {
-                                $('<a/>')
-                                        .attr('href', item.link)
-                                        .append($('<img/>').attr('src', item.media.m))
-                                        .appendTo(container)
-                                        .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
-                                if (i == 4)
-                                    return false;
-                            });
-                            // add tips for the images inside the main tip
-                            container.find('a').poshytip({
-                                content: function(){return $(this).data('tip');},
-                                className: 'tip-yellowsimple',
-                                showTimeout: 100,
-                                alignTo: 'target',
-                                alignX: 'center',
-                                alignY: 'bottom',
-                                offsetY: 5,
-                                allowTipHover: false,
-                                hideAniDuration: 0
-                            });
-                            // call the updateCallback function to update the content in the main tooltip
-                            // and also store the content in the cache
-                            updateCallback(flickrFeedsCache[rel].container = container);
-                        }
-                );
-            }
-            return 'Loading images...';
+    function removeFounder(e)
+    {
+        var fi = $(e).closest("div.op-input");
+        var fid = $(fi).attr("fid");
+        delete eCalcShareHolders[fid];
+        $(fi).detach();
+    }
+
+    $("#age-decrease0").click(function(){
+        if(parseInt(xian*0.9)<parseInt($("#xian1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#xian1").attr("value"))>=200){
+            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))-100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
+            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#xian1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+            $(".alert").hide();
+        }
+        else{
+            if(parseInt(xian*0.9)>=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
         }
     });
-});
+    $("#age-increase0").click(function(){
+        if(parseInt(xian*1.1)>parseInt($("#xian1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
+            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))+100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
+            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#xian1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+            $(".alert").hide();
+        }
+        else{
+            if(parseInt(xian*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
+            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
+        }
+    });
 
-  $(document).ready(function(){
-      initPieChart();
-      $(".jieguo").hide();
-      <% if session[:webusername]!=nil && @examination!=nil %>
-         $("#age").attr("value",parseInt('<%= @examination.age %>'));
-         $("#salary").attr("value",parseInt('<%= @examination.salary %>'));
-         $("#rent").attr("value",parseInt('<%= @examination.rent %>'));
-         $("#wages").attr("value",parseInt('<%= @examination.wages %>'));
-         var variety='<%= @examination.variety %>'.split(",");
-         var amount='<%= @examination.amount %>'.split(",");
-         var pname='<%= @examination.pname %>'.split(",");
+    $("#age-decrease1,#age-increase2").click(function(){
+        if(parseInt(wen*0.9)<parseInt($("#wen1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#wen1").attr("value"))>=200){
+            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))-100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
+            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#wen1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+            $(".alert").hide();
+        }
+        else{
+            if(parseInt(wen*0.9)>=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
+            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
+        }
+    });
+    $("#age-increase1,#age-decrease2").click(function(){
+        if(parseInt(wen*1.1)>parseInt($("#wen1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
+            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))+100);
+            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
+            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
+            $("#wen1").removeClass("invalid");
+            $("#feng1").removeClass("invalid");
+            $(".alert").hide();
+        }
+        else{
+            if(parseInt(wen*1.1)<=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
+            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
+            $(".alert").show();
+        }
+    });
+
+    function run(){
+        var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
+        return  score.toFixed(1);
+    }
+
+    $(document).ready(function(){
+        <% if session[:webusername]!=nil && @examination!=nil %>
+        $("#age").attr("value",parseInt('<%= @examination.age %>'));
+        $("#salary").attr("value",parseInt('<%= @examination.salary %>'));
+        $("#rent").attr("value",parseInt('<%= @examination.rent %>'));
+        $("#wages").attr("value",parseInt('<%= @examination.wages %>'));
+        var variety='<%= @examination.variety %>'.split(",");
+        var amount='<%= @examination.amount %>'.split(",");
+        var pname='<%= @examination.pname %>'.split(",");
         for(i=0;i<variety.length;i++){
             if(i==0){
                 $("#variety").attr("value",variety[i]);
@@ -1023,26 +982,6 @@
                 $("#pname"+i).attr("value",pname[i]);
             }
         }
-      <% end %>
-  });
-</script>
-
-<script type="text/javascript">
-    //平台、设备和操作系统
-    var system ={
-        win : false,
-        mac : false,
-        xll : false
-    };
-    //检测平台
-    var p = navigator.platform;
-    system.win = p.indexOf('Win') == 0;
-    system.mac = p.indexOf('Mac') == 0;
-    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
-    //跳转语句
-    if(system.win||system.mac||system.xll){
-        $(".mobile").remove();
-    }else{
-        $(".win").remove();
-    }
+        <% end %>
+    });
 </script>
