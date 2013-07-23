@@ -74,7 +74,7 @@
     }
 
     .modal.fade.in{
-        width: 50%;
+        width: 950px;
         left: 40%;
     }
 </style>
@@ -468,7 +468,7 @@
               <td><%= r.amount %></td>
               <% if @webuser.username==session[:webusername] %>
                   <td>
-                    <a onclick="waithelp(<%= r.id %>);">修改</a>
+                    <a href="#login-box" role="button" data-toggle="modal" onclick="waithelp(<%= r.id %>);">修改</a>
                     <a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= r.id %>','recorddeleteajax')">删除</a>
                   </td>
               <% end %>
@@ -481,7 +481,7 @@
 </table>
 
 <% if @webuser.username==session[:webusername] %>
-    <a class="btn btn-success pull-right" onclick="waithelp(0);">新增投资记录</a>
+    <a href="#login-box" role="button" data-toggle="modal" class="btn btn-success pull-right" onclick="waithelp(0);">新增投资记录</a>
 <% end %>
 </td>
 <!--
@@ -543,10 +543,12 @@
   </div>
 </div>
 
-<div id='login-box' class='login-popup modal' style="display: none;">
-  <a class="close" href="javascript:">×</a>
-  <div class="image">
+<div id='login-box' class="modal hide fade" style="width: 430px;left:50%;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3>投资记录</h3>
+  </div>
+  <div class="modal-body">
     <table>
       <tr>
         <td>日期：</td><td><input type="text" name="date" id="date" title="日期" onclick="WdatePicker()" class="Wdate"> </td>
@@ -596,13 +598,10 @@
           <input type="text" name="amount" id="amount" title="投资金额" >
         </td>
       </tr>
-      <tr>
-        <td></td>
-        <td>
-          <a id="record" class="btn btn-primary">确认</a>
-        </td>
-      </tr>
     </table>
+  </div>
+  <div class="modal-footer">
+    <button id="record" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
   </div>
 </div>
 
@@ -653,7 +652,6 @@
         }
     }
     function waithelp(e){
-        $("#login-box").show();
         if(e==0){
             $("#edit").hide();
             $("#insert").show();
@@ -678,20 +676,6 @@
         <% end %>
             handle=e;
         }
-        var loginBox = $(this).attr('href');
-        //Fade in the Popup and add close button
-        //Set the center alignment padding + border
-        var popMargTop = ($(loginBox).height() + 24) / 2;
-        var popMargLeft = ($(loginBox).width() + 24) / 2;
-
-        $(loginBox).css({
-            'margin-top' : -popMargTop,
-            'margin-left' : -popMargLeft
-        });
-
-        // Add the mask to body
-        $('body').append('<div id="mask"></div>');
-        $('#mask').fadeIn(300);
     }
 
     function nature(){
@@ -708,12 +692,6 @@
         }
     }
 
-    $('#mask,.close').live('click', function() {
-        $('#mask , .login-popup').fadeOut(300 , function() {
-            $('#mask').remove();
-        });
-        return false;
-    });
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
     $("#record").click(function(){
         if($("#date").attr("value")==""){
@@ -723,10 +701,6 @@
             alert("投资金额必须为数字！");
         }
         else{
-            $('#mask , .login-popup').fadeOut(300 , function() {
-                $('#mask').remove();
-            });
-
             if(parseInt($("#date").attr("value").split('-')[1]).toString()==parseInt($("#dates").attr("value").split('-')[1]).toString() && $("#date").attr("value").split('-')[0]==$("#dates").attr("value").split('-')[0]){
                 if($("#nature").attr("value")=='买入'){
                     var amount=parseInt($("#amount").attr("value"))
