@@ -1,7 +1,7 @@
 <%= stylesheet_link_tag "bankinvest.css" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
-
+<%= stylesheet_link_tag "demo_table_jui.css" %>
 <style>
     #products th,#products td{
         text-align: center;
@@ -11,23 +11,12 @@
         background-color: #ffffff;
     }
 
-    .dataTables_length {
-        font: 80% Hiragino Sans GB W3;
-        width: 40%;
-        margin: 5px;
-        float: left;
-    }
-    .dataTables_filter {
-        text-align: right;
-    }
+    tr.odd{background-color: #f9f9f9;}
+
     .dataTables_paginate {
         font: 80% Hiragino Sans GB W3;
-        float: right;
-        text-align: right;
     }
-    .paginate_disabled_previous, .paginate_enabled_previous {
-        padding-left: 23px;
-    }
+
     .paginate_disabled_previous, .paginate_disabled_next {
         color: #666 !important;
     }

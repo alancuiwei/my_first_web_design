@@ -377,6 +377,7 @@ class PersonmanagementController < ApplicationController
   end
 
   def recordconfigajax
+   if params[:id]=='0'
     Record.new do |r|
       r.username=params[:username]
       r.date=params[:date]
@@ -386,6 +387,22 @@ class PersonmanagementController < ApplicationController
       r.save
     end
     render :json => "s1".to_json
+   else
+     @record=Record.find_by_id(params[:id])
+     @record.update_attributes(:username=>params[:username],:date=>params[:date],:pname=>params[:pname],:amount=>params[:amount],:nature=>params[:nature])
+     render :json => "s2".to_json
+   end
+  end
+
+  def recorddeleteajax
+    @record=Record.find_by_id(params[:id])
+    if @record!=nil
+      if @record.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
   end
 
   def personfinance
@@ -404,12 +421,11 @@ class PersonmanagementController < ApplicationController
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
       @record=Record.find_all_by_username(@webuser.username)
-      @finances=Financial.find_by_selection(@webuser.selection)
+      @finances=Financial.find_by_pname(@webuser.selection)
       if @finances!=nil
       @hash3.store(@finances.person,[@finances.pname,@finances.id,@finances.classify])
       end
       @examination=Examination.find_by_username(@webuser.username)
-      @record=Record.find_all_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
       if @webuser.organusername!=nil
