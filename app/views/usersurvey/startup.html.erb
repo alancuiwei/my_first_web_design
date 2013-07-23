@@ -3,35 +3,8 @@
 <%= javascript_include_tag "d3.js" %>
 <%= javascript_include_tag "plan.js" %>
 <%= javascript_include_tag "risk.js" %>
-
 <%= stylesheet_link_tag "founder.css" %>
-<style>
-    #questionnaire-view,#questionnaire{width: 100%;}
-    .question {padding: 0 0 0 56px;}
-    th,td{vertical-align: middle!important;}
-    input{font-size: 14px!important;}
-    div.seperator{margin-left: 0;}
-    [class^="icon-"], [class*=" icon-"] {
-        font-family: FontAwesome;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline;
-        width: auto;
-        height: auto;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: url("/assets/glyphicons-halflings.png");
-        background-repeat: repeat;
-        margin-top: 0;
-    }
-    #q-fade-b{height: 0;}
-    .center {width: 98%;height: 296px;}
-    .well-c{height: 296px;overflow: auto;width: 98%;}
-    .question .table th,.question .table td{
-        text-align: center;
-    }
-</style>
+
 <script>
     t0=new Date
     function onReady(fn){onReady.fns.push(fn)}
@@ -72,6 +45,7 @@
   <table class="center">
     <tr>
       <td class="top">
+        <p class="q-text">资产的配置，需要随着人的年龄、性别等基本情况而调整。年轻人可能愿意承担风险但却没有多少财产可以用来冒险，而老年人具备了承受风险的财力却在思想上不愿意冒险。</p>
         <table>
           <tr>
             <td class="q-text" style="width: 120px;">年龄：</td>
@@ -83,7 +57,7 @@
           </tr>
         </table>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121079.png"></div>
       </td>
     </tr>
@@ -94,10 +68,11 @@
   <table class="center">
     <tr>
       <td class="top">
+        <p class="q-text">月收入支出相对很容易量化，就是工资所得纯收入加上其他额外收入，且支出也相对固定。这样可以帮助您查明支出趋向和储蓄力度，确保您的消费符合轻重缓急。</p>
         <table style="width: 100%;">
           <tr>
             <td class="q-text" style="width: 120px;">月收入：</td>
-            <td><input type="text" name="lnw" id="salary" tabindex="-1"></td>
+            <td style="width: 220px;"><input type="text" name="lnw" id="salary" tabindex="-1"></td>
             <td></td>
           </tr>
           <tr>
@@ -113,14 +88,14 @@
           <tr class="member hide">
             <td class="q-text">家庭成员收入：</td>
             <td><input type="text" id="salary2" tabindex="-1"></td>
-            <td style="font-size: 25px;"><a onclick="move()">×</a></td>
+            <td style="font-size: 25px;padding-left: 15px;"><a onclick="move()">×</a></td>
           </tr>
           <tr>
-            <td colspan="3"><a data-original-title="Click here to add another company founder" class="xtip pull-right" style="padding: 0 20px 10px 0;" onclick="add();"> + 添加家庭成员收入 </a></td>
+            <td colspan="2"><a data-original-title="Click here to add another company founder" class="xtip pull-right" style="padding: 0 0 10px 0;" onclick="add();"> + 添加家庭成员收入 </a></td>
           </tr>
         </table>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121060.png"></div>
       </td>
     </tr>
@@ -129,6 +104,7 @@
 </div>
 <div class="question">
   <div class="well-c">
+    <p class="q-text">总结至今为止您已积攒的资产，这个简明的资产表仅仅是您在某个时期的阶段性总结，实际上资产净值每天都根据资产价值涨涨落落，但这个资产表可以在很长时间里帮助你及时发现财务危机，计划理财方式，并确保您直达目标。<br>切记，填写的应该是资产的当期市值，而不是购买价格。</p>
     <div class="row op-label win">
       <div class="span3">资产品种</div>
       <div class="span3" style="text-align: left;">资产金额</div>
@@ -168,7 +144,7 @@
             <div class="mobile">产品名称</div>
             <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
           </div>
-          <div class="span1 top5" style="margin-top: 10px;margin-left: 40px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+          <div class="span1 top5" style="margin-top: 10px;margin-left: 40px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
         </div>
       </div>
     </div>
@@ -184,7 +160,7 @@
         <p class="q-text">我们将主要从家庭资产保值增值的角度，来帮你进行家庭资产战略性规划。</p>
         <p class="q-text">我们将您每个月可存的资金累加上您的已有资产进行规划和分配，我们将投资分配为三类资产：流动性资产，风险性资产，保本性资产。</p>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121059.png"></div>
       </td>
     </tr>
@@ -199,7 +175,7 @@
         <p class="q-text">所谓流动性资产指 随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。</p>
         <p class="q-text">您需要为家庭预留3个月日常生活费用的流动性资产，以应对个人、家庭特殊紧急情况，由于您家庭的衣食住行每月开销为<span id="rents" style="color: red;">1000</span>元，所以您需要预留<span id="xian" style="color: red;">3000</span>元流动性资产。</p>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121058.png"></div>
       </td>
     </tr>
@@ -214,7 +190,7 @@
         <p class="q-text">对于理财规划而言，年龄和风险承受能力是两个最核心的因素。正常而言，年轻人的资产比例中，风险性投资产品应该占有大比重，这主要是因为：一来资金少，适合以小博大，二来年轻能承受的风险能力强。</p>
         <p class="q-text">正常而言，<span style="color: red;">20岁到40岁左右的年轻人，我们建议应将风险产品比例放在50%左右，</span>具体的产品将在下一步风险评估中进行分析和推荐。也就是说如果您是极度保守的风险承受能力，即使您是20岁，我们也将只向推荐保本产品。</p>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121057.png"></div>
       </td>
     </tr>
@@ -229,7 +205,7 @@
         <p class="q-text">保本性资产的重要性不言而喻，他将作为您保值增值的定心丸。这部分资产投资周期将会较长，收益率也将会较高，并且他的核心属性就是保本。</p>
         <p class="q-text">在除去流动性资产和风险性资产外，我们可以将其余的资产都用于保本性资产投资。</p>
       </td>
-      <td class="top">
+      <td>
         <div style="width: 300px;float: right;"><img src="/assets/121056.png"></div>
       </td>
     </tr>
@@ -238,7 +214,11 @@
   <div class="mobile"><br></div>
 </div>
 <div class="question">
-  <table class="table table-striped table-bordered center" style="height: 290px;">
+  <table class="center">
+    <tr>
+      <td>
+        <p class="q-text" id="result"></p>
+  <table class="table table-striped table-bordered center" style="height: 200px;">
     <tr>
       <th>理财产品大类</th>
       <th>当前比例</th>
@@ -282,6 +262,12 @@
       <td id="total" style="text-align: center;"></td>
     </tr>
   </table>
+      </td>
+      <td>
+        <div style="width: 300px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
+      </td>
+    </tr>
+  </table>
   <div class="mobile"><br></div>
 </div>
 
@@ -293,7 +279,7 @@
 <div id="q-buttons">
   <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
   <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
-  <button class="q-button orange-button big-button" id="q-submit">结束体检</button>
+  <button class="q-button orange-button big-button" id="q-submit">进入风险评估</button>
 
   <p class="q-privacy">
     <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
@@ -581,6 +567,34 @@
                 $("#wen1").attr("value",wen);
                 $("#feng1").attr("value",feng);
                 $("#total").html(total);
+                if(xianjin/jixu>xian/total){
+                   $("#result").html("您当期的流动型资产配置过高，")
+                }
+                else if(xianjin/jixu<xian/total){
+                    $("#result").html("您当期的流动型资产配置过低，")
+                }
+                else{
+                    $("#result").html("您当期的流动型资产配置适中，")
+                }
+                if(wenjian/jixu>wen/total){
+                    $("#result").html($("#result").html()+'保本型配置过高，')
+                }
+                else if(wenjian/jixu<wen/total){
+                    $("#result").html($("#result").html()+'保本型配置过低，')
+                }
+                else{
+                    $("#result").html($("#result").html()+'保本型配置适中，')
+                }
+                if(fengxian/jixu>feng/total){
+                    $("#result").html($("#result").html()+'风险型配置过高。')
+                }
+                else if(fengxian/jixu<feng/total){
+                    $("#result").html($("#result").html()+'风险型配置过低。')
+                }
+                else{
+                    $("#result").html($("#result").html()+'风险型配置适中。')
+                }
+                animate(0,run());
                 if(wen<=0){
                     alert("您每个月的零花钱会不会太多了？")
                     i=1;
@@ -983,5 +997,31 @@
             }
         }
         <% end %>
+        initPieChart();
     });
+</script>
+
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "jquery.easy-pie-chart.js" %>
+<script type="text/javascript">
+    var initPieChart = function() {
+        $('.percentage').easyPieChart({
+            animate: 1000
+        });
+    };
+    function animate(i,a){
+        if(i<a){
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(i);
+                $('span', this).text(i);
+            });
+            setTimeout("animate("+(i+1).toString()+','+a+")",50);
+        }
+        else{
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(a);
+                $('span', this).text(a);
+            });
+        }
+    }
 </script>
