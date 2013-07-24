@@ -198,121 +198,6 @@
 <tr>
   <td style="padding-left: 80px;">
     <div class="account-types">
-      <div class="account-type-tab active taxable-account-type">
-        <p><span class="product" style="line-height: 20px;">理想资产比例</span></p>
-      </div>
-      <div class="clearfix"></div>
-    </div>
-  </td>
-</tr>
-<tr>
-  <td>
-    <div class="plan-details" style="border-bottom: 1px solid #E2E2E2;">
-      <section id="asset-allocation" class="">
-        <table style="width: 100%;">
-          <tr><td class="high" style="width: 30%;height: 200px;padding-top: 20px;">
-            <div class="allocation-chart-container">
-              <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
-            </div>
-          </td><td>
-            <table id="table2" style="width: 100%;" class="table table-striped table-bordered">
-              <thead>
-              <tr>
-                <th style="width: 25%;">理财产品大类</th>
-                <th style="width: 25%;">建议比例</th>
-                <th style="width: 25%;">当前比例</th>
-                <th style="width: 25%;">当前金额</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td class="demo-tip-yellowsimple" title="一般指随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。">流动型资产</td>
-                <td id="proposed1" class="asset-class-percentage number"></td>
-                <td id="rate1" class="asset-class-amount number"></td>
-                <td id="amount1" class="asset-class-amount number"></td>
-              </tr>
-              <tr>
-                <td class="ktip-a demo-tip-yellowsimple" title="顾名思义，您的投入本金是不会亏损的，当前市场上该类产品有银行定期存款，国债，保本型基金等。">保本型资产</td>
-                <td id="proposed2" class="asset-class-percentage number"></td>
-                <td id="rate2" class="asset-class-amount number"></td>
-                <td id="amount2" class="asset-class-amount number"></td>
-              </tr>
-              <tr>
-                <td class="ktip-a demo-tip-yellowsimple" title="很有可能会亏损本金的投资资产。当然，我们会结合您的具体风险承受评估来给您做相应产品的介绍。当前市场上风险最高，预期利润最高的是股票和股票型基金。">风险型资产</td>
-                <td id="proposed3" class="asset-class-percentage number"></td>
-                <td id="rate3" class="asset-class-amount number"></td>
-                <td id="amount3" class="asset-class-amount number"></td>
-              </tr>
-              </tbody>
-            </table>
-          </td></tr></table>
-      </section>
-    </div>
-    <!--
-        <% if @webuser.username==session[:webusername] && @hash2[0][1] != nil %>
-            <div id="comment">
-              <a name='评论'><div style="height: 30px;"></div></a>
-              <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">规划点评</p>
-              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
-                <% @comments.each do |b| %>
-                    <tr>
-                      <td>
-                        <p class="text2"><%= b.username%> 说：</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text2"> <%=raw b.comments%> </p>
-                        <hr>
-                      </td>
-                    </tr>
-                <% end %>
-              </table>
-              <div id="new" class="hide">
-                <p id="username" class="text2"></p>
-                <p id="newcomment" class="text2"></p>
-                <div class="zm-tab-content weibo-panel" id="tb-webshare-sina-content" style="">
-                  <div class="zg-section">
-                    <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">分享到微博</p>
-                    <label>
-                      <input data-bindurl="/oauth/auth/sina?next=/oauth/callback" class="sina-checkbox" type="checkbox">
-                      <span class="zg-ico-sina"></span> 新浪微博</label>
-                  </div>
-                  <div class="zg-section">
-                    <div class="zg-form-text-input">
-
-                    </div>
-                  </div>
-                  <div class="zm-command">
-                    <div class="baidu_btn">
-                      <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare hide" onclick="$('.zm-tab-content').hide();" style="float: right;" data="{'url':'http://www.tongtianshun.com/personmanagement/personfinance/<%= @webuser.id %>'}">
-                        <a class="bds_tsina btn btn-primary" style="float: right;color: #ffffff;padding: 4px 12px;line-height: 16px;">分享到微博</a>
-                      </div>
-                      <div id="notcheck" class="bdshare_t bds_tools get-codes-bdshare">
-                        <a class="bds_tsina btn btn-primary" onclick="alert('请选择微博后再进行分享！');" style="float: right;padding: 4px 12px;line-height: 16px;background: #eee;color: #888;">分享到微博</a>
-                      </div>
-                    </div>
-                    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
-                    <script type="text/javascript" id="bdshell_js"></script>
-                    <script type="text/javascript">
-                        var bds_config ;
-                    </script>
-                  </div>
-                </div>
-              </div>
-              <div id="sample">
-                <textarea id="area2" name="area2" style="width: 100%;height: 150px;"></textarea><br>
-                <a class="btn btn-primary pull-right" id="saved" href="javascript:;">发布评论</a>
-              </div>
-            </div>
-        <% end %>
-        -->
-  </td>
-</tr>
-<tr><td style="height: 20px;"></td></tr>
-<tr>
-  <td style="padding-left: 80px;">
-    <div class="account-types">
       <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
         <table style="width: 100%;">
           <tr>
@@ -434,9 +319,15 @@
     </div>
   </td>
 </tr>
-</table>
+<tr><td>
+  <div class="plan-details" style="border-bottom: 1px solid #E2E2E2;padding-bottom: 40px;">
 <div class="account-type-tab active" id="taxable-account-type" style="padding-left: 80px;margin-bottom: 20px;">
-  <p style="padding-top: 20px;"><span class="product" style="line-height: 20px;">投资记录</span></p>
+    <p style="padding-top: 20px;">
+      <span class="product" style="line-height: 20px;">投资记录</span>
+      <% if @webuser.username==session[:webusername] %>
+          <a href="#login-box" role="button" data-toggle="modal" style="margin-left: 175px;" class="btn btn-success" onclick="waithelp(0,'');">新增投资记录</a>
+      <% end %>
+    </p>
 </div>
 <table style="width: 100%;">
   <tr>
@@ -468,7 +359,7 @@
               <td><%= r.amount %></td>
               <% if @webuser.username==session[:webusername] %>
                   <td>
-                    <a href="#login-box" role="button" data-toggle="modal" onclick="waithelp(<%= r.id %>);">修改</a>
+                      <a href="#login-box" role="button" data-toggle="modal" onclick="waithelp(<%= r.id %>,'<%= r.pname %>');">修改</a>
                     <a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= r.id %>','recorddeleteajax')">删除</a>
                   </td>
               <% end %>
@@ -480,9 +371,124 @@
   </tr>
 </table>
 
-<% if @webuser.username==session[:webusername] %>
-    <a href="#login-box" role="button" data-toggle="modal" class="btn btn-success pull-right" onclick="waithelp(0);">新增投资记录</a>
+      </div>
+</td></tr>
+<tr><td style="height: 20px;"></td></tr>
+<tr>
+  <td style="padding-left: 80px;">
+    <div class="account-types">
+      <div class="account-type-tab active taxable-account-type">
+        <p><span class="product" style="line-height: 20px;">理想资产比例</span></p>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td>
+    <div class="plan-details">
+      <section id="asset-allocation" class="">
+        <table style="width: 100%;">
+          <tr><td class="high" style="width: 30%;height: 200px;padding-top: 20px;">
+            <div class="allocation-chart-container">
+              <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
+            </div>
+          </td><td>
+            <table id="table2" style="width: 100%;" class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th style="width: 25%;">理财产品大类</th>
+                <th style="width: 25%;">建议比例</th>
+                <th style="width: 25%;">当前比例</th>
+                <th style="width: 25%;">当前金额</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="demo-tip-yellowsimple" title="一般指随存随取类的资产，例如现金、活期存款、余额宝、货币基金。这些资产都是今天存，最迟明天就可以取出来，而且几乎没有手续费的资产。">流动型资产</td>
+                <td id="proposed1" class="asset-class-percentage number"></td>
+                <td id="rate1" class="asset-class-amount number"></td>
+                <td id="amount1" class="asset-class-amount number"></td>
+              </tr>
+              <tr>
+                <td class="ktip-a demo-tip-yellowsimple" title="顾名思义，您的投入本金是不会亏损的，当前市场上该类产品有银行定期存款，国债，保本型基金等。">保本型资产</td>
+                <td id="proposed2" class="asset-class-percentage number"></td>
+                <td id="rate2" class="asset-class-amount number"></td>
+                <td id="amount2" class="asset-class-amount number"></td>
+              </tr>
+              <tr>
+                <td class="ktip-a demo-tip-yellowsimple" title="很有可能会亏损本金的投资资产。当然，我们会结合您的具体风险承受评估来给您做相应产品的介绍。当前市场上风险最高，预期利润最高的是股票和股票型基金。">风险型资产</td>
+                <td id="proposed3" class="asset-class-percentage number"></td>
+                <td id="rate3" class="asset-class-amount number"></td>
+                <td id="amount3" class="asset-class-amount number"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td></tr></table>
+      </section>
+    </div>
+    <!--
+        <% if @webuser.username==session[:webusername] && @hash2[0][1] != nil %>
+            <div id="comment">
+              <a name='评论'><div style="height: 30px;"></div></a>
+              <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">规划点评</p>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+                <% @comments.each do |b| %>
+                    <tr>
+                      <td>
+                        <p class="text2"><%= b.username%> 说：</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="text2"> <%=raw b.comments%> </p>
+                        <hr>
+                      </td>
+                    </tr>
+                <% end %>
+              </table>
+              <div id="new" class="hide">
+                <p id="username" class="text2"></p>
+                <p id="newcomment" class="text2"></p>
+                <div class="zm-tab-content weibo-panel" id="tb-webshare-sina-content" style="">
+                  <div class="zg-section">
+                    <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">分享到微博</p>
+                    <label>
+                      <input data-bindurl="/oauth/auth/sina?next=/oauth/callback" class="sina-checkbox" type="checkbox">
+                      <span class="zg-ico-sina"></span> 新浪微博</label>
+                  </div>
+                  <div class="zg-section">
+                    <div class="zg-form-text-input">
+
+                    </div>
+                  </div>
+                  <div class="zm-command">
+                    <div class="baidu_btn">
+                      <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare hide" onclick="$('.zm-tab-content').hide();" style="float: right;" data="{'url':'http://www.tongtianshun.com/personmanagement/personfinance/<%= @webuser.id %>'}">
+                        <a class="bds_tsina btn btn-primary" style="float: right;color: #ffffff;padding: 4px 12px;line-height: 16px;">分享到微博</a>
+                      </div>
+                      <div id="notcheck" class="bdshare_t bds_tools get-codes-bdshare">
+                        <a class="bds_tsina btn btn-primary" onclick="alert('请选择微博后再进行分享！');" style="float: right;padding: 4px 12px;line-height: 16px;background: #eee;color: #888;">分享到微博</a>
+                      </div>
+                    </div>
+                    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
+                    <script type="text/javascript" id="bdshell_js"></script>
+                    <script type="text/javascript">
+                        var bds_config ;
+                    </script>
+                  </div>
+                </div>
+              </div>
+              <div id="sample">
+                <textarea id="area2" name="area2" style="width: 100%;height: 150px;"></textarea><br>
+                <a class="btn btn-primary pull-right" id="saved" href="javascript:;">发布评论</a>
+              </div>
+            </div>
 <% end %>
+        -->
+  </td>
+</tr>
+</table>
 </td>
 <!--
 <td style="width: 200px;padding: 0 15px;">
@@ -607,6 +613,7 @@
 
 <script language="javascript">
     var handle=0;
+    var product;
     var a2="<%= @hash3['流动'][0] %>";
     var a4="<%= @hash3['保本'][0] %>";
     <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
@@ -651,15 +658,19 @@
             }
         }
     }
-    function waithelp(e){
+    function waithelp(e,q){
+        removeoption(document.getElementById("pname"),product);
         if(e==0){
             $("#edit").hide();
             $("#insert").show();
+            select();
             handle=0;
         }
         else{
+            product=q;
             $("#edit").show();
             $("#insert").hide();
+            addoption(document.getElementById("pname"),q,q);
             addoption(document.getElementById("pname"),a2,a2);
             addoption(document.getElementById("pname"),a4,a4);
             addoption(document.getElementById("pname"),a5,a5);
