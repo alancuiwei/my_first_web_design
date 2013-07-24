@@ -8,10 +8,26 @@
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
+<%= stylesheet_link_tag "red.css" %>
+<%= javascript_include_tag "jquery.icheck.js" %>
+<style>
+    th, td {font-family: Hiragino Sans GB W3;}
+    tr.first td{background-color: #f9f9f9!important;}
+    #category td.second,#category th.second,tr.third td{
+        background-color: #CCCCCC!important;
+    }
+</style>
 <script>
     t0=new Date
     function onReady(fn){onReady.fns.push(fn)}
     onReady.fns=[]
+</script>
+
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
 </script>
 <!--[if !IE]><!--><style>#questionnaire-view .angel label{padding-bottom: 7px;}</style><!--<![endif]-->
 <div class="welcomes">
@@ -35,17 +51,27 @@
       <div class="clearfix"></div>
       <h1>
 		  看看您的风险承受度是多少？
-        <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+        <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
       </h1>
 
-        <div id="pict" style="float:right;margin:40px 0 0 0;position:relative">
-          <!-- <div id="risk-meter"></div>  -->
-          <div id="container"></div>
+      <div id="pict" style="float:right;width: 280px;margin:40px 0 0 0;position:relative">
+        <!-- <div id="risk-meter"></div>  -->
+        <div id="container"></div>
+
+        <div id="one" style="text-align: center;">
+          <img src="/assets/gs-logo-70.gif"><br>
+          <img style="width: 100%;" src="/assets/logo2.png">
+        </div>
       </div>
 
       <div id="questionnaire-view">
         <form id="questionnaire" action="" method="post">
           <div class="question first">
+            <p class="q-text">这个风险承受度评估系统是我们引用美国高盛公司的开源资产风险度管理模型，通过10个问题，包含投资取向，个人资金状况，个人工作状况，个人投资经验，从而了解您的风险承受度。</p>
+            <input type="checkbox" class="hide">
+            <div style="clear:both"></div><div class="mobile"><br></div>
+          </div>
+          <div class="question">
             <p class="q-text">当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</p>
             <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>卖掉所有股票</span></label>
             <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>卖掉一部分股票</span></label>
@@ -186,7 +212,169 @@
               <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 不稳定的工作则意味着您将不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
             </p>
           </div>
+          <div class="question" style="padding-right: 0;height:500px;">
+            <p class="q-text" id="risk"></p>
+            <table id="type" class="table table-striped table-bordered footable">
+              <thead>
+              <tr>
+                <th data-sort-initial="descending" data-class="expand" style="width: 80px;">风险类型</th>
+                <th data-sort-ignore="true" style="width: 150px;">一句话点评</th>
+                <th data-hide="phone,tablet,hides">行家解释</th>
+                <th data-hide="phone">类型代表</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>安逸型</td>
+                <td>保本是第一位的。</td>
+                <td>
+                  您是安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。<br>
+                  此类投资人注重获得相对确定的投资回报，而不追求最大回报，且限制短期内的波动。投资期限内，回报率的波动性较小。<br>
+                  大多数情况下，相对风险较高的投资方法，这种方法的回报率最低，五年以上的投资尤其如此。
+                </td>
+                <td>
+                  和史玉柱一样，勤奋、意志坚定、深入细节、善于分析，尽一切可能来降低风险，“手握资金，等待投资机会上门”
+                </td>
+              </tr>
+              <tr>
+                <td>保守型</td>
+                <td>深思熟虑每个决策。</td>
+                <td>
+                  您是保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。<br>
+                  投资期限内，虽然难以准确预测其回报率，但是也不会有大起大落的情况。<br>
+                  大多数情况下，相对风险较高的投资方法，这种方法的回报率较低，五年以上的投资尤其如此。
+                </td>
+                <td> 和"指数基金教父"约翰•伯格一样，以谨慎、勤奋、稳健和积极的特性著称，对个人信仰脚踏实地，直到达成目标为止。</td>
+              </tr>
+              <tr>
+                <td>稳健型</td>
+                <td>承担5%亏损，潜在15%收益，OK!</td>
+                <td>
+                  您是稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。<br>
+                  此类投资人注重获得稳健的投资回报。投资的市值在短期内可能会有一些波动。投资期限内，其综合回报难以准确预测，但也不会过于出乎意外。<br>
+                  大多数情况下，相对较为保守的投资方法，这种方法的回报率较高，五年以上的投资更是如此。
+                </td>
+                <td>和巴菲特一样，“避开我们不能评估其未来的业务，无论他们的产品可能多么激动人心”，购买后坚定持有。</td>
+              </tr>
+              <tr>
+                <td>积极型</td>
+                <td>承担10%亏损，潜在30%收益，OK!</td>
+                <td>
+                  您是积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。<br>
+                  此类投资人注重获得丰厚的投资回报，但对大多数投机领域敬而远之。投资价值在短期内可能会有大幅波动。投资期限内，最终获得的投资回报较难预料。<br>
+                  大多数情况下，较之其它相对保守的投资方法，这种投资方法的回报率较高，五年以上的投资尤其如此。
+                </td>
+                <td>和复兴集团掌门人郭广昌一样，冷静、有天然的理性和了解内心的本能，同时拥有高度的容忍力，富于研究精神，喜爱一切新颖的东西。</td>
+              </tr>
+              <tr>
+                <td>激进型</td>
+                <td>马克思说，有300%的回报，什么都干。</td>
+                <td>
+                  您是激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。<br>
+                  为了追求最大回报，同时愿意承受资产价格的短期大幅波动风险，甚至相对长时间亏损的可能。因为其承受较大波动性，投资者最后获得的回报率较难预测。<br>
+                  大多数情况下，其长期回报率高于其它较为保守的投资方法。
+                </td>
+                <td>和李嘉诚一样，推崇大手笔大收益，偏爱高风险投资，高风险的投资产品，这能激发热情参与的动力。</td>
+              </tr>
+            </table>
+            <input type="checkbox" class="hide">
+            <div class="mobile"><br></div>
+          </div>
 
+          <div class="question" style="padding-right: 0;">
+            <p class="q-text" id="risk2"></p>
+            <table id="category" class="table table-striped table-bordered footable" style="width: 100%;">
+              <thead>
+              <tr>
+                <th data-sort-initial="descending" data-class="expand" style="width: 120px;">风险类型</th>
+                <th data-sort-ignore="true" style="width: 150px;">投资品种</th>
+                <th data-hide="phone" style="width: 173px;">亏损概率<br>（近一年）</th>
+                <th data-hide="phone" style="width: 173px;">最高年收益率<br>（近一年）</th>
+                <th data-hide="phone,tablet,hides">投资品种介绍</th>
+                <th data-sort-ignore="true" style="width: 40px;">选择</th>
+              </tr>
+              </thead>
+                  <% for i in 0..@category1.size-1 %>
+                      <tr class="level1">
+                        <td>安逸型</td>
+                        <td><%= @category1[i].classify %></td>
+                        <td><%= @category1[i].prisk %></td>
+                        <td><%= @category1[i].returns %></td>
+                        <td><%= @category1[i].ptype %></td>
+                        <td><input type="radio" name="iCheck" id="iCheck1" class="<%= @category1[i].id %>,<%= @category1[i].classify %>"></td>
+                      </tr>
+                  <% end %>
+                  <% for i in 0..@category2.size-1 %>
+                      <tr class="level2">
+                        <td>保守型</td>
+                        <td><%= @category2[i].classify %></td>
+                        <td><%= @category2[i].prisk %></td>
+                        <td><%= @category2[i].returns %></td>
+                        <td><%= @category2[i].ptype %></td>
+                        <td><input type="radio" name="iCheck" id="iCheck2" class="<%= @category2[i].id %>,<%= @category2[i].classify %>"></td>
+                      </tr>
+                  <% end %>
+                  <% for i in 0..@category3.size-1 %>
+                      <tr class="level3">
+                        <td>稳健型</td>
+                        <td><%= @category3[i].classify %></td>
+                        <td><%= @category3[i].prisk %></td>
+                        <td><%= @category3[i].returns %></td>
+                        <td><%= @category3[i].ptype %></td>
+                        <td><input type="radio" name="iCheck" id="iCheck3" class="<%= @category3[i].id %>,<%= @category3[i].classify %>"></td>
+                      </tr>
+                  <% end %>
+                  <% for i in 0..@category4.size-1 %>
+                      <tr class="level4">
+                        <td>积极型</td>
+                        <td><%= @category4[i].classify %></td>
+                        <td><%= @category4[i].prisk %></td>
+                        <td><%= @category4[i].returns %></td>
+                        <td><%= @category4[i].ptype %></td>
+                        <td><input type="radio" name="iCheck" id="iCheck4" class="<%= @category4[i].id %>,<%= @category4[i].classify %>"></td>
+                      </tr>
+                  <% end %>
+                  <% for i in 0..@category5.size-1 %>
+                      <tr class="level5">
+                        <td>激进型</td>
+                        <td><%= @category5[i].classify %></td>
+                        <td><%= @category5[i].prisk %></td>
+                        <td><%= @category5[i].returns %></td>
+                        <td><%= @category5[i].ptype %></td>
+                        <td><input type="radio" name="iCheck" id="iCheck5" class="<%= @category5[i].id %>,<%= @category5[i].classify %>"></td>
+                      </tr>
+                  <% end %>
+            </table>
+            <div id="finance" class="hide">
+                <table id="select" class="table table-striped table-bordered footable" style="width: 100%;">
+                  <thead>
+                  <tr>
+                    <th data-sort-initial="descending" data-class="expand" style="width: 120px;">投资品种</th>
+                    <th data-sort-ignore="true" style="width: 150px;">理财产品</th>
+                    <th data-sort-ignore="true" style="width: 85px;">近1年<br>收益率</th>
+                    <th data-sort-ignore="true">排名</th>
+                    <th data-sort-ignore="true" style="width: 85px;">近3年<br>收益率</th>
+                    <th data-sort-ignore="true">排名</th>
+                    <th data-hide="phone,tablet,hides">理财产品详细介绍</th>
+                    <th data-sort-ignore="true" style="width: 40px;">选择</th>
+                  </tr>
+                  </thead>
+                  <% @financial2.each do |f| %>
+                      <tr class="finance<%= f.id %> hide">
+                        <td><%= f.classify %></td>
+                        <td><%= f.pname %></td>
+                        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
+                        <td><%= f.rank %></td>
+                        <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% end %></td>
+                        <td><%= f.rank1 %></td>
+                        <td><%= f.pintroduction %></td>
+                        <td><input type="radio" id="iCheck" name="iCheck2" class="<%= f.id %>"></td>
+                      </tr>
+                  <% end %>
+                </table>
+            </div>
+            <input type="checkbox" class="hide">
+            <div class="mobile"><br></div>
+          </div>
           <input type="hidden" name="rec" value="0.1" tabindex="-1">
         </form>
         <div id="q-fade-t"></div>
@@ -229,6 +417,7 @@
 </script>
 
 <script>
+    var selection='';
     _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
     w.requestId = "1092152607";
 
@@ -423,16 +612,14 @@
                         else if(save.split(',')[5]=='H'){trade='其他';}
                         var risktolerance=risk;
                         <% if session[:webusername]!=nil %>
-                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,
+                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,selection:selection,
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
                         },function(data){
-                              location.href='/personmanagement/share?risk='+risktolerance;
+                            location.href='/personmanagement/personfinance';
                         });
                         <% else %>
-                          location.href='/personmanagement/share?risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+
-                                  '&score='+'<%= params[:score] %>'+'&variety='+'<%= params[:variety] %>'+'&pname='+'<%= params[:pname] %>'+'&amount='+'<%= params[:amount] %>'+'&age='+'<%= params[:age] %>'+'&salary='+'<%= params[:salary] %>'+
-                                  '&additional='+'<%= params[:additional] %>'+'&rent='+'<%= params[:rent] %>'+'&wages='+'<%= params[:wages] %>'+'&pinmoney='+'<%= params[:pinmoney] %>'+'&xian='+'<%= params[:xian] %>'
-                                  +'&wen='+'<%= params[:wen] %>'+'&feng='+'<%= params[:feng] %>'+'&xianp='+'<%= params[:xianp] %>'+'&wenp='+'<%= params[:wenp] %>'+'&fengp='+'<%= params[:fengp] %>'
+                          location.href='/sales/login?logintype=creat&risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+
+                                  '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>&selection='+selection
                         <% end %>
                         return false
                       //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
@@ -454,6 +641,79 @@
                 });
 
         function showQn(i, immediately) {
+            if(i==0){
+               $("#container").hide();
+               $("#one").show();
+            }
+            else{
+                $("#container").show();
+                $("#one").hide();
+            }
+            if(i==11){
+                $("#type tr").removeClass("back");
+                if(risk>8 && risk<=10){
+                    $("#risk").html("您是激进型投资人。");
+                    $("#type tr:eq(5)").addClass("back");
+                }
+                else if(risk>6 && risk<=8){
+                    $("#risk").html("您是积极型投资人。");
+                    $("#type tr:eq(4)").addClass("back");
+                }
+                else if(risk>4 && risk<=6){
+                    $("#risk").html("您是稳健型投资人。");
+                    $("#type tr:eq(3)").addClass("back");
+                }
+                else if(risk>2 && risk<=4){
+                    $("#risk").html("您是保守型投资人。");
+                    $("#type tr:eq(2)").addClass("back");
+                }
+                else if(risk>=0 && risk<=2){
+                    $("#risk").html("您是安益型投资人。");
+                    $("#type tr:eq(1)").addClass("back");
+                }
+                $("#pict").hide();
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="98%";
+                test_div.style.height="500px";
+            }
+            else if(i==12){
+                if(risk>8 && risk<=10){
+                    $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+                    $(".level1").hide();$(".level2").hide();$(".level3").hide();
+                    $(".level5").addClass('first');
+                }
+                else if(risk>6 && risk<=8){
+                    $("#risk2").html("您是积极型的投资者，但我们将和您类似的稳健型、激进型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+                    $(".level1").hide();$(".level2").hide();
+                    $(".level4").addClass('first');
+                }
+                else if(risk>4 && risk<=6){
+                    $("#risk2").html("您是稳健型的投资者，但我们将和您类似的保守型、积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+                    $(".level1").hide();$(".level5").hide();
+                    $(".level3").addClass('first');
+                }
+                else if(risk>2 && risk<=4){
+                    $("#risk2").html("您是保守型的投资者，但我们将和您类似的安益型、稳健型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+                    $(".level4").hide();$(".level5").hide();
+                    $(".level2").addClass('first');
+                }
+                else if(risk>=0 && risk<=2){
+                    $("#risk2").html("您是安益型的投资者，但我们将和您类似的安益型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+                    $(".level3").hide();$(".level4").hide();$(".level5").hide();
+                    $(".level1").addClass('first');
+                }
+
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="98%";
+                test_div.style.height="800px";
+            }
+            else{
+                $("#pict").show();
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="642px";
+                test_div.style.height="326px";
+            }
+
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
             if (i >= 0 && $qn.length) {
@@ -461,6 +721,8 @@
 
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
+                if(i==11){newTop= (-i * 296).toString()+"px"}
+                if(i==12){newTop= (-(i-1) * 296-500).toString()+"px"}
               //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -850,5 +1112,49 @@
                 return 'Loading images...';
             }
         });
+    });
+
+
+    $(document).ready(function(){
+        $('[id*="iCheck"]').iCheck({
+            checkboxClass: 'icheckbox_square-red',
+            radioClass: 'iradio_square-red',
+            increaseArea: '20%' // optional
+        });
+    });
+
+    $('input').on('ifChecked', function(event){
+        if(this.name=='iCheck'){
+            var eq=this.className.split(",");
+            $("#category td").removeClass("second");
+            var length=$("#category").find("tr").size();
+            for(i=0;i<length;i++){
+                if($("#category tr:eq("+i+") td:eq(1)").html()==eq[1]){
+                    for(j=0;j<7;j++){
+                        $("#category tr:eq("+i+") td:eq("+j+")").addClass("second")
+                    }
+                }
+            }
+            $("#finance").show();
+            $('[class*="finance"]').hide();
+        <%  for i in 0..@hash.size-1 %>
+            if(eq[0]=='<%= @hash[i][0] %>'){
+                var pid= '<%= @hash[i][2] %>'.split(",");
+                for(var k=0;k<pid.length;k++){
+                    $('.finance'+pid[k]).show();
+                }
+            }
+        <% end %>
+        }
+        else if(this.name=='iCheck2'){
+            $("tr").removeClass("third");
+            $(".finance"+this.className).addClass("third");
+            document.getElementById("q-submit").disabled=false;
+        <% @financial2.each do |f| %>
+            if(this.className=='<%= f.id %>'){
+                selection='<%= f.pname %>';
+            }
+        <% end %>
+        }
     });
 </script>

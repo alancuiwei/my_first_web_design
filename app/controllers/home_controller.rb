@@ -10,6 +10,26 @@ class HomeController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
     end
+    @category1=Category_2.find_all_by_risklevel(1)
+    @category2=Category_2.find_all_by_risklevel(2)
+    @category3=Category_2.find_all_by_risklevel(3)
+    @category4=Category_2.find_all_by_risklevel(4)
+    @category5=Category_2.find_all_by_risklevel(5)
+    @hash={}
+    @category=Category_2.all
+    for i in 0..@category.size-1
+      @financial=Financial.find_all_by_classify(@category[i].classify)
+      a=''
+      for j in 0..@financial.size-1
+        if j==0
+          a=@financial[j].id
+        else
+          a=a.to_s+','+@financial[j].id.to_s
+        end
+      end
+      @hash.store(i,[@category[i].id,@category[i].classify,a])
+    end
+    @financial2=Financial.all
   end
 
   def scheme

@@ -268,7 +268,7 @@ class PersonmanagementController < ApplicationController
       else
         @webuser=Webuser.find_by_username(session[:webusername])
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
-        @webuser.update_attributes(:risktolerance=>params[:risktolerance]);
+        @webuser.update_attributes(:risktolerance=>params[:risktolerance],:selection=>params[:selection]);
       end
       if @personalfinance==nil
         Personalfinance.new do |b|
