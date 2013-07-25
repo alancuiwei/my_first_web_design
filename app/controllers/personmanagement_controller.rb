@@ -423,7 +423,7 @@ class PersonmanagementController < ApplicationController
       @record=Record.find_all_by_username(@webuser.username)
       @finances=Financial.find_by_pname(@webuser.selection)
       if @finances!=nil
-      @hash3.store(@finances.person,[@finances.pname,@finances.id,@finances.classify])
+      @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
       end
       @examination=Examination.find_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
