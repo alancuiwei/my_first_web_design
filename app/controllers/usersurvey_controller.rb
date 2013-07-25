@@ -43,9 +43,6 @@ class UsersurveyController < ApplicationController
         e.xian=params[:xian]
         e.wen=params[:wen]
         e.feng=params[:feng]
-        e.xianp=params[:xianp]
-        e.wenp=params[:wenp]
-        e.fengp=params[:fengp]
         e.save
       end
       render :json => "s1".to_json
@@ -53,8 +50,11 @@ class UsersurveyController < ApplicationController
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
-                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:xianp=>params[:xianp],
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng])
+      if params[:xianp]!="" &&  params[:xianp]!=nil
+        @examination.update_attributes(:xianp=>params[:xianp],
                  :wenp=>params[:wenp],:fengp=>params[:fengp])
+      end
       render :json => "s2".to_json
     end
   end
@@ -76,7 +76,8 @@ class UsersurveyController < ApplicationController
   def dreamsset
     @webuser = Webuser.find_by_username(params[:username])
    if @webuser!=nil
-    @webuser.update_attributes(:dreamset=>params[:dreamset],:selection=>params[:selection])
+    @webuser.update_attributes(:dreamset=>params[:dreamset])
+    @webuser.update_attributes(:selection=>params[:selection])
    end
     render :json => "s".to_json
   end

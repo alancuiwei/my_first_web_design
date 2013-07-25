@@ -14,7 +14,7 @@
         <div class="clearfix"></div>
         <div style="height: 40px;padding-top: 15px;"><a href="/">首页</a></div>
         <h1>
-          <span id="title">最适合自己的理财产品 = 最好的理财产品</span>
+          <span id="title">最适合自己的 = 最好的</span>
           <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
         </h1>
 
@@ -24,7 +24,7 @@
               <table class="center">
                 <tr>
                   <td class="top">
-                    <p class="q-text">最好的理财产品并非是收益率最高的产品，而是最适合自己情况的产品。</p>
+                    <p class="q-text">最好的理财产品并非是收益率最高的产品，也不是最保本的产品，而是最适合自己情况的产品。</p>
                     <p class="q-text">只有购买最适合的，才能获得稳健的收益，从而实现保值增值的目的。</p>
                   </td>
                   <td>
@@ -51,6 +51,7 @@
                 <tr>
                   <td class="top">
                     <p class="q-text">结合自身情况挑选产品不是件容易事，您需要考虑到自己的实际收入情况，结合买房、买车、子女教育、退休计划。</p>
+                    <p class="q-text">还是先看看自己风险评估、资产体检，再挑选产品吧。</p>
                   </td>
                   <td>
                     <div style="width: 300px;float: right;"><img src="/assets/121053.png"></div>
@@ -65,9 +66,9 @@
           <div id="q-fade-b"></div>
         </div>
         <div id="q-buttons">
-          <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>不同意</span>&nbsp;</button>
-          <button class="q-button orange-button big-button" id="q-next">&nbsp;同意 &nbsp;►</button>
-          <button class="q-button orange-button big-button" id="q-submit">同意</button>
+          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back"><span>不同意</span></button>
+          <button class="q-button orange-button big-button" id="q-next">同意</button>
+          <button class="q-button orange-button big-button" id="q-submit">评估后再挑选</button>
 
           <p class="q-privacy">
             <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
@@ -134,7 +135,7 @@
                         } else {
                             w.trackEvent("OFA", "questionnaire_next", qPayload());
                         }
-                        var new_q_num = $qr.data("q") + (back ? -1 : 1);
+                        var new_q_num = $qr.data("q") + (back ? 0 : 1);
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
@@ -154,14 +155,14 @@
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
             if(i==1){
-                $("#title").html("最好的理财产品=最适合自己的理财产品");
+                $("#title").html("最适合的是产品组合，而不是一个");
             }
             if(i==2){
-                $("#title").html("最好的理财产品=最适合自己的理财产品");
+                $("#title").html("必须要结合个人情况，综合考虑");
             }
             if (i >= 0 && $qn.length) {
                 $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
-
+                $("#q-back span").text(i === 2 ? "直接挑选产品" : "不同意");
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 //  alert(newTop)

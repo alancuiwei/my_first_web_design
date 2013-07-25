@@ -367,6 +367,15 @@
                         location.href="/personmanagement/personfinance";
                     });
                 }
+                else if('<%= params[:start] %>'=='1'){
+                    location.href="/usersurvey/startup";
+                }
+                else if('<%= params[:questions] %>'=='1'){
+                    location.href="/home/questions";
+                }
+                else if('<%= params[:summary] %>'=='1'){
+                    location.href="/personmanagement/summary";
+                }
                 else if('<%= params[:risk] %>'!=''){
                     var returnrate=0;
                     var riskrate=0;

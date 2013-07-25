@@ -8,8 +8,10 @@
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "jquery.poshytip.js" %>
 <%= stylesheet_link_tag "tip-yellowsimple.css" %>
+ <!--
 <%= stylesheet_link_tag "red.css" %>
 <%= javascript_include_tag "jquery.icheck.js" %>
+-->
 <style>
     th, td {font-family: Hiragino Sans GB W3;}
     tr.first td{background-color: #f9f9f9!important;}
@@ -40,7 +42,7 @@
         <b>2.</b> <span>风险评估</span>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
-            <a href="/personmanagement/personfinance"><b>3.</b> 理财建议</a>
+            <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
         <% else %>
             <span class="disabled"><b>3.</b> 理财建议</span>
          <% end %>
@@ -51,7 +53,7 @@
       <div class="clearfix"></div>
       <h1>
 		  看看您的风险承受度是多少？
-        <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+        <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
       </h1>
 
       <div id="pict" style="float:right;width: 280px;margin:40px 0 0 0;position:relative">
@@ -271,7 +273,7 @@
             <input type="checkbox" class="hide">
             <div class="mobile"><br></div>
           </div>
-
+          <!--
           <div class="question" style="padding-right: 0;">
             <p class="q-text" id="risk2"></p>
             <table id="category" class="table table-striped table-bordered footable" style="width: 100%;">
@@ -367,6 +369,7 @@
             <input type="checkbox" class="hide">
             <div class="mobile"><br></div>
           </div>
+          -->
           <input type="hidden" name="rec" value="0.1" tabindex="-1">
         </form>
         <div id="q-fade-t"></div>
@@ -375,7 +378,7 @@
       <div id="q-buttons">
         <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
         <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
-        <button class="q-button orange-button big-button" id="q-submit">评估结束</button>
+        <button class="q-button orange-button big-button" id="q-submit">理财建议</button>
 
         <p class="q-privacy">
           <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
@@ -409,7 +412,7 @@
 </script>
 
 <script>
-    var selection='';
+   // var selection='';
     _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
     w.requestId = "1092152607";
 
@@ -578,6 +581,8 @@
                         var fluctuation="";
                         var investvarieties="";
                         var quota="";
+                        var options="";
+                        var goal="";
                         save=save0+','+save1+','+save2+','+save3+','+save4+','+save5+','+save6+','+save7
                         if(save.split(',')[1]=='A'){
                             returnrate=0.06;
@@ -606,6 +611,12 @@
                         else if(save.split(',')[2]=='loss'){quota='最小损失';}
                         else if(save.split(',')[2]=='both'){quota='两者都很重要';}
 
+                        if (save.split(',')[3]=='true'){options='是';}
+                        else if(save.split(',')[3]=='false'){options='否';}
+
+                        if (save.split(',')[6]=='false'){goal='是';}
+                        else if(save.split(',')[6]=='true'){goal='否';}
+
                         if (save.split(',')[5]=='true'){wbreedinfo="定期存款"}
                         else if(save.split(',')[5]=='A'){wbreedinfo="股票"}
                         else if(save.split(',')[5]=='B'){wbreedinfo="余额宝等货币基金"}
@@ -618,14 +629,14 @@
 
                         var risktolerance=risk;
                         <% if session[:webusername]!=nil %>
-                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,selection:selection,
+                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,options:options,goal:goal,
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
                         },function(data){
-                            location.href='/personmanagement/personfinance';
+                            location.href='/personmanagement/summary';
                         });
                         <% else %>
-                          location.href='/sales/login?logintype=creat&risk='+risktolerance+'&save='+save+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+'&investvarieties='+investvarieties+
-                                  '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>&selection='+selection
+                           location.href='/personmanagement/summary?risk='+risktolerance+'&save='+save+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+'&investvarieties='+investvarieties+
+                                  '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>'
                         <% end %>
                         return false
                       //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
@@ -1120,7 +1131,13 @@
         });
     });
 
+    $(document).ready(function(){
+        <% if session[:webusername]==nil %>
+        location.href="/sales/login?questions=1";
+        <% end %>
+    });
 
+   /*
     $(document).ready(function(){
         $('[id*="iCheck"]').iCheck({
             checkboxClass: 'icheckbox_square-red',
@@ -1163,4 +1180,5 @@
         <% end %>
         }
     });
+    */
 </script>

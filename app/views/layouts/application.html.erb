@@ -139,13 +139,14 @@
   <%= yield %>
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
   <div class="row-fluid main-footer">
-    <div class="span2 offset2">
+    <div class="span2 offset6">
       <h4 class="tcol">家庭理财服务</h4>
 <!--      <a href='/home/questions' class='full' target="_blank">风险承受度评估</a>   -->
-      <a href='/usersurvey/startup' class='full' >理财规划</a>
+      <a href='/usersurvey/startup' class='full' >月光族理财规划</a>
       <a href='/bankinvest/select' class='full' >理财产品</a>
-      <a href='/personmanagement/movablewall' class='full' >有奖活动</a>
+      <!--<a href='/personmanagement/movablewall' class='full' >有奖活动</a> -->
     </div>
+    <!--
     <div class="span2">
       <h4 class="tcol">家庭理财知识</h4>
       <a href='/womenfinance' class='full' >女人理财</a>
@@ -153,11 +154,14 @@
       <a href='/grassroots' class='full' >屌丝理财</a>
       <a class='full blog btn-link'>全部内容</a>
     </div>
+     -->
     <div class="span2">
       <h4 class="tcol">联系我们</h4>
+      <a class='full blog btn-link'>博客</a>
       <a href="http://e.weibo.com/tongtianshun/profile" class='full' target="_blank">新浪微博</a>
       <a href="http://t.qq.com/tongtian1232008" class='full' target="_blank">腾讯微博</a>
       <a href='/contactus/aboutus#联系我们' class='full' >微信</a>
+      <img style="width: 100px;" src="/assets/1.jpg">
       <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
         <label for="mce-EMAIL">邮件订阅</label>
         <input type="email" value="" name="EMAIL" style="width:100%;padding: 3px 0;float: left;max-width: 200px;" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
@@ -165,11 +169,11 @@
       </form>
       <!-- <a href="http://eepurl.com/tonoL" target="_blank" class='full'>邮件订阅</a> -->
     </div>
+    <!--
     <div class="span2">
       <h4 class="tcol">我的帐号</h4>
       <% if session[:webusername]!=nil %>
           <% if session[:organuser]!='1' %>
-              <!--  <a class="full" href="/sales/myorder">我的订单</a>  -->
               <a class="full" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
               <% if session[:personname]!=0 %>
                   <a class="full" href="/personmanagement/personinfo/1">个人信息设置</a>
@@ -181,11 +185,11 @@
               <a class="full" href="/sales/revise">密码设置</a>
           <% end %>
       <% else %>
-          <!--<a class="full" href="/sales/login?order=1">我的订单</a> -->
           <a class="full" href="/sales/login">我的投资</a>
           <a class="full" href="/sales/login">个人信息设置</a>
       <% end %>
     </div>
+    -->
     <div class="span2">
       <h4 class="tcol">关于通天顺</h4>
       <a href='/contactus/aboutus' class='full' >关于我们</a>

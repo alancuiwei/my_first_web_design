@@ -47,6 +47,33 @@ class PersonmanagementController < ApplicationController
     end
    end
 
+  def summary
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @examination=Examination.find_by_username(session[:webusername])
+    end
+    @category1=Category_2.find_all_by_risklevel(1)
+    @category2=Category_2.find_all_by_risklevel(2)
+    @category3=Category_2.find_all_by_risklevel(3)
+    @category4=Category_2.find_all_by_risklevel(4)
+    @category5=Category_2.find_all_by_risklevel(5)
+    @hash={}
+    @category=Category_2.all
+    for i in 0..@category.size-1
+      @financial=Financial.find_all_by_classify(@category[i].classify)
+      a=''
+      for j in 0..@financial.size-1
+        if j==0
+          a=@financial[j].id
+        else
+          a=a.to_s+','+@financial[j].id.to_s
+        end
+      end
+      @hash.store(i,[@category[i].id,@category[i].classify,a])
+    end
+    @financial2=Financial.all
+  end
+
   def enroll
     @enroll=Enroll.find_by_name_and_username(params[:name],params[:username])
     if @enroll==nil
@@ -261,6 +288,17 @@ class PersonmanagementController < ApplicationController
     render :json => "s".to_json
   end
 
+  def userajax
+    @examination=Examination.find_by_username(params[:username])
+    @examination.update_attributes(:xianp=>params[:xianp],
+                                   :wenp=>params[:wenp],:fengp=>params[:fengp])
+    @webuser = Webuser.find_by_username(params[:username])
+    if @webuser!=nil
+      @webuser.update_attributes(:selection=>params[:selection])
+    end
+    render :json => "s".to_json
+  end
+
   def personconfigajax
     if params[:id]=="0"
       if session[:webusername]==nil
@@ -289,6 +327,8 @@ class PersonmanagementController < ApplicationController
           b.investvarieties=params[:investvarieties]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
+          b.options=params[:options]
+          b.goal=params[:goal]
           b.save
         end
         session[:personname]=params[:username]
@@ -297,7 +337,7 @@ class PersonmanagementController < ApplicationController
         @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],
                                            :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
                                            :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:investvarieties=>params[:investvarieties],
-                                           :riskrate=>params[:riskrate])
+                                           :riskrate=>params[:riskrate],:options=>params[:options],:goal=>params[:goal])
         if  params[:tel]!=nil
           @personalfinance.update_attributes(:tel=>params[:tel])
         end
