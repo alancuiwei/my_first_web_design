@@ -256,13 +256,13 @@
               <td class="name2"><%= @hash3['流动'][0] %></td>
               <td class="amounts2"></td>
               <td class="finish2"></td>
-              <td><a href="/bankinvest/productdetails/<%= @hash3['流动'][1] %>">查看</a></td>
+              <td><a href="/bankinvest/productdetails/<%= @hash3['流动'][1] %>" class="btn btn-primary">查看</a></td>
             </tr>
             <tr class="monthpay4">
               <td class="name4"><%= @hash3['保本'][0] %></td>
               <td class="amounts4"></td>
               <td class="finish4"></td>
-              <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>">查看</a></td>
+              <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>" class="btn btn-primary">查看</a></td>
             </tr>
             <% if  @webuser.risktolerance!=nil %>
                 <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
@@ -284,28 +284,28 @@
                       <td class="name5"><%= @hash3['风险2'][0] %></td>
                       <td class="amounts5"></td>
                       <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险2'][1] %>">查看</a></td>
+                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险2'][1] %>" class="btn btn-primary">查看</a></td>
                     </tr>
                 <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
                     <tr class="monthpay5">
                       <td class="name5"><%= @hash3['风险3'][0] %></td>
                       <td class="amounts5"></td>
                       <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险3'][1] %>">查看</a></td>
+                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险3'][1] %>" class="btn btn-primary">查看</a></td>
                     </tr>
                 <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
                     <tr class="monthpay5">
                       <td class="name5"><%= @hash3['风险4'][0] %></td>
                       <td class="amounts5"></td>
                       <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险4'][1] %>">查看</a></td>
+                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险4'][1] %>" class="btn btn-primary">查看</a></td>
                     </tr>
                 <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
                     <tr class="monthpay5">
                       <td class="name5"><%= @hash3['风险5'][0] %></td>
                       <td class="amounts5"><%= @hash3['风险5'][1] %></td>
                       <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险5'][1] %>">查看</a></td>
+                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险5'][1] %>" class="btn btn-primary">查看</a></td>
                     </tr>
                 <% end %>
             <% end %>

@@ -172,14 +172,11 @@
             </p>
           </div>
           <div class="question">
-            <p class="q-text">您对如下哪些产品比较感兴趣?
-              <span class="subtext">(可多选)</span>
-            </p>
-            <label class="stacked"><input type="checkbox" name="stability" value="A" tabindex="-1"><span>基金</span></label>
-            <label class="stacked"><input type="checkbox" name="stability" value="B" tabindex="-1"><span>保险</span></label>
-            <label class="stacked"><input type="checkbox" name="stability" value="C" tabindex="-1"><span>期货</span></label>
-            <label class="stacked"><input type="checkbox" name="stability" value="D" tabindex="-1"><span>银行理财产品</span></label>
-            <label class="stacked"><input type="checkbox" name="stability" value="E" tabindex="-1"><span>信托产品</span></label>
+            <p class="q-text">您当前的工作薪水收入稳定吗?</p>
+            <label class="stacked"><input type="radio" name="stability" value="A" tabindex="-1"><span>非常稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="B" tabindex="-1"><span>比较稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="C" tabindex="-1"><span>比较不稳定</span></label>
+            <label class="stacked"><input type="radio" name="stability" value="D" tabindex="-1"><span>非常不稳定</span></label>
             <div style="clear:both"></div>
             <div class="mobile"><br></div>
             <p class="why-do-we-ask">
@@ -187,16 +184,11 @@
             </p>
           </div>
           <div class="question angel">
-            <p class="q-text">您所处的行业是?</p>
-            <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>计算机/互联网/电子</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="A" tabindex="-1"><span>银行/保险/证券等金融机构</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>生物/制药/医疗</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>广告/媒体/艺术</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="D" tabindex="-1"><span>建筑/房地产</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="E" tabindex="-1"><span>人事/行政/高级管理</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="F" tabindex="-1"><span>咨询/法律/教育/科研</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="G" tabindex="-1"><span>公务员</span></label>
-            <label class="stacked"><input type="radio" name="angel" value="H" tabindex="-1"><span>其他</span></label>
+            <p class="q-text">您对如下哪些产品比较感兴趣?</p>
+            <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>定期存款</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="A" tabindex="-1"><span>股票</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>余额宝等货币基金</span></label>
+            <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>P2P理财产品</span></label>
             <div style="clear:both"></div>
             <div class="mobile"><br></div>
             <p class="why-do-we-ask">
@@ -204,9 +196,9 @@
             </p>
           </div>
           <div class="question">
-            <p class="q-text">您当前的工作薪水收入稳定吗?</p>
-            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>稳定</span></label>
-            <label><input type="radio" name="goal" value="false" tabindex="-1"><span>不稳定</span></label>
+            <p class="q-text">您短期内（1-2年）有买房或买车等大额消费目标吗?</p>
+            <label><input type="radio" name="goal" value="false" tabindex="-1"><span>是</span></label>
+            <label><input type="radio" name="goal" value="true" tabindex="-1"><span>否</span></label>
             <div class="mobile"><br></div>
             <p class="why-do-we-ask">
               <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 不稳定的工作则意味着您将不大喜欢在您的投资过程中有太大波动，这将转化为较低的风险承受力。 " target="_top">为什么我们问这个问题?</a></span>
@@ -446,6 +438,23 @@
 </script>
 
 <script>
+     var s_age= 0,s_amount= 0,s_salary=0;
+     <% if params[:age]!=nil &&  params[:age]!='' %>
+     s_age='<%= params[:age] %>';
+     var amount='<%= params[:amount] %>'.split(",");
+     for(var i=0;i<amount.length;i++){
+         s_amount=s_amount+parseInt(amount[i]);
+     }
+     s_salary='<%= params[:salary] %>';
+     <% elsif  session[:webusername]!=nil %>
+         s_age='<%= @examination.age %>';
+     var amount='<%= @examination.amount %>'.split(",");
+     for(var i=0;i<amount.length;i++){
+         s_amount=s_amount+parseInt(amount[i]);
+     }
+     s_salary='<%=@examination.salary %>';
+     <% end %>
+
     $(function() {
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
@@ -458,6 +467,7 @@
         var save4 = "";
         var save5 = "";
         var save6 = "";
+        var save7 = "";
         var stacked = "";
         var risk="";
 
@@ -505,6 +515,7 @@
                                 if(this.name=='income'){save4=this.value;}
                                 if(this.name=='angel'){save5=this.value;}
                                 if(this.name=='goal'){save6=this.value;}
+                                if(this.name=='stability'){save7=this.value;}
                             }).end()
                             .filter("[type=checkbox]").click(function(e) {
                                 this.focus();
@@ -565,9 +576,9 @@
                         var investcycle=0;
                         var wbreedinfo="";
                         var fluctuation="";
-                        var trade="";
+                        var investvarieties="";
                         var quota="";
-                        save=save0+','+save1+','+save2+','+save3+','+save4+','+save5+','+save6
+                        save=save0+','+save1+','+save2+','+save3+','+save4+','+save5+','+save6+','+save7
                         if(save.split(',')[1]=='A'){
                             returnrate=0.06;
                             riskrate=0;
@@ -595,30 +606,25 @@
                         else if(save.split(',')[2]=='loss'){quota='最小损失';}
                         else if(save.split(',')[2]=='both'){quota='两者都很重要';}
 
-                        if (stacked.indexOf("A")>=0){if(wbreedinfo==""){wbreedinfo="基金"}else{wbreedinfo=wbreedinfo+",基金"}}
-                        if(stacked.indexOf("B")>=0){if(wbreedinfo==""){wbreedinfo="保险"}else{wbreedinfo=wbreedinfo+",保险"}}
-                        if(stacked.indexOf("C")>=0){if(wbreedinfo==""){wbreedinfo="期货"}else{wbreedinfo=wbreedinfo+",期货"}}
-                        if(stacked.indexOf("D")>=0){if(wbreedinfo==""){wbreedinfo="银行理财产品"}else{wbreedinfo=wbreedinfo+",银行理财产品"}}
-                        if(stacked.indexOf("E")>=0){if(wbreedinfo==""){wbreedinfo="信托产品"}else{wbreedinfo=wbreedinfo+",信托产品"}}
+                        if (save.split(',')[5]=='true'){wbreedinfo="定期存款"}
+                        else if(save.split(',')[5]=='A'){wbreedinfo="股票"}
+                        else if(save.split(',')[5]=='B'){wbreedinfo="余额宝等货币基金"}
+                        else if(save.split(',')[5]=='C'){wbreedinfo="P2P理财产品"}
 
-                        if (save.split(',')[5]=='true'){trade='计算机/互联网/电子';}
-                        else if(save.split(',')[5]=='A'){trade='银行/保险/证券等金融机构';}
-                        else if(save.split(',')[5]=='B'){trade='生物/制药/医疗';}
-                        else if(save.split(',')[5]=='C'){trade='广告/媒体/艺术';}
-                        else if(save.split(',')[5]=='D'){trade='建筑/房地产';}
-                        else if(save.split(',')[5]=='E'){trade='人事/行政/高级管理';}
-                        else if(save.split(',')[5]=='F'){trade='咨询/法律/教育/科研';}
-                        else if(save.split(',')[5]=='G'){trade='公务员';}
-                        else if(save.split(',')[5]=='H'){trade='其他';}
+                        if (save.split(',')[7]=='A'){investvarieties='非常稳定';}
+                        else if(save.split(',')[7]=='B'){investvarieties='比较稳定';}
+                        else if(save.split(',')[7]=='C'){investvarieties='比较不稳定';}
+                        else if(save.split(',')[7]=='D'){investvarieties='非常不稳定';}
+
                         var risktolerance=risk;
                         <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,selection:selection,
-                            investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,trade:trade,riskrate:riskrate
+                            investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
                         },function(data){
                             location.href='/personmanagement/personfinance';
                         });
                         <% else %>
-                          location.href='/sales/login?logintype=creat&risk='+risktolerance+'&save='+save+'&stacked='+stacked+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+
+                          location.href='/sales/login?logintype=creat&risk='+risktolerance+'&save='+save+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+'&investvarieties='+investvarieties+
                                   '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>&xianp=<%= params[:xianp] %>&wenp=<%= params[:wenp] %>&fengp=<%= params[:fengp] %>&selection='+selection
                         <% end %>
                         return false
@@ -770,7 +776,7 @@
             var granularity = 10.0;
             var $i = $qr.find("input");
             var vals = valsFromDom($i);
-            var tol = recommendRiskTolerance2(vals, min, max, granularity);
+            var tol = recommendRiskTolerance2(vals, min, max, granularity,s_age,s_amount,s_salary);
             var rec = tol.toFixed(1);
             $i.filter("[name=rec]").val(rec);
             vals.rec = +rec;

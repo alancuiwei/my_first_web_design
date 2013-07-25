@@ -286,7 +286,7 @@ class PersonmanagementController < ApplicationController
           b.myfavorite=params[:myfavorite]
           b.tel=params[:tel]
           b.memberlevel=params[:memberlevel]
-          b.trade=params[:trade]
+          b.investvarieties=params[:investvarieties]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
           b.save
@@ -296,7 +296,7 @@ class PersonmanagementController < ApplicationController
       else
         @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],
                                            :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
-                                           :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:trade=>params[:trade],
+                                           :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:investvarieties=>params[:investvarieties],
                                            :riskrate=>params[:riskrate])
         if  params[:tel]!=nil
           @personalfinance.update_attributes(:tel=>params[:tel])
