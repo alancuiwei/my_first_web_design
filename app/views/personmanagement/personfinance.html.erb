@@ -851,7 +851,6 @@
             wen=1000;
         }
     <% end %>
-
         var loca2=$("#dates").attr("value").split("-")[0]+'年';
         var loca4=parseInt($("#dates").attr("value").split("-")[1]).toString()+'月';
 
@@ -976,6 +975,7 @@
                 removeoption(document.getElementById("pname"),a5);
             }
             arrayObj[0]=[amounts1,amounts3,amounts2,amounts4,amounts5,$(".amounts3").html(),$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
+
             array();
             $(".finish2").html('');
             $(".finish4").html('');
@@ -1005,7 +1005,7 @@
                         $(".finish4").html(aa+parseInt($(".finish4").html()))
                     }
                 }
-                if('<%= r.pname %>'==a5){
+                if('<%= r.pname %>'==a5 && a5!=a2 && a5!=a4){
                     if($(".finish5").html()=="") {
                         $(".finish5").html(aa);
                     }
@@ -1016,6 +1016,47 @@
             }
         <% end %>
         <% end %>
+        if(a5==a2){
+           $(".monthpay5").hide();
+           $(".monthpay2").show();
+           if($(".amounts5").html()!=""){
+               if($(".amounts2").html()!=""){
+                   $(".amounts2").html(parseInt($(".amounts2").html())+parseInt($(".amounts5").html()))
+               }
+               else{
+                   $(".amounts2").html($(".amounts5").html())
+               }
+           }
+           if($(".finish5").html()!=""){
+               if($(".finish2").html()!=""){
+                   $(".finish2").html(parseInt($(".finish2").html())+parseInt($(".finish5").html()))
+               }
+               else{
+                   $(".finish2").html($(".finish5").html())
+               }
+           }
+        }
+        if(a5==a4){
+           $(".monthpay5").hide();
+           $(".monthpay4").show();
+            if($(".amounts5").html()!=""){
+                if($(".amounts4").html()!=""){
+                    $(".amounts4").html(parseInt($(".amounts4").html())+parseInt($(".amounts5").html()))
+                }
+                else{
+                    $(".amounts4").html($(".amounts5").html())
+                }
+            }
+            if($(".finish5").html()!=""){
+                if($(".finish4").html()!=""){
+                    $(".finish4").html(parseInt($(".finish4").html())+parseInt($(".finish5").html()))
+                }
+                else{
+                    $(".finish4").html($(".finish5").html())
+                }
+            }
+        }
+
             if($("#nature").attr("value")=='买入'){
                 addoption(document.getElementById("pname"),'其他流动性产品','其他流动性产品');
                 addoption(document.getElementById("pname"),'其他保本性产品','其他保本性产品');
@@ -1113,6 +1154,48 @@
                 }
             }
         <% end %>
+
+            if(a5==a2){
+                alert(1);
+                $(".monthpay5").hide();
+                $(".monthpay2").show();
+                if($(".amounts5").html()!=""){
+                    if($(".amounts2").html()!=""){
+                        $(".amounts2").html(parseInt($(".amounts2").html())+parseInt($(".amounts5").html()))
+                    }
+                    else{
+                        $(".amounts2").html($(".amounts5").html())
+                    }
+                }
+                if($(".finish5").html()!=""){
+                    if($(".finish2").html()!=""){
+                        $(".finish2").html(parseInt($(".finish2").html())+parseInt($(".finish5").html()))
+                    }
+                    else{
+                        $(".finish2").html($(".finish5").html())
+                    }
+                }
+            }
+            if(a5==a4){
+                $(".monthpay5").hide();
+                $(".monthpay4").show();
+                if($(".amounts5").html()!=""){
+                    if($(".amounts4").html()!=""){
+                        $(".amounts4").html(parseInt($(".amounts4").html())+parseInt($(".amounts5").html()))
+                    }
+                    else{
+                        $(".amounts4").html($(".amounts5").html())
+                    }
+                }
+                if($(".finish5").html()!=""){
+                    if($(".finish4").html()!=""){
+                        $(".finish4").html(parseInt($(".finish4").html())+parseInt($(".finish5").html()))
+                    }
+                    else{
+                        $(".finish4").html($(".finish5").html())
+                    }
+                }
+            }
         }
     }
 
@@ -1394,9 +1477,22 @@
             if(i!=0){
                 $("#target tr:eq(0) td:eq("+i+")").html(mon[i]);
             }
-            $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
-            $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
-            $("#target tr:eq(3) td:eq("+a+")").html(parseInt(arrayObj[i][8]/100)*100);
+            if(a2==a5){
+                $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100+parseInt(arrayObj[i][8]/100)*100);
+                $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
+            }
+            else if(a4==a5){
+                $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
+                $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100+parseInt(arrayObj[i][8]/100)*100);
+            }
+            else{
+                $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
+                $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
+                $("#target tr:eq(3) td:eq("+a+")").html(parseInt(arrayObj[i][8]/100)*100);
+            }
+        }
+        if(a2==a5 || a4==a5){
+            $("#target tr:eq(3)").hide();
         }
     }
 
@@ -1556,9 +1652,19 @@
                                 if(numfor.test(a5)==false){a5=0}
                                 data.push(['吃喝住行',a1]);
                                 data.push(['零花钱',a0]);
-                                data.push([$(".name2").html(),a2]);
-                                data.push([$(".name4").html(),a4]);
-                                data.push([$(".name5").html(),a5]);
+                                if($(".name2").html()==$(".name5").html()){
+                                    data.push([$(".name2").html(),a2+a5]);
+                                    data.push([$(".name4").html(),a4]);
+                                }
+                                else if($(".name4").html()==$(".name5").html()){
+                                    data.push([$(".name2").html(),a2]);
+                                    data.push([$(".name4").html(),a4+a5]);
+                                }
+                                else{
+                                    data.push([$(".name2").html(),a2]);
+                                    data.push([$(".name4").html(),a4]);
+                                    data.push([$(".name5").html(),a5]);
+                                }
                                 series.setData(data);
                             }, 500);
                         }

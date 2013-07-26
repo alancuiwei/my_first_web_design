@@ -229,12 +229,12 @@
           <thead><tr>
             <th class="hide">ID</th>
             <th style="width: 20%;">用户名</th>
-            <th>会员信息审核</th>
             <th class="hide">密码</th>
-            <th>电子邮件</th>
+            <th style="width: 12%;">电子邮件</th>
             <th style="width: 12%;">联系电话</th>
-            <th style="width: 12%;">资金量</th>
-            <th style="width: 8%;" title="梦想登记后没有付款，付款后直接关闭页面（没有等页面跳转到梦想墙页面）需要查看支付宝有没有收到付款再决定是否批准该用户进入梦想墙">状态</th>
+            <th style="width: 12%;">资产体检</th>
+            <th style="width: 8%;">风险级别</th>
+            <th style="width: 12%;">风险性产品选择</th>
             <th style="width: 8%;">修改</th>
             <th style="width: 8%;">删除</th>
             <th style="width: 8%;">投资信息</th>
@@ -244,16 +244,26 @@
               <tr>
                 <td class="hide"><%= w.id%></td>
                 <td><%= w.username%></td>
-                <td><%= w.confirm%></td>
                 <td class="hide"><%= @hash_password[w.id]%></td>
                 <td><% if w.email!="1" %><%= w.email %><% end %></td>
                 <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
-                <td><% if w.exeitdeposit!=nil %><%= format("%0.0f",w.exeitdeposit) %><% end %></td>
-                <% if w.organuser=='2' %>
-                    <td><a id="organ<%= w.id %>" onclick="organ('<%= w.id %>','<%= w.username %>')" class="btn-link">批准</a></td>
+                <td><%= w.score %></td>
+                <% if w.risktolerance!=nil %>
+                <% if w.risktolerance>=0 && w.risktolerance<=2 %>
+                    <td>安逸型</td>
+                <% elsif w.risktolerance>2 && w.risktolerance<=4 %>
+                    <td>保守型</td>
+                <% elsif w.risktolerance>4 && w.risktolerance<=6 %>
+                    <td>稳健型</td>
+                <% elsif w.risktolerance>6 && w.risktolerance<=8 %>
+                    <td>积极型</td>
+                <% elsif w.risktolerance>8 && w.risktolerance<=10 %>
+                    <td>激进型</td>
+                <% end %>
                 <% else %>
                     <td></td>
                 <% end %>
+                <td><%= w.selection %></td>
                 <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
                 <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
                 <td><a href="/personmanagement/personfinance/<%= w.id %>">查看</a></td>
@@ -264,7 +274,7 @@
         <br> <br>
       </td>
     </tr>
-
+   <!--
     <tr>
       <td>
         <h1>理财师管理</h1><br>
@@ -305,7 +315,7 @@
         <br> <br>
       </td>
     </tr>
-
+    -->
     <tr><td>
       <h1>理财产品大类管理</h1>
       <a href="/admin/category1config/0">添加</a>
@@ -342,7 +352,7 @@
               <td><%= b.classify%></td>
               <td><%= b.risklevel%></td>
               <td><%= b.category%></td>
-              <td></td>
+              <td><a href="/bankinvest/classify/<%= b.id %>">查看</a></td>
               <td><a href="/admin/category2config/<%= b.id %>">修改</a></td>
               <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category2deleteajax')">删除</a></td>
             </tr>
@@ -396,7 +406,7 @@
         <% end %>
       </table>
     </td></tr>
-
+    <!--
     <tr><td>
       <h1>理财产品-公司 销售管理</h1>
       <a href="/admin/poundageconfig/0">添加</a>
@@ -418,7 +428,7 @@
         <% end %>
       </table>
     </td></tr>
-
+     -->
     <tr><td>
       <h1>活动管理</h1>
       <a href="/admin/activityconfig/0?organ=1">添加</a>

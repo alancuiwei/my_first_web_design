@@ -15,6 +15,14 @@ class BankinvestController < ApplicationController
     @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,session[:webusername])
   end
 
+  def classify
+   if params[:id]!=nil
+    @category=Category_2.find_by_id(params[:id])
+   else
+     redirect_to(:controller=>"home",:action=>"index")
+   end
+  end
+
   def products
     @financial=Financial.order("id DESC").all
   end

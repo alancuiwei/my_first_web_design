@@ -1,0 +1,83 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<style>
+    .details td.right{
+        font-family: "Open Sans",Helvetica,Arial,sans-serif;
+        margin: 0;
+        font-style: italic;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(68, 68, 68);
+    }
+    .details td.left{
+        width:15%;
+        vertical-align: middle;
+        background-color: #fbfbfb;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 17px;
+        text-align: left;
+        padding-left: 10px;
+        font-family: "helvetica neue",helvetica,arial,sans-serif;
+        font-weight: 600;
+        color: rgb(51, 51, 51);
+    }
+
+    .box_left_title1 {
+        font-size: 20px;
+        padding-bottom: 10px;
+    }
+
+    .cell{
+        display: table-cell;
+    }
+</style>
+
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+    <a href="/">首页</a>
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;"><%= @category.category %> ： <%= @category.classify %></span><br>
+    </div>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left" style="width: 100%;">
+        <ul>
+          <li>
+          <span class="qq_bankbig red">
+            <% if @category.risklevel==1 %>无风险
+            <% elsif  @category.risklevel==2 %>低风险
+            <% elsif  @category.risklevel==3 %>中级风险
+            <% elsif  @category.risklevel==4 %>高风险
+            <% elsif  @category.risklevel==5 %>极高风险
+            <% end %>
+          </span>
+            <span class="qq_banksmall">风险级别</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red">&nbsp;<%= @category.startvalue %></span>
+            <span class="qq_banksmall">最低投资金额</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td class="left">产品类型介绍</td>
+        <td class="right"><%= @category.ptype %></td>
+      </tr>
+      <tr>
+        <td class="left">产品风险介绍</td>
+        <td class="right"><%= @category.prisk %></td>
+      </tr>
+      <tr>
+        <td class="left">潜在收益回报</td>
+        <td class="right"><%= @category.returns %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="cell">
+    &nbsp;
+  </div>
+</div>
