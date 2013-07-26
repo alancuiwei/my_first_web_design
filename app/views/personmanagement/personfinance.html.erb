@@ -101,7 +101,7 @@
         <div class="span12">
           <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <a href="/home/questions"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <b>3.</b> <span>理财建议</span>
+          <a href="/personmanagement/summary"><b>3.</b> <span>理财建议</span></a>
         </div>
     <% end %>
   </div>
@@ -265,7 +265,7 @@
               <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>" class="btn btn-primary">查看</a></td>
             </tr>
             <% if  @webuser.risktolerance!=nil %>
-                <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+                <% if @webuser.selection!=nil && @webuser.selection!="" %>
                     <tr class="monthpay5">
                       <td class="name5"><%= @webuser.selection %></td>
                       <td class="amounts5"></td>
@@ -582,7 +582,7 @@
           <select name="pname" id="pname">
             <option value="<%= @hash3['流动'][0] %>"><%= @hash3['流动'][0] %></option>
             <option value="<%= @hash3['保本'][0] %>"><%= @hash3['保本'][0] %></option>
-            <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+            <% if @webuser.selection!=nil && @webuser.selection!="" %>
                 <option value="<%= @hash3[@finances.pname][0] %>"><%= @hash3[@finances.pname][0] %></option>
             <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
                 <option value="<%= @hash3['风险1'][0] %>"><%= @hash3['风险1'][0] %></option>
@@ -616,7 +616,7 @@
     var product;
     var a2="<%= @hash3['流动'][0] %>";
     var a4="<%= @hash3['保本'][0] %>";
-    <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+    <% if @webuser.selection!=nil && @webuser.selection!="" %>
     var a5="<%= @hash3[@finances.pname][0] %>";
     <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
     var a5="<%= @hash3['风险1'][0] %>";
@@ -757,7 +757,7 @@
                     $("#amount3").html(amount+parseInt($("#amount3").html()));
                 }
                 else{
-                <% if @webuser.selection!=nil && @webuser.selection.to_f!="" %>
+                <% if @webuser.selection!=nil && @webuser.selection!="" %>
                     if($("#pname").attr("value")=='<%= @hash3[@finances.pname][0] %>' ){
                         if($(".finish5").html()=="") {
                             $(".finish5").html(amount);
@@ -1638,11 +1638,16 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         var jixu=xianjin+wenjian+fengxian;
-
+      <% if @examination.xianp!=nil %>
+        var xian=parseFloat('<%= @examination.xianp %>');
+        var feng=parseFloat('<%= @examination.fengp %>');
+        var wen=parseFloat('<%= @examination.wenp %>');
+      <% else %>
         var xian=parseFloat('<%= @examination.xian %>');
         var feng=parseFloat('<%= @examination.feng %>');
         var wen=parseFloat('<%= @examination.wen %>');
-        var total=parseFloat('<%= @examination.xian %>')+parseFloat('<%= @examination.feng %>')+parseFloat('<%= @examination.wen %>');
+        <% end %>
+        var total=xian+wen+feng;
 
         if(wen<1000){
             xian=xian+wen-1000;

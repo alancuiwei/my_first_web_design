@@ -511,14 +511,7 @@
                                 if (this.value !== $qr.data("vals")[this.name]) {
                                     calculateRiskTol();
                                 }
-                                if(this.name=='response'){save0=this.value;}
-                                if(this.name=='portfolio'){save1=this.value;}
-                                if(this.name=='concern'){save2=this.value;}
-                                if(this.name=='options'){save3=this.value;}
-                                if(this.name=='income'){save4=this.value;}
-                                if(this.name=='angel'){save5=this.value;}
-                                if(this.name=='goal'){save6=this.value;}
-                                if(this.name=='stability'){save7=this.value;}
+
                             }).end()
                             .filter("[type=checkbox]").click(function(e) {
                                 this.focus();
@@ -583,6 +576,56 @@
                         var quota="";
                         var options="";
                         var goal="";
+
+                        var fluct=document.getElementsByName("response");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save0=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("portfolio");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save1=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("concern");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save2=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("options");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save3=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("income");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save4=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("angel");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save5=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("goal");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save6=fluct[j].value;
+                            }
+                        }
+                        var fluct=document.getElementsByName("stability");
+                        for(j=0;j<fluct.length;j++){
+                            if(fluct[j].checked){
+                                save7=fluct[j].value;
+                            }
+                        }
+
                         save=save0+','+save1+','+save2+','+save3+','+save4+','+save5+','+save6+','+save7
                         if(save.split(',')[1]=='A'){
                             returnrate=0.06;
@@ -1134,6 +1177,133 @@
     $(document).ready(function(){
         <% if session[:webusername]==nil %>
         location.href="/sales/login?questions=1";
+      <% else %>
+        var fluct=document.getElementsByName("response");
+        var fvalue;
+        <% if @personal.fluctuation=='卖掉所有股票' %>
+        fvalue='sellAll';
+        <% elsif @personal.fluctuation=='卖掉一部分股票' %>
+        fvalue='sellSome';
+        <% elsif @personal.fluctuation=='继续持有' %>
+        fvalue='keepAll';
+        <% elsif @personal.fluctuation=='购买更多的股票' %>
+        fvalue='buyMore';
+        <% end %>
+        for(i=0;i<fluct.length;i++){
+            if(fluct[i].value==fvalue){
+                fluct[i].checked=true;
+            }
+        }
+
+        var rate=document.getElementsByName("portfolio");
+        var rvalue;
+        <% if @personal.returnrate==0.06 %>
+        rvalue='A';
+        <% elsif @personal.returnrate==0.1 %>
+        rvalue='B';
+        <% elsif @personal.returnrate==0.2 %>
+        rvalue='C';
+        <% end %>
+        for(i=0;i<rate.length;i++){
+            if(rate[i].value==rvalue){
+                rate[i].checked=true;
+            }
+        }
+
+        var con=document.getElementsByName("concern");
+        var cvalue;
+        <% if @personal.quota=='最大利润' %>
+        cvalue='gain';
+        <% elsif @personal.quota=='最小损失' %>
+        cvalue='loss';
+        <% elsif @personal.quota=='两者都很重要' %>
+        cvalue='both';
+        <% end %>
+        for(i=0;i<con.length;i++){
+            if(con[i].value==cvalue){
+                con[i].checked=true;
+            }
+        }
+
+        var opt=document.getElementsByName("options");
+        var ovalue;
+        <% if @personal.options=='是' %>
+        ovalue='true';
+        <% elsif @personal.options=='否' %>
+        ovalue='false';
+        <% end %>
+        for(i=0;i<opt.length;i++){
+            if(opt[i].value==ovalue){
+                opt[i].checked=true;
+            }
+        }
+
+        $("#age").attr("value",'<%= format('%0.0f',@personal.age) %>');
+        $("#lnw").attr("value",'<%= format('%0.0f',@personal.investamount) %>');
+
+        var inc=document.getElementsByName("income");
+        var svalueivalue;
+        <% if @personal.investcycle=='三个月' %>
+        ivalue='90';
+        <% elsif @personal.investcycle=='六个月' %>
+        ivalue='180';
+        <% elsif @personal.investcycle=='一年' %>
+        ivalue='365';
+        <% elsif @personal.investcycle=='二年' %>
+        ivalue='730';
+        <% end %>
+        for(i=0;i<inc.length;i++){
+            if(inc[i].value==ivalue){
+                inc[i].checked=true;
+            }
+        }
+
+        var sta=document.getElementsByName("stability");
+        var svalue;
+        <% if @personal.investvarieties=='非常稳定' %>
+        svalue='A';
+        <% elsif @personal.investvarieties=='比较稳定' %>
+        svalue='B';
+        <% elsif @personal.investvarieties=='比较不稳定' %>
+        svalue='C';
+        <% elsif @personal.investvarieties=='非常不稳定' %>
+        svalue='D';
+        <% end %>
+        for(i=0;i<sta.length;i++){
+            if(sta[i].value==svalue){
+                sta[i].checked=true;
+            }
+        }
+
+        var ang=document.getElementsByName("angel");
+        var avalue;
+        <% if @personal.wbreedinfo=='定期存款' %>
+        avalue='true';
+        <% elsif @personal.wbreedinfo=='股票' %>
+        avalue='A';
+        <% elsif @personal.wbreedinfo=='余额宝等货币基金' %>
+        avalue='B';
+        <% elsif @personal.wbreedinfo=='P2P理财产品' %>
+        avalue='C';
+        <% end %>
+        for(i=0;i<ang.length;i++){
+            if(ang[i].value==avalue){
+                ang[i].checked=true;
+            }
+        }
+
+        var goa=document.getElementsByName("goal");
+        var gvalue;
+        <% if @personal.goal=='否' %>
+        gvalue='true';
+        <% elsif @personal.goal=='是' %>
+        gvalue='false';
+        <% end %>
+        for(i=0;i<goa.length;i++){
+            if(goa[i].value==gvalue){
+                goa[i].checked=true;
+            }
+        }
         <% end %>
     });
 

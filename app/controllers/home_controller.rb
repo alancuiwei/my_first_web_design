@@ -10,6 +10,7 @@ class HomeController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @examination=Examination.find_by_username(session[:webusername])
+      @personal=Personalfinance.find_by_username(session[:webusername])
     end
     @category1=Category_2.find_all_by_risklevel(1)
     @category2=Category_2.find_all_by_risklevel(2)

@@ -302,6 +302,7 @@
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
             if(i==0){
+                $("#title").html("理财产品 选择");
                 if(risk>8 && risk<=10){
                     $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
                     $(".level1").hide();$(".level2").hide();$(".level3").hide();
@@ -576,6 +577,37 @@
         <% @financial2.each do |f| %>
             if(this.className=='<%= f.id %>'){
                 selection='<%= f.pname %>';
+                <% if f.risklevel==1 ||  f.risklevel==2 %>
+                  <% if f.category=="随存随取型资产" %>
+                   $("#xian0").html(((xian+feng)/total*100).toFixed(1).toString()+'%');
+                   $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+                   $("#feng").html('0%');
+                   $("#xian1").attr("value",(xian+feng));
+                   $("#wen1").attr("value",wen);
+                   $("#feng1").attr("value",0);
+                 <% elsif f.category=="保本型资产" %>
+                   $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                   $("#wen").html(((wen+feng)/total*100).toFixed(1).toString()+'%');
+                   $("#feng").html('0%');
+                   $("#xian1").attr("value",xian);
+                   $("#wen1").attr("value",(wen+feng));
+                   $("#feng1").attr("value",0);
+              <% else %>
+                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+                $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
+                $("#xian1").attr("value",xian);
+                $("#wen1").attr("value",wen);
+                $("#feng1").attr("value",feng);
+                 <% end %>
+            <% else %>
+                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+                $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
+                $("#xian1").attr("value",xian);
+                $("#wen1").attr("value",wen);
+                $("#feng1").attr("value",feng);
+                <% end %>
             }
         <% end %>
         }
