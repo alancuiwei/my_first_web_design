@@ -31,12 +31,12 @@
         <div class="clearfix"></div>
         <h1>
           <span id="title">理财产品 选择</span>
-          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b></div>
+          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
         </h1>
 
         <div id="questionnaire-view">
           <div id="questionnaire">
-            <div class="question first" style="padding-right: 0;height: 660px;">
+            <div class="question first" style="padding-right: 0;height: 630px;">
               <p class="q-text" id="risk2"></p>
               <table id="category" class="table table-striped table-bordered footable" style="width: 100%;">
                 <thead>
@@ -143,6 +143,8 @@
                         <th>当前比例</th>
                         <th>建议比例</th>
                         <th>建议金额</th>
+                        <th>产品类型</th>
+                        <th>产品选择</th>
                       </tr>
                       <tr>
                         <td>流动性资产</td>
@@ -153,6 +155,8 @@
                           <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
                           <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
                         </td>
+                        <td><a href="/bankinvest/classify/7">货币基金</a></td>
+                        <td><a href="/bankinvest/productdetails/8">余额宝</a></td>
                       </tr>
                       <tr>
                         <td>保本性资产</td>
@@ -163,6 +167,8 @@
                           <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
                           <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
                         </td>
+                        <td><a href="/bankinvest/classify/8">定期存款</a></td>
+                        <td><a href="/bankinvest/productdetails/26">定期存款</a></td>
                       </tr>
                       <tr>
                         <td>风险性资产</td>
@@ -173,17 +179,47 @@
                           <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
                           <button id="age-increase2" class="light-gray" tabindex="-1">+</button>
                         </td>
+                        <td></td>
+                        <td></td>
                       </tr>
                       <tr>
                         <td>年总积蓄</td>
                         <td>100%</td>
                         <td>100%</td>
                         <td id="total" style="text-align: center;"></td>
+                        <td></td>
+                        <td></td>
                       </tr>
                     </table>
                   </td>
                   <td>
-                    <div style="width: 300px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
+                    <div style="width: 150px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="question" style="padding-right: 0;height: 376px;">
+              <table class="center">
+                <tr>
+                  <td>
+                    <input type="checkbox" class="hide">
+                    <table class="table table-striped table-bordered" id="update" style="height: 200px;">
+                      <tr>
+                        <th style="width: 150px;"></th>
+                        <th style="width: 150px;">已有资产名称</th>
+                        <th style="width: 150px;">金额</th>
+                        <th>操作</th>
+                      </tr>
+                      <tr id="liudong0"><td>流动型资产</td><td>现金</td><td>0</td><td></td></tr>
+                      <tr id="liudong1"><td>流动型资产</td><td>货币基金</td><td>0</td><td></td></tr>
+                      <tr id="baoben0"><td>保本型资产</td><td>银行定期</td><td>0</td><td></td></tr>
+                      <tr id="baoben1"><td>保本型资产</td><td>银行理财产品</td><td>0</td><td></td></tr>
+                      <tr id="baoben2"><td>保本型资产</td><td>债券型基金</td><td>0</td><td></td></tr>
+                      <tr id="fengxian0"><td>风险型资产</td><td>股票</td><td>0</td><td></td></tr>
+                      <tr id="fengxian1"><td>风险型资产</td><td>股票型基金</td><td>0</td><td></td></tr>
+                      <tr id="fengxian2"><td>风险型资产</td><td>贵金属</td><td>0</td><td></td></tr>
+                      <tr id="fengxian3"><td>风险型资产</td><td>其它</td><td>0</td><td></td></tr>
+                    </table>
                   </td>
                 </tr>
               </table>
@@ -338,12 +374,19 @@
                 test_div.style.width="98%";
                 test_div.style.height="326px";
             }
+            if(i==2){
+                $("#title").html("已有资金调整");
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="98%";
+                test_div.style.height="406px";
+            }
             if (i >= 0 && $qn.length) {
                 $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
              //   $("#q-back span").text(i === 2 ? "上一项" : "上一项");
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
-                if(i==1){newTop= "-660px"}
+                if(i==1){newTop= "-630px"}
+                if(i==2){newTop= "-926px"}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -413,16 +456,26 @@
         for(j=0;j<variety.length;j++){
             var ccc=amount[j].replace(/,/g, "");
             if(ccc==''){ccc=0;}
-            if(variety[j]=="银行活期"){xianjin=xianjin+parseFloat(ccc)}
-            else if(variety[j]=="余额宝"){xianjin=xianjin+parseFloat(ccc)}
-            else if(variety[j]=="其他货币基金"){xianjin=xianjin+parseFloat(ccc)}
-            else if(variety[j]=="银行理财产品"){wenjian=wenjian+parseFloat(ccc)}
-            else if(variety[j]=="银行定期"){wenjian=wenjian+parseFloat(ccc)}
-            else if(variety[j]=="债券型基金"){wenjian=wenjian+parseFloat(ccc)}
-            else if(variety[j]=="股票"){fengxian=fengxian+parseFloat(ccc)}
-            else if(variety[j]=="股票型基金"){fengxian=fengxian+parseFloat(ccc)}
-            else if(variety[j]=="贵金属"){fengxian=fengxian+parseFloat(ccc)}
-            else if(variety[j]=="其它"){fengxian=fengxian+parseFloat(ccc)}
+            if(variety[j]=="银行活期"){xianjin=xianjin+parseFloat(ccc);$("#liudong0 td:eq(2)").html(parseInt($("#liudong0 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="余额宝"){xianjin=xianjin+parseFloat(ccc);$("#liudong1 td:eq(2)").html(parseInt($("#liudong1 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="其他货币基金"){xianjin=xianjin+parseFloat(ccc);$("#liudong1 td:eq(2)").html(parseInt($("#liudong1 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="银行定期"){wenjian=wenjian+parseFloat(ccc);$("#baoben0 td:eq(2)").html(parseInt($("#baoben0 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="银行理财产品"){wenjian=wenjian+parseFloat(ccc);$("#baoben1 td:eq(2)").html(parseInt($("#baoben1 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="债券型基金"){wenjian=wenjian+parseFloat(ccc);$("#baoben2 td:eq(2)").html(parseInt($("#baoben2 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="股票"){fengxian=fengxian+parseFloat(ccc);$("#fengxian0 td:eq(2)").html(parseInt($("#fengxian0 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="股票型基金"){fengxian=fengxian+parseFloat(ccc);$("#fengxian1 td:eq(2)").html(parseInt($("#fengxian1 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="贵金属"){fengxian=fengxian+parseFloat(ccc);$("#fengxian2 td:eq(2)").html(parseInt($("#fengxian2 td:eq(2)").html())+parseInt(ccc))}
+            else if(variety[j]=="其它"){fengxian=fengxian+parseFloat(ccc);$("#fengxian3 td:eq(2)").html(parseInt($("#fengxian3 td:eq(2)").html())+parseInt(ccc))}
+        }
+        var kk=0
+        for(k=1;k<10;k++){
+            if($("#update tr:eq("+k+") td:eq(2)").html()=='0'){
+                $("#update tr:eq("+k+")").hide();
+            }
+            else{
+                $("#update tr:eq("+k+")").addClass("mon"+kk);
+                kk++;
+            }
         }
         jixu=xianjin+wenjian+fengxian;//积蓄
         <% if params[:score]!=nil &&  params[:score]!='' %>
@@ -479,6 +532,7 @@
         <% elsif session[:webusername]!=nil %>
         animate(0,parseFloat('<%= @webuser.score %>'));
         <% end %>
+        update();
     });
 
     $("#age-decrease0").click(function(){
@@ -496,6 +550,7 @@
             if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
             $(".alert").show();
         }
+        update();
     });
     $("#age-increase0").click(function(){
         if(parseInt(xian*1.1)>parseInt($("#xian1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
@@ -512,6 +567,7 @@
             if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
             $(".alert").show();
         }
+        update();
     });
 
     $("#age-decrease1,#age-increase2").click(function(){
@@ -529,6 +585,7 @@
             if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
             $(".alert").show();
         }
+        update();
     });
     $("#age-increase1,#age-decrease2").click(function(){
         if(parseInt(wen*1.1)>parseInt($("#wen1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
@@ -545,6 +602,7 @@
             if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
             $(".alert").show();
         }
+        update();
     });
 
     $('input').on('ifChecked', function(event){
@@ -610,8 +668,75 @@
                 <% end %>
             }
         <% end %>
+            update();
         }
     });
+
+
+function update(){
+    var sxian=$("#xian1").attr("value");
+    var swen=$("#wen1").attr("value");
+    var sfeng=$("#feng1").attr("value");
+    var yxian=parseInt($("#liudong0 td:eq(2)").html());
+    var yhuo=parseInt($("#liudong1 td:eq(2)").html());
+    var text0='',text1='',text2='',text3=''
+    // xianjin=yxian+yhuo\wenjian\fengxian
+    //$(".mon0 td:eq(3)").html()
+    if(yhuo>sxian){
+        text0="赎回"+(yhuo-sxian).toString()+"货币基金";
+       // $(".mon0 td:eq(3)").html("赎回"+(yhuo-sxian).toString()+"货币基金");
+        var remain0=xianjin-sxian;
+    }
+    else if(xianjin>sxian){
+        text0="买入"+(sxian-yhuo).toString()+"货币基金";
+      //  $(".mon0 td:eq(3)").html("买入"+(sxian-yhuo).toString()+"货币基金");
+        var remain0=xianjin-sxian;
+    }
+    else{
+        text0="买入"+(yxian).toString()+"货币基金";
+      //  $(".mon0 td:eq(3)").html("买入"+(yxian).toString()+"货币基金");
+        var remain0=0;
+    }
+    if(remain0>0){
+        if(wenjian>swen){
+          text1="保本型资产保留不动";
+           // $(".mon1 td:eq(3)").html("保本型资产保留不动");
+            var remain1=remain0;
+        }
+        else if(swen-wenjian>remain0){
+            text1="买入"+(remain0).toString()+"保本产品";
+           // $(".mon1 td:eq(3)").html("买入"+(remain0).toString()+"保本产品");
+            var remain1=0;
+        }
+        else{
+            text1="买入"+(swen-wenjian).toString()+"保本产品";
+           // $(".mon1 td:eq(3)").html("买入"+(swen-wenjian).toString()+"保本产品");
+            var remain1=remain0-(swen-wenjian);
+        }
+        if(remain1>0){
+            if(fengxian>sfeng){
+                text2="风险型资产保留不动";
+               // $(".mon2 td:eq(3)").html("风险型资产保留不动");
+                var remain2=remain1;
+            }
+            else if(sfeng-fengxian>remain1){
+                var text2="买入"+(remain1).toString()+"风险产品";
+               // $(".mon2 td:eq(3)").html("买入"+(remain1).toString()+"风险产品");
+                var remain2=0;
+            }
+            else{
+                text2="买入"+(sfeng-fengxian).toString()+"风险产品";
+               // $(".mon2 td:eq(3)").html("买入"+(sfeng-fengxian).toString()+"风险产品");
+                var remain2=remain1-(sfeng-fengxian);
+            }
+            if(remain2>0){
+               text3="买入"+(remain2).toString()+"保本产品";
+               // $(".mon3 td:eq(3)").html("买入"+(remain2).toString()+"保本产品");
+            }
+        }
+    }
+    $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2+'<br>'+text3)
+}
 </script>
 
 
