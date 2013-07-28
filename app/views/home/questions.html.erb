@@ -412,6 +412,8 @@
 </script>
 
 <script>
+    var risk=0;
+    var tol;
    // var selection='';
     _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
     w.requestId = "1092152607";
@@ -472,7 +474,6 @@
         var save6 = "";
         var save7 = "";
         var stacked = "";
-        var risk="";
 
         $("#questionnaire-view .ktip-link").bind("tip.show", function() {
             w.trackEvent("OFA", "questionnaire_faq_show", this.id);
@@ -670,7 +671,7 @@
                         else if(save.split(',')[7]=='C'){investvarieties='比较不稳定';}
                         else if(save.split(',')[7]=='D'){investvarieties='非常不稳定';}
 
-                        var risktolerance=risk;
+                        var risktolerance=tol;
                         <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,options:options,goal:goal,
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
@@ -830,7 +831,7 @@
             var granularity = 10.0;
             var $i = $qr.find("input");
             var vals = valsFromDom($i);
-            var tol = recommendRiskTolerance2(vals, min, max, granularity,s_age,s_amount,s_salary);
+             tol = recommendRiskTolerance2(vals, min, max, granularity,s_age,s_amount,s_salary);
             var rec = tol.toFixed(1);
             $i.filter("[name=rec]").val(rec);
             vals.rec = +rec;
@@ -860,229 +861,6 @@
         })
                 .bind("qr:change", function(e, tol) {
                     moveMeter(tol / 10);
-                    $(function () {
-                        if(system.win||system.mac||system.xll){
-                        var chart = new Highcharts.Chart({
-
-                                    chart: {
-                                        renderTo: 'container',
-                                        type: 'gauge',
-                                        plotBorderWidth: 1,
-                                        plotBackgroundColor: {
-                                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                            stops: [
-                                                [0, '#FFF4C6'],
-                                                [0.3, '#FFFFFF'],
-                                                [1, '#FFF4C6']
-                                            ]
-                                        },
-                                        plotBackgroundImage: null,
-                                        height: 200,
-                                        width: 280
-                                    },
-
-                                    title: {
-                                        text: '您的风险承受度'
-                                    },
-
-                                    pane: [{
-                                        startAngle: -45,
-                                        endAngle: 45,
-                                        background: null,
-                                        center: ['50%', '145%'],
-                                        size: 280
-                                    }],
-
-                                    yAxis: [{
-                                        min: 0,
-                                        max: 10,
-                                        tickInterval: 2,
-                                        minorTickPosition: 'outside',
-                                        tickPosition: 'outside',
-                                        labels: {
-                                            rotation: 'auto',
-                                            distance: 20
-                                        },
-                                        plotBands: [{
-                                            from: 0,
-                                            to: 2,
-                                            color: '#09a509',
-                                            innerRadius: '100%',
-                                            outerRadius: '105%'
-                                        },{
-                                            from: 2,
-                                            to: 4,
-                                            color: '#69c908',
-                                            innerRadius: '100%',
-                                            outerRadius: '105%'
-                                        },{
-                                            from: 4,
-                                            to: 6,
-                                            color: '#eded07',
-                                            innerRadius: '100%',
-                                            outerRadius: '105%'
-                                        },{
-                                            from: 6,
-                                            to: 8,
-                                            color: '#fa8c1e',
-                                            innerRadius: '100%',
-                                            outerRadius: '105%'
-                                        },{
-                                            from: 8,
-                                            to: 10,
-                                            color: '#C02316',
-                                            innerRadius: '100%',
-                                            outerRadius: '105%'
-                                        }],
-                                        pane: 0,
-                                        title: false
-                                    }],
-
-                                    plotOptions: {
-                                        gauge: {
-                                            dataLabels: {
-                                                enabled: false
-                                            },
-                                            dial: {
-                                                radius: '90%'
-                                            }
-                                        }
-                                    },
-                                    series: [{
-                                        data: [0],
-                                        yAxis: 0
-                                    }],
-                                    credits: {
-                                        enabled: false
-                                    }
-                                },
-
-                                // Let the music play
-                                function(chart) {
-                                    setInterval(function() {
-                                        var left = chart.series[0].points[0],
-                                                leftVal;
-
-                                        leftVal = tol;
-                                        left.update(leftVal, false);
-                                        chart.redraw();
-
-                                    }, 500);
-
-                                });
-                        }
-                       /* else{
-                            var chart = new Highcharts.Chart({
-
-                                        chart: {
-                                            renderTo: 'container',
-                                            type: 'gauge',
-                                            plotBorderWidth: 1,
-                                            plotBackgroundColor: {
-                                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                                stops: [
-                                                    [0, '#FFF4C6'],
-                                                    [0.3, '#FFFFFF'],
-                                                    [1, '#FFF4C6']
-                                                ]
-                                            },
-                                            plotBackgroundImage: null,
-                                            height: 150,
-                                            width: 200
-                                        },
-
-                                        title: {
-                                            text: '您的风险承受度'
-                                        },
-
-                                        pane: [{
-                                            startAngle: -45,
-                                            endAngle: 45,
-                                            background: null,
-                                            center: ['50%', '145%'],
-                                            size: 180
-                                        }],
-
-                                        yAxis: [{
-                                            min: 0,
-                                            max: 10,
-                                            tickInterval: 2,
-                                            minorTickPosition: 'outside',
-                                            tickPosition: 'outside',
-                                            labels: {
-                                                rotation: 'auto',
-                                                distance: 20
-                                            },
-                                            plotBands: [{
-                                                from: 0,
-                                                to: 2,
-                                                color: '#09a509',
-                                                innerRadius: '100%',
-                                                outerRadius: '105%'
-                                            },{
-                                                from: 2,
-                                                to: 4,
-                                                color: '#69c908',
-                                                innerRadius: '100%',
-                                                outerRadius: '105%'
-                                            },{
-                                                from: 4,
-                                                to: 6,
-                                                color: '#eded07',
-                                                innerRadius: '100%',
-                                                outerRadius: '105%'
-                                            },{
-                                                from: 6,
-                                                to: 8,
-                                                color: '#fa8c1e',
-                                                innerRadius: '100%',
-                                                outerRadius: '105%'
-                                            },{
-                                                from: 8,
-                                                to: 10,
-                                                color: '#C02316',
-                                                innerRadius: '100%',
-                                                outerRadius: '105%'
-                                            }],
-                                            pane: 0,
-                                            title: false
-                                        }],
-
-                                        plotOptions: {
-                                            gauge: {
-                                                dataLabels: {
-                                                    enabled: false
-                                                },
-                                                dial: {
-                                                    radius: '90%'
-                                                }
-                                            }
-                                        },
-                                        series: [{
-                                            data: [0],
-                                            yAxis: 0
-                                        }],
-                                        credits: {
-                                            enabled: false
-                                        }
-                                    },
-
-                                    // Let the music play
-                                    function(chart) {
-                                        setInterval(function() {
-                                            var left = chart.series[0].points[0],
-                                                    leftVal;
-
-                                            leftVal = tol;
-                                            left.update(leftVal, false);
-                                            chart.redraw();
-
-                                        }, 500);
-
-                                    });
-                        }
-                        */
-                    });
                 })
                 .submit(function(e) {
                     e.preventDefault();
@@ -1180,6 +958,7 @@
       <% else %>
         var fluct=document.getElementsByName("response");
         var fvalue;
+        <% if @personal!=nil %>
         <% if @personal.fluctuation=='卖掉所有股票' %>
         fvalue='sellAll';
         <% elsif @personal.fluctuation=='卖掉一部分股票' %>
@@ -1305,6 +1084,7 @@
             }
         }
         <% end %>
+        <% end %>
     });
 
    /*
@@ -1351,4 +1131,228 @@
         }
     });
     */
+
+    $(function () {
+        if(system.win||system.mac||system.xll){
+            var chart = new Highcharts.Chart({
+
+                        chart: {
+                            renderTo: 'container',
+                            type: 'gauge',
+                            plotBorderWidth: 1,
+                            plotBackgroundColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                stops: [
+                                    [0, '#FFF4C6'],
+                                    [0.3, '#FFFFFF'],
+                                    [1, '#FFF4C6']
+                                ]
+                            },
+                            plotBackgroundImage: null,
+                            height: 200,
+                            width: 280
+                        },
+
+                        title: {
+                            text: '您的风险承受度'
+                        },
+
+                        pane: [{
+                            startAngle: -45,
+                            endAngle: 45,
+                            background: null,
+                            center: ['50%', '145%'],
+                            size: 280
+                        }],
+
+                        yAxis: [{
+                            min: 0,
+                            max: 10,
+                            tickInterval: 2,
+                            minorTickPosition: 'outside',
+                            tickPosition: 'outside',
+                            labels: {
+                                rotation: 'auto',
+                                distance: 20
+                            },
+                            plotBands: [{
+                                from: 0,
+                                to: 2,
+                                color: '#09a509',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 2,
+                                to: 4,
+                                color: '#69c908',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 4,
+                                to: 6,
+                                color: '#eded07',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 6,
+                                to: 8,
+                                color: '#fa8c1e',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 8,
+                                to: 10,
+                                color: '#C02316',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            }],
+                            pane: 0,
+                            title: false
+                        }],
+
+                        plotOptions: {
+                            gauge: {
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                dial: {
+                                    radius: '90%'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: [0],
+                            yAxis: 0
+                        }],
+                        credits: {
+                            enabled: false
+                        }
+                    },
+
+                    // Let the music play
+                    function(chart) {
+                        setInterval(function() {
+                            var left = chart.series[0].points[0],
+                                    leftVal;
+
+                            leftVal = tol;
+                            left.update(leftVal, false);
+                            chart.redraw();
+
+                        }, 500);
+
+                    });
+        }
+        /* else{
+         var chart = new Highcharts.Chart({
+
+         chart: {
+         renderTo: 'container',
+         type: 'gauge',
+         plotBorderWidth: 1,
+         plotBackgroundColor: {
+         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+         stops: [
+         [0, '#FFF4C6'],
+         [0.3, '#FFFFFF'],
+         [1, '#FFF4C6']
+         ]
+         },
+         plotBackgroundImage: null,
+         height: 150,
+         width: 200
+         },
+
+         title: {
+         text: '您的风险承受度'
+         },
+
+         pane: [{
+         startAngle: -45,
+         endAngle: 45,
+         background: null,
+         center: ['50%', '145%'],
+         size: 180
+         }],
+
+         yAxis: [{
+         min: 0,
+         max: 10,
+         tickInterval: 2,
+         minorTickPosition: 'outside',
+         tickPosition: 'outside',
+         labels: {
+         rotation: 'auto',
+         distance: 20
+         },
+         plotBands: [{
+         from: 0,
+         to: 2,
+         color: '#09a509',
+         innerRadius: '100%',
+         outerRadius: '105%'
+         },{
+         from: 2,
+         to: 4,
+         color: '#69c908',
+         innerRadius: '100%',
+         outerRadius: '105%'
+         },{
+         from: 4,
+         to: 6,
+         color: '#eded07',
+         innerRadius: '100%',
+         outerRadius: '105%'
+         },{
+         from: 6,
+         to: 8,
+         color: '#fa8c1e',
+         innerRadius: '100%',
+         outerRadius: '105%'
+         },{
+         from: 8,
+         to: 10,
+         color: '#C02316',
+         innerRadius: '100%',
+         outerRadius: '105%'
+         }],
+         pane: 0,
+         title: false
+         }],
+
+         plotOptions: {
+         gauge: {
+         dataLabels: {
+         enabled: false
+         },
+         dial: {
+         radius: '90%'
+         }
+         }
+         },
+         series: [{
+         data: [0],
+         yAxis: 0
+         }],
+         credits: {
+         enabled: false
+         }
+         },
+
+         // Let the music play
+         function(chart) {
+         setInterval(function() {
+         var left = chart.series[0].points[0],
+         leftVal;
+
+         leftVal = tol;
+         left.update(leftVal, false);
+         chart.redraw();
+
+         }, 500);
+
+         });
+         }
+         */
+    });
 </script>
