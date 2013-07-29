@@ -1,15 +1,9 @@
 <%= stylesheet_link_tag "home.css" %>
 <%= stylesheet_link_tag "common.css" %>
 <%= javascript_include_tag "bootstrap.js" %>
-<!--
-<%= stylesheet_link_tag "homepage.css" %>
-<script>
-    var isProduction = true,
-            pageOther = 'https://s3.amazonaws.com/sa-g/files-1306252153/other'
-</script>
-<%= javascript_include_tag "jquery2.js" %>
-<%= javascript_include_tag "welcome.js" %>
--->
+<%= javascript_include_tag "premium_enrollments.js" %>
+<link href="https://p-static.futureadvisor.com/assets/premium_main_academy-361a9c346620e887e65092e163d8d04d.css" media="screen" rel="stylesheet" type="text/css" />
+
 <div class="welcomes" style=" width: 1170px;">
   <%= stylesheet_link_tag "home_index.css" %>
   <table class="body-container" cellspacing="0" cellpadding="0" border="0">
@@ -85,9 +79,9 @@
 
               <h2 id="s-subtitle">
                <% if session[:webusername]==nil %>
-                    <a href="/sales/login?start=1" class="button btn btn-warning">从此不再月光族</a><br>
+                    <a href="/sales/login?start=1" class="button btn btn-warning">点击 摆脱月光</a><br>
                 <% else %>
-                    <a href="/usersurvey/startup" class="button btn btn-warning">从此不再月光族</a><br>
+                    <a href="/usersurvey/startup" class="button btn btn-warning">点击 摆脱月光</a><br>
                 <% end %>
 <!--                花2分钟，做个资产体检，风险评估<br>
                 拿到理财规划后，慢慢琢磨琢磨...<br>
@@ -106,7 +100,7 @@
         <table style="width: 85%;margin: 0 auto;">
           <tr>
             <td colspan="9">
-              <h2>“一步一步的帮助您迈出月光的窘境。”</h2>
+              <h3 id='h31'>“一步一步的帮助您迈出月光的窘境。”</h3>
             </td>
           </tr>
           <tr>
@@ -128,11 +122,13 @@
           </tr>
         </table>
       </div>
-      <div class="row">
+      <div style="height: 40px;"></div>
+      <div class="row first">
         <table style="width: 85%;margin: 0 auto;">
             <tr>
             <td colspan="5">
-                 <h2>服务流程</h2>
+                 <h2>免费服务内容</h2>
+                 <h3 class="h32">您可以分析出已有的家庭资产结构状况，查询出月光的根源，结合您个人的风险评估结果，根据我们金融理财专家系统的分析推荐，进行合理科学的家庭理财规划，从此不再月光族。</h3>
                </td>
             </tr>
           <tr>
@@ -158,7 +154,7 @@
               </td>
               <td class="center"></td>
             <td class="hero-message">
-              <a class="subtle2" onclick="add('subtle2')" href="#step2" data-toggle="tab"><h4>个性化产品推荐</h4>
+              <a class="subtle2" onclick="add('subtle2')" href="#step2" data-toggle="tab"><h4>免费风险评估</h4>
                 <div class="explanation">引用美国高盛公司的开源资产风险度管理模型，评估您个性化的风险承受度，并以此进行相应的理财产品推荐。</div> </a>
               </td>
               <td class="center"></td>
@@ -169,91 +165,116 @@
           </tr>
           </table>
         </div>
+      <div class='tour-row white' id='intro'>
+          <div class='user_nav_carousel slide' data-interval='20000' id='intro_carousel'>
+            <div class='row'>
+              <div class='centered'>
+                <h2>家门不出，动动手指，轻松智能，个性化理财</h2>
+                <h3 class="h32">根据您的收入状况、风险偏好，智能且个性化，推荐合适理财产品组合，指导您足不出户的购买。接下来，我们将7*24小时的监控您投资的产品，一旦出现异常及时通知您调整。</h3>
+              </div>
+              <div class='centered'style="width: 610px;margin: 0 auto;">
+                <div class='carousel-indicators'>
+                  <div class='step-tab first active' data-slide-to='0' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-user'></i>
+                    <br />
+                    个性化服务
+                  </div>
+                  <div class='step-tab' data-slide-to='1' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-tag'></i>
+                    <br />
+                    在线购买
+                  </div>
+                  <div class='step-tab last' data-slide-to='2' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-dashboard'></i>
+                    <br />
+                    产品业绩跟踪
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='span12 slider-container'>
+                <div class='carousel-inner'>
+                  <div class='item active'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>私人理财顾问</h4>
+                        <div class='explanation'>
+                          <p>真正意义上做到站在您的立场，根据您的情况，帮你做理财规划，帮您推荐、跟踪最适合您的理财产品，成为您的私人理财规划顾问。</p>
+                          <p>第三方理财服务机构，绝对不从产品销售中盈利。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 centered headroom'>
+                        <img alt="Portfolio_pie_accounts" src="/assets/121051.png" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class='item'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>指导哪里购买最合算</h4>
+                        <div class='explanation'>
+                          <p>罗列基金销售各个渠道的手续费对比，供您挑选最便宜的购买渠道。</p>
+                          <p>图片、视频示范指导，方便您轻轻动动手指，即可买到合适的理财产品。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 headroom'>
+                          <img alt="Fee_comparison" src="/assets/121050.png" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class='item'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>产品异常、及时通知</h4>
+                        <div class='explanation'>
+                           <p>根据理财产品近1年、3年、5年的历史业绩进行筛选推荐。</p>
+                           <p>每日跟踪净值有无异常波动，跟踪基金经理有无重大变动等，一旦出现异常，及时通知投资人。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 more-headroom'>
+                        <img alt="Fee_comparison" src="/assets/121049.png" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="tour-row" id="automatic-details">
+        <div class="container">
+          <div class="row">
+            <div class="span10 offset1 heading">
+              <h2 class="no-border">智能、易用，个性化</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Automatic-flexible" src="/assets/121048.png">
+                <h4>智能化理财规划</h4>
+                <div class="explanation">利用国外理财规划专家系统(MorningStar、WealthFront、高盛公司)，结合国内市场理财产品分析，给您提供智能专家理财服务。</div>
+              </div>
+            </div>
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Access-flexible" src="/assets/121047.png">
+                <h4>卡片式设计，简单易用</h4>
+                <div class="explanation">现代主义风格的卡片式设计使用，白色正方形方框里只有最关键的文字或者图片，即使是初学者也一目了然。</div>
+              </div>
+            </div>
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Personal-flexible" src="/assets/121046.png">
+                <h4>只为您一个人设计</h4>
+                <div class="explanation">根据您的家庭收入、开销，已有资产分析，我们的互联网金融专家团队给您，也只为您提供规划服务。</div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
-    <div style="height: 30px;"></div>
-   <!--
-    <h2 class="press">通天顺服务</h2>
-    <table class="select">
-      <tr>
-        <td style="width: 28%;"><h3 class="h3"><a href="/bankinvest/products" target="_blank">理财产品一览 >></a></h3><p class="leader products">理财需谨慎 绝对有风险！</p></td>
-        <td style="width: 8%;"></td>
-        <td style="width: 28%;"><h3 class="h3"><a href="/personmanagement/movablewall" target="_blank">有奖活动 >></a></h3><p class="leader products">微信活动 理财讲座</p></td>
-        <td style="width: 8%;"></td>
-        <td style="width: 28%;"></td>
-      </tr>
-      <tr>
-        <td class="img"><a href="/bankinvest/products" target="_blank"><img class="hsw" style="height: 190px;" src="/assets/121080.jpg" alt="理财产品一览"></a></td>
-        <td></td>
-        <td class="img"><a href="/personmanagement/movablewall" target="_blank"><img class="hsw" style="height: 190px;" src="/assets/121083.jpg" alt="有奖活动"></a></td>
-        <td></td>
-        <td class="img"></td>
-      </tr>
-    </table>
-    <hr>
-    <h2 class="press">家庭理财知识</h2>
-    <table class="select">
-      <tr>
-        <td style="width: 28%;"><h3 class="h3"><a href="/womenfinance" target="_blank">女子理财 >></a></h3><p class="leader products">我要高质量的生活。</p></td>
-        <td style="width: 8%;"></td>
-        <td style="width: 28%;"><h3 class="h3"><a href="/grassroots" target="_blank">屌丝理财 >></a></h3><p class="leader products">我要成为高富帅。</p></td>
-        <td style="width: 7%;"></td>
-        <td style="width: 29%;"><h3 class="h3"><a href="/childfinance/finance" target="_blank">儿童理财 >></a></h3><p class="leader products">小宝要有受益终生的理财观。</p></td>
-      </tr>
-      <tr>
-        <td class="img"><a href="/womenfinance" target="_blank"><img class="hsw" style="height: 170px;" src="/assets/120113.png" alt="女子理财"></a></td>
-        <td></td>
-        <td style="text-align: left;padding-left: 3%;"><a href="/grassroots" target="_blank"><img class="hsw" style="height: 170px;" src="/assets/121096.png" alt="屌丝理财"></a></td>
-        <td></td>
-        <td class="img" style="vertical-align: bottom;"><a href="/childfinance/finance" target="_blank"><img class="hsw" style="height: 140px;margin-right: 40px;" src="/assets/120112.png" alt="儿童理财"></a></td>
-      </tr>
-    </table>
-    -->
-   <!--
-    <hr>
-    <h2 class="press">通天顺会员</h2>
-    <div id="tradingSystem">
-        <table id="tableNumbers" border="0" cellpadding="0" cellspacing="0" style="width: 96.5%;">
-          <tbody>
-          <tr>
-            <td class="homeRightText" style="white-space:nowrap; width: 22%;"><h3>注册会员数</h3>
-              <p>免费注册</p>
-            </td>
-            <td class="dollar"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td style="width: 16%;"></td>
-          </tr>
-          <tr>
-            <td class="homeRightText" style="white-space:nowrap;"><h3>闲余资金量</h3>
-              <p>正在寻觅合适理财产品</p>
-            </td>
-            <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style=""  border=" 0"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="investor"><a class="invest btn btn-info pull-right" target="_blank" href="/personmanagement/investor">查看会员信息</a></td>
-          </tr>
-          </tbody>
-        </table>
     </div>
-    -->
   </div>
 </div>
 <div class="welcomes2">
@@ -285,96 +306,6 @@
         <div class="explanation">提出理财建议，购买哪些理财产品，如何购买，并每日监控推荐产品的业绩走势，一旦出现异常及时通知，彻底摆脱月光族。</div>
     </div>
     </div>
-    <!--
-    <h2 class="press">通天顺的服务</h2>
-    <table class="select">
-      <tr>
-        <td>
-          <h3><a href="/bankinvest/products" target="_blank">理财产品一览 >></a></h3><br>
-          <a href="/bankinvest/products" target="_blank"><img class="hsw" src="/assets/121080.jpg" alt="理财产品一览"></a><br>
-          <p class="leader2">理财需谨慎<br>绝对有风险！</p>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <h3><a href="/personmanagement/movablewall" target="_blank">有奖活动 >></a></h3><br>
-          <a href="/personmanagement/movablewall" target="_blank"><img class="hsw" src="/assets/121083.jpg" alt="有奖活动"></a><br>
-          <p class="leader2">线上手机充值活动<br>线下理财讲座活动</p>
-        </td>
-      </tr>
-    </table>
-    <hr>
-    <h2 class="press">特色服务</h2>
-    <table class="select">
-      <tr>
-        <td>
-          <h3><a href="/womenfinance" target="_blank">女子理财 >></a></h3><br>
-          <a href="/womenfinance" target="_blank"><img class="hsw" style="width: 200px;" src="/assets/120113.png" alt="女子理财"></a><br>
-          <p class="leader2">我要高质量的生活，女子更要理财。</p>
-          <h3><a href="/grassroots" target="_blank">屌丝理财 >></a></h3><br>
-          <a href="/grassroots" target="_blank"><img class="hsw" style="width: 145px;" src="/assets/121096.png" alt="屌丝理财"></a><br>
-          <p class="leader2">我不理财，我怎么才能成为高富帅呢？</p>
-          <h3><a href="/childfinance/finance" target="_blank">儿童理财 >></a></h3><br>
-          <a href="/childfinance/finance" target="_blank"><img class="hsw" style="width: 215px;" src="/assets/120112.png" alt="儿童理财"></a><br>
-          <p class="leader2">针对3-14岁儿童的，价值观和人格的养成教育。</p>
-      </tr>
-    </table>
-    -->
-     <!--
-    <hr>
-    <h2 class="press">通天顺会员</h2>
-    <div id="tradingSystem">
-      <a href='/personmanagement/investor'>
-        <table id="tableNumbers2" border="0" cellpadding="0" cellspacing="0" style="width: 96.5%;">
-          <tbody>
-          <tr>
-            <td colspan="12" style="white-space:nowrap; width: 25%;"><h3>注册会员数</h3>
-              <p>免费注册</p>
-            </td>
-            </tr>
-          <tr>
-            <td class="dollar"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-          </tr>
-          <tr>
-            <td colspan="12" style="white-space:nowrap;"><h3>闲余资金量</h3>
-              <p>正在寻觅合适理财产品</p>
-            </td>
-          </tr>
-          <tr>
-            <td class="dollar"><img src="/assets/c2Dollars.gif" alt="" style=""  border=" 0"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="comma"><img src="/assets/comma.png" alt=""></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-            <td class="number"></td>
-          </tr>
-          <tr>
-            <td colspan="12" style="white-space:nowrap;">
-              <a class="invest btn btn-info pull-right" target="_blank" href="/personmanagement/investor">查看会员信息</a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </a>
-    </div>
-    -->
   </div>
 </div>
 
