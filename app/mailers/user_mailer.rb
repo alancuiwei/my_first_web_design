@@ -14,6 +14,11 @@ class UserMailer < ActionMailer::Base
     mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
   end
 
+  def welcome(usename,email,title)
+    @usename = usename
+    mail(:to => email,:subject=>title)
+  end
+    
    def login(usename,asset_allocation,wbreedinfo,title)
      @usename = usename
      @risktolerance=asset_allocation.split('|')[3]

@@ -533,6 +533,7 @@ class AdminController < ApplicationController
         Thread.new{
           if params[:ulogin]=="1"
             UserMailer.confirm(params[:username],params[:email],params[:tel],"新投资人首页注册").deliver
+            UserMailer.welcome(params[:username],params[:email],"欢迎注册通天顺家庭理财").deliver
           elsif  params[:ulogin]=="2"
             UserMailer.confirm(params[:username],params[:email],params[:tel],"新理财师首页注册").deliver
           else
