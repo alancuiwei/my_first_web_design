@@ -131,25 +131,25 @@
               <input type="checkbox" class="hide">
               <div class="mobile"><br></div>
             </div>
-            <div class="question">
+            <div class="question" style="height: 336px;">
               <table class="center">
                 <tr>
                   <td>
                     <p class="q-text" id="result"></p>
                     <input type="checkbox" class="hide">
-                    <table class="table table-striped table-bordered center" style="height: 200px;">
+                    <table id="ground" class="table table-striped table-bordered center" style="height: 200px;">
                       <tr>
-                        <th>理财产品大类</th>
-                        <th>当前比例</th>
-                        <th>建议比例</th>
-                        <th>建议金额</th>
-                        <th>产品类型</th>
+                        <th style="width: 110px;">理财产品大类</th>
+                        <th style="width: 80px;">当前比例</th>
+                        <th class="grey" style="width: 80px;">建议比例</th>
+                        <th style="width: 150px;">建议金额</th>
+                        <th style="width: 80px;">产品类型</th>
                         <th>产品选择</th>
                       </tr>
                       <tr>
                         <td>流动性资产</td>
                         <td id="xianjin"></td>
-                        <td id="xian0"></td>
+                        <td class="grey" id="xian0"></td>
                         <td>
                           <button id="age-decrease0" class="light-gray" tabindex="-1">−</button>
                           <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
@@ -161,7 +161,7 @@
                       <tr>
                         <td>保本性资产</td>
                         <td id="wenjian"></td>
-                        <td id="wen"></td>
+                        <td class="grey" id="wen"></td>
                         <td>
                           <button id="age-decrease1" class="light-gray" tabindex="-1">−</button>
                           <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
@@ -173,7 +173,7 @@
                       <tr>
                         <td>风险性资产</td>
                         <td id="fengxian"></td>
-                        <td id="feng"></td>
+                        <td class="grey" id="feng"></td>
                         <td>
                           <button id="age-decrease2" class="light-gray" tabindex="-1">−</button>
                           <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
@@ -185,12 +185,13 @@
                       <tr>
                         <td>年总积蓄</td>
                         <td>100%</td>
-                        <td>100%</td>
+                        <td class="grey">100%</td>
                         <td id="total" style="text-align: center;"></td>
                         <td></td>
                         <td></td>
                       </tr>
                     </table>
+                    <p id="remark"></p>
                   </td>
                   <td>
                     <div style="width: 150px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
@@ -372,7 +373,7 @@
                 $("#title").html("概要总结");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
-                test_div.style.height="326px";
+                test_div.style.height="366px";
             }
             if(i==2){
                 $("#title").html("已有资金调整");
@@ -386,7 +387,7 @@
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 if(i==1){newTop= "-630px"}
-                if(i==2){newTop= "-926px"}
+                if(i==2){newTop= "-966px"}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -605,9 +606,10 @@
         update();
     });
 
+    var eq='';
     $('input').on('ifChecked', function(event){
         if(this.name=='iCheck'){
-            var eq=this.className.split(",");
+             eq=this.className.split(",");
             $("#category td").removeClass("second");
             var length=$("#category").find("tr").size();
             for(i=0;i<length;i++){
@@ -635,29 +637,21 @@
         <% @financial2.each do |f| %>
             if(this.className=='<%= f.id %>'){
                 selection='<%= f.pname %>';
-                <% if f.risklevel==1 ||  f.risklevel==2 %>
-                  <% if f.category=="随存随取型资产" %>
-                   $("#xian0").html(((xian+feng)/total*100).toFixed(1).toString()+'%');
-                   $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
-                   $("#feng").html('0%');
-                   $("#xian1").attr("value",(xian+feng));
-                   $("#wen1").attr("value",wen);
-                   $("#feng1").attr("value",0);
-                 <% elsif f.category=="保本型资产" %>
-                   $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
-                   $("#wen").html(((wen+feng)/total*100).toFixed(1).toString()+'%');
-                   $("#feng").html('0%');
-                   $("#xian1").attr("value",xian);
-                   $("#wen1").attr("value",(wen+feng));
-                   $("#feng1").attr("value",0);
-              <% else %>
-                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+            <% if f.risklevel==1 ||  f.risklevel==2 %>
+            <% if f.category=="随存随取型资产" %>
+                $("#xian0").html(((xian+feng)/total*100).toFixed(1).toString()+'%');
                 $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
-                $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
-                $("#xian1").attr("value",xian);
+                $("#feng").html('0%');
+                $("#xian1").attr("value",(xian+feng));
                 $("#wen1").attr("value",wen);
-                $("#feng1").attr("value",feng);
-                 <% end %>
+                $("#feng1").attr("value",0);
+            <% elsif f.category=="保本型资产" %>
+                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                $("#wen").html(((wen+feng)/total*100).toFixed(1).toString()+'%');
+                $("#feng").html('0%');
+                $("#xian1").attr("value",xian);
+                $("#wen1").attr("value",(wen+feng));
+                $("#feng1").attr("value",0);
             <% else %>
                 $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
                 $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
@@ -665,9 +659,32 @@
                 $("#xian1").attr("value",xian);
                 $("#wen1").attr("value",wen);
                 $("#feng1").attr("value",feng);
+            <% end %>
+            <% else %>
+                $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
+                $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
+                $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
+                $("#xian1").attr("value",xian);
+                $("#wen1").attr("value",wen);
+                $("#feng1").attr("value",feng);
+            <% end %>
+                var aa="<a href='/bankinvest/classify/"+eq[0]+"'><%= f.classify %></a>";
+                $("#ground tr:eq(3) td:eq(4)").html(aa)
+                $("#ground tr:eq(3) td:eq(5)").html("<a href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %>")
+            <% for i in 0..@category.size-1 %>
+                <% if @category[i].classify==f.classify %>
+                  $("#remark").html("这里您的风险型资产是 <%= @category[i].classify %>，<%= @category[i].prisk %>");
                 <% end %>
+             <% end %>
             }
         <% end %>
+            var fxian=parseInt($("#xian1").attr("value"));
+            var fwen=parseInt($("#wen1").attr("value"));
+            var ffeng=parseInt($("#feng1").attr("value"));
+            var score=((3-(Math.abs(fxian/total-xianjin/jixu)+Math.abs(fwen/total-wenjian/jixu)+Math.abs(ffeng/total-fengxian/jixu)))*100/3).toFixed(1);
+            $.post("/usersurvey/score",{username:"<%= session[:webusername] %>",score:score},function(data){
+            });
+            animate(0,score);
             update();
         }
     });
