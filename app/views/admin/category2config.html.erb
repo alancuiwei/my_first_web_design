@@ -8,6 +8,10 @@
         border-style: solid;
         border-color: rgb(85, 85, 85) rgb(204, 204, 204);
     }
+    span{
+        color: #999;
+        font-size: 12px;
+    }
 </style>
 
 <div class="main-body">
@@ -17,7 +21,13 @@
   <% end %>
 </select><br>
   产品小类：<input type="text" name="classify" id="classify" title="产品小类"> <br>
-  风险级别：<input type="text" name="risklevel" id="risklevel" title="风险级别"> <br>
+  风险级别：<input type="text" name="risklevel" id="risklevel" title="风险级别"><span>(1,2,3,4,5)</span> <br>
+  亏损概率 1 年：<input type="text" name="risk1" id="risk1" title="亏损概率1年">% <span>(数字)</span> <br>
+  亏损概率 3 年：<input type="text" name="risk3" id="risk3" title="亏损概率">% <span>(数字)</span> <br>
+  亏损概率 5 年：<input type="text" name="risk5" id="risk5" title="亏损概率">% <span>(数字)</span> <br>
+  最高可达收益率 1 年：<input type="text" name="return1" id="return1" title="最高可达收益率1年">% <span>(数字)</span> <br>
+  最高可达收益率 3 年：<input type="text" name="return3" id="return3" title="最高可达收益率3年">% <span>(数字)</span> <br>
+  最高可达收益率 5 年：<input type="text" name="return5" id="return5" title="最高可达收益率5年">% <span>(数字)</span> <br>
   <% if params[:id]!="0" %>
       产品类型介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="ptype" id="ptype" title="产品类型介绍"><%= @category2.ptype %></textarea><br>
       产品风险介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="prisk" id="prisk" title="产品风险介绍"><%= @category2.prisk %></textarea><br>
@@ -33,11 +43,18 @@
 </div>
 
 <script type="text/javascript">
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
     <% if params[:id]!="0" %>
     $("#category").attr("value",'<%= @category2.category%>');
     $("#classify").attr("value",'<%= @category2.classify%>');
     $("#risklevel").attr("value",'<%= @category2.risklevel%>');
     $("#startvalue").attr("value",'<%= @category2.startvalue%>');
+    $("#risk1").attr("value",'<%= @category2.risk1%>');
+    $("#risk3").attr("value",'<%= @category2.risk3%>');
+    $("#risk5").attr("value",'<%= @category2.risk5%>');
+    $("#return1").attr("value",'<%= @category2.return1%>');
+    $("#return3").attr("value",'<%= @category2.return3%>');
+    $("#return5").attr("value",'<%= @category2.return5%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -51,8 +68,41 @@
                 break;
             }
         }
+
+        if(nom_flag==0){
+            if( numfor.test($("#risk1").attr("value"))==false){
+                alert("亏损概率1年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#risk3").attr("value"))==false){
+                alert("亏损概率3年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#risk5").attr("value"))==false){
+                alert("亏损概率5年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#return1").attr("value"))==false){
+                alert("最高可达收益率1年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#return3").attr("value"))==false){
+                alert("最高可达收益率3年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#return5").attr("value"))==false){
+                alert("最高可达收益率5年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#startvalue").attr("value"))==false){
+                alert("最低投资金额必须为数字！");
+                nom_flag=1;
+            }
+        }
+
         if(nom_flag==0){
             $.post("/admin/category2configajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),risklevel: $("#risklevel").attr("value"),
+                risk1: $("#risk1").attr("value"),risk3: $("#risk3").attr("value"),risk5: $("#risk5").attr("value"),return1: $("#return1").attr("value"),return3: $("#return3").attr("value"),return5: $("#return5").attr("value"),
                 ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value"),returns: $("#returns").attr("value"),startvalue: $("#startvalue").attr("value")
             },function(data){
                 if(data=="s1"){

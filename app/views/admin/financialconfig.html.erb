@@ -22,6 +22,8 @@
   近1年排名：<input type="text" name="rank" id="rank" title="近1年排名"><br>
   近3年收益率：<input type="text" name="rate1" id="rate1" title="近3年收益率">%<br>
   近3年排名：<input type="text" name="rank1" id="rank1" title="近3年排名"><br>
+  近5年收益率：<input type="text" name="rate2" id="rate2" title="近5年收益率">%<br>
+  近5年排名：<input type="text" name="rank2" id="rank2" title="近5年排名"><br>
   最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"><br>
   投资期限：<input type="text" name="investperiod" id="investperiod" title="投资期限"><br>
   手续费：<input type="text" name="poundage" id="poundage" title="手续费">%<br>
@@ -287,6 +289,10 @@
                 alert("近3年收益率必须为数字！");
                 nom_flag=1;
             }
+            if(numfor.test($("#rate2").attr("value"))==false){
+                alert("近5年收益率必须为数字！");
+                nom_flag=1;
+            }
             else if(numfor.test($("#startvalue").attr("value"))==false){
                 alert("最低投资金额必须为数字！");
                 nom_flag=1;
@@ -306,6 +312,7 @@
         if(nom_flag==0){
             var rate= ($("#rate").attr("value")/100).toFixed(5);
             var rate1= ($("#rate1").attr("value")/100).toFixed(5);
+            var rate2= ($("#rate2").attr("value")/100).toFixed(5);
             var a=document.getElementsByClassName("idd");
             for(var i=0;i<a.length;i++){
                 var a0=$("#id"+i).attr("value");
@@ -317,7 +324,7 @@
             }
 
             $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rate: rate,rate1: rate1,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
+                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rank2: $("#rank2").attr("value"),rate: rate,rate1: rate1,rate2: rate2,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -373,11 +380,15 @@
         $("#trusts").attr("value",'<%= @financial.trusts %>');
         $("#rank").attr("value",'<%= @financial.rank %>');
         $("#rank1").attr("value",'<%= @financial.rank1 %>');
+        $("#rank2").attr("value",'<%= @financial.rank2 %>');
         <% if @financial.rate!=nil %>
         $("#rate").attr("value",'<%= format("%0.3f",@financial.rate.to_f*100) %>');
         <% end %>
         <% if @financial.rate1!=nil %>
         $("#rate1").attr("value",'<%= format("%0.3f",@financial.rate1.to_f*100) %>');
+        <% end %>
+        <% if @financial.rate2!=nil %>
+        $("#rate2").attr("value",'<%= format("%0.3f",@financial.rate2.to_f*100) %>');
         <% end %>
         $("#startvalue").attr("value",'<%= @financial.startvalue%>');
         $("#link").attr("value",'<%= @financial.link%>');

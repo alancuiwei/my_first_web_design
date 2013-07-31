@@ -28,6 +28,10 @@
         padding-bottom: 10px;
     }
 
+    .center{
+        text-align: center!important;
+    }
+
     .cell{
         display: table-cell;
     }
@@ -69,11 +73,35 @@
       </tr>
       <tr>
         <td class="left">产品风险介绍</td>
-        <td class="right"><%= @category.prisk %></td>
+        <td class="right center"><%= @category.prisk %></td>
       </tr>
       <tr>
         <td class="left">潜在收益回报</td>
-        <td class="right"><%= @category.returns %></td>
+        <td class="right center"><%= @category.returns %></td>
+      </tr>
+      <tr>
+        <td class="left">亏损概率 1 年</td>
+        <td class="right center"><% if @category.risk1!=nil %><%= @category.risk1 %>%<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">亏损概率 3 年</td>
+        <td class="right center"><% if @category.risk3!=nil %><%= @category.risk3 %>%<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">亏损概率 5 年</td>
+        <td class="right center"><% if @category.risk5!=nil %><%= @category.risk5 %>%<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">最高可达收益率 1 年</td>
+        <td class="right center"><% if @category.return1!=nil %><%= @category.return1 %>%<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">最高可达收益率 3 年</td>
+        <td class="right center"><% if @category.return3!=nil %><%= @category.return3 %>%<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">最高可达收益率 5 年</td>
+        <td class="right center"><% if @category.return5!=nil %><%= @category.return5 %>%<% end %></td>
       </tr>
     </table>
   </div>

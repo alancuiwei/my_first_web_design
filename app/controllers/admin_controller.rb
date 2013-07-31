@@ -181,6 +181,12 @@ class AdminController < ApplicationController
         b.prisk=params[:prisk]
         b.returns=params[:returns]
         b.startvalue=params[:startvalue]
+        b.risk1=params[:risk1]
+        b.risk3=params[:risk3]
+        b.risk5=params[:risk5]
+        b.return1=params[:return1]
+        b.return3=params[:return3]
+        b.return5=params[:return5]
         b.save
       end
       render :json => "s1".to_json
@@ -190,7 +196,8 @@ class AdminController < ApplicationController
       for i in 0..@financial.size-1
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
       end
-      @category2.update_attributes(:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
+      @category2.update_attributes(:risk1=>params[:risk1],:risk3=>params[:risk3],:risk5=>params[:risk5],:return1=>params[:return1],:return3=>params[:return3],:return5=>params[:return5],
+                                   :category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
       render :json => "s2".to_json
     end
   end
@@ -241,8 +248,10 @@ class AdminController < ApplicationController
         b.trusts=params[:trusts]
         b.rate=params[:rate]
         b.rate1=params[:rate1]
+        b.rate2=params[:rate2]
         b.rank=params[:rank]
         b.rank1=params[:rank1]
+        b.rank2=params[:rank2]
         b.startvalue=params[:startvalue]
         b.risklevel=@risklevel
         b.risktip=params[:risktip]
@@ -258,7 +267,7 @@ class AdminController < ApplicationController
     else
       @financial=Financial.find_by_id(params[:id])
       @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],:person=>params[:person],
-             :rate=>params[:rate],:rate1=>params[:rate1],:rank=>params[:rank],:rank1=>params[:rank1],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
+             :rate=>params[:rate],:rate1=>params[:rate1],:rate2=>params[:rate2],:rank=>params[:rank],:rank1=>params[:rank1],:rank2=>params[:rank2],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
       render :json => "s2".to_json
     end
   end
