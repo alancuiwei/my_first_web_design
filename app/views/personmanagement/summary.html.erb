@@ -619,9 +619,9 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
-        $(".win").remove();
-    }else{
         $(".mobile").remove();
+    }else{
+        $(".win").remove();
     }
 </script>
 
@@ -1346,13 +1346,19 @@ function update(){
      var yearrate1= 0,monthrate1= 0,yearrate2= 0,monthrate2= 0,yearrate3= 0,monthrate3= 0;
     <% @financial2.each do |f| %>
         if('<%= f.pname %>'==selectproductl){
+           <% if f.averrate!=nil %>
              yearrate1=<%= f.averrate %>,monthrate1=<%= f.averrate/12 %>;
+           <% end %>
         }
         if('<%= f.pname %>'==selectproductb){
+           <% if f.averrate!=nil %>
              yearrate2=<%= f.averrate %>,monthrate2=<%= f.averrate/12 %>;
+           <% end %>
         }
         if('<%= f.pname %>'==selection){
+           <% if f.averrate!=nil %>
              yearrate3=<%= f.averrate %>,monthrate3=<%= f.averrate/12 %>;
+           <% end %>
         }
     <% end %>
 
