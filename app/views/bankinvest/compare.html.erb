@@ -4,7 +4,7 @@
   <h1>理财产品比较</h1>
   <table class="table table-striped table-bordered">
     <tr>
-      <td class="trust">产品名称</td>
+      <td class="trust" style="width: 100px;">产品名称</td>
 <% for i in 0..@compareobj.size-1%>
           <td><%=@compareobj[i].pname %></td>
 <% end %>
@@ -22,9 +22,30 @@
       <% end %>
     </tr>
     <tr>
-      <td>产品大类</td>
+      <td>风险级别</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><%= @compareobj[i].category %></td>
+          <td>
+            <% if @compareobj[i].risklevel==1 %>无风险
+            <% elsif  @compareobj[i].risklevel==2 %>低风险
+            <% elsif  @compareobj[i].risklevel==3 %>中级风险
+            <% elsif  @compareobj[i].risklevel==4 %>高风险
+            <% elsif  @compareobj[i].risklevel==5 %>极高风险
+            <% end %>
+          </td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>晨星评级</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td style="color: red;">
+          <% if @compareobj[i].level==1 %>★
+          <% elsif @compareobj[i].level==2 %>★★
+          <% elsif @compareobj[i].level==3 %>★★★
+          <% elsif @compareobj[i].level==4 %>★★★★
+          <% elsif @compareobj[i].level==5 %>★★★★★
+          <% else %>--
+          <% end %>
+          </td>
       <% end %>
     </tr>
     <tr>
@@ -34,40 +55,51 @@
       <% end %>
     </tr>
     <tr>
-      <td>风险级别</td>
-      <% for i in 0..@compareobj.size-1%>
-          <td>
-          <% if @compareobj[i].risklevel==1 %>无风险
-          <% elsif  @compareobj[i].risklevel==2 %>低风险
-          <% elsif  @compareobj[i].risklevel==3 %>中级风险
-          <% elsif  @compareobj[i].risklevel==4 %>高风险
-          <% elsif  @compareobj[i].risklevel==5 %>极高风险
-          <% end %>
-          </td>
-      <% end %>
-    </tr>
-    <tr>
-      <td>收益率</td>
+      <td>近一年收益率</td>
       <% for i in 0..@compareobj.size-1%>
           <td><% if @compareobj[i].rate !=nil && @compareobj[i].rate.to_f !=0 %><%= format("%0.2f",@compareobj[i].rate.to_f*100) %>%<% else %>--<% end %></td>
       <% end %>
     </tr>
     <tr>
-      <td>最低投资金额</td>
+      <td>近三年收益率</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><% if @compareobj[i].startvalue !=nil %><%= @compareobj[i].startvalue %>元<% end %></td>
+          <td><% if @compareobj[i].rate1 !=nil && @compareobj[i].rate1.to_f !=0 %><%= format("%0.2f",@compareobj[i].rate1.to_f*100) %>%<% else %>--<% end %></td>
       <% end %>
     </tr>
     <tr>
-      <td>手续费</td>
+      <td>近五年收益率</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><% if @compareobj[i].poundage !=nil %><%= format("%0.1f",@compareobj[i].poundage) %>%<% end %></td>
+          <td><% if @compareobj[i].rate2 !=nil && @compareobj[i].rate2.to_f !=0 %><%= format("%0.2f",@compareobj[i].rate2.to_f*100) %>%<% else %>--<% end %></td>
       <% end %>
     </tr>
     <tr>
-      <td>投资期限</td>
+      <td>近一年同类产品亏损概率</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><% if @compareobj[i].investperiod!=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@compareobj[i].investperiod %><%= @compareobj[i].investperiod %>天<% else %><%= @compareobj[i].investperiod %><% end %><% end %></td>
+          <td><% if @hash[i][0]!=nil %><%= @hash[i][0] %>%<% else %>--<% end %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>近一年同类产品最高收益率</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @hash[i][1]!=nil %><%= @hash[i][1] %>%<% else %>--<% end %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>风险提示</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @compareobj[i].risktip!=nil %><%= @compareobj[i].risktip %><% elsif @hash[i][2]!=nil %><%= @hash[i][2] %><% end %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>产品描述</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%= @compareobj[i].pintroduction %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>官网介绍</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @compareobj[i].link!=nil %><a target="_blank" href="<%= @compareobj[i].link %>">点击查看</a><% end %></td>
       <% end %>
     </tr>
   </table>

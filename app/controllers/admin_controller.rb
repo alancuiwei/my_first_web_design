@@ -11,6 +11,7 @@ class AdminController < ApplicationController
       @activity=Activity.all
       @enroll=Enroll.all
       @pace=Pace.all
+      @press=Press.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Category_1.all

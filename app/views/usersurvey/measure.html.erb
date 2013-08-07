@@ -11,50 +11,42 @@
       <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
     </div>
   </div>
-  <div class="mobile"><img src="/assets/logo.jpg"></div>
   <table class="catalog">
     <tr>
       <% if params[:id]=='1' %>
-          <td class="cata"><img src="/assets/121037.jpg"></td>
-          <td class="cata1"><h1 class="red">资产体检</h1></td>
-      <% elsif params[:id]=='2' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>资产体检</h1></td>
-      <% elsif params[:id]=='3' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>资产体检</h1></td>
+          <td class="cata"><h1 class="red">一、资产体检</h1></td>
+      <% elsif params[:id]=='2'|| params[:id]=='3' %>
+          <td class="cata"><h1>一、资产体检</h1></td>
       <% end %>
       <td></td>
     </tr>
     <tr>
-      <% if params[:id]=='1' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>风险评估</h1></td>
+      <% if params[:id]=='1'|| params[:id]=='3' %>
+          <td class="cata"><h1>二、风险评估</h1></td>
       <% elsif params[:id]=='2' %>
-          <td class="cata"><img src="/assets/121037.jpg"></td>
-          <td class="cata1"><h1 class="red">风险评估</h1></td>
-      <% elsif params[:id]=='3' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>风险评估</h1></td>
+          <td class="cata"><h1 class="red">二、风险评估</h1></td>
       <% end %>
-      <td class="win"><img src="/assets/logo.jpg"></td>
+      <td class="win">
+      <% if params[:id]=='1' %>
+            <a href="/usersurvey/startup" class="btn btn-primary begin">开始</a>
+      <% elsif params[:id]=='2' %>
+            <a href="/home/questions" class="btn btn-primary begin">开始</a>
+      <% elsif params[:id]=='3' %>
+            <a href="/personmanagement/summary" class="btn btn-primary begin">开始</a>
+      <% end %>
+      </td>
     </tr>
     <tr>
-      <% if params[:id]=='1' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>理财规划</h1></td>
-      <% elsif params[:id]=='2' %>
-          <td class="cata"><img src="/assets/121036.jpg"></td>
-          <td class="cata1"><h1>理财规划</h1></td>
+      <% if params[:id]=='1'|| params[:id]=='2' %>
+          <td class="cata"><h1>三、理财规划</h1></td>
       <% elsif params[:id]=='3' %>
-          <td class="cata"><img src="/assets/121037.jpg"></td>
-          <td class="cata1"><h1 class="red">理财规划</h1></td>
+          <td class="cata"><h1 class="red">三、理财规划</h1></td>
       <% end %>
       <td></td>
     </tr>
     <tr>
-      <td class="cata"></td>
-      <td class="cata1">
+      <td>
+        <div class="mobile">
          <% if params[:id]=='1' %>
            <a href="/usersurvey/startup" class="btn btn-primary begin">开始</a>
          <% elsif params[:id]=='2' %>
@@ -62,8 +54,8 @@
          <% elsif params[:id]=='3' %>
             <a href="/personmanagement/summary" class="btn btn-primary begin">开始</a>
          <% end %>
+        </div>
       </td>
-      <td></td>
     </tr>
   </table>
     </div>

@@ -45,10 +45,6 @@
     <div class="box_left_title2_left" style="width: 100%;">
       <ul>
         <li>
-          <span class="qq_bankbig red"><% if @financial.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.rate %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %><%= @financial.rate %><% end %><% end %></span>
-          <span class="qq_banksmall">收益率</span>
-        </li>
-        <li>
           <span class="qq_bankbig red">
             <% if @financial.risklevel==1 %>无风险
             <% elsif  @financial.risklevel==2 %>低风险
@@ -60,8 +56,12 @@
           <span class="qq_banksmall">风险级别</span>
         </li>
         <li>
-          <span class="qq_bankbig red"><%= @financial.category %></span>
-          <span class="qq_banksmall">产品大类</span>
+          <span class="qq_bankbig red"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %>&nbsp;<% end %></span>
+          <span class="qq_banksmall">一年收益率</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><% if @financial.level==1 %>★<% elsif @financial.level==2 %>★★<% elsif @financial.level==3 %>★★★<% elsif @financial.level==4 %>★★★★<% elsif @financial.level==5 %>★★★★★<% else %>&nbsp;<% end %></span>
+          <span class="qq_banksmall">晨星评级</span>
         </li>
         <li>
           <span class="qq_bankbig red"><%= @financial.classify %></span>
@@ -81,23 +81,39 @@
       <td class="right"><%= @financial.productcode %></td>
     </tr>
     <tr>
-      <td class="left">最低投资金额</td>
-      <td class="right"><% if @financial.startvalue!=nil %><%= @financial.startvalue %>元<% end %></td>
+      <td class="left">产品类型</td>
+      <td class="right"><%= @financial.classify %></td>
     </tr>
     <tr>
-      <td class="left">手续费</td>
-      <td class="right"><% if @financial.poundage !=nil %><%=  format("%0.1f",@financial.poundage) %>%<% end %></td>
+      <td class="left">近一年收益率</td>
+      <td class="right"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% end %></td>
     </tr>
     <tr>
-      <td class="left">投资期限</td>
-      <td class="right"><% if @financial.investperiod!=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@financial.investperiod %><%= @financial.investperiod %>天<% else %><%= @financial.investperiod %><% end %><% end %></td>
+      <td class="left">近三年收益率</td>
+      <td class="right"><% if @financial.rate1 !=nil %><%= format("%0.2f",@financial.rate1.to_f*100) %>%<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近五年收益率</td>
+      <td class="right"><% if @financial.rate2 !=nil %><%= format("%0.2f",@financial.rate2.to_f*100) %>%<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近一年同类产品亏损概率</td>
+      <td class="right"><% if @category!=nil %><%= @category.risk1 %>%<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近一年同类产品最高收益率</td>
+      <td class="right"><% if @category!=nil %><%= @category.return1 %>%<% end %></td>
     </tr>
     <tr>
       <td class="left">风险提示</td>
-      <td class="right"><%= @financial.risktip %></td>
+      <td class="right"><% if @financial.risktip!=nil %><%= @financial.risktip %><% elsif @category!=nil %><%= @category.prisk %><% end %></td>
     </tr>
     <tr>
       <td class="left">产品简介</td>
+      <td class="right"><%= @financial.pintroduction %></td>
+    </tr>
+    <tr>
+      <td class="left">产品描述</td>
       <td class="right"><%= @financial.pintroduction %></td>
     </tr>
     <tr>

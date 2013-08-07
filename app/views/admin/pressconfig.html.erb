@@ -1,0 +1,60 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  文字：<input type="text" name="pname" id="pname" title="文字"> <br>
+  日期：<input type="text" name="pdate" id="pdate" title="日期" onclick="WdatePicker()" class="Wdate">  <br>
+  图片：
+  链接：<input type="text" name="plink" id="plink" title="链接"> <br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    <% if params[:id]!="0" %>
+    $("#functionname").attr("value",'<%= @pace.functionname%>');
+    $("#introduce").attr("value",'<%= @pace.introduce%>');
+    $("#developtime").attr("value",'<%= @pace.developtime%>');
+    $("#ontime").attr("value",'<%= @pace.ontime%>');
+    $("#develop").attr("value",'<%= @pace.develop%>');
+    $("#auditor").attr("value",'<%= @pace.auditor%>');
+    $("#details").attr("value",'<%= @pace.details%>');
+    <% end %>
+
+    $("#categoryconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            $.post("/admin/paceconfigajax/<%= params[:id] %>",{ functionname: $("#functionname").attr("value"),introduce: $("#introduce").attr("value"),
+                developtime: $("#developtime").attr("value"),ontime: $("#ontime").attr("value"),develop: $("#develop").attr("value"),auditor: $("#auditor").attr("value"),details: $("#details").attr("value")
+            },function(data){
+                if(data=="s1"){
+                    alert("服务开发进展创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>

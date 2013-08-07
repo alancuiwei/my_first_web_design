@@ -29,6 +29,15 @@ class BankinvestController < ApplicationController
 
   def products
     @financial=Financial.order("id DESC").all
+    @hash={}
+    for i in 0..@financial.size-1
+      @category=Category_2.find_by_classify(@financial[i].classify)
+      if @category!=nil
+        @hash.store(@category.classify,[@category.id])
+      else
+        @hash.store(@category.classify,[nil])
+      end
+    end
   end
 
   def buylinks
@@ -67,6 +76,7 @@ class BankinvestController < ApplicationController
   def productdetails
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])
+      @category=Category_2.find_by_classify(@financial.classify)
       @productcompany=Productcompany.find_all_by_pname(@financial.pname)
       @hash={}
       for i in 0..@productcompany.size-1
@@ -103,8 +113,15 @@ class BankinvestController < ApplicationController
         end
     end
     @compareobj=[]
+    @hash={}
     for i in 0..@compareid.size-1
       @compareobj[i]= Financial.find(@compareid[i]);
+      @category=Category_2.find_by_classify(@compareobj[i].classify)
+     if @category!=nil
+       @hash.store(i,[@category.risk1,@category.return1,@category.prisk])
+     else
+       @hash.store(i,[nil,nil,nil])
+     end
     end
   end
   def comparesession

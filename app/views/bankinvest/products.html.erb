@@ -176,22 +176,22 @@
         <td class="second"><input type="checkbox" onclick="check_chose('<%= f.pname%>',<%= f.id%>)" id="chose<%= f.id%>" name="chose"></td>
         <td><% if f.productcode !=nil && f.productcode !='' %><%= f.productcode %><% else %>--<% end %></td>
           <td class="first"><a href="/bankinvest/productdetails/<%= f.id %>"><%= f.pname %></a></td>
-          <td><%= f.classify %></td>
+          <td><a href="/bankinvest/classify/<%= @hash[f.classify][0] %>"><%= f.classify %></a></td>
             <% if f.risklevel==1 %><td>无风险</td><td class="hide">1</td>
             <% elsif  f.risklevel==2 %><td>低风险</td><td class="hide">2</td>
             <% elsif  f.risklevel==3 %><td>中级风险</td><td class="hide">3</td>
             <% elsif  f.risklevel==4 %><td>高风险</td><td class="hide">4</td>
             <% elsif  f.risklevel==5 %><td>极高风险</td><td class="hide">5</td>
           <% end %>
-        <td><% if f.rate !=nil && f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+        <td><strong><% if f.rate !=nil && f.rate.to_f !=0 %><% if f.rate.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
           <td><% if f.rank !='0' && f.rank !=nil  %><%= f.rank %><% else %>--<% end %></td>
-        <td><% if f.rate1 !=nil && f.rate1.to_f !=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %></td>
+        <td><strong><% if f.rate1 !=nil && f.rate1.to_f !=0 %><% if f.rate1.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate1.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate1.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
         <td><% if f.rank1 !='0' && f.rank1 !=nil  %><%= f.rank1 %><% else %>--<% end %></td>
-        <td><% if f.rate2 !=nil && f.rate2.to_f !=0 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %>--<% end %></td>
+        <td><strong><% if f.rate2 !=nil && f.rate2.to_f !=0 %><% if f.rate2.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate2.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate2.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
         <td><% if f.rank2 !='0' && f.rank2 !=nil %><%= f.rank2 %><% else %>--<% end %></td>
         <td class="hide"><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %><% else %>--<% end %><% end %></td>
         <td class="hide"><%= f.category %></td>
-        <td style="color:red;"><% if f.level==1 %>★<% elsif f.level==2 %>★★<% elsif f.level==3 %>★★★<% elsif f.level==4 %>★★★★<% elsif f.level==5 %>★★★★★<% end %></td>
+        <td style="color:red;"><% if f.level==1 %>★<% elsif f.level==2 %>★★<% elsif f.level==3 %>★★★<% elsif f.level==4 %>★★★★<% elsif f.level==5 %>★★★★★<% else %>--<% end %></td>
       </tr>
   <% end %>
   </table>
