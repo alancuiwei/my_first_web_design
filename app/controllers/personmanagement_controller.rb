@@ -51,16 +51,23 @@ class PersonmanagementController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @examination=Examination.find_by_username(session[:webusername])
+      @record=Record.find_all_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :summary=>"1")
     end
+    @financial3=Financial.find_all_by_category('随存随取型资产')
+    @financial4=Financial.find_all_by_category('保本型资产')
     @category1=Category_2.find_all_by_risklevel(1)
     @category2=Category_2.find_all_by_risklevel(2)
     @category3=Category_2.find_all_by_risklevel(3)
     @category4=Category_2.find_all_by_risklevel(4)
     @category5=Category_2.find_all_by_risklevel(5)
     @hash={}
+    @hash2={}
     @category=Category_2.all
     for i in 0..@category.size-1
       @financial=Financial.find_all_by_classify(@category[i].classify)
+      @hash2.store(@category[i].id,[@financial.length])
       a=''
       for j in 0..@financial.size-1
         if j==0
@@ -71,6 +78,7 @@ class PersonmanagementController < ApplicationController
       end
       @hash.store(i,[@category[i].id,@category[i].classify,a])
     end
+
     @financial2=Financial.all
   end
 
@@ -294,7 +302,7 @@ class PersonmanagementController < ApplicationController
                                    :wenp=>params[:wenp],:fengp=>params[:fengp])
     @webuser = Webuser.find_by_username(params[:username])
     if @webuser!=nil
-      @webuser.update_attributes(:selection=>params[:selection])
+      @webuser.update_attributes(:selection=>params[:selection],:selectproductl=>params[:selectproductl],:selectproductb=>params[:selectproductb])
     end
     render :json => "s".to_json
   end
@@ -445,14 +453,25 @@ class PersonmanagementController < ApplicationController
     end
   end
 
+  def monthconfigajax
+    @examination=Examination.find_by_username(session[:webusername])
+    if @examination!=nil
+      @examination.update_attributes(:month01=>params[:month01],:month02=>params[:month02],:month03=>params[:month03],:month11=>params[:month11],:month12=>params[:month12],:month13=>params[:month13],
+                                       :month21=>params[:month21],:month22=>params[:month22],:month23=>params[:month23],:month31=>params[:month31],:month32=>params[:month32],:month33=>params[:month33],
+                                       :month41=>params[:month41],:month42=>params[:month42],:month43=>params[:month43],:month51=>params[:month51],:month52=>params[:month52],:month53=>params[:month53],
+                                       :month61=>params[:month61],:month62=>params[:month62],:month63=>params[:month63],:month71=>params[:month71],:month72=>params[:month72],:month73=>params[:month73],
+                                       :month81=>params[:month81],:month82=>params[:month82],:month83=>params[:month83],:month91=>params[:month91],:month92=>params[:month92],:month93=>params[:month93],
+                                       :month101=>params[:month101],:month102=>params[:month102],:month103=>params[:month103],:month111=>params[:month111],:month112=>params[:month112],:month113=>params[:month113]);
+    if params[:tol1]!=nil && params[:tol1]!=''
+      @examination.update_attributes(:tol1=>params[:tol1],:tol2=>params[:tol2]);
+    end
+    end
+
+    render :json => "s1".to_json
+  end
+
   def personfinance
     @financial=Financial.all
-    @finance=Financial.find_by_sql("select * from financial where person is not null and person<>''")
-    @hash3={}
-    for i in 0..@finance.size-1
-      @hash3.store(@finance[i].person,[@finance[i].pname,@finance[i].id,@finance[i].classify])
-    end
-    @hash3.store('风险1',['定期存款','','定期存款'])
     if  session[:webusername]!=nil
       @webusers=Webuser.find_by_username(session[:webusername])
     else
@@ -461,10 +480,22 @@ class PersonmanagementController < ApplicationController
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
       @record=Record.find_all_by_username(@webuser.username)
-      @finances=Financial.find_by_pname(@webuser.selection)
-      if @finances!=nil
-      @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
+      @date=Record.find_by_sql('select min(date) from recore where username="'+@webuser.username+'"')
+      @finance1=Financial.find_by_pname(@webuser.selectproductl)
+        if @finance1!=nil
+          @category1=Category_2.find_by_classify(@finance1.classify)
+        end
+      @finance2=Financial.find_by_pname(@webuser.selectproductb)
+      if @finance2!=nil
+        @category2=Category_2.find_by_classify(@finance2.classify)
       end
+      @finance3=Financial.find_by_pname(@webuser.selection)
+      if @finance3!=nil
+        @category3=Category_2.find_by_classify(@finance3.classify)
+      end
+   #   if @finances!=nil
+   #   @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
+   #   end
       @examination=Examination.find_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
@@ -490,12 +521,22 @@ class PersonmanagementController < ApplicationController
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
-        @finances=Financial.find_by_pname(@webuser.selection)
-        if @finances!=nil
-        @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
+        @finance1=Financial.find_by_pname(@webuser.selectproductl)
+        if @finance1!=nil
+          @category1=Category_2.find_by_classify(@finance1.classify)
         end
+        @finance2=Financial.find_by_pname(@webuser.selectproductb)
+        if @finance2!=nil
+          @category2=Category_2.find_by_classify(@finance2.classify)
+        end
+        @finance3=Financial.find_by_pname(@webuser.selection)
+        if @finance3!=nil
+          @category3=Category_2.find_by_classify(@finance3.classify)
+        end
+    #    if @finances!=nil
+    #    @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
+    #    end
         @examination=Examination.find_by_username(@webuser.username)
-        @record=Record.find_all_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
         if @webuser.organusername!=nil
           @webuser2=Webuser.find_by_username(@webuser.organusername)

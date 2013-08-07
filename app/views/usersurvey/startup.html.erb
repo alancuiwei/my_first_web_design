@@ -11,7 +11,7 @@
     onReady.fns=[]
 </script>
 
-<div class="welcomes">
+<div class="welcomes startup">
 <div class="ofa-funnel-pages">
 <div id="page-wrapper">
 <div id="top-tabs">
@@ -19,13 +19,13 @@
     <b>1.</b> <span> 资产体检</span>
     <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
     <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
-        <a href="/home/questions"><b>2.</b> 风险评估</a>
+        <a href="/usersurvey/measure/2"><b>2.</b> 风险评估</a>
     <% else %>
         <span class="disabled"><b>2.</b> 风险评估</span>
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
     <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
-        <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
+        <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 理财建议</span>
     <% end %>
@@ -370,6 +370,7 @@
 <script>
     var variety,amount,pname,jixu,total,xian,feng,wen;
     var xianjin= 0,wenjian= 0,fengxian=0;
+    var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr=0;
     $(function() {
 
         var $qv = $("#questionnaire-view");
@@ -471,17 +472,19 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
+                        var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
+                        var rent= $("#rent").attr("value").replace(/,/g, "");
+                        var wages= $("#wages").attr("value").replace(/,/g, "");
                         <% if session[:webusername]!=nil %>
-                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),
-                            salary:parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, "")),rent:$("#rent").attr("value").replace(/,/g, ""),wages:$("#wages").attr("value").replace(/,/g, ""),
-                            xian:xian,wen:wen,feng:feng},function(data){
-                            location.href='/home/questions';
+                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                            salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng},function(data){
+                            location.href='/usersurvey/measure/2';
                         });
                         <% else %>
-                        var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
-                        location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                                +'&salary='+salary+'&rent='+$("#rent").attr("value").replace(/,/g, "")+'&wages='+$("#wages").attr("value").replace(/,/g, "")+'&xian='+xian
-                                +'&wen='+wen+'&feng='+feng;
+                      //  var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
+                      //  location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
+                      //          +'&salary='+salary+'&rent='+$("#rent").attr("value").replace(/,/g, "")+'&wages='+$("#wages").attr("value").replace(/,/g, "")+'&xian='+xian
+                      //          +'&wen='+wen+'&feng='+feng;
                         <% end %>
                         //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
                         //   w.trackEvent("OFA", "submit_questionnaire", qPayload());
@@ -546,16 +549,16 @@
                 for(j=0;j<variety.length;j++){
                     var ccc=amount[j].value.replace(/,/g, "");
                     if(ccc==''){ccc=0;}
-                    if(variety[j].value=="银行活期"){xianjin=xianjin+parseFloat(ccc)}
-                    else if(variety[j].value=="余额宝"){xianjin=xianjin+parseFloat(ccc)}
-                    else if(variety[j].value=="其他货币基金"){xianjin=xianjin+parseFloat(ccc)}
-                    else if(variety[j].value=="银行理财产品"){wenjian=wenjian+parseFloat(ccc)}
-                    else if(variety[j].value=="银行定期"){wenjian=wenjian+parseFloat(ccc)}
-                    else if(variety[j].value=="债券型基金"){wenjian=wenjian+parseFloat(ccc)}
-                    else if(variety[j].value=="股票"){fengxian=fengxian+parseFloat(ccc)}
-                    else if(variety[j].value=="股票型基金"){fengxian=fengxian+parseFloat(ccc)}
-                    else if(variety[j].value=="贵金属"){fengxian=fengxian+parseFloat(ccc)}
-                    else if(variety[j].value=="其它"){fengxian=fengxian+parseFloat(ccc)}
+                    if(variety[j].value=="银行活期"){xianjin=xianjin+parseFloat(ccc);mea1=mea1+parseFloat(ccc)}
+                    else if(variety[j].value=="余额宝"){xianjin=xianjin+parseFloat(ccc);mea2=mea2+parseFloat(ccc)}
+                    else if(variety[j].value=="其他货币基金"){xianjin=xianjin+parseFloat(ccc);mea2=mea2+parseFloat(ccc)}
+                    else if(variety[j].value=="银行理财产品"){wenjian=wenjian+parseFloat(ccc);mea3=mea3+parseFloat(ccc)}
+                    else if(variety[j].value=="银行定期"){wenjian=wenjian+parseFloat(ccc);mea4=mea4+parseFloat(ccc)}
+                    else if(variety[j].value=="债券型基金"){wenjian=wenjian+parseFloat(ccc);mea5=mea5+parseFloat(ccc)}
+                    else if(variety[j].value=="股票"){fengxian=fengxian+parseFloat(ccc);mea6=mea6+parseFloat(ccc)}
+                    else if(variety[j].value=="股票型基金"){fengxian=fengxian+parseFloat(ccc);mea6=mea6+parseFloat(ccc)}
+                    else if(variety[j].value=="贵金属"){fengxian=fengxian+parseFloat(ccc);mea7=mea7+parseFloat(ccc)}
+                    else if(variety[j].value=="其它"){fengxian=fengxian+parseFloat(ccc);mea7=mea7+parseFloat(ccc)}
                     if(j==0){
                         varietys=variety[j].value;
                         amounts=ccc;
@@ -572,6 +575,8 @@
                 xian=parseInt((parseFloat($("#rent").attr("value").replace(/,/g, ""))*3)/100)*100;
                 feng=parseInt((total*(80-parseFloat($("#age").attr("value").replace(/,/g, "")))/100)/100)*100;
                 wen=total-xian-feng;
+                arr=parseFloat('<%= @hash["活期存款"][0] %>')*mea1/jixu+parseFloat('<%= @hash["货币基金"][0] %>')*mea2/jixu+parseFloat('<%= @hash["银行理财产品"][0] %>')*mea3/jixu+parseFloat('<%= @hash["定期存款"][0] %>')*mea4/jixu+
+                    parseFloat('<%= @hash["债券基金"][0] %>')*mea5/jixu+parseFloat('<%= @hash["股票型基金"][0] %>')*mea6/jixu+0.03*mea7/jixu;
              //   $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
              //   $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
              //   $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
@@ -637,6 +642,7 @@
 
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
+
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);

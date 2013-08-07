@@ -21,6 +21,18 @@ class UsersurveyController < ApplicationController
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
+      @category=Category_2.all
+      @hash={}
+      for i in 0..@category.size-1
+        if @category[i].averagerate!=nil && @category[i].averagerate!=''
+          @hash.store(@category[i].classify,[@category[i].averagerate])
+        else
+          @hash.store(@category[i].classify,[0])
+        end
+      end
+      @record=Record.find_all_by_username(@webuser.username)
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :start=>"1")
     end
   end
 
@@ -51,12 +63,13 @@ class UsersurveyController < ApplicationController
         e.xian=params[:xian]
         e.wen=params[:wen]
         e.feng=params[:feng]
+        e.arr=params[:arr]
         e.save
       end
       render :json => "s1".to_json
     else
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
-                 :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],
+                 :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],:arr=>params[:arr],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
                  :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng])
       if params[:xianp]!="" &&  params[:xianp]!=nil

@@ -10,6 +10,7 @@ class AdminController < ApplicationController
       @blogs=Blog.all
       @activity=Activity.all
       @enroll=Enroll.all
+      @pace=Pace.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Category_1.all
@@ -129,6 +130,46 @@ class AdminController < ApplicationController
     end
   end
 
+  def paceconfig
+      if params[:id]!="0"
+        @pace=Pace.find_by_id(params[:id])
+      else
+        @pace=Pace.limit(1)
+      end
+  end
+
+  def paceconfigajax
+    if params[:id]=="0"
+      Pace.new do |b|
+        b.functionname=params[:functionname]
+        b.introduce=params[:introduce]
+        b.developtime=params[:developtime]
+        b.ontime=params[:ontime]
+        b.develop=params[:develop]
+        b.auditor=params[:auditor]
+        b.details=params[:details]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @pace=Pace.find_by_id(params[:id])
+      @pace.update_attributes(:functionname=>params[:functionname],:introduce=>params[:introduce],:developtime=>params[:developtime],:ontime=>params[:ontime],
+                              :develop=>params[:develop],:auditor=>params[:auditor],:details=>params[:details])
+      render :json => "s2".to_json
+    end
+  end
+
+  def pacedeleteajax
+    @pace=Pace.find_by_id(params[:id])
+    if @pace!=nil
+      if @pace.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
   def category1config
       if params[:id]!="0"
         @category1=Category_1.find_by_id(params[:id])
@@ -187,6 +228,12 @@ class AdminController < ApplicationController
         b.return1=params[:return1]
         b.return3=params[:return3]
         b.return5=params[:return5]
+        b.rate12=params[:rate12]
+        b.rate11=params[:rate11]
+        b.rate10=params[:rate10]
+        b.rate09=params[:rate09]
+        b.rate08=params[:rate08]
+        b.averagerate=params[:averagerate]
         b.save
       end
       render :json => "s1".to_json
@@ -197,6 +244,7 @@ class AdminController < ApplicationController
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
       end
       @category2.update_attributes(:risk1=>params[:risk1],:risk3=>params[:risk3],:risk5=>params[:risk5],:return1=>params[:return1],:return3=>params[:return3],:return5=>params[:return5],
+                                   :rate12=>params[:rate12],:rate11=>params[:rate11],:rate10=>params[:rate10],:rate09=>params[:rate09],:rate08=>params[:rate08],:averagerate=>params[:averagerate],
                                    :category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
       render :json => "s2".to_json
     end
@@ -260,13 +308,14 @@ class AdminController < ApplicationController
         b.investperiod=params[:investperiod]
         b.poundage=params[:poundage]
         b.productcode=params[:productcode]
-        b.person=params[:person]
+        b.averrate=params[:averrate]
+        b.level=params[:level]
         b.save
       end
       render :json => "s1".to_json
     else
       @financial=Financial.find_by_id(params[:id])
-      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],:person=>params[:person],
+      @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],:averrate=>params[:averrate],:level=>params[:level],
              :rate=>params[:rate],:rate1=>params[:rate1],:rate2=>params[:rate2],:rank=>params[:rank],:rank1=>params[:rank1],:rank2=>params[:rank2],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
       render :json => "s2".to_json
     end

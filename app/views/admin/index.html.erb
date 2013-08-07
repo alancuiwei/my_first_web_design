@@ -317,6 +317,32 @@
     </tr>
     -->
     <tr><td>
+      <h1>服务开发进展</h1>
+      <a href="/admin/paceconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="pace">
+        <thead><tr>
+          <th class="hide">ID</th><th>功能名称</th><th>功能介绍</th><th>开发时间</th><th>上线日期</th><th>开发人</th><th>审核人</th><th>详情</th>
+          <th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @pace.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.functionname%></td>
+              <td><%= b.introduce%></td>
+              <td><%= b.developtime%></td>
+              <td><%= b.ontime%></td>
+              <td><%= b.develop%></td>
+              <td><%= b.auditor%></td>
+              <td><a target='_blank' href="<%= b.details%>">查看</a></td>
+              <td><a href="/admin/paceconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','pacedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td>
       <h1>理财产品大类管理</h1>
       <a href="/admin/category1config/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category1">
@@ -365,14 +391,13 @@
       <a href="/admin/financialconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="financial">
         <thead><tr>
-          <th class="hide">ID</th><th>个人首页显示</th><th>产品名称</th><th>产品小类</th><th>产品大类</th>
+          <th class="hide">ID</th><th>产品名称</th><th>产品小类</th><th>产品大类</th>
           <th>查看</th><th>修改</th><th>删除</th>
         </tr></thead>
 
         <% @financial.each do |b| %>
             <tr>
               <td class="hide"><%= b.id%></td>
-              <td><%= b.person%></td>
               <td><%= b.pname%></td>
               <td><%= b.classify%></td>
               <td><%= b.category%></td>
@@ -565,7 +590,7 @@
     }
 
     $(document).ready(function(){
-        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial,#company,#poundage').dataTable();
+        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial,#company,#poundage,#pace').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
 

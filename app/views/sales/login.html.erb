@@ -368,13 +368,13 @@
                     });
                 }
                 else if('<%= params[:start] %>'=='1'){
-                    location.href="/usersurvey/startup";
+                    location.href="/usersurvey/measure/1";
                 }
                 else if('<%= params[:questions] %>'=='1'){
-                    location.href="/home/questions";
+                    location.href="/usersurvey/measure/2";
                 }
                 else if('<%= params[:summary] %>'=='1'){
-                    location.href="/personmanagement/summary";
+                    location.href="/usersurvey/measure/3";
                 }
                 else if('<%= params[:risk] %>'!=''){
                     var returnrate=0;
@@ -476,7 +476,7 @@
                     location.href="/personmanagement/personfinance";
                 }
                 else if (organ==2){
-                    location.href="/usersurvey/startup";
+                    location.href="/usersurvey/measure/1";
                 }
                 else if(data=="s1" || data=="s2"){
                     if(Request("bid")>0){

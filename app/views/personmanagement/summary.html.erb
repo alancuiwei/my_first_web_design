@@ -3,6 +3,14 @@
 <%= stylesheet_link_tag "founder.css" %>
 <%= stylesheet_link_tag "red.css" %>
 <%= javascript_include_tag "jquery.icheck.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
 <script>
     function onReady(fn){onReady.fns.push(fn)}
     onReady.fns=[]
@@ -10,23 +18,24 @@
 <style>
     th, td {font-family: Hiragino Sans GB W3;}
     tr.first td{background-color: #f9f9f9!important;}
-    #category td.second,#category th.second,tr.third td{
+    #category td.second,#category th.second,tr.third td,tr.four td,tr.five td{
         background-color: #CCCCCC!important;
     }
     td.left{text-align: left!important;}
     blockquote{margin: 0;}
     td.leng{width: 15%!important;}
-    #category td,#select td{width: 10%;}
+    #category td,#select td,#liudong td,#baoben td{width: 10%;font-family: Hiragino Sans GB W3;}
+    #liudong td,#baoben td{background-color: #ffffff;}
     .iradio_square-red{margin-left: 25px;}
 </style>
-<div class="welcomes">
+<div class="welcomes summary">
   <div class="ofa-funnel-pages">
     <div id="page-wrapper">
       <div id="top-tabs">
         <div class="top-tabs-content">
-          <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a>
+          <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a>
           <b>&nbsp;>&nbsp;</b>
-          <a href="/home/questions"><b>2.</b> <span>风险评估</span></a>
+          <a href="/usersurvey/measure/2"><b>2.</b> <span>风险评估</span></a>
           <b>&nbsp;>&nbsp;</b>
           <span><b>3.</b> 理财建议</span>
         </div>
@@ -35,13 +44,154 @@
         <div class="clearfix"></div>
         <h1>
           <span id="title">理财产品 选择</span>
-          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
+          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num curr"></b><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
         </h1>
 
         <div id="questionnaire-view">
           <div id="questionnaire">
-            <div class="question first" style="padding-right: 0;height: 630px;overflow: auto;">
+          <div class="question first" style="padding-right: 0;height: 376px;">
+            <div style="padding-right: 0;height: 346px;overflow: auto;">
+              <div class="win">
+              <table id="liudong" class="table table-striped table-bordered" style="width: 100%;">
+              <thead>
+              <tr>
+                <th rowspan="2">投资品种</th>
+                <th rowspan="2">理财产品</th>
+                <th colspan="2">一年</th>
+                <th colspan="2">三年</th>
+                <th colspan="2">五年</th>
+                <th rowspan="2">选择</th>
+              </tr>
+              <tr>
+                <th>收益率</th>
+                <th>排名</th>
+                <th>收益率</th>
+                <th>排名</th>
+                <th>收益率</th>
+                <th>排名</th>
+              </tr>
+              </thead>
+              <% @financial3.each do |f| %>
+                  <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
+                    <td class="leng expand"><%= f.classify %></td>
+                    <td class="leng"><%= f.pname %></td>
+                    <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
+                    <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
+                    <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
+                    <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td>
+                  </tr>
+                  <tr id="finan<%= f.id %>" class="rights hide">
+                    <td class="left" colspan="9"><blockquote><small><%= f.pintroduction %></small></blockquote></td>
+                  </tr>
+              <% end %>
+            </table>
+             </div>
+              <div class="mobile">
+                <table id="liudong" class="table table-striped table-bordered" style="width: 100%;">
+                  <thead>
+                  <tr>
+                    <th>投资品种</th>
+                    <th>理财产品</th>
+                    <th>选择</th>
+                  </tr>
+                  </thead>
+                  <% @financial3.each do |f| %>
+                      <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
+                        <td class="leng expand"><%= f.classify %></td>
+                        <td class="leng"><%= f.pname %></td>
+                        <td><input type="radio" id="iCheck8" name="iCheck3" class="<%= f.id %>"></td>
+                      </tr>
+                      <tr id="finan<%= f.id %>" class="rights hide"><td class="left" colspan="3">
+                        一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
+                        一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
+                        三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
+                        三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
+                        五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
+                        五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
+                        <blockquote><small><%= f.pintroduction %></small></blockquote></td>
+                      </tr>
+                  <% end %>
+                </table>
+              </div>
+              </div>
+          </div>
+          <div class="question" style="padding-right: 0;height:376px;">
+            <div  style="padding-right: 0;height:346px;overflow: auto;">
+            <div class="win">
+            <table id="baoben" class="table table-striped table-bordered" style="width: 100%;">
+              <thead>
+              <tr>
+                <th rowspan="2">投资品种</th>
+                <th rowspan="2">理财产品</th>
+                <th colspan="2">一年</th>
+                <th colspan="2">三年</th>
+                <th colspan="2">五年</th>
+                <th rowspan="2">选择</th>
+              </tr>
+              <tr>
+                <th>收益率</th>
+                <th>排名</th>
+                <th>收益率</th>
+                <th>排名</th>
+                <th>收益率</th>
+                <th>排名</th>
+              </tr>
+              </thead>
+              <% @financial4.each do |f| %>
+                  <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
+                    <td class="leng expand"><%= f.classify %></td>
+                    <td class="leng"><%= f.pname %></td>
+                    <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
+                    <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
+                    <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
+                    <td><input type="radio" id="iCheck7" name="iCheck4" class="<%= f.id %>"></td>
+                  </tr>
+                  <tr id="finan<%= f.id %>" class="rights hide">
+                    <td class="left" colspan="9"><blockquote><small><%= f.pintroduction %></small></blockquote></td>
+                  </tr>
+              <% end %>
+            </table>
+           </div>
+              <div class="mobile">
+                <table id="baoben" class="table table-striped table-bordered" style="width: 100%;">
+                  <thead>
+                  <tr>
+                    <th>投资品种</th>
+                    <th>理财产品</th>
+                    <th>选择</th>
+                  </tr>
+                  </thead>
+                  <% @financial4.each do |f| %>
+                      <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
+                        <td class="leng expand"><%= f.classify %></td>
+                        <td class="leng"><%= f.pname %></td>
+                        <td><input type="radio" id="iCheck9" name="iCheck4" class="<%= f.id %>"></td>
+                      </tr>
+                      <tr id="finan<%= f.id %>" class="rights hide">
+                        <td class="left" colspan="3">
+                          一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
+                          一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
+                          三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
+                          三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
+                          五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
+                          五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
+                          <blockquote><small><%= f.pintroduction %></small></blockquote>
+                        </td>
+                      </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+            <div class="question" style="padding-right: 0;height: 630px;overflow: auto;">
               <p class="q-text" id="risk2"></p>
+              <div class="win">
               <table id="category" class="table table-striped table-bordered" style="width: 100%;">
                 <thead>
                 <tr>
@@ -61,86 +211,210 @@
                 </tr>
                 </thead>
                 <% for i in 0..@category1.size-1 %>
+                    <% if @hash2[@category1[i].id][0]>0 %>
                     <tr id="<%= @category1[i].id %>" onclick="show(this);" class="level1">
                       <td class="leng expand">安逸型</td>
                       <td class="leng"><%= @category1[i].classify %></td>
-                      <td><% if @category1[i].risk1 !=nil %><%= @category1[i].risk1 %>%<% end %></td>
-                      <td><% if @category1[i].risk3 !=nil %><%= @category1[i].risk3 %>%<% end %></td>
-                      <td><% if @category1[i].risk5 !=nil %><%= @category1[i].risk5 %>%<% end %></td>
-                      <td><% if @category1[i].return1 !=nil %><%= @category1[i].return1 %>%<% end %></td>
-                      <td><% if @category1[i].return3 !=nil %><%= @category1[i].return3 %>%<% end %></td>
-                      <td><% if @category1[i].return5 !=nil %><%= @category1[i].return5 %>%<% end %></td>
+                      <td><% if @category1[i].risk1 !=nil %><%= @category1[i].risk1 %>%<% else %>--<% end %></td>
+                      <td><% if @category1[i].risk3 !=nil %><%= @category1[i].risk3 %>%<% else %>--<% end %></td>
+                      <td><% if @category1[i].risk5 !=nil %><%= @category1[i].risk5 %>%<% else %>--<% end %></td>
+                      <td><% if @category1[i].return1 !=nil %><%= @category1[i].return1 %>%<% else %>--<% end %></td>
+                      <td><% if @category1[i].return3 !=nil %><%= @category1[i].return3 %>%<% else %>--<% end %></td>
+                      <td><% if @category1[i].return5 !=nil %><%= @category1[i].return5 %>%<% else %>--<% end %></td>
                       <td><input type="radio" name="iCheck" id="iCheck1" class="<%= @category1[i].id %>,<%= @category1[i].classify %>"></td>
                     </tr>
-                    <tr id="show<%= @category1[i].id %>" class="right level1 hide">
+                    <tr id="show<%= @category1[i].id %>" class="rights level1 hide">
                       <td class="left" colspan="9"><blockquote><small><%= @category1[i].ptype %></small></blockquote></td>
                     </tr>
+                    <% end %>
                 <% end %>
                 <% for i in 0..@category2.size-1 %>
+                    <% if @hash2[@category2[i].id][0]>0 %>
                     <tr id="<%= @category2[i].id %>" onclick="show(this);" class="level2">
                       <td class="leng expand">保守型</td>
                       <td class="leng"><%= @category2[i].classify %></td>
-                      <td><% if @category2[i].risk1 !=nil %><%= @category2[i].risk1 %>%<% end %></td>
-                      <td><% if @category2[i].risk3 !=nil %><%= @category2[i].risk3 %>%<% end %></td>
-                      <td><% if @category2[i].risk5 !=nil %><%= @category2[i].risk5 %>%<% end %></td>
-                      <td><% if @category2[i].return1 !=nil %><%= @category2[i].return1 %>%<% end %></td>
-                      <td><% if @category2[i].return3 !=nil %><%= @category2[i].return3 %>%<% end %></td>
-                      <td><% if @category2[i].return5 !=nil %><%= @category2[i].return5 %>%<% end %></td>
+                      <td><% if @category2[i].risk1 !=nil %><%= @category2[i].risk1 %>%<% else %>--<% end %></td>
+                      <td><% if @category2[i].risk3 !=nil %><%= @category2[i].risk3 %>%<% else %>--<% end %></td>
+                      <td><% if @category2[i].risk5 !=nil %><%= @category2[i].risk5 %>%<% else %>--<% end %></td>
+                      <td><% if @category2[i].return1 !=nil %><%= @category2[i].return1 %>%<% else %>--<% end %></td>
+                      <td><% if @category2[i].return3 !=nil %><%= @category2[i].return3 %>%<% else %>--<% end %></td>
+                      <td><% if @category2[i].return5 !=nil %><%= @category2[i].return5 %>%<% else %>--<% end %></td>
                       <td><input type="radio" name="iCheck" id="iCheck2" class="<%= @category2[i].id %>,<%= @category2[i].classify %>"></td>
                     </tr>
-                    <tr id="show<%= @category2[i].id %>" class="right level2 hide">
+                    <tr id="show<%= @category2[i].id %>" class="rights level2 hide">
                       <td class="left" colspan="9"><blockquote><small><%= @category2[i].ptype %></small></blockquote></td>
                     </tr>
+                   <% end %>
                 <% end %>
                 <% for i in 0..@category3.size-1 %>
+                    <% if @hash2[@category3[i].id][0]>0 %>
                     <tr id="<%= @category3[i].id %>" onclick="show(this);" class="level3">
                       <td class="leng expand">稳健型</td>
                       <td class="leng"><%= @category3[i].classify %></td>
-                      <td><% if @category3[i].risk1 !=nil %><%= @category3[i].risk1 %>%<% end %></td>
-                      <td><% if @category3[i].risk3 !=nil %><%= @category3[i].risk3 %>%<% end %></td>
-                      <td><% if @category3[i].risk5 !=nil %><%= @category3[i].risk5 %>%<% end %></td>
-                      <td><% if @category3[i].return1 !=nil %><%= @category3[i].return1 %>%<% end %></td>
-                      <td><% if @category3[i].return3 !=nil %><%= @category3[i].return3 %>%<% end %></td>
-                      <td><% if @category3[i].return5 !=nil %><%= @category3[i].return5 %>%<% end %></td>
+                      <td><% if @category3[i].risk1 !=nil %><%= @category3[i].risk1 %>%<% else %>--<% end %></td>
+                      <td><% if @category3[i].risk3 !=nil %><%= @category3[i].risk3 %>%<% else %>--<% end %></td>
+                      <td><% if @category3[i].risk5 !=nil %><%= @category3[i].risk5 %>%<% else %>--<% end %></td>
+                      <td><% if @category3[i].return1 !=nil %><%= @category3[i].return1 %>%<% else %>--<% end %></td>
+                      <td><% if @category3[i].return3 !=nil %><%= @category3[i].return3 %>%<% else %>--<% end %></td>
+                      <td><% if @category3[i].return5 !=nil %><%= @category3[i].return5 %>%<% else %>--<% end %></td>
                       <td><input type="radio" name="iCheck" id="iCheck3" class="<%= @category3[i].id %>,<%= @category3[i].classify %>"></td>
                     </tr>
-                    <tr id="show<%= @category3[i].id %>" class="right level3 hide">
+                    <tr id="show<%= @category3[i].id %>" class="rights level3 hide">
                       <td class="left" colspan="9"><blockquote><small><%= @category3[i].ptype %></small></blockquote></td>
                     </tr>
+                  <% end %>
                 <% end %>
                 <% for i in 0..@category4.size-1 %>
+                    <% if @hash2[@category4[i].id][0]>0 %>
                     <tr id="<%= @category4[i].id %>" onclick="show(this);" class="level4">
                       <td class="leng expand">积极型</td>
                       <td class="leng"><%= @category4[i].classify %></td>
-                      <td><% if @category4[i].risk1 !=nil %><%= @category4[i].risk1 %>%<% end %></td>
-                      <td><% if @category4[i].risk3 !=nil %><%= @category4[i].risk3 %>%<% end %></td>
-                      <td><% if @category4[i].risk5 !=nil %><%= @category4[i].risk5 %>%<% end %></td>
-                      <td><% if @category4[i].return1 !=nil %><%= @category4[i].return1 %>%<% end %></td>
-                      <td><% if @category4[i].return3 !=nil %><%= @category4[i].return3 %>%<% end %></td>
-                      <td><% if @category4[i].return5 !=nil %><%= @category4[i].return5 %>%<% end %></td>
+                      <td><% if @category4[i].risk1 !=nil %><%= @category4[i].risk1 %>%<% else %>--<% end %></td>
+                      <td><% if @category4[i].risk3 !=nil %><%= @category4[i].risk3 %>%<% else %>--<% end %></td>
+                      <td><% if @category4[i].risk5 !=nil %><%= @category4[i].risk5 %>%<% else %>--<% end %></td>
+                      <td><% if @category4[i].return1 !=nil %><%= @category4[i].return1 %>%<% else %>--<% end %></td>
+                      <td><% if @category4[i].return3 !=nil %><%= @category4[i].return3 %>%<% else %>--<% end %></td>
+                      <td><% if @category4[i].return5 !=nil %><%= @category4[i].return5 %>%<% else %>--<% end %></td>
                       <td><input type="radio" name="iCheck" id="iCheck4" class="<%= @category4[i].id %>,<%= @category4[i].classify %>"></td>
                     </tr>
-                    <tr id="show<%= @category4[i].id %>" class="right level4 hide">
+                    <tr id="show<%= @category4[i].id %>" class="rights level4 hide">
                       <td class="left" colspan="9"><blockquote><small><%= @category4[i].ptype %></small></blockquote></td>
                     </tr>
+                  <% end %>
                 <% end %>
                 <% for i in 0..@category5.size-1 %>
+                    <% if @hash2[@category5[i].id][0]>0 %>
                     <tr id="<%= @category5[i].id %>" onclick="show(this);" class="level5">
                       <td class="leng expand">激进型</td>
-                      <td class="leng"><% if @category5[i].risk1 !=nil %><%= @category5[i].risk1 %>%<% end %></td>
-                      <td><% if @category5[i].risk3 !=nil %><%= @category5[i].risk3 %>%<% end %></td>
-                      <td><% if @category5[i].risk5 !=nil %><%= @category5[i].risk5 %>%<% end %></td>
-                      <td><% if @category5[i].return1 !=nil %><%= @category5[i].return1 %>%<% end %></td>
-                      <td><% if @category5[i].return3 !=nil %><%= @category5[i].return3 %>%<% end %></td>
-                      <td><% if @category5[i].return5 !=nil %><%= @category5[i].return5 %>%<% end %></td>
+                      <td class="leng"><%= @category5[i].classify %></td>
+                      <td><% if @category5[i].risk1 !=nil %><%= @category5[i].risk1 %>%<% else %>--<% end %></td>
+                      <td><% if @category5[i].risk3 !=nil %><%= @category5[i].risk3 %>%<% else %>--<% end %></td>
+                      <td><% if @category5[i].risk5 !=nil %><%= @category5[i].risk5 %>%<% else %>--<% end %></td>
+                      <td><% if @category5[i].return1 !=nil %><%= @category5[i].return1 %>%<% else %>--<% end %></td>
+                      <td><% if @category5[i].return3 !=nil %><%= @category5[i].return3 %>%<% else %>--<% end %></td>
+                      <td><% if @category5[i].return5 !=nil %><%= @category5[i].return5 %>%<% else %>--<% end %></td>
                       <td><input type="radio" name="iCheck" id="iCheck5" class="<%= @category5[i].id %>,<%= @category5[i].classify %>"></td>
                     </tr>
-                    <tr id="show<%= @category5[i].id %>" class="right level5 hide">
+                    <tr id="show<%= @category5[i].id %>" class="rights level5 hide">
                       <td class="left" colspan="9"><blockquote><small><%= @category5[i].ptype %></small></blockquote></td>
                     </tr>
+                  <% end %>
                 <% end %>
               </table>
+              </div>
+              <div class="mobile">
+                <table id="category" class="table table-striped table-bordered" style="width: 100%;">
+                  <thead>
+                  <tr>
+                    <th>风险类型</th>
+                    <th>投资品种</th>
+                    <th>选择</th>
+                  </tr>
+                  </thead>
+                  <% for i in 0..@category1.size-1 %>
+                      <% if @hash2[@category1[i].id][0]>0 %>
+                          <tr id="<%= @category1[i].id %>" onclick="show(this);" class="level1">
+                            <td class="leng expand">安逸型</td>
+                            <td class="leng"><%= @category1[i].classify %></td>
+                            <td><input type="radio" name="iCheck" id="iCheck10" class="<%= @category1[i].id %>,<%= @category1[i].classify %>"></td>
+                          </tr>
+                          <tr id="show<%= @category1[i].id %>" class="rights level1 hide">
+                            <td class="left" colspan="9">
+                              亏损概率一年：<% if @category1[i].risk1 !=nil %><%= @category1[i].risk1 %>%<% else %>--<% end %><br>
+                              亏损概率三年：<% if @category1[i].risk3 !=nil %><%= @category1[i].risk3 %>%<% else %>--<% end %><br>
+                              亏损概率五年：<% if @category1[i].risk5 !=nil %><%= @category1[i].risk5 %>%<% else %>--<% end %><br>
+                              最高年收益率一年：<% if @category1[i].return1 !=nil %><%= @category1[i].return1 %>%<% else %>--<% end %><br>
+                              最高年收益率三年：<% if @category1[i].return3 !=nil %><%= @category1[i].return3 %>%<% else %>--<% end %><br>
+                              最高年收益率五年：<% if @category1[i].return5 !=nil %><%= @category1[i].return5 %>%<% else %>--<% end %><br>
+                              <blockquote><small><%= @category1[i].ptype %></small></blockquote>
+                            </td>
+                          </tr>
+                      <% end %>
+                  <% end %>
+                  <% for i in 0..@category2.size-1 %>
+                      <% if @hash2[@category2[i].id][0]>0 %>
+                          <tr id="<%= @category2[i].id %>" onclick="show(this);" class="level2">
+                            <td class="leng expand">保守型</td>
+                            <td class="leng"><%= @category2[i].classify %></td>
+                            <td><input type="radio" name="iCheck" id="iCheck11" class="<%= @category2[i].id %>,<%= @category2[i].classify %>"></td>
+                          </tr>
+                          <tr id="show<%= @category2[i].id %>" class="rights level2 hide">
+                            <td class="left" colspan="3">
+                              亏损概率一年：<% if @category2[i].risk1 !=nil %><%= @category2[i].risk1 %>%<% else %>--<% end %><br>
+                              亏损概率三年：<% if @category2[i].risk3 !=nil %><%= @category2[i].risk3 %>%<% else %>--<% end %><br>
+                              亏损概率五年：<% if @category2[i].risk5 !=nil %><%= @category2[i].risk5 %>%<% else %>--<% end %><br>
+                              最高年收益率一年：<% if @category2[i].return1 !=nil %><%= @category2[i].return1 %>%<% else %>--<% end %><br>
+                              最高年收益率三年：<% if @category2[i].return3 !=nil %><%= @category2[i].return3 %>%<% else %>--<% end %><br>
+                              最高年收益率五年：<% if @category2[i].return5 !=nil %><%= @category2[i].return5 %>%<% else %>--<% end %><br>
+                              <blockquote><small><%= @category2[i].ptype %></small></blockquote>
+                            </td>
+                          </tr>
+                      <% end %>
+                  <% end %>
+                  <% for i in 0..@category3.size-1 %>
+                      <% if @hash2[@category3[i].id][0]>0 %>
+                          <tr id="<%= @category3[i].id %>" onclick="show(this);" class="level3">
+                            <td class="leng expand">稳健型</td>
+                            <td class="leng"><%= @category3[i].classify %></td>
+                            <td><input type="radio" name="iCheck" id="iCheck12" class="<%= @category3[i].id %>,<%= @category3[i].classify %>"></td>
+                          </tr>
+                          <tr id="show<%= @category3[i].id %>" class="rights level3 hide">
+                            <td class="left" colspan="3">
+                              亏损概率一年：<% if @category3[i].risk1 !=nil %><%= @category3[i].risk1 %>%<% else %>--<% end %><br>
+                              亏损概率三年：<% if @category3[i].risk3 !=nil %><%= @category3[i].risk3 %>%<% else %>--<% end %><br>
+                              亏损概率五年：<% if @category3[i].risk5 !=nil %><%= @category3[i].risk5 %>%<% else %>--<% end %><br>
+                              最高年收益率一年：<% if @category3[i].return1 !=nil %><%= @category3[i].return1 %>%<% else %>--<% end %><br>
+                              最高年收益率三年：<% if @category3[i].return3 !=nil %><%= @category3[i].return3 %>%<% else %>--<% end %><br>
+                              最高年收益率五年：<% if @category3[i].return5 !=nil %><%= @category3[i].return5 %>%<% else %>--<% end %><br>
+                              <blockquote><small><%= @category3[i].ptype %></small></blockquote>
+                            </td>
+                          </tr>
+                      <% end %>
+                  <% end %>
+                  <% for i in 0..@category4.size-1 %>
+                      <% if @hash2[@category4[i].id][0]>0 %>
+                          <tr id="<%= @category4[i].id %>" onclick="show(this);" class="level4">
+                            <td class="leng expand">积极型</td>
+                            <td class="leng"><%= @category4[i].classify %></td>
+                            <td><input type="radio" name="iCheck" id="iCheck13" class="<%= @category4[i].id %>,<%= @category4[i].classify %>"></td>
+                          </tr>
+                          <tr id="show<%= @category4[i].id %>" class="rights level4 hide">
+                            <td class="left" colspan="3">
+                              亏损概率一年：<% if @category4[i].risk1 !=nil %><%= @category4[i].risk1 %>%<% else %>--<% end %><br>
+                              亏损概率三年：<% if @category4[i].risk3 !=nil %><%= @category4[i].risk3 %>%<% else %>--<% end %><br>
+                              亏损概率五年：<% if @category4[i].risk5 !=nil %><%= @category4[i].risk5 %>%<% else %>--<% end %><br>
+                              最高年收益率一年：<% if @category4[i].return1 !=nil %><%= @category4[i].return1 %>%<% else %>--<% end %><br>
+                              最高年收益率三年：<% if @category4[i].return3 !=nil %><%= @category4[i].return3 %>%<% else %>--<% end %><br>
+                              最高年收益率五年：<% if @category4[i].return5 !=nil %><%= @category4[i].return5 %>%<% else %>--<% end %><br>
+                              <blockquote><small><%= @category4[i].ptype %></small></blockquote>
+                            </td>
+                          </tr>
+                      <% end %>
+                  <% end %>
+                  <% for i in 0..@category5.size-1 %>
+                      <% if @hash2[@category5[i].id][0]>0 %>
+                          <tr id="<%= @category5[i].id %>" onclick="show(this);" class="level5">
+                            <td class="leng expand">激进型</td>
+                            <td class="leng"><%= @category5[i].classify %></td>
+                            <td><input type="radio" name="iCheck" id="iCheck14" class="<%= @category5[i].id %>,<%= @category5[i].classify %>"></td>
+                          </tr>
+                          <tr id="show<%= @category5[i].id %>" class="rights level5 hide">
+                            <td class="left" colspan="3">
+                              亏损概率一年：<% if @category5[i].risk1 !=nil %><%= @category5[i].risk1 %>%<% else %>--<% end %><br>
+                              亏损概率三年：<% if @category5[i].risk3 !=nil %><%= @category5[i].risk3 %>%<% else %>--<% end %><br>
+                              亏损概率五年：<% if @category5[i].risk5 !=nil %><%= @category5[i].risk5 %>%<% else %>--<% end %><br>
+                              最高年收益率一年：<% if @category5[i].return1 !=nil %><%= @category5[i].return1 %>%<% else %>--<% end %><br>
+                              最高年收益率三年：<% if @category5[i].return3 !=nil %><%= @category5[i].return3 %>%<% else %>--<% end %><br>
+                              最高年收益率五年：<% if @category5[i].return5 !=nil %><%= @category5[i].return5 %>%<% else %>--<% end %><br>
+                              <blockquote><small><%= @category5[i].ptype %></small></blockquote>
+                            </td>
+                          </tr>
+                      <% end %>
+                  <% end %>
+                </table>
+              </div>
               <div id="finance" class="hide">
+                <div class="win">
                 <table id="select" class="table table-striped table-bordered" style="width: 100%;">
                   <thead>
                   <tr>
@@ -164,38 +438,69 @@
                       <tr id="de<%= f.id %>" onclick="show2(this);" class="finance<%= f.id %> hide">
                         <td class="leng expand"><%= f.classify %></td>
                         <td class="leng"><%= f.pname %></td>
-                        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
-                        <td><%= f.rank %></td>
-                        <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% end %></td>
-                        <td><%= f.rank1 %></td>
-                        <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% end %></td>
-                        <td><%= f.rank2 %></td>
+                        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
+                        <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
+                        <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
+                        <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
+                        <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
+                        <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
                         <td><input type="radio" id="iCheck" name="iCheck2" class="<%= f.id %>"></td>
                       </tr>
-                      <tr id="hide<%= f.id %>" class="right hide">
+                      <tr id="hide<%= f.id %>" class="rights hide">
                         <td class="left" colspan="9"><blockquote><small><%= f.pintroduction %></small></blockquote></td>
                       </tr>
                   <% end %>
                 </table>
+                </div>
+                <div class="mobile">
+                  <table id="select" class="table table-striped table-bordered" style="width: 100%;">
+                    <thead>
+                    <tr>
+                      <th rowspan="2">投资品种</th>
+                      <th rowspan="2">理财产品</th>
+                      <th rowspan="2">选择</th>
+                    </tr>
+                    </thead>
+                    <% @financial2.each do |f| %>
+                        <tr id="de<%= f.id %>" onclick="show2(this);" class="finance<%= f.id %> hide">
+                          <td class="leng expand"><%= f.classify %></td>
+                          <td class="leng"><%= f.pname %></td>
+                          <td><input type="radio" id="iCheck15" name="iCheck2" class="<%= f.id %>"></td>
+                        </tr>
+                        <tr id="hide<%= f.id %>" class="rights hide">
+                          <td class="left" colspan="3">
+                            一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
+                            一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
+                            三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
+                            三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
+                            五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
+                            五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
+                            <blockquote><small><%= f.pintroduction %></small></blockquote>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </table>
+                </div>
               </div>
-              <input type="checkbox" class="hide">
-              <div class="mobile"><br></div>
             </div>
-            <div class="question" style="height: 336px;">
+            <div class="question" style="height: 736px;">
+              <div style="padding-right: 0;height: 700px;overflow: auto;">
               <table class="center">
                 <tr>
-                  <td>
+                  <td class="all">
                     <p class="q-text" id="result"></p>
                     <input type="checkbox" class="hide">
-                    <table id="ground" class="table table-striped table-bordered center" style="height: 200px;">
+                    <table id="ground" class="table table-striped table-bordered center footable" style="height: 200px;">
+                      <thead>
                       <tr>
-                        <th style="width: 110px;">理财产品大类</th>
-                        <th style="width: 80px;">当前比例</th>
-                        <th class="grey" style="width: 80px;">建议比例</th>
-                        <th style="width: 152px;">建议金额</th>
-                        <th style="width: 80px;">产品类型</th>
-                        <th>产品选择</th>
+                        <th data-sort-initial="descending" data-class="expand" style="width: 110px;">理财产品大类</th>
+                        <th data-hide="phone" style="width: 80px;">当前比例</th>
+                        <th data-hide="phone" class="grey" style="width: 80px;">建议比例</th>
+                        <th data-sort-ignore="true" style="width: 152px;">建议金额</th>
+                        <th data-hide="phone" style="width: 80px;">产品类型</th>
+                        <th data-hide="phone">产品选择</th>
                       </tr>
+                      </thead>
                       <tr>
                         <td>流动性资产</td>
                         <td id="xianjin"></td>
@@ -242,25 +547,29 @@
                       </tr>
                     </table>
                     <blockquote><small id="remark"></small></blockquote>
+                    <div id="container" style="width: 300px; height: 370px; margin: 0 auto"></div>
                   </td>
-                  <td>
+                  <td class="all">
                     <div style="width: 150px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
                   </td>
                 </tr>
               </table>
+              </div>
             </div>
             <div class="question" style="padding-right: 0;height: 376px;">
               <table class="center">
                 <tr>
                   <td>
                     <input type="checkbox" class="hide">
-                    <table class="table table-striped table-bordered" id="update" style="height: 200px;">
+                    <table class="table table-striped table-bordered footable" id="update" style="height: 200px;">
+                      <thead>
                       <tr>
-                        <th style="width: 150px;"></th>
-                        <th style="width: 150px;">已有资产名称</th>
-                        <th style="width: 150px;">金额</th>
-                        <th>操作</th>
+                        <th data-sort-initial="descending" data-class="expand" style="width: 150px;"></th>
+                        <th data-sort-ignore="true" style="width: 150px;">已有资产名称</th>
+                        <th data-hide="phone" style="width: 150px;">金额</th>
+                        <th data-hide="phone">操作</th>
                       </tr>
+                      </thead>
                       <tr id="liudong0"><td>流动型资产</td><td>现金</td><td>0</td><td></td></tr>
                       <tr id="liudong1"><td>流动型资产</td><td>货币基金</td><td>0</td><td></td></tr>
                       <tr id="baoben0"><td>保本型资产</td><td>银行定期</td><td>0</td><td></td></tr>
@@ -295,6 +604,26 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".win").remove();
+    }else{
+        $(".mobile").remove();
+    }
+</script>
 
 <script>
     var risk=0;
@@ -363,17 +692,11 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                        <% if session[:webusername]!=nil %>
-                        $.post("/personmanagement/userajax/0",{ username:"<%= session[:webusername] %>",selection: selection,xianp:$("#xian1").attr("value"),
+                        $.post("/personmanagement/userajax/0",{ username:"<%= session[:webusername] %>",selection: $(".productfeng").html(),selectproductl: $(".productliu").html(),selectproductb: $(".productbao").html(),xianp:$("#xian1").attr("value"),
                             wenp: $("#wen1").attr("value"),fengp: $("#feng1").attr("value")
                         },function(data){
                             location.href='/personmanagement/personfinance';
                         });
-                        <% else %>
-                        location.href='/sales/login?logintype=creat&risk=<%= params[:risk] %>&save=<%= params[:save] %>&age=<%= params[:age] %>&investamount=<%= params[:investamount] %>&investvarieties=<%= params[:investvarieties] %>'+
-                                '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>'+
-                                '&xianp='+$("#xian1").attr("value")+'&wenp='+$("#wen1").attr("value")+'&fengp='+$("#feng1").attr("value")+'&selection='+selection
-                        <% end %>
                     });
                     function qPayload() {
                         var $n = $qr.find("input[tabindex=0]").filter(":checked");
@@ -389,7 +712,19 @@
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
             if(i==0){
-                $("#title").html("理财产品 选择");
+                $("#title").html("流动性理财产品 选择");
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="98%";
+                test_div.style.height="406px";
+            }
+            if(i==1){
+                $("#title").html("保本型理财产品 选择");
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="98%";
+                test_div.style.height="406px";
+            }
+            if(i==2){
+                $("#title").html("风险性理财产品选择 选择");
                 if(risk>8 && risk<=10){
                     $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
                     $(".level1").hide();$(".level2").hide();$(".level3").hide();
@@ -419,13 +754,13 @@
                 test_div.style.width="98%";
                 test_div.style.height="660px";
             }
-            if(i==1){
+            if(i==3){
                 $("#title").html("概要总结");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
-                test_div.style.height="366px";
+                test_div.style.height="766px";
             }
-            if(i==2){
+            if(i==4){
                 $("#title").html("已有资金调整");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
@@ -436,8 +771,10 @@
              //   $("#q-back span").text(i === 2 ? "上一项" : "上一项");
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
-                if(i==1){newTop= "-630px"}
-                if(i==2){newTop= "-966px"}
+                if(i==1){newTop= "-376px"}
+                if(i==2){newTop= "-752px"}
+                if(i==3){newTop= "-1382px"}
+                if(i==4){newTop= "-2118px"}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -481,7 +818,9 @@
 </script>
 
 <script>
-    var selection='';
+    var selectproductl='<%= @webuser.selectproductl %>';
+    var selectproductb='<%= @webuser.selectproductb %>';
+    var selection='<%= @webuser.selection %>';
     var variety,amount,pname,jixu,total,xian,feng,wen;
     var xianjin= 0,wenjian= 0,fengxian=0;
     $(document).ready(function(){
@@ -671,7 +1010,7 @@
             }
             $("#finance").show();
             $('[class*="finance"]').hide();
-            $('[class*="right"]').addClass('hide');
+            $('[class*="rights"]').addClass('hide');
             $('[class*="detail"]').removeClass('detail');
         <%  for i in 0..@hash.size-1 %>
             if(eq[0]=='<%= @hash[i][0] %>'){
@@ -685,12 +1024,11 @@
         else if(this.name=='iCheck2'){
             $("tr").removeClass("third");
             $(".finance"+this.className).addClass("third");
-            $('[class*="right"]').addClass('hide');
+            $('[class*="rights"]').addClass('hide');
             $('[class*="detail"]').removeClass('detail');
             document.getElementById("q-submit").disabled=false;
         <% @financial2.each do |f| %>
             if(this.className=='<%= f.id %>'){
-                selection='<%= f.pname %>';
             <% if f.risklevel==1 ||  f.risklevel==2 %>
             <% if f.category=="随存随取型资产" %>
                 $("#xian0").html(((xian+feng)/total*100).toFixed(1).toString()+'%');
@@ -724,7 +1062,8 @@
             <% end %>
                 var aa="<a href='/bankinvest/classify/"+eq[0]+"'><%= f.classify %></a>";
                 $("#ground tr:eq(3) td:eq(4)").html(aa)
-                $("#ground tr:eq(3) td:eq(5)").html("<a href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %>")
+                $("#ground tr:eq(3) td:eq(5)").html("<a class='productfeng' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
+                selection='<%= f.pname %>';
             <% for i in 0..@category.size-1 %>
                 <% if @category[i].classify==f.classify %>
                   $("#remark").html("这里您的风险型资产是 <%= @category[i].classify %>，<%= @category[i].prisk %>");
@@ -741,84 +1080,372 @@
             animate(0,score);
             update();
         }
+        else if(this.name=='iCheck3'){
+        <% @financial3.each do |f| %>
+            if(this.className=='<%= f.id %>'){
+            <%  for i in 0..@hash.size-1 %>
+                if('<%= f.classify %>'=='<%= @hash[i][1] %>'){
+                    var aa="<a href='/bankinvest/classify/<%= @hash[i][0] %>'><%= f.classify %></a>";
+                    $("#ground tr:eq(1) td:eq(4)").html(aa)
+                }
+            <% end %>
+                $("#ground tr:eq(1) td:eq(5)").html("<a class='productliu' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
+                selectproductl='<%= f.pname %>'
+            }
+        <% end %>
+            $("tr").removeClass("four");
+            $(".finan"+this.className).addClass("four");
+            $('[class*="rights"]').addClass('hide');
+            $('[class*="detail"]').removeClass('detail');
+            update();
+        }
+        else if(this.name=='iCheck4'){
+        <% @financial4.each do |f| %>
+            if(this.className=='<%= f.id %>'){
+            <%  for i in 0..@hash.size-1 %>
+                if('<%= f.classify %>'=='<%= @hash[i][1] %>'){
+                    var aa="<a href='/bankinvest/classify/<%= @hash[i][0] %>'><%= f.classify %></a>";
+                    $("#ground tr:eq(2) td:eq(4)").html(aa)
+                }
+            <% end %>
+                $("#ground tr:eq(2) td:eq(5)").html("<a class='productbao' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
+                selectproductb='<%= f.pname %>';
+            }
+        <% end %>
+            $("tr").removeClass("five");
+            $(".finan"+this.className).addClass("five");
+            $('[class*="rights"]').addClass('hide');
+            $('[class*="detail"]').removeClass('detail');
+            update();
+        }
     });
 
 
 function update(){
-    var sxian=$("#xian1").attr("value");
-    var swen=$("#wen1").attr("value");
-    var sfeng=$("#feng1").attr("value");
-    var yxian=parseInt($("#liudong0 td:eq(2)").html());
-    var yhuo=parseInt($("#liudong1 td:eq(2)").html());
+    var arrayObj = new Array();
+    var sxian=$("#xian1").attr("value");        //标准流动
+    var swen=$("#wen1").attr("value");          //标准稳健
+    var sfeng=$("#feng1").attr("value");        //标准风险
+    var yxian=parseInt($("#liudong0 td:eq(2)").html());  //已有流动（现金）
+    var yhuo=parseInt($("#liudong1 td:eq(2)").html());   //已有流动（货币基金）
     var text0='',text1='',text2='',text3=''
+    var month1=0,month2=0,month3=0;   //每月分配多少
+    var amount1= 0,amount2= 0,amount3=0; //每月分配后还剩下的总额
+    var wages=parseFloat('<%= @examination.wages %>')     //每月存储
+    var dateNow = new Date();
+    var yearNow = dateNow.getFullYear();
+    var monthNow = dateNow.getMonth()+1;
+    var thismonth=0;
+<% @record.each do |r| %>
+    if(parseInt('<%= r.date %>'.split('-')[0])== yearNow && parseInt('<%= r.date %>'.split('-')[1])<=monthNow){
+
+        if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==selectproductl){
+            thismonth=thismonth+parseInt('<%= r.amount %>')
+        }
+        else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==selectproductl){
+            thismonth=thismonth-parseInt('<%= r.amount %>')
+        }
+    }
+<% end %>
+
     // xianjin=yxian+yhuo\wenjian\fengxian
     //$(".mon0 td:eq(3)").html()
-    if(yhuo>sxian){
-        text0="赎回"+(yhuo-sxian).toString()+"货币基金";
-       // $(".mon0 td:eq(3)").html("赎回"+(yhuo-sxian).toString()+"货币基金");
-        var remain0=xianjin-sxian;
+    if(thismonth>sxian){
+        text0="赎回"+yhuo.toString()+"货币基金";
+        month1=0;
+        var remain0=xianjin;
     }
-    else if(xianjin>sxian){
-        text0="买入"+(sxian-yhuo).toString()+"货币基金";
-      //  $(".mon0 td:eq(3)").html("买入"+(sxian-yhuo).toString()+"货币基金");
-        var remain0=xianjin-sxian;
+    else if(yhuo+thismonth>sxian){
+        text0="赎回"+(yhuo+thismonth-sxian).toString()+"货币基金";
+        month1=sxian-thismonth;
+        var remain0=xianjin+thismonth-sxian;
+    }
+    else if(xianjin+thismonth>sxian){
+        text0="买入"+(sxian-yhuo-thismonth).toString()+"货币基金";
+        month1=sxian;
+        var remain0=xianjin+thismonth-sxian;
     }
     else{
+        month1=xianjin;
         text0="买入"+(yxian).toString()+"货币基金";
-      //  $(".mon0 td:eq(3)").html("买入"+(yxian).toString()+"货币基金");
         var remain0=0;
     }
     if(remain0>0){
         if(wenjian>swen){
           text1="保本型资产保留不动";
-           // $(".mon1 td:eq(3)").html("保本型资产保留不动");
+            month2=0;
             var remain1=remain0;
         }
         else if(swen-wenjian>remain0){
             text1="买入"+(remain0).toString()+"保本产品";
-           // $(".mon1 td:eq(3)").html("买入"+(remain0).toString()+"保本产品");
+            month2=remain0;
             var remain1=0;
         }
         else{
             text1="买入"+(swen-wenjian).toString()+"保本产品";
-           // $(".mon1 td:eq(3)").html("买入"+(swen-wenjian).toString()+"保本产品");
+            month2=swen-wenjian;
             var remain1=remain0-(swen-wenjian);
         }
         if(remain1>0){
             if(fengxian>sfeng){
                 text2="风险型资产保留不动";
-               // $(".mon2 td:eq(3)").html("风险型资产保留不动");
+                month3=0;
                 var remain2=remain1;
             }
             else if(sfeng-fengxian>remain1){
                 var text2="买入"+(remain1).toString()+"风险产品";
-               // $(".mon2 td:eq(3)").html("买入"+(remain1).toString()+"风险产品");
+                month3=remain1;
                 var remain2=0;
             }
             else{
                 text2="买入"+(sfeng-fengxian).toString()+"风险产品";
-               // $(".mon2 td:eq(3)").html("买入"+(sfeng-fengxian).toString()+"风险产品");
+                month3=sfeng-fengxian;
                 var remain2=remain1-(sfeng-fengxian);
             }
             if(remain2>0){
+                month2=month2+remain2;
                text3="买入"+(remain2).toString()+"保本产品";
-               // $(".mon3 td:eq(3)").html("买入"+(remain2).toString()+"保本产品");
             }
         }
     }
-    $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2+'<br>'+text3)
-}
+    amount1=sxian-xianjin-thismonth;
+    amount2=swen-wenjian-month2;
+    amount3=sfeng-fengxian-month3;
+    arrayObj[0]=[month1,month2,month3,amount1,amount2,amount3]
+    if(text1==''){
+        $(".mon0 td:eq(3)").html(text0)
+    }
+    else if(text2==''){
+        $(".mon0 td:eq(3)").html(text0+'<br>'+text1)
+    }
+    else if(text3==''){
+        $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2)
+    }
+    else{
+        $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2+'<br>'+text3)
+    }
+    // xianjin,wenjian,fengxian,jixu,xian,wen,feng
 
+    //selectproductl 流动性产品名
+    for(i=1;i<12;i++){
+        var months=monthNow+i;
+        if(months>12){
+            months=months-12;
+            var year=yearNow+1;
+        }
+        else{
+            var year=yearNow;
+        }
+        thismonth=0;
+
+        <% @record.each do |r| %>
+        if(parseInt('<%= r.date %>'.split('-')[0])== year && parseInt('<%= r.date %>'.split('-')[1])==months){
+
+            if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==selectproductl){
+                thismonth=thismonth+parseInt('<%= r.amount %>')
+            }
+            else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==selectproductl){
+                thismonth=thismonth-parseInt('<%= r.amount %>')
+            }
+        }
+        <% end %>
+
+        amount1=0;amount2=0;amount3=0;
+        month1=0;month2=0;month3=0;
+     var remain1= 0,remain2= 0,remain3=0;
+        if(arrayObj[i-1][4]<=0){
+            amount2=0;
+            remain1=wages;
+            month2=0;
+        }
+        else if(swen/12<=wages){
+            if(arrayObj[i-1][4]<=swen/12){
+                amount2=0;
+                remain1=wages-arrayObj[i-1][4];
+                month2=arrayObj[i-1][4];
+            }
+            else{
+                amount2=arrayObj[i-1][4]-swen/12;
+                remain1=wages-swen/12;
+                month2=swen/12;
+            }
+        }
+        else{
+            if(arrayObj[i-1][4]<=wages){
+                amount2=0;
+                remain1=wages-arrayObj[i-1][4];
+                month2=arrayObj[i-1][4];
+            }
+            else{
+                amount2=arrayObj[i-1][4]-wages;
+                remain1=0;
+                month2=wages;
+            }
+        }
+        if(remain1>0){
+            if(arrayObj[i-1][3]<=thismonth){
+                amount1=0;
+                remain2=remain1;
+                month1=0;
+            }
+            else if(arrayObj[i-1][3]<=remain1+thismonth){
+                amount1=0;
+                remain2=remain1+thismonth-arrayObj[i-1][3];
+                month1=arrayObj[i-1][3];
+            }
+            else{
+                amount1=arrayObj[i-1][3]-remain1-thismonth;
+                remain2=0;
+                month1 = remain1;
+            }
+        }
+        else{
+            amount1=arrayObj[i-1][3]
+            remain2=remain1;
+            month1=0;
+        }
+        if(remain2>0){
+            if(arrayObj[i-1][5]<=0){
+                amount3 = 0;
+                remain3=remain2;
+                month3=0;
+            }
+            else if(sfeng/12<=remain2){
+                if(arrayObj[i-1][5]<=sfeng/12){
+                    amount3=0;
+                    remain3=remain2-arrayObj[i-1][5];
+                    month3=arrayObj[i-1][5];
+                }
+                else{
+                    amount3=arrayObj[i-1][5]-sfeng/12;
+                    remain3=remain2-sfeng/12;
+                    month3=sfeng/12;
+                }
+            }
+            else{
+                if(arrayObj[i-1][5]<=remain2){
+                    amount3=0;
+                    remain3=remain2-arrayObj[i-1][5];
+                    month3=arrayObj[i-1][5];
+                }
+                else{
+                    amount3=arrayObj[i-1][5]-remain2;
+                    remain3=0;
+                    month3=remain2;
+                }
+            }
+        }
+        else{
+            amount3=arrayObj[i-1][5];
+            remain3=0;
+            month3=0;
+        }
+        arrayObj[i]=[month1,month2,month3,amount1,amount2,amount3]
+    }
+    //xianjin,wenjian,fengxian,jixu,@finance1.averrate,@finance2.averrate,@finance3.averrate,@examination.month01
+     var yearrate1= 0,monthrate1= 0,yearrate2= 0,monthrate2= 0,yearrate3= 0,monthrate3= 0;
+    <% @financial2.each do |f| %>
+        if('<%= f.pname %>'==selectproductl){
+             yearrate1=<%= f.averrate %>,monthrate1=<%= f.averrate/12 %>;
+        }
+        if('<%= f.pname %>'==selectproductb){
+             yearrate2=<%= f.averrate %>,monthrate2=<%= f.averrate/12 %>;
+        }
+        if('<%= f.pname %>'==selection){
+             yearrate3=<%= f.averrate %>,monthrate3=<%= f.averrate/12 %>;
+        }
+    <% end %>
+
+    var a1=xianjin*(1+yearrate1);
+    var a2=xianjin*(1+12*monthrate1)+arrayObj[1][0]*(1+11*monthrate1)+arrayObj[2][0]*(1+10*monthrate1)+arrayObj[3][0]*(1+9*monthrate1)+arrayObj[4][0]*(1+8*monthrate1)+arrayObj[5][0]*(1+7*monthrate1)+arrayObj[6][0]*(1+6*monthrate1)+arrayObj[7][0]*(1+6*monthrate1)+arrayObj[8][0]*(1+4*monthrate1)+arrayObj[9][0]*(1+3*monthrate1)+arrayObj[10][0]*(1+2*monthrate1)+arrayObj[11][0]*(1+1*monthrate1)
+    var b1=wenjian*(1+yearrate2);
+    var b2=wenjian*(1+12*monthrate2)+arrayObj[1][1]*(1+11*monthrate2)+arrayObj[2][1]*(1+10*monthrate2)+arrayObj[3][1]*(1+9*monthrate2)+arrayObj[4][1]*(1+8*monthrate2)+arrayObj[5][1]*(1+7*monthrate2)+arrayObj[6][1]*(1+6*monthrate2)+arrayObj[7][1]*(1+6*monthrate2)+arrayObj[8][1]*(1+4*monthrate2)+arrayObj[9][1]*(1+3*monthrate2)+arrayObj[10][1]*(1+2*monthrate2)+arrayObj[11][1]*(1+1*monthrate2)
+    var c1=fengxian*(1+yearrate3);
+    var c2=fengxian*(1+12*monthrate3)+arrayObj[1][2]*(1+11*monthrate3)+arrayObj[2][2]*(1+10*monthrate3)+arrayObj[3][2]*(1+9*monthrate3)+arrayObj[4][2]*(1+8*monthrate3)+arrayObj[5][2]*(1+7*monthrate3)+arrayObj[6][2]*(1+6*monthrate3)+arrayObj[7][2]*(1+6*monthrate3)+arrayObj[8][2]*(1+4*monthrate3)+arrayObj[9][2]*(1+3*monthrate3)+arrayObj[10][2]*(1+2*monthrate3)+arrayObj[11][2]*(1+1*monthrate3)
+    var tol1=a1+b1+c1;
+    var tol2=a2+b2+c2;
+   // alert(tol1)
+   // alert(tol2)
+    $.post("/personmanagement/monthconfigajax",{ username: '<%= session[:webusername] %>',month01: arrayObj[0][0],month02:arrayObj[0][1],month03: arrayObj[0][2],
+        month11: arrayObj[1][0],month12: arrayObj[1][1],month13: arrayObj[1][2],
+        month21: arrayObj[2][0],month22: arrayObj[2][1],month23: arrayObj[2][2],
+        month31: arrayObj[3][0],month32: arrayObj[3][1],month33: arrayObj[3][2],
+        month41: arrayObj[4][0],month42: arrayObj[4][1],month43: arrayObj[4][2],
+        month51: arrayObj[5][0],month52: arrayObj[5][1],month53: arrayObj[5][2],
+        month61: arrayObj[6][0],month62: arrayObj[6][1],month63: arrayObj[6][2],
+        month71: arrayObj[7][0],month72: arrayObj[7][1],month73: arrayObj[7][2],
+        month81: arrayObj[8][0],month82: arrayObj[8][1],month83: arrayObj[8][2],
+        month91: arrayObj[9][0],month92: arrayObj[9][1],month93: arrayObj[9][2],
+        month101: arrayObj[10][0],month102: arrayObj[10][1],month103: arrayObj[10][2],
+        month111: arrayObj[11][0],month112: arrayObj[11][1],month113: arrayObj[11][2],tol1:parseInt(tol1),tol2:parseInt(tol2)
+    },function(data){});
+    $(function () {
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'column',
+                margin: [ 50, 50, 100, 80]
+            },
+            title: false,
+            xAxis: {
+                categories: [
+                    'M2',
+                    'M3'
+                ],
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '总和'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '{point.y}'
+            },
+            series: [{
+                name: 'Population',
+                data: [parseInt(tol1),parseInt(tol2)],
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#ccc',
+                    align: 'right',
+                    x: 4,
+                    y: 10,
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif',
+                        textShadow: '0 0 3px black'
+                    }
+                }
+            }],
+            credits: {
+                enabled: false
+            }
+        });
+    });
+}
 function show(e){
     var aaa=document.getElementById('show'+e.id);
     if(aaa.className.indexOf("hide")<0){
-        $('[class*="right"]').addClass('hide');
+        $('[class*="rights"]').addClass('hide');
         $('[class*="detail"]').removeClass('detail');
         $('#show'+e.id).addClass('hide');
         $('#'+e.id).removeClass('detail');
     }
     else{
-        $('[class*="right"]').addClass('hide');
+        $('[class*="rights"]').addClass('hide');
         $('[class*="detail"]').removeClass('detail');
         $('#show'+e.id).removeClass('hide');
         $('#'+e.id).addClass('detail');
@@ -827,15 +1454,30 @@ function show(e){
 function show2(e){
     var aaa=document.getElementById('hi'+e.id);
     if(aaa.className.indexOf("hide")<0){
-        $('[class*="right"]').addClass('hide');
+        $('[class*="rights"]').addClass('hide');
         $('[class*="detail"]').removeClass('detail');
         $('#hi'+e.id).addClass('hide');
         $('#'+e.id).removeClass('detail');
     }
     else{
-        $('[class*="right"]').addClass('hide');
+        $('[class*="rights"]').addClass('hide');
         $('[class*="detail"]').removeClass('detail');
         $('#hi'+e.id).removeClass('hide');
+        $('#'+e.id).addClass('detail');
+    }
+}
+function show3(e){
+    var aaa=document.getElementById('fi'+e.id);
+    if(aaa.className.indexOf("hide")<0){
+        $('[class*="rights"]').addClass('hide');
+        $('[class*="detail"]').removeClass('detail');
+        $('#fi'+e.id).addClass('hide');
+        $('#'+e.id).removeClass('detail');
+    }
+    else{
+        $('[class*="rights"]').addClass('hide');
+        $('[class*="detail"]').removeClass('detail');
+        $('#fi'+e.id).removeClass('hide');
         $('#'+e.id).addClass('detail');
     }
 }

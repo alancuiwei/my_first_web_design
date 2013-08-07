@@ -1,0 +1,56 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
+
+<style>
+  th,td{text-align: center!important;}
+  .dataTables_paginate {
+      font: 80% Hiragino Sans GB W3;
+  }
+  .paginate_disabled_previous, .paginate_disabled_next {
+      color: #666 !important;
+  }
+  .paginate_disabled_next, .paginate_enabled_next {
+      padding-right: 23px;
+      margin-left: 10px;
+  }
+</style>
+
+<div class="main-content organ">
+  <a href="/">首页</a>
+  <h1 class="deploy">服务开发进展</h1>
+  <table class="table table-striped table-bordered" id="pace"  cellpadding="0" cellspacing="0" border="0">
+    <thead>
+    <tr>
+      <th>功能名称</th>
+      <th>功能介绍</th>
+      <th>开发时间</th>
+      <th>上线日期</th>
+      <th>开发人</th>
+      <th>审核人</th>
+      <th>详情</th>
+    </tr>
+    </thead>
+
+    <% @pace.each do |f| %>
+        <tr>
+          <td><%= f.functionname %></td>
+          <td><%= f.introduce %></td>
+          <td><%= f.developtime %></td>
+          <td><%= f.ontime %></td>
+          <td><%= f.develop %></td>
+          <td><%= f.auditor %></td>
+          <td><a href="<%= f.details %>" target="_blank">查看</a></td>
+   </tr>
+    <% end %>
+  </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#pace').dataTable({
+            "iDisplayLength": 50,
+            "aaSorting": [[ 4, "asc" ]]
+        });
+    });
+</script>

@@ -37,12 +37,12 @@
   <div id="page-wrapper">
     <div id="top-tabs">
       <div class="top-tabs-content">
-        <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a>
+        <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <b>2.</b> <span>风险评估</span>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
-            <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
+            <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
         <% else %>
             <span class="disabled"><b>3.</b> 理财建议</span>
          <% end %>
@@ -676,7 +676,7 @@
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,options:options,goal:goal,
                             investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
                         },function(data){
-                            location.href='/personmanagement/summary';
+                            location.href='/usersurvey/measure/3';
                         });
                         <% else %>
                            location.href='/personmanagement/summary?risk='+risktolerance+'&save='+save+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+'&investvarieties='+investvarieties+
@@ -737,42 +737,16 @@
                 test_div.style.width="98%";
                 test_div.style.height="500px";
             }
-            else if(i==12){
-                if(risk>8 && risk<=10){
-                    $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
-                    $(".level1").hide();$(".level2").hide();$(".level3").hide();
-                    $(".level5").addClass('first');
-                }
-                else if(risk>6 && risk<=8){
-                    $("#risk2").html("您是积极型的投资者，但我们将和您类似的稳健型、激进型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
-                    $(".level1").hide();$(".level2").hide();
-                    $(".level4").addClass('first');
-                }
-                else if(risk>4 && risk<=6){
-                    $("#risk2").html("您是稳健型的投资者，但我们将和您类似的保守型、积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
-                    $(".level1").hide();$(".level5").hide();
-                    $(".level3").addClass('first');
-                }
-                else if(risk>2 && risk<=4){
-                    $("#risk2").html("您是保守型的投资者，但我们将和您类似的安益型、稳健型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
-                    $(".level4").hide();$(".level5").hide();
-                    $(".level2").addClass('first');
-                }
-                else if(risk>=0 && risk<=2){
-                    $("#risk2").html("您是安益型的投资者，但我们将和您类似的安益型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
-                    $(".level3").hide();$(".level4").hide();$(".level5").hide();
-                    $(".level1").addClass('first');
-                }
-
-                var test_div=document.getElementById("questionnaire-view");
-                test_div.style.width="98%";
-                test_div.style.height="660px";
-            }
             else{
-                $("#pict").show();
                 var test_div=document.getElementById("questionnaire-view");
-                test_div.style.width="642px";
                 test_div.style.height="326px";
+                if(system.win||system.mac||system.xll){
+                $("#pict").show();
+                test_div.style.width="642px";
+                }
+                else{
+                    $("#pict").hide();
+                }
             }
 
             var $qns = $qr.children(".question");
@@ -783,7 +757,6 @@
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 if(i==11){newTop= (-i * 296).toString()+"px"}
-                if(i==12){newTop= (-(i-1) * 296-500).toString()+"px"}
               //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);

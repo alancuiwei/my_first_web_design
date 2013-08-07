@@ -15,6 +15,10 @@ class BankinvestController < ApplicationController
     @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,session[:webusername])
   end
 
+  def pace
+    @pace=Pace.all
+  end
+
   def classify
    if params[:id]!=nil
     @category=Category_2.find_by_id(params[:id])
@@ -100,7 +104,7 @@ class BankinvestController < ApplicationController
     end
     @compareobj=[]
     for i in 0..@compareid.size-1
-      @compareobj[i]= Bankfinance.find(@compareid[i]);
+      @compareobj[i]= Financial.find(@compareid[i]);
     end
   end
   def comparesession

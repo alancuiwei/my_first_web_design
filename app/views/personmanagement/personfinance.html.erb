@@ -87,21 +87,21 @@
   <div class="row-fluid" style="height: 18px;">
     <% if @webuser.score ==nil %>
         <div class="span12">
-          <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
+          <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
           <span class="disabled"><b>2.</b> <span>风险评估</span><span class="separator"> > </span></span>   <div class="mobile"><br></div>
           <span class="disabled"><b>3.</b> <span>理财建议</span></span>
         </div>
     <% elsif @webuser.risktolerance ==nil %>
         <div class="span12">
-          <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
-          <a href="/home/questions"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span> <div class="mobile"><br></div>
+          <a href="/usersurvey/measure/2"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
           <span class="disabled"><b>3.</b> <span>理财建议</span></span>
         </div>
     <% else %>
         <div class="span12">
-          <a href="/usersurvey/startup"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a href="/home/questions"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
-          <a href="/personmanagement/summary"><b>3.</b> <span>理财建议</span></a>
+          <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/measure/2"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>  <div class="mobile"><br></div>
+          <a href="/usersurvey/measure/3"><b>3.</b> <span>理财建议</span></a>
         </div>
     <% end %>
   </div>
@@ -113,7 +113,7 @@
     <div style="font-size: 14px;line-height: 30px;"><%= @webuser.username %>的家庭诊断</div>
     <div style="height: 30px;">
       <% if @webuser.username == session[:webusername] %>
-          <a href="/usersurvey/startup" id="change-answers" style="font-size: 12px;">重新体检</a>
+          <a href="/usersurvey/measure/1" id="change-answers" style="font-size: 12px;">重新体检</a>
       <% end %>
     </div>
     <hr>
@@ -121,9 +121,9 @@
     <div id="container" style="width: 130px;margin: auto;"></div>
     <% if @webuser.username == session[:webusername] %>
         <% if @webuser.risktolerance ==nil %>
-            <a href="/home/questions" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
+            <a href="/usersurvey/measure/2" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
         <% else %>
-            <a href="/home/questions" id="change-answers" style="font-size: 12px;">修改我的答案</a>
+            <a href="/usersurvey/measure/2" id="change-answers" style="font-size: 12px;">修改我的答案</a>
         <% end %>
     <% end %>
     <% if  @webuser.risktolerance!=nil %>
@@ -196,29 +196,30 @@
 -->
 <table id="table" style="width: 100%;">
 <tr>
-  <td style="padding-left: 80px;">
+  <td id="pad" style="padding-left: 80px;">
     <div class="account-types">
       <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
-        <table style="width: 100%;">
+        <table clas="left" style="width: 100%;">
           <tr>
             <td colspan="3">
               <div class="account-type-tab active taxable-account-type">
-                <p><span class="product" style="line-height: 20px;">本月目标</span></p>
+                <p><span class="product" style="line-height: 20px;">本月收入安排</span></p>
               </div>
               <div class="clearfix"></div>
             </td>
           </tr>
           <tr>
-            <td style="width: 25%;vertical-align: middle;">
-              <!-- Button to trigger modal -->
-              <a href="#myModal" role="button" data-toggle="modal">全年目标</a>
-            </td>
-            <td style="width: 255px;">
+            <td class="left" style="width: 25%;vertical-align: middle;"></td>
+            <td class="left" style="width: 255px;">
               <div class="controls input-append date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                 <input size="16" id="dates" type="text" readonly onchange="select()">
                 <span class="add-on"><i class="icon-th"></i></span>
               </div>
               <input type="hidden" id="dtp_input2" value="" />
+            </td>
+            <td class="left" style="vertical-align: middle;">
+              <!-- Button to trigger modal -->
+              <a href="#myModal" role="button" data-toggle="modal">显示全年计划</a>
             </td>
           </tr>
         </table>
@@ -227,92 +228,62 @@
   </td>
 </tr>
 <tr>
-  <td  style="border-bottom: 1px solid #E2E2E2;" >
+  <td style="border-bottom: 1px solid #E2E2E2;" >
     <div class="plan-details">
 
       <table style="width: 100%;float: left;">
-        <tr><td class="cation high" style="width: 30%;height: 180px;padding-bottom: 50px;">
+        <tr><td class="cation high left" style="width: 30%;height: 180px;padding-bottom: 50px;">
           <div class="allocation-chart-container">
             <div id="container3" style="width: 280px;height: 180px;"></div>
           </div>
-        </td><td class="cation">
+        </td><td class="cation left">
           <table class="table table-striped table-bordered footable">
             <thead>
             <tr class="win">
-              <th style="width: 25%;">投资产品</th>
-              <th style="width: 25%;">本月目标</th>
-              <th style="width: 25%;">已完成</th>
-              <th style="width: 25%;">产品详情</th>
+              <th style="width: 20%;">投资产品</th>
+              <th style="width: 20%;">产品类型</th>
+              <th style="width: 20%;">本月目标</th>
+              <th style="width: 20%;">已完成</th>
+              <th style="width: 20%;"> 购买指导</th>
             </tr>
             <tr class="mobile">
-              <th data-sort-ignore="true">投资产品</th>
-              <th>本月目标</th>
-              <th data-hide="phone,tablet">已完成</th>
-              <th data-hide="phone,tablet">产品详情</th>
+              <th data-sort-initial="descending" data-class="expand">投资产品</th>
+              <th data-hide="phone">产品类型</th>
+              <th data-sort-ignore="true">本月目标</th>
+              <th data-hide="phone">已完成</th>
+              <th data-hide="phone">购买指导</th>
             </tr>
             </thead>
             <tbody>
             <tr class="monthpay2">
-              <td class="name2"><%= @hash3['流动'][0] %></td>
+              <td class="name2"><% if @finance1!=nil %><%= @finance1.pname %><% end %></td>
+              <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
               <td class="amounts2"></td>
               <td class="finish2"></td>
-              <td><a href="/bankinvest/productdetails/<%= @hash3['流动'][1] %>" class="btn btn-primary">查看</a></td>
+              <td><% if @finance1!=nil %><a href="/bankinvest/productdetails/<%= @finance1.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
             <tr class="monthpay4">
-              <td class="name4"><%= @hash3['保本'][0] %></td>
+              <td class="name4"><% if @finance2!=nil %><%= @finance2.pname %><% end %></td>
+              <td><% if @category2!=nil %><a href="/bankinvest/classify/<%= @category2.id %>"><%= @category2.classify %></a><% end %></td>
               <td class="amounts4"></td>
               <td class="finish4"></td>
-              <td><a href="/bankinvest/productdetails/<%= @hash3['保本'][1] %>" class="btn btn-primary">查看</a></td>
+              <td><% if @finance2!=nil %><a href="/bankinvest/productdetails/<%= @finance2.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
             <% if  @webuser.risktolerance!=nil %>
                 <% if @webuser.selection!=nil && @webuser.selection!="" %>
                     <tr class="monthpay5">
-                      <td class="name5"><%= @webuser.selection %></td>
+                      <td class="name5"><% if @finance3!=nil %><%= @finance3.pname %><% end %></td>
+                      <td><% if @category3!=nil %><a href="/bankinvest/classify/<%= @category3.id %>"><%= @category3.classify %></a><% end %></td>
                       <td class="amounts5"></td>
                       <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3[@webuser.selection][1] %>" class="btn btn-primary">查看</a></td>
-                    </tr>
-                <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-                    <tr class="monthpay5">
-                      <td class="name5"><%= @hash3['风险1'][0] %></td>
-                      <td class="amounts5"></td>
-                      <td class="finish5"></td>
-                      <td></td>
-                    </tr>
-                <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                    <tr class="monthpay5">
-                      <td class="name5"><%= @hash3['风险2'][0] %></td>
-                      <td class="amounts5"></td>
-                      <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险2'][1] %>" class="btn btn-primary">查看</a></td>
-                    </tr>
-                <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                    <tr class="monthpay5">
-                      <td class="name5"><%= @hash3['风险3'][0] %></td>
-                      <td class="amounts5"></td>
-                      <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险3'][1] %>" class="btn btn-primary">查看</a></td>
-                    </tr>
-                <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                    <tr class="monthpay5">
-                      <td class="name5"><%= @hash3['风险4'][0] %></td>
-                      <td class="amounts5"></td>
-                      <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险4'][1] %>" class="btn btn-primary">查看</a></td>
-                    </tr>
-                <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-                    <tr class="monthpay5">
-                      <td class="name5"><%= @hash3['风险5'][0] %></td>
-                      <td class="amounts5"><%= @hash3['风险5'][1] %></td>
-                      <td class="finish5"></td>
-                      <td><a href="/bankinvest/productdetails/<%= @hash3['风险5'][1] %>" class="btn btn-primary">查看</a></td>
+                      <td><% if @finance3!=nil %><a href="/bankinvest/productdetails/<%= @finance3.id %>" class="btn btn-primary">查看</a><% end %></td>
                     </tr>
                 <% end %>
             <% end %>
             </tbody>
           </table>
-          <blockquote>
-          <small>产品是完全根据您的风险评估结果来推荐的。重新进行<a href="/home/questions">风险评估</a></small>
+          <blockquote style="text-align: left;">
+          <small>产品是完全根据您的风险评估结果来推荐的。重新进行<a href="/usersurvey/measure/2">风险评估</a></small>
           </blockquote>
         </td></tr></table>
 
@@ -331,22 +302,24 @@
 </div>
 <table style="width: 100%;">
   <tr>
-    <td style="width: 30%;"></td>
-    <td>
-      <table class="table table-striped table-bordered" id="records">
+    <td class="left" style="width: 30%;">
+      <div id="container4" style="width: 280px;height: 180px;"></div>
+    </td>
+    <td class="left">
+      <table class="table table-striped table-bordered footable" id="records">
         <thead>
         <tr>
           <% if @webuser.username==session[:webusername] %>
-              <th style="width: 20%;">日期</th>
-              <th style="width: 20%;">属性</th>
-              <th style="width: 20%;">投资产品</th>
-              <th style="width: 20%;">金额(元)</th>
-              <th style="width: 20%;">操作</th>
+              <th data-sort-initial="descending" data-class="expand" style="width: 20%;">日期</th>
+              <th data-hide="phone" style="width: 20%;">属性</th>
+              <th data-sort-ignore="true" style="width: 20%;">投资产品</th>
+              <th data-hide="phone" style="width: 20%;">金额(元)</th>
+              <th data-hide="phone" style="width: 20%;">操作</th>
           <% else %>
-              <th style="width: 25%;">日期</th>
-              <th style="width: 25%;">属性</th>
-              <th style="width: 25%;">投资产品</th>
-              <th style="width: 25%;">金额(元)</th>
+              <th data-sort-initial="descending" data-class="expand" style="width: 25%;">日期</th>
+              <th data-hide="phone" style="width: 25%;">属性</th>
+              <th data-sort-ignore="true" style="width: 25%;">投资产品</th>
+              <th data-hide="phone" style="width: 25%;">金额(元)</th>
           <% end %>
         </tr>
         </thead>
@@ -389,18 +362,18 @@
     <div class="plan-details">
       <section id="asset-allocation" class="">
         <table style="width: 100%;">
-          <tr><td class="high" style="width: 30%;height: 200px;padding-top: 20px;">
+          <tr><td class="high left" style="width: 30%;height: 200px;padding-top: 20px;">
             <div class="allocation-chart-container">
               <div class="percentage" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
             </div>
-          </td><td>
-            <table id="table2" style="width: 100%;" class="table table-striped table-bordered">
+          </td><td class="left">
+            <table id="table2" style="width: 100%;" class="table table-striped table-bordered footable">
               <thead>
               <tr>
-                <th style="width: 25%;">理财产品大类</th>
-                <th style="width: 25%;">建议比例</th>
-                <th style="width: 25%;">当前比例</th>
-                <th style="width: 25%;">当前金额</th>
+                <th data-sort-initial="descending" data-class="expand" style="width: 25%;">理财产品大类</th>
+                <th data-sort-ignore="true" style="width: 25%;">建议比例</th>
+                <th data-hide="phone" style="width: 25%;">当前比例</th>
+                <th data-hide="phone" style="width: 25%;">当前金额</th>
               </tr>
               </thead>
               <tbody>
@@ -424,7 +397,13 @@
               </tr>
               </tbody>
             </table>
-          </td></tr></table>
+            <div>&nbsp;
+            <blockquote style="text-align: left;">
+              <small>比例是完全根据您的月收入支出、已有资产计算得来的。 重新进行<a href="/usersurvey/measure/1">资产体检</a></small>
+            </blockquote></div>
+          </td>
+          </tr>
+        </table>
       </section>
     </div>
     <!--
@@ -580,20 +559,14 @@
         <td>投资产品：</td>
         <td>
           <select name="pname" id="pname">
-            <option value="<%= @hash3['流动'][0] %>"><%= @hash3['流动'][0] %></option>
-            <option value="<%= @hash3['保本'][0] %>"><%= @hash3['保本'][0] %></option>
-            <% if @webuser.selection!=nil && @webuser.selection!="" %>
-                <option value="<%= @hash3[@finances.pname][0] %>"><%= @hash3[@finances.pname][0] %></option>
-            <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-                <option value="<%= @hash3['风险1'][0] %>"><%= @hash3['风险1'][0] %></option>
-            <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-                <option value="<%= @hash3['风险2'][0] %>"><%= @hash3['风险2'][0] %></option>
-            <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-                <option value="<%= @hash3['风险3'][0] %>"><%= @hash3['风险3'][0] %></option>
-            <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-                <option value="<%= @hash3['风险4'][0] %>"><%= @hash3['风险4'][0] %></option>
-            <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-                <option value="<%= @hash3['风险5'][0] %>"><%= @hash3['风险5'][0] %></option>
+            <% if @finance1!=nil %>
+               <option value="<%= @finance1.pname %>"><%= @finance1.pname %></option>
+            <% end %>
+            <% if @finance2!=nil %>
+               <option value="<%= @finance2.pname %>"><%= @finance2.pname %></option>
+            <% end %>
+            <% if @finance3!=nil %>
+               <option value="<%= @finance3.pname %>"><%= @finance3.pname %></option>
             <% end %>
           </select>
         </td>
@@ -614,20 +587,17 @@
 <script language="javascript">
     var handle=0;
     var product;
-    var a2="<%= @hash3['流动'][0] %>";
-    var a4="<%= @hash3['保本'][0] %>";
-    <% if @webuser.selection!=nil && @webuser.selection!="" %>
-    var a5="<%= @hash3[@finances.pname][0] %>";
-    <% elsif @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
-    var a5="<%= @hash3['风险1'][0] %>";
-    <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
-    var a5="<%= @hash3['风险2'][0] %>";
-    <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
-    var a5="<%= @hash3['风险3'][0] %>";
-    <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
-    var a5="<%= @hash3['风险4'][0] %>";
-    <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
-    var a5="<%= @hash3['风险5'][0] %>";
+    var a2='',a4='',a5='';
+    var xianjin=0,wenjian=0,fengxian= 0,jixu= 0,xian= 0,wen= 0,feng= 0,monthdeposit=0;
+    var arrayObj = new Array();
+    <% if @finance1 !=nil %>
+      a2="<%= @finance1.pname %>";
+    <% end %>
+    <% if @finance2 !=nil %>
+      a4="<%= @finance2.pname %>";
+    <% end %>
+    <% if @finance3 !=nil %>
+      a5="<%= @finance3.pname %>";
     <% end %>
     function jsSelectIsExitItem(objSelect, objItemValue) {
         var isExit = false;
@@ -720,7 +690,7 @@
                     var amount=0-parseInt($("#amount").attr("value"))
                 }
 
-                if($("#pname").attr("value")=='<%= @hash3['流动'][0] %>'){
+                if($("#pname").attr("value")==a2){
                     if($(".finish2").html()=="") {
                         $(".finish2").html(amount);
                     }
@@ -729,7 +699,7 @@
                     }
                     $("#amount1").html(amount+parseInt($("#amount1").html()));
                 }
-                else if($("#pname").attr("value")=='<%= @hash3['保本'][0] %>'){
+                else if($("#pname").attr("value")==a4){
                     if($(".finish4").html()=="") {
                         $(".finish4").html(amount);
                     }
@@ -737,15 +707,6 @@
                         $(".finish4").html(amount+parseInt($(".finish4").html()))
                     }
                     $("#amount2").html(amount+parseInt($("#amount2").html()));
-                }
-                else if($("#pname").attr("value")=='<%= @hash3['风险1'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险2'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险3'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险4'][0] %>' || $("#pname").attr("value")=='<%= @hash3['风险5'][0] %>'){
-                    if($(".finish5").html()=="") {
-                        $(".finish5").html(amount);
-                    }
-                    else{
-                        $(".finish5").html(amount+parseInt($(".finish5").html()))
-                    }
-                    $("#amount3").html(amount+parseInt($("#amount3").html()));
                 }
                 else if($("#pname").attr("value")=='其他流动性产品'){
                     $("#amount1").html(amount+parseInt($("#amount1").html()));
@@ -757,8 +718,7 @@
                     $("#amount3").html(amount+parseInt($("#amount3").html()));
                 }
                 else{
-                <% if @webuser.selection!=nil && @webuser.selection!="" %>
-                    if($("#pname").attr("value")=='<%= @hash3[@finances.pname][0] %>' ){
+                    if($("#pname").attr("value")==a5 ){
                         if($(".finish5").html()=="") {
                             $(".finish5").html(amount);
                         }
@@ -767,7 +727,6 @@
                         }
                         $("#amount3").html(amount+parseInt($("#amount3").html()));
                     }
-                <% end %>
                 }
 
                 var sun=parseInt($("#amount1").html())+parseInt($("#amount2").html())+parseInt($("#amount3").html())
@@ -807,7 +766,7 @@
             thisyear=thisyear+'|'+i+'月';
         }
     }
-    for(i=1;i<=monthNow;i++){
+    for(i=1;i<monthNow;i++){
         if(nextyear==""){
             nextyear='|'+i+'月';
         }
@@ -816,16 +775,9 @@
         }
     }
 
-    var arrayObj = new Array();
-    var jixu,monthdeposit,totak,xian,feng,wen;
-
-
     function select() {
 
     <% if @examination !=nil %>
-        var xianjin=0;
-        var wenjian=0;
-        var fengxian=0;
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
         for(i=0;i<variety.length;i++){
@@ -977,9 +929,9 @@
             arrayObj[0]=[amounts1,amounts3,amounts2,amounts4,amounts5,$(".amounts3").html(),$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
 
             array();
-            $(".finish2").html('');
-            $(".finish4").html('');
-            $(".finish5").html('');
+            $(".finish2").html('0');
+            $(".finish4").html('0');
+            $(".finish5").html('0');
         <% @record.each do |r| %>
             if('<%= r.date %>'.split('-')[0]+'年'==loca2 && parseInt('<%= r.date %>'.split('-')[1]).toString()+'月'==loca4){
                 if('<%= r.nature %>'=='买入'){
@@ -1156,7 +1108,6 @@
         <% end %>
 
             if(a5==a2){
-                alert(1);
                 $(".monthpay5").hide();
                 $(".monthpay2").show();
                 if($(".amounts5").html()!=""){
@@ -1200,7 +1151,7 @@
     }
 
     function array(){
-        for(i=1;i<=12;i++){
+        for(i=1;i<12;i++){
             var months=monthNow+i;
             if(months>12){
                 months=months-12;
@@ -1213,7 +1164,7 @@
         <% @record.each do |r| %>
             if(parseInt('<%= r.date %>'.split('-')[0])== year && parseInt('<%= r.date %>'.split('-')[1])==months){
 
-                if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==a2){
+                if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==a2){                   //a2流动性产品
                     thismonth=thismonth+parseInt('<%= r.amount %>')
                 }
                 else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==a2){
@@ -1472,7 +1423,7 @@
         $("#target tr:eq(1) td:eq(0)").html(a2);
         $("#target tr:eq(2) td:eq(0)").html(a4);
         $("#target tr:eq(3) td:eq(0)").html(a5);
-        for(i=0;i<13;i++){
+        for(i=0;i<12;i++){
             var a=i+1;
             if(i!=0){
                 $("#target tr:eq(0) td:eq("+i+")").html(mon[i]);
@@ -1480,10 +1431,12 @@
             if(a2==a5){
                 $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100+parseInt(arrayObj[i][8]/100)*100);
                 $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
+                $("#target tr:eq(3) td:eq("+a+")").html(0);
             }
             else if(a4==a5){
                 $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
                 $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100+parseInt(arrayObj[i][8]/100)*100);
+                $("#target tr:eq(3) td:eq("+a+")").html(0);
             }
             else{
                 $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100);
@@ -1491,6 +1444,21 @@
                 $("#target tr:eq(3) td:eq("+a+")").html(parseInt(arrayObj[i][8]/100)*100);
             }
         }
+
+        $.post("/personmanagement/monthconfigajax",{ username: '<%= session[:webusername] %>',month01: $("#target tr:eq(1) td:eq(1)").html(),month02: $("#target tr:eq(2) td:eq(1)").html(),month03: $("#target tr:eq(3) td:eq(1)").html(),
+            month11: $("#target tr:eq(1) td:eq(2)").html(),month12: $("#target tr:eq(2) td:eq(2)").html(),month13: $("#target tr:eq(3) td:eq(2)").html(),
+            month21: $("#target tr:eq(1) td:eq(3)").html(),month22: $("#target tr:eq(2) td:eq(3)").html(),month23: $("#target tr:eq(3) td:eq(3)").html(),
+            month31: $("#target tr:eq(1) td:eq(4)").html(),month32: $("#target tr:eq(2) td:eq(4)").html(),month33: $("#target tr:eq(3) td:eq(4)").html(),
+            month41: $("#target tr:eq(1) td:eq(5)").html(),month42: $("#target tr:eq(2) td:eq(5)").html(),month43: $("#target tr:eq(3) td:eq(5)").html(),
+            month51: $("#target tr:eq(1) td:eq(6)").html(),month52: $("#target tr:eq(2) td:eq(6)").html(),month53: $("#target tr:eq(3) td:eq(6)").html(),
+            month61: $("#target tr:eq(1) td:eq(7)").html(),month62: $("#target tr:eq(2) td:eq(7)").html(),month63: $("#target tr:eq(3) td:eq(7)").html(),
+            month71: $("#target tr:eq(1) td:eq(8)").html(),month72: $("#target tr:eq(2) td:eq(8)").html(),month73: $("#target tr:eq(3) td:eq(8)").html(),
+            month81: $("#target tr:eq(1) td:eq(9)").html(),month82: $("#target tr:eq(2) td:eq(9)").html(),month83: $("#target tr:eq(3) td:eq(9)").html(),
+            month91: $("#target tr:eq(1) td:eq(10)").html(),month92: $("#target tr:eq(2) td:eq(10)").html(),month93: $("#target tr:eq(3) td:eq(10)").html(),
+            month101: $("#target tr:eq(1) td:eq(11)").html(),month102: $("#target tr:eq(2) td:eq(11)").html(),month103: $("#target tr:eq(3) td:eq(11)").html(),
+            month111: $("#target tr:eq(1) td:eq(12)").html(),month112: $("#target tr:eq(2) td:eq(12)").html(),month113: $("#target tr:eq(3) td:eq(12)").html()
+        },function(data){});
+
         if(a2==a5 || a4==a5){
             $("#target tr:eq(3)").hide();
         }
@@ -1812,6 +1780,94 @@
         var dataArray= [['流动型资产',1],['保本型资产',1],['风险型资产',1]];
         <% end %>
     });
+    var date=yearNow+'-'+monthNow+'-1',date1;
+    <% @record.each do |r| %>
+       date1='<%= r.date %>'
+    var arr = date.split("-");
+    var starttime = new Date(arr[0], arr[1], arr[2]);
+    var starttimes = starttime.getTime();
+
+    var arrs = date1.split("-");
+    var lktime = new Date(arrs[0], arrs[1], arrs[2]);
+    var lktimes = lktime.getTime();
+    if (starttimes >= lktimes) {
+        date=date1;
+    }
+    <% end %>
+    var length = (yearNow-parseInt(date.split("-")[0]))*12+monthNow-parseInt(date.split("-")[1]);
+    var dates= new Array(); var data1= new Array(); var data2= new Array();nian=parseInt(date.split("-")[0]),yue=parseInt(date.split("-")[1]);
+    for(var i=0;i<=length;i++){
+        if(yue>12){
+            yue=yue-12;
+            nian=nian+1;
+        }
+        var jin1=0,jin2=0;
+    <% @record.each do |r| %>
+        if(parseInt('<%= r.date %>'.split('-')[0])==nian && parseInt('<%= r.date %>'.split('-')[1])==yue){
+
+            if('<%= r.nature %>'=='买入'){
+                jin1=jin1+parseInt('<%= r.amount %>')
+            }
+            else if('<%= r.nature %>'=='赎回取现'){
+                jin2=jin2+parseInt('<%= r.amount %>')
+            }
+        }
+    <% end %>
+        dates[i]=nian.toString()+'-'+yue.toString();
+        data1[i]=jin1;
+        data2[i]=jin2;
+        yue=yue+1;
+    }
+
+    $(function () {
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container4',
+                type: 'column'
+            },
+            title: {
+                text: '投资记录'
+            },
+            subtitle: {
+                text: false
+            },
+            xAxis: {
+                categories: dates
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '金额'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '买入',
+                data: data1
+
+            }, {
+                name: '赎回',
+                data: data2
+
+            }],
+            credits: {
+                enabled: false
+            }
+        });
+    });
 
 
     $(function(){
@@ -1985,7 +2041,7 @@
         minView: 3,
         forceParse: 0,
         startDate: yearNow+'-'+monthNow,
-        endDate: (parseInt(yearNow)+1).toString()+'-'+monthNow,
+        endDate: (parseInt(yearNow)+1).toString()+'-'+(parseInt(monthNow)-1).toString(),
         format: 'yyyy-mm',
         pickerPosition: "bottom-left"
     }).on('changeDate', function(ev){

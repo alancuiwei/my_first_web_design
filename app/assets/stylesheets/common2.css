@@ -2,6 +2,41 @@
     font-family:"helvetica neue",helvetica,arial,sans-serif
 }
 
+.catalog td{
+    width: 37%;
+    vertical-align: middle!important;
+}
+
+.catalog .cata img{
+    width: 60px;
+}
+
+.catalog td.cata1{
+    width: 43%;
+    vertical-align: middle!important;
+}
+.catalog td h1{
+    border-bottom: 0;
+    position: relative;
+    font-size: 40px;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+}
+.catalog td h1.red{
+    color: red;
+}
+
+.catalog td.cata{
+    text-align: right;
+    width: 20%;
+    vertical-align: middle!important;
+}
+.catalog{
+    width: 100%;
+    margin: 100px 0;
+}
+
 tr.detail > td.expand {
     background: url('/assets/minus.png') no-repeat 5px center;
 }
@@ -500,6 +535,11 @@ p.q-text {
     width: 105px;
 }
 
+.btn.begin{
+    padding: 4px 65px;
+    margin: 20px 0 40px;
+}
+
 .welcomes{
     background-color: rgb(255, 255, 255);
     border-width: 2px 1px;
@@ -540,6 +580,20 @@ p.q-text {
 }
 
 @media screen and (max-width: 767px){
+    /* usersurvey/measure */
+    .catalog{
+        margin: 20px!important;
+    }
+    .catalog td.cata {
+        text-align: right;
+        width: 30%;
+        vertical-align: middle!important;
+    }
+    .catalog td.cata1 {
+        width: 70%;
+    }
+    /* usersurvey/measure */
+
     body{
         padding-left: 0!important;
     }
@@ -552,9 +606,23 @@ p.q-text {
     .question {
         padding: 0 0 0 12%;
         margin: 0 10px;
-        height: 330px;
+        height: 296px;
         width: 75%;
     }
+
+    .summary .question{
+        padding: 0;
+        width: 95%;
+    }
+
+    .summary .question td.all{
+        float: left;
+        width: 95%!important;
+    }
+    .summary #top-tabs .top-tabs-content {
+        padding-left: 0;
+    }
+
     #questionnaire label.stacked{
         float: none;
     }
@@ -572,7 +640,7 @@ p.q-text {
      #questionnaire-view{
         width: 100%;
          margin: 0;
-         height: 330px;
+         height: 326px;
      }
     #q-back,#q-next,#q-submit{
         margin-bottom: 10px;

@@ -4,63 +4,70 @@
   <h1>理财产品比较</h1>
   <table class="table table-striped table-bordered">
     <tr>
-      <td class="trust">发行银行</td>
+      <td class="trust">产品名称</td>
 <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].trustee%></td>
+          <td><%=@compareobj[i].pname %></td>
 <% end %>
     </tr>
     <tr>
-      <td>预期收益率</td>
+      <td>管理机构</td>
       <% for i in 0..@compareobj.size-1%>
-          <% if @compareobj[i].returnrate!=nil%>
-          <td><%=format("%0.1f",@compareobj[i].returnrate*100)%>%</td>
-          <% else %>
-              <td></td>
-          <% end %>
+          <td><%= @compareobj[i].trusts %></td>
       <% end %>
     </tr>
     <tr>
-      <td>类型</td>
+      <td>产品代码</td>
       <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].incometype%></td>
+          <td><% if @compareobj[i].productcode!=nil && @compareobj[i].productcode!='' %><%= @compareobj[i].productcode %><% else %>--<% end %></td>
       <% end %>
     </tr>
     <tr>
-      <td>起售价</td>
+      <td>产品大类</td>
       <% for i in 0..@compareobj.size-1%>
-          <% if @compareobj[i].startvalue!=nil%>
-          <td><%=format("%0.0f",@compareobj[i].startvalue)%>元</td>
-          <% else %>
-              <td></td>
+          <td><%= @compareobj[i].category %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>产品小类</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><%= @compareobj[i].classify %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>风险级别</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td>
+          <% if @compareobj[i].risklevel==1 %>无风险
+          <% elsif  @compareobj[i].risklevel==2 %>低风险
+          <% elsif  @compareobj[i].risklevel==3 %>中级风险
+          <% elsif  @compareobj[i].risklevel==4 %>高风险
+          <% elsif  @compareobj[i].risklevel==5 %>极高风险
           <% end %>
+          </td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>收益率</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @compareobj[i].rate !=nil && @compareobj[i].rate.to_f !=0 %><%= format("%0.2f",@compareobj[i].rate.to_f*100) %>%<% else %>--<% end %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>最低投资金额</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @compareobj[i].startvalue !=nil %><%= @compareobj[i].startvalue %>元<% end %></td>
+      <% end %>
+    </tr>
+    <tr>
+      <td>手续费</td>
+      <% for i in 0..@compareobj.size-1%>
+          <td><% if @compareobj[i].poundage !=nil %><%= format("%0.1f",@compareobj[i].poundage) %>%<% end %></td>
       <% end %>
     </tr>
     <tr>
       <td>投资期限</td>
       <% for i in 0..@compareobj.size-1%>
-          <% if @compareobj[i].investperiod!=nil%>
-          <td><%=format("%0.0f",@compareobj[i].investperiod)%>天</td>
-          <% else %>
-              <td></td>
-          <% end %>
-      <% end %>
-    </tr>
-    <tr>
-      <td>可售</td>
-      <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].status%></td>
-      <% end %>
-    </tr>
-    <tr>
-      <td>产品名称</td>
-      <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].bname%></td>
-      <% end %>
-    </tr>
-    <tr>
-      <td>发行地区</td>
-      <% for i in 0..@compareobj.size-1%>
-          <td><%=@compareobj[i].distributionarea%></td>
+          <td><% if @compareobj[i].investperiod!=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~@compareobj[i].investperiod %><%= @compareobj[i].investperiod %>天<% else %><%= @compareobj[i].investperiod %><% end %><% end %></td>
       <% end %>
     </tr>
   </table>

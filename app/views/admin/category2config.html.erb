@@ -25,9 +25,14 @@
   亏损概率 1 年：<input type="text" name="risk1" id="risk1" title="亏损概率1年">% <span>(数字)</span> <br>
   亏损概率 3 年：<input type="text" name="risk3" id="risk3" title="亏损概率">% <span>(数字)</span> <br>
   亏损概率 5 年：<input type="text" name="risk5" id="risk5" title="亏损概率">% <span>(数字)</span> <br>
-  最高可达收益率 1 年：<input type="text" name="return1" id="return1" title="最高可达收益率1年">% <span>(数字)</span> <br>
-  最高可达收益率 3 年：<input type="text" name="return3" id="return3" title="最高可达收益率3年">% <span>(数字)</span> <br>
-  最高可达收益率 5 年：<input type="text" name="return5" id="return5" title="最高可达收益率5年">% <span>(数字)</span> <br>
+  最高收益率 1 年：<input type="text" name="return1" id="return1" title="最高收益率1年">% <span>(数字)</span> <br>
+  最高收益率 3 年：<input type="text" name="return3" id="return3" title="最高收益率3年">% <span>(数字)</span> <br>
+  最高收益率 5 年：<input type="text" name="return5" id="return5" title="最高收益率5年">% <span>(数字)</span> <br>
+  2012年平均收益率：<input type="text" name="rate12" id="rate12">% <span>(数字)</span> <br>
+  2011年平均收益率：<input type="text" name="rate11" id="rate11">% <span>(数字)</span> <br>
+  2010年平均收益率：<input type="text" name="rate10" id="rate10">% <span>(数字)</span> <br>
+  2009年平均收益率：<input type="text" name="rate09" id="rate09">% <span>(数字)</span> <br>
+  2008年平均收益率：<input type="text" name="rate08" id="rate08">% <span>(数字)</span> <br>
   <% if params[:id]!="0" %>
       产品类型介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="ptype" id="ptype" title="产品类型介绍"><%= @category2.ptype %></textarea><br>
       产品风险介绍：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="prisk" id="prisk" title="产品风险介绍"><%= @category2.prisk %></textarea><br>
@@ -55,6 +60,11 @@
     $("#return1").attr("value",'<%= @category2.return1%>');
     $("#return3").attr("value",'<%= @category2.return3%>');
     $("#return5").attr("value",'<%= @category2.return5%>');
+    $("#rate12").attr("value",'<%= @category2.rate12%>');
+    $("#rate11").attr("value",'<%= @category2.rate11%>');
+    $("#rate10").attr("value",'<%= @category2.rate10%>');
+    $("#rate09").attr("value",'<%= @category2.rate09%>');
+    $("#rate08").attr("value",'<%= @category2.rate08%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -83,15 +93,35 @@
                 nom_flag=1;
             }
             else if( numfor.test($("#return1").attr("value"))==false){
-                alert("最高可达收益率1年必须为数字！");
+                alert("最高收益率1年必须为数字！");
                 nom_flag=1;
             }
             else if( numfor.test($("#return3").attr("value"))==false){
-                alert("最高可达收益率3年必须为数字！");
+                alert("最高收益率3年必须为数字！");
                 nom_flag=1;
             }
             else if( numfor.test($("#return5").attr("value"))==false){
-                alert("最高可达收益率5年必须为数字！");
+                alert("最高收益率5年必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#rate12").attr("value"))==false && $("#rate12").attr("value")!=''){
+                alert("2012年平均收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#rate11").attr("value"))==false && $("#rate11").attr("value")!=''){
+                alert("2011年平均收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#rate10").attr("value"))==false && $("#rate10").attr("value")!=''){
+                alert("2010年平均收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#rate09").attr("value"))==false && $("#rate09").attr("value")!=''){
+                alert("2009年平均收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if( numfor.test($("#rate08").attr("value"))==false && $("#rate08").attr("value")!=''){
+                alert("2008年平均收益率必须为数字！");
                 nom_flag=1;
             }
             else if( numfor.test($("#startvalue").attr("value"))==false){
@@ -101,8 +131,17 @@
         }
 
         if(nom_flag==0){
+            var rate08= 0,rate09= 0,rate10= 0,rate11= 0,rate12= 0;
+            if($("#rate08").attr("value")!=''){rate08=$("#rate08").attr("value")}
+            if($("#rate09").attr("value")!=''){rate09=$("#rate09").attr("value")}
+            if($("#rate10").attr("value")!=''){rate10=$("#rate10").attr("value")}
+            if($("#rate11").attr("value")!=''){rate11=$("#rate11").attr("value")}
+            if($("#rate12").attr("value")!=''){rate12=$("#rate12").attr("value")}
+            var averagerate=((1/15*rate08+2/15*rate09+3/15*rate10+4/15*rate11+5/15*rate12)/100).toFixed(5)
+
             $.post("/admin/category2configajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),risklevel: $("#risklevel").attr("value"),
                 risk1: $("#risk1").attr("value"),risk3: $("#risk3").attr("value"),risk5: $("#risk5").attr("value"),return1: $("#return1").attr("value"),return3: $("#return3").attr("value"),return5: $("#return5").attr("value"),
+                rate12: $("#rate12").attr("value"),rate11: $("#rate11").attr("value"),rate10: $("#rate10").attr("value"),rate09: $("#rate09").attr("value"),rate08: $("#rate08").attr("value"),averagerate:averagerate,
                 ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value"),returns: $("#returns").attr("value"),startvalue: $("#startvalue").attr("value")
             },function(data){
                 if(data=="s1"){

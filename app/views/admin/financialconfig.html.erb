@@ -8,6 +8,24 @@
         border-style: solid;
         border-color: rgb(85, 85, 85) rgb(204, 204, 204);
     }
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: FontAwesome;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: url("/assets/glyphicons-halflings.png");
+        background-repeat: repeat;
+        margin-top: 0;
+    }
+    span{
+        color: #999;
+        font-size: 12px;
+    }
 </style>
 
 <div class="main-body">
@@ -17,6 +35,14 @@
     <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
   </form>
   产品名称：<input type="text" name="pname" id="pname" title="产品名称"><br>
+  晨星评级： <select  name="level" id="level" class="level" title="晨星评级">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+             </select><br>
   管理机构：<input type="text" name="trusts" id="trusts" title="管理机构"><br>
   近1年收益率：<input type="text" name="rate" id="rate" title="近1年收益率">%<br>
   近1年排名：<input type="text" name="rank" id="rank" title="近1年排名"><br>
@@ -36,16 +62,6 @@
   <% end %>
   官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
   产品代码：<input type="text" name="productcode" id="productcode"><br>
-  个人首页显示产品选择：<select name="person" id="person">
-                    <option value=""></option>
-                    <option value="流动">流动</option>
-                    <option value="保本">保本</option>
-                    <option value="风险1">风险1</option>
-                    <option value="风险2">风险2</option>
-                    <option value="风险3">风险3</option>
-                    <option value="风险4">风险4</option>
-                    <option value="风险5">风险5</option>
-  </select><br>
   <h1 style="font-size: 20px;">理财产品-公司 销售管理:</h1><br>
 
   <div class="founder-inputs">
@@ -74,7 +90,7 @@
           <div class="mobile">产品链接</div>
           <input class="links" id="link0" style="width: 206px;" type="text" placeholder="产品链接">
         </div>
-        <div class="span1" style="margin-top: 20px;margin-left: 70px\9;height: 20px;overflow: hidden;"><a class="icon-remove-sign" id="remove0" style="margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">×</a></div>
+        <div class="span1" style="margin-top: 20px;margin-left: 70px\9;height: 20px;overflow: hidden;"><a class="icon-remove-sign" id="remove0" style="margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</a></div>
       </div>
     </div>
   </div>
@@ -313,6 +329,7 @@
             var rate= ($("#rate").attr("value")/100).toFixed(5);
             var rate1= ($("#rate1").attr("value")/100).toFixed(5);
             var rate2= ($("#rate2").attr("value")/100).toFixed(5);
+            var averrate=(rate/3+rate1/9+rate/15).toFixed(5);
             var a=document.getElementsByClassName("idd");
             for(var i=0;i<a.length;i++){
                 var a0=$("#id"+i).attr("value");
@@ -323,8 +340,8 @@
                 });
             }
 
-            $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),
-                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rank2: $("#rank2").attr("value"),rate: rate,rate1: rate1,rate2: rate2,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),person: $("#person").attr("value"),
+            $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),level: $("#level").attr("value"),averrate:averrate,
+                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rank2: $("#rank2").attr("value"),rate: rate,rate1: rate1,rate2: rate2,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),
                 risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value")},function(data){
                 if(data=="s1"){
                     alert("理财产品创建成功！");
@@ -377,6 +394,7 @@
         init();
         <% if params[:id]!="0" %>
         $("#pname").attr("value",'<%= @financial.pname%>');
+        $("#level").attr("value",'<%= @financial.level%>');
         $("#trusts").attr("value",'<%= @financial.trusts %>');
         $("#rank").attr("value",'<%= @financial.rank %>');
         $("#rank1").attr("value",'<%= @financial.rank1 %>');
@@ -396,7 +414,6 @@
         $("#poundage").attr("value",'<%= @financial.poundage%>');
         $("#productcode").attr("value",'<%= @financial.productcode%>');
         $("#category").attr("value",'<%= @financial.category%>');
-        $("#person").attr("value",'<%= @financial.person%>');
         select()
         $("#classify").attr("value",'<%= @financial.classify%>');
 
