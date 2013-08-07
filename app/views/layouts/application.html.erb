@@ -129,7 +129,7 @@
           <a class="pull-right rounder" href="/sales/login?logintype=creat" id="layout_creat" onclick="question('change_creat')">注册</a>
           <a class="pull-right rounder" href="/sales/login" id="layout_login">登陆</a>
       <% end %>
-        <a class="pull-right rounder" href="/home/learn_more">了解详情</a>
+        <a class="pull-right rounder" href="/home/learn_more">服务介绍</a>
     </div>
       <% if session[:qq]!=1 %>
       <span id="qqLogin" class="pull-right" style="margin: 29px 20px 0 0;"></span>
@@ -140,22 +140,19 @@
   <%= yield %>
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
   <div class="row-fluid main-footer">
-    <div class="span2 offset6">
-      <h4 class="tcol">家庭理财服务</h4>
+    <div class="span2 offset4">
+      <h4 class="tcol">我们的服务</h4>
 <!--      <a href='/home/questions' class='full' target="_blank">风险承受度评估</a>   -->
-      <a href='/usersurvey/measure/1' class='full' >月光族理财规划</a>
-      <a href='/bankinvest/select' class='full' >理财产品</a>
+      <a href='/usersurvey/measure/1' class='full' ><strong>月光族理财规划</strong></a>
+      <a href='/bankinvest/select' class='full' ><strong>理财产品</strong></a>
       <!--<a href='/personmanagement/movablewall' class='full' >有奖活动</a> -->
     </div>
-    <!--
     <div class="span2">
-      <h4 class="tcol">家庭理财知识</h4>
-      <a href='/womenfinance' class='full' >女人理财</a>
-      <a href='/childfinance' class='full' >儿童理财</a>
-      <a href='/grassroots' class='full' >屌丝理财</a>
-      <a class='full blog btn-link'>全部内容</a>
+      <h4 class="tcol">帮助</h4>
+      <a href='/home/learn_more' class='full' >服务介绍</a>
+      <!--<a href='' class='full' >规划原理</a>-->
+      <a href='/bankinvest/pace' class='full' >开发进展</a>
     </div>
-     -->
     <div class="span2">
       <h4 class="tcol">联系我们</h4>
       <a class='full blog btn-link'>博客</a>
@@ -194,9 +191,10 @@
     <div class="span2">
       <h4 class="tcol">关于通天顺</h4>
       <a href='/contactus/aboutus' class='full' >关于我们</a>
-<!--      <a href="javascript:void(0)" class="full" onclick="question('habla_oplink_a')">在线客服</a> -->
+      <a href='/bankinvest/press' class='full' >媒体介绍</a>
+<!--      <a href="javascript:void(0)" class="full" onclick="question('habla_oplink_a')">在线客服</a>
       <a href='/contactus/serviceterm' class='full' >服务条款</a>
-      <a href='/contactus/privacypolicy' class='full' >隐私政策</a>
+      <a href='/contactus/privacypolicy' class='full' >隐私政策</a> -->
       <p> <a style="border-bottom: 0;margin: 0;" href="http://www.miibeian.gov.cn" target="_blank">苏ICP备12035521</a> @2013南京重人软件科技有限公司。<br></p>
       <a style="border-bottom: 0;" href="http://webscan.360.cn/index/checkwebsite/url/www.tongtianshun.com"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/121b197dfbc4257819d11914a3ebdbb4"/></a>
       <div style="height: 100px;"></div>

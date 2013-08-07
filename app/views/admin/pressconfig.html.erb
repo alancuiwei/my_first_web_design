@@ -15,20 +15,40 @@
 <div class="main-body">
   文字：<input type="text" name="pname" id="pname" title="文字"> <br>
   日期：<input type="text" name="pdate" id="pdate" title="日期" onclick="WdatePicker()" class="Wdate">  <br>
-  图片：
+  <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+    选择图片: <input id="file_file" name="file[file]" type="file"><br><br>
+    <input name="commit" id="create" value="上传图片" type="submit">
+  </form>
+  图片名称：<input type="text" name="pimg" id="pimg" title="图片"> <br>
   链接：<input type="text" name="plink" id="plink" title="链接"> <br>
   <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
 
 <script type="text/javascript">
+    function getFileName(path){
+        var pos1 = path.lastIndexOf('/');
+        var pos2 = path.lastIndexOf('\\');
+        var pos  = Math.max(pos1, pos2)
+        if( pos<0 )
+            return path;
+        else
+            return path.substring(pos+1);
+    }
+
+    $("#create").click(function(e){
+        if(document.getElementById('file_file').value==''){
+            alert('请选择您所要上传的图片');
+            return false;
+        }
+        var name=getFileName(document.getElementById("file_file").value);
+        $("#pimg").attr("value",name);
+    });
+
     <% if params[:id]!="0" %>
-    $("#functionname").attr("value",'<%= @pace.functionname%>');
-    $("#introduce").attr("value",'<%= @pace.introduce%>');
-    $("#developtime").attr("value",'<%= @pace.developtime%>');
-    $("#ontime").attr("value",'<%= @pace.ontime%>');
-    $("#develop").attr("value",'<%= @pace.develop%>');
-    $("#auditor").attr("value",'<%= @pace.auditor%>');
-    $("#details").attr("value",'<%= @pace.details%>');
+    $("#pname").attr("value",'<%= @press.pname%>');
+    $("#pdate").attr("value",'<%= @press.pdate%>');
+    $("#pimg").attr("value",'<%= @press.pimg%>');
+    $("#plink").attr("value",'<%= @press.plink%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -43,11 +63,11 @@
             }
         }
         if(nom_flag==0){
-            $.post("/admin/paceconfigajax/<%= params[:id] %>",{ functionname: $("#functionname").attr("value"),introduce: $("#introduce").attr("value"),
-                developtime: $("#developtime").attr("value"),ontime: $("#ontime").attr("value"),develop: $("#develop").attr("value"),auditor: $("#auditor").attr("value"),details: $("#details").attr("value")
+            $.post("/admin/pressconfigajax/<%= params[:id] %>",{ pname: $("#pname").attr("value"),pdate: $("#pdate").attr("value"),
+                pimg: $("#pimg").attr("value"),plink: $("#plink").attr("value")
             },function(data){
                 if(data=="s1"){
-                    alert("服务开发进展创建成功！");
+                    alert("媒体报道创建成功！");
                     location.href='/admin';
                 }
                 else{

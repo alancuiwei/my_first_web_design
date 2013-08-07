@@ -27,6 +27,10 @@ class BankinvestController < ApplicationController
    end
   end
 
+  def press
+    @press=Press.order("pdate desc").all
+  end
+
   def products
     @financial=Financial.order("id DESC").all
     @hash={}

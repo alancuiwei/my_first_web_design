@@ -131,6 +131,42 @@ class AdminController < ApplicationController
     end
   end
 
+  def pressconfig
+      if params[:id]!="0"
+        @press=Press.find_by_id(params[:id])
+      else
+        @press=Press.limit(1)
+      end
+  end
+
+  def pressconfigajax
+    if params[:id]=="0"
+      Press.new do |b|
+        b.pname=params[:pname]
+        b.pdate=params[:pdate]
+        b.pimg=params[:pimg]
+        b.plink=params[:plink]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @press=Press.find_by_id(params[:id])
+      @press.update_attributes(:pname=>params[:pname],:pdate=>params[:pdate],:pimg=>params[:pimg],:plink=>params[:plink])
+      render :json => "s2".to_json
+    end
+  end
+
+  def pressdeleteajax
+    @press=Press.find_by_id(params[:id])
+    if @press!=nil
+      if @press.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
   def paceconfig
       if params[:id]!="0"
         @pace=Pace.find_by_id(params[:id])

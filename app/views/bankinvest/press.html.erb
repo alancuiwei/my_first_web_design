@@ -1,0 +1,45 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<div class="main-content press">
+  <div class="contents">
+  <a href="/">首页</a><br>
+  <h1>媒体报道</h1>
+  <table class="press-table" border="0">
+    <tbody>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <td style="width: 30%;">
+        <h1>报道联系</h1>
+        如果您想采访报道我们，<br>或是想要了解更多，请发信到<br>
+        <a href="mailto:cuiwei@tongtianshun.com">cuiwei@tongtianshun.com</a><br>
+        或者添加微信 cuiwei6496
+      </td>
+      <td align="right">
+        <table>
+          <% @press.each do |p|  %>
+              <tr>
+                <td style="width: 276px;">
+                  <a class="img" href="<%= p.plink %>" target="_blank" style="float: right;">
+                    <div class="img-container">
+                      <img src="/assets/<%= p.pimg %>">
+                    </div>
+                  </a>
+                </td>
+                <td style="padding: 0 20px;">
+                  <a href="<%= p.plink %>" target="_blank">
+                   <%= p.pname %>
+                  </a>
+                  <div class="date"> <%= p.pdate %> </div>
+                </td>
+              </tr>
+              <tr><td colspan="2" style="height: 30px;"></td></tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
