@@ -66,7 +66,7 @@
           <div id="q-fade-b"></div>
         </div>
         <div id="q-buttons">
-          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back"><span>不同意</span></button>
+          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back"><span>直接查看</span></button>
           <button class="q-button orange-button big-button" id="q-next">同意</button>
           <button class="q-button orange-button big-button" id="q-submit">评估后再挑选</button>
 
@@ -162,7 +162,7 @@
             }
             if (i >= 0 && $qn.length) {
                 $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
-                $("#q-back span").text(i === 2 ? "直接挑选产品" : "不同意");
+                $("#q-back span").text(i === 2 ? "直接挑选产品" : "直接挑选产品");
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 //  alert(newTop)

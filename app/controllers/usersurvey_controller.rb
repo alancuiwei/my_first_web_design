@@ -20,7 +20,8 @@ class UsersurveyController < ApplicationController
   def measure
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
-
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :start=>"1")
     end
   end
 

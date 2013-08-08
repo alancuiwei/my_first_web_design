@@ -102,7 +102,7 @@
    -->
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
   <div class='row-fluid beta'>
-    <div class="span8">
+    <div class="span6">
       <a href="/"><img style="height: 54px;" src="/assets/logo.png"></a>
 <!--      <span id="erweima"><img style="height: 54px;margin-left: 10px;" src="/assets/1.jpg"></span>  -->
     </div>
@@ -114,7 +114,7 @@
       <h4 class="phone">客服电话：025-83428345</h4>
     </div>
     -->
-    <div class="span4">
+    <div class="span6">
       <div id="log">
       <% if session[:webusername]!=nil %>
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
@@ -129,6 +129,7 @@
           <a class="pull-right rounder" href="/sales/login?logintype=creat" id="layout_creat" onclick="question('change_creat')">注册</a>
           <a class="pull-right rounder" href="/sales/login" id="layout_login">登陆</a>
       <% end %>
+        <a class="pull-right rounder" href="/home/methodology">理论依据</a>
         <a class="pull-right rounder" href="/home/learn_more">服务介绍</a>
     </div>
       <% if session[:qq]!=1 %>
