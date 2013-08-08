@@ -4,11 +4,25 @@
   <div class="ofa-funnel-pages">
   <div id="top-tabs">
     <div class="top-tabs-content">
+      <% if @webuser.score ==nil %>
+          <a href="/usersurvey/measure/1"><b>1.</b> 资产体检</a>
+          <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+          <span class="disabled"><b>2.</b> 风险评估</span>
+          <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+          <span class="disabled"><b>3.</b> 理财建议</span>
+      <% elsif @webuser.risktolerance ==nil %>
+          <a href="/usersurvey/measure/1"><b>1.</b> 资产体检</a>
+          <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+          <a href="/usersurvey/measure/2"><b>2.</b> 风险评估</a>
+          <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
+          <span class="disabled"><b>3.</b> 理财建议</span>
+      <% else %>
       <a href="/usersurvey/measure/1"><b>1.</b>  资产体检</a>
       <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
       <a href="/usersurvey/measure/2"><b>2.</b> 风险评估</a>
       <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
       <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
+      <% end %>
     </div>
   </div>
   <table class="catalog">

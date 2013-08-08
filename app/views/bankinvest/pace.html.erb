@@ -16,7 +16,7 @@
   }
 </style>
 
-<div class="main-content organ">
+<div class="main-content pace">
   <a href="/">首页</a>
   <h1 class="deploy">服务开发进展</h1>
   <table class="table table-striped table-bordered" id="pace"  cellpadding="0" cellspacing="0" border="0">
@@ -24,11 +24,11 @@
     <tr>
       <th>功能名称</th>
       <th>功能介绍</th>
-      <th>开发时间</th>
-      <th>上线日期</th>
-      <th>开发人</th>
-      <th>审核人</th>
-      <th>详情</th>
+      <th class="nowap">开发时间</th>
+      <th class="nowap">上线日期</th>
+      <th class="nowap">开发人</th>
+      <th class="nowap">审核人</th>
+      <th class="nowap">详情</th>
     </tr>
     </thead>
 
@@ -36,11 +36,11 @@
         <tr>
           <td><%= f.functionname %></td>
           <td><%= f.introduce %></td>
-          <td><%= f.developtime %></td>
-          <td><%= f.ontime %></td>
-          <td><%= f.develop %></td>
-          <td><%= f.auditor %></td>
-          <td><a href="<%= f.details %>" target="_blank">查看</a></td>
+          <td class="nowap"><%= f.developtime %></td>
+          <td class="nowap"><%= f.ontime %></td>
+          <td class="nowap"><%= f.develop %></td>
+          <td class="nowap"><%= f.auditor %></td>
+          <td class="nowap"><a href="<%= f.details %>" target="_blank">查看</a></td>
    </tr>
     <% end %>
   </table>

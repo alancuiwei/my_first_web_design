@@ -196,20 +196,16 @@
 -->
 <table id="table" style="width: 100%;">
 <tr>
-  <td id="pad" style="padding-left: 80px;">
+  <td id="pad" style="padding-left: 68px;">
     <div class="account-types">
       <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
         <table clas="left" style="width: 100%;">
           <tr>
-            <td colspan="3">
+            <td class="left" style="width: 26%;">
               <div class="account-type-tab active taxable-account-type">
                 <p><span class="product" style="line-height: 20px;">本月收入安排</span></p>
               </div>
-              <div class="clearfix"></div>
             </td>
-          </tr>
-          <tr>
-            <td class="left" style="width: 25%;vertical-align: middle;"></td>
             <td class="left" style="width: 255px;">
               <div class="controls input-append date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                 <input size="16" id="dates" type="text" readonly onchange="select()">
@@ -237,7 +233,7 @@
             <div id="container3" style="width: 280px;height: 180px;"></div>
           </div>
         </td><td class="cation left">
-          <table class="table table-striped table-bordered footable">
+          <table id="top" class="table table-striped table-bordered footable">
             <thead>
             <tr class="win">
               <th style="width: 20%;">投资产品</th>
@@ -292,11 +288,11 @@
 </tr>
 <tr><td>
   <div class="plan-details" style="border-bottom: 1px solid #E2E2E2;padding-bottom: 40px;">
-<div class="account-type-tab active" id="taxable-account-type" style="padding-left: 80px;margin-bottom: 20px;">
+<div class="account-type-tab active" id="taxable-account-type" style="padding-left: 68px;margin-bottom: 20px;">
     <p style="padding-top: 20px;">
       <span class="product" style="line-height: 20px;">投资记录</span>
       <% if @webuser.username==session[:webusername] %>
-          <a href="#login-box" role="button" data-toggle="modal" style="margin-left: 175px;" class="btn btn-success" onclick="waithelp(0,'');">新增投资记录</a>
+          <a href="#login-box" role="button" data-toggle="modal" style="margin-left: 187px;" class="btn btn-success" onclick="waithelp(0,'');">新增投资记录</a>
       <% end %>
     </p>
 </div>
@@ -348,7 +344,7 @@
 </td></tr>
 <tr><td style="height: 20px;"></td></tr>
 <tr>
-  <td style="padding-left: 80px;">
+  <td style="padding-left: 68px;">
     <div class="account-types">
       <div class="account-type-tab active taxable-account-type">
         <p><span class="product" style="line-height: 20px;">理想资产比例</span></p>
@@ -776,7 +772,9 @@
     }
 
     function select() {
-
+        xianjin=0;
+        wenjian=0;
+        fengxian=0;
     <% if @examination !=nil %>
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
@@ -893,7 +891,6 @@
                 var amounts5=feng-fengxian;
                 $(".amounts2").html(parseInt(remain1/100)*100);
             }
-
             if($(".amounts2").html()!="" && $(".amounts2").html()!="0"){
                 $(".monthpay2").show();
                 addoption(document.getElementById("pname"),a2,a2);
@@ -982,12 +979,14 @@
            if($(".finish5").html()!=""){
                if($(".finish2").html()!=""){
                    $(".finish2").html(parseInt($(".finish2").html())+parseInt($(".finish5").html()))
+                   alert(1);
                }
                else{
                    $(".finish2").html($(".finish5").html())
                }
            }
         }
+
         if(a5==a4){
            $(".monthpay5").hide();
            $(".monthpay4").show();
@@ -1826,7 +1825,10 @@
                 type: 'column'
             },
             title: {
-                text: '投资记录'
+                text: '每月买入赎回对比图',
+                style:{
+                    margin:'0 0 0 30px'
+                }
             },
             subtitle: {
                 text: false

@@ -8,6 +8,7 @@
       font-size: 14px;
       line-height: 24px;
       color: rgb(68, 68, 68);
+      text-align: center;
   }
   .details td.left{
       width:15%;
@@ -18,17 +19,17 @@
       line-height: 17px;
       text-align: left;
       padding-left: 10px;
-      font-family: "helvetica neue",helvetica,arial,sans-serif;
-      font-weight: 600;
+      font-family: Hiragino Sans GB W3;
+      font-weight: normal;
       color: rgb(51, 51, 51);
   }
 
-  .box_left_title1 {
+ .details .box_left_title1 {
       font-size: 20px;
       padding-bottom: 10px;
   }
 
-    .cell{
+   .details .cell{
         display: table-cell;
     }
 </style>
@@ -86,39 +87,35 @@
     </tr>
     <tr>
       <td class="left">近一年收益率</td>
-      <td class="right"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% end %></td>
+      <td class="right"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %>--<% end %></td>
     </tr>
     <tr>
       <td class="left">近三年收益率</td>
-      <td class="right"><% if @financial.rate1 !=nil %><%= format("%0.2f",@financial.rate1.to_f*100) %>%<% end %></td>
+      <td class="right"><% if @financial.rate1 !=nil %><%= format("%0.2f",@financial.rate1.to_f*100) %>%<% else %>--<% end %></td>
     </tr>
     <tr>
       <td class="left">近五年收益率</td>
-      <td class="right"><% if @financial.rate2 !=nil %><%= format("%0.2f",@financial.rate2.to_f*100) %>%<% end %></td>
+      <td class="right"><% if @financial.rate2 !=nil %><%= format("%0.2f",@financial.rate2.to_f*100) %>%<% else %>--<% end %></td>
     </tr>
     <tr>
       <td class="left">近一年同类产品亏损概率</td>
-      <td class="right"><% if @category!=nil %><%= @category.risk1 %>%<% end %></td>
+      <td class="right"><% if @category!=nil && @category.risk1!=nil %><%= @category.risk1 %>%<% else %>--<% end %></td>
     </tr>
     <tr>
       <td class="left">近一年同类产品最高收益率</td>
-      <td class="right"><% if @category!=nil %><%= @category.return1 %>%<% end %></td>
+      <td class="right"><% if @category!=nil && @category.return1!=nil %><%= @category.return1 %>%<% else %>--<% end %></td>
     </tr>
     <tr>
       <td class="left">风险提示</td>
-      <td class="right"><% if @financial.risktip!=nil %><%= @financial.risktip %><% elsif @category!=nil %><%= @category.prisk %><% end %></td>
-    </tr>
-    <tr>
-      <td class="left">产品简介</td>
-      <td class="right"><%= @financial.pintroduction %></td>
+      <td class="right pull"><% if @financial.risktip!=nil %><%= @financial.risktip %><% elsif @category!=nil %><%= @category.prisk %><% end %></td>
     </tr>
     <tr>
       <td class="left">产品描述</td>
-      <td class="right"><%= @financial.pintroduction %></td>
+      <td class="right pull"><%= @financial.pintroduction %></td>
     </tr>
     <tr>
       <td class="left">官网介绍</td>
-      <td class="right"><% if @financial.link!=nil %><a href="<%= @financial.link %>">点击查看</a><% end %></td>
+      <td class="right pull"><% if @financial.link!=nil %><a href="<%= @financial.link %>">点击查看</a><% end %></td>
     </tr>
   </table>
     </div>

@@ -17,6 +17,13 @@ class UsersurveyController < ApplicationController
     end
   end
 
+  def measure
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+
+    end
+  end
+
   def startup
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
