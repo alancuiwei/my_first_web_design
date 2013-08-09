@@ -26,6 +26,8 @@ class UsersurveyController < ApplicationController
   end
 
   def startup
+    @blog=Blog.find_by_id(401)
+    @blog2=Blog.find_by_id(111)
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])

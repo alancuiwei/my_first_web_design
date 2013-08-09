@@ -3,6 +3,7 @@
 <%= javascript_include_tag "d3.js" %>
 <%= javascript_include_tag "plan.js" %>
 <%= javascript_include_tag "risk.js" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 <%= stylesheet_link_tag "founder.css" %>
 
 <script>
@@ -44,12 +45,15 @@
 <div class="question first">
   <table class="center">
     <tr>
-      <td class="top">
+      <td>
         <p class="q-text">我们将以解决月光为目标，从流动性、保本性、风险性的角度，进行资产体检，以方便你找到月光的根源。</p>
         <p class="q-text">良好的资产体检得分意味着您的投资组合好，多元化，波动幅度小，如果您的体检得分小于60分，我们建议您应该做一些变动调整。</p>
       </td>
+      <td style="width: 168px;text-align: center;">
+        <a class="introduce" href="#myModal" role="button" data-toggle="modal">资产体检原理介绍</a>
+      </td>
       <td>
-        <div style="width: 300px;float: right;"><img src="/assets/121059.png"></div>
+        <div style="width: 300px;float: right;"><img src="/assets/morningstar.png"><br><img src="/assets/logo.jpg"></div>
       </td>
     </tr>
   </table>
@@ -59,11 +63,14 @@
 <div class="question">
   <table class="center">
     <tr>
-      <td class="top">
+      <td>
         <p class="q-text">个人、家庭都有可能遭遇到突发情况，例如失业、自然灾害（地震、泥石流)、突然死亡（参考微博）。</p>
         <p class="q-text">您作为家庭的顶梁柱，有必要准备应急基金。</p>
         <p class="q-text">这个应急金额大约为3个月日常生活费用总额，是由流动性资产组成的。</p>
         <p class="q-text">下面几种流动性资产可以作为应急资金：现金、活期储蓄、余额宝、货币基金。</p>
+      </td>
+      <td style="width: 168px;text-align: center;">
+        <a class="introduce" href="#myModal2" role="button" data-toggle="modal">我真的需要应急基金吗？</a>
       </td>
       <td>
         <div style="width: 300px;float: right;"><img src="/assets/121058.png"></div>
@@ -303,6 +310,37 @@
 </div>
 </div>
 </div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>资产体检原理介绍</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="/assets/BE83E81B-484E-4E7F-B75B-CC39315067D4.png"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>我真的需要应急基金吗？</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog2!=nil %>
+        <img class="alignleft size-medium " id="img" src="/assets/personal-finance.jpg"><br><br>
+        <%=raw @blog2.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
 </div>
 
 <script>
