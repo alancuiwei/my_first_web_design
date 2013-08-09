@@ -6,6 +6,10 @@ class HomeController < ApplicationController
     @num=@username.length
   end
 
+  def methodology
+    @methodology=Methodology.all
+  end
+
   def questions
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])

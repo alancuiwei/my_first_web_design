@@ -317,6 +317,26 @@
     </tr>
     -->
     <tr><td>
+      <h1>理论依据</h1>
+      <a href="/admin/methodconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="method">
+        <thead><tr>
+          <th class="hide">ID</th><th>标题</th><th>图片名</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @methodology.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.mname %></td>
+              <td><%= b.picture %></td>
+              <td><a href="/admin/methodconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','methoddeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td>
       <h1>媒体报道</h1>
       <a href="/admin/pressconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="press">
@@ -612,7 +632,7 @@
     }
 
     $(document).ready(function(){
-        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial,#company,#poundage,#pace,#press').dataTable();
+        $('#products,#funds,#interests_r,#interests_c,#productsupdate,#bankfinance,#reserve,#bankproducts,#organ,#category1,#category2,#financial,#company,#poundage,#pace,#press,#method').dataTable();
         var oTable = $('#bankfinance').dataTable();
         $("#keywords").click( function() { oTable.fnDraw(); } );
 

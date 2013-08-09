@@ -12,6 +12,7 @@ class AdminController < ApplicationController
       @enroll=Enroll.all
       @pace=Pace.all
       @press=Press.all
+      @methodology=Methodology.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Category_1.all
@@ -128,6 +129,41 @@ class AdminController < ApplicationController
 
     else
       redirect_to(:controller=>"home")
+    end
+  end
+
+  def methodconfig
+      if params[:id]!="0"
+        @methodology=Methodology.find_by_id(params[:id])
+      else
+        @methodology=Methodology.limit(1)
+      end
+  end
+
+  def methodconfigajax
+    if params[:id]=="0"
+      Methodology.new do |b|
+        b.mname=params[:mname]
+        b.article=params[:article]
+        b.picture=params[:picture]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @methodology=Methodology.find_by_id(params[:id])
+      @methodology.update_attributes(:mname=>params[:mname],:article=>params[:article],:picture=>params[:picture])
+      render :json => "s2".to_json
+    end
+  end
+
+  def methoddeleteajax
+    @methodology=Methodology.find_by_id(params[:id])
+    if @methodology!=nil
+      if @methodology.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
     end
   end
 
