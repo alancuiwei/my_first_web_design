@@ -53,7 +53,7 @@
         <a class="introduce" href="#myModal" role="button" data-toggle="modal">资产体检原理介绍</a>
       </td>
       <td>
-        <div style="width: 300px;float: right;"><img src="/assets/morningstar.png"><br><img src="/assets/logo.jpg"></div>
+        <div style="width: 300px;float: right;"><img src="/assets/morningstar2.png"><br><img src="/assets/logo.jpg"></div>
       </td>
     </tr>
   </table>
@@ -162,13 +162,8 @@
             <td><input type="text" name="lnw" id="wages" tabindex="-1"></td>
             <td></td>
           </tr>
-          <tr class="member hide">
-            <td class="q-text">家庭成员收入：</td>
-            <td><input type="text" id="salary2" tabindex="-1"></td>
-            <td style="font-size: 25px;padding-left: 15px;"><a onclick="move()">×</a></td>
-          </tr>
           <tr>
-            <td colspan="2"><a data-original-title="Click here to add another company founder" class="xtip pull-right" style="padding: 0 0 10px 0;" onclick="add();"> + 添加家庭成员收入 </a></td>
+            <td colspan="2"><a class="xtip pull-right" href="#myModal3" role="button" data-toggle="modal" id="jinque"> 精确输入 </a></td>
           </tr>
         </table>
       </td>
@@ -237,52 +232,6 @@
         <p class="q-text" id="result"></p>
         <p class="q-text">下面将进行您的风险评估，来确定您的个性化资产分配比例，以及相应的理财产品推荐。</p>
         <input type="checkbox" class="hide">
-       <!--
-  <table class="table table-striped table-bordered center" style="height: 200px;">
-    <tr>
-      <th>理财产品大类</th>
-      <th>当前比例</th>
-      <th>建议比例</th>
-      <th>建议金额</th>
-    </tr>
-    <tr>
-      <td>流动性资产</td>
-      <td id="xianjin"></td>
-      <td id="xian0"></td>
-      <td>
-        <button id="age-decrease0" class="light-gray" tabindex="-1">−</button>
-        <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-        <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
-      </td>
-    </tr>
-    <tr>
-      <td>保本性资产</td>
-      <td id="wenjian"></td>
-      <td id="wen"></td>
-      <td>
-        <button id="age-decrease1" class="light-gray" tabindex="-1">−</button>
-        <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-        <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
-      </td>
-    </tr>
-    <tr>
-      <td>风险性资产</td>
-      <td id="fengxian"></td>
-      <td id="feng"></td>
-      <td>
-        <button id="age-decrease2" class="light-gray" tabindex="-1">−</button>
-        <input id="feng1" name="feng" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
-        <button id="age-increase2" class="light-gray" tabindex="-1">+</button>
-      </td>
-    </tr>
-    <tr>
-      <td>年总积蓄</td>
-      <td>100%</td>
-      <td>100%</td>
-      <td id="total" style="text-align: center;"></td>
-    </tr>
-  </table>
-        -->
       </td>
       <td>
         <div style="width: 300px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
@@ -342,16 +291,131 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
+<div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>月收入支出 明细</h3>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+         <td>
+           <p>月支出</p>
+           <table id="exact1"  class="table table-striped table-bordered">
+             <tr><td>支出明细</td><td>金额</td><td class="update hide" style="width: 40px;">建议金额</td></tr>
+             <tr><td>餐饮</td><td><input type="text" onkeyup="inva(this);" name="exect" id="meals"></td><td class="update1 hide"></td></tr>
+             <tr><td>交通</td><td><input type="text" onkeyup="inva(this);" name="exect" id="fare"></td><td class="update2 hide"></td></tr>
+             <tr><td>购物</td><td><input type="text" onkeyup="inva(this);" name="exect" id="shop"></td><td class="update3 hide"></td></tr>
+             <tr><td>娱乐</td><td><input type="text" onkeyup="inva(this);" name="exect" id="taste"></td><td class="update4 hide"></td></tr>
+             <tr><td>医教</td><td><input type="text" onkeyup="inva(this);" name="exect" id="education"></td><td class="update5 hide"></td></tr>
+             <tr><td>居家</td><td><input type="text" onkeyup="inva(this);" name="exect" id="family"></td><td class="update6 hide"></td></tr>
+             <tr><td>人情</td><td><input type="text" onkeyup="inva(this);" name="exect" id="intercourse"></td><td class="update7 hide"></td></tr>
+           </table>
+           <a class="xtip pull-right update hide" href="#myModal5" role="button" data-toggle="modal"> 为什么这么建议我的各项支出金额？ </a>
+         </td>
+         <td style="width: 30px;"></td>
+         <td>
+           <p>月收入</p>
+           <table id="exact2" class="table table-striped table-bordered">
+             <tr><td>月份</td><td>收入</td>
+             <tr><td>一月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income1"></td></tr>
+             <tr><td>二月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income2"></td></tr>
+             <tr><td>三月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income3"></td></tr>
+             <tr><td>四月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income4"></td></tr>
+             <tr><td>五月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income5"></td></tr>
+             <tr><td>六月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income6"></td></tr>
+             <tr><td>七月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income7"></td></tr>
+             <tr><td>八月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income8"></td></tr>
+             <tr><td>九月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income9"></td></tr>
+             <tr><td>十月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income10"></td></tr>
+             <tr><td>十一月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income11"></td></tr>
+             <tr><td>十二月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income12"></td></tr>
+           </table>
+         </td>
+      <tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="sum">确认</button>
+  </div>
+</div>
+<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>提示</h3>
+  </div>
+  <div class="modal-body">
+     <p style="color: red;">理想情况下，您应该用25%左右的月收入比例用来投资。</p>
+     <p id="text" style="color: red;"></p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true" id="that">就这样吧</button>
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="update">调整</button>
+  </div>
+</div>
+<div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>为什么这么建议我的各项支出金额？</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog3!=nil %>
+        <img class="alignleft size-medium " id="img" src="/assets/0843A8AE-ADFD-4A53-938B-336712606D5E.png"><br><br>
+        <%=raw @blog3.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true" id="open3">关闭</button>
+  </div>
+</div>
 
 <script>
-    function add()
-    {
-        $(".member").removeClass("hide");
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+    var tot1= 0,tot2= 0,avge= 0,tot3=0;
+    var normal=0; //月收入支出 明细1/2
+    var acta=0; //普通/精确
+    $('#jinque').click(function() {
+        $("[class*='update']").hide();
+    })
+
+    $('#update').click(function() {
+       if(normal==1){
+        $(".update1").html(parseInt(avge*0.18));
+        $(".update2").html(parseInt(avge*0.04));
+        $(".update3").html(parseInt(avge*0.1));
+        $(".update4").html(parseInt(avge*0.03));
+        $(".update5").html(parseInt(avge*0.1));
+        $(".update6").html(parseInt(avge*0.3));
+        $(".update7").html(parseInt(avge*0.03));
+        $("[class*='update']").show();
+       }
+       else if(normal==2){
+           var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
+           $(".update1").html(parseInt(a2*0.18));
+           $(".update2").html(parseInt(a2*0.04));
+           $(".update3").html(parseInt(a2*0.1));
+           $(".update4").html(parseInt(a2*0.03));
+           $(".update5").html(parseInt(a2*0.1));
+           $(".update6").html(parseInt(a2*0.3));
+           $(".update7").html(parseInt(a2*0.03));
+           $("[class*='update']").show();
+       }
+        else{
+           $("[class*='update']").hide();
+       }
+        $('#myModal3').modal('show');
+    })
+    $('#open3').click(function() {
+        $('#myModal3').modal('show');
+    })
+
+   function inva(e){
+       if(numfor.test(e.value)==false){
+           $("#"+e.id).addClass('invalid');
+       }
+       else{
+           $("#"+e.id).removeClass('invalid');
     }
-    function move()
-    {
-        $(".member").addClass("hide");
-        $("#salary2").attr("value",0);
     }
 </script>
 
@@ -409,6 +473,52 @@
     var xianjin= 0,wenjian= 0,fengxian=0;
     var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr=0;
     $(function() {
+
+        $('#that').click(function() {
+            showQn(6,'',1);
+        });
+        $('#sum').click(function() {
+            var exect=document.getElementsByName('exect');
+            for(i=0;i<exect.length;i++){
+                if(numfor.test(exect[i].value)==false){
+                    $("#"+exect[i].id).addClass('invalid');
+                    return false;
+                }
+                else{
+                    $("#"+exect[i].id).removeClass('invalid');
+                }
+            }
+            tot1= 0; //年总收入
+            tot2= 0; //月总消费=衣食住行+零花钱
+            tot3= 0; // 衣食住行
+            avge= 0;
+            for(i=7;i<exect.length;i++){
+                tot1=tot1+parseInt(exect[i].value);
+            }
+            avge=parseInt(tot1/12);
+            for(i=0;i<7;i++){
+                tot2=tot2+parseInt(exect[i].value);
+                if(i==0 || i==1 || i==5){
+                    tot3=tot3+parseInt(exect[i].value);
+                }
+            }
+            var bili=parseInt((1-tot2/avge)*100);
+            if(bili>30){
+                $("#text").html('而现在，您用的是'+bili+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
+                $('#myModal4').modal('show')
+                normal=1;
+
+            }
+            else if(bili<20){
+                $("#text").html('而现在，您用的是'+bili+'%的月收入比例，会不会有点消费过度？您觉得呢？')
+                $('#myModal4').modal('show')
+                normal=1;
+            }
+            else{
+                showQn(6,'',1);
+            }
+            acta=1;
+        })
 
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
@@ -507,25 +617,36 @@
                         }
                         var new_q_num = $qr.data("q") + (back ? -1 : 1);
                         showQn(new_q_num);
+                        if(this.id=='q-next' && new_q_num==6){
+                           acta=0;
+                        }
                     });
                     $("#q-submit").click(function(e) {
-                        var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
+                        if(acta==1){
+
+                            var salary= avge;
+                            var rent= tot3;
+                            var wages= avge-tot2;
+                            $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
+                                family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
+                                income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
+                                income9:$("#income9").attr("value"),income10:$("#income10").attr("value"),income11:$("#income11").attr("value"),income12:$("#income12").attr("value")},function(data){
+                                location.href='/usersurvey/measure/2';
+                            });
+                        }
+                        else{
+                            var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""));
                         var rent= $("#rent").attr("value").replace(/,/g, "");
                         var wages= $("#wages").attr("value").replace(/,/g, "");
+
                         <% if session[:webusername]!=nil %>
                         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                            salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng},function(data){
+                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:0},function(data){
                             location.href='/usersurvey/measure/2';
                         });
-                        <% else %>
-                      //  var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""));
-                      //  location.href='/home/questions?score='+run()+'&variety='+varietys+'&pname='+pnames+'&amount='+amounts+'&age='+$("#age").attr("value")
-                      //          +'&salary='+salary+'&rent='+$("#rent").attr("value").replace(/,/g, "")+'&wages='+$("#wages").attr("value").replace(/,/g, "")+'&xian='+xian
-                      //          +'&wen='+wen+'&feng='+feng;
                         <% end %>
-                        //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
-                        //   w.trackEvent("OFA", "submit_questionnaire", qPayload());
-                        //   $qr.submit();
+                        }
                     });
                     function qPayload() {
                         var $n = $qr.find("input[tabindex=0]").filter(":checked");
@@ -541,20 +662,42 @@
                     }
                 });
 
-        function showQn(i, immediately) {
+        var num=0;
+        function showQn(i, immediately,e) {
+            //if(e==1){复杂输入}
             if(i==0){$("#title").html("资产体检 系统介绍");}
             if(i==1){$("#title").html("流动性资产 介绍");}
             if(i==2){$("#title").html("保本型资产 介绍");}
             if(i==3){$("#title").html("风险型资产 介绍");}
             if(i==4){$("#title").html("基本信息");}
-            if(i==5){$("#title").html("月收入支出");}
-            if(i==6){$("#title").html("已有资产情况");}
+            if(i==5){$("#title").html("月收入支出");num=1;}else if(i!=6){num=0;}
+            if(i==6){
+              if(e!=1){
+               if(num==1){
+                var a1=parseInt($("#wages").attr("value").replace(/,/g, ""));
+                var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
+                 var bi=parseInt(a1/a2*100);
+                   if(bi>30){
+                       $("#text").html('而现在，您用的是'+bi+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
+                       $('#myModal4').modal('show');
+                       acta=0;
+                       normal=2;
+                       return false;
+                   }
+                   else if(bi<20){
+                       $("#text").html('而现在，您用的是'+bi+'%的月收入比例，会不会有点消费过度？您觉得呢？')
+                       $('#myModal4').modal('show');
+                       acta=0;
+                       normal=2;
+                       return false;
+                   }
+               }
+              }
+                $("#title").html("已有资产情况");
+            }
             if(i==7){$("#title").html("资产体检 总结");}
             var ie = !-[1,];
             if(i==7){
-                if($("#salary2").attr("value")==''){
-                    $("#salary2").attr("value",0);
-                }
                 if(ie){
                     document.getElementsByClassName = function(){
                         var tTagName ="*";
@@ -608,22 +751,19 @@
                     }
                 }
                 jixu=xianjin+wenjian+fengxian;//积蓄
+                if(acta==0){
                 total=parseInt((parseFloat($("#wages").attr("value").replace(/,/g, ""))*12+jixu)/100)*100;//总资产
                 xian=parseInt((parseFloat($("#rent").attr("value").replace(/,/g, ""))*3)/100)*100;
+                }
+                else{
+                    total=parseInt((tot1+jixu)/100)*100;//总资产
+                    xian=parseInt((parseFloat(tot3)*3)/100)*10;
+                }
                 feng=parseInt((total*(80-parseFloat($("#age").attr("value").replace(/,/g, "")))/100)/100)*100;
                 wen=total-xian-feng;
                 arr=parseFloat('<%= @hash["活期存款"][0] %>')*mea1/jixu+parseFloat('<%= @hash["货币基金"][0] %>')*mea2/jixu+parseFloat('<%= @hash["银行理财产品"][0] %>')*mea3/jixu+parseFloat('<%= @hash["定期存款"][0] %>')*mea4/jixu+
                     parseFloat('<%= @hash["债券基金"][0] %>')*mea5/jixu+parseFloat('<%= @hash["股票型基金"][0] %>')*mea6/jixu+0.03*mea7/jixu;
-             //   $("#xianjin").html((xianjin/jixu*100).toFixed(1).toString()+'%');
-             //   $("#wenjian").html((wenjian/jixu*100).toFixed(1).toString()+'%');
-             //   $("#fengxian").html((fengxian/jixu*100).toFixed(1).toString()+'%');
-             //   $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
-             //   $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
-             //   $("#feng").html((feng/total*100).toFixed(1).toString()+'%');
-             //   $("#xian1").attr("value",xian);
-             //   $("#wen1").attr("value",wen);
-             //   $("#feng1").attr("value",feng);
-             //   $("#total").html(total);
+
                 if(xianjin/jixu>xian/total){
                    $("#result").html("您当期的流动型资产配置过高，")
                 }
@@ -652,12 +792,13 @@
                     $("#result").html($("#result").html()+'风险型配置适中。')
                 }
                 animate(0,run());
+                if(acta==0){
                 if(wen<=0){
                     alert("您每个月的零花钱会不会太多了？")
                     i=5;
                     $("#title").html("月收入支出");
                 }
-                else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))+parseFloat($("#salary2").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
+                else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
                     alert("月收入必须大于衣食住行与每月储蓄金额之和。");
                     i=5;
                     $("#title").html("月收入支出");
@@ -670,6 +811,7 @@
                 else if(jixu>=500000){
                     alert("请不要把房屋资产也算进去哦。");
                 }
+            }
             }
 
             var $qns = $qr.children(".question");
@@ -1041,10 +1183,29 @@
         <% end %>
 
         <% if session[:webusername]!=nil && @examination!=nil %>
-        $("#age").attr("value",parseInt('<%= @examination.age %>'));
-        $("#salary").attr("value",parseInt('<%= @examination.salary %>'));
-        $("#rent").attr("value",parseInt('<%= @examination.rent %>'));
-        $("#wages").attr("value",parseInt('<%= @examination.wages %>'));
+        <% if @examination.age!=nil %>$("#age").attr("value",parseInt('<%= @examination.age %>'));<% end %>
+        <% if @examination.salary!=nil %>$("#salary").attr("value",parseInt('<%= @examination.salary %>'));<% end %>
+        <% if @examination.rent!=nil %>$("#rent").attr("value",parseInt('<%= @examination.rent %>'));<% end %>
+        <% if @examination.wages!=nil %>$("#wages").attr("value",parseInt('<%= @examination.wages %>'));<% end %>
+        <% if @examination.meals!=nil %>$("#meals").attr("value",parseInt('<%= @examination.meals %>'));<% end %>
+        <% if @examination.fare!=nil %>$("#fare").attr("value",parseInt('<%= @examination.fare %>'));<% end %>
+        <% if @examination.shop!=nil %>$("#shop").attr("value",parseInt('<%= @examination.shop %>'));<% end %>
+        <% if @examination.taste!=nil %>$("#taste").attr("value",parseInt('<%= @examination.taste %>'));<% end %>
+        <% if @examination.education!=nil %>$("#education").attr("value",parseInt('<%= @examination.education %>'));<% end %>
+        <% if @examination.family!=nil %>$("#family").attr("value",parseInt('<%= @examination.family %>'));<% end %>
+        <% if @examination.intercourse!=nil %>$("#intercourse").attr("value",parseInt('<%= @examination.intercourse %>'));<% end %>
+        <% if @examination.income1!=nil %>$("#income1").attr("value",parseInt('<%= @examination.income1 %>'));<% end %>
+        <% if @examination.income2!=nil %>$("#income2").attr("value",parseInt('<%= @examination.income2 %>'));<% end %>
+        <% if @examination.income3!=nil %>$("#income3").attr("value",parseInt('<%= @examination.income3 %>'));<% end %>
+        <% if @examination.income4!=nil %>$("#income4").attr("value",parseInt('<%= @examination.income4 %>'));<% end %>
+        <% if @examination.income5!=nil %>$("#income5").attr("value",parseInt('<%= @examination.income5 %>'));<% end %>
+        <% if @examination.income6!=nil %>$("#income6").attr("value",parseInt('<%= @examination.income6 %>'));<% end %>
+        <% if @examination.income7!=nil %>$("#income7").attr("value",parseInt('<%= @examination.income7 %>'));<% end %>
+        <% if @examination.income8!=nil %>$("#income8").attr("value",parseInt('<%= @examination.income8 %>'));<% end %>
+        <% if @examination.income9!=nil %>$("#income9").attr("value",parseInt('<%= @examination.income9 %>'));<% end %>
+        <% if @examination.income10!=nil %>$("#income10").attr("value",parseInt('<%= @examination.income10 %>'));<% end %>
+        <% if @examination.income11!=nil %>$("#income11").attr("value",parseInt('<%= @examination.income11 %>'));<% end %>
+        <% if @examination.income12!=nil %>$("#income12").attr("value",parseInt('<%= @examination.income12 %>'));<% end %>
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
         var pname='<%= @examination.pname %>'.split(",");

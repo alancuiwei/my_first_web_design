@@ -28,6 +28,7 @@ class UsersurveyController < ApplicationController
   def startup
     @blog=Blog.find_by_id(401)
     @blog2=Blog.find_by_id(111)
+    @blog3=Blog.find_by_id(403)
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
@@ -74,6 +75,7 @@ class UsersurveyController < ApplicationController
         e.wen=params[:wen]
         e.feng=params[:feng]
         e.arr=params[:arr]
+        e.acta=params[:acta]
         e.save
       end
       render :json => "s1".to_json
@@ -81,7 +83,68 @@ class UsersurveyController < ApplicationController
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],:arr=>params[:arr],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
-                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng])
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta])
+      if params[:xianp]!="" &&  params[:xianp]!=nil
+        @examination.update_attributes(:xianp=>params[:xianp],
+                 :wenp=>params[:wenp],:fengp=>params[:fengp])
+      end
+      render :json => "s2".to_json
+    end
+  end
+
+  def savescore2
+    @webuser=Webuser.find_by_username(params[:username])
+    if @webuser!=nil
+    @webuser.update_attributes(:score=>params[:score])
+    end
+    @examination=Examination.find_by_username(params[:username])
+    if @examination==nil
+      Examination.new do |e|
+        e.username=params[:username]
+        e.variety=params[:variety]
+        e.amount=params[:amount]
+        e.pname=params[:pname]
+        e.age=params[:age]
+        e.salary=params[:salary]
+        e.rent=params[:rent]
+        e.wages=params[:wages]
+        e.xian=params[:xian]
+        e.wen=params[:wen]
+        e.feng=params[:feng]
+        e.arr=params[:arr]
+        e.acta=params[:acta]
+        e.meals=params[:meals]
+        e.fare=params[:fare]
+        e.shop=params[:shop]
+        e.taste=params[:taste]
+        e.education=params[:education]
+        e.family=params[:family]
+        e.intercourse=params[:intercourse]
+        e.income1=params[:income1]
+        e.income2=params[:income2]
+        e.income3=params[:income3]
+        e.income4=params[:income4]
+        e.income5=params[:income5]
+        e.income6=params[:income6]
+        e.income7=params[:income7]
+        e.income8=params[:income8]
+        e.income9=params[:income9]
+        e.income10=params[:income10]
+        e.income11=params[:income11]
+        e.income12=params[:income12]
+        e.save
+      end
+      render :json => "s1".to_json
+    else
+      @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
+                 :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],:arr=>params[:arr],
+                 :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
+                 :meals=>params[:meals],:fare=>params[:fare],:shop=>params[:shop],:taste=>params[:taste],
+                 :education=>params[:education],:family=>params[:family],:intercourse=>params[:intercourse],:income1=>params[:income1],
+                 :income2=>params[:income2],:income3=>params[:income3],:income4=>params[:income4],:income5=>params[:income5],
+                 :income6=>params[:income6],:income7=>params[:income7],:income8=>params[:income8],:income9=>params[:income9],
+                 :income10=>params[:income10],:income11=>params[:income11],:income12=>params[:income12],
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta])
       if params[:xianp]!="" &&  params[:xianp]!=nil
         @examination.update_attributes(:xianp=>params[:xianp],
                  :wenp=>params[:wenp],:fengp=>params[:fengp])

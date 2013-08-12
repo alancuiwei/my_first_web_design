@@ -12,6 +12,13 @@ class WeixinsController < ApplicationController
 	if params[:xml][:Event] == "subscribe"
 		render "welcome", :formats => :xml
 	end
+  
+	if params[:xml][:Event] == "CLICK"
+		case params[:xml][:EventKey] 
+		when "V100"
+			render "rtn101", :formats => :xml
+		end
+	end	
 	
     case params[:xml][:MsgType] 
 	when "text"
