@@ -16,7 +16,7 @@ token = array["access_token"]
 puts token
 
 # 设置菜单
-params = {"button"=>[{"type"=>"click","name"=>"我们的服务","key"=>"V100"},{"type"=>"click","name"=>"理财知识","key"=>"V200"},{"name"=>"关于通天顺","sub_button"=>[{"type"=>"click","name"=>"二级菜单31","key"=>"V301"},{"type"=>"click","name"=>"二级菜单32","key"=>"V302"}]}]}  
+params = {"button"=>[{"type"=>"click","name"=>"我们的服务","key"=>"V100"},{"type"=>"click","name"=>"理财知识","key"=>"V200"},{"name"=>"关于通天顺","sub_button"=>[{"type"=>"click","name"=>"团队介绍","key"=>"V301"},{"type"=>"click","name"=>"媒体介绍","key"=>"V302"},{"type"=>"click","name"=>"服务介绍","key"=>"V303"},{"type"=>"click","name"=>"理论依据","key"=>"V304"}]}]}  
 http = Net::HTTP.new("api.weixin.qq.com")
 request = Net::HTTP::Post.new("/cgi-bin/menu/create?access_token="+token,{'Content-Type' => 'application/json'})
 #request.set_form_data(params)

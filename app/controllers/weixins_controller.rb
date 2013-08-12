@@ -15,7 +15,7 @@ class WeixinsController < ApplicationController
   
 	if params[:xml][:Event] == "CLICK"
 		case params[:xml][:EventKey] 
-		when "V100"
+		when "V301"
 			render "rtn101", :formats => :xml
 		end
 	end	
