@@ -228,10 +228,13 @@
 <div class="question">
   <table class="center">
     <tr>
-      <td class="top">
+      <td>
         <p class="q-text" id="result"></p>
         <p class="q-text">下面将进行您的风险评估，来确定您的个性化资产分配比例，以及相应的理财产品推荐。</p>
         <input type="checkbox" class="hide">
+      </td>
+      <td style="width: 168px;text-align: center;">
+        <a class="introduce" href="#myModal6" role="button" data-toggle="modal">分数如何计算得到的？</a>
       </td>
       <td>
         <div style="width: 300px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
@@ -299,10 +302,10 @@
   <div class="modal-body">
     <table>
       <tr>
-         <td>
+         <td style="width: 50%;">
            <p>月支出</p>
            <table id="exact1"  class="table table-striped table-bordered">
-             <tr><td>支出明细</td><td>金额</td><td class="update hide" style="width: 40px;">建议金额</td></tr>
+             <tr><td>支出明细</td><td>金额</td><td class="update hide" style="width: 70px;">建议金额</td></tr>
              <tr><td>餐饮</td><td><input type="text" onkeyup="inva(this);" name="exect" id="meals"></td><td class="update1 hide"></td></tr>
              <tr><td>交通</td><td><input type="text" onkeyup="inva(this);" name="exect" id="fare"></td><td class="update2 hide"></td></tr>
              <tr><td>购物</td><td><input type="text" onkeyup="inva(this);" name="exect" id="shop"></td><td class="update3 hide"></td></tr>
@@ -311,7 +314,15 @@
              <tr><td>居家</td><td><input type="text" onkeyup="inva(this);" name="exect" id="family"></td><td class="update6 hide"></td></tr>
              <tr><td>人情</td><td><input type="text" onkeyup="inva(this);" name="exect" id="intercourse"></td><td class="update7 hide"></td></tr>
            </table>
-           <a class="xtip pull-right update hide" href="#myModal5" role="button" data-toggle="modal"> 为什么这么建议我的各项支出金额？ </a>
+           <a class="xtip update hide" href="#myModal5" role="button" data-toggle="modal"> 为什么这么建议我的各项支出金额？ </a>
+           <div id="remark">
+             <blockquote>
+               <small>购物：衣服鞋帽、日用百货、婴幼用品、数码产品、化妆护肤、首饰、烟酒、电器、家具、报刊书籍、玩具、摄影文印、保健品</small>
+               <small>娱乐：卡拉OK、电影、电视、网络电玩、运动健身、洗浴足浴、茶酒咖啡、旅游度假、歌舞演出</small>
+               <small>医教：求医买药、培训考试、学杂教材、家教补习、助学贷款</small>
+               <small>居家：房款房贷、水电煤气、物业、 美发美容、手机电话、宽带、住宿房租、保险费、消费贷款、税费、材料建材、家政服务、快递邮政、漏记账</small>
+             </blockquote>
+           </div>
          </td>
          <td style="width: 30px;"></td>
          <td>
@@ -368,6 +379,21 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true" id="open3">关闭</button>
   </div>
 </div>
+<div id="myModal6" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>分数如何计算得到的？</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="/assets/BE83E81B-484E-4E7F-B75B-CC39315067D4.png"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
 
 <script>
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
@@ -376,6 +402,7 @@
     var acta=0; //普通/精确
     $('#jinque').click(function() {
         $("[class*='update']").hide();
+        $("#remark").show();
     })
 
     $('#update').click(function() {
@@ -388,6 +415,7 @@
         $(".update6").html(parseInt(avge*0.3));
         $(".update7").html(parseInt(avge*0.03));
         $("[class*='update']").show();
+        $("#remark").hide();
        }
        else if(normal==2){
            var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
@@ -399,9 +427,11 @@
            $(".update6").html(parseInt(a2*0.3));
            $(".update7").html(parseInt(a2*0.03));
            $("[class*='update']").show();
+           $("#remark").hide();
        }
         else{
            $("[class*='update']").hide();
+           $("#remark").show();
        }
         $('#myModal3').modal('show');
     })
