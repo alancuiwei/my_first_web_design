@@ -17,6 +17,13 @@ class WeixinsController < ApplicationController
 		case params[:xml][:EventKey] 
 		when "V301"
 			render "rtn101", :formats => :xml
+    when "V202"
+      render "rtn202", :formats => :xml
+    when "V203"
+      render "rtn203", :formats => :xml
+    when "V204"
+      render "rtn204", :formats => :xml
+
 		end
 	end	
 	
@@ -28,7 +35,14 @@ class WeixinsController < ApplicationController
     when "101"
 	  render "rtn101", :formats => :xml
 	  when "200"
-		render "rtn200", :formats => :xml		
+		render "rtn200", :formats => :xml
+    when "202"
+    render "rtn202", :formats => :xml
+    when "203"
+    render "rtn203", :formats => :xml
+    when "204"
+    render "rtn204", :formats => :xml
+
     when "300"
 	  render "rtn300", :formats => :xml		
     
