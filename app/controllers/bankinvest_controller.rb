@@ -32,7 +32,7 @@ class BankinvestController < ApplicationController
   end
 
   def products
-    @financial=Financial.order("id DESC").all
+    @financial=Financial.find_all_by_category("风险型资产");
     @hash={}
     for i in 0..@financial.size-1
       @category=Category_2.find_by_classify(@financial[i].classify)
@@ -41,6 +41,36 @@ class BankinvestController < ApplicationController
       else
         @hash.store(@category.classify,[nil])
       end
+    end
+    @hash3={}
+    @financial2=Financial.find_all_by_classify('货币基金')
+    for i in 0..@financial2.size-1
+      @financial1=Financial.find_all_by_productcode(@financial2[i].productcode)
+      @f1=@financial2[i].pname
+      @f5=@financial2[i].rate
+      @f6=@financial2[i].rank
+      for j in 0..@financial1.size-1
+        if @financial1[j].pname!=@financial2[i].pname
+          @f1=@financial1[j].pname
+          @f5=@financial1[j].rate
+          @f6=@financial1[j].rank
+        end
+      end
+      @f2='否'
+      @f3='否'
+      @f4='否'
+      if @financial2[i].way!=nil
+        if @financial2[i].way.include? "iphone"
+          @f2='是'
+        end
+        if @financial2[i].way.include? "android"
+          @f3='是'
+        end
+        if @financial2[i].way.include? "weixin"
+          @f4='是'
+        end
+      end
+      @hash3.store(@financial2[i].id,[@financial1.length,@f1,@f2,@f3,@f4,@f5,@f6])
     end
   end
 
