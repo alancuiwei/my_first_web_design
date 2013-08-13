@@ -6,7 +6,7 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
-
+<%= stylesheet_link_tag "demo_table_jui.css" %>
 <%= javascript_include_tag "footable-0.1.js" %>
 <script type="text/javascript">
     $(function() {
@@ -145,8 +145,8 @@
                 <th rowspan="2">绑定基金</th>
                 <th rowspan="2">起购金额</th>
                 <th colspan="2">近一年</th>
-                <th rowspan="2">选择</th>
                 <th colspan="3">购买途径</th>
+                <th rowspan="2">选择</th>
               </tr>
               <tr>
                 <th>收益率</th>
@@ -166,10 +166,10 @@
                 <th rowspan="2">起购金额</th>
                 <th>收益率</th>
                 <th>排名</th>
-                <th rowspan="2">选择</th>
                 <th>iphone</th>
                 <th>android</th>
                 <th>微信</th>
+                <th rowspan="2">选择</th>
               </tr>
               <tr>
                 <th colspan="2">近一年</th>
@@ -185,29 +185,38 @@
                     <% if f.property=='互联网产品'%>
                         <% if f.bound>1%>
                             <td>多个货币基金</td>
+                            <td><%= f.startvalue %></td>
+                            <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                            <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                         <% else %>
                               <% if @hash3[f.id][0]>1 %>
                                  <td><%= @hash3[f.id][1] %></td>
+                                <td><%= f.startvalue %></td>
+                                <td><% if @hash3[f.id][5] !=nil && @hash3[f.id][5].to_f!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %></td>
+                                <td><% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %></td>
                               <% else %>
                                 <td><%= f.pname %></td>
+                                <td><%= f.startvalue %></td>
+                                <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                                <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                               <% end %>
                          <% end %>
                     <% else %>
                         <td><%= f.pname %></td>
+                        <td><%= f.startvalue %></td>
+                        <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                        <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                     <% end %>
-                    <td><%= f.startvalue %></td>
-                    <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
-                    <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
-                    <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td>
                     <% if f.property=='互联网产品'%>
                         <td><%= @hash3[f.id][2] %></td>
                         <td><%= @hash3[f.id][3] %></td>
                         <td><%= @hash3[f.id][4] %></td>
                     <% else %>
-                        <td>N</td>
-                        <td>N</td>
-                        <td>N</td>
+                        <td>否</td>
+                        <td>否</td>
+                        <td>否</td>
                     <% end %>
+                    <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td>
                   </tr>
                    <!--
                     <tr id="finan<%= f.id %>" class="rights hide">
@@ -243,25 +252,34 @@
                         绑定基金：
                         <% if f.property=='互联网产品'%>
                             <% if f.bound>1%>
-                                多个货币基金
+                                多个货币基金<br>
+                                起购金额：<%= f.startvalue %><br>
+                                近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
+                                近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
                             <% else %>
                                 <% if @hash3[f.id][0]>1 %>
-                                    <%= @hash3[f.id][1] %>
+                                    <%= @hash3[f.id][1] %><br>
+                                    起购金额：<%= f.startvalue %><br>
+                                    近1年收益率：<% if @hash3[f.id][5] !=nil && @hash3[f.id][5]!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %><br>
+                                    近1年排名：<% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %><br>
                                 <% else %>
-                                    <%= f.pname %>
+                                    <%= f.pname %><br>
+                                    起购金额：<%= f.startvalue %><br>
+                                    近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
+                                    近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
                                 <% end %>
                             <% end %>
                         <% else %>
-                            <%= f.pname %>
-                        <% end %> <br>
+                            <%= f.pname %><br>
                             起购金额：<%= f.startvalue %><br>
-                        近1年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
-                        近1年收益率：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
+                            近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
+                            近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
+                        <% end %> <br>
                         购买途径：
                         <% if f.property=='互联网产品'%>
                             iphone：<%= @hash3[f.id][2] %> android：<%= @hash3[f.id][3] %> 微信：<%= @hash3[f.id][4] %>
                         <% else %>
-                            iphone：N android：N 微信：N
+                            iphone：否 android：否 微信：否
                         <% end %>
                       </tr>
                   <% end %>
@@ -295,11 +313,11 @@
                   <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
                     <td class="leng expand"><%= f.classify %></td>
                     <td class="leng"><%= f.pname %></td>
-                    <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
-                    <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
-                    <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                    <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
+                    <td><% if f.rate1 !=nil && f.rate1!=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %></td>
                     <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
-                    <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
+                    <td><% if f.rate2 !=nil && f.rate2!=0 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %>--<% end %></td>
                     <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
                     <td><input type="radio" id="iCheck7" name="iCheck4" class="<%= f.id %>"></td>
                   </tr>
@@ -326,11 +344,11 @@
                       </tr>
                       <tr id="finan<%= f.id %>" class="rights hide">
                         <td class="left" colspan="3">
-                          一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
-                          一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
-                          三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
+                          一年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
+                          一年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
+                          三年收益率：<% if f.rate1 !=nil && f.rate1!=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %><br>
                           三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
-                          五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
+                          五年收益率：<% if f.rate2 !=nil && f.rate2!=0 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %>--<% end %><br>
                           五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
                           <blockquote><small><%= f.pintroduction %></small></blockquote>
                         </td>
@@ -589,11 +607,11 @@
                       <tr id="de<%= f.id %>" onclick="show2(this);" class="finance<%= f.id %> hide">
                         <td class="leng expand"><%= f.classify %></td>
                         <td class="leng"><%= f.pname %></td>
-                        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
-                        <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
-                        <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
+                        <td><% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                        <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
+                        <td><% if f.rate1 !=nil && f.rate1!=0 %><%= format("%0.2f",f.rate1.to_f*100) %><% else %>--<% end %></td>
                         <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
-                        <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
+                        <td><% if f.rate2 !=nil && f.rate2!=0 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %>--<% end %></td>
                         <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
                         <td><input type="radio" id="iCheck" name="iCheck2" class="<%= f.id %>"></td>
                       </tr>
@@ -620,11 +638,11 @@
                         </tr>
                         <tr id="hide<%= f.id %>" class="rights hide">
                           <td class="left" colspan="3">
-                            一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
-                            一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
-                            三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
+                            一年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
+                            一年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
+                            三年收益率：<% if f.rate1 !=nil && f.rate1!=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %><br>
                             三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
-                            五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
+                            五年收益率：<% if f.rate2 !=nil && f.rate2!=0 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %>--<% end %><br>
                             五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
                             <blockquote><small><%= f.pintroduction %></small></blockquote>
                           </td>

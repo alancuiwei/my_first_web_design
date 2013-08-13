@@ -40,19 +40,10 @@
     <option value="互联网产品">互联网产品</option>
   </select></div>
   产品名称：<input type="text" name="pname" id="pname" title="产品名称"><br>
-  晨星评级： <select  name="level" id="level" class="level" title="晨星评级">
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-             </select><br>
   管理机构：<input type="text" name="trusts" id="trusts" title="管理机构"><br>
   产品代码：<input type="text" name="productcode" id="productcode"><br>
   最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"><br>
   手续费：<input type="text" name="poundage" id="poundage" title="手续费">%<br>
-  投资期限：<input type="text" name="investperiod" id="investperiod" title="投资期限"><br>
   <% if params[:id]!="0" %>
       风险提示：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risktip" id="risktip" title="风险提示"><%= @financial.risktip %></textarea><br>
       产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"><%= @financial.pintroduction %></textarea> <br>
@@ -60,6 +51,7 @@
       风险提示：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risktip" id="risktip" title="风险提示"></textarea><br>
       产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"></textarea> <br>
   <% end %>
+  官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
   <div id="web">
     绑定基金数目：<select  name="bound" id="bound" class="bound">
        <option value="1">1</option>
@@ -80,7 +72,15 @@
             </table>
   </div>
   <div id="tradition">
-  官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
+    投资期限：<input type="text" name="investperiod" id="investperiod" title="投资期限"><br>
+    晨星评级： <select name="level" id="level" class="level">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select><br>
   近1年收益率：<input type="text" name="rate" id="rate" title="近1年收益率">%<br>
   近1年排名：<input type="text" name="rank" id="rank" title="近1年排名"><br>
   近3年收益率：<input type="text" name="rate1" id="rate1" title="近3年收益率">%<br>

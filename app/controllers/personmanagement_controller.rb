@@ -60,26 +60,30 @@ class PersonmanagementController < ApplicationController
     for i in 0..@financial3.size-1
       @financial5=Financial.find_all_by_productcode(@financial3[i].productcode)
       @f1=@financial3[i].pname
+      @f5=@financial3[i].rate
+      @f6=@financial3[i].rank
       for j in 0..@financial5.size-1
         if @financial5[j].pname!=@financial3[i].pname
           @f1=@financial5[j].pname
+          @f5=@financial5[j].rate
+          @f6=@financial5[j].rank
         end
       end
-      @f2='N'
-      @f3='N'
-      @f4='N'
+      @f2='否'
+      @f3='否'
+      @f4='否'
       if @financial3[i].way!=nil
       if @financial3[i].way.include? "iphone"
-        @f2='Y'
+        @f2='是'
       end
       if @financial3[i].way.include? "android"
-        @f3='Y'
+        @f3='是'
       end
       if @financial3[i].way.include? "weixin"
-        @f4='Y'
+        @f4='是'
       end
       end
-      @hash3.store(@financial3[i].id,[@financial5.length,@f1,@f2,@f3,@f4])
+      @hash3.store(@financial3[i].id,[@financial5.length,@f1,@f2,@f3,@f4,@f5,@f6])
     end
     @financial4=Financial.find_all_by_category('保本型资产')
     @category1=Category_2.find_all_by_risklevel(1)
