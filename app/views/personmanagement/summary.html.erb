@@ -186,25 +186,25 @@
                         <% if f.bound>1%>
                             <td>多个货币基金</td>
                             <td><%= f.startvalue %></td>
-                            <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                            <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
                             <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                         <% else %>
                               <% if @hash3[f.id][0]>1 %>
                                  <td><%= @hash3[f.id][1] %></td>
                                 <td><%= f.startvalue %></td>
-                                <td><% if @hash3[f.id][5] !=nil && @hash3[f.id][5].to_f!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %></td>
+                                <td class="red"><% if @hash3[f.id][5] !=nil && @hash3[f.id][5].to_f!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %></td>
                                 <td><% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %></td>
                               <% else %>
                                 <td><%= f.pname %></td>
                                 <td><%= f.startvalue %></td>
-                                <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                                <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
                                 <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                               <% end %>
                          <% end %>
                     <% else %>
                         <td><%= f.pname %></td>
                         <td><%= f.startvalue %></td>
-                        <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
+                        <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
                         <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
                     <% end %>
                     <% if f.property=='互联网产品'%>
@@ -795,6 +795,9 @@
 </script>
 
 <script>
+
+    var done0= 0,done1=0;done2=0;
+
     $("[class*='category']").click(function(){
         $("[class*='category']").removeClass('currbg');
         if(this.id=='category0'){$("#search0").val('');$("#s-category").addClass('hide');$("#category0").addClass('currbg');}
@@ -889,7 +892,6 @@
 </script>
 
 <script>
-    $(function() {
 
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
@@ -1020,7 +1022,21 @@
 
                 var $i = $qn.find("input");
                 var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
-                done=true;   //下
+               if(i==0){
+                 if(done0==0){done=false;}
+                   else if(done0==1){done=true};
+               }
+               else if(i==1){
+                 if(done1==0){done=false;}
+                   else if(done1==1){done=true};
+               }
+               else if(i==2){
+                 if(done2==0){done=false;}
+                   else if(done2==1){done=true};
+               }
+                else{
+                   done=true;
+               }
                 $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
                 $qr.trigger("qr:nav", i);
 
@@ -1033,7 +1049,7 @@
                         .filter("[checked=true],input:first").focus().select();
             }
         }
-    });
+
 </script>
 <script>
     $(function() {
@@ -1274,6 +1290,8 @@
         <% end %>
         }
         else if(this.name=='iCheck2'){
+            done2=1;
+            showQn(2);
             $("tr").removeClass("third");
             $(".finance"+this.className).addClass("third");
             $('[class*="rights"]').addClass('hide');
@@ -1333,6 +1351,8 @@
             update();
         }
         else if(this.name=='iCheck3'){
+            done0=1;
+            showQn(0);
         <% @financial3.each do |f| %>
             if(this.className=='<%= f.id %>'){
             <%  for i in 0..@hash.size-1 %>
@@ -1352,6 +1372,8 @@
             update();
         }
         else if(this.name=='iCheck4'){
+            done1=1;
+            showQn(1);
         <% @financial4.each do |f| %>
             if(this.className=='<%= f.id %>'){
             <%  for i in 0..@hash.size-1 %>
