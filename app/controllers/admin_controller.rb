@@ -367,12 +367,18 @@ class AdminController < ApplicationController
         b.pname=params[:pname]
         b.classify=params[:classify]
         b.trusts=params[:trusts]
+
         b.rate=params[:rate]
         b.rate1=params[:rate1]
         b.rate2=params[:rate2]
         b.rank=params[:rank]
         b.rank1=params[:rank1]
         b.rank2=params[:rank2]
+
+        b.property=params[:property]
+        b.bound=params[:bound]
+        b.way=params[:way]
+
         b.startvalue=params[:startvalue]
         b.risklevel=@risklevel
         b.risktip=params[:risktip]
@@ -389,7 +395,13 @@ class AdminController < ApplicationController
     else
       @financial=Financial.find_by_id(params[:id])
       @financial.update_attributes(:category=>params[:category],:pname=>params[:pname],:classify=>params[:classify],:trusts=>params[:trusts],:link=>params[:link],:productcode=>params[:productcode],:averrate=>params[:averrate],:level=>params[:level],
-             :rate=>params[:rate],:rate1=>params[:rate1],:rate2=>params[:rate2],:rank=>params[:rank],:rank1=>params[:rank1],:rank2=>params[:rank2],:startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
+             :startvalue=>params[:startvalue],:risklevel=>@risklevel,:risktip=>params[:risktip],:pintroduction=>params[:pintroduction],:investperiod=>params[:investperiod],:poundage=>params[:poundage])
+      if params[:classify]=='货币基金' && params[:property]=='互联网产品'
+        @financial.update_attributes(:property=>params[:property],:bound=>params[:bound],:way=>params[:way])
+      else
+        @financial.update_attributes(:rate=>params[:rate],:rate1=>params[:rate1],:rate2=>params[:rate2],:rank=>params[:rank],:rank1=>params[:rank1],:rank2=>params[:rank2],:property=>'传统产品')
+      end
+
       render :json => "s2".to_json
     end
   end

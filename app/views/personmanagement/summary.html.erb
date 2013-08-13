@@ -4,6 +4,8 @@
 <%= stylesheet_link_tag "red.css" %>
 <%= javascript_include_tag "jquery.icheck.js" %>
 <%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
 
 <%= javascript_include_tag "footable-0.1.js" %>
 <script type="text/javascript">
@@ -24,8 +26,8 @@
     td.left{text-align: left!important;}
     blockquote{margin: 0;}
     td.leng{width: 15%!important;}
-    #category td,#select td,#liudong td,#baoben td{width: 10%;font-family: Hiragino Sans GB W3;}
-    #liudong td,#baoben td{background-color: #ffffff;}
+    #category td,#select td,#liudong td,#liudongs td,#baoben td{width: 10%;font-family: Hiragino Sans GB W3;}
+    #liudong td,#liudongs td,#baoben td{background-color: #ffffff;}
     .iradio_square-red{margin-left: 25px;}
 </style>
 <div class="welcomes summary">
@@ -49,69 +51,218 @@
 
         <div id="questionnaire-view">
           <div id="questionnaire">
-          <div class="question first" style="padding-right: 0;height: 376px;">
-            <div style="padding-right: 0;height: 346px;overflow: auto;">
+          <div class="question first" style="padding-right: 0;height: 576px;">
+            <div style="padding-right: 0;height: 546px;overflow: auto;">
               <div class="win">
-              <table id="liudong" class="table table-striped table-bordered" style="width: 100%;">
+                <div id="optionsRadios">
+                  <div class="box_sxtj">
+                    <div class="box_sxtj_top">查询</div>
+                    <div class="box_sxtj_center">
+                      <dl class="fore" id="category_all">
+                        <dt id="category-category_all">购买途径:</dt>
+                        <dd>
+                          <label class="checkbox inline all">
+                            <a id="category0" class="curr category btn-link currbg">不限</a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="category1" class="curr category1 btn-link"> Iphone手机 </a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="category2" class="curr category2 btn-link"> Android手机 </a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="category3" class="curr category3 btn-link"> 微信购买 </a>
+                          </label>
+                        </dd>
+                      </dl>
+                      <dl class="fore">
+                        <dt id="category-expectYID">起购金额:</dt>
+                        <dd>
+                          <label class="checkbox inline all">
+                            <a id="expectYID" class="curr expectYID btn-link currbg">不限</a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="expectYID1" class="curr expectYID1 btn-link"> 0-10元 </a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="expectYID2" class="curr expectYID2 btn-link"> 11-500元 </a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="expectYID3" class="curr expectYID3 btn-link"> 501-1000元 </a>
+                          </label>
+                        </dd>
+                      </dl>
+                      <dl class="fore" id="duration">
+                        <dt id="category-duration">已有账号:</dt>
+                        <dd>
+                          <label class="checkbox inline all">
+                            <a id="durations" class="curr duration btn-link currbg">不限</a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="duration1" class="curr duration1 btn-link"> 支付宝</a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="duration2" class="curr duration2 btn-link"> 天天基金 </a>
+                          </label>
+                          <label class="checkbox inline">
+                            <a id="duration3" class="curr duration3 btn-link"> 华夏基金</a>
+                          </label>
+                        </dd>
+                      </dl>
+                    </div>
+
+                    <div class="box_sxtj_bottom">
+                      <dl class="fore">
+                        <dt>已选择的筛选条件:&nbsp;</dt>
+                        <dd id="selected">
+
+                          <div id="s-category" class="del hide">
+                            <h6 class="text" id="st-category" condition="">购买途径:不限</h6>
+                            <a class="delete" cid="category"></a>
+                          </div>
+
+                          <div id="s-expectYID" class="del hide">
+                            <h6 class="text" id="st-expectYID" condition="">起购金额:不限</h6>
+                            <a class="delete" cid="expectYID"></a>
+                          </div>
+
+                          <div id="s-duration" class="del hide">
+                            <h6 class="text" id="st-duration" condition="">已有账号：不限</h6>
+                            <a class="delete" cid="duration"></a>
+                          </div>
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              <table id="liudong" class="table table-striped table-bordered">
               <thead>
               <tr>
-                <th rowspan="2">投资品种</th>
-                <th rowspan="2">理财产品</th>
-                <th colspan="2">一年</th>
-                <th colspan="2">三年</th>
-                <th colspan="2">五年</th>
+                <th class="hide" rowspan="2">购买途径</th>
+                <th class="hide" rowspan="2">起购金额</th>
+                <th rowspan="2">产品名</th>
+                <th rowspan="2">机构名称</th>
+                <th rowspan="2">绑定基金</th>
+                <th rowspan="2">起购金额</th>
+                <th colspan="2">近一年</th>
                 <th rowspan="2">选择</th>
+                <th colspan="3">购买途径</th>
               </tr>
               <tr>
                 <th>收益率</th>
                 <th>排名</th>
-                <th>收益率</th>
-                <th>排名</th>
-                <th>收益率</th>
-                <th>排名</th>
+                <th>iphone</th>
+                <th>android</th>
+                <th>微信</th>
               </tr>
               </thead>
+              <tfoot class="hide">
+              <tr>
+                <th class="hide" rowspan="2">购买途径</th>
+                <th class="hide" rowspan="2">起购金额</th>
+                <th rowspan="2">产品名</th>
+                <th rowspan="2">机构名称</th>
+                <th rowspan="2">绑定基金</th>
+                <th rowspan="2">起购金额</th>
+                <th>收益率</th>
+                <th>排名</th>
+                <th rowspan="2">选择</th>
+                <th>iphone</th>
+                <th>android</th>
+                <th>微信</th>
+              </tr>
+              <tr>
+                <th colspan="2">近一年</th>
+                <th colspan="3">购买途径</th>
+              </tr>
+              </tfoot>
               <% @financial3.each do |f| %>
                   <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
-                    <td class="leng expand"><%= f.classify %></td>
-                    <td class="leng"><%= f.pname %></td>
+                    <td class="hide"><%= f.way %></td>
+                    <td class="hide"><%= f.startvalue %></td>
+                    <td><%= f.pname %></td>
+                    <td><%= f.trusts %></td>
+                    <% if f.property=='互联网产品'%>
+                        <% if f.bound>1%>
+                            <td>多个货币基金</td>
+                        <% else %>
+                              <% if @hash3[f.id][0]>1 %>
+                                 <td><%= @hash3[f.id][1] %></td>
+                              <% else %>
+                                <td><%= f.pname %></td>
+                              <% end %>
+                         <% end %>
+                    <% else %>
+                        <td><%= f.pname %></td>
+                    <% end %>
+                    <td><%= f.startvalue %></td>
                     <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %></td>
                     <td><% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %></td>
-                    <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %></td>
-                    <td><% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %></td>
-                    <td><% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %></td>
-                    <td><% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %></td>
                     <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td>
+                    <% if f.property=='互联网产品'%>
+                        <td><%= @hash3[f.id][2] %></td>
+                        <td><%= @hash3[f.id][3] %></td>
+                        <td><%= @hash3[f.id][4] %></td>
+                    <% else %>
+                        <td>N</td>
+                        <td>N</td>
+                        <td>N</td>
+                    <% end %>
                   </tr>
-                  <tr id="finan<%= f.id %>" class="rights hide">
-                    <td class="left" colspan="9"><blockquote><small><%= f.pintroduction %></small></blockquote></td>
+                   <!--
+                    <tr id="finan<%= f.id %>" class="rights hide">
+                    <td class="left" colspan="9">
+                      购买途径:
+                      <% if f.property=='互联网产品'%>
+                        iphone:<%= @hash3[f.id][2] %> android:<%= @hash3[f.id][3] %> 微信:<%= @hash3[f.id][4] %>
+                        <% else %>
+                        iphone:N android:N 微信:N
+                        <% end %>
+                    </td>
                   </tr>
+                    -->
               <% end %>
             </table>
              </div>
               <div class="mobile">
-                <table id="liudong" class="table table-striped table-bordered" style="width: 100%;">
+                <table id="liudongs" class="table table-striped table-bordered" style="width: 100%;">
                   <thead>
                   <tr>
-                    <th>投资品种</th>
-                    <th>理财产品</th>
+                    <th>产品名称</th>
+                    <th>机构名称</th>
                     <th>选择</th>
                   </tr>
                   </thead>
                   <% @financial3.each do |f| %>
                       <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
-                        <td class="leng expand"><%= f.classify %></td>
-                        <td class="leng"><%= f.pname %></td>
+                        <td class="leng expand"><%= f.pname %></td>
+                        <td class="leng"><%= f.trusts %></td>
                         <td><input type="radio" id="iCheck8" name="iCheck3" class="<%= f.id %>"></td>
                       </tr>
                       <tr id="finan<%= f.id %>" class="rights hide"><td class="left" colspan="3">
-                        一年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
-                        一年排名：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
-                        三年收益率：<% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% else %>--<% end %><br>
-                        三年排名：<% if f.rank1!=nil && f.rank1!='0' %><%= f.rank1 %><% else %>--<% end %><br>
-                        五年收益率：<% if f.rate2 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate2 %><%= format("%0.2f",f.rate2.to_f*100) %>%<% else %><%= f.rate2 %><% end %><% else %>--<% end %><br>
-                        五年排名：<% if f.rank2!=nil && f.rank2!='0' %><%= f.rank2 %><% else %>--<% end %><br>
-                        <blockquote><small><%= f.pintroduction %></small></blockquote></td>
+                        绑定基金：
+                        <% if f.property=='互联网产品'%>
+                            <% if f.bound>1%>
+                                多个货币基金
+                            <% else %>
+                                <% if @hash3[f.id][0]>1 %>
+                                    <%= @hash3[f.id][1] %>
+                                <% else %>
+                                    <%= f.pname %>
+                                <% end %>
+                            <% end %>
+                        <% else %>
+                            <%= f.pname %>
+                        <% end %> <br>
+                            起购金额：<%= f.startvalue %><br>
+                        近1年收益率：<% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% else %>--<% end %><br>
+                        近1年收益率：<% if f.rank!=nil && f.rank!='0' %><%= f.rank %><% else %>--<% end %><br>
+                        购买途径：
+                        <% if f.property=='互联网产品'%>
+                            iphone：<%= @hash3[f.id][2] %> android：<%= @hash3[f.id][3] %> 微信：<%= @hash3[f.id][4] %>
+                        <% else %>
+                            iphone：N android：N 微信：N
+                        <% end %>
                       </tr>
                   <% end %>
                 </table>
@@ -626,6 +777,67 @@
 </script>
 
 <script>
+    $("[class*='category']").click(function(){
+        $("[class*='category']").removeClass('currbg');
+        if(this.id=='category0'){$("#search0").val('');$("#s-category").addClass('hide');$("#category0").addClass('currbg');}
+        else{
+            if(this.id=='category1'){$("#search0").val('iphone');$("#category1").addClass('currbg');};
+            if(this.id=='category2'){$("#search0").val('android');$("#category2").addClass('currbg');};
+            if(this.id=='category3'){$("#search0").val('weixin');$("#category3").addClass('currbg');};
+            $("#s-category").removeClass('hide');
+            $("#st-category").html('购买途径:'+$('#'+this.id).html());
+        }
+        $("#search0").keyup();
+    });
+
+    $("[class*='expectYID']").click(function(){
+        $("[class*='expectYID']").removeClass('currbg');
+        if(this.id=='expectYID'){$("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
+        else{
+            if(this.id=='expectYID1'){$("#liudong_range_from_1").val('0');$("#liudong_range_to_1").val('10');$("#expectYID1").addClass('currbg');};
+            if(this.id=='expectYID2'){$("#liudong_range_from_1").val('11');$("#liudong_range_to_1").val('500');$("#expectYID2").addClass('currbg');};
+            if(this.id=='expectYID3'){$("#liudong_range_from_1").val('501');$("#liudong_range_to_1").val('1000');$("#expectYID3").addClass('currbg');};
+            $("#s-expectYID").removeClass('hide');
+            $("#st-expectYID").html('起购金额:'+$('#'+this.id).html());
+        }
+        $("#liudong_range_from_1").keyup();
+    });
+
+    $("[class*='duration']").click(function(){
+        $("[class*='duration']").removeClass('currbg');
+        if(this.id=='durations'){$("#search3").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
+        else{
+            if(this.id=='duration1'){$("#search3").val('支付宝');$("#duration1").addClass('currbg');};
+            if(this.id=='duration2'){$("#search3").val('天天基金');$("#duration2").addClass('currbg');};
+            if(this.id=='duration3'){$("#search3").val('华夏基金');$("#duration3").addClass('currbg');};
+            $("#s-duration").removeClass('hide');
+            $("#st-duration").html('已有账号:'+$('#'+this.id).html());
+        }
+        $("#search3").keyup();
+    });
+
+    $(".delete").click(function(){
+        $('#s-'+$(this).attr("cid")).addClass('hide');
+        if($(this).attr("cid")=='category'){
+            $("[class*='category']").removeClass('currbg');
+            $("#category0").addClass('currbg');
+            $("#search0").val('');$("#s-category").addClass('hide');
+            $("#search0").keyup();
+        }
+        else if($(this).attr("cid")=='expectYID'){
+            $("[class*='expectYID']").removeClass('currbg');
+            $("#expectYID").addClass('currbg');
+            $("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#s-expectYID").addClass('hide');
+            $("#liudong_range_from_1").keyup();
+        }
+        else if($(this).attr("cid")=='duration'){
+            $("[class*='duration']").removeClass('currbg');
+            $("#durations").addClass('currbg');
+            $("#search3").val('');$("#s-duration").addClass('hide');
+            $("#search3").keyup();
+        }
+    });
+
     var risk=0;
 
     <% if params[:risk]!=nil && params[:risk]!='' %>
@@ -715,7 +927,7 @@
                 $("#title").html("流动性理财产品 选择");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
-                test_div.style.height="406px";
+                test_div.style.height="606px";
             }
             if(i==1){
                 $("#title").html("保本型理财产品 选择");
@@ -771,10 +983,10 @@
              //   $("#q-back span").text(i === 2 ? "上一项" : "上一项");
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
-                if(i==1){newTop= "-376px"}
-                if(i==2){newTop= "-752px"}
-                if(i==3){newTop= "-1382px"}
-                if(i==4){newTop= "-2118px"}
+                if(i==1){newTop= "-576px"}
+                if(i==2){newTop= "-952px"}
+                if(i==3){newTop= "-1582px"}
+                if(i==4){newTop= "-2318px"}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -824,6 +1036,28 @@
     var variety,amount,pname,jixu,total,xian,feng,wen;
     var xianjin= 0,wenjian= 0,fengxian=0;
     $(document).ready(function(){
+
+        $('#liudong').dataTable({
+            "iDisplayLength": 50,
+            "aaSorting": [[ 4, "asc" ]]
+        });
+
+        $('#liudong').dataTable().columnFilter({
+            aoColumns: [
+                { type: "text"},
+                { type: "number-range" },
+                null,
+                { type: "text"},
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ]
+        });
         $('[id*="iCheck"]').iCheck({
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red',

@@ -55,7 +55,32 @@ class PersonmanagementController < ApplicationController
     else
       redirect_to(:controller=>"sales", :action=>"login", :summary=>"1")
     end
-    @financial3=Financial.find_all_by_category('随存随取型资产')
+    @hash3={}
+    @financial3=Financial.find_all_by_classify('货币基金')
+    for i in 0..@financial3.size-1
+      @financial5=Financial.find_all_by_productcode(@financial3[i].productcode)
+      @f1=@financial3[i].pname
+      for j in 0..@financial5.size-1
+        if @financial5[j].pname!=@financial3[i].pname
+          @f1=@financial5[j].pname
+        end
+      end
+      @f2='N'
+      @f3='N'
+      @f4='N'
+      if @financial3[i].way!=nil
+      if @financial3[i].way.include? "iphone"
+        @f2='Y'
+      end
+      if @financial3[i].way.include? "android"
+        @f3='Y'
+      end
+      if @financial3[i].way.include? "weixin"
+        @f4='Y'
+      end
+      end
+      @hash3.store(@financial3[i].id,[@financial5.length,@f1,@f2,@f3,@f4])
+    end
     @financial4=Financial.find_all_by_category('保本型资产')
     @category1=Category_2.find_all_by_risklevel(1)
     @category2=Category_2.find_all_by_risklevel(2)
@@ -78,7 +103,6 @@ class PersonmanagementController < ApplicationController
       end
       @hash.store(i,[@category[i].id,@category[i].classify,a])
     end
-
     @financial2=Financial.all
   end
 
