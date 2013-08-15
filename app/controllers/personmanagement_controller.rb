@@ -20,7 +20,6 @@ class PersonmanagementController < ApplicationController
         @personal[11]=@personalfinance.contact
         @personal[12]=@personalfinance.myfavorite
         @personal[13]=@personalfinance.tel
-        @personal[14]=@personalfinance.memberlevel
       end
       end
     else
@@ -173,38 +172,6 @@ class PersonmanagementController < ApplicationController
     render :json => @alipy_url.to_json
   end
 
-  def organfinance
-    if session[:webusername]==nil &&  params[:id]==nil
-      redirect_to(:controller=>"home")
-    else
-      if params[:id]!=nil
-        @webuser=Webuser.find_by_id(params[:id])
-        @comments=Comments.find_all_by_wid(params[:id])
-        @webusers=Webuser.find_all_by_organusername(@webuser.username)
-      else
-        @webusers=Webuser.find_all_by_organusername(session[:webusername])
-        @webuser=Webuser.find_by_username(session[:webusername])
-        @comments=Comments.find_all_by_wid(@webuser.id)
-      end
-      if session[:webusername]!=nil
-        @webuser2=Webuser.find_by_username(session[:webusername])
-      else
-        @webuser2=Webuser.find_by_username(@webuser.username)
-      end
-      @bankfinances=Bankfinance.find_all_by_isorgan_and_name(1,@webuser.username)
-      @personinvestinfo=Personinvestinfo.all
-      @hash={}
-      for i in 0..@webusers.size-1
-        @provide=Provide.find_by_username_and_managename(@webusers[i].username,session[:webusername])
-        if @provide!=nil
-        @hash.store(@webusers[i].username,[1,@webusers[i].exeitdeposit,@provide.stock,@provide.debt,@provide.bankfinance,@provide.insure,@provide.trust])
-        else
-          @hash.store(@webusers[i].username,[0,@webusers[i].exeitdeposit,nil,nil,nil,nil,nil])
-        end
-      end
-    end
-  end
-
   def commentconfigajax
     Comments.new do |b|
       b.username=params[:username]
@@ -212,7 +179,6 @@ class PersonmanagementController < ApplicationController
       b.comments=params[:comment]
       b.cid=params[:cid]
       b.time=params[:time]
-      b.memberlevel=params[:memberlevel]
       b.company=params[:company]
       b.wid=params[:wid]
       b.save
@@ -233,7 +199,6 @@ class PersonmanagementController < ApplicationController
       b.comments=params[:comment]
       b.cid=params[:cid]
       b.time=params[:time]
-      b.memberlevel=params[:memberlevel]
       b.company=params[:company]
       b.wid=params[:wid]
       b.save
@@ -359,7 +324,6 @@ class PersonmanagementController < ApplicationController
           b.contact=params[:contact]
           b.myfavorite=params[:myfavorite]
           b.tel=params[:tel]
-          b.memberlevel=params[:memberlevel]
           b.investvarieties=params[:investvarieties]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
@@ -386,7 +350,7 @@ class PersonmanagementController < ApplicationController
                                          :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:trade=>params[:trade],
                                          :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
                                          :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:contact=>params[:contact],:bank=>params[:bank],
-                                         :myfavorite=>params[:myfavorite],:tel=>params[:tel],:memberlevel=>params[:memberlevel])
+                                         :myfavorite=>params[:myfavorite],:tel=>params[:tel])
       render :json => "sd".to_json
     end
   end
@@ -521,31 +485,9 @@ class PersonmanagementController < ApplicationController
       if @finance3!=nil
         @category3=Category_2.find_by_classify(@finance3.classify)
       end
-   #   if @finances!=nil
-   #   @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
-   #   end
       @examination=Examination.find_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
       @provides=Provide.find_by_username(@webuser.username)
-      if @webuser.organusername!=nil
-        @webuser2=Webuser.find_by_username(@webuser.organusername)
-      else
-        @webuser2=Webuser.find_by_username("admin")
-      end
-      @hash2=Hash.new
-      if @provides!=nil
-        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename,@provides.trust])
-      else
-        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil,nil])
-      end
-
-      @hash=Hash.new
-      @add=Personalfinance.find_by_username(@webuser.username)
-      if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota,@add.bank])
-      else
-        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil,nil])
-      end
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
@@ -561,97 +503,11 @@ class PersonmanagementController < ApplicationController
         if @finance3!=nil
           @category3=Category_2.find_by_classify(@finance3.classify)
         end
-    #    if @finances!=nil
-    #    @hash3.store(@finances.pname,[@finances.pname,@finances.id,@finances.classify])
-    #    end
         @examination=Examination.find_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
-        if @webuser.organusername!=nil
-          @webuser2=Webuser.find_by_username(@webuser.organusername)
-        else
-          @webuser2=Webuser.find_by_username("admin")
-        end
       @provides=Provide.find_by_username(@webuser.username)
-      @hash2=Hash.new
-      if @provides!=nil
-        @hash2.store(0,[@provides.company,@provides.managename,@provides.id,@provides.stock,@provides.debt,@provides.insure,@provides.bankfinance,@provides.filename,@provides.trust])
-      else
-        @hash2.store(0,[nil,nil,nil,nil,nil,nil,nil,nil,nil])
-      end
-
-      @hash=Hash.new
-      @add=Personalfinance.find_by_username(@webuser.username)
-      if @add!=nil
-        @hash.store(0,[@add.investamount,@add.wbreedinfo,@add.age,@add.investcycle,@add.trade,@add.returnrate,@add.riskrate,@add.fluctuation,@add.quota,@add.bank])
-      else
-        @hash.store(0,[0,nil,nil,nil,nil,nil,nil,nil,nil,nil])
-      end
     else
       redirect_to(:controller=>"home")
-    end
-  end
-
-  def upload_file(file)
-    if !file.original_filename.empty?
-      @filename=get_file_name(file.original_filename)
-      File.open("#{Rails.root}/app/assets/download/#{@filename}", "wb") do |f|
-        f.write(file.read)
-      end
-      return @filename
-    end
-  end
-
-  def get_file_name(filename)
-    if !filename.nil?
-      Time.now.strftime("%Y%m%d%H%M%S") + '_' + filename
-    end
-  end
-
-  def save_file
-    unless request.get?
-      if filename=upload_file(params[:file]['file'])
-        return filename
-      end
-    end
-  end
-  #==============================
-  # 修改create方法：
-  def create
-    @photo = Photo.new(params[:photo])
-    @filename=save_file   #调用save_file方法，返回文件名
-    @photo.url="/download/#{@filename}"   #保存文件路径字段
-    @photo.name=@filename   #保存文件名字段
-    if @photo.save
-      @provides=Provide.find_by_username_and_managename(params[:username],params[:managename])
-     if @provides==nil
-      Provide.new do |b|
-        b.username=params[:username]
-        b.managename=params[:managename]
-        b.stock=params[:stock]
-        b.debt=params[:debt]
-        b.insure=params[:insure]
-        b.bankfinance=params[:bankfinance]
-        b.trust=params[:trust]
-        b.company=params[:company]
-        b.filename= @filename
-        b.save
-      end
-     else
-       flag = FileTest::exist?("#{Rails.root}/app/assets/download/"+@provides.filename)
-       if flag==true
-       File.delete("#{Rails.root}/app/assets/download/"+@provides.filename)
-       end
-       @provides.update_attributes(:stock=>params[:stock],:debt=>params[:debt],:insure=>params[:insure],:bankfinance=>params[:bankfinance],:trust=>params[:trust],:filename=>@filename)
-     end
-      @webuser=Webuser.find_by_username(session[:webusername])
-      @webuser2=Webuser.find_by_username(params[:username])
-      Thread.new{
-        UserMailer.notify(params[:username],@webuser2.email,@webuser2.id,'理财师为您提供理财规划方案').deliver
-      }
-      flash[:notice] = 'Photo was successfully created.'
-      redirect_to(:controller=>"personmanagement", :action=>"organfinance", :id=>@webuser.id)
-    else
-      render :action => 'investor'
     end
   end
 end

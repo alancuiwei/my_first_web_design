@@ -246,7 +246,7 @@
             alert("密码为空！");
         }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1,postcode: 1},function(data){
+            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:1,address: 1},function(data){
                 if(data=="f"){
                     alert("用户名已注册！");
                 }

@@ -60,45 +60,11 @@
 <body>
 <div id='main' class='welcome' style="width: 100%;">
   <!--
-  <% if (params[:controller]=="personmanagement" && params[:action]=="personfinance") && @webuser.username==session[:webusername] %>
-      <% if @webuser.organuser=='2' %>
           <div id="xoverlay" style="display: block;">
             <b>您需要付费后才能享受理财师的规划服务。 </b> <a class="btns"  href="javascript:void(0)" id="submit" target="_blank">支付服务费</a>
             <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
           </div>
           <div id="lay2" style="height: 50px;"></div>
-      <% elsif @webuser.risktolerance ==nil %>
-          <div id="xoverlay" style="display: block;">
-            <b>您能承受的风险度决定了您将得到的收益。</b> <a class="btns" href="/home/questions" target="_blank">评估看看</a>
-            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
-          </div>
-          <div id="lay2" style="height: 50px;"></div>
-      <% elsif @webuser.dream ==nil || @webuser.organuser=='2' %>
-          <div id="xoverlay" style="display: block;">
-            <b>没有规划的梦想，等同于痴人说梦，让理财师们来帮你。</b> <a class="btns" href="/usersurvey/apply" target="_blank">登记梦想</a>
-            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
-          </div>
-          <div id="lay2" style="height: 50px;"></div>
-      <% elsif @webuser.organusername==nil %>
-          <div id="xoverlay" style="display: block;">
-            <b>目前还没有理财师来帮您。</b>
-            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
-          </div>
-          <div id="lay2" style="height: 50px;"></div>
-      <% elsif @hash2[0][1] ==nil %>
-          <div id="xoverlay" style="display: block;">
-            <b>理财师正在辛勤的帮您规划，请耐心等待。如果三个工作日内还没有回复，请直接联系我们。</b>
-            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
-          </div>
-          <div id="lay2" style="height: 50px;"></div>
-      <% else %>
-          <div id="xoverlay" style="display: block;">
-            <b>恭喜您，您的家庭梦想规划书已制作完毕。</b> <a class="btns" href="/personmanagement/personfinance#评论">规划书点评</a>
-            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
-          </div>
-          <div id="lay2" style="height: 50px;"></div>
-      <% end %>
-  <% end %>
    -->
   <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
   <div class='row-fluid beta'>
@@ -120,10 +86,8 @@
           <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
           <% if session[:webusername]=='admin' %>
               <a class="pull-right rounder" href="/admin"><%=session[:webusername]%>管理页面</a>
-          <% elsif session[:organuser]!='1' %>
+            <% else %>
                   <a class="pull-right rounder" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
-          <% else %>
-              <a class="pull-right rounder" href="/personmanagement/organfinance">我的产品</a>
           <% end %>
       <% else %>
          <!-- <a class="pull-right rounder" href="/sales/login?logintype=creat" id="layout_creat" onclick="question('change_creat')">注册</a> -->
@@ -168,27 +132,6 @@
       </form>
       <!-- <a href="http://eepurl.com/tonoL" target="_blank" class='full'>邮件订阅</a> -->
     </div>
-    <!--
-    <div class="span2">
-      <h4 class="tcol">我的帐号</h4>
-      <% if session[:webusername]!=nil %>
-          <% if session[:organuser]!='1' %>
-              <a class="full" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
-              <% if session[:personname]!=0 %>
-                  <a class="full" href="/personmanagement/personinfo/1">个人信息设置</a>
-              <% else %>
-                  <a class="full" href="/personmanagement/personinfo/0">个人信息设置</a>
-              <% end %>
-          <% else %>
-              <a class="full" href="/personmanagement/organfinance">我的管理页面</a>
-              <a class="full" href="/sales/revise">密码设置</a>
-          <% end %>
-      <% else %>
-          <a class="full" href="/sales/login">我的投资</a>
-          <a class="full" href="/sales/login">个人信息设置</a>
-      <% end %>
-    </div>
-    -->
     <div class="span2">
       <h4 class="tcol">关于通天顺</h4>
       <a href='/contactus/aboutus' class='full' >关于我们</a>

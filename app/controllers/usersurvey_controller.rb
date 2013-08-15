@@ -76,6 +76,11 @@ class UsersurveyController < ApplicationController
         e.feng=params[:feng]
         e.arr=params[:arr]
         e.acta=params[:acta]
+        e.level=params[:level]
+        e.debttype=params[:debttype]
+        e.loan=params[:loan]
+        e.repayment=params[:repayment]
+        e.period=params[:period]
         e.save
       end
       render :json => "s1".to_json
@@ -83,7 +88,8 @@ class UsersurveyController < ApplicationController
       @examination.update_attributes(:username=>params[:username],:variety=>params[:variety],
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],:arr=>params[:arr],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
-                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta])
+                 :debttype=>params[:debttype],:loan=>params[:loan],:repayment=>params[:repayment],:period=>params[:period],
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta],:level=>params[:level])
       if params[:xianp]!="" &&  params[:xianp]!=nil
         @examination.update_attributes(:xianp=>params[:xianp],
                  :wenp=>params[:wenp],:fengp=>params[:fengp])
@@ -113,6 +119,7 @@ class UsersurveyController < ApplicationController
         e.feng=params[:feng]
         e.arr=params[:arr]
         e.acta=params[:acta]
+        e.level=params[:level]
         e.meals=params[:meals]
         e.fare=params[:fare]
         e.shop=params[:shop]
@@ -132,6 +139,10 @@ class UsersurveyController < ApplicationController
         e.income10=params[:income10]
         e.income11=params[:income11]
         e.income12=params[:income12]
+        e.debttype=params[:debttype]
+        e.loan=params[:loan]
+        e.repayment=params[:repayment]
+        e.period=params[:period]
         e.save
       end
       render :json => "s1".to_json
@@ -140,52 +151,18 @@ class UsersurveyController < ApplicationController
                  :amount=>params[:amount],:pname=>params[:pname],:age=>params[:age],:arr=>params[:arr],
                  :salary=>params[:salary],:rent=>params[:rent],:wages=>params[:wages],
                  :meals=>params[:meals],:fare=>params[:fare],:shop=>params[:shop],:taste=>params[:taste],
+                 :debttype=>params[:debttype],:loan=>params[:loan],:repayment=>params[:repayment],:period=>params[:period],
                  :education=>params[:education],:family=>params[:family],:intercourse=>params[:intercourse],:income1=>params[:income1],
                  :income2=>params[:income2],:income3=>params[:income3],:income4=>params[:income4],:income5=>params[:income5],
                  :income6=>params[:income6],:income7=>params[:income7],:income8=>params[:income8],:income9=>params[:income9],
                  :income10=>params[:income10],:income11=>params[:income11],:income12=>params[:income12],
-                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta])
+                 :xian=>params[:xian],:wen=>params[:wen],:feng=>params[:feng],:acta=>params[:acta],:level=>params[:level])
       if params[:xianp]!="" &&  params[:xianp]!=nil
         @examination.update_attributes(:xianp=>params[:xianp],
                  :wenp=>params[:wenp],:fengp=>params[:fengp])
       end
       render :json => "s2".to_json
     end
-  end
-
-  def freeapply
-    if session[:webusername]!=nil
-     @webuser=Webuser.find_by_username(session[:webusername])
-    else
-     @webuser=Webuser.find_by_username("admin")
-    end
-  end
-
-  def dreamset
-    if session[:webusername]!=nil
-      @webuser=Webuser.find_by_username(session[:webusername])
-    end
-  end
-
-  def dreamsset
-    @webuser = Webuser.find_by_username(params[:username])
-   if @webuser!=nil
-    @webuser.update_attributes(:dreamset=>params[:dreamset])
-    @webuser.update_attributes(:selection=>params[:selection])
-   end
-    render :json => "s".to_json
-  end
-
-  def dreamrevise
-    @webuser=Webuser.find_by_id(params[:id])
-  end
-
-  def dreamconfig
-    @webuser=Webuser.find_by_username(params[:username])
-
-    @webuser.update_attributes(:dream=>params[:dream],:province=>params[:province],:city=>params[:city],:organuser=>params[:organuser],:exeitdeposit=>params[:exeitdeposit],
-                               :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],:isauto=>0)
-    render :json => "s".to_json
   end
 
   def zhifubao

@@ -356,11 +356,6 @@
                 nom_flag=1;
             }
 
-            var flag3=0;
-            if('<%= @personal[14]%>'=='1'){
-                var flag3=1;
-            }
-
           /*
             var flag='';
             var vars=document.getElementsByName("var");
@@ -397,7 +392,7 @@
                     trade: $("#trade").attr("value"),email: '<%= @webuser.email%>',
                     investamount: $("#investamount").attr("value"),investcycle: $("#investcycle").attr("value"),returnrate: $("#returnrate").attr("value")/100,
                     riskrate: $("#riskrate").attr("value")/100,investvarieties: '',wbreedinfo: flag2,name:$("#name").attr("value"),contact:'',
-                    myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value"),memberlevel:flag3
+                    myfavorite:$("#myfavorite").attr("value"), tel:$("#tel").attr("value")
                 },function(data){
                     if(data=="s1"){
                         if(Request("reserve")=='1') {

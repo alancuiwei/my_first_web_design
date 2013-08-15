@@ -252,7 +252,7 @@
         var username=$("#username").attr("value");
         var password=$("#password").attr("value");
     <% end %>
-        $.get("/bankinvest/userconfigajax/0",{username:username,password:password,tel:$(tid).attr("value"),address: 1,postcode: 1,name:1,email:$(eid).attr("value"),company:1,division:1,organuser:0,securitiesnum:0,memberlevel:0,title:"用户申请理财师服务"},function(data){
+        $.get("/bankinvest/userconfigajax/0",{username:username,password:password,tel:$(tid).attr("value"),address: 1,name:1,email:$(eid).attr("value"),company:1,organuser:0,title:"用户申请理财师服务"},function(data){
             if(data=="r2"){
                 $('#user1').show();
                 $("#user2").html("用户名已注册！密码错误");

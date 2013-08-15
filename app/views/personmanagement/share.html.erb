@@ -107,7 +107,7 @@
     <b>&nbsp;>&nbsp;</b>
     <b>2.</b> <span>风险评估</span>
     <b>&nbsp;>&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+    <% if session[:webusername]!=nil && @webuser.selection!=nil %>
         <a href="/personmanagement/personfinance"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 梦想目标设定</span>
@@ -321,9 +321,9 @@
           <tr class="finance<%= f.id %> hide">
              <td><%= f.classify %></td>
              <td><%= f.pname %></td>
-             <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
+             <td><% if f.rate !=nil %><%= format("%0.2f",f.rate.to_f*100) %>%<% end %></td>
              <td><%= f.rank %></td>
-             <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% end %></td>
+             <td><% if f.rate1 !=nil %><%= format("%0.2f",f.rate1.to_f*100) %>%<% end %></td>
              <td><%= f.rank1 %></td>
              <td><%= f.pintroduction %></td>
              <td><input type="radio" name="iCheck2" class="<%= f.id %>"></td>

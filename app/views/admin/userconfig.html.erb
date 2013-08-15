@@ -9,43 +9,6 @@
       <tr><td>用户名：</td><td><input type="text" name="username" id="username" title="用户名"></td></tr>
       <tr><td>电子邮箱：</td><td><input type="text" name="email" id="email" title="电子邮箱地址"></td></tr>
       <tr><td>联系电话：</td><td><input type="text" name="tel" id="tel" title="电话号码"></td></tr>
-      <tr><td>我的梦想：</td>
-        <td>
-          <select  name="dream" id="dream">
-            <option value="购房置业">购房置业</option>
-            <option value="购车">购车</option>
-            <option value="养老">养老</option>
-            <option value="子女教育">子女教育</option>
-            <option value="度假旅游">度假旅游</option>
-            <option value="结婚">结婚</option>
-            <option value="装修">装修</option>
-          </select>
-        </td>
-      </tr>
-      <tr><td>实现梦想金额：</td><td><input type="text" name="amount" id="amount"></td></tr>
-      <tr><td>何时梦想成真：</td>
-        <td>
-          <select name="realizetime" id="realizetime"></select>
-        </td>
-      </tr>
-      <tr><td>已有存款：</td><td><input type="text" name="exeitdeposit" id="exeitdeposit"></td></tr>
-      <tr><td>每月可存款：</td><td><input type="text" name="monthpay" id="monthpay"></td></tr>
-      <tr><td>您愿意给理财师支付：</td><td><input type="text" name="scharge" id="scharge" title="您愿意给理财师支付"  placeholder="最低为10元"></td></tr>
-      <tr><td>会员信息审核：</td><td>
-        <input type="text" name="confirm" id="confirm" title="会员信息审核"></td>
-      <tr><td>银行理财产品：</td><td>
-        <input type="text" name="bankfinancep" id="bankfinancep"></td>
-      <tr><td>债券型基金：</td><td>
-        <input type="text" name="deptp" id="deptp"></td>
-      <tr><td>货币型基金：</td><td>
-        <input type="text" name="stockp" id="stockp"></td>
-      <tr><td>指数型基金：</td><td>
-        <input type="text" name="trustp" id="trustp"></td>
-      <tr><td>保险产品：</td><td>
-        <input type="text" name="insurep" id="insurep"></td>
-      <tr><td>备注：</td><td>
-        <textarea rows="8" name="remark" id="remark" title="备注"></textarea>
-      </td></tr>
       <tr><td colspan="2">
         <a href="javascript:void(0)" id="userconfig" class="btn btn-primary pull-right">确认</a>
       </td></tr>
@@ -55,27 +18,11 @@
 
   <script type="text/javascript">
       $(document).ready(function(){
-          for(var a=2014;a<=2064;a++){
-              document.getElementById("realizetime").options.add(new Option(a,a));
-          }
           <% if params[:id]!="0" %>
           $("#username").attr("value",'<%= @webuser.username %>');
           $("#username").attr("disabled",true);
           $("#email").attr("value",'<%= @webuser.email %>');
           $("#tel").attr("value",'<%= @webuser.tel %>');
-          $("#dream").attr("value",'<%= @webuser.dream %>');
-          $("#amount").attr("value",'<%= @webuser.amount %>');
-          $("#realizetime").attr("value",'<%= @webuser.realizetime %>');
-          $("#exeitdeposit").attr("value",'<%= @webuser.exeitdeposit %>');
-          $("#monthpay").attr("value",'<%= @webuser.monthpay %>');
-          $("#scharge").attr("value",'<%= @webuser.scharge %>');
-          $("#remark").attr("value",'<%= @webuser.remark %>');
-          $("#confirm").attr("value",'<%= @webuser.confirm %>');
-          $("#bankfinancep").attr("value",'<%= @webuser.bankfinancep %>');
-          $("#deptp").attr("value",'<%= @webuser.deptp %>');
-          $("#stockp").attr("value",'<%= @webuser.stockp %>');
-          $("#trustp").attr("value",'<%= @webuser.trustp %>');
-          $("#insurep").attr("value",'<%= @webuser.insurep %>');
           <% end %>
       });
 
@@ -94,10 +41,7 @@
 
           if(nom_flag==0){
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
-                      tel: $("#tel").attr("value"),dream: $("#dream").attr("value"),amount: $("#amount").attr("value"),
-                      realizetime: $("#realizetime").attr("value"),exeitdeposit: $("#exeitdeposit").attr("value"),monthpay: $("#monthpay").attr("value"),update: 1,
-                      bankfinancep: $("#bankfinancep").attr("value"),deptp: $("#deptp").attr("value"), stockp: $("#stockp").attr("value"), trustp: $("#trustp").attr("value"),insurep: $("#insurep").attr("value"),
-                      scharge: $("#scharge").attr("value"),remark: $("#remark").attr("value"),confirm: $("#confirm").attr("value"),isauto: 0
+                      tel: $("#tel").attr("value"),update: 1
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");

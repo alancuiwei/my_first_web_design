@@ -25,7 +25,7 @@
         <span class="disabled"><b>2.</b> 风险评估</span>
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b><div class="mobile"><br></div>
-    <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+    <% if session[:webusername]!=nil && @webuser.selection!=nil %>
         <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 理财建议</span>
@@ -37,7 +37,7 @@
 <div class="clearfix"></div>
 <h1>
   <span id="title">基本信息</span>
-  <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+  <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
 </h1>
 
 <div id="questionnaire-view">
@@ -102,12 +102,9 @@
   <table class="center">
     <tr>
       <td class="top">
-
         <p class="q-text">在这个通货膨胀的时代背景下，风险承担由不得我们自行选择，我们每个人都必须面对，现在不承担风险，将来会承担更大的风险。</p>
-        <p class="q-text">风险就像我们要做出“收益”这个美食的刀具，如果因为害怕风险而放弃机
-          会，这就和害怕刀的锋利而不敢使用刀一样。</p>
+        <p class="q-text">风险就像我们要做出“收益”这个美食的刀具，如果因为害怕风险而放弃机会，这就和害怕刀的锋利而不敢使用刀一样。</p>
         <p class="q-text">对于理财规划而言，年龄是个核心的因素。年轻人的资产比例中，风险性投资产品应该占有大比重。</p>
-
       </td>
       <td>
         <div style="width: 300px;float: right;"><img src="/assets/121056.png"></div>
@@ -202,6 +199,8 @@
               <option value="股票">股票</option>
               <option value="股票型基金">股票型基金</option>
               <option value="贵金属">贵金属</option>
+              <option value="房产">房产</option>
+              <option value="汽车">汽车</option>
               <option value="其它">其它</option>
             </select>
           </div>
@@ -226,11 +225,85 @@
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
+    <div class="row op-label win">
+      <div class="span2">贷款类型</div>
+      <div class="span2" style="text-align: left;">总负债</div>
+      <div class="span2" style="text-align: left;">每月还贷</div>
+      <div class="span2" style="text-align: left;">贷款年限</div>
+      <div class="span1"></div>
+    </div>
+    <div class="seperator thick"></div>
+    <div class="found-inputs">
+
+      <div class="op-input first" fid="found">
+        <div class="seperator bottom"></div>
+
+        <div class="row">
+          <div class="span2 control-group">
+            <div class="mobile">贷款类型</div>
+            <select  name="variety" id="debttype" class="found-name" title="贷款类型" style="width: 140px;">
+              <option value="房贷">房贷</option>
+              <option value="车贷">车贷</option>
+              <option value="其他贷款">其他贷款</option>
+            </select>
+          </div>
+          <div class="span2 control-group" style="text-align: left;">
+            <div class="mobile">总负债</div>
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input class="init" name="lnw" id="loan" style="width: 120px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+            </div>
+          </div>
+          <div class="span2">
+            <div class="mobile">每月还贷</div>
+            <input class="repayment" name="lnw" id="repayment" style="width: 120px;" type="text">
+          </div>
+          <div class="span2">
+            <div class="mobile">贷款年限</div>
+            <input class="period" id="period" style="width: 120px;" type="text">
+          </div>
+          <div class="span1 top5" style="margin-top: 10px;margin-left: 0;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+        </div>
+      </div>
+    </div>
+    <div class="seperator bottom thick"></div>
+    <a data-original-title="Click here to add another company found" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="add(null, false);"> + 添加贷款 </a>
+  </div>
+  <div class="mobile"><br></div>
+</div>
+<div class="question">
   <table class="center">
     <tr>
       <td>
-        <p class="q-text" id="result"></p>
-        <p class="q-text">下面将进行您的风险评估，来确定您的个性化资产分配比例，以及相应的理财产品推荐。</p>
+        <div id="level0" class="hide">
+          <p class="q-text">“看上去您是名最严重级别的月光族，您每个月的收入不够您的开销，我们猜测您是通过信用卡、借债等方式维持正常生活。”</p>
+          <p class="q-text">“您现在是典型的负翁，我们建议您能每个月至少能保存3%~5%的月收入用来做储蓄投资”。</p>
+          <p class="q-text">不能控制好金钱的使用，不仅在金钱方面，即使在实现人生目标方面也会有困难。<br>
+            长期处于您这种极其严重月光的状态，会让您心情一直处于紧张状态，不论是面对工作还是家庭，都无法从容处理。<br>
+            极度严重月光族的您，必须立刻行动起来。</p>
+        </div>
+        <div id="level1" class="hide">
+          <p class="q-text">“看上去您是名重度月光族，您的年收入储蓄不能维持您三个月的基本生活费。”</p>
+          <p class="q-text result"></p>
+          <p class="q-text">不能控制好金钱的使用，不仅在金钱方面，即使在实现人生目标方面也会有困难。<br>
+            长期处于这种重度月光的状态，会让您心情总是不太好，总有一些不安、寂寞和精神压力，不论是面对工作还是家庭，人际关系也总处理的不满意。<br>
+            重度月光族的您，很有必要审视和改变您现在的生活。</p>
+        </div>
+        <div id="level2" class="hide">
+           <p class="q-text">“看上去您是名中度月光族，您现在已有积蓄和每个月的存款只能维持家庭应急资金池，您没有太多资金可以用作风险性投资，这将使得您没有太多机会获得利润高的收益机会。”</p>
+           <p class="q-text result"></p>
+           <p class="q-text">您当前的风险资产比例过低，且没有足够的财力来完成这个。个人或家庭的财富增长的速度较慢，当然，风险资产比率过高，一旦投资失败，可能使得家庭财务陷入危机。<br>
+                  请进入下一步风险评估环节，您可以仔细审查您的投资风格，来得到您合适的风险资产比例。</p>
+        </div>
+        <div id="level3" class="hide">
+          <p class="q-text">“看上去您是名轻度月光族，您当前的流动性资产占有比例<span class="liu">过高</span>，风险性资产占有比例<span class="feng">过低</span>，保本型资产占有比例<span class="bao">过高</span>。”</p>
+          <p class="q-text result"></p>
+          <p class="q-text">您当前的风险资产比例<span class="feng">过低</span>，且没有足够的财力来完成这个。个人或家庭的财富增长的速度较慢，当然，风险资产比率过高，一旦投资失败，可能使得家庭财务陷入危机。该比率越小，则会降低家庭投资组合的收益，导致资产缩水。<br>
+                   请进入下一步风险评估环节，您可以仔细审查您的投资风格，来得到您合适的风险资产比例。</p>
+        </div>
+
+
         <input type="checkbox" class="hide">
       </td>
       <td style="width: 168px;text-align: center;">
@@ -499,7 +572,7 @@
 </script>
 
 <script>
-    var variety,amount,pname,jixu,total,xian,feng,wen;
+    var variety,amount,pname,jixu,total,xian,feng,wen,level='',bili= 0,debttype,loan,repayment,period,debttypes,loans,repayments,periods;
     var xianjin= 0,wenjian= 0,fengxian=0;
     var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr=0;
     $(function() {
@@ -521,7 +594,7 @@
             tot1= 0; //年总收入
             tot2= 0; //月总消费=衣食住行+零花钱
             tot3= 0; // 衣食住行
-            avge= 0;
+            avge= 0; //月收入
             for(i=7;i<exect.length;i++){
                 tot1=tot1+parseInt(exect[i].value);
             }
@@ -532,7 +605,7 @@
                     tot3=tot3+parseInt(exect[i].value);
                 }
             }
-            var bili=parseInt((1-tot2/avge)*100);
+             bili=parseInt((1-tot2/avge)*100);
             if(bili>30){
                 $("#text").html('而现在，您用的是'+bili+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
                 $('#myModal4').modal('show')
@@ -658,7 +731,8 @@
                             var rent= tot3;
                             var wages= avge-tot2;
                             $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
+                                debttype:debttypes,loan:loans,repayment:repayments,period:periods,
+                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,level:level,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
                                 family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
                                 income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
                                 income9:$("#income9").attr("value"),income10:$("#income10").attr("value"),income11:$("#income11").attr("value"),income12:$("#income12").attr("value")},function(data){
@@ -672,7 +746,7 @@
 
                         <% if session[:webusername]!=nil %>
                         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:0},function(data){
+                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:0,level:level,debttype:debttypes,loan:loans,repayment:repayments,period:periods},function(data){
                             location.href='/usersurvey/measure/2';
                         });
                         <% end %>
@@ -692,7 +766,7 @@
                     }
                 });
 
-        var num=0;
+        var num=0;  var bi=0;
         function showQn(i, immediately,e) {
             //if(e==1){复杂输入}
             if(i==0){$("#title").html("资产体检 系统介绍");}
@@ -706,7 +780,7 @@
                if(num==1){
                 var a1=parseInt($("#wages").attr("value").replace(/,/g, ""));
                 var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
-                 var bi=parseInt(a1/a2*100);
+                  bi=parseInt(a1/a2*100);
                    if(bi>30){
                        $("#text").html('而现在，您用的是'+bi+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
                        $('#myModal4').modal('show');
@@ -725,9 +799,10 @@
               }
                 $("#title").html("已有资产情况");
             }
-            if(i==7){$("#title").html("资产体检 总结");}
+            if(i==7){$("#title").html("资产净值估算-负债");}
+            if(i==8){$("#title").html("资产体检 总结");}
             var ie = !-[1,];
-            if(i==7){
+            if(i==8){
                 if(ie){
                     document.getElementsByClassName = function(){
                         var tTagName ="*";
@@ -753,9 +828,31 @@
                 variety=document.getElementsByClassName("founder-name")  //资产品种
                 amount=document.getElementsByClassName("init-share")  //资产金额
                 pname=document.getElementsByClassName("pname")  //产品名称
+                debttype=document.getElementsByClassName("found-name")  //贷款类型
+                loan=document.getElementsByClassName("init")  //总负债
+                repayment=document.getElementsByClassName("repayment")  //每月还贷
+                period=document.getElementsByClassName("period")  //贷款年限
                 xianjin=0;
                 wenjian=0;
                 fengxian=0;
+                for(k=0;k<debttype.length;k++){
+                    var c1=loan[k].value.replace(/,/g, "");
+                    var c2=repayment[k].value.replace(/,/g, "");
+                    if(c1==''){c1=0;}
+                    if(c2==''){c2=0;}
+                    if(k==0){
+                        debttypes= debttype[k].value;
+                        loans= c1;
+                        repayments= c2;
+                        periods= period[k].value;
+                    }
+                    else{
+                        debttypes=debttypes+','+debttype[k].value;
+                        loans=loans+','+c1;
+                        repayments=repayments+','+c2;
+                        periods=periods+','+period[k].value;
+                    }
+                }
                 for(j=0;j<variety.length;j++){
                     var ccc=amount[j].value.replace(/,/g, "");
                     if(ccc==''){ccc=0;}
@@ -794,54 +891,122 @@
                 arr=parseFloat('<%= @hash["活期存款"][0] %>')*mea1/jixu+parseFloat('<%= @hash["货币基金"][0] %>')*mea2/jixu+parseFloat('<%= @hash["银行理财产品"][0] %>')*mea3/jixu+parseFloat('<%= @hash["定期存款"][0] %>')*mea4/jixu+
                     parseFloat('<%= @hash["债券基金"][0] %>')*mea5/jixu+parseFloat('<%= @hash["股票型基金"][0] %>')*mea6/jixu+0.03*mea7/jixu;
 
+                if(acta==0){
+                    if(parseFloat($("#salary").attr("value").replace(/,/g, ""))<parseFloat($("#rent").attr("value").replace(/,/g, ""))+parseFloat($("#wages").attr("value").replace(/,/g, ""))){
+                        level=0;
+                    }
+                    else if(total<xian){
+                        level=1;
+                    }
+                    else if(total<xian+feng){
+                        level=2;
+                    }
+                    else{
+                        level=3;
+                    }
+                }
+                else if(acta==1){   //精确输入
+                    if(avge<tot2){
+                        level=0;
+                    }
+                    else if(jixu+tot1<xian){
+                        level=1;
+                    }
+                    else if(jixu+tot1<xian+feng){
+                        level=2;
+                    }
+                    else{
+                        level=3;
+                    }
+                }
+
                 if(xianjin/jixu>xian/total){
-                   $("#result").html("您当期的流动型资产配置过高，")
+                    $(".liu").html("过高")
                 }
                 else if(xianjin/jixu<xian/total){
-                    $("#result").html("您当期的流动型资产配置过低，")
+                    $(".liu").html("过低")
                 }
                 else{
-                    $("#result").html("您当期的流动型资产配置适中，")
+                    $(".liu").html("适中")
                 }
                 if(wenjian/jixu>wen/total){
-                    $("#result").html($("#result").html()+'保本型配置过高，')
+                    $(".bao").html('过高')
                 }
                 else if(wenjian/jixu<wen/total){
-                    $("#result").html($("#result").html()+'保本型配置过低，')
+                    $(".bao").html('过低')
                 }
                 else{
-                    $("#result").html($("#result").html()+'保本型配置适中，')
+                    $(".bao").html('适中')
                 }
                 if(fengxian/jixu>feng/total){
-                    $("#result").html($("#result").html()+'风险型配置过高。')
+                    $(".feng").html('过高')
                 }
                 else if(fengxian/jixu<feng/total){
-                    $("#result").html($("#result").html()+'风险型配置过低。')
+                    $(".feng").html('过低')
                 }
                 else{
-                    $("#result").html($("#result").html()+'风险型配置适中。')
+                    $(".feng").html('适中')
                 }
-                animate(0,run());
+
                 if(acta==0){
-                if(wen<=0){
-                    alert("您每个月的零花钱会不会太多了？")
-                    i=5;
-                    $("#title").html("月收入支出");
+                    if(bi<20){
+                        $(".result").html("“您当前用"+bi+"%的月工资收入用来做储蓄投资，我们建议您能提高到20%~25%左右”。")
+                    }
                 }
-                else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
-                    alert("月收入必须大于衣食住行与每月储蓄金额之和。");
-                    i=5;
-                    $("#title").html("月收入支出");
+                else{
+                    if(bili<20){
+                        $(".result").html("“您当前用"+bili+"%的月工资收入用来做储蓄投资，我们建议您能提高到20%~25%左右”。")
+                    }
                 }
-                else if(xianjin<=0){
-                    alert("我们看您没有输入活期存款金额，您应该不会身上一分钱现金都没有吧？");
-                    i=6;
-                    $("#title").html("已有资产情况");
+
+                if(level==0){
+                    $("#level0").show();
+                    $("#level1").hide();
+                    $("#level2").hide();
+                    $("#level3").hide();
                 }
-                else if(jixu>=500000){
-                    alert("请不要把房屋资产也算进去哦。");
+                else if(level==1){
+                    $("#level0").hide();
+                    $("#level1").show();
+                    $("#level2").hide();
+                    $("#level3").hide();
                 }
-            }
+                else if(level==2){
+                    $("#level0").hide();
+                    $("#level1").hide();
+                    $("#level2").show();
+                    $("#level3").hide();
+                }
+                else if(level==3){
+                    $("#level0").hide();
+                    $("#level1").hide();
+                    $("#level2").hide();
+                    $("#level3").show();
+                }
+
+                animate(0,run());
+                /*
+                if(acta==0){
+                    if(wen<=0){
+                        alert("您每个月的零花钱会不会太多了？")
+                        i=5;
+                        $("#title").html("月收入支出");
+                    }
+                    else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
+                        alert("月收入必须大于衣食住行与每月储蓄金额之和。");
+                        i=5;
+                        $("#title").html("月收入支出");
+                    }
+                    else if(xianjin<=0){
+                        alert("我们看您没有输入活期存款金额，您应该不会身上一分钱现金都没有吧？");
+                        i=6;
+                        $("#title").html("已有资产情况");
+                    }
+                    else if(jixu>=500000){
+                        alert("请不要把房屋资产也算进去哦。");
+                    }
+                }
+                */
             }
 
             var $qns = $qr.children(".question");
@@ -995,6 +1160,35 @@
             $(fi).find(".init-share").attr("id",'amount'+aaa);
             $(fi).find(".pname").attr("id",'pname'+aaa);
             $("div.founder-inputs").append(fi);
+        }
+    }
+
+    function add(found, isFirst)
+    {
+        var aaa = genId(eCalcShareHolders);
+        var f = found;
+        if(f == null) // create a new share holder
+        {
+            f = new ShareHolder();
+            f.setupShareHolder(true, false, false);
+            f.id= "found-" + aaa;
+            f.name = "Found " + getNewNameNumber(eCalcShareHolders, "found");
+            eCalcShareHolders[f.id] = f;
+        }
+
+        if(!isFirst)
+        {
+            var fi = $("div.found-inputs div.op-input").last().clone().removeClass("first");
+            $(fi).find(".icon-remove-sign").show();
+            var fid = f.id;
+            $(fi).attr("fid", fid);
+            // put values in
+            $(fi).find(".found-name").attr("id",'debttype'+aaa);
+            $(fi).find(".init").val(0);
+            $(fi).find(".init").attr("id",'loan'+aaa);
+            $(fi).find(".repayment").attr("id",'repayment'+aaa);
+            $(fi).find(".period").attr("id",'period'+aaa);
+            $("div.found-inputs").append(fi);
         }
     }
 
@@ -1203,7 +1397,12 @@
     });
     */
     function run(){
+        if(jixu!=0 && total!=0){
         var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
+        }
+        else{
+            var score=0;
+        }
         return  score.toFixed(1);
     }
 
@@ -1239,6 +1438,10 @@
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
         var pname='<%= @examination.pname %>'.split(",");
+        var debttype='<%= @examination.debttype %>'.split(",");
+        var loan='<%= @examination.loan %>'.split(",");
+        var repayment='<%= @examination.repayment %>'.split(",");
+        var period='<%= @examination.period %>'.split(",");
         for(i=0;i<variety.length;i++){
             if(i==0){
                 $("#variety").attr("value",variety[i]);
@@ -1250,6 +1453,21 @@
                 $("#variety"+i).attr("value",variety[i]);
                 $("#amount"+i).attr("value",amount[i]);
                 $("#pname"+i).attr("value",pname[i]);
+            }
+        }
+        for(k=0;k<debttype.length;k++){
+            if(k==0){
+                $("#debttype").attr("value",debttype[k]);
+                $("#loan").attr("value",loan[k]);
+                $("#repayment").attr("value",repayment[k]);
+                $("#period").attr("value",period[k]);
+            }
+            else{
+                add(null, false);
+                $("#debttype"+(i+k-1).toString()).attr("value",debttype[k]);
+                $("#loan"+(i+k-1).toString()).attr("value",loan[k]);
+                $("#repayment"+(i+k-1).toString()).attr("value",repayment[k]);
+                $("#period"+(i+k-1).toString()).attr("value",period[k]);
             }
         }
         <% end %>

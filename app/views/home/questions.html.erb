@@ -41,7 +41,7 @@
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
         <b>2.</b> <span>风险评估</span>
         <b>&nbsp;>&nbsp;</b> <div class="mobile"><br></div>
-        <% if session[:webusername]!=nil && @webuser.dreamset!=nil %>
+        <% if session[:webusername]!=nil && @webuser.selection!=nil %>
             <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
         <% else %>
             <span class="disabled"><b>3.</b> 理财建议</span>
@@ -356,9 +356,9 @@
                       <tr class="finance<%= f.id %> hide">
                         <td><%= f.classify %></td>
                         <td><%= f.pname %></td>
-                        <td><% if f.rate !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %><%= f.rate %><% end %><% end %></td>
+                        <td><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
                         <td><%= f.rank %></td>
-                        <td><% if f.rate1 !=nil %><% if /^[-+]?[0-9]+(\.[0-9]+)?$/ =~f.rate1 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %><%= f.rate1 %><% end %><% end %></td>
+                        <td><% if f.rate1 !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate1.to_f*100) %>%<% else %>--<% end %></td>
                         <td><%= f.rank1 %></td>
                         <td><%= f.pintroduction %></td>
                         <td><input type="radio" id="iCheck" name="iCheck2" class="<%= f.id %>"></td>
@@ -674,7 +674,7 @@
                         var risktolerance=tol;
                         <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",age: $("#age").attr("value"),risktolerance:risktolerance,options:options,goal:goal,
-                            investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,memberlevel:0,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
+                            investamount: $("#lnw").attr("value").replace(',',''),returnrate: returnrate,investcycle:investcycle,fluctuation:fluctuation,quota:quota,wbreedinfo:wbreedinfo,riskrate:riskrate,investvarieties:investvarieties
                         },function(data){
                             location.href='/usersurvey/measure/3';
                         });

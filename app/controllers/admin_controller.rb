@@ -3,8 +3,7 @@ class AdminController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
     if session[:webusername]=="admin" || session[:webusername]=="blog"
-      @webusers=Webuser.find_by_sql('select * from webuser where address is not null and organuser<>"1"')
-      @organuser=Webuser.find_by_sql('select * from webuser where address is not null and organuser="1"')
+      @webusers=Webuser.all
       @bankfinances=Bankfinance.all
       @bankfinance2=Bankfinance.find_all_by_isorgan(1)
       @blogs=Blog.all
@@ -626,44 +625,10 @@ class AdminController < ApplicationController
           w.username=params[:username]
           w.password=password
           w.tel=params[:tel]
-          w.address=params[:address]
-          w.postcode=params[:postcode]
-          w.name=params[:name]
           w.email=params[:email]
-          w.company=params[:company]
-          w.trade=params[:trade]
-          w.organuser=params[:organuser]
-          w.securitiesnum=params[:securitiesnum]
-          w.memberlevel=params[:memberlevel]
           w.risktolerance=params[:risktolerance]
-          w.contact=params[:contact]
-          w.scharge=params[:scharge]
-          w.realizetime=params[:realizetime]
-          w.monthpay=params[:monthpay]
-          w.city=params[:city]
-          w.dream=params[:dream]
-          w.amount=params[:amount]
-          w.remark=params[:remark]
-          w.province=params[:province]
-          w.certificate=params[:certificate]
-          w.exeitdeposit=params[:exeitdeposit]
-          if params[:investamount]!=nil
-            w.isauto=0
-          end
-          if params[:organuser]=='1'
-            w.approve=1
-          end
-          w.save
-        end
-        if params[:organuser]=='1'
-          @organizationname=Organizationname.find_by_company(params[:company])
-          if @organizationname==nil
-            Organizationname.new do |w|
-              w.company=params[:company]
               w.save
             end
-          end
-        end
        if params[:investamount]!=nil && params[:risk]==nil
         Personalfinance.new do |w|
           w.username=params[:username]
@@ -759,14 +724,10 @@ class AdminController < ApplicationController
 
     else
       if params[:update]!='1'
-      @webuser.update_attributes(:password=>password,:tel=>params[:tel],:name=>params[:name],
-                                 :address=>params[:address],:postcode=>params[:postcode],:email=>params[:email],:company=>params[:company],:memberlevel=>params[:memberlevel])
-      @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],
-                                         :company=>params[:company],:post=>params[:post],:email=>params[:email],:memberlevel=>params[:memberlevel])
+      @webuser.update_attributes(:password=>password,:tel=>params[:tel],:name=>params[:name],:email=>params[:email])
+      @personalfinance.update_attributes(:name=>params[:name],:tel=>params[:tel],:post=>params[:post],:email=>params[:email])
       else
-        @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel],:dream=>params[:dream],:isauto=>params[:isauto],:confirm=>params[:confirm],:exeitdeposit=>params[:exeitdeposit],
-                                   :amount=>params[:amount],:realizetime=>params[:realizetime],:monthpay=>params[:monthpay],:scharge=>params[:scharge],:remark=>params[:remark],
-                                   :bankfinancep=>params[:bankfinancep],:deptp=>params[:deptp],:stockp=>params[:stockp],:trustp=>params[:trustp],:insurep=>params[:insurep])
+        @webuser.update_attributes(:email=>params[:email],:tel=>params[:tel])
       end
       render :json => "s2".to_json
     end
@@ -781,17 +742,8 @@ class AdminController < ApplicationController
         w.username=params[:username]
         w.password=password
         w.tel=params[:tel]
-        w.address=params[:address]
-        w.postcode=params[:postcode]
-        w.name=params[:name]
         w.email=params[:email]
-        w.company=params[:company]
-        w.trade=params[:trade]
-        w.organuser=params[:organuser]
-        w.securitiesnum=params[:securitiesnum]
-        w.memberlevel=params[:memberlevel]
         w.risktolerance=params[:risktolerance]
-        w.contact=params[:contact]
         w.save
       end
       Thread.new{
@@ -954,37 +906,24 @@ class AdminController < ApplicationController
     end
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
-        if @webuser.approve!=1
         if params[:organ]=='3'|| params[:organ]=='4'
-          if  @webuser.organuser=='1'
+          if  @webuser.username=="admin" || @webuser.username=="blog"
             session[:webusername]=@webuser.username
-            session[:organuser]=@webuser.organuser
-              render :json => "organ".to_json
-          elsif  @webuser.username=="admin" || @webuser.username=="blog"
-            session[:webusername]=@webuser.username
-            session[:organuser]='0'
             render :json => "admin".to_json
           elsif @webuser.risktolerance!=nil
             session[:webusername]=@webuser.username
-            session[:organuser]='0'
             render :json => "g1".to_json
           else
             session[:webusername]=@webuser.username
-            session[:organuser]='0'
             render :json => "g2".to_json
           end
         elsif  @personalfinance
           session[:webusername]=@webuser.username
-          session[:organuser]='0'
           render :json => "s1".to_json
         else
           session[:webusername]=@webuser.username
-          session[:organuser]='0'
           render :json => "s2".to_json
         end
-      else
-        render :json => "organ2".to_json
-      end
       else
         render :json => "f".to_json
       end

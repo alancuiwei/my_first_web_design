@@ -142,58 +142,6 @@
   </td>
 </tr><tr>
 <td id="center">
-
-<!--
-<div class="account-type-tab active" id="taxable-account-type" style="border-bottom: 1px solid #E2E2E2;padding-left: 20px;margin-bottom: 20px;">
-  <p style="padding-top: 5px;"><span class="product" style="line-height: 20px;"><%= @webuser.username %>的梦想</span></p>
-  <p class="product-description" style="line-height: 12px;width: 69%;">因梦想而伟大
-    <% if @webuser.dream ==nil || @webuser.organuser=='2' %>
-        <a class="pull-right" style="width: 100px;" href="/usersurvey/apply">登记梦想</a>
-    <% else %>
-        <% if @webuser.username == session[:webusername] %>
-            <a style="width: 100px;" class="pull-right" href="/usersurvey/dreamrevise/<%= @webuser.id %>" target="_blank">修改</a>
-        <% end %>
-    <% end %>
-  </p>
-</div>
-<table style="width: 100%;">
-  <tr>
-    <td class="left">
-      <img style="width: 135px;" src="/assets/girl_credit_cards.jpg">
-    </td>
-    <td style="vertical-align: middle;padding-left: 20px;">
-      <table id="allocation" style="width: 85%;" class="table allocation report apply-asset-class-colors">
-        <tr  class="" data-type="US_STOCKS">
-          <td id="td1" style="border: 0;" class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-          <td id="td2" style="border: 0;width: 47%;">梦想</td>
-          <td id="td3" style="border: 0;"><% if @webuser.dreamset !=nil %><%= @webuser.dreamset %><% else %>没有<% end %></td>
-        </tr>
-        <tr  class="" data-type="US_STOCKS">
-          <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-          <td>梦想价值</td>
-          <td><% if @webuser.dreamset !=nil %>无价<% else %>没有<% end %></td>
-        </tr>
-        <tr  class="" data-type="US_STOCKS">
-          <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-          <td>已有存款</td>
-          <td id="jixu"></td>
-        </tr>
-        <tr  class="" data-type="US_STOCKS">
-          <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-          <td>每月存款</td>
-          <td id="deposit"></td>
-        </tr>
-        <tr  class="" data-type="US_STOCKS">
-          <td class="asset-class-color"><div class="legend US_STOCKS"></div></td>
-          <td>实现时间</td>
-          <td><% if @webuser.dreamset !=nil %>1年<% else %>没有<% end %></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<div style="height: 55px;"></div>
--->
 <table id="table" style="width: 100%;">
 <tr>
   <td id="pad" style="padding-left: 68px;">
@@ -402,101 +350,10 @@
         </table>
       </section>
     </div>
-    <!--
-        <% if @webuser.username==session[:webusername] && @hash2[0][1] != nil %>
-            <div id="comment">
-              <a name='评论'><div style="height: 30px;"></div></a>
-              <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">规划点评</p>
-              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
-                <% @comments.each do |b| %>
-                    <tr>
-                      <td>
-                        <p class="text2"><%= b.username%> 说：</p>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <p class="text2"> <%=raw b.comments%> </p>
-                        <hr>
-                      </td>
-                    </tr>
-                <% end %>
-              </table>
-              <div id="new" class="hide">
-                <p id="username" class="text2"></p>
-                <p id="newcomment" class="text2"></p>
-                <div class="zm-tab-content weibo-panel" id="tb-webshare-sina-content" style="">
-                  <div class="zg-section">
-                    <p class="product" style="line-height: 30px;border-bottom: 1px solid #E2E2E2;">分享到微博</p>
-                    <label>
-                      <input data-bindurl="/oauth/auth/sina?next=/oauth/callback" class="sina-checkbox" type="checkbox">
-                      <span class="zg-ico-sina"></span> 新浪微博</label>
-                  </div>
-                  <div class="zg-section">
-                    <div class="zg-form-text-input">
-
-                    </div>
-                  </div>
-                  <div class="zm-command">
-                    <div class="baidu_btn">
-                      <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare hide" onclick="$('.zm-tab-content').hide();" style="float: right;" data="{'url':'http://www.tongtianshun.com/personmanagement/personfinance/<%= @webuser.id %>'}">
-                        <a class="bds_tsina btn btn-primary" style="float: right;color: #ffffff;padding: 4px 12px;line-height: 16px;">分享到微博</a>
-                      </div>
-                      <div id="notcheck" class="bdshare_t bds_tools get-codes-bdshare">
-                        <a class="bds_tsina btn btn-primary" onclick="alert('请选择微博后再进行分享！');" style="float: right;padding: 4px 12px;line-height: 16px;background: #eee;color: #888;">分享到微博</a>
-                      </div>
-                    </div>
-                    <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455" ></script>
-                    <script type="text/javascript" id="bdshell_js"></script>
-                    <script type="text/javascript">
-                        var bds_config ;
-                    </script>
-                  </div>
-                </div>
-              </div>
-              <div id="sample">
-                <textarea id="area2" name="area2" style="width: 100%;height: 150px;"></textarea><br>
-                <a class="btn btn-primary pull-right" id="saved" href="javascript:;">发布评论</a>
-              </div>
-            </div>
-<% end %>
-        -->
   </td>
 </tr>
 </table>
 </td>
-<!--
-<td style="width: 200px;padding: 0 15px;">
-  <div class="faq-container">
-    <div class="mobile" style="height:20px;"><hr></div>
-    <p>关于<%= @webuser.username %></p>
-    <ul class="common-q">
-      <% if @hash[0][1]!=nil %>
-          <li>年纪：</li>
-          <li class="answer"><% if @hash[0][2] !=nil %><%= format("%0.0f",@hash[0][2]) %><% end %></li>
-          <li>所在城市：</li>
-          <li class="answer"><%= @webuser.city %></li>
-          <li>您所处的行业是?</li>
-          <li class="answer"><%= @hash[0][4] %></li>
-          <li>梦想规划服务费：</li>
-          <li class="answer"><% if @webuser.scharge!=nil %><%= format("%0.0f",@webuser.scharge) %>元<% end %></li>
-          <li>当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</li>
-          <li class="answer"><%= @hash[0][7] %></li>
-          <li>投资收益率及风险承受度爱好：</li>
-          <li class="answer">投资收益率：<% if @hash[0][5] !=nil %><%= format("%0.0f",@hash[0][5]*100) %>%<% end %><br>可承担风险：<% if @hash[0][6] !=nil %><%= format("%0.0f",@hash[0][6]*100) %>%<% end %></li>
-          <li>当您准备资金进行投资时，您最在意的是哪一项指标?</li>
-          <li class="answer"><%= @hash[0][8] %></li>
-          <li>您资金主要放在哪家银行帐号里?</li>
-          <li class="answer"><%= @hash[0][9] %></li>
-          <li>您对如下哪些产品比较感兴趣?</li>
-          <li class="answer"><%= @hash[0][1] %></li>
-      <% else %>
-          <li><%= @webuser.username %> 尚未进行 风险承受度评估</li>
-      <% end %>
-    </ul>
-  </div>
-</td>
--->
 </tr>
 </table>
 </div>
@@ -1726,13 +1583,6 @@
             wen=1000;
         }
 
-        <% if @webuser.dreamset !=nil %>
-        $("#jixu").html(jixu);
-        $("#deposit").html(parseFloat('<%= @examination.wages %>'));
-        <% else %>
-        $("#jixu").html("没有");
-        $("#deposit").html("没有");
-        <% end %>
         var xian1=0,wen1=0,feng1= 0,jin=0;
         <% @record.each do |r| %>
         if('<%= r.date %>'.split('-')[0]==yearNow && parseInt('<%= r.date %>'.split('-')[1]).toString()==monthNow){
@@ -1930,77 +1780,6 @@
                 return 'Loading images...';
             }
         });
-    });
-</script>
-
-
-<script>
-    $("#submit").click(function(){
-        <% if @webuser.scharge!=nil %>
-        $.get("/usersurvey/zhifubao",{scharge:'<%= @webuser.scharge %>',username:'<%= session[:webusername] %>'},function(data){
-            location.href=data;
-        });
-        <% end %>
-    });
-</script>
-
-<script>
-    $("#sample").click(function(){
-        <% if session[:webusername]==nil %>
-        location.href="/sales/login?pid=<%= params[:id] %>&comments=1";
-        <% end %>
-    });
-
-    $(".btns").click(function(){
-        $("#comment").show();
-    });
-
-    $(".sina-checkbox").click(function(){
-        var a=document.getElementsByClassName("sina-checkbox");
-        if(a[0].checked){
-            $("#bdshare").show();
-            $("#notcheck").hide();
-        }
-        else{
-            $("#bdshare").hide();
-            $("#notcheck").show();
-        }
-    });
-
-    $("#saved").click(function(){
-        var nom_flag=0;
-        var dateTime=new Date();
-        var hh=dateTime.getHours();
-        var mm=dateTime.getMinutes();
-        var ss=dateTime.getSeconds();
-
-        var yy=dateTime.getFullYear();
-        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
-        var dd=dateTime.getDate();
-
-        var week=dateTime.getDay();
-        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
-
-//  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
-        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
-
-        if($(".nicEdit-main").html()=="<br>"){
-            alert("评论为空！");
-            nom_flag=1;
-        }
-
-        if(nom_flag==0){
-            $.get("/personmanagement/comment3configajax",{username:'<%= session[:webusername] %>',email:'<%= @webusers.email %>',comments:$(".nicEdit-main").html(),
-                time:time,company:'<%= @webusers.company %>',pid:'<%= @webuser.id %>' },function(data){
-                $("#sample").hide();
-                $("#new").show();
-                $("#username").html('<%= session[:webusername] %> 说：');
-                $("#newcomment").html($(".nicEdit-main").html());
-                $(".zg-form-text-input").html('<textarea style="width: 100%; white-space: pre; height: 66px; min-height: 66px;" >'+'我在 @通天顺 评论了理财师给我提供的的理财规划书：'+$(".nicEdit-main").html().replace(/<[^>].*?>/g,"")+'</textarea>');
-                bds_config = {'bdText':'我在 @通天顺家庭理财 评论了理财师给我提供的的理财规划书：'+$(".nicEdit-main").html().replace(/<[^>].*?>/g,"")};
-                document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
-            });
-        }
     });
 </script>
 

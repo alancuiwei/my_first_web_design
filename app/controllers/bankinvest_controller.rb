@@ -173,17 +173,6 @@ class BankinvestController < ApplicationController
      render :json => "s".to_json
   end
 
-  def index
-    if params[:category_all]=='xtcp'
-      @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE productstate="xtcp"')
-    elsif  params[:category_all]!=nil
-      @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE (collectperiod>=NOW() OR collectperiod IS NULL) AND productstate="'+params[:category_all]+'"')
-    else
-    @bankfinances=Bankfinance.find_by_sql('SELECT * FROM bankfinance WHERE collectperiod>=NOW() OR collectperiod IS NULL OR productstate="xtcp"')
-    end
-    #   @bankfinances=Bankfinance.all
-  end
-
   def specialfinance
     @specialfinances=Bankfinance.find_by_sql('select * from bankfinance where ispickout=1')
   end
@@ -258,14 +247,6 @@ class BankinvestController < ApplicationController
           w.password=password
           w.tel=params[:tel]
           w.email=params[:email]
-          w.organuser=params[:organuser]
-          w.memberlevel=params[:memberlevel]
-          w.company=params[:company]
-          w.division=params[:division]
-          w.address=params[:address]
-          w.postcode=params[:postcode]
-          w.name=params[:name]
-          w.securitiesnum=params[:securitiesnum]
           w.save
         end
         Thread.new{

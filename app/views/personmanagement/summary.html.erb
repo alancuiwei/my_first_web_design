@@ -1344,7 +1344,12 @@
             var fxian=parseInt($("#xian1").attr("value"));
             var fwen=parseInt($("#wen1").attr("value"));
             var ffeng=parseInt($("#feng1").attr("value"));
+            if(jixu!=0 && total!=0){
             var score=((3-(Math.abs(fxian/total-xianjin/jixu)+Math.abs(fwen/total-wenjian/jixu)+Math.abs(ffeng/total-fengxian/jixu)))*100/3).toFixed(1);
+            }
+            else{
+                var score=0;
+            }
             $.post("/usersurvey/score",{username:"<%= session[:webusername] %>",score:score},function(data){
             });
             animate(0,score);
