@@ -1,21 +1,6 @@
 #encoding: utf-8
 require 'open-uri'
 class UsersurveyController < ApplicationController
-  def userinfo
-    if params[:id]!=nil
-       @webuser=Webuser.find_by_id(params[:id])
-       if @webuser==nil
-         redirect_to(:controller=>"admin", :action=>"index")
-       else
-         @personalfinance=Personalfinance.find_by_username(@webuser.username)
-         if @personalfinance==nil
-            @person=1
-         end
-       end
-    else
-      redirect_to(:controller=>"admin", :action=>"index")
-    end
-  end
 
   def measure
     if session[:webusername]!=nil
@@ -267,11 +252,5 @@ class UsersurveyController < ApplicationController
       gateway = 'http://wappaygw.alipay.com/service/rest.htm?'
       @alipy_url= gateway + values.to_query + '&sign=' + sign
     render :json => @alipy_url.to_json
-  end
-
-  def dreamin
-    @webuser = Webuser.find_by_username(params[:username])
-    @webuser.update_attributes(:organuser=>0)
-    render :json => "s".to_json
   end
 end

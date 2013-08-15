@@ -41,7 +41,7 @@
 
           if(nom_flag==0){
                   $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
-                      tel: $("#tel").attr("value"),update: 1
+                      tel: $("#tel").attr("value")
                   },function(data){
                       if(data=="f"){
                           alert("用户名已注册！");

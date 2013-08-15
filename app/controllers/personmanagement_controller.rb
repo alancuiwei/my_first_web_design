@@ -1,31 +1,5 @@
 #encoding: utf-8
 class PersonmanagementController < ApplicationController
-  def  personinfo
-    if session[:webusername]!=nil
-      @webuser=Webuser.find_by_username(session[:webusername])
-      @personal=[]
-      if params[:id]!="0"
-        @personalfinance=Personalfinance.find_by_username(session[:webusername])
-        if @personalfinance
-        @personal[0]=@personalfinance.age
-        @personal[1]=@personalfinance.trade
-        @personal[3]=@personalfinance.email
-        @personal[4]=@personalfinance.investamount
-        @personal[5]=@personalfinance.investcycle
-        @personal[6]=@personalfinance.returnrate
-        @personal[7]=@personalfinance.riskrate
-        @personal[8]=@personalfinance.investvarieties
-        @personal[9]=@personalfinance.wbreedinfo
-        @personal[10]=@personalfinance.name
-        @personal[11]=@personalfinance.contact
-        @personal[12]=@personalfinance.myfavorite
-        @personal[13]=@personalfinance.tel
-      end
-      end
-    else
-      redirect_to(:controller=>"home")
-    end
-  end
 
   def selectproduct
     @webuser = Webuser.find_by_username(params[:username])
@@ -40,7 +14,6 @@ class PersonmanagementController < ApplicationController
    def activity
     if params[:id]!=nil
       @activity=Activity.find_by_id(params[:id])
-      @enroll=Enroll.find_all_by_aid_and_ischarge(params[:id],0)
     else
       redirect_to(:controller=>"personmanagement", :action=>"movablewall")
     end
@@ -109,27 +82,6 @@ class PersonmanagementController < ApplicationController
     @financial2=Financial.all
   end
 
-  def enroll
-    @enroll=Enroll.find_by_name_and_username(params[:name],params[:username])
-    if @enroll==nil
-      Enroll.new do |b|
-        b.name=params[:name]
-        b.username=params[:username]
-        b.ischarge=1
-        b.aid=params[:aid]
-        b.save
-      end
-    elsif params[:ischarge]=='0'
-      @enroll.update_attributes(:ischarge=>0,:name=>params[:name],:username=>params[:username],:aid=>params[:aid]);
-    end
-  end
-
-  def enrollapprove
-    @enroll=Enroll.find_by_id(params[:aid])
-    @enroll.update_attributes(:ischarge=>0);
-    render :json => "s".to_json
-  end
-
   def zhifubao
     @webuser = Webuser.find_by_username(session[:webusername])
     Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
@@ -172,87 +124,6 @@ class PersonmanagementController < ApplicationController
     render :json => @alipy_url.to_json
   end
 
-  def commentconfigajax
-    Comments.new do |b|
-      b.username=params[:username]
-      b.email=params[:email]
-      b.comments=params[:comment]
-      b.cid=params[:cid]
-      b.time=params[:time]
-      b.company=params[:company]
-      b.wid=params[:wid]
-      b.save
-    end
-    if  params[:email2]=='1'
-      Thread.new{
-        UserMailer.comments(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
-      }
-    end
-    render :json => "s1".to_json
-  end
-
-
-  def comment2configajax
-    Comments.new do |b|
-      b.username=params[:username]
-      b.email=params[:email]
-      b.comments=params[:comment]
-      b.cid=params[:cid]
-      b.time=params[:time]
-      b.company=params[:company]
-      b.wid=params[:wid]
-      b.save
-    end
-    if  params[:email2]=='1'
-      Thread.new{
-        UserMailer.comments2(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
-      }
-    end
-    render :json => "s1".to_json
-  end
-
-  def comment3configajax
-    Comments.new do |b|
-      b.username=params[:username]
-      b.email=params[:email]
-      b.comments=params[:comments]
-      b.time=params[:time]
-      b.company=params[:company]
-      b.pid=params[:pid]
-      b.save
-    end
-    if  params[:email2]=='1'
-      Thread.new{
-        UserMailer.comments2(params[:username],params[:company],params[:comment],params[:accept],params[:aid]).deliver
-      }
-    end
-    render :json => "s1".to_json
-  end
-
-  def investor
-    @webuser=Webuser.find_by_sql("select * from webuser where id<>3 and id<>54 and (organuser='0' || organuser is null) and scharge is not null")
-   if  session[:webusername]!=nil
-    @webusers=Webuser.find_by_username(session[:webusername])
-   else
-     @webusers=Webuser.find_by_username('admin')
-    end
-    @hash_reference=Hash.new
-    @webuser.each do |webuser|
-        @hash_reference.store(webuser.id,[webuser.exeitdeposit,webuser.username,webuser.province,webuser.city])
-    end
-    @hash={}
-    @webuser2=Webuser.find_by_sql("select * from webuser where organusername is not null");
-    for i in 0..@webuser2.size-1
-      @provide=Provide.find_by_username(@webuser2[i].username)
-      if @provide!=nil
-        date=1
-      else
-        date=nil
-      end
-      @hash.store(@webuser2[i].username,[date])
-    end
-  end
-
   def share
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
@@ -279,16 +150,6 @@ class PersonmanagementController < ApplicationController
       @financial2=Financial.all
   end
 
-  def stasus
-    @webuser=Webuser.find_by_id(params[:oid])
-    @webuser.update_attributes(:organusername=>session[:webusername])
-    @webuser2=Webuser.find_by_username(session[:webusername])
-    Thread.new{
-      UserMailer.handling(session[:webusername],@webuser2.company,@webuser.username,@webuser.email).deliver
-    }
-    render :json => "s".to_json
-  end
-
   def userajax
     @examination=Examination.find_by_username(params[:username])
     @examination.update_attributes(:xianp=>params[:xianp],
@@ -301,18 +162,12 @@ class PersonmanagementController < ApplicationController
   end
 
   def personconfigajax
-    if params[:id]=="0"
-      if session[:webusername]==nil
-      @personalfinance=Personalfinance.find_by_username(params[:username])
-      else
         @webuser=Webuser.find_by_username(session[:webusername])
+    @webuser.update_attributes(:risktolerance=>params[:risktolerance]);
         @personalfinance=Personalfinance.find_by_username(session[:webusername])
-        @webuser.update_attributes(:risktolerance=>params[:risktolerance],:selection=>params[:selection]);
-      end
       if @personalfinance==nil
         Personalfinance.new do |b|
           b.username=params[:username]
-          b.email=params[:email]
           b.investamount=params[:investamount]
           b.investcycle=params[:investcycle]
           b.returnrate=params[:returnrate]
@@ -320,69 +175,18 @@ class PersonmanagementController < ApplicationController
           b.riskrate=params[:riskrate]
           b.investvarieties=params[:investvarieties]
           b.wbreedinfo=params[:wbreedinfo]
-          b.name=params[:name]
-          b.contact=params[:contact]
-          b.myfavorite=params[:myfavorite]
-          b.tel=params[:tel]
-          b.investvarieties=params[:investvarieties]
           b.fluctuation=params[:fluctuation]
           b.quota=params[:quota]
           b.options=params[:options]
           b.goal=params[:goal]
           b.save
         end
-        session[:personname]=params[:username]
         render :json => "s1".to_json
       else
-        @personalfinance.update_attributes(:age=>params[:age],:email=>params[:email],:fluctuation=>params[:fluctuation],
+      @personalfinance.update_attributes(:age=>params[:age],:fluctuation=>params[:fluctuation],
                                            :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
                                            :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:investvarieties=>params[:investvarieties],
                                            :riskrate=>params[:riskrate],:options=>params[:options],:goal=>params[:goal])
-        if  params[:tel]!=nil
-          @personalfinance.update_attributes(:tel=>params[:tel])
-        end
-        session[:personname]=params[:username]
-        render :json => "s2".to_json
-      end
-    else
-      @personalfinance=Personalfinance.find_by_username(session[:webusername])
-      @personalfinance.update_attributes(:username=>params[:username],:email=>params[:email],:investamount=>params[:investamount],
-                                         :investcycle=>params[:investcycle],:returnrate=>params[:returnrate],:trade=>params[:trade],
-                                         :age=>params[:age],:riskrate=>params[:riskrate],:investvarieties=>params[:investvarieties],
-                                         :wbreedinfo=>params[:wbreedinfo],:name=>params[:name],:contact=>params[:contact],:bank=>params[:bank],
-                                         :myfavorite=>params[:myfavorite],:tel=>params[:tel])
-      render :json => "sd".to_json
-    end
-  end
-
-  def myfavoriteconfigajax
-    @personalfinance=Personalfinance.find_by_username(session[:webusername])
-    @personalfinance.update_attributes(:myfavorite=>params[:myfavorite])
-    render :json => "s1".to_json
-  end
-
-  def profileconfigajax
-    @personalfinance=Personalfinance.find_by_username(session[:webusername])
-    @personalfinance.update_attributes(:title=>params[:title],:article=>params[:article])
-    render :json => "s1".to_json
-  end
-
-  def personinfoconfigajax
-    if params[:id]=="0"
-      Personinvestinfo.new do |b|
-        b.username=params[:username]
-        b.producttype=params[:producttype]
-        b.percentage=params[:percentage]
-        b.investamount=params[:investamount]
-        b.purchasproducts=params[:purchasproducts]
-        b.collectperiod=params[:collectperiod]
-        b.save
-      end
-      render :json => "s1".to_json
-    else
-      @person=Personinvestinfo.find_by_id(params[:id])
-      @person.update_attributes(:username=>params[:username],:producttype=>params[:producttype],:percentage=>params[:percentage],
-                                :investamount=>params[:investamount],:purchasproducts=>params[:purchasproducts],:collectperiod=>params[:collectperiod])
       render :json => "s2".to_json
     end
   end
@@ -396,24 +200,6 @@ class PersonmanagementController < ApplicationController
       else
          redirect_to(:controller=>"home")
       end
-  end
-
-  def personinformation
-    if session[:webusername]!=nil
-      @personalfinance=Personalfinance.find_by_username(session[:webusername])
-      @personalinfo2=Personinvestinfo.find_all_by_username(session[:webusername])
-      @personal=[]
-      if params[:id]!="0"
-        @personalinfo=Personinvestinfo.find_by_id(params[:id])
-        @personal[0]=@personalinfo.producttype
-        @personal[1]=@personalinfo.percentage
-        @personal[2]=@personalinfo.investamount
-        @personal[3]=@personalinfo.purchasproducts
-        @personal[4]=@personalinfo.collectperiod
-      end
-    else
-      redirect_to(:controller=>"home")
-    end
   end
 
   def recordconfigajax
@@ -487,7 +273,6 @@ class PersonmanagementController < ApplicationController
       end
       @examination=Examination.find_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
-      @provides=Provide.find_by_username(@webuser.username)
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
@@ -505,7 +290,6 @@ class PersonmanagementController < ApplicationController
         end
         @examination=Examination.find_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
-      @provides=Provide.find_by_username(@webuser.username)
     else
       redirect_to(:controller=>"home")
     end

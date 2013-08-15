@@ -414,7 +414,7 @@
 <script>
     var risk=0;
     var tol;
-   // var selection='';
+
     _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
     w.requestId = "1092152607";
 
@@ -678,9 +678,6 @@
                         },function(data){
                             location.href='/usersurvey/measure/3';
                         });
-                        <% else %>
-                           location.href='/personmanagement/summary?risk='+risktolerance+'&save='+save+'&age='+$("#age").attr("value")+'&investamount='+$("#lnw").attr("value").replace(',','')+'&investvarieties='+investvarieties+
-                                  '&score=<%= params[:score] %>&variety=<%= params[:variety] %>&pname=<%= params[:pname] %>&amount=<%= params[:amount] %>&age=<%= params[:age] %>&salary=<%= params[:salary] %>&rent=<%= params[:rent] %>&wages=<%= params[:wages] %>&xian=<%= params[:xian] %>&wen=<%= params[:wen] %>&feng=<%= params[:feng] %>'
                         <% end %>
                         return false
                       //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
@@ -1060,51 +1057,6 @@
         <% end %>
     });
 
-   /*
-    $(document).ready(function(){
-        $('[id*="iCheck"]').iCheck({
-            checkboxClass: 'icheckbox_square-red',
-            radioClass: 'iradio_square-red',
-            increaseArea: '20%' // optional
-        });
-    });
-
-    $('input').on('ifChecked', function(event){
-        if(this.name=='iCheck'){
-            var eq=this.className.split(",");
-            $("#category td").removeClass("second");
-            var length=$("#category").find("tr").size();
-            for(i=0;i<length;i++){
-                if($("#category tr:eq("+i+") td:eq(1)").html()==eq[1]){
-                    for(j=0;j<7;j++){
-                        $("#category tr:eq("+i+") td:eq("+j+")").addClass("second")
-                    }
-                }
-            }
-            $("#finance").show();
-            $('[class*="finance"]').hide();
-        <%  for i in 0..@hash.size-1 %>
-            if(eq[0]=='<%= @hash[i][0] %>'){
-                var pid= '<%= @hash[i][2] %>'.split(",");
-                for(var k=0;k<pid.length;k++){
-                    $('.finance'+pid[k]).show();
-                }
-            }
-        <% end %>
-        }
-        else if(this.name=='iCheck2'){
-            $("tr").removeClass("third");
-            $(".finance"+this.className).addClass("third");
-            document.getElementById("q-submit").disabled=false;
-        <% @financial2.each do |f| %>
-            if(this.className=='<%= f.id %>'){
-                selection='<%= f.pname %>';
-            }
-        <% end %>
-        }
-    });
-    */
-
     $(function () {
         if(system.win||system.mac||system.xll){
             var chart = new Highcharts.Chart({
@@ -1207,7 +1159,11 @@
                         setInterval(function() {
                             var left = chart.series[0].points[0],
                                     leftVal;
-
+                            <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
+                             if(tol==0.1){
+                                 tol=<%= @webuser.risktolerance %>;
+                             }
+                            <% end %>
                             leftVal = tol;
                             left.update(leftVal, false);
                             chart.redraw();

@@ -1,19 +1,7 @@
 <%= stylesheet_link_tag "sales.css" %>
 
 <div class="main-content password">
-  <a href="/">首页</a><br><br>
-  <div class="bs-docs-example">
-    <ul class="nav nav-tabs">
-      <% if session[:organuser]!='1' %>
-          <% if session[:personname]!=0 %>
-              <li><a href="/personmanagement/personinfo/1">投资信息设置</a></li>
-          <% else %>
-              <li><a href="/personmanagement/personinfo/0">投资信息设置</a></li>
-          <% end %>
-      <% end %>
-      <li class="active"><a href="#">密码设置</a></li>
-    </ul>
-  </div>
+  <a href="/">首页</a><br>密码设置
   <% if session[:webusername]!=nil %>
   <form class="form-horizontal">
     <div class="control-group">

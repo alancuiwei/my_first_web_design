@@ -26,11 +26,6 @@
 
 <div class="main-content">
   <h1 id="h1"><%= @activity.name %></h1>
-  <!--
-  <% if @activity.natures=="网络教学" %>
-    <a class="btn btn-primary enroll">报 名</a><br><br>
-  <% end %>
-  -->
   <table class="table table-striped table-bordered press" style="width: 800px;">
     <% if @activity.natures!="网络教学" %>
     <tr id="ing">
@@ -137,11 +132,6 @@
       </td>
     </tr>
   </table>
- <!--
-  <% if @activity.natures=="网络教学" %>
-      <div id="container" style="width: 100%;max-width: 400px; height: 400px;"></div>
-  <% end %>
-  -->
 </div>
 
 <script>
@@ -171,76 +161,7 @@
            // $("#state").html("活动进行中");
             $("#before").remove();
         }
-
-        <% if params[:username] ==session[:webusername] && session[:webusername]!=nil %>
-        $.get("/personmanagement/enroll",{name:'<%= @activity.name %>',aid:'<%= @activity.id %>',username:'<%= session[:webusername] %>',ischarge:0},function(data){
-        });
-        <% end %>
-    });
-
-
-     $(".enroll").click(function(){
-        <% if session[:webusername]!=nil %>
-         $.get("/personmanagement/enroll",{name:'<%= @activity.name %>',aid:'<%= @activity.id %>',username:'<%= session[:webusername] %>',ischarge:1},function(data){
-         });
-         $.get("/personmanagement/zhifubao",{scharge:'<%= @activity.charge %>',username:'<%= session[:webusername] %>',aid:'<%= params[:id] %>'},function(data){
-             location.href=data;
-         });
-        <% else %>
-            location.href="/sales/login?activity=1&aid=<%= params[:id] %>"
-         <% end %>
      });
-
-    $(function () {
-        $('#container').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: '当前报名人数（满20名后举办）'
-            },
-            xAxis: {
-                categories: ['人数']
-            },
-            yAxis: {
-                tickInterval: 1,  //自定义刻度
-                max:20,//纵轴的最大值
-                min: 0,
-                title: {
-                    text: '报名总人数'
-                },
-                stackLabels: {
-                    enabled: true,
-                    style: {
-                        fontWeight: 'bold',
-                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
-                    }
-                }
-            },
-            credits:false,
-            legend: false,
-            tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.x +'</b><br/>'+
-                            '总共: '+ this.point.stackTotal;
-                }
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'normal',
-                    dataLabels: {
-                        enabled: true,
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                    }
-                }
-            },
-            series: [{
-                name: '人数',
-                data: [<%= @enroll.length %>]
-            }]
-        });
-    });
-
 </script>
 
 <script type="text/javascript">

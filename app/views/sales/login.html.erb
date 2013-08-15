@@ -274,26 +274,11 @@
                 else if("<%= params[:monthpay] %>"!=""){
                     location.href="/personmanagement/personfinance";
                 }
-                else if("<%= params[:investamount] %>"!="" || "<%= params[:bid] %>"!=""){
-                    location.href="/sales/index?bid=<%= params[:bid] %>&investamount=<%= params[:investamount] %>&tel=<%= params[:tel] %>";
-                }
                 else if('<%=params[:id] %>'=="1"){
                     location.href="/sales/revise";
                 }
-                else if(Request("wid")!=''){
-                    location.href="/personmanagement/organfinance/"+Request("wid")+"?comment="+Request("comment");
-                }
-                else if(Request("comment")!=''){
-                    location.href="/personmanagement/personfinance/"+Request("cid")+"?comment="+Request("comment");
-                }
-                else if(data=='organ'){
-                    location.href="/personmanagement/organfinance";
-                }
                 else if(data=="admin" || data=="blog"){
                     location.href="/admin";
-                }
-                else if (organ==3){
-                    return false;
                 }
                 else if (organ==4){
                     location.href="/personmanagement/personfinance";
@@ -301,29 +286,9 @@
                 else if (organ==2){
                     location.href="/usersurvey/measure/1";
                 }
-                else if(data=="s1" || data=="s2"){
-                    if(Request("bid")>0){
-                        $.get("/sales/reserve",{username:$(uid).attr("value")},function(data){
-                            if(data=='f1'){
-                                location.href='/personmanagement/personinfo/0?bid='+Request("bid")+"&reserve=1";
-                            }
-                            else {
-                                location.href='/sales/index?bid='+Request("bid")+"&investamount="+Request("investamount");
-                            }
-                        })
-                    }
-                    else if(Request("order")>0){
-                        location.href="/sales/myorder"
-                    }
-                    else{
-                        if(data=='s1')  {
+                else if(data=="s1"){
                             location.href="/personmanagement/personfinance";
                         }
-                        else if(data=='s2'){
-                            location.href="/personmanagement/personinfo/0";
-                        }
-                    }
-                }
             })
         }
     }

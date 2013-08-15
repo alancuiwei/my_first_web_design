@@ -1,11 +1,5 @@
 #encoding: utf-8
 class HomeController < ApplicationController
-  def index
-    @personfinance=Personalfinance.all
-    @username=Personalfinance.find_by_sql('select distinct username from personalfinance')
-    @num=@username.length
-  end
-
   def methodology
     @methodology=Methodology.all
   end
@@ -38,31 +32,8 @@ class HomeController < ApplicationController
     @financial2=Financial.all
   end
 
-  def productindex
-    if session[:webusername]=="admin"
-      if params[:id]!=nil
-        @webuser=Webuser.find_by_id(params[:id])
-      else
-        @webuser=Webuser.find_by_username(session[:webusername])
-      end
-    else
-      @webuser=Webuser.find_by_username(session[:webusername])
-    end
-  end
-
   def download
     send_file "app/assets/download/"+params[:filename] unless params[:filename].blank?
-  end
-
-  def guide
-    @number=Downloadnum.find_by_id(1);
-    @pdfnumber=@number.pdfnumber
-    @jpgnumber=@number.jpgnumber
-  end
-
-  def downloadconfigajax
-    @number=Downloadnum.find_by_id(1);
-    @number.update_attributes(:pdfnumber=>params[:pdfnumber],:jpgnumber=>params[:jpgnumber])
   end
 
   def userconfig

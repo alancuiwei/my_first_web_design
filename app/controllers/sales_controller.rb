@@ -1,31 +1,5 @@
 #encoding: utf-8
 class SalesController < ApplicationController
-  def index
-    @banfinance=Bankfinance.find_by_id(params[:bid])
-    if @banfinance==nil
-      redirect_to(:controller=>"bankinvest", :action=>"index")
-    end
-    if session[:webusername]=="admin"
-      if params[:id]!=nil
-        @webuser=Webuser.find_by_id(params[:id])
-      else
-        @webuser=Webuser.find_by_username(session[:webusername])
-  end
-    else
-      @webuser=Webuser.find_by_username(session[:webusername])
-    end
-    if session[:webusername]!=nil
-      @personalfinance=Personalfinance.find_by_username(session[:webusername])
-    end
-    end
-
-  def myorder
-      @reserve=Reserve.find_all_by_username(session[:webusername])
-    end
-
-  def confirm
-    @banfinance=Bankfinance.find_by_id(params[:bid])
-  end
 
   def getpassword
     @webuser=Webuser.find_by_username(params[:username])
@@ -41,16 +15,6 @@ class SalesController < ApplicationController
         render :json => "s2".to_json
         session[:webusername]=nil
       end
-    end
-
-  end
-
-  def reserve
-    @personalfinance=Personalfinance.find_by_username(params[:username])
-    if  @personalfinance==nil
-      render :json => "f1".to_json
-    else
-      render :json => "f2".to_json
     end
   end
 
