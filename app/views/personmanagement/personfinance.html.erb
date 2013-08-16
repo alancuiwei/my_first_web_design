@@ -602,9 +602,9 @@
 
     var amounts1=0;
     var amounts0=0;
-    <% if @examination!=nil %>
-    amounts1=parseFloat('<%= @examination.rent %>');
-    amounts0=parseFloat('<%= @examination.salary-@examination.rent-@examination.wages %>');
+    <% if @userexpensemonth!=nil %>
+    amounts1=parseFloat('<%= @userexpensemonth.must_expense %>');
+    amounts0=parseFloat('<%= @userexpensemonth.income-@userexpensemonth.must_expense-@userexpensemonth.fun_expense %>');
     <% end %>
 
     var dateNow = new Date();
@@ -648,9 +648,11 @@
             else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
         }
         jixu=xianjin+wenjian+fengxian;
-        monthdeposit=parseFloat('<%= @examination.wages %>');
+    <% if @userexpensemonth!=nil %>
+        monthdeposit=parseFloat('<%= @userexpensemonth.fun_expense %>');
         total=monthdeposit*12+jixu;//总资产
-        xian=parseFloat('<%= @examination.rent %>')*3;
+        xian=parseFloat('<%= @userexpensemonth.must_expense %>')*3;
+    <% end %>
         feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         wen=total-xian-feng;
         if(wen<1000){

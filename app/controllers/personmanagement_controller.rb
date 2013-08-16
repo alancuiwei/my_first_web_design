@@ -24,6 +24,7 @@ class PersonmanagementController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
       @examination=Examination.find_by_username(session[:webusername])
       @record=Record.find_all_by_username(session[:webusername])
+      @userexpensemonth=User_expense_month.find_by_username(session[:webusername])
     else
       redirect_to(:controller=>"sales", :action=>"login", :summary=>"1")
     end
@@ -258,7 +259,7 @@ class PersonmanagementController < ApplicationController
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
       @record=Record.find_all_by_username(@webuser.username)
-      @date=Record.find_by_sql('select min(date) from recore where username="'+@webuser.username+'"')
+      @userexpensemonth=User_expense_month.find_by_username(@webuser.username)
       @finance1=Financial.find_by_pname(@webuser.selectproductl)
         if @finance1!=nil
           @category1=Category_2.find_by_classify(@finance1.classify)
@@ -276,6 +277,7 @@ class PersonmanagementController < ApplicationController
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
+        @userexpensemonth=User_expense_month.find_by_username(session[:webusername])
         @finance1=Financial.find_by_pname(@webuser.selectproductl)
         if @finance1!=nil
           @category1=Category_2.find_by_classify(@finance1.classify)

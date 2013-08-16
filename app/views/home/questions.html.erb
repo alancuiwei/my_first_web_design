@@ -444,20 +444,15 @@
 
 <script>
      var s_age= 0,s_amount= 0,s_salary=0;
-     <% if params[:age]!=nil &&  params[:age]!='' %>
-     s_age='<%= params[:age] %>';
-     var amount='<%= params[:amount] %>'.split(",");
-     for(var i=0;i<amount.length;i++){
-         s_amount=s_amount+parseInt(amount[i]);
-     }
-     s_salary='<%= params[:salary] %>';
-     <% elsif  session[:webusername]!=nil %>
+     <% if  session[:webusername]!=nil %>
          s_age='<%= @examination.age %>';
      var amount='<%= @examination.amount %>'.split(",");
      for(var i=0;i<amount.length;i++){
          s_amount=s_amount+parseInt(amount[i]);
      }
-     s_salary='<%=@examination.salary %>';
+     <% if @userexpensemonth!=nil %>
+     s_salary='<%= @userexpensemonth.income %>';
+     <% end %>
      <% end %>
 
     $(function() {

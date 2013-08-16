@@ -2,6 +2,39 @@
 require 'open-uri'
 class UsersurveyController < ApplicationController
 
+  def userexpensemonth
+    @userexpensemonth=User_expense_month.find_by_username(params[:username])
+    if params[:salary]==""
+      a1=0;
+    else
+      a1=params[:salary].to_i
+    end
+    if params[:rent]==""
+      a2=0;
+    else
+      a2=params[:rent].to_i
+    end
+    if params[:wages]==""
+      a3=0;
+    else
+      a3=params[:wages].to_i
+    end
+    if @userexpensemonth==nil
+      User_expense_month.new do |e|
+        e.username=params[:username]
+        e.income=params[:salary]
+        e.must_expense=params[:rent]
+        e.fun_expense=params[:wages]
+        e.invest_expense=a1-a2-a3
+        e.save
+      end
+      render :json => "s1".to_json
+    else
+      @userexpensemonth.update_attributes(:income=>params[:salary],:must_expense=>params[:rent],:fun_expense=>params[:wages],:invest_expense=>a1-a2-a3)
+      render :json => "s2".to_json
+    end
+  end
+
   def measure
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
@@ -16,6 +49,7 @@ class UsersurveyController < ApplicationController
     @blog3=Blog.find_by_id(403)
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
+      @userexpensemonth=User_expense_month.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
       @category=Category_2.all
       @hash={}

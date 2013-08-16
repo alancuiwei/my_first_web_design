@@ -740,13 +740,9 @@
                             });
                         }
                         else{
-                            var salary= parseFloat($("#salary").attr("value").replace(/,/g, ""));
-                        var rent= $("#rent").attr("value").replace(/,/g, "");
-                        var wages= $("#wages").attr("value").replace(/,/g, "");
-
                         <% if session[:webusername]!=nil %>
                         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                                salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:0,level:level,debttype:debttypes,loan:loans,repayment:repayments,period:periods},function(data){
+                                xian:xian,wen:wen,feng:feng,acta:0,level:level,debttype:debttypes,loan:loans,repayment:repayments,period:periods},function(data){
                             location.href='/usersurvey/measure/2';
                         });
                         <% end %>
@@ -778,6 +774,8 @@
             if(i==6){
               if(e!=1){
                if(num==1){
+                   $.post("/usersurvey/userexpensemonth",{username:'<%= session[:webusername] %>',salary:$("#salary").attr("value").replace(/,/g, ""),rent:$("#rent").attr("value").replace(/,/g, ""),wages:$("#wages").attr("value").replace(/,/g, "")},function(data){
+                   });
                 var a1=parseInt($("#wages").attr("value").replace(/,/g, ""));
                 var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
                   bi=parseInt(a1/a2*100);
@@ -985,28 +983,6 @@
                 }
 
                 animate(0,run());
-                /*
-                if(acta==0){
-                    if(wen<=0){
-                        alert("您每个月的零花钱会不会太多了？")
-                        i=5;
-                        $("#title").html("月收入支出");
-                    }
-                    else if(parseFloat($("#salary").attr("value").replace(/,/g, ""))-parseFloat($("#rent").attr("value").replace(/,/g, ""))-parseFloat($("#wages").attr("value").replace(/,/g, ""))<=0){
-                        alert("月收入必须大于衣食住行与每月储蓄金额之和。");
-                        i=5;
-                        $("#title").html("月收入支出");
-                    }
-                    else if(xianjin<=0){
-                        alert("我们看您没有输入活期存款金额，您应该不会身上一分钱现金都没有吧？");
-                        i=6;
-                        $("#title").html("已有资产情况");
-                    }
-                    else if(jixu>=500000){
-                        alert("请不要把房屋资产也算进去哦。");
-                    }
-                }
-                */
             }
 
             var $qns = $qr.children(".question");
@@ -1329,73 +1305,7 @@
         delete eCalcShareHolders[fid];
         $(fi).detach();
     }
-    /*
-    $("#age-decrease0").click(function(){
-        if(parseInt(xian*0.9)<parseInt($("#xian1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#xian1").attr("value"))>=200){
-            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))-100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
-            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#xian1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(xian*0.9)>=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
-            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-    $("#age-increase0").click(function(){
-        if(parseInt(xian*1.1)>parseInt($("#xian1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
-            $("#xian1").attr("value",parseInt($("#xian1").attr("value"))+100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
-            $("#xian0").html((parseInt($("#xian1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#xian1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(xian*1.1)<=parseInt($("#xian1").attr("value"))){$("#xian1").addClass("invalid");}
-            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
 
-    $("#age-decrease1,#age-increase2").click(function(){
-        if(parseInt(wen*0.9)<parseInt($("#wen1").attr("value")) && parseInt(feng*1.1)>parseInt($("#feng1").attr("value")) && parseInt($("#wen1").attr("value"))>=200){
-            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))-100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))+100);
-            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#wen1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(wen*0.9)>=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
-            if(parseInt(feng*1.1)<=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-    $("#age-increase1,#age-decrease2").click(function(){
-        if(parseInt(wen*1.1)>parseInt($("#wen1").attr("value")) && parseInt(feng*0.9)<parseInt($("#feng1").attr("value"))  && parseInt($("#feng1").attr("value"))>=200){
-            $("#wen1").attr("value",parseInt($("#wen1").attr("value"))+100);
-            $("#feng1").attr("value",parseInt($("#feng1").attr("value"))-100);
-            $("#wen").html((parseInt($("#wen1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#feng").html((parseInt($("#feng1").attr("value"))/total*100).toFixed(1).toString()+'%');
-            $("#wen1").removeClass("invalid");
-            $("#feng1").removeClass("invalid");
-            $(".alert").hide();
-        }
-        else{
-            if(parseInt(wen*1.1)<=parseInt($("#wen1").attr("value"))){$("#wen1").addClass("invalid");}
-            if(parseInt(feng*0.9)>=parseInt($("#feng1").attr("value"))){$("#feng1").addClass("invalid");}
-            $(".alert").show();
-        }
-    });
-    */
     function run(){
         if(jixu!=0 && total!=0){
         var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
@@ -1413,9 +1323,11 @@
 
         <% if session[:webusername]!=nil && @examination!=nil %>
         <% if @examination.age!=nil %>$("#age").attr("value",parseInt('<%= @examination.age %>'));<% end %>
-        <% if @examination.salary!=nil %>$("#salary").attr("value",parseInt('<%= @examination.salary %>'));<% end %>
-        <% if @examination.rent!=nil %>$("#rent").attr("value",parseInt('<%= @examination.rent %>'));<% end %>
-        <% if @examination.wages!=nil %>$("#wages").attr("value",parseInt('<%= @examination.wages %>'));<% end %>
+        <% if @userexpensemonth!=nil %>
+        <% if @userexpensemonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userexpensemonth.income %>'));<% end %>
+        <% if @userexpensemonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userexpensemonth.must_expense %>'));<% end %>
+        <% if @userexpensemonth.fun_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userexpensemonth.fun_expense %>'));<% end %>
+        <% end %>
         <% if @examination.meals!=nil %>$("#meals").attr("value",parseInt('<%= @examination.meals %>'));<% end %>
         <% if @examination.fare!=nil %>$("#fare").attr("value",parseInt('<%= @examination.fare %>'));<% end %>
         <% if @examination.shop!=nil %>$("#shop").attr("value",parseInt('<%= @examination.shop %>'));<% end %>
