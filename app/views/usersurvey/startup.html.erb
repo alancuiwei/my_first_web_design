@@ -373,7 +373,18 @@
     <h3>月收入支出 明细</h3>
   </div>
   <div class="modal-body">
-    <table>
+    <table id="exact1" class="table table-striped table-bordered">
+      <thead>
+      <tr><th>支出明细</th><th>说明</th><th>金额</th></tr>
+      </thead>
+      <% @expensetype.each do |e| %>
+      <tr>
+        <td><%= e.expense_name %></td>
+        <td><%= e.expense_intro %></td>
+        <td><input type="text" onkeyup="inva(this);" name="exect" id="enpense<%= e.id %>"></td>
+      </tr>
+      <% end %>
+      <!--
       <tr>
          <td style="width: 50%;">
            <p>月支出</p>
@@ -417,6 +428,7 @@
            </table>
          </td>
       <tr>
+        -->
     </table>
   </div>
   <div class="modal-footer">

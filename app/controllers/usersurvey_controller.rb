@@ -47,6 +47,7 @@ class UsersurveyController < ApplicationController
     @blog=Blog.find_by_id(401)
     @blog2=Blog.find_by_id(111)
     @blog3=Blog.find_by_id(403)
+    @expensetype=Admin_expense_type_month.all
     if session[:webusername]!=nil
       @examination=Examination.find_by_username(session[:webusername])
       @userexpensemonth=User_expense_month.find_by_username(session[:webusername])

@@ -14,8 +14,7 @@ class AdminController < ApplicationController
       @category1=Category_1.all
       @category2=Category_2.all
       @financial=Financial.all
-      @adminremind={}
-      @adminconfirm={}
+      @expensetype=Admin_expense_type_month.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -25,6 +24,43 @@ class AdminController < ApplicationController
       end
     else
       redirect_to(:controller=>"home")
+    end
+  end
+
+  def expenseconfig
+      if params[:id]!="0"
+        @expensetype=Admin_expense_type_month.find_by_id(params[:id])
+      else
+        @expensetype=Methodology.limit(1)
+      end
+  end
+
+  def expenseconfigajax
+    if params[:id]=="0"
+      Admin_expense_type_month.new do |b|
+        b.expense_id=params[:expense_id]
+        b.expense_name=params[:expense_name]
+        b.expense_intro=params[:expense_intro]
+        b.expense_expect=params[:expense_expect]
+        b.expense_type=params[:expense_type]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @expensetype=Admin_expense_type_month.find_by_id(params[:id])
+      @expensetype.update_attributes(:expense_id=>params[:expense_id],:expense_name=>params[:expense_name],:expense_intro=>params[:expense_intro],:expense_expect=>params[:expense_expect],:expense_type=>params[:expense_type])
+      render :json => "s2".to_json
+    end
+  end
+
+  def expensedeleteajax
+    @expensetype=Admin_expense_type_month.find_by_id(params[:id])
+    if @expensetype!=nil
+      if @expensetype.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
     end
   end
 
