@@ -1137,9 +1137,9 @@
         }
         jixu=xianjin+wenjian+fengxian;//积蓄
         <% if session[:webusername]!=nil %>
-        <% if @userexpensemonth!=nil %>
-        total=parseInt((parseFloat('<%= @userexpensemonth.fun_expense %>')*12+jixu)/100)*100;//总资产
-        xian=parseInt((parseFloat('<%= @userexpensemonth.must_expense %>')*3)/100)*100;
+        <% if @userdatamonth!=nil %>
+        total=parseInt((parseFloat('<%= @userdatamonth.invest_expense %>')*12+jixu)/100)*100;//总资产
+        xian=parseInt((parseFloat('<%= @userdatamonth.must_expense %>')*3)/100)*100;
         <% end %>
         feng=parseInt((total*(80-parseFloat('<%= @examination.age %>'))/100)/100)*100;
         wen=total-xian-feng;
@@ -1407,7 +1407,7 @@ function update(){
     var text0='',text1='',text2='',text3=''
     var month1=0,month2=0,month3=0;   //每月分配多少
     var amount1= 0,amount2= 0,amount3=0; //每月分配后还剩下的总额
-    var wages=parseFloat('<%= @userexpensemonth.fun_expense %>')     //每月存储
+    var wages=parseFloat('<%= @userdatamonth.invest_expense %>')     //每月存储
     var dateNow = new Date();
     var yearNow = dateNow.getFullYear();
     var monthNow = dateNow.getMonth()+1;

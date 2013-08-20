@@ -146,17 +146,32 @@
         <table style="width: 100%;">
           <tr>
             <td class="q-text" style="width: 120px;">月收入：</td>
-            <td style="width: 220px;"><input type="text" name="lnw" id="salary" tabindex="-1"></td>
+            <td style="width: 220px;">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input type="text" name="lnw" id="salary" tabindex="-1">
+              </div>
+            </td>
             <td></td>
           </tr>
           <tr>
             <td class="q-text">每月衣食住行：</td>
-            <td><input type="text" name="lnw" id="rent" tabindex="-1"></td>
+            <td>
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input type="text" name="lnw" id="rent" tabindex="-1">
+              </div>
+            </td>
             <td></td>
           </tr>
           <tr>
             <td class="q-text">每月至少存储：</td>
-            <td><input type="text" name="lnw" id="wages" tabindex="-1"></td>
+            <td>
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input type="text" name="lnw" id="wages" tabindex="-1">
+              </div>
+            </td>
             <td></td>
           </tr>
           <tr>
@@ -190,18 +205,9 @@
           <div class="span3 control-group">
             <div class="mobile">资产品种</div>
             <select  name="variety" id="variety" class="founder-name" title="资产品种">
-              <option value="银行活期">银行活期</option>
-              <option value="银行定期">银行定期</option>
-              <option value="银行理财产品">银行理财产品</option>
-              <option value="余额宝">余额宝</option>
-              <option value="其他货币基金">其他货币基金</option>
-              <option value="债券型基金">债券型基金</option>
-              <option value="股票">股票</option>
-              <option value="股票型基金">股票型基金</option>
-              <option value="贵金属">贵金属</option>
-              <option value="房产">房产</option>
-              <option value="汽车">汽车</option>
-              <option value="其它">其它</option>
+              <% @assettype.each do |a| %>
+              <option value="<%= a.asset_typename %>"><%= a.asset_typename %></option>
+              <% end %>
             </select>
           </div>
           <div class="span3 control-group" style="text-align: left;">
@@ -243,9 +249,9 @@
           <div class="span2 control-group">
             <div class="mobile">贷款类型</div>
             <select  name="variety" id="debttype" class="found-name" title="贷款类型" style="width: 140px;">
-              <option value="房贷">房贷</option>
-              <option value="车贷">车贷</option>
-              <option value="其他贷款">其他贷款</option>
+              <% @debttype.each do |d| %>
+                  <option value="<%= d.debt_typename %>"><%= d.debt_typename %></option>
+              <% end %>
             </select>
           </div>
           <div class="span2 control-group" style="text-align: left;">
@@ -257,7 +263,10 @@
           </div>
           <div class="span2">
             <div class="mobile">每月还贷</div>
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
             <input class="repayment" name="lnw" id="repayment" style="width: 120px;" type="text">
+          </div>
           </div>
           <div class="span2">
             <div class="mobile">贷款年限</div>
@@ -302,8 +311,6 @@
           <p class="q-text">您当前的风险资产比例<span class="feng">过低</span>，且没有足够的财力来完成这个。个人或家庭的财富增长的速度较慢，当然，风险资产比率过高，一旦投资失败，可能使得家庭财务陷入危机。该比率越小，则会降低家庭投资组合的收益，导致资产缩水。<br>
                    请进入下一步风险评估环节，您可以仔细审查您的投资风格，来得到您合适的风险资产比例。</p>
         </div>
-
-
         <input type="checkbox" class="hide">
       </td>
       <td style="width: 168px;text-align: center;">
@@ -370,66 +377,45 @@
 <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>月收入支出 明细</h3>
+    <h3 class="h3">月收入支出 明细</h3>
   </div>
   <div class="modal-body">
-    <table id="exact1" class="table table-striped table-bordered">
+    <table id="exact2" class="table table-striped table-bordered">
       <thead>
-      <tr><th>支出明细</th><th>说明</th><th>金额</th></tr>
+      <tr><th>收入明细</th><th>说明</th><th>金额</th></tr>
       </thead>
-      <% @expensetype.each do |e| %>
+      <% for i in 0..@incometype.size-1 %>
       <tr>
-        <td><%= e.expense_name %></td>
-        <td><%= e.expense_intro %></td>
-        <td><input type="text" onkeyup="inva(this);" name="exect" id="enpense<%= e.id %>"></td>
+        <td><%= @incometype[i].income_name %></td>
+        <td><%= @incometype[i].income_intro %></td>
+        <td class="last">
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input type="text" onkeyup="inva(this);" name="exect" id="income<%= i %>">
+          </div>
+        </td>
       </tr>
       <% end %>
-      <!--
+    </table>
+    <table id="exact1" class="table table-striped table-bordered">
+      <thead>
+      <tr><th>支出明细</th><th>说明</th><th>金额</th><th class="update hide">建议金额</th></tr>
+      </thead>
+      <% for i in 0..@expensetype.size-1 %>
       <tr>
-         <td style="width: 50%;">
-           <p>月支出</p>
-           <table id="exact1"  class="table table-striped table-bordered">
-             <tr><td>支出明细</td><td>金额</td><td class="update hide" style="width: 70px;">建议金额</td></tr>
-             <tr><td>餐饮</td><td><input type="text" onkeyup="inva(this);" name="exect" id="meals"></td><td class="update1 hide"></td></tr>
-             <tr><td>交通</td><td><input type="text" onkeyup="inva(this);" name="exect" id="fare"></td><td class="update2 hide"></td></tr>
-             <tr><td>购物</td><td><input type="text" onkeyup="inva(this);" name="exect" id="shop"></td><td class="update3 hide"></td></tr>
-             <tr><td>娱乐</td><td><input type="text" onkeyup="inva(this);" name="exect" id="taste"></td><td class="update4 hide"></td></tr>
-             <tr><td>医教</td><td><input type="text" onkeyup="inva(this);" name="exect" id="education"></td><td class="update5 hide"></td></tr>
-             <tr><td>居家</td><td><input type="text" onkeyup="inva(this);" name="exect" id="family"></td><td class="update6 hide"></td></tr>
-             <tr><td>人情</td><td><input type="text" onkeyup="inva(this);" name="exect" id="intercourse"></td><td class="update7 hide"></td></tr>
+        <td><%= @expensetype[i].expense_name %></td>
+        <td><%= @expensetype[i].expense_intro %></td>
+        <td class="last">
+          <div class="input-prepend">
+            <span class="add-on">￥</span>
+            <input type="text" onkeyup="inva(this);" name="exect" id="expense<%= i %>">
+          </div>
+        </td>
+        <td class="update<%= i %> hide last"></td>
+      </tr>
+      <% end %>
            </table>
            <a class="xtip update hide" href="#myModal5" role="button" data-toggle="modal"> 为什么这么建议我的各项支出金额？ </a>
-           <div id="remark">
-             <blockquote>
-               <small>购物：衣服鞋帽、日用百货、婴幼用品、数码产品、化妆护肤、首饰、烟酒、电器、家具、报刊书籍、玩具、摄影文印、保健品</small>
-               <small>娱乐：卡拉OK、电影、电视、网络电玩、运动健身、洗浴足浴、茶酒咖啡、旅游度假、歌舞演出</small>
-               <small>医教：求医买药、培训考试、学杂教材、家教补习、助学贷款</small>
-               <small>居家：房款房贷、水电煤气、物业、 美发美容、手机电话、宽带、住宿房租、保险费、消费贷款、税费、材料建材、家政服务、快递邮政、漏记账</small>
-             </blockquote>
-           </div>
-         </td>
-         <td style="width: 30px;"></td>
-         <td>
-           <p>月收入</p>
-           <table id="exact2" class="table table-striped table-bordered">
-             <tr><td>月份</td><td>收入</td>
-             <tr><td>一月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income1"></td></tr>
-             <tr><td>二月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income2"></td></tr>
-             <tr><td>三月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income3"></td></tr>
-             <tr><td>四月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income4"></td></tr>
-             <tr><td>五月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income5"></td></tr>
-             <tr><td>六月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income6"></td></tr>
-             <tr><td>七月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income7"></td></tr>
-             <tr><td>八月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income8"></td></tr>
-             <tr><td>九月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income9"></td></tr>
-             <tr><td>十月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income10"></td></tr>
-             <tr><td>十一月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income11"></td></tr>
-             <tr><td>十二月</td><td><input type="text" onkeyup="inva(this);" name="exect" id="income12"></td></tr>
-           </table>
-         </td>
-      <tr>
-        -->
-    </table>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="sum">确认</button>
@@ -442,10 +428,10 @@
   </div>
   <div class="modal-body">
      <p style="color: red;">理想情况下，您应该用25%左右的月收入比例用来投资。</p>
-     <p id="text" style="color: red;"></p>
+     <p id="text"></p>
   </div>
   <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true" id="that">就这样吧</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true" id="that">就这样</button>
     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="update">调整</button>
   </div>
 </div>
@@ -486,37 +472,38 @@
     var normal=0; //月收入支出 明细1/2
     var acta=0; //普通/精确
     $('#jinque').click(function() {
+        normal=0;
+        $(".h3").html("月收入支出 明细");
         $("[class*='update']").hide();
-        $("#remark").show();
+        $("#exact2").show();
     })
 
     $('#update').click(function() {
        if(normal==1){
-        $(".update1").html(parseInt(avge*0.18));
-        $(".update2").html(parseInt(avge*0.04));
-        $(".update3").html(parseInt(avge*0.1));
-        $(".update4").html(parseInt(avge*0.03));
-        $(".update5").html(parseInt(avge*0.1));
-        $(".update6").html(parseInt(avge*0.3));
-        $(".update7").html(parseInt(avge*0.03));
+
+           $(".h3").html("月支出详细调节");
+           var exect=document.getElementsByName('exect');
+           avge=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);
+       <% for i in 0..@expensetype.size-1 %>
+         <% if @expensetype[i].expense_expect!=nil %>
+           $(".update<%= i %>").html(avge*parseFloat('<%= @expensetype[i].expense_expect/100 %>'));
+         <% end %>
+       <% end %>
         $("[class*='update']").show();
-        $("#remark").hide();
+           $("#exact2").hide();
        }
-       else if(normal==2){
+       /*else if(normal==2){
+
+           $(".h3").html("月收入支出 明细");
            var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
-           $(".update1").html(parseInt(a2*0.18));
-           $(".update2").html(parseInt(a2*0.04));
-           $(".update3").html(parseInt(a2*0.1));
-           $(".update4").html(parseInt(a2*0.03));
-           $(".update5").html(parseInt(a2*0.1));
-           $(".update6").html(parseInt(a2*0.3));
-           $(".update7").html(parseInt(a2*0.03));
+
            $("[class*='update']").show();
-           $("#remark").hide();
-       }
+
+       }*/
         else{
+           $(".h3").html("月收入支出 明细");
            $("[class*='update']").hide();
-           $("#remark").show();
+           $("#exact2").show();
        }
         $('#myModal3').modal('show');
     })
@@ -584,7 +571,7 @@
 </script>
 
 <script>
-    var variety,amount,pname,jixu,total,xian,feng,wen,level='',bili= 0,debttype,loan,repayment,period,debttypes,loans,repayments,periods;
+    var variety,amount,pname,jixu,total,xian,feng,wen,level='',bili= 0,debttype,loan,repayment,period;
     var xianjin= 0,wenjian= 0,fengxian=0;
     var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr=0;
     $(function() {
@@ -603,37 +590,36 @@
                     $("#"+exect[i].id).removeClass('invalid');
                 }
             }
-            tot1= 0; //年总收入
-            tot2= 0; //月总消费=衣食住行+零花钱
-            tot3= 0; // 衣食住行
-            avge= 0; //月收入
-            for(i=7;i<exect.length;i++){
-                tot1=tot1+parseInt(exect[i].value);
-            }
-            avge=parseInt(tot1/12);
-            for(i=0;i<7;i++){
-                tot2=tot2+parseInt(exect[i].value);
-                if(i==0 || i==1 || i==5){
-                    tot3=tot3+parseInt(exect[i].value);
-                }
-            }
-             bili=parseInt((1-tot2/avge)*100);
-            if(bili>30){
-                $("#text").html('而现在，您用的是'+bili+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
-                $('#myModal4').modal('show')
-                normal=1;
 
-            }
-            else if(bili<20){
-                $("#text").html('而现在，您用的是'+bili+'%的月收入比例，会不会有点消费过度？您觉得呢？')
+            $.post("/usersurvey/userdatadetailedmonth",{username:'<%= session[:webusername] %>',expense1:exect[3].value,expense2:exect[4].value,expense3:exect[5].value,expense4:exect[6].value,expense5:exect[7].value,expense6:exect[8].value,expense7:exect[9].value,income1:exect[0].value,income2:exect[1].value,income3:exect[2].value},function(data){
+                if(normal==1){
+                    showQn(6,'',1);
+                }
+                else if(data>30){
+                    $("#text").html('而现在，您用的是<span style="color: red;">'+data+'%</span>的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
                 $('#myModal4').modal('show')
                 normal=1;
             }
-            else{
-                showQn(6,'',1);
+                else if(data<20){
+                    $("#text").html('而现在，您用的是<span style="color: red;">'+data+'%</span>的月收入比例，会不会有点消费过度？您觉得呢？')
+                $('#myModal4').modal('show')
+                normal=1;
             }
+            });
+            var exect=document.getElementsByName('exect');
+            avge=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);
+            tot1=avge*12;
+            tot2=parseInt(exect[3].value)+parseInt(exect[4].value)+parseInt(exect[5].value)+parseInt(exect[6].value)+parseInt(exect[7].value)+parseInt(exect[8].value)+parseInt(exect[9].value)
+            tot3=0;
+            if('<%= @hash2[100][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[3].value);}
+            if('<%= @hash2[200][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[4].value);}
+            if('<%= @hash2[300][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[5].value);}
+            if('<%= @hash2[400][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[6].value);}
+            if('<%= @hash2[500][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[7].value);}
+            if('<%= @hash2[600][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[8].value);}
+            if('<%= @hash2[700][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[9].value);}
             acta=1;
-        })
+        });
 
         var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
@@ -743,7 +729,6 @@
                             var rent= tot3;
                             var wages= avge-tot2;
                             $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                                debttype:debttypes,loan:loans,repayment:repayments,period:periods,
                                 salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,level:level,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
                                 family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
                                 income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
@@ -754,7 +739,7 @@
                         else{
                         <% if session[:webusername]!=nil %>
                         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
-                                xian:xian,wen:wen,feng:feng,acta:0,level:level,debttype:debttypes,loan:loans,repayment:repayments,period:periods},function(data){
+                                xian:xian,wen:wen,feng:feng,acta:0,level:level},function(data){
                             location.href='/usersurvey/measure/2';
                         });
                         <% end %>
@@ -774,7 +759,7 @@
                     }
                 });
 
-        var num=0;  var bi=0;
+        var num=0;num2=0,num3=0;  var bi=0;
         function showQn(i, immediately,e) {
             //if(e==1){复杂输入}
             if(i==0){$("#title").html("资产体检 系统介绍");}
@@ -786,20 +771,20 @@
             if(i==6){
               if(e!=1){
                if(num==1){
-                   $.post("/usersurvey/userexpensemonth",{username:'<%= session[:webusername] %>',salary:$("#salary").attr("value").replace(/,/g, ""),rent:$("#rent").attr("value").replace(/,/g, ""),wages:$("#wages").attr("value").replace(/,/g, "")},function(data){
+                   $.post("/usersurvey/userdatamonth",{username:'<%= session[:webusername] %>',salary:$("#salary").attr("value").replace(/,/g, ""),rent:$("#rent").attr("value").replace(/,/g, ""),wages:$("#wages").attr("value").replace(/,/g, "")},function(data){
                    });
                 var a1=parseInt($("#wages").attr("value").replace(/,/g, ""));
                 var a2=parseInt($("#salary").attr("value").replace(/,/g, ""));
                   bi=parseInt(a1/a2*100);
                    if(bi>30){
-                       $("#text").html('而现在，您用的是'+bi+'%的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
+                       $("#text").html('而现在，您用的是<span style="color: red;">'+bi+'%</span>的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
                        $('#myModal4').modal('show');
                        acta=0;
                        normal=2;
                        return false;
                    }
                    else if(bi<20){
-                       $("#text").html('而现在，您用的是'+bi+'%的月收入比例，会不会有点消费过度？您觉得呢？')
+                       $("#text").html('而现在，您用的是<span style="color: red;">'+bi+'%</span>的月收入比例，会不会有点消费过度？您觉得呢？')
                        $('#myModal4').modal('show');
                        acta=0;
                        normal=2;
@@ -808,9 +793,60 @@
                }
               }
                 $("#title").html("已有资产情况");
+                num2=1;
             }
-            if(i==7){$("#title").html("资产净值估算-负债");}
-            if(i==8){$("#title").html("资产体检 总结");}
+            else if(i!=7){
+                num2=0;
+            }
+            if(i==7){
+                if(num2==1){
+                    variety=document.getElementsByClassName("founder-name")  //资产品种
+                    amount=document.getElementsByClassName("init-share")  //资产金额
+                    var arrayObj = [0,0,0,0,0,0,0,0,0];
+                    for(j=0;j<variety.length;j++){
+                        var ccc=amount[j].value.replace(/,/g, "");
+                        if(ccc==''){ccc=0;}
+                      <% for k in 0..@assettype.size-1 %>
+                        if('<%= @assettype[k].asset_typename %>'==variety[j].value){
+                            arrayObj[<%= k %>]=arrayObj[<%= k %>]+parseFloat(ccc);
+                        }
+                      <% end %>
+                    }
+                    $.post("/usersurvey/userassetsheet",{username:'<%= session[:webusername] %>',asset1_account:arrayObj[0],asset2_account:arrayObj[1],asset3_account:arrayObj[2],asset4_account:arrayObj[3],asset5_account:arrayObj[4],asset6_account:arrayObj[5],asset7_account:arrayObj[6],asset8_account:arrayObj[7],asset9_account:arrayObj[8]},function(data){
+                    });
+                }
+                $("#title").html("资产净值估算-负债");
+                num3=1;
+            }
+            else if(i!=8){
+                num3=0;
+            }
+            if(i==8){
+                if(num3==1){
+                    debttype=document.getElementsByClassName("found-name")  //贷款类型
+                    loan=document.getElementsByClassName("init")  //总负债
+                    repayment=document.getElementsByClassName("repayment")  //每月还贷
+                    period=document.getElementsByClassName("period")  //贷款年限
+                    var arrayObj0 = [[0,0,0],[0,0,0],[0,0,0]];
+                    for(k=0;k<debttype.length;k++){
+                        var c1=loan[k].value.replace(/,/g, "");
+                        var c2=repayment[k].value.replace(/,/g, "");
+                        if(c1==''){c1=0;}
+                        if(c2==''){c2=0;}
+                        <% for k in 0..@debttype.size-1 %>
+                          if('<%= @debttype[k].debt_typename %>'==debttype[k].value){
+                            arrayObj0[<%= k %>][0]=arrayObj0[<%= k %>][0]+parseFloat(c1);
+                            arrayObj0[<%= k %>][1]=arrayObj0[<%= k %>][1]+parseFloat(c2);
+                            arrayObj0[<%= k %>][2]=arrayObj0[<%= k %>][2]+parseFloat(period[k].value);
+                          }
+                        <% end %>
+                    }
+                    $.post("/usersurvey/userdebtsheet",{username:'<%= session[:webusername] %>',debt1_account_totally:arrayObj0[0][0],debt1_account_monthly:arrayObj0[0][1],debt1_years:arrayObj0[0][2],
+                        debt2_account_totally:arrayObj0[1][0],debt2_account_monthly:arrayObj0[1][1],debt2_years:arrayObj0[1][2],debt99_account_totally:arrayObj0[2][0],debt99_account_monthly:arrayObj0[2][1],debt99_years:arrayObj0[2][2]},function(data){
+                    });
+                }
+                $("#title").html("资产体检 总结");
+            }
             var ie = !-[1,];
             if(i==8){
                 if(ie){
@@ -827,9 +863,9 @@
                         }
                         var objArr = pObj.getElementsByTagName(tTagName);
                         var tRObj = new Array();
-                        for(var i=0; i<objArr.length; i++){
-                            if(objArr[i].className == arguments[0]){
-                                tRObj.push(objArr[i]);
+                        for(var k=0; k<objArr.length; k++){
+                            if(objArr[k].className == arguments[0]){
+                                tRObj.push(objArr[k]);
                             }
                         }
                         return tRObj;
@@ -838,44 +874,32 @@
                 variety=document.getElementsByClassName("founder-name")  //资产品种
                 amount=document.getElementsByClassName("init-share")  //资产金额
                 pname=document.getElementsByClassName("pname")  //产品名称
-                debttype=document.getElementsByClassName("found-name")  //贷款类型
-                loan=document.getElementsByClassName("init")  //总负债
-                repayment=document.getElementsByClassName("repayment")  //每月还贷
-                period=document.getElementsByClassName("period")  //贷款年限
+
                 xianjin=0;
                 wenjian=0;
                 fengxian=0;
-                for(k=0;k<debttype.length;k++){
-                    var c1=loan[k].value.replace(/,/g, "");
-                    var c2=repayment[k].value.replace(/,/g, "");
-                    if(c1==''){c1=0;}
-                    if(c2==''){c2=0;}
-                    if(k==0){
-                        debttypes= debttype[k].value;
-                        loans= c1;
-                        repayments= c2;
-                        periods= period[k].value;
-                    }
-                    else{
-                        debttypes=debttypes+','+debttype[k].value;
-                        loans=loans+','+c1;
-                        repayments=repayments+','+c2;
-                        periods=periods+','+period[k].value;
-                    }
-                }
+
                 for(j=0;j<variety.length;j++){
                     var ccc=amount[j].value.replace(/,/g, "");
                     if(ccc==''){ccc=0;}
-                    if(variety[j].value=="银行活期"){xianjin=xianjin+parseFloat(ccc);mea1=mea1+parseFloat(ccc)}
-                    else if(variety[j].value=="余额宝"){xianjin=xianjin+parseFloat(ccc);mea2=mea2+parseFloat(ccc)}
-                    else if(variety[j].value=="其他货币基金"){xianjin=xianjin+parseFloat(ccc);mea2=mea2+parseFloat(ccc)}
-                    else if(variety[j].value=="银行理财产品"){wenjian=wenjian+parseFloat(ccc);mea3=mea3+parseFloat(ccc)}
-                    else if(variety[j].value=="银行定期"){wenjian=wenjian+parseFloat(ccc);mea4=mea4+parseFloat(ccc)}
-                    else if(variety[j].value=="债券型基金"){wenjian=wenjian+parseFloat(ccc);mea5=mea5+parseFloat(ccc)}
-                    else if(variety[j].value=="股票"){fengxian=fengxian+parseFloat(ccc);mea6=mea6+parseFloat(ccc)}
-                    else if(variety[j].value=="股票型基金"){fengxian=fengxian+parseFloat(ccc);mea6=mea6+parseFloat(ccc)}
-                    else if(variety[j].value=="贵金属"){fengxian=fengxian+parseFloat(ccc);mea7=mea7+parseFloat(ccc)}
-                    else if(variety[j].value=="其它"){fengxian=fengxian+parseFloat(ccc);mea7=mea7+parseFloat(ccc)}
+                <% @assettype.each do |a| %>
+                if('<%= a.asset_typename %>'==variety[j].value){
+                <% if a.asset_type_L1==100 %>
+                    xianjin=xianjin+parseFloat(ccc);
+                <% elsif a.asset_type_L1==200 %>
+                    wenjian=wenjian+parseFloat(ccc);
+                <% elsif a.asset_type_L1==300 %>
+                    fengxian=fengxian+parseFloat(ccc);
+                <% end %>
+                }
+                <% end %>
+                    if(variety[j].value=="银行活期"){mea1=mea1+parseFloat(ccc)}
+                    else if(variety[j].value=="银行定期"){mea4=mea4+parseFloat(ccc)}
+                    else if(variety[j].value=="银行理财产品"){mea3=mea3+parseFloat(ccc)}
+                    else if(variety[j].value=="货币基金"){mea2=mea2+parseFloat(ccc)}
+                    else if(variety[j].value=="股票及同类基金"){mea6=mea6+parseFloat(ccc)}
+                    else if(variety[j].value=="债券及同类基金"){mea5=mea5+parseFloat(ccc)}
+                    else if(variety[j].value=="其它"){mea7=mea7+parseFloat(ccc)}
                     if(j==0){
                         varietys=variety[j].value;
                         amounts=ccc;
@@ -887,6 +911,7 @@
                         pnames=pnames+','+pname[j].value;
                     }
                 }
+
                 jixu=xianjin+wenjian+fengxian;//积蓄
                 if(acta==0){
                 total=parseInt((parseFloat($("#wages").attr("value").replace(/,/g, ""))*12+jixu)/100)*100;//总资产
@@ -1333,67 +1358,89 @@
            location.href="/sales/login?start=1";
         <% end %>
 
-        <% if session[:webusername]!=nil && @examination!=nil %>
-        <% if @examination.age!=nil %>$("#age").attr("value",parseInt('<%= @examination.age %>'));<% end %>
-        <% if @userexpensemonth!=nil %>
-        <% if @userexpensemonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userexpensemonth.income %>'));<% end %>
-        <% if @userexpensemonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userexpensemonth.must_expense %>'));<% end %>
-        <% if @userexpensemonth.fun_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userexpensemonth.fun_expense %>'));<% end %>
+        <% if session[:webusername]!=nil %>
+        <% if @examination!=nil && @examination.age!=nil %>$("#age").attr("value",parseInt('<%= @examination.age %>'));<% end %>
+        <% if @userdatamonth!=nil %>
+        <% if @userdatamonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.income %>'));<% end %>
+        <% if @userdatamonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense %>'));<% end %>
+        <% if @userdatamonth.invest_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userdatamonth.invest_expense %>'));<% end %>
         <% end %>
-        <% if @examination.meals!=nil %>$("#meals").attr("value",parseInt('<%= @examination.meals %>'));<% end %>
-        <% if @examination.fare!=nil %>$("#fare").attr("value",parseInt('<%= @examination.fare %>'));<% end %>
-        <% if @examination.shop!=nil %>$("#shop").attr("value",parseInt('<%= @examination.shop %>'));<% end %>
-        <% if @examination.taste!=nil %>$("#taste").attr("value",parseInt('<%= @examination.taste %>'));<% end %>
-        <% if @examination.education!=nil %>$("#education").attr("value",parseInt('<%= @examination.education %>'));<% end %>
-        <% if @examination.family!=nil %>$("#family").attr("value",parseInt('<%= @examination.family %>'));<% end %>
-        <% if @examination.intercourse!=nil %>$("#intercourse").attr("value",parseInt('<%= @examination.intercourse %>'));<% end %>
-        <% if @examination.income1!=nil %>$("#income1").attr("value",parseInt('<%= @examination.income1 %>'));<% end %>
-        <% if @examination.income2!=nil %>$("#income2").attr("value",parseInt('<%= @examination.income2 %>'));<% end %>
-        <% if @examination.income3!=nil %>$("#income3").attr("value",parseInt('<%= @examination.income3 %>'));<% end %>
-        <% if @examination.income4!=nil %>$("#income4").attr("value",parseInt('<%= @examination.income4 %>'));<% end %>
-        <% if @examination.income5!=nil %>$("#income5").attr("value",parseInt('<%= @examination.income5 %>'));<% end %>
-        <% if @examination.income6!=nil %>$("#income6").attr("value",parseInt('<%= @examination.income6 %>'));<% end %>
-        <% if @examination.income7!=nil %>$("#income7").attr("value",parseInt('<%= @examination.income7 %>'));<% end %>
-        <% if @examination.income8!=nil %>$("#income8").attr("value",parseInt('<%= @examination.income8 %>'));<% end %>
-        <% if @examination.income9!=nil %>$("#income9").attr("value",parseInt('<%= @examination.income9 %>'));<% end %>
-        <% if @examination.income10!=nil %>$("#income10").attr("value",parseInt('<%= @examination.income10 %>'));<% end %>
-        <% if @examination.income11!=nil %>$("#income11").attr("value",parseInt('<%= @examination.income11 %>'));<% end %>
-        <% if @examination.income12!=nil %>$("#income12").attr("value",parseInt('<%= @examination.income12 %>'));<% end %>
-        var variety='<%= @examination.variety %>'.split(",");
-        var amount='<%= @examination.amount %>'.split(",");
-        var pname='<%= @examination.pname %>'.split(",");
-        var debttype='<%= @examination.debttype %>'.split(",");
-        var loan='<%= @examination.loan %>'.split(",");
-        var repayment='<%= @examination.repayment %>'.split(",");
-        var period='<%= @examination.period %>'.split(",");
-        for(i=0;i<variety.length;i++){
-            if(i==0){
-                $("#variety").attr("value",variety[i]);
-                $("#amount").attr("value",amount[i]);
-                $("#pname").attr("value",pname[i]);
+        <% if @detailedmonth!=nil %>
+        <% for i in 0..@incometype.size-1 %>
+          <% if i==0 %>
+            <% if @detailedmonth.income1_account!=nil %>$("#income0").attr("value",parseInt('<%= @detailedmonth.income1_account %>'));<% end %>
+          <% elsif i==1 %>
+            <% if @detailedmonth.income2_account!=nil %>$("#income1").attr("value",parseInt('<%= @detailedmonth.income2_account %>'));<% end %>
+          <% elsif i==2 %>
+            <% if @detailedmonth.income3_account!=nil %>$("#income2").attr("value",parseInt('<%= @detailedmonth.income3_account %>'));<% end %>
+          <% end %>
+        <% end %>
+        <% for i in 0..@expensetype.size-1 %>
+          <% if i==0 %>
+            <% if @detailedmonth.expense1_account!=nil %>$("#expense0").attr("value",parseInt('<%= @detailedmonth.expense1_account %>'));<% end %>
+          <% elsif i==1 %>
+            <% if @detailedmonth.expense2_account!=nil %>$("#expense1").attr("value",parseInt('<%= @detailedmonth.expense2_account %>'));<% end %>
+          <% elsif i==2 %>
+            <% if @detailedmonth.expense3_account!=nil %>$("#expense2").attr("value",parseInt('<%= @detailedmonth.expense3_account %>'));<% end %>
+          <% elsif i==3 %>
+            <% if @detailedmonth.expense4_account!=nil %>$("#expense3").attr("value",parseInt('<%= @detailedmonth.expense4_account %>'));<% end %>
+          <% elsif i==4 %>
+            <% if @detailedmonth.expense5_account!=nil %>$("#expense4").attr("value",parseInt('<%= @detailedmonth.expense5_account %>'));<% end %>
+          <% elsif i==5 %>
+            <% if @detailedmonth.expense6_account!=nil %>$("#expense5").attr("value",parseInt('<%= @detailedmonth.expense6_account %>'));<% end %>
+          <% elsif i==6 %>
+            <% if @detailedmonth.expense7_account!=nil %>$("#expense6").attr("value",parseInt('<%= @detailedmonth.expense7_account %>'));<% end %>
+          <% end %>
+        <% end %>
+        <% end %>
+
+        var first=0;
+        <% if @userassetsheet!=nil %>
+        var array0=[<%= @userassetsheet.asset1_account %>,<%= @userassetsheet.asset2_account %>,<%= @userassetsheet.asset3_account %>,
+            <%= @userassetsheet.asset4_account %>,<%= @userassetsheet.asset5_account %>,<%= @userassetsheet.asset6_account %>,
+            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>]
+        var array1=['银行活期','银行定期','银行理财产品','货币基金','股票及同类基金','债券及同类基金','房产','汽车','其他']
+        for(i=0;i<9;i++){
+            if(array0[i]!=0){
+                if(first==0){
+                    $("#variety").attr("value",array1[i])
+                    $("#amount").attr("value",array0[i])
             }
             else{
                 addFounder(null, false);
-                $("#variety"+i).attr("value",variety[i]);
-                $("#amount"+i).attr("value",amount[i]);
-                $("#pname"+i).attr("value",pname[i]);
+                    $("#variety"+first).attr("value",array1[i])
+                    $("#amount"+first).attr("value",array0[i]);
             }
+                first=first+1;
         }
-        for(k=0;k<debttype.length;k++){
-            if(k==0){
-                $("#debttype").attr("value",debttype[k]);
-                $("#loan").attr("value",loan[k]);
-                $("#repayment").attr("value",repayment[k]);
-                $("#period").attr("value",period[k]);
+        }
+        <% end %>
+         var second=first;
+        <% if @userdebtsheet!=nil %>
+        var array3=[[<%= @userdebtsheet.debt1_account_totally %>,<%= @userdebtsheet.debt1_account_monthly %>,<%= @userdebtsheet.debt1_years %>],
+            [<%= @userdebtsheet.debt2_account_totally %>,<%= @userdebtsheet.debt2_account_monthly %>,<%= @userdebtsheet.debt2_years %>],
+            [<%= @userdebtsheet.debt99_account_totally %>,<%= @userdebtsheet.debt99_account_monthly %>,<%= @userdebtsheet.debt99_years %>]]
+        var array4=['房贷','车贷','其他贷款']
+        for(i=0;i<3;i++){
+            if(array3[i][0]!=0){
+                if(first==second){
+                    $("#debttype").attr("value",array4[i])
+                    $("#loan").attr("value",array3[i][0])
+                    $("#repayment").attr("value",array3[i][1])
+                    $("#period").attr("value",array3[i][2])
             }
             else{
                 add(null, false);
-                $("#debttype"+(i+k-1).toString()).attr("value",debttype[k]);
-                $("#loan"+(i+k-1).toString()).attr("value",loan[k]);
-                $("#repayment"+(i+k-1).toString()).attr("value",repayment[k]);
-                $("#period"+(i+k-1).toString()).attr("value",period[k]);
+                    $("#debttype"+(first-1).toString()).attr("value",array4[i])
+                    $("#loan"+(first-1).toString()).attr("value",array3[i][0])
+                    $("#repayment"+(first-1).toString()).attr("value",array3[i][1])
+                    $("#period"+(first-1).toString()).attr("value",array3[i][2])
+                }
+                first=first+1;
             }
         }
+        <% end %>
+
         <% end %>
         initPieChart();
     });

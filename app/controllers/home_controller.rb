@@ -10,7 +10,7 @@ class HomeController < ApplicationController
       @examination=Examination.find_by_username(session[:webusername])
       @personal=Personalfinance.find_by_username(session[:webusername])
 
-      @userexpensemonth=User_expense_month.find_by_username(session[:webusername])
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     end
     @category1=Category_2.find_all_by_risklevel(1)
     @category2=Category_2.find_all_by_risklevel(2)

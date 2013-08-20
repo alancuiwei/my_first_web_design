@@ -264,7 +264,42 @@
     </div>
     <div class="tab-pane" id="tab4">
       <% if session[:webusername]=='admin' %>
-          <h1>月支出</h1>
+          <h1>用户已有资产类型</h1>
+          <a href="/admin/assetconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="asset">
+            <thead><tr>
+              <th class="hide">ID</th><th>资产代码</th><th>资产名称</th><th>父类资产代码</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @assettype.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.asset_typeid %></td>
+                  <td><%= b.asset_typename %></td>
+                  <td><%= b.asset_type_L1 %></td>
+                  <td><a href="/admin/assetconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','assetdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>用户负债类型</h1>
+          <a href="/admin/debtconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="debt">
+            <thead><tr>
+              <th class="hide">ID</th><th>负债代码</th><th>负债名称</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @debttype.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.debt_typeid %></td>
+                  <td><%= b.debt_typename %></td>
+                  <td><a href="/admin/debtconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','debtdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>月开销类型</h1>
           <a href="/admin/expenseconfig/0">添加</a>
           <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="expense">
             <thead><tr>
@@ -283,6 +318,25 @@
                 </tr>
             <% end %>
           </table>
+          <h1>月收入类型</h1>
+          <a href="/admin/incomeconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="income">
+            <thead><tr>
+              <th class="hide">ID</th><th>income_id</th><th>收入明细</th><th>说明</th><th>比例</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @incometype.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.income_id %></td>
+                  <td><%= b.income_name %></td>
+                  <td><%= b.income_intro %></td>
+                  <td><%= b.income_expect %></td>
+                  <td><a href="/admin/incomeconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','incomedeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
       <% end %>
     </div>
   </div>
@@ -292,7 +346,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense').dataTable();
+        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt').dataTable();
         /* Initialise datatables */
         var oTable = $('#blog').dataTable({
             "aaSorting": [[ 5, "desc" ]]

@@ -15,6 +15,9 @@ class AdminController < ApplicationController
       @category2=Category_2.all
       @financial=Financial.all
       @expensetype=Admin_expense_type_month.all
+      @incometype=Admin_income_type_month.all
+      @assettype=Admin_asset_type.all
+      @debttype=Admin_debt_type.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -27,11 +30,117 @@ class AdminController < ApplicationController
     end
   end
 
+  def debtconfig
+      if params[:id]!="0"
+        @debttype=Admin_debt_type.find_by_id(params[:id])
+      else
+        @debttype=Admin_debt_type.limit(1)
+      end
+  end
+
+  def debtconfigajax
+    if params[:id]=="0"
+      Admin_debt_type.new do |b|
+        b.debt_typeid=params[:debt_typeid]
+        b.debt_typename=params[:debt_typename]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @debttype=Admin_debt_type.find_by_id(params[:id])
+      @debttype.update_attributes(:debt_typeid=>params[:debt_typeid],:debt_typename=>params[:debt_typename])
+      render :json => "s2".to_json
+    end
+  end
+
+  def debtdeleteajax
+    @debttype=Admin_debt_type.find_by_id(params[:id])
+    if @debttype!=nil
+      if @debttype.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def assetconfig
+      if params[:id]!="0"
+        @assettype=Admin_asset_type.find_by_id(params[:id])
+      else
+        @assettype=Admin_asset_type.limit(1)
+      end
+  end
+
+  def assetconfigajax
+    if params[:id]=="0"
+      Admin_asset_type.new do |b|
+        b.asset_typeid=params[:asset_typeid]
+        b.asset_typename=params[:asset_typename]
+        b.asset_type_L1=params[:asset_type_L1]
+        b.asset_intro=params[:asset_intro]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @assettype=Admin_asset_type.find_by_id(params[:id])
+      @assettype.update_attributes(:asset_typeid=>params[:asset_typeid],:asset_typename=>params[:asset_typename],:asset_type_L1=>params[:asset_type_L1],:asset_intro=>params[:asset_intro])
+      render :json => "s2".to_json
+    end
+  end
+
+  def assetdeleteajax
+    @assettype=Admin_asset_type.find_by_id(params[:id])
+    if @assettype!=nil
+      if @assettype.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def incomeconfig
+      if params[:id]!="0"
+        @incometype=Admin_income_type_month.find_by_id(params[:id])
+      else
+        @incometype=Admin_income_type_month.limit(1)
+      end
+  end
+
+  def incomeconfigajax
+    if params[:id]=="0"
+      Admin_income_type_month.new do |b|
+        b.income_id=params[:income_id]
+        b.income_name=params[:income_name]
+        b.income_intro=params[:income_intro]
+        b.income_expect=params[:income_expect]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @incometype=Admin_income_type_month.find_by_id(params[:id])
+      @incometype.update_attributes(:income_id=>params[:income_id],:income_name=>params[:income_name],:income_intro=>params[:income_intro],:income_expect=>params[:income_expect])
+      render :json => "s2".to_json
+    end
+  end
+
+  def incomedeleteajax
+    @incometype=Admin_income_type_month.find_by_id(params[:id])
+    if @incometype!=nil
+      if @incometype.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
   def expenseconfig
       if params[:id]!="0"
         @expensetype=Admin_expense_type_month.find_by_id(params[:id])
       else
-        @expensetype=Methodology.limit(1)
+        @expensetype=Admin_expense_type_month.limit(1)
       end
   end
 

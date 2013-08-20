@@ -602,9 +602,9 @@
 
     var amounts1=0;
     var amounts0=0;
-    <% if @userexpensemonth!=nil %>
-    amounts1=parseFloat('<%= @userexpensemonth.must_expense %>');
-    amounts0=parseFloat('<%= @userexpensemonth.income-@userexpensemonth.must_expense-@userexpensemonth.fun_expense %>');
+    <% if @userdatamonth!=nil %>
+    amounts1=parseFloat('<%= @userdatamonth.must_expense %>');
+    amounts0=parseFloat('<%= @userdatamonth.fun_expense %>');
     <% end %>
 
     var dateNow = new Date();
@@ -636,22 +636,23 @@
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
         for(i=0;i<variety.length;i++){
-            if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="余额宝"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="债券型基金"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="股票型基金"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="贵金属"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
+        <% @assettype.each do |a| %>
+            if('<%= a.asset_typename %>'==variety[i]){
+            <% if a.asset_type_L1==100 %>
+                xianjin=xianjin+parseFloat(amount[i])
+            <% elsif a.asset_type_L1==200 %>
+                wenjian=wenjian+parseFloat(amount[i])
+            <% elsif a.asset_type_L1==300 %>
+                fengxian=fengxian+parseFloat(amount[i])
+            <% end %>
+            }
+        <% end %>
         }
         jixu=xianjin+wenjian+fengxian;
-    <% if @userexpensemonth!=nil %>
-        monthdeposit=parseFloat('<%= @userexpensemonth.fun_expense %>');
+    <% if @userdatamonth!=nil %>
+        monthdeposit=parseFloat('<%= @userdatamonth.invest_expense %>');
         total=monthdeposit*12+jixu;//总资产
-        xian=parseFloat('<%= @userexpensemonth.must_expense %>')*3;
+        xian=parseFloat('<%= @userdatamonth.must_expense %>')*3;
     <% end %>
         feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
         wen=total-xian-feng;
@@ -1557,16 +1558,17 @@
         var variety='<%= @examination.variety %>'.split(",");
         var amount='<%= @examination.amount %>'.split(",");
         for(i=0;i<variety.length;i++){
-            if(variety[i]=="银行活期"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="余额宝"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="其他货币基金"){xianjin=xianjin+parseFloat(amount[i])}
-            else if(variety[i]=="银行理财产品"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="银行定期"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="债券型基金"){wenjian=wenjian+parseFloat(amount[i])}
-            else if(variety[i]=="股票"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="股票型基金"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="贵金属"){fengxian=fengxian+parseFloat(amount[i])}
-            else if(variety[i]=="其它"){fengxian=fengxian+parseFloat(amount[i])}
+        <% @assettype.each do |a| %>
+            if('<%= a.asset_typename %>'==variety[i]){
+            <% if a.asset_type_L1==100 %>
+                xianjin=xianjin+parseFloat(amount[i])
+            <% elsif a.asset_type_L1==200 %>
+                wenjian=wenjian+parseFloat(amount[i])
+            <% elsif a.asset_type_L1==300 %>
+                fengxian=fengxian+parseFloat(amount[i])
+            <% end %>
+            }
+        <% end %>
         }
         var jixu=xianjin+wenjian+fengxian;
       <% if @examination.xianp!=nil %>
