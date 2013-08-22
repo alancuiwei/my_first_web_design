@@ -16,10 +16,10 @@
        <td colspan="2"><img alt="Personalized asset allocation" src="/assets/121044.jpg"></td>
      </tr>
      <tr>
-       <td colspan="2"><img alt="Fees Comparison" src="/assets/121043.jpg"></td>
+       <td id="left1" colspan="2"><img alt="Fees Comparison" src="/assets/121043.jpg"></td>
        <td></td>
        <td style="width: 76px;"></td>
-       <td style="width: 304px;">
+       <td id="right1" style="width: 304px;">
          <h3>结合高盛开源系统，进行风险承受力评估</h3>
          <p>将通过对资金亏损的承受度、为了获取较高收益率所愿意承受的波动幅度、对于最大利润的关注度、参与高风险产品投资主动性、工作年限、可用资金（包括亲戚借款）、投资期限偏好、感兴趣理财产品的风险度、工作收入稳定性，来帮助您了解您的风险承受力。</p>
        </td>
@@ -34,10 +34,10 @@
        <td colspan="2"><img alt="Re-balance your portfolio" src="/assets/121042.jpg"></td>
      </tr>
      <tr>
-       <td colspan="2"><img alt="How to invest" src="/assets/121040.jpg"></td>
+       <td id="left2" colspan="2"><img alt="How to invest" src="/assets/121040.jpg"></td>
        <td></td>
        <td></td>
-       <td>
+       <td id="right2">
          <h3>个性理财产品推荐</h3>
          <p>根据您个人的收入状况、已有资产配置，结合您的风险评估结果，给您推荐合适的理财产品。<br>产品推荐包括产品介绍，历史净值业绩，历史排名，亏损概率，最高收益率等，方便您做出最佳的选择。</p>
        </td>
@@ -52,10 +52,10 @@
        <td colspan="2"><img alt="Re-balance your portfolio" src="/assets/121041.jpg"></td>
      </tr>
      <tr>
-       <td colspan="2"><img alt="How to invest" src="/assets/121039.jpg"></td>
+       <td id="left3" colspan="2"><img alt="How to invest" src="/assets/121039.jpg"></td>
        <td></td>
        <td></td>
-       <td>
+       <td id="right3">
          <h3>产品比价、最低成本购买</h3>
          <p>对于同一个理财产品，有着多种渠道来购买，包括银行、券商、基金公司、第三方理财机构等等，各个渠道的手续费、购买难易程度都不一样，我们帮你总结，选择您最方便、最低成本的购买渠道。</p>
        </td>
@@ -76,3 +76,43 @@
   </div>
  </div>
 </div>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+
+    }else{
+        swap("left1","right1")
+        swap("left2","right2")
+        swap("left3","right3")
+    }
+
+    function swapNode(node1,node2)
+    {
+        var _parent=node1.parentNode;
+        var _t1=node1.nextSibling;
+        var _t2=node2.nextSibling;
+        if(_t1)
+            _parent.insertBefore(node2,_t1);
+        else
+            _parent.appendChild(node2);
+        if(_t2)
+            _parent.insertBefore(node1,_t2);
+        else
+            _parent.appendChild(node1);
+    }
+
+    function swap(a,b){
+        swapNode(document.getElementById(a),document.getElementById(b));
+    }
+</script>
