@@ -3,7 +3,7 @@
 <%= javascript_include_tag "jquery.women2.js" %>
 
 <div class="main-contents">
-
+  <h1 id="title">屌丝理财</h1>
   <div class="intro">
     <div class="text-block3" id="text">
     </div>
@@ -50,10 +50,9 @@
       </div>
     </div>
   </div>
-  <br>
+
   <div class="featured">
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 188px;">
         <div class="col-content">
           <h1><em>梦</em> 梦想成真，需要规划</h1>
@@ -61,9 +60,11 @@
           爱做梦没有错，但如果不去圆梦就大错特错了。</p>
         </div>
         <ul class="links plan">
+          <li><a href="/usersurvey/measure/1">看看如何规划</a><span class="ss-icon">➡</span></li>
+         <!--
           <li><a href="/home/guide">手把手教您规划</a><span class="ss-icon">➡</span></li>
-          <li><a href="/usersurvey/measure/1">月光族规划</a><span class="ss-icon">➡</span></li>
           <li><a href="/blog/index?classify=创业人生">创业梦</a><span class="ss-icon">➡</span></li>
+         -->
         </ul>
       </div>
       <div class="col-right same-height-right" style="min-height: 184px;">
@@ -79,7 +80,6 @@
       </div>
     </div>
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 181px;">
         <div class="col-content">
           <h1><em>钱</em> 一毛钱难倒英雄汉</h1>
@@ -105,7 +105,6 @@
     </div>
 
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 201px;">
         <div class="col-content">
           <h1><em>案例</em> 高富帅是如何炼成的</h1>
@@ -176,26 +175,30 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
+        $("#title").hide();
         $(".second").remove();
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";
             for(var i=0;i<tag.length;i++){
-               if(link==''){
-                   link='?tag='+tag[i]
-               }
+                if(link==''){
+                    link='?tag='+tag[i]
+                }
                 else{
-                   link=link+'&tag'+i+'='+tag[i]
-               }
+                    link=link+'&tag'+i+'='+tag[i]
+                }
             }
             location.href="/blog/index"+link;
         })
     }else{
         $(".first").remove();
-        $("#erweima").remove();
+        $(".second").remove();
         $(".social-networks").remove();
-        $("#text").removeClass("text-block3")
-        $("#text").html("<img src='/assets/121097.png'>")
+        $("#text").hide();
+        /*
+         $("#text").removeClass("text-block3")
+         $("#text").html("<img src='/assets/121097.png'>")
+         */
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";

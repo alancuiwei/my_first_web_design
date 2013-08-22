@@ -3,7 +3,7 @@
 <%= javascript_include_tag "jquery.women2.js" %>
 
 <div class="main-contents">
-
+  <h1 id="title">儿童理财</h1>
   <div class="intro">
     <div class="text-block2" id="text">
     </div>
@@ -50,18 +50,16 @@
       </div>
     </div>
   </div>
-  <br>
+
   <div class="featured">
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 188px;">
         <div class="col-content">
-          <h1><em>教育</em> 3岁看到老</h1>
-          <p>重视幼儿的早期教育已成为世人的共识它牵动粉亿万父母的心.幼儿时期是大脑迅速发育的关键时期。抓住这个关键时期利用其脑神经的敏感性.进行早期教育.有事半功倍的效果。</p>
+          <h1><em>理财观培养</em> 为了宝贝你，我们不怕麻烦</h1>
+          <p>美国财商能力委员会 Money as You Grow 的主题栏目，用非常通俗易懂的语言描述，明确的目标，可行的活动描述，帮助小朋友们一点一点积累着理财观念。</p>
         </div>
         <ul class="links plan">
-          <li><a class="blogs btn-link" title="理财培养">理财培养</a><span class="ss-icon">➡</span></li>
-          <li><a class="blogs btn-link" title="儿童教育">儿童教育</a><span class="ss-icon">➡</span></li>
+          <li><a href="/childfinance/finance">点击开始(电脑浏览效果更佳)</a><span class="ss-icon">➡</span></li>
         </ul>
       </div>
       <div class="col-right same-height-right" style="min-height: 184px;">
@@ -77,21 +75,20 @@
       </div>
     </div>
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 181px;">
         <div class="col-content">
-          <h1><em>零花钱</em> 给予与付出</h1>
-          <p>零花钱的给予和分配是教会宝宝理财技能和金钱管理最好的方法。我们这里罗列出一些方法和技巧，帮助您和您宝宝掌握这个技能。</p>
+          <h1><em>理财教育</em> 三岁看到老</h1>
+          <p>幼儿时期是教会宝宝理财技能和金钱管理最佳时期。我们这里罗列出一些方法和技巧，进行早期教育，将有事半功倍的效果。</p>
         </div>
         <ul class="links spend">
-          <li><a class="blogs btn-link" title="零花钱管理">零花钱管理</a><span class="ss-icon">➡</span></li>
+          <li><a class="blogs btn-link" title="儿童教育">儿童教育</a><span class="ss-icon">➡</span></li>
         </ul>
       </div>
       <div class="col-right same-height-right" style="min-height: 177px;">
       </div>
     </div>
+    <!--
     <div class="news-line">
-      <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 228px;">
         <div class="col-content">
           <h1><em>我们该做的</em><br>小宝重保障，大宝重教育</h1>
@@ -102,19 +99,9 @@
         </ul>
       </div>
       <div class="col-right same-height-right" style="min-height: 224px;">
-        <!--
-        <div class="headline">
-          <h2><a href="/childfinance/babygeniuses" target="_blank">天才宝贝</a></h2>
-        </div>
-        <div class="content">
-          <a href="/childfinance/babygeniuses" target="_blank"><img src="/assets/120092.png" class="image" width="167"></a>
-          <div class="text-block">
-            <p>FasTracKids天才宝贝，1998年成立于美国，禀承MBA同样的能力培养理念，致力于为3－6岁的孩子提供全方位的学前教育，培养综合能力，并帮助发掘他们的潜在天赋。</p>
-          </div>
-        </div>
-        -->
       </div>
     </div>
+    -->
   </div>
   <div class="form-block second">
     <div class="sub-box" style="display: table;width: 100%;">
@@ -173,6 +160,7 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
+        $("#title").hide();
         $(".second").remove();
         $(".blogs").click(function(){
             var tag=this.title.split(",")
@@ -189,10 +177,13 @@
         })
     }else{
         $(".first").remove();
-        $("#erweima").remove();
+        $(".second").remove();
         $(".social-networks").remove();
-        $("#text").removeClass("text-block2")
-        $("#text").html("<img src='/assets/120094.jpg'>")
+        $("#text").hide();
+        /*
+         $("#text").removeClass("text-block2")
+         $("#text").html("<img src='/assets/120094.jpg'>")
+         */
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";

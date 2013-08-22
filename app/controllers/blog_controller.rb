@@ -40,7 +40,7 @@ class BlogController < ApplicationController
   end
 
   def all
-      if params[:classify]=='理财技巧' || params[:classify]=='理财产品'
+      if params[:classify]=='理财技巧' || params[:classify]=='理财产品' || params[:tag]!=nil
         @classify=1
       else
         @classify=0
