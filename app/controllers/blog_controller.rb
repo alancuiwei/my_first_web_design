@@ -40,6 +40,11 @@ class BlogController < ApplicationController
   end
 
   def all
+      if params[:classify]=='理财技巧' || params[:classify]=='理财产品'
+        @classify=1
+      else
+        @classify=0
+      end
       if params[:id]==nil
          bid="0"
       else

@@ -1,6 +1,17 @@
 <%= stylesheet_link_tag "blog.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
-
+<% if @classify==1 %>
+<style>
+    .beta2 {
+        border-bottom: 1px solid #bbb;
+        padding-bottom: 30px;
+        margin-bottom: 0;
+    }
+    .main-footer{
+        display: none!important;
+    }
+</style>
+<% end %>
 <style>
     .baidu_btn {
         width: 100%!important;  display: table;
@@ -18,12 +29,13 @@
         margin: 10px 0;
     }
 </style>
-<div  class='main-contents'>
+<div  class='main-contents mobile'>
 
   <div class='row-fluid beta2'>
     <div class="span8">
       <h1><a href="/"><img style="height: 54px;margin-top: 10px;" src="/assets/logo.png"></a><span>博客</span></h1>
     </div>
+    <% if @classify==0 %>
     <div class="span4" style="padding-top: 13px;">
       <div id="mc_embed_signup">
         <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -44,6 +56,7 @@
         </form>
       </div>
     </div>
+    <% end %>
   </div>
   <table class="body-container" cellpadding="0" cellspacing="0">
     <tr>
@@ -58,11 +71,13 @@
           <% @blogs.each do |b| %>
               <tr>
                 <td>
+                  <% if @classify==0 %>
                   <div>
                     <span class="cat-links">
                        <a href="/blog/all?classify=<%= b.bcolumn%>"  class="a">&nbsp;<%= b.bcolumn%>&nbsp;</a>
                     </span>
                   </div>
+                  <% end %>
                   <div class="news_tag<%= b.id%>"></div>
                   <h2 class="entry-title a"><a href="/blog/article/<%= b.id%>" class="more-link"><%=raw b.btitle%></a></h2>
                   <div class="entry-content">
@@ -88,6 +103,7 @@
     <tr>
       <td>
         <div style="height: 30px;"></div>
+        <% if @classify==0 %>
         <h3 class="widget-title" style="margin-top: 10px;">目录</h3>
         <div class="tip">
           <li  class="widget-container" style="width: 100%;">
@@ -117,6 +133,7 @@
             </ul>
           </li>
         </div>
+        <% end %>
         <div style="height: 30px;"></div>
         <h3 class="widget-title">最受欢迎的文章：</h3>
         <table class="popular">
@@ -133,6 +150,7 @@
           <% end %>
         </table>
         <div style="height: 30px;"></div>
+        <% if @classify==0 %>
         <h3 class="widget-title">联系我们</h3>
         <div style="height: 30px;"></div>
         <h3 class="widget"><span style="margin-right: 50px;">微信关注：</span><img src="/assets/1.jpg" style="width: 78px;"></h3>
@@ -152,6 +170,7 @@
             </tbody>
           </table>
         </div>
+        <% end %>
       </td>
     </tr>
   </table>
