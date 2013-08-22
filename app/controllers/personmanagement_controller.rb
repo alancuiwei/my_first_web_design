@@ -22,6 +22,28 @@ class PersonmanagementController < ApplicationController
   def summary
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
+      @assettype=Admin_asset_type.all
+      @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+      @hash4={}
+      for i in 0..@assettype.size-1
+       case i
+          when 0
+            @hash4.store(0,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset1_account])
+          when 1
+            @hash4.store(1,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset2_account])
+          when 2
+            @hash4.store(2,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset3_account])
+          when 3
+            @hash4.store(3,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset4_account])
+          when 4
+            @hash4.store(4,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset5_account])
+          when 5
+            @hash4.store(5,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset6_account])
+          when 8
+            @hash4.store(6,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset9_account])
+       end
+      end
       @examination=Examination.find_by_username(session[:webusername])
       @record=Record.find_all_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
@@ -259,6 +281,7 @@ class PersonmanagementController < ApplicationController
     end
     if  params[:id]!=nil
       @webuser=Webuser.find_by_id(params[:id])
+      @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
       @record=Record.find_all_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
       @finance1=Financial.find_by_pname(@webuser.selectproductl)
@@ -277,6 +300,7 @@ class PersonmanagementController < ApplicationController
       @comments=Comments.find_all_by_pid(params[:id])
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
+        @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
         @finance1=Financial.find_by_pname(@webuser.selectproductl)

@@ -2,6 +2,12 @@
 require 'open-uri'
 class UsersurveyController < ApplicationController
 
+  def moonlite
+    @webuser2=Webuser.find_by_username(session[:webusername])
+    @webuser2.update_attributes(:moonlite_typeid=>params[:moonlite_typeid])
+    render :json => "s".to_json
+  end
+
   def userdatadetailedmonth
     @expensetype=Admin_expense_type_month.all
     @hash1={}
@@ -147,14 +153,39 @@ class UsersurveyController < ApplicationController
         e.asset9_account=params[:asset9_account]
         e.save
       end
-      render :json => "s1".to_json
     else
       @userassetsheet.update_attributes(:asset1_account=>params[:asset1_account],:asset2_account=>params[:asset2_account],:asset3_account=>params[:asset3_account],
                                          :asset4_account=>params[:asset4_account],:asset5_account=>params[:asset5_account],:asset6_account=>params[:asset6_account],
                                          :asset7_account=>params[:asset7_account],:asset8_account=>params[:asset8_account],:asset9_account=>params[:asset9_account])
-      render :json => "s2".to_json
     end
+    @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
+    a1=params[:asset1_account].to_i+params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset4_account].to_i+params[:asset5_account].to_i+params[:asset6_account].to_i+params[:asset7_account].to_i+params[:asset8_account].to_i+params[:asset9_account].to_i
+    a2=0
+    a3=params[:asset1_account].to_i+params[:asset4_account].to_i
+    a4=params[:asset5_account].to_i+params[:asset9_account].to_i
+    a5=params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset6_account].to_i
+    if @userbalancesheet==nil
+      User_balance_sheet.new do |e|
+        e.username=params[:username]
+        e.asset_account=a1
+        e.debt_account=0
+        e.net_account=a1-a2
+        e.asset_fluid_account=a3
+        e.asset_risky_account=a4
+        e.asset_safefy_account=a5
+        e.save
+      end
+    else
+      @userbalancesheet.update_attributes(:asset_account=>a1,:debt_account=>a2,:net_account=>a1-a2,:asset_fluid_account=>a3,:asset_risky_account=>a4,:asset_safefy_account=>a5)
+    end
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    a6=format("%.2f",a3/@userdatamonth.must_expense.to_f).to_f
+    a7=format("%.2f",a4/a1.to_f).to_f
+    a8=format("%.2f",a5/a1.to_f).to_f
+    a9=a6.to_s+','+a7.to_s+','+a8.to_s
+    render :json => a9.to_json
   end
+
   def userdebtsheet
     @userdebtsheet=User_debt_sheet.find_by_username(params[:username])
     if @userdebtsheet==nil
@@ -171,13 +202,19 @@ class UsersurveyController < ApplicationController
         e.debt99_years=params[:debt99_years]
         e.save
       end
-      render :json => "s1".to_json
     else
       @userdebtsheet.update_attributes(:debt1_account_totally=>params[:debt1_account_totally],:debt1_account_monthly=>params[:debt1_account_monthly],:debt1_years=>params[:debt1_years],
                                          :debt2_account_totally=>params[:debt2_account_totally],:debt2_account_monthly=>params[:debt2_account_monthly],:debt2_years=>params[:debt2_years],
                                          :debt99_account_totally=>params[:debt99_account_totally],:debt99_account_monthly=>params[:debt99_account_monthly],:debt99_years=>params[:debt99_years])
-      render :json => "s2".to_json
     end
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    @userdatamonth.update_attributes(:debt_month=>params[:debt1_account_monthly].to_i+params[:debt2_account_monthly].to_i+params[:debt99_account_monthly].to_i)
+    @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
+    a1=params[:debt1_account_totally].to_i+params[:debt2_account_totally].to_i+params[:debt99_account_totally].to_i
+    a2=@userbalancesheet.asset_account.to_i-a1
+    a3=a1/@userbalancesheet.asset_account.to_f
+    @userbalancesheet.update_attributes(:debt_account=>a1,:net_account=>a2)
+    render :json => a3.to_json
   end
 
   def measure
@@ -194,6 +231,8 @@ class UsersurveyController < ApplicationController
     @blog3=Blog.find_by_id(403)
     @assettype=Admin_asset_type.all
     @debttype=Admin_debt_type.all
+    @moonlite=Admin_moonlite_type.all
+    @indicators=Admin_finacialindicators.all
     @expensetype=Admin_expense_type_month.order("expense_id ASC").all
     @hash2={}
     for i in 0..@expensetype.size-1

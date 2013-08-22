@@ -18,6 +18,8 @@ class AdminController < ApplicationController
       @incometype=Admin_income_type_month.all
       @assettype=Admin_asset_type.all
       @debttype=Admin_debt_type.all
+      @moonlite=Admin_moonlite_type.all
+      @indicators=Admin_finacialindicators.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -27,6 +29,83 @@ class AdminController < ApplicationController
       end
     else
       redirect_to(:controller=>"home")
+    end
+  end
+
+  def indicatorsconfig
+    if params[:id]!="0"
+      @indicators=Admin_finacialindicators.find_by_id(params[:id])
+    else
+      @indicators=Admin_finacialindicators.limit(1)
+    end
+  end
+
+  def indicatorsconfigajax
+    if params[:id]=="0"
+      Admin_finacialindicators.new do |b|
+        b.indicators_id=params[:indicators_id]
+        b.indicators_names=params[:indicators_names]
+        b.indicators_types=params[:indicators_types]
+        b.indicators_defination=params[:indicators_defination]
+        b.indicators_intro=params[:indicators_intro]
+        b.indicators_recomn_max=params[:indicators_recomn_max]
+        b.indicators_recomn_min=params[:indicators_recomn_min]
+        b.remarks=params[:remarks]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @indicators=Admin_finacialindicators.find_by_id(params[:id])
+      @indicators.update_attributes(:indicators_id=>params[:indicators_id],:indicators_names=>params[:indicators_names],:indicators_types=>params[:indicators_types],
+                                    :indicators_defination=>params[:indicators_defination],:indicators_intro=>params[:indicators_intro],:indicators_recomn_max=>params[:indicators_recomn_max],
+                                    :indicators_recomn_min=>params[:indicators_recomn_min],:remarks=>params[:remarks])
+      render :json => "s2".to_json
+    end
+  end
+
+  def indicatorsdeleteajax
+    @indicators=Admin_finacialindicators.find_by_id(params[:id])
+    if @indicators!=nil
+      if @indicators.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def moonliteconfig
+    if params[:id]!="0"
+      @moonlite=Admin_moonlite_type.find_by_id(params[:id])
+    else
+      @moonlite=Admin_moonlite_type.limit(1)
+    end
+  end
+
+  def moonliteconfigajax
+    if params[:id]=="0"
+      Admin_moonlite_type.new do |b|
+        b.typeid=params[:typeid]
+        b.typename=params[:typename]
+        b.type_intro=params[:type_intro]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @moonlite=Admin_moonlite_type.find_by_id(params[:id])
+      @moonlite.update_attributes(:typeid=>params[:typeid],:typename=>params[:typename],:type_intro=>params[:type_intro])
+      render :json => "s2".to_json
+    end
+  end
+
+  def moonlitedeleteajax
+    @moonlite=Admin_moonlite_type.find_by_id(params[:id])
+    if @moonlite!=nil
+      if @moonlite.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
     end
   end
 

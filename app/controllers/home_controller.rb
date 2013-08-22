@@ -9,7 +9,9 @@ class HomeController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
       @examination=Examination.find_by_username(session[:webusername])
       @personal=Personalfinance.find_by_username(session[:webusername])
-
+      @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
+      @assetaccount=@assetsheet.asset1_account+@assetsheet.asset2_account+@assetsheet.asset3_account+@assetsheet.asset4_account+@assetsheet.asset5_account+
+          @assetsheet.asset6_account+@assetsheet.asset7_account+@assetsheet.asset8_account+@assetsheet.asset9_account
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     end
     @category1=Category_2.find_all_by_risklevel(1)

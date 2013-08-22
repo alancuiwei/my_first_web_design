@@ -446,10 +446,9 @@
      var s_age= 0,s_amount= 0,s_salary=0;
      <% if  session[:webusername]!=nil %>
          s_age='<%= @examination.age %>';
-     var amount='<%= @examination.amount %>'.split(",");
-     for(var i=0;i<amount.length;i++){
-         s_amount=s_amount+parseInt(amount[i]);
-     }
+     <% if @assetsheet!=nil %>
+      s_amount=parseInt('<%= @assetaccount %>');
+     <% end %>
      <% if @userdatamonth!=nil %>
      s_salary='<%= @userdatamonth.income %>';
      <% end %>

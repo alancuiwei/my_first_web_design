@@ -358,7 +358,8 @@
               </div>
             </div>
           </div>
-            <div class="question" style="padding-right: 0;height: 630px;overflow: auto;">
+            <div class="question" style="height: 630px;">
+              <div style="padding-right: 0;height: 600px;overflow: auto;">
               <p class="q-text" id="risk2"></p>
               <div class="win">
               <table id="category" class="table table-striped table-bordered" style="width: 100%;">
@@ -652,6 +653,7 @@
                 </div>
               </div>
             </div>
+            </div>
             <div class="question" style="height: 736px;">
               <div style="padding-right: 0;height: 700px;overflow: auto;">
               <table class="center">
@@ -730,7 +732,7 @@
                 <tr>
                   <td>
                     <input type="checkbox" class="hide">
-                    <table class="table table-striped table-bordered footable" id="update" style="height: 200px;">
+                    <table class="table table-striped table-bordered footable" id="update">
                       <thead>
                       <tr>
                         <th data-sort-initial="descending" data-class="expand" style="width: 150px;"></th>
@@ -739,15 +741,21 @@
                         <th data-hide="phone">操作</th>
                       </tr>
                       </thead>
-                      <tr id="liudong0"><td>流动型资产</td><td>现金</td><td>0</td><td></td></tr>
-                      <tr id="liudong1"><td>流动型资产</td><td>货币基金</td><td>0</td><td></td></tr>
-                      <tr id="baoben0"><td>保本型资产</td><td>银行定期</td><td>0</td><td></td></tr>
-                      <tr id="baoben1"><td>保本型资产</td><td>银行理财产品</td><td>0</td><td></td></tr>
-                      <tr id="baoben2"><td>保本型资产</td><td>债券型基金</td><td>0</td><td></td></tr>
-                      <tr id="fengxian0"><td>风险型资产</td><td>股票</td><td>0</td><td></td></tr>
-                      <tr id="fengxian1"><td>风险型资产</td><td>股票型基金</td><td>0</td><td></td></tr>
-                      <tr id="fengxian2"><td>风险型资产</td><td>贵金属</td><td>0</td><td></td></tr>
-                      <tr id="fengxian3"><td>风险型资产</td><td>其它</td><td>0</td><td></td></tr>
+                      <% for i in 0..@hash4.size-1 %>
+                          <% if @hash4[i][1]==100 && @hash4[i][2]!=0 %>
+                              <tr><td>流动型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                          <% end %>
+                      <% end %>
+                      <% for i in 0..@hash4.size-1 %>
+                          <% if @hash4[i][1]==200 && @hash4[i][2]!=0 %>
+                              <tr><td>保本型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                          <% end %>
+                      <% end %>
+                      <% for i in 0..@hash4.size-1 %>
+                          <% if @hash4[i][1]==300 && @hash4[i][2]!=0 %>
+                              <tr><td>风险型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                          <% end %>
+                      <% end %>
                     </table>
                   </td>
                 </tr>
@@ -1098,43 +1106,30 @@
             increaseArea: '20%' // optional
         });
         initPieChart();
-
-        <% if session[:webusername]==nil %>
-            location.href="/sales/login?summary=1";
+        var array=new Array();
+        for(var i=0;i<9;i++){
+            array[i]=new Array();
+            for(var j=0;j<2;j++){
+                array[i][j]=0;
+            }
+        }
+        <% for i in 0..@assettype.size-1 %>
+           array[<%= i %>][0]='<%= @assettype[i].asset_typename %>'
         <% end %>
+        array[0][1]=<%= @assetsheet.asset1_account %>
+        array[1][1]=<%= @assetsheet.asset2_account %>
+        array[2][1]=<%= @assetsheet.asset3_account %>
+        array[3][1]=<%= @assetsheet.asset4_account %>
+        array[4][1]=<%= @assetsheet.asset5_account %>
+        array[5][1]=<%= @assetsheet.asset6_account %>
+        array[6][1]=<%= @assetsheet.asset7_account %>
+        array[7][1]=<%= @assetsheet.asset8_account %>
+        array[8][1]=<%= @assetsheet.asset9_account %>
 
-      <% if params[:score]!=nil &&  params[:score]!='' %>
-        variety='<%= params[:variety] %>'.split(",")  //资产品种
-        amount='<%= params[:amount] %>'.split(",")  //资产金额
-      <% elsif session[:webusername]!=nil %>
-        variety='<%= @examination.variety %>'.split(",")  //资产品种
-        amount='<%= @examination.amount %>'.split(",")  //资产金额
-      <% end %>
+         xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+         wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+         fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
 
-        for(j=0;j<variety.length;j++){
-            var ccc=amount[j].replace(/,/g, "");
-            if(ccc==''){ccc=0;}
-            if(variety[j]=="银行活期"){xianjin=xianjin+parseFloat(ccc);$("#liudong0 td:eq(2)").html(parseInt($("#liudong0 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="余额宝"){xianjin=xianjin+parseFloat(ccc);$("#liudong1 td:eq(2)").html(parseInt($("#liudong1 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="其他货币基金"){xianjin=xianjin+parseFloat(ccc);$("#liudong1 td:eq(2)").html(parseInt($("#liudong1 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="银行定期"){wenjian=wenjian+parseFloat(ccc);$("#baoben0 td:eq(2)").html(parseInt($("#baoben0 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="银行理财产品"){wenjian=wenjian+parseFloat(ccc);$("#baoben1 td:eq(2)").html(parseInt($("#baoben1 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="债券型基金"){wenjian=wenjian+parseFloat(ccc);$("#baoben2 td:eq(2)").html(parseInt($("#baoben2 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="股票"){fengxian=fengxian+parseFloat(ccc);$("#fengxian0 td:eq(2)").html(parseInt($("#fengxian0 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="股票型基金"){fengxian=fengxian+parseFloat(ccc);$("#fengxian1 td:eq(2)").html(parseInt($("#fengxian1 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="贵金属"){fengxian=fengxian+parseFloat(ccc);$("#fengxian2 td:eq(2)").html(parseInt($("#fengxian2 td:eq(2)").html())+parseInt(ccc))}
-            else if(variety[j]=="其它"){fengxian=fengxian+parseFloat(ccc);$("#fengxian3 td:eq(2)").html(parseInt($("#fengxian3 td:eq(2)").html())+parseInt(ccc))}
-        }
-        var kk=0
-        for(k=1;k<10;k++){
-            if($("#update tr:eq("+k+") td:eq(2)").html()=='0'){
-                $("#update tr:eq("+k+")").hide();
-            }
-            else{
-                $("#update tr:eq("+k+")").addClass("mon"+kk);
-                kk++;
-            }
-        }
         jixu=xianjin+wenjian+fengxian;//积蓄
         <% if session[:webusername]!=nil %>
         <% if @userdatamonth!=nil %>
@@ -1402,8 +1397,8 @@ function update(){
     var sxian=$("#xian1").attr("value");        //标准流动
     var swen=$("#wen1").attr("value");          //标准稳健
     var sfeng=$("#feng1").attr("value");        //标准风险
-    var yxian=parseInt($("#liudong0 td:eq(2)").html());  //已有流动（现金）
-    var yhuo=parseInt($("#liudong1 td:eq(2)").html());   //已有流动（货币基金）
+    var yxian=parseInt('<%= @hash4[0][2] %>');  //已有流动（现金）
+    var yhuo=parseInt('<%= @hash4[1][2] %>');   //已有流动（货币基金）
     var text0='',text1='',text2='',text3=''
     var month1=0,month2=0,month3=0;   //每月分配多少
     var amount1= 0,amount2= 0,amount3=0; //每月分配后还剩下的总额
@@ -1489,16 +1484,16 @@ function update(){
     amount3=sfeng-fengxian-month3;
     arrayObj[0]=[month1,month2,month3,amount1,amount2,amount3]
     if(text1==''){
-        $(".mon0 td:eq(3)").html(text0)
+        $("#update tr:eq(1) td:eq(3)").html(text0)
     }
     else if(text2==''){
-        $(".mon0 td:eq(3)").html(text0+'<br>'+text1)
+        $("#update tr:eq(1) td:eq(3)").html(text0+'<br>'+text1)
     }
     else if(text3==''){
-        $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2)
+        $("#update tr:eq(1) td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2)
     }
     else{
-        $(".mon0 td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2+'<br>'+text3)
+        $("#update tr:eq(1) td:eq(3)").html(text0+'<br>'+text1+'<br>'+text2+'<br>'+text3)
     }
     // xianjin,wenjian,fengxian,jixu,xian,wen,feng
 

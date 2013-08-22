@@ -264,6 +264,42 @@
     </div>
     <div class="tab-pane" id="tab4">
       <% if session[:webusername]=='admin' %>
+          <h1>家庭财务指数管理</h1>
+          <a href="/admin/indicatorsconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="indicators">
+            <thead><tr>
+              <th class="hide">ID</th><th>代码</th><th>名称</th><th>类型</th><th>计算</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @indicators.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.indicators_id %></td>
+                  <td><%= b.indicators_names %></td>
+                  <td><%= b.indicators_types %></td>
+                  <td><%= b.indicators_defination %></td>
+                  <td><a href="/admin/indicatorsconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','indicatorsdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>月光族类型介绍</h1>
+          <a href="/admin/moonliteconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="moonlite">
+            <thead><tr>
+              <th class="hide">ID</th><th>代码</th><th>月光族类型</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @moonlite.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.typeid %></td>
+                  <td><%= b.typename %></td>
+                  <td><a href="/admin/moonliteconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','moonlitedeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
           <h1>用户已有资产类型</h1>
           <a href="/admin/assetconfig/0">添加</a>
           <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="asset">
@@ -346,7 +382,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt').dataTable();
+        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators').dataTable();
         /* Initialise datatables */
         var oTable = $('#blog').dataTable({
             "aaSorting": [[ 5, "desc" ]]

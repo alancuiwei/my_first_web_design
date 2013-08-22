@@ -1,0 +1,88 @@
+<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  代码：<input type="text" name="indicators_id" id="indicators_id"><br>
+  家庭财务比率：<input type="text" name="indicators_names" id="indicators_names" title="家庭财务比率"><br>
+  指标归类：<input type="text" name="indicators_types" id="indicators_types"><br>
+  定义：<input type="text" name="indicators_defination" id="indicators_defination"><br>
+  <% if params[:id]!="0" %>
+      反映情况：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="indicators_intro" id="indicators_intro"><%= @indicators.indicators_intro %></textarea><br>
+  <% else %>
+      反映情况：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="indicators_intro" id="indicators_intro"></textarea><br>
+  <% end %>
+  合理范围：<br>
+  最大值：<input type="text" name="indicators_recomn_max" id="indicators_recomn_max"><br>
+  最小值：<input type="text" name="indicators_recomn_min" id="indicators_recomn_min"><br>
+  备注：<input type="text" name="remarks" id="remarks"><br>
+  <script type="text/javascript">
+      CKEDITOR.replace('indicators_intro', {
+          toolbar : 'Full',
+          uiColor : '#c6e4ee'
+      });
+  </script><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    function CKupdate() {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        CKupdate();
+        if(nom_flag==0){
+            $.post("/admin/indicatorsconfigajax/<%= params[:id] %>",{ indicators_id: $("#indicators_id").attr("value"),indicators_names:$("#indicators_names").attr("value"),
+                indicators_types: $("#indicators_types").attr("value"),indicators_defination:$("#indicators_defination").attr("value"),indicators_intro:$("#indicators_intro").attr("value"),
+                indicators_recomn_max:$("#indicators_recomn_max").attr("value"),indicators_recomn_min:$("#indicators_recomn_min").attr("value"),remarks:$("#remarks").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#indicators_id").attr("value",'<%= @indicators.indicators_id%>');
+        $("#indicators_names").attr("value",'<%= @indicators.indicators_names%>');
+        $("#indicators_types").attr("value",'<%= @indicators.indicators_types%>');
+        $("#indicators_defination").attr("value",'<%= @indicators.indicators_defination%>');
+        $("#indicators_recomn_max").attr("value",'<%= @indicators.indicators_recomn_max%>');
+        $("#indicators_recomn_min").attr("value",'<%= @indicators.indicators_recomn_min%>');
+        $("#remarks").attr("value",'<%= @indicators.remarks%>');
+        <% end %>
+    });
+
+</script>

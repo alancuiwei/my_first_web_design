@@ -367,13 +367,13 @@
   <div class="modal-body">
     <table class="table table-striped table-bordered" id="target">
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
       <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
     </table>
   </div>
   <div class="modal-footer">
@@ -530,9 +530,11 @@
     $("#record").click(function(){
         if($("#date").attr("value")==""){
             alert("请选择日期！");
+            return false;
         }
         else if(numfor.test($("#amount").attr("value"))==false){
             alert("投资金额必须为数字！");
+            return false;
         }
         else{
             if(parseInt($("#date").attr("value").split('-')[1]).toString()==parseInt($("#dates").attr("value").split('-')[1]).toString() && $("#date").attr("value").split('-')[0]==$("#dates").attr("value").split('-')[0]){
@@ -633,21 +635,11 @@
         wenjian=0;
         fengxian=0;
     <% if @examination !=nil %>
-        var variety='<%= @examination.variety %>'.split(",");
-        var amount='<%= @examination.amount %>'.split(",");
-        for(i=0;i<variety.length;i++){
-        <% @assettype.each do |a| %>
-            if('<%= a.asset_typename %>'==variety[i]){
-            <% if a.asset_type_L1==100 %>
-                xianjin=xianjin+parseFloat(amount[i])
-            <% elsif a.asset_type_L1==200 %>
-                wenjian=wenjian+parseFloat(amount[i])
-            <% elsif a.asset_type_L1==300 %>
-                fengxian=fengxian+parseFloat(amount[i])
+    <% if @userbalancesheet!=nil %>
+        xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
             <% end %>
-            }
-        <% end %>
-        }
         jixu=xianjin+wenjian+fengxian;
     <% if @userdatamonth!=nil %>
         monthdeposit=parseFloat('<%= @userdatamonth.invest_expense %>');
@@ -669,7 +661,6 @@
             //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
             //    alert(a)
             $(".amounts2").html('');
-            $(".amounts3").html('');
             $(".amounts4").html('');
             $(".amounts5").html('');
             var before=0;
@@ -684,7 +675,6 @@
                 }
             }
         <% end %>
-            var amounts3=0;
             var remain1=xianjin;
             if(remain1>xian){
                 var amounts2=0;
@@ -783,7 +773,7 @@
                 $(".monthpay5").hide();
                 removeoption(document.getElementById("pname"),a5);
             }
-            arrayObj[0]=[amounts1,amounts3,amounts2,amounts4,amounts5,$(".amounts3").html(),$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
+            arrayObj[0]=[amounts1,0,amounts2,amounts4,amounts5,0,$(".amounts2").html(),$(".amounts4").html(),$(".amounts5").html()];
 
             array();
             $(".finish2").html('0');
@@ -889,7 +879,6 @@
             }
 
             $(".amounts2").html(parseInt(arrayObj[month][6]/100)*100)
-            $(".amounts3").html(parseInt(arrayObj[month][5]/100)*100)
             $(".amounts4").html(parseInt(arrayObj[month][7]/100)*100)
             $(".amounts5").html(parseInt(arrayObj[month][8]/100)*100)
             if($("#nature").attr("value")=='买入'){
@@ -1283,9 +1272,7 @@
         $("#target tr:eq(3) td:eq(0)").html(a5);
         for(i=0;i<12;i++){
             var a=i+1;
-            if(i!=0){
-                $("#target tr:eq(0) td:eq("+i+")").html(mon[i]);
-            }
+                $("#target tr:eq(0) td:eq("+a+")").html(mon[a]);
             if(a2==a5){
                 $("#target tr:eq(1) td:eq("+a+")").html(parseInt(arrayObj[i][6]/100)*100+parseInt(arrayObj[i][8]/100)*100);
                 $("#target tr:eq(2) td:eq("+a+")").html(parseInt(arrayObj[i][7]/100)*100);
@@ -1533,7 +1520,6 @@
                     data: [
                         ['吃喝住行', amounts1],
                         ['零花钱', amounts0],
-                        [$(".name3").html(), parseFloat($(".amounts3").html())],
                         [$(".name2").html(), parseFloat($(".amounts2").html())],
                         [$(".name4").html(), parseFloat($(".amounts4").html())],
                         [$(".name5").html(), parseFloat($(".amounts5").html())]
@@ -1555,21 +1541,11 @@
         var xianjin=0;
         var wenjian=0;
         var fengxian=0;
-        var variety='<%= @examination.variety %>'.split(",");
-        var amount='<%= @examination.amount %>'.split(",");
-        for(i=0;i<variety.length;i++){
-        <% @assettype.each do |a| %>
-            if('<%= a.asset_typename %>'==variety[i]){
-            <% if a.asset_type_L1==100 %>
-                xianjin=xianjin+parseFloat(amount[i])
-            <% elsif a.asset_type_L1==200 %>
-                wenjian=wenjian+parseFloat(amount[i])
-            <% elsif a.asset_type_L1==300 %>
-                fengxian=fengxian+parseFloat(amount[i])
+       <% if @userbalancesheet!=nil %>
+        xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
             <% end %>
-            }
-        <% end %>
-        }
         var jixu=xianjin+wenjian+fengxian;
       <% if @examination.xianp!=nil %>
         var xian=parseFloat('<%= @examination.xianp %>');
