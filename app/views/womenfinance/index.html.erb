@@ -2,11 +2,11 @@
 <%= javascript_include_tag "jquery.women.js" %>
 <%= javascript_include_tag "jquery.women2.js" %>
 
-<div class="main-contents">
 
+<div class="main-contents">
+  <h1 id="title">女人理财</h1>
   <div class="intro">
-    <div class="text-block" id="text">
-    </div>
+    <div class="text-block" id="text"></div>
     <div class="form-block first">
       <div class="sub-box" style="display: table;width: 100%;">
         <div class="holder">
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <br>
+
   <div class="featured">
     <div class="news-line">
       <a href="#" class="expand ss-icon mobile"></a>
@@ -60,8 +60,9 @@
           <p>您期待明天会比今天更幸福美好，在这里，您将得到一个计划来实现明天的梦想。当您把您的数字们放到您的梦想里去，他们就开始变成真了，像魔术一样。</p>
         </div>
         <ul class="links plan">
-          <li><a href="/home/guide">手把手教您</a><span class="ss-icon">➡</span></li>
-          <li><a href="/usersurvey/measure/1">月光族规划</a><span class="ss-icon">➡</span></li>
+          <li><a href="/usersurvey/startup">点击开始计划</a><span class="ss-icon">➡</span></li>
+        <!--  <li><a href="/home/guide">手把手教您</a><span class="ss-icon">➡</span></li>
+          <li><a href="/usersurvey/measure/1">月光族规划</a><span class="ss-icon">➡</span></li>     -->
         </ul>
       </div>
       <div class="col-right same-height-right" style="min-height: 184px;">
@@ -84,7 +85,7 @@
           <p>这不仅仅是您挣了多少，而在于您是怎么挣的？我们将和您分享如何把枯燥的工作转化为热情的秘诀，这样的工作赚钱状态将是您梦寐以求的。</p>
         </div>
         <ul class="links earn">
-          <li><a class="blogs btn-link" title="找份好工作">找份好工作</a><span class="ss-icon">➡</span></li>
+         <!-- <li><a class="blogs btn-link" title="找份好工作">找份好工作</a><span class="ss-icon">➡</span></li>-->
           <li><a href="/blog/index?classify=理财技巧">理财技巧</a><span class="ss-icon">➡</span></li>
           <li><a href="/blog/index?classify=理财产品">理财产品</a><span class="ss-icon">➡</span></li>
         </ul>
@@ -92,6 +93,7 @@
       <div class="col-right same-height-right" style="min-height: 177px;">
       </div>
     </div>
+    <!--
     <div class="news-line">
       <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 228px;">
@@ -106,6 +108,7 @@
       <div class="col-right same-height-right" style="min-height: 224px;">
       </div>
     </div>
+    -->
     <div class="news-line">
       <a href="#" class="expand ss-icon mobile"></a>
       <div class="col-left same-height-left" style="min-height: 201px;">
@@ -186,6 +189,7 @@
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     //跳转语句
     if(system.win||system.mac||system.xll){
+        $("#title").hide();
         $(".second").remove();
         $(".blogs").click(function(){
             var tag=this.title.split(",")
@@ -202,10 +206,13 @@
         })
     }else{
         $(".first").remove();
-        $("#erweima").remove();
+        $(".second").remove();
         $(".social-networks").remove();
+        $("#text").hide();
+        /*
         $("#text").removeClass("text-block")
         $("#text").html("<img src='/assets/women.jpg'>")
+         */
         $(".blogs").click(function(){
             var tag=this.title.split(",")
             var link="";
