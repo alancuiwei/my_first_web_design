@@ -54,8 +54,8 @@ class WeixinsController < ApplicationController
     when "300"
 	  render "rtn300", :formats => :xml		
     
-	  else
-	    render "echo", :formats => :xml
+#	  else
+#	    render "echo", :formats => :xml
 	  end      
   end
 end

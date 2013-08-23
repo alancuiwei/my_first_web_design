@@ -18,11 +18,11 @@
     }
 </style>
 
-<div class="main-content">
+<div class="main-content login">
   <div class="row-fluid">
     <div class="span5">
       <div id="myTabContent" class="tab-content">
-        <a href="/">首页</a><br>
+        <a class="home" href="/">首页</a><br>
         <div class="overlay tab-pane fade" id="create">
           <br>
           <div class="bs-docs-example">
@@ -45,7 +45,7 @@
                     <td><input id="tel2" title="联系电话" placeholder="如您需要帮助时，我们联系您" type="text"></td>
                   </tr>
                     <tr>
-                    <td colspan="2" style="padding: 10px 0;"><input id="check" checked type="checkbox">订阅邮件，发送理财产品介绍、技巧及规划内容。</td>
+                    <td class="win" colspan="2" style="padding: 10px 0;"><input id="check" checked type="checkbox">订阅邮件，发送理财产品介绍、技巧及规划内容。</td>
                   </tr>
                   </table>
                   <div class="clear"><input type="submit" value="注册" name="subscribe" id="mc-embedded-subscribe" class="btn btn-success pull-right"></div>
@@ -74,8 +74,10 @@
             </table>
             <a class="btn btn-success pull-right" id="log" href="javascript:void(userlogin('#username2','#password2',4))" type="submit">登录</a>
             <div class="or-text"><div><b>或</b></div></div>
+          <div class="win">
             <span id="qqLoginBtn"></span>
             <div class="or-text" style="margin: 20px 0;"><div><b>或</b></div></div>
+           </div>
             <% if params[:aaa]=='1' %>
             <wb:login-button type="3,2" onlogin="login" onlogout="logout">登录按钮</wb:login-button>
             <div class="or-text"><div><b>或</b></div></div>
@@ -143,6 +145,21 @@
 
 <script>
 
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    if(system.win||system.mac||system.xll){
+    }
+    else{
+        $(".win").hide();
+    }
+
     $('a.close, #mask,#subscribe').live('click', function() {
         location.href='/';
     });
@@ -200,7 +217,12 @@
         if(!(document.getElementById("check").checked) || $("#username").attr("value")=="" || $("#password").attr("value")=="" || $('#email2').attr("value")=="" || $('#tel2').attr("value")=="" || !name.test($("#username").attr("value")) || !myreg.test($('#email2').attr("value")) || !phone.test($('#tel2').attr("value"))){
             return false;
         }else{
+            if(system.win||system.mac||system.xll){
             return true;
+        }
+            else{
+                return false;
+            }
         }
     }
     function userconfig(uid,pid){
