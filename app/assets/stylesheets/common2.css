@@ -15,6 +15,11 @@
     color: #069;
 }
 
+.startup .image{
+    width: 300px;
+    float: right;
+}
+
 .startup .question td a.introduce:hover{
     color: #069;
 }
@@ -48,7 +53,7 @@
     text-align: center;
 }
 
-#myModal3 .invalid {
+#myModal3 .invalid,#myModal7 .invalid {
     background: rgb(255, 170, 170);
 }
 
@@ -645,7 +650,10 @@ p.q-text {
         width: 100%!important;
         vertical-align: middle!important;
     }
-
+    .startup .image{
+        width: 100%;
+        float: right;
+    }
     /* usersurvey/measure */
 
     body{
@@ -686,13 +694,17 @@ p.q-text {
     .q-portfolio-key{
         display: none;
     }
-
+   /*
      #pict{
          float: none!important;
          text-align: center;
      }
+     */
+    #pict{
+        display: none!important;
+    }
      #questionnaire-view{
-        width: 100%;
+        width: 100%!important;
          margin: 0;
          height: 326px;
      }
@@ -716,8 +728,26 @@ p.q-text {
     .q-num{
         margin-bottom: 5px;
     }
+
+    .beta .span6.right,.main-footer{
+        display: none;
+    }
+
+    .beta img{
+        margin: 5px 0 5px 20px;
 }
-.summary #optionsRadios {
+
+    #myModal3 {
+        top: 10px;
+        width: auto;
+        left: 10px;
+    }
+
+    .modal-body{
+        max-height: 300px;
+    }
+}
+.summary #optionsRadios {                                                   .
     color: rgb(34, 34, 34);
     font-weight: normal;
     border-top-left-radius: 4px;

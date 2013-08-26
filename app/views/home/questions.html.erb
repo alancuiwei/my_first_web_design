@@ -552,6 +552,7 @@
                             });
 
                     $("#q-back,#q-next").click(function(e) {
+                        $("html,body").animate({"scrollTop":"0"},"slow")
                         var back = this.id == "q-back";
                         if (back) {
                             w.trackEvent("OFA", "questionnaire_back");

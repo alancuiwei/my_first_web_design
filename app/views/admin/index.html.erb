@@ -373,6 +373,42 @@
                 </tr>
             <% end %>
           </table>
+          <h1>年开销类型</h1>
+          <a href="/admin/expenseannualconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="expenseannual">
+            <thead><tr>
+              <th class="hide">ID</th><th>id</th><th>开销名称</th><th>最佳占年收入比率</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @expenseannual.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.expense_id %></td>
+                  <td><%= b.expense_name %></td>
+                  <td><%= b.expense_expect %></td>
+                  <td><a href="/admin/expenseannualconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','expenseannualdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>年收入类型</h1>
+          <a href="/admin/incomeannualconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="incomeannual">
+            <thead><tr>
+              <th class="hide">ID</th><th>id</th><th>收入名称</th><th>最佳比例</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @incomeannual.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.income_id %></td>
+                  <td><%= b.income_name %></td>
+                  <td><%= b.income_expect %></td>
+                  <td><a href="/admin/incomeannualconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','incomeannualdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
       <% end %>
     </div>
   </div>
@@ -382,7 +418,7 @@
 
 <script>
     $(document).ready(function(){
-        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators').dataTable();
+        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators,#incomeannual,#expenseannual').dataTable();
         /* Initialise datatables */
         var oTable = $('#blog').dataTable({
             "aaSorting": [[ 5, "desc" ]]

@@ -69,7 +69,7 @@
     <a href="/">首页</a>
     <br><br>
     <div class="box_left_title1">
-      <span style="line-height: 35px;"><%= @salescompany.fundname %></span><br>
+      <span style="line-height: 35px;"><%= @salescompany.fundname %> 介绍</span><br>
       <span style="font-size: 12px;">2012年四月 国家颁发 基金销售业务资格证书</span>
     </div>
     <br>
@@ -95,6 +95,15 @@
         <td class="right"><% if @salescompany.introduced!=nil %><a href="<%= @salescompany.introduced %>" target="_blank">点击查看</a><% end %></td>
       </tr>
     </table>
+        <% if @salescompany.imglink!=nil && @salescompany.imglink!='' %>
+            <h1 class="box_left_title1"><%= @salescompany.fundname %> 图文购买指导</h1>
+            <a href="<%= @salescompany.imglink %>" target="_blank">点击查看图文说明。</a>
+        <% end %>
+        <% if @salescompany.videolink!=nil && @salescompany.videolink!='' %>
+            <h1 class="box_left_title1"><%= @salescompany.fundname %> 视频购买指导</h1>
+            <div><%=raw @salescompany.videolink %></div>
+        <% end %>
+      <!--
         <% if @salescompany.assist!=nil && @salescompany.assist!='' %>
       <div style="height: 30px;"></div>
             <h1 style="font-weight: normal;">基金购买流程</h1>
@@ -149,6 +158,7 @@
               <a class="right carousel-control" href="#Carousel" data-slide="next">›</a>
             </div>
   <% end %>
+  -->
       </td>
       <td>
         <% if params[:pid]!=nil %>

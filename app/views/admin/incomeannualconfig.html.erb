@@ -1,0 +1,68 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  income_id：<input type="text" name="income_id" id="income_id" title="income_id"><br>
+  收入名称：<input type="text" name="income_name" id="income_name" title="收入名称"><br>
+  最佳比例：<input type="text" name="income_expect" id="income_expect">%<br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            if($("#income_expect").attr("value")!=''){
+                if(numfor.test($("#income_expect").attr("value"))==false){
+                    alert("最佳比例必须为数字！");
+                    nom_flag=1;
+                }
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/admin/incomeannualconfigajax/<%= params[:id] %>",{ income_id: $("#income_id").attr("value"),income_name:$("#income_name").attr("value"),income_expect:$("#income_expect").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#income_id").attr("value",'<%= @incomeannual.income_id%>');
+        $("#income_name").attr("value",'<%= @incomeannual.income_name%>');
+        $("#income_expect").attr("value",'<%= @incomeannual.income_expect %>');
+        <% end %>
+    });
+
+</script>

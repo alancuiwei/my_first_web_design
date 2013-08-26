@@ -20,6 +20,8 @@ class AdminController < ApplicationController
       @debttype=Admin_debt_type.all
       @moonlite=Admin_moonlite_type.all
       @indicators=Admin_finacialindicators.all
+      @incomeannual=Admin_income_type_annual.all
+      @expenseannual=Admin_expense_type_annual.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -179,6 +181,40 @@ class AdminController < ApplicationController
     end
   end
 
+  def incomeannualconfig
+      if params[:id]!="0"
+        @incomeannual=Admin_income_type_annual.find_by_id(params[:id])
+      else
+        @incomeannual=Admin_income_type_annual.limit(1)
+      end
+  end
+
+  def incomeannualconfigajax
+    if params[:id]=="0"
+      Admin_income_type_annual.new do |b|
+        b.income_id=params[:income_id]
+        b.income_name=params[:income_name]
+        b.income_expect=params[:income_expect]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @incomeannual=Admin_income_type_annual.find_by_id(params[:id])
+      @incomeannual.update_attributes(:income_id=>params[:income_id],:income_name=>params[:income_name],:income_expect=>params[:income_expect])
+      render :json => "s2".to_json
+    end
+  end
+
+  def incomeannualdeleteajax
+    @incomeannual=Admin_income_type_annual.find_by_id(params[:id])
+    if @incomeannual!=nil
+      if @incomeannual.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
   def incomeconfig
       if params[:id]!="0"
         @incometype=Admin_income_type_month.find_by_id(params[:id])
@@ -215,6 +251,40 @@ class AdminController < ApplicationController
     end
   end
 
+  def expenseannualconfig
+      if params[:id]!="0"
+        @expenseannual=Admin_expense_type_annual.find_by_id(params[:id])
+      else
+        @expenseannual=Admin_expense_type_annual.limit(1)
+      end
+  end
+
+  def expenseannualconfigajax
+    if params[:id]=="0"
+      Admin_expense_type_annual.new do |b|
+        b.expense_id=params[:expense_id]
+        b.expense_name=params[:expense_name]
+        b.expense_expect=params[:expense_expect]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @expenseannual=Admin_expense_type_annual.find_by_id(params[:id])
+      @expenseannual.update_attributes(:expense_id=>params[:expense_id],:expense_name=>params[:expense_name],:expense_expect=>params[:expense_expect])
+      render :json => "s2".to_json
+    end
+  end
+
+  def expenseannualdeleteajax
+    @expenseannual=Admin_expense_type_annual.find_by_id(params[:id])
+    if @expenseannual!=nil
+      if @expenseannual.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
   def expenseconfig
       if params[:id]!="0"
         @expensetype=Admin_expense_type_month.find_by_id(params[:id])
@@ -558,13 +628,15 @@ class AdminController < ApplicationController
         b.guide=params[:guide]
         b.time=params[:time]
         b.assist=params[:assist]
+        b.imglink=params[:imglink]
+        b.videolink=params[:videolink]
         b.save
       end
       render :json => "s1".to_json
     else
       @salescompany=Salescompany.find_by_id(params[:id])
       @salescompany.update_attributes(:fundname=>params[:fundname],:company=>params[:company],:capital=>params[:capital],:profile=>params[:profile],:introduced=>params[:introduced],
-                                      :logo=>params[:logo],:license=>params[:license],:guide=>params[:guide],:time=>params[:time],:assist=>params[:assist])
+                                      :logo=>params[:logo],:license=>params[:license],:guide=>params[:guide],:time=>params[:time],:assist=>params[:assist],:imglink=>params[:imglink],:videolink=>params[:videolink])
       render :json => "s2".to_json
     end
   end

@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "common2.css" %>
 
-<div class="welcomes">
+<div class="welcomes measure">
   <div class="ofa-funnel-pages">
   <div id="top-tabs">
     <div class="top-tabs-content">
@@ -26,7 +26,7 @@
     </div>
   </div>
   <table class="catalog">
-    <tr>
+    <tr class="win">
       <% if params[:id]=='1' %>
           <td class="cata"><h1 class="red">一、资产体检</h1></td>
       <% elsif params[:id]=='2'|| params[:id]=='3' %>
@@ -36,11 +36,11 @@
     </tr>
     <tr>
       <% if params[:id]=='1'|| params[:id]=='3' %>
-          <td class="cata"><h1>二、风险评估</h1></td>
+          <td class="win cata"><h1>二、风险评估</h1></td>
       <% elsif params[:id]=='2' %>
-          <td class="cata"><h1 class="red">二、风险评估</h1></td>
+          <td class="win cata"><h1 class="red">二、风险评估</h1></td>
       <% end %>
-      <td class="win">
+      <td>
       <% if params[:id]=='1' %>
             <a href="/usersurvey/startup" class="btn btn-primary begin">开 始</a>
       <% elsif params[:id]=='2' %>
@@ -50,26 +50,13 @@
       <% end %>
       </td>
     </tr>
-    <tr>
+    <tr class="win">
       <% if params[:id]=='1'|| params[:id]=='2' %>
           <td class="cata"><h1>三、理财规划</h1></td>
       <% elsif params[:id]=='3' %>
           <td class="cata"><h1 class="red">三、理财规划</h1></td>
       <% end %>
       <td></td>
-    </tr>
-    <tr>
-      <td>
-        <div class="mobile">
-         <% if params[:id]=='1' %>
-           <a href="/usersurvey/startup" class="btn btn-primary begin">开 始</a>
-         <% elsif params[:id]=='2' %>
-            <a href="/home/questions" class="btn btn-primary begin">开 始</a>
-         <% elsif params[:id]=='3' %>
-            <a href="/personmanagement/summary" class="btn btn-primary begin">开 始</a>
-         <% end %>
-        </div>
-      </td>
     </tr>
   </table>
     </div>

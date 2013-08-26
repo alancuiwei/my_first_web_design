@@ -233,7 +233,7 @@
               <% end %>
             </table>
              </div>
-              <div class="mobile">
+              <div class="mobile" style="padding-top: 30px;">
                 <table id="liudongs" class="table table-striped table-bordered" style="width: 100%;">
                   <thead>
                   <tr>
@@ -327,7 +327,7 @@
               <% end %>
             </table>
            </div>
-              <div class="mobile">
+              <div class="mobile" style="padding-top: 30px;">
                 <table id="baoben" class="table table-striped table-bordered" style="width: 100%;">
                   <thead>
                   <tr>
@@ -360,6 +360,7 @@
           </div>
             <div class="question" style="height: 630px;">
               <div style="padding-right: 0;height: 600px;overflow: auto;">
+              <div class="mobile" style="height:30px;"></div>
               <p class="q-text" id="risk2"></p>
               <div class="win">
               <table id="category" class="table table-striped table-bordered" style="width: 100%;">
@@ -622,7 +623,7 @@
                   <% end %>
                 </table>
                 </div>
-                <div class="mobile">
+                <div class="mobile" style="padding-top: 30px;">
                   <table id="select" class="table table-striped table-bordered" style="width: 100%;">
                     <thead>
                     <tr>
@@ -656,6 +657,7 @@
             </div>
             <div class="question" style="height: 736px;">
               <div style="padding-right: 0;height: 700px;overflow: auto;">
+                <div class="mobile" style="height:30px;"></div>
               <table class="center">
                 <tr>
                   <td class="all">
@@ -728,6 +730,7 @@
               </div>
             </div>
             <div class="question" style="padding-right: 0;height: 376px;">
+              <div class="mobile" style="height:30px;"></div>
               <table class="center">
                 <tr>
                   <td>
@@ -922,6 +925,7 @@
                 .data("init", function(doCalc) {
 
                     $("#q-back,#q-next").click(function(e) {
+                        $("html,body").animate({"scrollTop":"0"},"slow")
                         var back = this.id == "q-back";
                         if (back) {
                             w.trackEvent("OFA", "questionnaire_back");

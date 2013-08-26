@@ -2,9 +2,131 @@
 require 'open-uri'
 class UsersurveyController < ApplicationController
 
+  def userdataannual
+    @userdata=Userdata_annual.find_by_username(session[:webusername])
+    @detailedmonth=Userdata_detailed_month.find_by_username(session[:webusername])
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    if @detailedmonth!=nil
+      if @detailedmonth.income1_account!=nil && @detailedmonth.income2_account!=nil
+        salary_annual=(@detailedmonth.income1_account+@detailedmonth.income2_account)*12
+      elsif  @detailedmonth.income1_account!=nil && @detailedmonth.income2_account==nil
+        salary_annual=@detailedmonth.income1_account*12
+      elsif  @detailedmonth.income1_account==nil && @detailedmonth.income2_account!=nil
+        salary_annual=@detailedmonth.income2_account*12
+      else
+        salary_annual=0
+      end
+    elsif @userdatamonth && @userdatamonth.income!=nil
+      salary_annual=@userdatamonth.income*12
+    else
+      salary_annual=0
+    end
+
+    if @userdatamonth!=nil && @userdatamonth.must_expense!=nil
+      must_expense_annual=@userdatamonth.must_expense*12
+    else
+      must_expense_annual=0
+    end
+    if @userdatamonth!=nil && @userdatamonth.fun_expense!=nil
+      fun_expense_annual=@userdatamonth.fun_expense*12
+    else
+      fun_expense_annual=0
+    end
+    @userdebtsheet=User_debt_sheet.find_by_username(session[:webusername])
+    if @userdatamonth!=nil && @userdatamonth.debt_month!=nil
+      debt_annual=@userdatamonth.debt_month*12
+    elsif @userdebtsheet!=nil
+      if @userdebtsheet.debt1_account_monthly!=nil
+        debt1_account_monthly=@userdebtsheet.debt1_account_monthly
+      else
+        debt1_account_monthly=0
+      end
+      if @userdebtsheet.debt2_account_monthly!=nil
+        debt2_account_monthly=@userdebtsheet.debt2_account_monthly
+      else
+        debt2_account_monthly=0
+      end
+      if @userdebtsheet.debt99_account_monthly!=nil
+        debt99_account_monthly=@userdebtsheet.debt99_account_monthly
+      else
+        debt99_account_monthly=0
+      end
+      debt_annual=debt1_account_monthly+debt2_account_monthly+debt99_account_monthly
+    else
+      debt_annual=0
+    end
+    @userdataannual=Userdata_detailed_annual.find_by_username(session[:webusername])
+    if @userdataannual!=nil && @userdataannual.income1_account!=nil
+      income1_account= @userdataannual.income1_account
+    else
+      income1_account=0
+    end
+    if @userdataannual!=nil && @userdataannual.income2_account!=nil
+      income2_account= @userdataannual.income2_account
+    else
+      income2_account=0
+    end
+    if @userdataannual!=nil && @userdataannual.income3_account!=nil
+      income3_account= @userdataannual.income3_account
+    else
+      income3_account=0
+    end
+    if @userdata==nil
+      Userdata_annual.new do |e|
+        e.username=params[:username]
+        e.salary_annual=salary_annual
+        e.must_expense_annual=must_expense_annual
+        e.fun_expense_annual=fun_expense_annual
+        e.debt_annual=debt_annual
+        e.income_annual=params[:incomeannual]
+        e.expense_annual=params[:expenseannual]
+        e.bonus_annual=income1_account+income2_account
+        e.other_income_annual=income3_account
+        e.net_annual=salary_annual+income1_account+income2_account+income3_account-must_expense_annual-fun_expense_annual-debt_annual
+        e.save
+      end
+    else
+      @userdata.update_attributes(:income_annual=>params[:incomeannual],:expense_annual=>params[:expenseannual],:salary_annual=>salary_annual,:must_expense_annual=>must_expense_annual,
+                                  :fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:net_annual=>salary_annual+income1_account+income2_account+income3_account-must_expense_annual-fun_expense_annual-debt_annual)
+    end
+    render :json => "s".to_json
+  end
+
   def moonlite
     @webuser2=Webuser.find_by_username(session[:webusername])
     @webuser2.update_attributes(:moonlite_typeid=>params[:moonlite_typeid])
+    render :json => "s".to_json
+  end
+
+  def userdatadetailedannual
+    @userdataannual=Userdata_detailed_annual.find_by_username(params[:username])
+    if @userdataannual==nil
+      Userdata_detailed_annual.new do |e|
+        e.username=params[:username]
+        e.income1_account=params[:income1]
+        e.income2_account=params[:income2]
+        e.income3_account=params[:income3]
+        e.expense1_account=params[:expense1]
+        e.expense2_account=params[:expense2]
+        e.expense3_account=params[:expense3]
+        e.expense4_account=params[:expense4]
+        e.save
+      end
+    else
+      @userdataannual.update_attributes(:income1_account=>params[:income1],:income2_account=>params[:income2],:income3_account=>params[:income3],:expense1_account=>params[:expense1],
+                                                 :expense2_account=>params[:expense2],:expense3_account=>params[:expense3],:expense4_account=>params[:expense4])
+    end
+    @userdata=Userdata_annual.find_by_username(session[:webusername])
+    if @userdata==nil
+      Userdata_annual.new do |e|
+        e.username=params[:username]
+        e.bonus_annual=params[:income1].to_i+params[:income2].to_i
+        e.other_income_annual=params[:income3]
+        e.save
+      end
+    else
+      @userdata.update_attributes(:bonus_annual=>(params[:income1].to_i+params[:income2].to_i),:other_income_annual=>params[:income3])
+    end
     render :json => "s".to_json
   end
 
@@ -233,6 +355,8 @@ class UsersurveyController < ApplicationController
     @debttype=Admin_debt_type.all
     @moonlite=Admin_moonlite_type.all
     @indicators=Admin_finacialindicators.all
+    @incomeannual=Admin_income_type_annual.all
+    @expenseannual=Admin_expense_type_annual.all
     @expensetype=Admin_expense_type_month.order("expense_id ASC").all
     @hash2={}
     for i in 0..@expensetype.size-1
@@ -245,6 +369,8 @@ class UsersurveyController < ApplicationController
       @examination=Examination.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @detailedmonth=Userdata_detailed_month.find_by_username(session[:webusername])
+      @userdateannual=Userdata_annual.find_by_username(session[:webusername])
+      @detailedannual=Userdata_detailed_annual.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
       @category=Category_2.all
       @hash={}
