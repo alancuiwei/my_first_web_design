@@ -187,31 +187,7 @@ class PersonmanagementController < ApplicationController
   def personconfigajax
         @webuser=Webuser.find_by_username(session[:webusername])
     @webuser.update_attributes(:risktolerance=>params[:risktolerance]);
-        @personalfinance=Personalfinance.find_by_username(session[:webusername])
-      if @personalfinance==nil
-        Personalfinance.new do |b|
-          b.username=params[:username]
-          b.investamount=params[:investamount]
-          b.investcycle=params[:investcycle]
-          b.returnrate=params[:returnrate]
-          b.age=params[:age]
-          b.riskrate=params[:riskrate]
-          b.investvarieties=params[:investvarieties]
-          b.wbreedinfo=params[:wbreedinfo]
-          b.fluctuation=params[:fluctuation]
-          b.quota=params[:quota]
-          b.options=params[:options]
-          b.goal=params[:goal]
-          b.save
-        end
-        render :json => "s1".to_json
-      else
-      @personalfinance.update_attributes(:age=>params[:age],:fluctuation=>params[:fluctuation],
-                                           :quota=>params[:quota],:investamount=>params[:investamount],:returnrate=>params[:returnrate],
-                                           :investcycle=>params[:investcycle],:wbreedinfo=>params[:wbreedinfo],:investvarieties=>params[:investvarieties],
-                                           :riskrate=>params[:riskrate],:options=>params[:options],:goal=>params[:goal])
-      render :json => "s2".to_json
-    end
+    render :json => "s".to_json
   end
 
   def record

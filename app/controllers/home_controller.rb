@@ -8,11 +8,11 @@ class HomeController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @examination=Examination.find_by_username(session[:webusername])
-      @personal=Personalfinance.find_by_username(session[:webusername])
       @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
       @assetaccount=@assetsheet.asset1_account+@assetsheet.asset2_account+@assetsheet.asset3_account+@assetsheet.asset4_account+@assetsheet.asset5_account+
           @assetsheet.asset6_account+@assetsheet.asset7_account+@assetsheet.asset8_account+@assetsheet.asset9_account
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @risk=User_risktolerance_qa.find_by_username(session[:webusername])
     end
     @category1=Category_2.find_all_by_risklevel(1)
     @category2=Category_2.find_all_by_risklevel(2)
@@ -71,6 +71,62 @@ class HomeController < ApplicationController
        end
      end
      render :json => "s".to_json
+  end
+
+  def riskconfig
+    @risk=User_risktolerance_qa.find_by_username(session[:webusername])
+    if @risk==nil
+      User_risktolerance_qa.new do |i|
+        i.username=params[:username]
+        case params[:num]
+          when '1'
+          i.q1=params[:svalue]
+          when '2'
+          i.q3=params[:svalue]
+          when '3'
+          i.q3=params[:svalue]
+          when '4'
+          i.q3=params[:svalue]
+          when '5'
+          i.q3=params[:svalue]
+          when '6'
+          i.q3=params[:svalue]
+          when '7'
+          i.q3=params[:svalue]
+          when '8'
+          i.q3=params[:svalue]
+          when '9'
+          i.q3=params[:svalue]
+          when '10'
+          i.q3=params[:svalue]
+        end
+        i.save
+      end
+    else
+      case params[:num]
+        when '1'
+          @risk.update_attributes(:q1=>params[:svalue])
+        when '2'
+          @risk.update_attributes(:q2=>params[:svalue])
+        when '3'
+          @risk.update_attributes(:q3=>params[:svalue])
+        when '4'
+          @risk.update_attributes(:q4=>params[:svalue])
+        when '5'
+          @risk.update_attributes(:q5=>params[:svalue])
+        when '6'
+          @risk.update_attributes(:q6=>params[:svalue])
+        when '7'
+          @risk.update_attributes(:q7=>params[:svalue])
+        when '8'
+          @risk.update_attributes(:q8=>params[:svalue])
+        when '9'
+          @risk.update_attributes(:q9=>params[:svalue])
+        when '10'
+          @risk.update_attributes(:q10=>params[:svalue])
+      end
+    end
+    render :json => "s".to_json
   end
 end
 
