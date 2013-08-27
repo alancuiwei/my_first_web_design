@@ -199,6 +199,7 @@
             </tr>
             </thead>
             <tbody>
+            <% if @webuser.selectproductl!=nil && @webuser.selectproductl!="" %>
             <tr class="monthpay2">
               <td class="name2"><% if @finance1!=nil %><%= @finance1.pname %><% end %></td>
               <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
@@ -206,6 +207,8 @@
               <td class="finish2"></td>
               <td><% if @finance1!=nil %><a href="/bankinvest/productdetails/<%= @finance1.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
+            <% end %>
+            <% if @webuser.selectproductb!=nil && @webuser.selectproductb!="" %>
             <tr class="monthpay4">
               <td class="name4"><% if @finance2!=nil %><%= @finance2.pname %><% end %></td>
               <td><% if @category2!=nil %><a href="/bankinvest/classify/<%= @category2.id %>"><%= @category2.classify %></a><% end %></td>
@@ -213,6 +216,7 @@
               <td class="finish4"></td>
               <td><% if @finance2!=nil %><a href="/bankinvest/productdetails/<%= @finance2.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
+            <% end %>
             <% if  @webuser.risktolerance!=nil %>
                 <% if @webuser.selection!=nil && @webuser.selection!="" %>
                     <tr class="monthpay5">
@@ -495,8 +499,8 @@
             $("#insert").hide();
             addoption(document.getElementById("pname"),q,q);
             addoption(document.getElementById("pname"),a2,a2);
-            addoption(document.getElementById("pname"),a4,a4);
-            addoption(document.getElementById("pname"),a5,a5);
+            if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
+            if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
             addoption(document.getElementById("pname"),'其他流动性产品','其他流动性产品');
             addoption(document.getElementById("pname"),'其他保本性产品','其他保本性产品');
             addoption(document.getElementById("pname"),'其他风险性产品','其他风险性产品');
@@ -518,8 +522,8 @@
         }
         else if($("#nature").attr("value")=='赎回取现'){
             addoption(document.getElementById("pname"),a2,a2);
-            addoption(document.getElementById("pname"),a4,a4);
-            addoption(document.getElementById("pname"),a5,a5);
+            if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
+            if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
             removeoption(document.getElementById("pname"),'其他流动性产品');
             removeoption(document.getElementById("pname"),'其他保本性产品');
             removeoption(document.getElementById("pname"),'其他风险性产品');
@@ -637,8 +641,8 @@
     <% if @examination !=nil %>
     <% if @userbalancesheet!=nil %>
         xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-        wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-        fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        wenjian=parseInt(<%= @userbalancesheet.asset_safefy_account %>)
+        fengxian=parseInt(<%= @userbalancesheet.asset_risky_account %>)
             <% end %>
         jixu=xianjin+wenjian+fengxian;
     <% if @userdatamonth!=nil %>
@@ -836,7 +840,7 @@
            }
         }
 
-        if(a5==a4){
+        if(a5==a4 && a4!=""){
            $(".monthpay5").hide();
            $(".monthpay4").show();
             if($(".amounts5").html()!=""){
@@ -905,7 +909,7 @@
             }
             else{
                 $(".monthpay4").show();
-                addoption(document.getElementById("pname"),a4,a4);
+               if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
             }
             if(parseInt(arrayObj[month][8]/100)*100<=0){
                 $(".monthpay5").hide();
@@ -974,7 +978,7 @@
                     }
                 }
             }
-            if(a5==a4){
+            if(a5==a4 && a4!=""){
                 $(".monthpay5").hide();
                 $(".monthpay4").show();
                 if($(".amounts5").html()!=""){
@@ -1268,8 +1272,8 @@
         $("#target tr:eq(0) td:eq(0)").html('理财产品');
         $("#target tr:eq(0) td:eq(13)").html(mon[13]);
         $("#target tr:eq(1) td:eq(0)").html(a2);
-        $("#target tr:eq(2) td:eq(0)").html(a4);
-        $("#target tr:eq(3) td:eq(0)").html(a5);
+        if(a4!=""){$("#target tr:eq(2) td:eq(0)").html(a4);}
+        if(a5!=""){$("#target tr:eq(3) td:eq(0)").html(a5);}
         for(i=0;i<12;i++){
             var a=i+1;
                 $("#target tr:eq(0) td:eq("+a+")").html(mon[a]);
@@ -1304,7 +1308,7 @@
             month111: $("#target tr:eq(1) td:eq(12)").html(),month112: $("#target tr:eq(2) td:eq(12)").html(),month113: $("#target tr:eq(3) td:eq(12)").html()
         },function(data){});
 
-        if(a2==a5 || a4==a5){
+        if(a2==a5 || (a4==a5 && a4!="")){
             $("#target tr:eq(3)").hide();
         }
     }
@@ -1455,8 +1459,10 @@
                                 var a1= amounts1;
                                 var a0= amounts0;
                                 var a2= parseFloat($(".amounts2").html());
-                                var a4= parseFloat($(".amounts4").html());
-                                var a5= parseFloat($(".amounts5").html());
+                                 if($(".amounts4").html()!=""){
+                                var a4= parseFloat($(".amounts4").html());}else{var a4=0;}
+                                if($(".amounts5").html()!=""){
+                                var a5= parseFloat($(".amounts5").html());}else{var a5=0;}
                                 var numfor= /^[-+]?[0-9]+(\.[0-9]+)?$/
                                 if(numfor.test(a1)==false){a1=0}
                                 if(numfor.test(a0)==false){a0=0}
@@ -1465,19 +1471,17 @@
                                 if(numfor.test(a5)==false){a5=0}
                                 data.push(['吃喝住行',a1]);
                                 data.push(['零花钱',a0]);
-                                if($(".name2").html()==$(".name5").html()){
+                                <% if @finance1 !=nil && @finance3 !=nil && @finance1.pname==@finance3.pname %>
                                     data.push([$(".name2").html(),a2+a5]);
                                     data.push([$(".name4").html(),a4]);
-                                }
-                                else if($(".name4").html()==$(".name5").html()){
+                               <% elsif @finance2 !=nil && @finance3 !=nil && @finance2.pname==@finance3.pname %>
                                     data.push([$(".name2").html(),a2]);
                                     data.push([$(".name4").html(),a4+a5]);
-                                }
-                                else{
-                                    data.push([$(".name2").html(),a2]);
-                                    data.push([$(".name4").html(),a4]);
-                                    data.push([$(".name5").html(),a5]);
-                                }
+                                <% else %>
+                                <% if @finance1 !=nil %> data.push([$(".name2").html(),a2]);<% end %>
+                                <% if @finance2 !=nil %> data.push([$(".name4").html(),a4]);<% end %>
+                                <% if @finance3 !=nil %> data.push([$(".name5").html(),a5]); <% end %>
+                               <% end %>
                                 series.setData(data);
                             }, 500);
                         }
@@ -1543,8 +1547,8 @@
         var fengxian=0;
        <% if @userbalancesheet!=nil %>
         xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-        wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-        fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        wenjian=parseInt(<%= @userbalancesheet.asset_safefy_account %>)
+        fengxian=parseInt(<%= @userbalancesheet.asset_risky_account %>)
             <% end %>
         var jixu=xianjin+wenjian+fengxian;
       <% if @examination.xianp!=nil %>

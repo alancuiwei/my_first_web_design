@@ -905,6 +905,115 @@
             }
         });
 
+    $(document).ready(function(){
+        <% if session[:webusername]==nil %>
+        location.href="/sales/login?start=1";
+        <% end %>
+
+        <% if session[:webusername]!=nil %>
+        <% if @webuser.age!=nil %>$("#age").attr("value",parseInt('<%= @webuser.age %>'));<% end %>
+        <% if @webuser.sex!=nil %>$("#sex").attr("value",'<%= @webuser.sex %>');<% end %>
+        <% if @userdatamonth!=nil %>
+        <% if @userdatamonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.income %>'));<% end %>
+        <% if @userdatamonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense %>'));<% end %>
+        <% if @userdatamonth.invest_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userdatamonth.invest_expense %>'));<% end %>
+        <% end %>
+        <% if @userdateannual!=nil %>
+        <% if @userdateannual.income_annual!=nil %>$("#incomeannual").attr("value",parseInt('<%= @userdateannual.income_annual %>'));<% end %>
+        <% if @userdateannual.expense_annual!=nil %>$("#expenseannual").attr("value",parseInt('<%=  @userdateannual.expense_annual %>'));<% end %>
+        <% end %>
+        <% if @detailedannual!=nil %>
+        <% if @detailedannual.income1_account!=nil %>$("#in0").attr("value",parseInt('<%= @detailedannual.income1_account %>'));<% end %>
+        <% if @detailedannual.income2_account!=nil %>$("#in1").attr("value",parseInt('<%= @detailedannual.income2_account %>'));<% end %>
+        <% if @detailedannual.income3_account!=nil %>$("#in2").attr("value",parseInt('<%= @detailedannual.income3_account %>'));<% end %>
+        <% if @detailedannual.expense1_account!=nil %>$("#expen0").attr("value",parseInt('<%=  @detailedannual.expense1_account %>'));<% end %>
+        <% if @detailedannual.expense2_account!=nil %>$("#expen1").attr("value",parseInt('<%=  @detailedannual.expense2_account %>'));<% end %>
+        <% if @detailedannual.expense3_account!=nil %>$("#expen2").attr("value",parseInt('<%=  @detailedannual.expense3_account %>'));<% end %>
+        <% if @detailedannual.expense4_account!=nil %>$("#expen3").attr("value",parseInt('<%=  @detailedannual.expense4_account %>'));<% end %>
+        <% end %>
+        <% if @detailedmonth!=nil %>
+        <% for i in 0..@incometype.size-1 %>
+        <% if i==0 %>
+        <% if @detailedmonth.income1_account!=nil %>$("#income0").attr("value",parseInt('<%= @detailedmonth.income1_account %>'));<% end %>
+        <% elsif i==1 %>
+        <% if @detailedmonth.income2_account!=nil %>$("#income1").attr("value",parseInt('<%= @detailedmonth.income2_account %>'));<% end %>
+        <% elsif i==2 %>
+        <% if @detailedmonth.income3_account!=nil %>$("#income2").attr("value",parseInt('<%= @detailedmonth.income3_account %>'));<% end %>
+        <% end %>
+        <% end %>
+        <% for i in 0..@expensetype.size-1 %>
+        <% if i==0 %>
+        <% if @detailedmonth.expense1_account!=nil %>$("#expense0").attr("value",parseInt('<%= @detailedmonth.expense1_account %>'));<% end %>
+        <% elsif i==1 %>
+        <% if @detailedmonth.expense2_account!=nil %>$("#expense1").attr("value",parseInt('<%= @detailedmonth.expense2_account %>'));<% end %>
+        <% elsif i==2 %>
+        <% if @detailedmonth.expense3_account!=nil %>$("#expense2").attr("value",parseInt('<%= @detailedmonth.expense3_account %>'));<% end %>
+        <% elsif i==3 %>
+        <% if @detailedmonth.expense4_account!=nil %>$("#expense3").attr("value",parseInt('<%= @detailedmonth.expense4_account %>'));<% end %>
+        <% elsif i==4 %>
+        <% if @detailedmonth.expense5_account!=nil %>$("#expense4").attr("value",parseInt('<%= @detailedmonth.expense5_account %>'));<% end %>
+        <% elsif i==5 %>
+        <% if @detailedmonth.expense6_account!=nil %>$("#expense5").attr("value",parseInt('<%= @detailedmonth.expense6_account %>'));<% end %>
+        <% elsif i==6 %>
+        <% if @detailedmonth.expense7_account!=nil %>$("#expense6").attr("value",parseInt('<%= @detailedmonth.expense7_account %>'));<% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+
+        var first=0;
+        <% if @userassetsheet!=nil %>
+        var array0=[<%= @userassetsheet.asset1_account %>,<%= @userassetsheet.asset2_account %>,<%= @userassetsheet.asset3_account %>,
+            <%= @userassetsheet.asset4_account %>,<%= @userassetsheet.asset5_account %>,<%= @userassetsheet.asset6_account %>,
+            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>]
+        for(i=0;i<9;i++){
+            if(array0[i]!=0){
+                if(first==0){
+                    $("#variety").attr("value",array1[i])
+                    $("#amount").attr("value",array0[i])
+                }
+                else{
+                    addFounder(null, false);
+                    $("#variety"+first).attr("value",array1[i])
+                    $("#amount"+first).attr("value",array0[i]);
+                }
+                first=first+1;
+            }
+        }
+        <% end %>
+        var second=first;
+        <% if @userdebtsheet!=nil %>
+        var array3=[[<%= @userdebtsheet.debt1_account_totally %>,<%= @userdebtsheet.debt1_account_monthly %>,<%= @userdebtsheet.debt1_years %>],
+            [<%= @userdebtsheet.debt2_account_totally %>,<%= @userdebtsheet.debt2_account_monthly %>,<%= @userdebtsheet.debt2_years %>],
+            [<%= @userdebtsheet.debt99_account_totally %>,<%= @userdebtsheet.debt99_account_monthly %>,<%= @userdebtsheet.debt99_years %>]]
+        for(i=0;i<3;i++){
+            if(array3[i][0]!=0){
+                if(first==second){
+                    $("#debttype").attr("value",array4[i])
+                    $("#loan").attr("value",array3[i][0])
+                    $("#repayment").attr("value",array3[i][1])
+                    $("#period").attr("value",array3[i][2])
+                }
+                else{
+                    add(null, false);
+                    $("#debttype"+(first-1).toString()).attr("value",array4[i])
+                    $("#loan"+(first-1).toString()).attr("value",array3[i][0])
+                    $("#repayment"+(first-1).toString()).attr("value",array3[i][1])
+                    $("#period"+(first-1).toString()).attr("value",array3[i][2])
+                }
+                first=first+1;
+            }
+        }
+        <% end %>
+
+        <% end %>
+        initPieChart();
+        showQn(5,'','load');
+        showQn(6,'','load');
+        showQn(7,'','load');
+        showQn(8,'','load');
+        showQn(9,'','load');
+        showQn(0,'','load');
+    });
         $qr.data("vals", valsFromDom($qr.find("input")))
                 .data("init", function(doCalc) {
                     $qr.data("init", function() { showQn(0, true); })
@@ -1054,7 +1163,7 @@
                    if(bi>30){
                        $("#text").html('而现在，您用的是<span style="color: red;">'+bi+'%</span>的月收入比例，您会不会对自己过去苛刻了点？过于苛刻也许会让您无法长久的实施该计划，您觉得呢？')
                        $("#update").html('精确输入');
-                       $('#myModal4').modal('show');
+                       if(e!='load'){$('#myModal4').modal('show');}
                        acta=0;
                        normal=2;
                        return false;
@@ -1062,7 +1171,7 @@
                    else if(bi<20){
                        $("#text").html('而现在，您用的是<span style="color: red;">'+bi+'%</span>的月收入比例，会不会有点消费过度？您觉得呢？')
                        $("#update").html('精确输入');
-                       $('#myModal4').modal('show');
+                       if(e!='load'){$('#myModal4').modal('show');}
                        acta=0;
                        normal=2;
                        return false;
@@ -1815,115 +1924,6 @@
         return  score.toFixed(1);
     }
 
-    $(document).ready(function(){
-        <% if session[:webusername]==nil %>
-           location.href="/sales/login?start=1";
-        <% end %>
-
-        <% if session[:webusername]!=nil %>
-        <% if @webuser.age!=nil %>$("#age").attr("value",parseInt('<%= @webuser.age %>'));<% end %>
-        <% if @webuser.sex!=nil %>$("#sex").attr("value",'<%= @webuser.sex %>');<% end %>
-        <% if @userdatamonth!=nil %>
-        <% if @userdatamonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.income %>'));<% end %>
-        <% if @userdatamonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense %>'));<% end %>
-        <% if @userdatamonth.invest_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userdatamonth.invest_expense %>'));<% end %>
-        <% end %>
-        <% if @userdateannual!=nil %>
-        <% if @userdateannual.income_annual!=nil %>$("#incomeannual").attr("value",parseInt('<%= @userdateannual.income_annual %>'));<% end %>
-        <% if @userdateannual.expense_annual!=nil %>$("#expenseannual").attr("value",parseInt('<%=  @userdateannual.expense_annual %>'));<% end %>
-        <% end %>
-        <% if @detailedannual!=nil %>
-        <% if @detailedannual.income1_account!=nil %>$("#in0").attr("value",parseInt('<%= @detailedannual.income1_account %>'));<% end %>
-        <% if @detailedannual.income2_account!=nil %>$("#in1").attr("value",parseInt('<%= @detailedannual.income2_account %>'));<% end %>
-        <% if @detailedannual.income3_account!=nil %>$("#in2").attr("value",parseInt('<%= @detailedannual.income3_account %>'));<% end %>
-        <% if @detailedannual.expense1_account!=nil %>$("#expen0").attr("value",parseInt('<%=  @detailedannual.expense1_account %>'));<% end %>
-        <% if @detailedannual.expense2_account!=nil %>$("#expen1").attr("value",parseInt('<%=  @detailedannual.expense2_account %>'));<% end %>
-        <% if @detailedannual.expense3_account!=nil %>$("#expen2").attr("value",parseInt('<%=  @detailedannual.expense3_account %>'));<% end %>
-        <% if @detailedannual.expense4_account!=nil %>$("#expen3").attr("value",parseInt('<%=  @detailedannual.expense4_account %>'));<% end %>
-        <% end %>
-        <% if @detailedmonth!=nil %>
-        <% for i in 0..@incometype.size-1 %>
-          <% if i==0 %>
-            <% if @detailedmonth.income1_account!=nil %>$("#income0").attr("value",parseInt('<%= @detailedmonth.income1_account %>'));<% end %>
-          <% elsif i==1 %>
-            <% if @detailedmonth.income2_account!=nil %>$("#income1").attr("value",parseInt('<%= @detailedmonth.income2_account %>'));<% end %>
-          <% elsif i==2 %>
-            <% if @detailedmonth.income3_account!=nil %>$("#income2").attr("value",parseInt('<%= @detailedmonth.income3_account %>'));<% end %>
-          <% end %>
-        <% end %>
-        <% for i in 0..@expensetype.size-1 %>
-          <% if i==0 %>
-            <% if @detailedmonth.expense1_account!=nil %>$("#expense0").attr("value",parseInt('<%= @detailedmonth.expense1_account %>'));<% end %>
-          <% elsif i==1 %>
-            <% if @detailedmonth.expense2_account!=nil %>$("#expense1").attr("value",parseInt('<%= @detailedmonth.expense2_account %>'));<% end %>
-          <% elsif i==2 %>
-            <% if @detailedmonth.expense3_account!=nil %>$("#expense2").attr("value",parseInt('<%= @detailedmonth.expense3_account %>'));<% end %>
-          <% elsif i==3 %>
-            <% if @detailedmonth.expense4_account!=nil %>$("#expense3").attr("value",parseInt('<%= @detailedmonth.expense4_account %>'));<% end %>
-          <% elsif i==4 %>
-            <% if @detailedmonth.expense5_account!=nil %>$("#expense4").attr("value",parseInt('<%= @detailedmonth.expense5_account %>'));<% end %>
-          <% elsif i==5 %>
-            <% if @detailedmonth.expense6_account!=nil %>$("#expense5").attr("value",parseInt('<%= @detailedmonth.expense6_account %>'));<% end %>
-          <% elsif i==6 %>
-            <% if @detailedmonth.expense7_account!=nil %>$("#expense6").attr("value",parseInt('<%= @detailedmonth.expense7_account %>'));<% end %>
-          <% end %>
-        <% end %>
-        <% end %>
-
-        var first=0;
-        <% if @userassetsheet!=nil %>
-        var array0=[<%= @userassetsheet.asset1_account %>,<%= @userassetsheet.asset2_account %>,<%= @userassetsheet.asset3_account %>,
-            <%= @userassetsheet.asset4_account %>,<%= @userassetsheet.asset5_account %>,<%= @userassetsheet.asset6_account %>,
-            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>]
-        for(i=0;i<9;i++){
-            if(array0[i]!=0){
-                if(first==0){
-                    $("#variety").attr("value",array1[i])
-                    $("#amount").attr("value",array0[i])
-            }
-            else{
-                addFounder(null, false);
-                    $("#variety"+first).attr("value",array1[i])
-                    $("#amount"+first).attr("value",array0[i]);
-            }
-                first=first+1;
-        }
-        }
-        <% end %>
-         var second=first;
-        <% if @userdebtsheet!=nil %>
-        var array3=[[<%= @userdebtsheet.debt1_account_totally %>,<%= @userdebtsheet.debt1_account_monthly %>,<%= @userdebtsheet.debt1_years %>],
-            [<%= @userdebtsheet.debt2_account_totally %>,<%= @userdebtsheet.debt2_account_monthly %>,<%= @userdebtsheet.debt2_years %>],
-            [<%= @userdebtsheet.debt99_account_totally %>,<%= @userdebtsheet.debt99_account_monthly %>,<%= @userdebtsheet.debt99_years %>]]
-        for(i=0;i<3;i++){
-            if(array3[i][0]!=0){
-                if(first==second){
-                    $("#debttype").attr("value",array4[i])
-                    $("#loan").attr("value",array3[i][0])
-                    $("#repayment").attr("value",array3[i][1])
-                    $("#period").attr("value",array3[i][2])
-            }
-            else{
-                add(null, false);
-                    $("#debttype"+(first-1).toString()).attr("value",array4[i])
-                    $("#loan"+(first-1).toString()).attr("value",array3[i][0])
-                    $("#repayment"+(first-1).toString()).attr("value",array3[i][1])
-                    $("#period"+(first-1).toString()).attr("value",array3[i][2])
-                }
-                first=first+1;
-            }
-        }
-        <% end %>
-
-        <% end %>
-        initPieChart();
-        showQn(5,'','load');
-        showQn(6,'','load');
-        showQn(7,'','load');
-        showQn(8,'','load');
-        showQn(9,'','load');
-        showQn(0,'','load');
-    });
 </script>
 
 <%= javascript_include_tag "excanvas.js" %>

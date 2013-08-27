@@ -46,7 +46,9 @@
         <div class="clearfix"></div>
         <h1>
           <span id="title">理财产品 选择</span>
-          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num curr"></b><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
+  <div id="q-numbers" style="right: 205px;">
+    <b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><% if session[:webusername]!=nil && @webuser.moonlite_typeid!='1' &&  @webuser.moonlite_typeid!='2' %><b class="q-num"></b><% if @webuser.moonlite_typeid!='3' %><b class="q-num"></b><% end %><% end %>
+  </div>
         </h1>
 
         <div id="questionnaire-view">
@@ -287,6 +289,8 @@
               </div>
               </div>
           </div>
+<% if session[:webusername]!=nil && @webuser.moonlite_typeid!='1' &&  @webuser.moonlite_typeid!='2' %>
+    <% if @webuser.moonlite_typeid!='3' %>
           <div class="question" style="padding-right: 0;height:376px;">
             <div  style="padding-right: 0;height:346px;overflow: auto;">
             <div class="win">
@@ -358,6 +362,7 @@
               </div>
             </div>
           </div>
+    <% end %>
             <div class="question" style="height: 630px;">
               <div style="padding-right: 0;height: 600px;overflow: auto;">
               <div class="mobile" style="height:30px;"></div>
@@ -655,8 +660,9 @@
               </div>
             </div>
             </div>
-            <div class="question" style="height: 736px;">
-              <div style="padding-right: 0;height: 700px;overflow: auto;">
+<% end %>
+<div class="question" style="height: 436px;">
+  <div style="padding-right: 0;height: 400px;overflow: auto;">
                 <div class="mobile" style="height:30px;"></div>
               <table class="center">
                 <tr>
@@ -683,8 +689,8 @@
                           <input id="xian1" name="xian" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
                           <button id="age-increase0" class="light-gray" tabindex="-1">+</button>
                         </td>
-                        <td><a href="/bankinvest/classify/7">货币基金</a></td>
-                        <td><a href="/bankinvest/productdetails/8">余额宝</a></td>
+              <td></td>
+              <td></td>
                       </tr>
                       <tr>
                         <td>保本性资产</td>
@@ -695,8 +701,8 @@
                           <input id="wen1" name="wen" value="28" type="text" style="width: 60px;margin: 0;text-align: center;" readonly>
                           <button id="age-increase1" class="light-gray" tabindex="-1">+</button>
                         </td>
-                        <td><a href="/bankinvest/classify/8">定期存款</a></td>
-                        <td><a href="/bankinvest/productdetails/26">定期存款</a></td>
+              <td></td>
+              <td></td>
                       </tr>
                       <tr>
                         <td>风险性资产</td>
@@ -720,7 +726,7 @@
                       </tr>
                     </table>
                     <blockquote><small id="remark"></small></blockquote>
-                    <div id="container" style="width: 300px; height: 370px; margin: 0 auto"></div>
+         <!-- <div id="container" style="width: 300px; height: 370px; margin: 0 auto"></div> -->
                   </td>
                   <td class="all">
                     <div style="width: 150px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
@@ -872,9 +878,7 @@
 
     var risk=0;
 
-    <% if params[:risk]!=nil && params[:risk]!='' %>
-       risk= '<%= params[:risk] %>';
-    <% elsif session[:webusername]!=nil %>
+    <% if session[:webusername]!=nil %>
        risk='<%= @webuser.risktolerance %>'
     <% end %>
 
@@ -961,13 +965,13 @@
                 test_div.style.width="98%";
                 test_div.style.height="606px";
             }
-            if(i==1){
+        if('<%= @webuser.moonlite_typeid %>'=='4' && i==1){
                 $("#title").html("保本型理财产品 选择");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
                 test_div.style.height="406px";
             }
-            if(i==2){
+        if(('<%= @webuser.moonlite_typeid %>'=='3' && i==1) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==2)){
                 $("#title").html("风险性理财产品选择 选择");
                 if(risk>8 && risk<=10){
                     $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
@@ -998,13 +1002,13 @@
                 test_div.style.width="98%";
                 test_div.style.height="660px";
             }
-            if(i==3){
+        if((('<%= @webuser.moonlite_typeid %>'=='1'||'<%= @webuser.moonlite_typeid %>'=='2') && i==1) || ('<%= @webuser.moonlite_typeid %>'=='3' && i==2) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==3)){
                 $("#title").html("概要总结");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
-                test_div.style.height="766px";
+            test_div.style.height="466px";
             }
-            if(i==4){
+        if((('<%= @webuser.moonlite_typeid %>'=='1'||'<%= @webuser.moonlite_typeid %>'=='2') && i==2) || ('<%= @webuser.moonlite_typeid %>'=='3' && i==3) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==4)){
                 $("#title").html("已有资金调整");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
@@ -1016,9 +1020,23 @@
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 if(i==1){newTop= "-576px"}
-                if(i==2){newTop= "-952px"}
-                if(i==3){newTop= "-1582px"}
-                if(i==4){newTop= "-2318px"}
+            if(i==2){
+            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
+                newTop= "-1012px";
+            <% elsif @webuser.moonlite_typeid=='3' %>
+                newTop= "-1206px";
+            <% else %>
+                newTop= "-952px";
+            <% end %>
+            }
+            if(i==3){
+            <% if @webuser.moonlite_typeid=='3' %>
+                newTop= "-1642px";
+            <% elsif @webuser.moonlite_typeid=='4' %>
+                newTop= "-1582px"
+            <% end %>
+            }
+            if(i==4){<% if @webuser.moonlite_typeid=='4' %>newTop= "-2018px"<% end %>}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -1039,12 +1057,25 @@
                    else if(done0==1){done=true};
                }
                else if(i==1){
+            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
+                done=true;
+            <% elsif @webuser.moonlite_typeid=='3' %>
+                if(done2==0){done=false;}
+                else if(done2==1){done=true};
+            <% else %>
                  if(done1==0){done=false;}
                    else if(done1==1){done=true};
+            <% end %>
                }
                else if(i==2){
+            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
+                done=true;
+            <% elsif @webuser.moonlite_typeid=='3' %>
+                done=true;
+            <% else %>
                  if(done2==0){done=false;}
                    else if(done2==1){done=true};
+            <% end %>
                }
                 else{
                    done=true;
@@ -1131,8 +1162,8 @@
         array[8][1]=<%= @assetsheet.asset9_account %>
 
          xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-         wenjian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
-         fengxian=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
+        wenjian=parseInt(<%= @userbalancesheet.asset_safefy_account %>)
+        fengxian=parseInt(<%= @userbalancesheet.asset_risky_account %>)
 
         jixu=xianjin+wenjian+fengxian;//积蓄
         <% if session[:webusername]!=nil %>
@@ -1140,7 +1171,7 @@
         total=parseInt((parseFloat('<%= @userdatamonth.invest_expense %>')*12+jixu)/100)*100;//总资产
         xian=parseInt((parseFloat('<%= @userdatamonth.must_expense %>')*3)/100)*100;
         <% end %>
-        feng=parseInt((total*(80-parseFloat('<%= @examination.age %>'))/100)/100)*100;
+        feng=parseInt((total*(80-parseFloat('<%= @webuser.age %>'))/100)/100)*100;
         wen=total-xian-feng;
         <% end %>
 
@@ -1287,7 +1318,7 @@
         }
         else if(this.name=='iCheck2'){
             done2=1;
-            showQn(2);
+            document.getElementById("q-next").disabled=false;
             $("tr").removeClass("third");
             $(".finance"+this.className).addClass("third");
             $('[class*="rights"]').addClass('hide');
@@ -1615,9 +1646,10 @@ function update(){
             remain3=0;
             month3=0;
         }
-        arrayObj[i]=[month1,month2,month3,amount1,amount2,amount3]
+            arrayObj[i]=[parseInt(month1),parseInt(month2),parseInt(month3),parseInt(amount1),parseInt(amount2),parseInt(amount3)]
     }
     //xianjin,wenjian,fengxian,jixu,@finance1.averrate,@finance2.averrate,@finance3.averrate,@examination.month01
+    /*
      var yearrate1= 0,monthrate1= 0,yearrate2= 0,monthrate2= 0,yearrate3= 0,monthrate3= 0;
     <% @financial2.each do |f| %>
         if('<%= f.pname %>'==selectproductl){
@@ -1645,8 +1677,7 @@ function update(){
     var c2=fengxian*(1+12*monthrate3)+arrayObj[1][2]*(1+11*monthrate3)+arrayObj[2][2]*(1+10*monthrate3)+arrayObj[3][2]*(1+9*monthrate3)+arrayObj[4][2]*(1+8*monthrate3)+arrayObj[5][2]*(1+7*monthrate3)+arrayObj[6][2]*(1+6*monthrate3)+arrayObj[7][2]*(1+6*monthrate3)+arrayObj[8][2]*(1+4*monthrate3)+arrayObj[9][2]*(1+3*monthrate3)+arrayObj[10][2]*(1+2*monthrate3)+arrayObj[11][2]*(1+1*monthrate3)
     var tol1=a1+b1+c1;
     var tol2=a2+b2+c2;
-   // alert(tol1)
-   // alert(tol2)
+       */
     $.post("/personmanagement/monthconfigajax",{ username: '<%= session[:webusername] %>',month01: arrayObj[0][0],month02:arrayObj[0][1],month03: arrayObj[0][2],
         month11: arrayObj[1][0],month12: arrayObj[1][1],month13: arrayObj[1][2],
         month21: arrayObj[2][0],month22: arrayObj[2][1],month23: arrayObj[2][2],
@@ -1658,8 +1689,9 @@ function update(){
         month81: arrayObj[8][0],month82: arrayObj[8][1],month83: arrayObj[8][2],
         month91: arrayObj[9][0],month92: arrayObj[9][1],month93: arrayObj[9][2],
         month101: arrayObj[10][0],month102: arrayObj[10][1],month103: arrayObj[10][2],
-        month111: arrayObj[11][0],month112: arrayObj[11][1],month113: arrayObj[11][2],tol1:parseInt(tol1),tol2:parseInt(tol2)
-    },function(data){});
+            month111: arrayObj[11][0],month112: arrayObj[11][1],month113: arrayObj[11][2]
+        },function(data){});                                                      //,tol1:parseInt(tol1),tol2:parseInt(tol2)
+       /*
     $(function () {
         var chart = new Highcharts.Chart({
             chart: {
@@ -1692,7 +1724,7 @@ function update(){
                 enabled: false
             },
             tooltip: {
-                pointFormat: '{point.y}'
+                    pointFormat: false
             },
             series: [{
                 name: 'Population',
@@ -1716,6 +1748,7 @@ function update(){
             }
         });
     });
+        */
 }
 function show(e){
     var aaa=document.getElementById('show'+e.id);
