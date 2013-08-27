@@ -256,7 +256,7 @@
             <div class="mobile">资产金额</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
-              <input class="init-share" name="lnw" id="amount" style="width: 180px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+              <input class="init-share" name="lnw" id="amount" style="width: 180px;" onkeyup="updatenum(this)" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
             </div>
           </div>
           <div class="span2" style="text-align: center;">
@@ -300,14 +300,14 @@
             <div class="mobile">总负债</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
-              <input class="init" name="lnw" id="loan" style="width: 120px;"  onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+              <input class="init" name="lnw" id="loan" style="width: 120px;" onkeyup="updatenum(this)" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
             </div>
           </div>
           <div class="span2">
             <div class="mobile">每月还贷</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
-            <input class="repayment" name="lnw" id="repayment" style="width: 120px;" type="text">
+            <input class="repayment" name="lnw" id="repayment" onkeyup="updatenum(this)" style="width: 120px;" type="text">
           </div>
           </div>
           <div class="span2">
@@ -739,6 +739,13 @@
     _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
     w.requestId = "1092152607";
 
+    function updatenum(e){
+        var val = amountFromDom(e);
+        if (val != null) {
+            e.value = w.formatNum(val, 0);
+        }
+    }
+
     $(function(){
         window.onerror = function(error, url, lineNumber) {
             var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
@@ -1014,6 +1021,7 @@
         showQn(9,'','load');
         showQn(0,'','load');
     });
+
         $qr.data("vals", valsFromDom($qr.find("input")))
                 .data("init", function(doCalc) {
                     $qr.data("init", function() { showQn(0, true); })
