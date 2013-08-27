@@ -396,17 +396,10 @@ class UsersurveyController < ApplicationController
   end
 
   def saveage
-    @examination=Examination.find_by_username(params[:username])
-    if @examination==nil
-      Examination.new do |e|
-        e.username=params[:username]
-        e.age=params[:age]
-        e.sex=params[:sex]
-      end
-      render :json => "s1".to_json
-    else
-      @examination.update_attributes(:age=>params[:age],:sex=>params[:sex])
-      render :json => "s2".to_json
+    @webuser=Webuser.find_by_username(params[:username])
+    if @webuser!=nil
+      @webuser.update_attributes(:age=>params[:age],:sex=>params[:sex])
+      render :json => "s".to_json
     end
   end
 

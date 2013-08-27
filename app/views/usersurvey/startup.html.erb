@@ -768,7 +768,7 @@
     var xianjin= 0,wenjian= 0,fengxian=0;
     var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr= 0,sum= 0,bi=0;
     var arrayObj = new Array();
-    $(function() {
+
 
         $('#that').click(function() {
             showQn(6,'',1);
@@ -1456,7 +1456,7 @@
             }
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
-            if (i >= 0 && $qn.length) {
+            if (e!='load' && i >= 0 && $qn.length) {
                 $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
 
                 $qr.data({q: i, transition: true});
@@ -1466,7 +1466,6 @@
                 }else{
                     if(i==9){newTop= (-i * 630).toString()+"px"}
                 }
-
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -1484,8 +1483,8 @@
 
                 var $i = $qn.find("input");
                 var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
-            <% if session[:webusername]!=nil && @examination!=nil %>
-                if(i==4 && '<%= @examination.age %>'!=""){done=true;}
+            <% if session[:webusername]!=nil %>
+                if(i==4 && '<%= @webuser.age %>'!=""){done=true;}
             <% end %>
                 $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
                 $qr.trigger("qr:nav", i);
@@ -1523,7 +1522,7 @@
             $qr.data("vals", vals);
             $qr.triggerHandler("qr:change", +rec);
         }
-    });
+
 </script>
 <script>
     $(function() {
@@ -1535,7 +1534,36 @@
             if ($qs.eq(i).find("input").filter(function() {return this.type == "radio" ? this.checked : !!this.value}).length) {
                 $(this).addClass("past");
             } else {
+                if(i==4 && '<%= @webuser.age %>'!="" && '<%= @webuser.sex %>'!=""){
+                    $(this).addClass("past");
+                }
+                else{
+                    if(i==5){
+                    <% if @userdatamonth!=nil %>
+                       <% if @userdatamonth.income!=nil && @userdatamonth.must_expense!=nil && @userdatamonth.invest_expense!=nil %>
+                          $(this).addClass("past");
+                       <% else %>
+                          return false;
+                       <% end %>
+                    <% else %>
                 return false;
+                    <% end %>
+                    }
+                    else if(i==6){
+                    <% if @userdateannual!=nil %>
+                    <% if @userdateannual.income_annual!=nil && @userdateannual.expense_annual!=nil %>
+                        $(this).addClass("past");
+                    <% else %>
+                        return false;
+                    <% end %>
+                    <% else %>
+                        return false;
+                    <% end %>
+                    }
+                    else{
+                        return false;
+                    }
+                }
             }
         });
         $qr.bind("qr:nav", function(e, i) {
@@ -1577,9 +1605,6 @@
                 .data("init")(true);
     });
 </script>
-
-
-
 
 <script>
     var eCalcShareHolders = new Object();
@@ -1796,8 +1821,8 @@
         <% end %>
 
         <% if session[:webusername]!=nil %>
-        <% if @examination!=nil && @examination.age!=nil %>$("#age").attr("value",parseInt('<%= @examination.age %>'));<% end %>
-        <% if @examination!=nil && @examination.sex!=nil %>$("#sex").attr("value",'<%= @examination.sex %>');<% end %>
+        <% if @webuser.age!=nil %>$("#age").attr("value",parseInt('<%= @webuser.age %>'));<% end %>
+        <% if @webuser.sex!=nil %>$("#sex").attr("value",'<%= @webuser.sex %>');<% end %>
         <% if @userdatamonth!=nil %>
         <% if @userdatamonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.income %>'));<% end %>
         <% if @userdatamonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense %>'));<% end %>
@@ -1892,6 +1917,12 @@
 
         <% end %>
         initPieChart();
+        showQn(5,'','load');
+        showQn(6,'','load');
+        showQn(7,'','load');
+        showQn(8,'','load');
+        showQn(9,'','load');
+        showQn(0,'','load');
     });
 </script>
 
