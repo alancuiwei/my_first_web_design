@@ -49,6 +49,7 @@
 <div id="questionnaire-view">
 <div id="questionnaire">
 <div class="question first">
+  <div class="well-c">
   <table class="center">
     <tr>
       <td>
@@ -64,9 +65,11 @@
     </tr>
   </table>
   <input type="checkbox" class="hide">
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
   <table class="center">
     <tr>
       <td>
@@ -84,17 +87,19 @@
     </tr>
   </table>
   <input type="checkbox" class="hide">
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
   <table class="center">
     <tr>
-      <td class="top">
-
+      <td>
         <p class="q-text">保本性资产是家庭资产配置不可或缺的一部分，他将作为资金增值的安全保护带。这部分资产投资周期将会较长，收益率也相对较高。</p>
         <p class="q-text">随着年龄的增长和家庭风险偏好的下降，该类的比例还将逐渐提高。</p>
-
-
+      </td>
+      <td style="width: 168px;text-align: center;">
+        <a class="introduce" href="#myModal8" role="button" data-toggle="modal">我真的需要保本性资产吗？</a>
       </td>
       <td>
         <div class="image"><img src="/assets/121057.png"></div>
@@ -102,9 +107,11 @@
     </tr>
   </table>
   <input type="checkbox" class="hide">
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
   <table class="center">
     <tr>
       <td class="top">
@@ -118,9 +125,11 @@
     </tr>
   </table>
   <input type="checkbox" name="income" class="hide">
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
   <table class="center">
     <tr>
       <td class="top">
@@ -141,9 +150,11 @@
       </td>
     </tr>
   </table>
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+<div class="well-c">
   <table class="center">
     <tr>
       <td class="top">
@@ -190,9 +201,11 @@
       </td>
     </tr>
   </table>
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
+  <div class="well-c">
   <table class="center">
     <tr>
       <td>
@@ -226,15 +239,16 @@
       </td>
     </tr>
   </table>
+  </div>
   <div class="mobile"><br></div>
 </div>
 <div class="question">
-  <div class="well-c">
+  <div class="well-c well-b">
     <p class="q-text">已有资产表是您资产阶段性总结，分析它可以帮助你及时发现财务危机，规划理财方式，并确保实现梦想目标。<br>切记，填写的应该是资产的当期市值，而不是购买价格。</p>
     <div class="row op-label win">
       <div class="span3">资产品种</div>
-      <div class="span3" style="text-align: left;">资产金额</div>
-      <div class="span2" style="text-align: left;">产品名称（可选）</div>
+      <div class="span3" style="text-align: left;">产品简介</div>
+      <div class="span2" style="text-align: left;">资产金额</div>
       <div class="span1"></div>
     </div>
     <div class="seperator thick"></div>
@@ -245,23 +259,23 @@
 
         <div class="row">
           <div class="span3 control-group">
-            <div class="mobile">资产品种</div>
-            <select  name="variety" id="variety" class="founder-name" title="资产品种">
+            <div class="mobile">资产品种:</div>
+            <select  name="variety" id="variety" class="founder-name" title="资产品种"  onchange="updateintro(this)">
               <% @assettype.each do |a| %>
               <option value="<%= a.asset_typename %>"><%= a.asset_typename %></option>
               <% end %>
             </select>
           </div>
           <div class="span3 control-group" style="text-align: left;">
-            <div class="mobile">资产金额</div>
+            <div class="mobile">产品简介:</div>
+            <p class="q-text pname" id="pname"><%= @assettype[0].asset_intro %></p>
+          </div>
+          <div class="span2" style="text-align: center;">
+            <div class="mobile">资产金额:</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
               <input class="init-share" name="lnw" id="amount" style="width: 180px;" onkeyup="updatenum(this)" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
             </div>
-          </div>
-          <div class="span2" style="text-align: center;">
-            <div class="mobile">产品名称</div>
-            <input class="pname" id="pname" style="width: 206px;" type="text" placeholder="产品名称">
           </div>
           <div class="span1 top5" style="margin-top: 10px;margin-left: 40px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
         </div>
@@ -273,7 +287,7 @@
   <div class="mobile"><br></div>
 </div>
 <div class="question">
-  <div class="well-c">
+  <div class="well-c well-b">
     <div class="row op-label win">
       <div class="span2">贷款类型</div>
       <div class="span2" style="text-align: left;">总负债</div>
@@ -289,7 +303,7 @@
 
         <div class="row">
           <div class="span2 control-group">
-            <div class="mobile">贷款类型</div>
+            <div class="mobile">贷款类型:</div>
             <select  name="variety" id="debttype" class="found-name" title="贷款类型" style="width: 140px;">
               <% @debttype.each do |d| %>
                   <option value="<%= d.debt_typename %>"><%= d.debt_typename %></option>
@@ -297,21 +311,21 @@
             </select>
           </div>
           <div class="span2 control-group" style="text-align: left;">
-            <div class="mobile">总负债</div>
+            <div class="mobile">总负债:</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
               <input class="init" name="lnw" id="loan" style="width: 120px;" onkeyup="updatenum(this)" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
             </div>
           </div>
           <div class="span2">
-            <div class="mobile">每月还贷</div>
+            <div class="mobile">每月还贷:</div>
             <div class="input-prepend">
               <span class="add-on">￥</span>
             <input class="repayment" name="lnw" id="repayment" onkeyup="updatenum(this)" style="width: 120px;" type="text">
           </div>
           </div>
           <div class="span2">
-            <div class="mobile">贷款年限</div>
+            <div class="mobile">贷款年限:</div>
             <input class="period" id="period" style="width: 120px;" type="text">
           </div>
           <div class="span1 top5" style="margin-top: 10px;margin-left: 0;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
@@ -328,56 +342,80 @@
   <table>
     <tr>
       <td>
+        <h2>体检简报：</h2>
         <% @moonlite.each do |m| %>
           <% if m.typename=='负翁' %>
         <div id="level0" class="hide">
-                  <p class="q-text">简介：<%=raw m.type_intro %></p>
+                  <p class="q-text"><%=raw m.type_intro %></p>
                   <p class="q-text result" style="color: red;"></p>
         </div>
            <% elsif m.typename=='重度月光族' %>
         <div id="level1" class="hide">
-                  <p class="q-text">简介：<%=raw m.type_intro %></p>
+                  <p class="q-text"><%=raw m.type_intro %></p>
                   <p class="q-text result" style="color: red;"></p>
         </div>
            <% elsif m.typename=='中度月光族' %>
         <div id="level2" class="hide">
-                  <p class="q-text">简介：<%=raw m.type_intro %></p>
+                  <p class="q-text"><%=raw m.type_intro %></p>
                   <p class="q-text result" style="color: red;"></p>
         </div>
            <% elsif m.typename=='轻度月光族' %>
         <div id="level3" class="hide">
-                  <p class="q-text">简介：<%=raw m.type_intro %></p>
+                  <p class="q-text"><%=raw m.type_intro %></p>
                   <p class="q-text result" style="color: red;"></p>
         </div>
           <% end %>
         <% end %>
+        <h2>家庭财务 详细分析报告：</h2>
+        <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
+        <h1 class="h1">1、家庭资产负债表：</h1>
+        <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
+        <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的进资产增长，这说明您的经济状况一直在改善。</p>
+        <table id="asset" class="table table-striped table-bordered footable">
+          <thead>
+          <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">资产项目</th>
+            <th data-sort-ignore="true">金额</th>
+            <th data-hide="phone" class="grey">负债项目</th>
+            <th data-hide="phone">金额</th></tr>
+          <tr class="win"><th class="grey">资产项目</th><th>金额</th><th class="grey">负债项目</th><th>金额</th></tr>
+          </thead>
+          <% for k in 0..9 %>
+              <tr class="asset hide"><td class="grey"></td><td></td><td class="grey"></td><td></td></tr>
+          <% end %>
+          <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+          <tr class="total0"><td class="grey">家庭净资产</td><td></td><td class="grey"></td><td></td></tr>
+        </table>
+        <h1 class="h1">2、家庭现金流量表：</h1>
+        <p class="q-text">现金流量表，又称家庭收入和支出表，是对某段时间，例如一个月或一年，现金流入和流出情况</p>
+        <p class="q-text">月收入开销表</p>
+        <table id="detailed" class="table table-striped table-bordered footable">
+          <thead>
+          <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
+            <th data-sort-ignore="true">金额</th>
+            <th data-hide="phone" class="grey">家庭支出项目</th>
+            <th data-hide="phone">金额</th></tr>
+          <tr class="win"><th class="grey">家庭收入项目</th><th>金额</th><th class="grey">家庭支出项目</th><th>金额</th></tr>
+          </thead>
+          <tr><td class="grey">工资</td>         <td></td> <td class="grey">生活必须开销</td> <td></td></tr>
+          <tr><td class="grey">额外收入</td>     <td></td> <td class="grey">零花娱乐开销</td> <td></td></tr>
+          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey">贷款支出</td>     <td></td></tr>
+          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
+          <tr><td class="grey">家庭月度结余</td> <td></td> <td class="grey"></td>             <td></td></tr>
+        </table>
         <input type="checkbox" class="hide">
       </td>
-      <td style="width: 168px;text-align: center;">
-        <a class="introduce" href="#myModal6" role="button" data-toggle="modal">分数如何计算得到的？</a>
-      </td>
       <td>
-        <div id="percent" style="width: 300px;"><div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div></div>
+        <div id="percent" style="width: 300px;text-align: center;">
+          <div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
+          <br>
+          <blockquote><small class="intro"></small></blockquote>
+          <a class="introduce" href="#myModal6" role="button" data-toggle="modal">分数如何计算得到的？</a>
+        </div>
       </td>
     </tr>
   </table>
-  <p class="q-text">详细报告：<br>对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
-  <h1 class="h1">1、家庭资产负债表：</h1>
-  <table id="asset" class="table table-striped table-bordered footable">
-    <thead>
-    <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">资产项目</th>
-      <th data-sort-ignore="true">金额</th>
-      <th data-hide="phone" class="grey">负债项目</th>
-      <th data-hide="phone">金额</th></tr>
-    <tr class="win"><th class="grey">资产项目</th><th>金额</th><th class="grey">负债项目</th><th>金额</th></tr>
-    </thead>
-    <% for k in 0..8 %>
-        <tr class="asset hide"><td class="grey"></td><td></td><td class="grey"></td><td></td></tr>
-    <% end %>
-    <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-    <tr class="total0"><td class="grey">家庭净资产</td><td></td><td class="grey"></td><td></td></tr>
-  </table>
-    <h1 class="h1">2、家庭资产结构分析：</h1>
+
+    <h1 class="h1">3、家庭资产结构分析：</h1>
     <table id="cotain">
       <td style="width: 50%;">
         <div id="container" class="win" style="width: 400px;height: 300px;"></div>
@@ -388,22 +426,7 @@
       <td><div id="container2" class="win" style="width: 400px;height: 300px;"></div>
         <div id="container2" class="mobile" style="width: 240px;height: 300px;"></div></td>
     </table>
-    <h1 class="h1">3、家庭现金流量图表：</h1>
-    <p class="q-text">月收入开销表</p>
-    <table id="detailed" class="table table-striped table-bordered footable">
-      <thead>
-      <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
-        <th data-sort-ignore="true">金额</th>
-        <th data-hide="phone" class="grey">家庭支出项目</th>
-        <th data-hide="phone">金额</th></tr>
-      <tr class="win"><th class="grey">家庭收入项目</th><th>金额</th><th class="grey">家庭支出项目</th><th>金额</th></tr>
-      </thead>
-      <tr><td class="grey">工资</td>         <td></td> <td class="grey">生活必须开销</td> <td></td></tr>
-      <tr><td class="grey">额外收入</td>     <td></td> <td class="grey">零花娱乐开销</td> <td></td></tr>
-      <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey">贷款支出</td>     <td></td></tr>
-      <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
-      <tr><td class="grey">家庭月度结余</td> <td></td> <td class="grey"></td>             <td></td></tr>
-  </table>
+
     <h1 class="h1">4、家庭财务指数：</h1>
     <table id="indicators" class="table table-striped table-bordered footable">
       <thead>
@@ -489,23 +512,35 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
+<div id="myModal8" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>我真的需要保本性资产吗？</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog4!=nil %>
+        <img class="alignleft size-medium " id="img" src="/assets/20110916496090.jpg"><br><br>
+        <%=raw @blog4.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
 <div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 class="h3">月收入支出 明细</h3>
   </div>
   <div class="modal-body">
-    <table id="exact2" class="table table-striped table-bordered footable">
+    <table id="exact2" class="table table-striped table-bordered">
       <thead>
-      <tr class="mobile"><th data-sort-initial="descending" data-class="expand">收入明细</th>
-        <th data-hide="phone">说明</th>
-        <th data-sort-ignore="true">金额</th></tr>
-      <tr class="win"><th>收入明细</th><th>说明</th><th>金额</th></tr>
+      <tr><th>收入明细</th><th class="win">说明</th><th>金额</th></tr>
       </thead>
       <% for i in 0..@incometype.size-1 %>
       <tr>
         <td><%= @incometype[i].income_name %></td>
-        <td><%= @incometype[i].income_intro %></td>
+        <td class="win"><%= @incometype[i].income_intro %></td>
         <td class="last">
           <div class="input-prepend">
             <span class="add-on">￥</span>
@@ -515,18 +550,14 @@
       </tr>
       <% end %>
     </table>
-    <table id="exact1" class="table table-striped table-bordered footable">
+    <table id="exact1" class="table table-striped table-bordered">
       <thead>
-      <tr class="mobile"><th data-sort-initial="descending" data-class="expand">支出明细</th>
-        <th data-hide="phone">说明</th>
-        <th data-sort-ignore="true">金额</th>
-        <th data-hide="phone" class="update hide">建议金额</th></tr>
-      <tr class="win"><th>支出明细</th><th>说明</th><th>金额</th><th class="update hide">建议金额</th></tr>
+      <tr><th>支出明细</th><th class="win">说明</th><th>金额</th><th class="update hide">建议金额</th></tr>
       </thead>
       <% for i in 0..@expensetype.size-1 %>
       <tr>
         <td><%= @expensetype[i].expense_name %></td>
-        <td><%= @expensetype[i].expense_intro %></td>
+        <td class="win"><%= @expensetype[i].expense_intro %></td>
         <td class="last">
           <div class="input-prepend">
             <span class="add-on">￥</span>
@@ -746,6 +777,15 @@
         }
     }
 
+    function updateintro(e){
+        var pid=e.id.replace('variety','pname')
+    <% @assettype.each do |a| %>
+        if('<%= a.asset_typename %>'== e.value){
+            $("#"+pid).html('<%= a.asset_intro %>')
+        }
+    <% end %>
+    }
+
     $(function(){
         window.onerror = function(error, url, lineNumber) {
             var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
@@ -771,7 +811,7 @@
 </script>
 
 <script>
-    var variety,amount,pname,jixu,total,xian,feng,wen,level='',bili= 0,debttype,loan,repayment,period;
+    var variety,amount,jixu,total,xian,feng,wen,level='',bili= 0,debttype,loan,repayment,period;
     var xianjin= 0,wenjian= 0,fengxian=0;
     var mea1= 0,mea2= 0,mea3= 0,mea4= 0,mea5= 0,mea6= 0,mea7= 0,arr= 0,sum= 0,bi=0;
     var arrayObj = new Array();
@@ -971,17 +1011,27 @@
         <% if @userassetsheet!=nil %>
         var array0=[<%= @userassetsheet.asset1_account %>,<%= @userassetsheet.asset2_account %>,<%= @userassetsheet.asset3_account %>,
             <%= @userassetsheet.asset4_account %>,<%= @userassetsheet.asset5_account %>,<%= @userassetsheet.asset6_account %>,
-            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>]
-        for(i=0;i<9;i++){
+            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>,<%= @userassetsheet.asset10_account %>]
+        for(i=0;i<10;i++){
             if(array0[i]!=0){
                 if(first==0){
                     $("#variety").attr("value",array1[i])
                     $("#amount").attr("value",array0[i])
+                <% @assettype.each do |a| %>
+                   if('<%= a.asset_typename %>'==array1[i]){
+                    $("#pname").html('<%= a.asset_intro %>')
+                   }
+                <% end %>
                 }
                 else{
                     addFounder(null, false);
                     $("#variety"+first).attr("value",array1[i])
                     $("#amount"+first).attr("value",array0[i]);
+                <% @assettype.each do |a| %>
+                    if('<%= a.asset_typename %>'==array1[i]){
+                        $("#pname"+first).html('<%= a.asset_intro %>')
+                    }
+                <% end %>
                 }
                 first=first+1;
             }
@@ -1113,7 +1163,13 @@
                             var salary= avge;
                             var rent= tot3;
                             var wages= avge-tot2;
-                            $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                            if(level==4){
+                              var score=run();
+                            }
+                            else{
+                              var score=0;
+                            }
+                            $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                                 salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,level:level,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
                                 family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
                                 income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
@@ -1123,7 +1179,7 @@
                         }
                         else{
                         <% if session[:webusername]!=nil %>
-                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:run(),pname:pnames,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                                 xian:xian,wen:wen,feng:feng,acta:0,level:level},function(data){
                             location.href='/usersurvey/measure/2';
                         });
@@ -1208,7 +1264,7 @@
                 if(num2==1){
                     variety=document.getElementsByClassName("founder-name")  //资产品种
                     amount=document.getElementsByClassName("init-share")  //资产金额
-                    arrayObj = [0,0,0,0,0,0,0,0,0];
+                    arrayObj = [0,0,0,0,0,0,0,0,0,0];
                     for(j=0;j<variety.length;j++){
                         var ccc=amount[j].value.replace(/,/g, "");
                         if(ccc==''){ccc=0;}
@@ -1221,7 +1277,7 @@
                     $("[class*='asset']").hide();
                     sum=0;
 
-                    for(j=0;j<9;j++){
+                    for(j=0;j<10;j++){
                         if(arrayObj[j]!=0){
                             left=left+1;
                             $("#asset tr:eq("+left.toString()+") td:eq(0)").html(array1[j]);
@@ -1231,7 +1287,7 @@
                         sum=sum+arrayObj[j];
                     }
 
-                    $.post("/usersurvey/userassetsheet",{username:'<%= session[:webusername] %>',asset1_account:arrayObj[0],asset2_account:arrayObj[1],asset3_account:arrayObj[2],asset4_account:arrayObj[3],asset5_account:arrayObj[4],asset6_account:arrayObj[5],asset7_account:arrayObj[6],asset8_account:arrayObj[7],asset9_account:arrayObj[8]},function(data){
+                    $.post("/usersurvey/userassetsheet",{username:'<%= session[:webusername] %>',asset1_account:arrayObj[0],asset2_account:arrayObj[1],asset3_account:arrayObj[2],asset4_account:arrayObj[3],asset5_account:arrayObj[4],asset6_account:arrayObj[5],asset7_account:arrayObj[6],asset8_account:arrayObj[7],asset9_account:arrayObj[8],asset10_account:arrayObj[9]},function(data){
                         $("#indicators tr:eq(5) td:eq(5)").html(data.split(",")[0]);
                         $("#indicators tr:eq(6) td:eq(5)").html(data.split(",")[1]);
                         $("#indicators tr:eq(7) td:eq(5)").html(data.split(",")[2]);
@@ -1335,7 +1391,6 @@
                     });
                 variety=document.getElementsByClassName("founder-name")  //资产品种
                 amount=document.getElementsByClassName("init-share")  //资产金额
-                pname=document.getElementsByClassName("pname")  //产品名称
 
                 xianjin=0;
                 wenjian=0;
@@ -1365,12 +1420,10 @@
                     if(j==0){
                         varietys=variety[j].value;
                         amounts=ccc;
-                        pnames=pname[j].value;
                     }
                     else{
                         varietys=varietys+','+variety[j].value;
                         amounts=amounts+','+ccc;
-                        pnames=pnames+','+pname[j].value;
                     }
                 }
 
@@ -1491,24 +1544,32 @@
                     $("#level1").hide();
                     $("#level2").hide();
                     $("#level3").hide();
+                        animate(0,0);
+                        $(".intro").html("您属于负翁，您当前家庭资产体检得分约等于0分。")
                 }
                     else if(level==2){
                     $("#level0").hide();
                     $("#level1").show();
                     $("#level2").hide();
                     $("#level3").hide();
+                        animate(0,0);
+                        $(".intro").html("您属于重度月光族，您当前家庭资产体检得分约等于0分。")
                 }
                     else if(level==3){
                     $("#level0").hide();
                     $("#level1").hide();
                     $("#level2").show();
                     $("#level3").hide();
+                        animate(0,0);
+                        $(".intro").html("您属于中度月光族，您当前家庭资产体检得分约等于0分。")
                 }
                     else if(level==4){
                     $("#level0").hide();
                     $("#level1").hide();
                     $("#level2").hide();
                     $("#level3").show();
+                        animate(0,run());
+                        $(".intro").html("您属于轻度月光族，您当前家庭资产体检得分约等于"+run()+"分。")
                 }
 
                     if(arrayObj0[0][0]!=0){
@@ -1533,7 +1594,6 @@
                     });
                 }
                 $("#title").html("资产体检 总结");
-                animate(0,run());
             }
             else{
                 var test_div=document.getElementById("questionnaire-view");
@@ -1542,15 +1602,43 @@
             }
             if(system.win||system.mac||system.xll){
             }else{
-                if(i!=9){
+                if(i!=9 && i!=5 && i!=2 && i!=6){
+                    var test_div=document.getElementById("questionnaire-view");
+                    test_div.style.height="500px";
+                    var test_div=document.getElementsByClassName("question");
+                    for(k=0;k<test_div.length-1;k++){
+                        test_div[k].style.height="470px";
+                    }
+                    var test_div=document.getElementById("num9");
+                    test_div.style.height="440px";
+                    var test_div=document.getElementsByClassName("well-c");
+                    for(k=0;k<test_div.length-1;k++){
+                        test_div[k].style.height="440px";
+                    }
+                }
+                else if(i==5){
                     var test_div=document.getElementById("questionnaire-view");
                     test_div.style.height="660px";
                     var test_div=document.getElementsByClassName("question");
                     for(k=0;k<test_div.length-1;k++){
                         test_div[k].style.height="630px";
                     }
-                    var test_div=document.getElementById("num9");
-                    test_div.style.height="600px";
+                    var test_div=document.getElementsByClassName("well-c");
+                    for(k=0;k<test_div.length-1;k++){
+                        test_div[k].style.height="600px";
+                    }
+                }
+                else if(i==2 || i==6){
+                    var test_div=document.getElementById("questionnaire-view");
+                    test_div.style.height="400px";
+                    var test_div=document.getElementsByClassName("question");
+                    for(k=0;k<test_div.length-1;k++){
+                        test_div[k].style.height="370px";
+                    }
+                    var test_div=document.getElementsByClassName("well-c");
+                    for(k=0;k<test_div.length-1;k++){
+                        test_div[k].style.height="340px";
+                    }
                 }
                 else{
                     if(acta==1){
@@ -1581,7 +1669,7 @@
                 if(system.win||system.mac||system.xll){
                     if(i==9){newTop= (-i * 296).toString()+"px"}
                 }else{
-                    if(i==9){newTop= (-i * 630).toString()+"px"}
+                    if(i==9){newTop= (-i * 470).toString()+"px"}
                 }
                 //  alert(newTop)
                 if (immediately) {

@@ -71,6 +71,11 @@ class UsersurveyController < ApplicationController
     else
       income3_account=0
     end
+    if @detailedmonth!=nil && @detailedmonth.income3_account!=nil
+      income3month= @detailedmonth.income3_account
+    else
+      income3month=0
+    end
     if @userdata==nil
       Userdata_annual.new do |e|
         e.username=params[:username]
@@ -81,13 +86,13 @@ class UsersurveyController < ApplicationController
         e.income_annual=params[:incomeannual]
         e.expense_annual=params[:expenseannual]
         e.bonus_annual=income1_account+income2_account
-        e.other_income_annual=income3_account
+        e.other_income_annual=income3_account+income3month*12
         e.net_annual=salary_annual+income1_account+income2_account+income3_account-must_expense_annual-fun_expense_annual-debt_annual
         e.save
       end
     else
-      @userdata.update_attributes(:income_annual=>params[:incomeannual],:expense_annual=>params[:expenseannual],:salary_annual=>salary_annual,:must_expense_annual=>must_expense_annual,
-                                  :fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:net_annual=>salary_annual+income1_account+income2_account+income3_account-must_expense_annual-fun_expense_annual-debt_annual)
+      @userdata.update_attributes(:income_annual=>params[:incomeannual],:expense_annual=>params[:expenseannual],:salary_annual=>salary_annual,:must_expense_annual=>must_expense_annual,bonus_annual:income1_account+income2_account,
+                                  :other_income_annual=>income3_account+income3month*12,:fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:net_annual=>salary_annual+income1_account+income2_account+income3_account-must_expense_annual-fun_expense_annual-debt_annual)
     end
     render :json => "s".to_json
   end
@@ -273,18 +278,19 @@ class UsersurveyController < ApplicationController
         e.asset7_account=params[:asset7_account]
         e.asset8_account=params[:asset8_account]
         e.asset9_account=params[:asset9_account]
+        e.asset10_account=params[:asset10_account]
         e.save
       end
     else
       @userassetsheet.update_attributes(:asset1_account=>params[:asset1_account],:asset2_account=>params[:asset2_account],:asset3_account=>params[:asset3_account],
                                          :asset4_account=>params[:asset4_account],:asset5_account=>params[:asset5_account],:asset6_account=>params[:asset6_account],
-                                         :asset7_account=>params[:asset7_account],:asset8_account=>params[:asset8_account],:asset9_account=>params[:asset9_account])
+                                         :asset7_account=>params[:asset7_account],:asset8_account=>params[:asset8_account],:asset9_account=>params[:asset9_account],:asset10_account=>params[:asset10_account])
     end
     @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
-    a1=params[:asset1_account].to_i+params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset4_account].to_i+params[:asset5_account].to_i+params[:asset6_account].to_i+params[:asset7_account].to_i+params[:asset8_account].to_i+params[:asset9_account].to_i
+    a1=params[:asset1_account].to_i+params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset4_account].to_i+params[:asset5_account].to_i+params[:asset6_account].to_i+params[:asset7_account].to_i+params[:asset8_account].to_i+params[:asset9_account].to_i+params[:asset10_account].to_i
     a2=0
     a3=params[:asset1_account].to_i+params[:asset4_account].to_i
-    a4=params[:asset5_account].to_i+params[:asset9_account].to_i
+    a4=params[:asset5_account].to_i+params[:asset9_account].to_i+params[:asset10_account].to_i
     a5=params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset6_account].to_i
     if @userbalancesheet==nil
       User_balance_sheet.new do |e|
@@ -351,6 +357,7 @@ class UsersurveyController < ApplicationController
     @blog=Blog.find_by_id(401)
     @blog2=Blog.find_by_id(111)
     @blog3=Blog.find_by_id(403)
+    @blog4=Blog.find_by_id(442)
     @assettype=Admin_asset_type.all
     @debttype=Admin_debt_type.all
     @moonlite=Admin_moonlite_type.all

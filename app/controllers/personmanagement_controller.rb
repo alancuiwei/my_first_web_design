@@ -42,6 +42,8 @@ class PersonmanagementController < ApplicationController
             @hash4.store(5,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset6_account])
           when 8
             @hash4.store(6,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset9_account])
+          when 8
+            @hash4.store(6,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset10_account])
        end
       end
       @examination=Examination.find_by_username(session[:webusername])
