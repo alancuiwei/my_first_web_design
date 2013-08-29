@@ -367,6 +367,7 @@
           <% end %>
         <% end %>
         <h2>家庭财务 详细分析报告：</h2>
+        <div id="detailedreport">
         <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
         <h1 class="h1">1、家庭资产负债表：</h1>
         <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
@@ -386,23 +387,10 @@
           <tr class="total0"><td class="grey">家庭净资产</td><td></td><td class="grey"></td><td></td></tr>
         </table>
         <h1 class="h1">2、家庭现金流量表：</h1>
-        <p class="q-text">现金流量表，又称家庭收入和支出表，是对某段时间，例如一个月或一年，现金流入和流出情况</p>
-        <p class="q-text">月收入开销表</p>
-        <table id="detailed" class="table table-striped table-bordered footable">
-          <thead>
-          <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
-            <th data-sort-ignore="true">金额</th>
-            <th data-hide="phone" class="grey">家庭支出项目</th>
-            <th data-hide="phone">金额</th></tr>
-          <tr class="win"><th class="grey">家庭收入项目</th><th>金额</th><th class="grey">家庭支出项目</th><th>金额</th></tr>
-          </thead>
-          <tr><td class="grey">工资</td>         <td></td> <td class="grey">生活必须开销</td> <td></td></tr>
-          <tr><td class="grey">额外收入</td>     <td></td> <td class="grey">零花娱乐开销</td> <td></td></tr>
-          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey">贷款支出</td>     <td></td></tr>
-          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
-          <tr><td class="grey">家庭月度结余</td> <td></td> <td class="grey"></td>             <td></td></tr>
-        </table>
+        <p class="q-text">现金流量表，又称家庭收入和支出表，是对某段时间，例如一个月或一年，现金流入和流出情况的总结。这个报表对于您做家庭财政规划非常有帮助。
+          通俗的概括，这张表将告诉您，您的钱到什么地方去了？</p>
         <input type="checkbox" class="hide">
+        </div>
       </td>
       <td>
         <div id="percent" style="width: 300px;text-align: center;">
@@ -413,21 +401,66 @@
         </div>
       </td>
     </tr>
-  </table>
-
-    <h1 class="h1">3、家庭资产结构分析：</h1>
-    <table id="cotain">
-      <td style="width: 50%;">
-        <div id="container" class="win" style="width: 400px;height: 300px;"></div>
-        <div id="container" class="mobile" style="width: 240px;height: 300px;"></div>
-        <div id="container3" class="win" style="width: 400px;height: 300px;"></div>
-        <div id="container3" class="mobile" style="width: 240px;height: 300px;"></div>
+    <tr>
+      <td>
+        <p class="q-text">月收入开销表</p>
+        <table id="detailed" class="table table-striped table-bordered footable">
+          <thead>
+          <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
+            <th data-sort-ignore="true">金额</th>
+            <th data-hide="phone" class="grey">家庭支出项目</th>
+            <th data-hide="phone">金额</th></tr>
+          <tr class="win"><th class="grey">家庭收入项目</th><th>金额</th><th class="grey">家庭支出项目</th><th>金额</th></tr>
+          </thead>
+          <% for i in 0..@expensetype.size-1 %>
+              <tr class="acta1"><td class="grey"></td><td></td><td class="grey"><%= @expensetype[i].expense_name %></td> <td></td></tr>
+          <% end %>
+          <tr class="acta0"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
+          <tr class="acta0"><td class="grey">&nbsp;</td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
+          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey">贷款支出</td>     <td></td></tr>
+          <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
+          <tr><td class="grey">家庭月度结余</td> <td></td> <td class="grey"></td>             <td></td></tr>
+        </table>
       </td>
-      <td><div id="container2" class="win" style="width: 400px;height: 300px;"></div>
-        <div id="container2" class="mobile" style="width: 240px;height: 300px;"></div></td>
+      <td>
+        <div id="container" class="win" style="width: 300px;height: 300px;"></div>
+        <div id="container" class="mobile" style="width: 240px;height: 300px;"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p class="q-text">年收入开销表</p>
+        <table id="detailannual" class="table table-striped table-bordered footable">
+          <thead>
+          <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
+            <th data-sort-ignore="true">金额</th>
+            <th data-hide="phone" class="grey">家庭支出项目</th>
+            <th data-hide="phone">金额</th></tr>
+          <tr class="win"><th class="grey">家庭收入项目</th><th>金额</th><th class="grey">家庭支出项目</th><th>金额</th></tr>
+          </thead>
+          <tr class="actb0"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
+          <tr class="actb0"><td class="grey">年度收入</td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
+          <tr class="actb0"><td class="grey">&nbsp;</td><td></td><td class="grey">贷款支出</td><td></td></tr>
+          <tr class="actb0"><td class="grey">&nbsp;</td><td></td><td class="grey">年度开销</td><td></td></tr>
+          <tr class="actb1"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
+          <tr class="actb1"><td class="grey"><%= @incomeannual[0].income_name %></td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
+          <tr class="actb1"><td class="grey"><%= @incomeannual[1].income_name %></td><td></td><td class="grey">贷款支出</td><td></td></tr>
+          <tr class="actb1"><td class="grey"><%= @incomeannual[2].income_name %></td><td></td><td class="grey"><%= @expenseannual[0].expense_name %></td><td></td></tr>
+          <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[1].expense_name %></td><td></td></tr>
+          <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[2].expense_name %></td><td></td></tr>
+          <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[3].expense_name %></td><td></td></tr>
+          <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+          <tr><td class="grey">家庭年度结余</td><td></td><td class="grey"></td><td></td></tr>
+  </table>
+      </td>
+      <td>
+        <div id="container2" class="win" style="width: 300px;height: 300px;"></div>
+        <div id="container2" class="mobile" style="width: 240px;height: 300px;"></div>
+      </td>
+    </tr>
     </table>
 
-    <h1 class="h1">4、家庭财务指数：</h1>
+    <h1 class="h1">3、家庭财务指数：</h1>
     <table id="indicators" class="table table-striped table-bordered footable">
       <thead>
       <tr class="win"><th>指标归类</th><th>家庭财务比率</th><th>定义</th><th>反映情况</th><th>合理范围</th><th>实际比率</th></tr>
@@ -667,7 +700,7 @@
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
     var tot1= 0,tot2= 0,avge= 0,tot3=0;
     var normal=0; //月收入支出 明细1/2
-    var acta=0; //普通/精确
+    var acta= 0,actb=0; //普通/精确
     var srw=[];
     var array1=[],array2=[],array4=[];
     var ie = !-[1,];
@@ -836,6 +869,7 @@
 
             });
             showQn(7,'','',1);
+            actb=1;
         });
 
         $('#sum').click(function() {
@@ -870,55 +904,6 @@
                     showQn(6,'',1);
                 }
                 bi=data;
-                var chart = new Highcharts.Chart({
-                    chart: {
-                        renderTo: 'container3',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: '月开销结构图'
-                    },
-                    tooltip: false,
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: false,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                distance: 10,
-                                connectorColor: '#000000',
-                                formatter:function(index) {
-                                    if(this.point.percentage>0){
-                                        return  '<span>'+this.point.name + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
-                                    }
-                                }
-                            },
-                            showInLegend: true,
-                            size: 120,
-                            borderWidth: 0
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: [
-                            [array2[0], parseInt(exect[3].value)],
-                            [array2[1], parseInt(exect[4].value)],
-                            [array2[2], parseInt(exect[5].value)],
-                            [array2[3], parseInt(exect[6].value)],
-                            [array2[4], parseInt(exect[7].value)],
-                            [array2[5], parseInt(exect[8].value)],
-                            [array2[6], parseInt(exect[9].value)]
-                        ]
-                    }],
-                    legend: false,
-                    credits: {
-                        enabled: false
-                    }
-            });
             });
 
             avge=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);
@@ -1247,6 +1232,12 @@
             } else if(i!=7){num4=0;}
             if(i==7){
                if(num4==1){
+                   if(annual==1){
+                       actb=1;
+                   }
+                   else{
+                       actb=0;
+                   }
                    var a1=parseInt($("#incomeannual").attr("value").replace(/,/g, ""));
                    var a2=parseInt($("#expenseannual").attr("value").replace(/,/g, ""));
                    $.post("/usersurvey/userdataannual",{username:'<%= session[:webusername] %>',incomeannual:a1,expenseannual:a2},function(data){
@@ -1291,103 +1282,6 @@
                         $("#indicators tr:eq(5) td:eq(5)").html(data.split(",")[0]);
                         $("#indicators tr:eq(6) td:eq(5)").html(data.split(",")[1]);
                         $("#indicators tr:eq(7) td:eq(5)").html(data.split(",")[2]);
-                    });
-
-                    var chart = new Highcharts.Chart({
-                        chart: {
-                            renderTo: 'container',
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false
-                        },
-                        title: {
-                            text: '家庭资产结构图'
-                        },
-                        tooltip: false,
-                        plotOptions: {
-                            pie: {
-                                allowPointSelect: false,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: true,
-                                    color: '#000000',
-                                    distance: 10,
-                                    connectorColor: '#000000',
-                                    formatter:function(index) {
-                                        if(this.point.percentage>0){
-                                            return  '<span>'+this.point.name + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
-                                        }
-                                    }
-                                },
-                                showInLegend: true,
-                                size: 120,
-                                borderWidth: 0
-                            }
-                        },
-                        series: [{
-                            type: 'pie',
-                            name: 'Browser share',
-                            data: [
-                                ['房产', arrayObj[6]],
-                                ['汽车', arrayObj[7]],
-                                ['流动性', arrayObj[0]+arrayObj[3]],
-                                ['保本性', arrayObj[1]+arrayObj[2]+arrayObj[5]],
-                                ['风险性', arrayObj[4]+arrayObj[8]]
-                            ]
-                        }],
-                        legend: false,
-                        credits: {
-                            enabled: false
-                        }
-                    });
-                    var chart = new Highcharts.Chart({
-                        chart: {
-                            renderTo: 'container2',
-                            plotBackgroundColor: null,
-                            plotBorderWidth: null,
-                            plotShadow: false
-                        },
-                        title: {
-                            text: '非固定资产结构图'
-                        },
-                        tooltip: false,
-                        plotOptions: {
-                            pie: {
-                                allowPointSelect: false,
-                                cursor: 'pointer',
-                                dataLabels: {
-                                    enabled: true,
-                                    color: '#000000',
-                                    distance: 10,
-                                    connectorColor: '#000000',
-                                    formatter:function(index) {
-                                        if(this.point.percentage>0){
-                                            return  '<span>'+this.point.name + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
-                                        }
-                                    }
-                                },
-                                showInLegend: true,
-                                size: 120,
-                                borderWidth: 0
-                            }
-                        },
-                        series: [{
-                            type: 'pie',
-                            name: 'Browser share',
-                            data: [
-                                [array1[0], arrayObj[0]],
-                                [array1[1], arrayObj[1]],
-                                [array1[2], arrayObj[2]],
-                                [array1[3], arrayObj[3]],
-                                [array1[4], arrayObj[4]],
-                                [array1[5], arrayObj[5]],
-                                [array1[8], arrayObj[8]]
-                            ]
-                        }],
-                        legend: false,
-                        credits: {
-                            enabled: false
-                        }
                     });
                 variety=document.getElementsByClassName("founder-name")  //资产品种
                 amount=document.getElementsByClassName("init-share")  //资产金额
@@ -1472,28 +1366,47 @@
                           }
                         <% end %>
                     }
-
+                    var salarymonth=0;//每月工资
+                    var debtmonth=parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]); //每月还贷
+                    var mustmonth=0; //每月必要开销
+                    var funmonth=0; //每月零花娱乐开销
                     var exect=document.getElementsByName('exect');
                     if(acta==1){
-                        $("#container3").show();
-                        $("#detailed tr:eq(1) td:eq(1)").html(parseInt(exect[0].value)+parseInt(exect[1].value));
-                        $("#detailed tr:eq(2) td:eq(1)").html(parseInt(exect[2].value));
-                        $("#detailed tr:eq(1) td:eq(3)").html(parseInt(exect[3].value)+parseInt(exect[4].value)+parseInt(exect[8].value));
-                        $("#detailed tr:eq(2) td:eq(3)").html(parseInt(exect[5].value)+parseInt(exect[6].value)+parseInt(exect[7].value)+parseInt(exect[9].value));
-                        $("#detailed tr:eq(3) td:eq(3)").html(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]));
-                        $("#detailed tr:eq(5) td:eq(1)").html(avge-tot2-(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])));
+                        $(".acta0").hide();
+                        $(".acta1").show();
+                        <% for i in 0..@incometype.size-1 %>
+                           $("#detailed tr:eq('<%= i+1 %>') td:eq(0)").html(' <%= @incometype[i].income_name %>');
+                        <% end %>
+                        salarymonth=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);
+                        mustmonth=parseInt(exect[3].value)+parseInt(exect[4].value)+parseInt(exect[8].value);
+                        funmonth=parseInt(exect[5].value)+parseInt(exect[6].value)+parseInt(exect[7].value)+parseInt(exect[9].value);
+                        $("#detailed tr:eq(1) td:eq(1)").html(parseInt(exect[0].value));
+                        $("#detailed tr:eq(2) td:eq(1)").html(parseInt(exect[1].value));
+                        $("#detailed tr:eq(3) td:eq(1)").html(parseInt(exect[2].value));
+                        $("#detailed tr:eq(1) td:eq(3)").html(parseInt(exect[3].value));
+                        $("#detailed tr:eq(2) td:eq(3)").html(parseInt(exect[4].value));
+                        $("#detailed tr:eq(3) td:eq(3)").html(parseInt(exect[5].value));
+                        $("#detailed tr:eq(4) td:eq(3)").html(parseInt(exect[6].value));
+                        $("#detailed tr:eq(5) td:eq(3)").html(parseInt(exect[7].value));
+                        $("#detailed tr:eq(6) td:eq(3)").html(parseInt(exect[8].value));
+                        $("#detailed tr:eq(7) td:eq(3)").html(parseInt(exect[9].value));
+                        $("#detailed tr:eq(10) td:eq(3)").html(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]));
+                        $("#detailed tr:eq(12) td:eq(1)").html(avge-tot2-(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])));
                         $("#indicators tr:eq(1) td:eq(5)").html(((avge-tot2)/avge).toFixed(2));
                         $("#indicators tr:eq(2) td:eq(5)").html(((tot2-tot3)/tot2).toFixed(2));
                         $("#indicators tr:eq(4) td:eq(5)").html(((parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]))/avge).toFixed(2));
                     }
                     else{
-                        $("#container3").hide();
-                        $("#detailed tr:eq(1) td:eq(1)").html(srw[0]);
-                        $("#detailed tr:eq(2) td:eq(1)").html(0);
-                        $("#detailed tr:eq(1) td:eq(3)").html(srw[1]);
-                        $("#detailed tr:eq(2) td:eq(3)").html(srw[0]-srw[1]-srw[2]);
-                        $("#detailed tr:eq(3) td:eq(3)").html(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]));
-                        $("#detailed tr:eq(5) td:eq(1)").html(srw[2]-(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])));
+                        $(".acta1").hide();
+                        $(".acta0").show();
+                        salarymonth=srw[0];
+                        mustmonth=srw[1];
+                        funmonth=srw[0]-srw[1]-srw[2];
+                        $("#detailed tr:eq(8) td:eq(1)").html(srw[0]);
+                        $("#detailed tr:eq(8) td:eq(3)").html(srw[1]);
+                        $("#detailed tr:eq(9) td:eq(3)").html(srw[0]-srw[1]-srw[2]);
+                        $("#detailed tr:eq(10) td:eq(3)").html(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]));
+                        $("#detailed tr:eq(12) td:eq(1)").html(srw[2]-(parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])));
                         $("#indicators tr:eq(1) td:eq(5)").html((srw[2]/srw[0]).toFixed(2));
                         $("#indicators tr:eq(2) td:eq(5)").html(((srw[0]-srw[1]-srw[2])/(srw[0]-srw[2])).toFixed(2));
                         $("#indicators tr:eq(4) td:eq(5)").html(((parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]))/srw[0]).toFixed(2));
@@ -1527,13 +1440,187 @@
                             level=4;
                     }
                 }
+                    var dataarray=[];
+                    if(acta==1){
+                        dataarray=[
+                            [array2[0], parseInt(exect[3].value)],
+                            [array2[1], parseInt(exect[4].value)],
+                            [array2[2], parseInt(exect[5].value)],
+                            [array2[3], parseInt(exect[6].value)],
+                            [array2[4], parseInt(exect[7].value)],
+                            [array2[5], parseInt(exect[8].value)],
+                            [array2[6], parseInt(exect[9].value)],
+                            ['贷款支出', parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])]
+                        ]
+                    }
+                    else{
+                        dataarray=[
+                            ['生活必须开销', srw[1]],
+                            ['零花娱乐开销', srw[0]-srw[1]-srw[2]],
+                            ['贷款支出', parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])]
+                        ]
+                    }
+                    var chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container',
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: false
+                        },
+                        tooltip: {
+                            pointFormat: ''
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: false,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    distance: 10,
+                                    connectorColor: '#000000',
+                                    formatter:function(index) {
+                                        if(this.point.percentage>0){
+                                            var str=this.point.name,str1,aa='';
+                                            for(var i=0,len=str.length/4;i<len;i++) {
+                                                str1 = str.substr(0,4);
+                                                str = str.replace(str1,'');
+                                                if(i==0){aa=str1}
+                                                else{aa=aa+"<br>"+str1}
+                                            }
+                                            return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                                        }
+                                    }
+                                },
+                                showInLegend: true,
+                                size: 120,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: 'Browser share',
+                            data: dataarray
+                        }],
+                        legend: false,
+                        credits: {
+                            enabled: false
+                        }
+                    });
 
+                    var dataarray2=[];
+                    if(actb==1){
+                        var exect=document.getElementsByName('exect2');
+                        $(".actb1").show();
+                        $(".actb0").hide();
+                        var salaryannual=parseInt(salarymonth)*12//工资
+                        var mustannual=mustmonth*12;
+                        var funannual=funmonth*12;
+                        var debtannual=parseInt(debtmonth)*12//贷款支出
+                        $("#detailannual tr:eq(5) td:eq(1)").html(salaryannual);
+                        $("#detailannual tr:eq(6) td:eq(1)").html(exect[0].value);
+                        $("#detailannual tr:eq(7) td:eq(1)").html(exect[1].value);
+                        $("#detailannual tr:eq(8) td:eq(1)").html(exect[2].value);
+                        $("#detailannual tr:eq(5) td:eq(3)").html(mustannual);
+                        $("#detailannual tr:eq(6) td:eq(3)").html(funannual);
+                        $("#detailannual tr:eq(7) td:eq(3)").html(debtannual);
+                        $("#detailannual tr:eq(8) td:eq(3)").html(exect[3].value);
+                        $("#detailannual tr:eq(9) td:eq(3)").html(exect[4].value);
+                        $("#detailannual tr:eq(10) td:eq(3)").html(exect[5].value);
+                        $("#detailannual tr:eq(11) td:eq(3)").html(exect[6].value);
+                        $("#detailannual tr:eq(13) td:eq(1)").html(salaryannual+parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value)-mustannual-funannual-debtannual-parseInt(exect[3].value)-parseInt(exect[4].value)-parseInt(exect[5].value)-parseInt(exect[6].value));
+                        dataarray2=[
+                            ['生活必须开销', mustannual],
+                            ['零花娱乐开销', funannual],
+                            ['贷款支出', debtannual],
+                            ['<%= @expenseannual[0].expense_name %>', parseInt(exect[3].value)],
+                            ['<%= @expenseannual[1].expense_name %>', parseInt(exect[4].value)],
+                            ['<%= @expenseannual[2].expense_name %>', parseInt(exect[5].value)],
+                            ['<%= @expenseannual[3].expense_name %>', parseInt(exect[6].value)]
+                        ];
+                    }
+                    else{
+                        $(".actb1").hide();
+                        $(".actb0").show();
+                        var salaryannual=parseInt(salarymonth)*12//工资
+                        var a1=parseInt($("#incomeannual").attr("value").replace(/,/g, "")); //年度收入
+                        var mustannual=mustmonth*12;
+                        var funannual=funmonth*12;
+                        var debtannual=parseInt(debtmonth)*12//贷款支出
+                        var a2=parseInt($("#expenseannual").attr("value").replace(/,/g, "")); //年度开销
+                        $("#detailannual tr:eq(1) td:eq(1)").html(salaryannual);
+                        $("#detailannual tr:eq(2) td:eq(1)").html(a1);
+                        $("#detailannual tr:eq(1) td:eq(3)").html(mustannual);
+                        $("#detailannual tr:eq(2) td:eq(3)").html(funannual);
+                        $("#detailannual tr:eq(3) td:eq(3)").html(debtannual);
+                        $("#detailannual tr:eq(4) td:eq(3)").html(a2);
+                        $("#detailannual tr:eq(13) td:eq(1)").html(salaryannual+a1-mustannual-funannual-debtannual-a2);
+                        dataarray2=[
+                            ['生活必须开销', mustannual],
+                            ['零花娱乐开销', funannual],
+                            ['贷款支出', debtannual],
+                            ['年度开销', a2]
+                        ];
+                    }
+                    var chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'container2',
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: false
+                        },
+                        tooltip: {
+                            pointFormat: ''
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: false,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    distance: 10,
+                                    connectorColor: '#000000',
+                                    formatter:function(index) {
+                                        if(this.point.percentage>0){
+                                            var str=this.point.name,str1,aa='';
+                                            for(var i=0,len=str.length/4;i<len;i++) {
+                                                str1 = str.substr(0,4);
+                                                str = str.replace(str1,'');
+                                                if(i==0){aa=str1}
+                                                else{aa=aa+"<br>"+str1}
+                                            }
+                                            return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                                        }
+                                    }
+                                },
+                                showInLegend: true,
+                                size: 120,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: 'Browser share',
+                            data: dataarray2
+                        }],
+                        legend: false,
+                        credits: {
+                            enabled: false
+                        }
+                    });
                     $.post("/usersurvey/moonlite",{username:'<%= session[:webusername] %>',moonlite_typeid:level},function(data){
                     });
 
                     if(bi<20){
                         $(".result").show();
-                        $(".result").html("“您当前用"+bi+"%的月工资收入用来做储蓄投资，我们建议您能提高到20%~25%左右”。")
+                        $(".result").html("您当前用"+bi+"%的月工资收入用来做储蓄投资，我们建议您能提高到20%~25%左右。")
                     }
                 else{
                         $(".result").hide();
@@ -1587,7 +1674,7 @@
                         $("#asset tr:eq(3) td:eq(3)").html(arrayObj0[2][0]);
                         $("#asset tr:eq(3)").show();
                     }
-                    $("#asset tr:eq(11) td:eq(1)").html(sum-arrayObj0[0][0]-arrayObj0[1][0]-arrayObj0[2][0]);
+                    $("#asset tr:eq(12) td:eq(1)").html(sum-arrayObj0[0][0]-arrayObj0[1][0]-arrayObj0[2][0]);
                     $.post("/usersurvey/userdebtsheet",{username:'<%= session[:webusername] %>',debt1_account_totally:arrayObj0[0][0],debt1_account_monthly:arrayObj0[0][1],debt1_years:arrayObj0[0][2],
                         debt2_account_totally:arrayObj0[1][0],debt2_account_monthly:arrayObj0[1][1],debt2_years:arrayObj0[1][2],debt99_account_totally:arrayObj0[2][0],debt99_account_monthly:arrayObj0[2][1],debt99_years:arrayObj0[2][2]},function(data){
                         $("#indicators tr:eq(3) td:eq(5)").html(data.toFixed(2));
