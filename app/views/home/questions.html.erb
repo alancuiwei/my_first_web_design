@@ -791,9 +791,12 @@
             }
         }
 
+        <% if @risk.q5!=nil %>
         $("#age").attr("value",'<%= format('%0.0f',@risk.q5) %>');
+        <% end %>
+        <% if @risk.q6!=nil %>
         $("#lnw").attr("value",'<%= format('%0.0f',@risk.q6) %>');
-
+        <% end %>
         var inc=document.getElementsByName("income");
         var ivalue='<%= @risk.q7 %>';
         for(i=0;i<inc.length;i++){
