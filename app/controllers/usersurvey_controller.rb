@@ -264,7 +264,6 @@ class UsersurveyController < ApplicationController
     end
     @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
     a1=params[:asset1_account].to_i+params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset4_account].to_i+params[:asset5_account].to_i+params[:asset6_account].to_i+params[:asset7_account].to_i+params[:asset8_account].to_i+params[:asset9_account].to_i+params[:asset10_account].to_i
-    a2=0
     a3=params[:asset1_account].to_i+params[:asset4_account].to_i
     a4=params[:asset5_account].to_i+params[:asset9_account].to_i+params[:asset10_account].to_i
     a5=params[:asset2_account].to_i+params[:asset3_account].to_i+params[:asset6_account].to_i
@@ -273,13 +272,14 @@ class UsersurveyController < ApplicationController
         e.username=params[:username]
         e.asset_account=a1
         e.debt_account=0
-        e.net_account=a1-a2
+        e.net_account=a1
         e.asset_fluid_account=a3
         e.asset_risky_account=a4
         e.asset_safefy_account=a5
         e.save
       end
     else
+      a2=@userbalancesheet.debt_account
       @userbalancesheet.update_attributes(:asset_account=>a1,:debt_account=>a2,:net_account=>a1-a2,:asset_fluid_account=>a3,:asset_risky_account=>a4,:asset_safefy_account=>a5)
     end
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
@@ -369,7 +369,48 @@ class UsersurveyController < ApplicationController
     e7=@userdateannual.income_annual
     e8=@userdateannual.expense_annual
     e9=@userdateannual.net_annual
-    a=[[a1,a2,a3,a4,a5,a6],[b1,b2,b3,b4,b5,b6,b7,b8,b9,b10],[c1,c2,c3,c4],[d1,d2,d3,d4,d5,d6,d7],[e1,e2,e3,e4,e5,e6,e7,e8,e9]]
+    @userassetsheet=User_asset_sheet.find_by_username(session[:webusername])
+    if @userassetsheet!=nil
+       f1=@userassetsheet.asset1_account
+       f2=@userassetsheet.asset2_account
+       f3=@userassetsheet.asset3_account
+       f4=@userassetsheet.asset4_account
+       f5=@userassetsheet.asset5_account
+       f6=@userassetsheet.asset6_account
+       f7=@userassetsheet.asset7_account
+       f8=@userassetsheet.asset8_account
+       f9=@userassetsheet.asset9_account
+       f10=@userassetsheet.asset10_account
+    else
+      f1=0
+      f2=0
+      f3=0
+      f4=0
+      f5=0
+      f6=0
+      f7=0
+      f8=0
+      f9=0
+      f10=0
+    end
+    @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
+    if @userbalancesheet!=nil
+      g1=@userbalancesheet.asset_account
+      g2=@userbalancesheet.debt_account
+      g3=@userbalancesheet.net_account
+      g4=@userbalancesheet.asset_fluid_account
+      g5=@userbalancesheet.asset_safefy_account
+      g6=@userbalancesheet.asset_risky_account
+    else
+      g1=0
+      g2=0
+      g3=0
+      g3=0
+      g4=0
+      g5=0
+      g6=0
+    end
+    a=[[a1,a2,a3,a4,a5,a6],[b1,b2,b3,b4,b5,b6,b7,b8,b9,b10],[c1,c2,c3,c4],[d1,d2,d3,d4,d5,d6,d7],[e1,e2,e3,e4,e5,e6,e7,e8,e9],[f1,f2,f3,f4,f5,f6,f7,f8,f9,f10],[g1,g2,g3,g4,g5,g6]]
     render :json => a.to_json
   end
 
@@ -423,6 +464,10 @@ class UsersurveyController < ApplicationController
     @blog3=Blog.find_by_id(403)
     @blog4=Blog.find_by_id(442)
     @assettype=Admin_asset_type.all
+    @assettype1=Admin_asset_type.find_all_by_asset_type_L1(100);
+    @assettype2=Admin_asset_type.find_all_by_asset_type_L1(200);
+    @assettype3=Admin_asset_type.find_all_by_asset_type_L1(300);
+    @assettype4=Admin_asset_type.find_all_by_asset_type_L1(400);
     @debttype=Admin_debt_type.all
     @moonlite=Admin_moonlite_type.all
     @indicators=Admin_finacialindicators.all
