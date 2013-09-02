@@ -324,17 +324,16 @@ class UsersurveyController < ApplicationController
     b8=@detailedmonth.expense5_account
     b9=@detailedmonth.expense6_account
     b10=@detailedmonth.expense7_account
+    b11=@detailedmonth.expense1_expect_account
+    b12=@detailedmonth.expense2_expect_account
+    b13=@detailedmonth.expense3_expect_account
+    b14=@detailedmonth.expense4_expect_account
+    b15=@detailedmonth.expense5_expect_account
+    b16=@detailedmonth.expense6_expect_account
+    b17=@detailedmonth.expense7_expect_account
     else
-      b1=0
-      b2=0
-      b3=0
-      b4=0
-      b5=0
-      b6=0
-      b7=0
-      b8=0
-      b9=0
-      b10=0
+      b1=0;b2=0;b3=0;b4=0;b5=0;b6=0;b7=0;b8=0;b9=0;b10=0;
+      b11=0;b12=0;b13=0;b14=0;b15=0;b16=0;b17=0;
     end
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     c1=@userdatamonth.income
@@ -410,7 +409,7 @@ class UsersurveyController < ApplicationController
       g5=0
       g6=0
     end
-    a=[[a1,a2,a3,a4,a5,a6],[b1,b2,b3,b4,b5,b6,b7,b8,b9,b10],[c1,c2,c3,c4],[d1,d2,d3,d4,d5,d6,d7],[e1,e2,e3,e4,e5,e6,e7,e8,e9],[f1,f2,f3,f4,f5,f6,f7,f8,f9,f10],[g1,g2,g3,g4,g5,g6]]
+    a=[[a1,a2,a3,a4,a5,a6],[b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16,b17],[c1,c2,c3,c4],[d1,d2,d3,d4,d5,d6,d7],[e1,e2,e3,e4,e5,e6,e7,e8,e9],[f1,f2,f3,f4,f5,f6,f7,f8,f9,f10],[g1,g2,g3,g4,g5,g6]]
     render :json => a.to_json
   end
 

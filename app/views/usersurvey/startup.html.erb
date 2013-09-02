@@ -399,25 +399,21 @@
               <tr class="win"><th class="grey">资产项目</th><th>金额(元)</th><th class="grey">负债项目</th><th>金额(元)</th></tr>
               </thead>
               <tbody>
-              <tr><td class="grey right">流动资产</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype1.size-1 %>
                   <tr class="asset line1<%= k %>"><td class="grey"><%= @assettype1[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey right">保本资产</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype2.size-1 %>
                   <tr class="asset line2<%= k %>"><td class="grey"><%= @assettype2[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey right">投资资产</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype3.size-1 %>
                   <tr class="asset line3<%= k %>"><td class="grey"><%= @assettype3[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey right">固定资产</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype4.size-1 %>
                   <tr class="asset line4<%= k %>"><td class="grey"><%= @assettype4[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
@@ -440,6 +436,12 @@
             <blockquote><small class="intro"></small></blockquote>
             <a class="introduce" href="#myModal6" role="button" data-toggle="modal">分数如何计算得到的？</a>
           </div>
+          <p class="q-text tips">资产分布图</p>
+          <div id="container3" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container3" class="mobile" style="width: 240px;height: 300px;"></div>
+          <p class="q-text tip">资产负债对比</p>
+          <div id="container4" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container4" class="mobile" style="width: 240px;height: 300px;"></div>
         </td>
       </tr>
       <tr>
@@ -467,8 +469,8 @@
           <p class="q-text tip">月收入开销图</p>
           <div id="container" class="win" style="width: 300px;height: 200px;"></div>
           <div id="container" class="mobile" style="width: 240px;height: 300px;"></div>
-          <blockquote><small class="acta0">因为月支出数据太少，可能会导致分析不够完整。请点击下面按钮进行完善。</small></blockquote>
-          <a class="acta0 btn btn-primary" id="expense"> 月支配 明细 </a>
+          <blockquote><small class="acta2"></small></blockquote>
+          <a class="btn btn-primary" id="expense"> 月支配 明细 </a>
         </td>
       </tr>
       <tr>
@@ -816,9 +818,10 @@
             $("#exact2").hide();
             if(this.id=='expense'){
                 mid=1;
-                $("#expense0,#expense1,#expense2,#expense3,#expense4,#expense5,#expense6").attr("value",'');
+                if(acta==0){
                 $("#income0").attr("value",$("#salary").attr("value"));
                 $("#income1,#income2").attr("value",0);
+            }
             }
             else{
                 mid=0;
@@ -1472,6 +1475,18 @@
                 if(acta==1){
                     $(".acta0").hide();
                     $(".acta1").show();
+                    $("#expense").html("调整月收入支配");
+                    var acta2="";
+                    <% for i in 0..@expensetype.size-1 %>
+                    if(parseInt(data[1][<%= i+3 %>])<parseInt(data[1][<%= i+10 %>])){
+                        acta2=acta2+'<%= @expensetype[i].expense_name %>开销 略显偏低<br>'
+                    }
+                    else if(parseInt(data[1][<%= i+3 %>])>parseInt(data[1][<%= i+10 %>])){
+                        acta2=acta2+'<%= @expensetype[i].expense_name %>开销 略显偏高<br>'
+                    }
+                     <% end %>
+
+                    $(".acta2").html(acta2);
                 <% for i in 0..@incometype.size-1 %>
                     $("#detailed tr:eq('<%= i+1 %>') td:eq(0)").html(' <%= @incometype[i].income_name %>');
                 <% end %>
@@ -1513,6 +1528,8 @@
                 else{
                     $(".acta1").hide();
                     $(".acta0").show();
+                    $("#expense").html("月支配 明细");
+                    $(".acta2").html("因为月支出数据太少，可能会导致分析不够完整。请点击下面按钮进行完善。");
                     salarymonth=parseInt(data[2][0]);
                     mustmonth=parseInt(data[2][1]);
                     funmonth=parseInt(data[2][2]);
@@ -1583,7 +1600,7 @@
                         text: false
                     },
                     tooltip: {
-                        pointFormat: ''
+                        pointFormat: '{point.y} '
                     },
                     plotOptions: {
                         pie: {
@@ -1678,7 +1695,7 @@
                         text: false
                     },
                     tooltip: {
-                        pointFormat: ''
+                        pointFormat: '{point.y} '
                     },
                     plotOptions: {
                         pie: {
@@ -1718,6 +1735,108 @@
                     }
                 });
                 $.post("/usersurvey/moonlite",{username:'<%= session[:webusername] %>',moonlite_typeid:level},function(data){
+                });
+
+                var dataarray3=[];
+                <% for k in 0..@assettype.size-1 %>
+                dataarray3.push(['<%= @assettype[k].asset_typename %>',parseInt(data[5][<%= k %>])])
+                <% end %>
+
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container3',
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: false
+                    },
+                    tooltip: {
+                        pointFormat: '{point.y} '
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: false,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                distance: 10,
+                                connectorColor: '#000000',
+                                formatter:function(index) {
+                                    if(this.point.percentage>0){
+                                        var str=this.point.name,str1,aa='';
+                                        for(var i=0,len=str.length/4;i<len;i++) {
+                                            str1 = str.substr(0,4);
+                                            str = str.replace(str1,'');
+                                            if(i==0){aa=str1}
+                                            else{aa=aa+"<br>"+str1}
+                                        }
+                                        return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                                    }
+                                }
+                            },
+                            showInLegend: true,
+                            size: 120,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: dataarray3
+                    }],
+                    legend: false,
+                    credits: {
+                        enabled: false
+                    }
+                });
+
+
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container4',
+                        type: 'column'
+                    },
+                    title: {
+                        text: false
+                    },
+                    subtitle: {
+                        text: false
+                    },
+                    xAxis: {
+                        categories: ["总资产","总负债"]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '金额'
+                        },
+                        labels:{
+                            formatter: function() {
+                                return this.value
+                            }
+                        }
+                    },
+                        legend: {
+                    enabled: false
+                },
+                    tooltip: {
+                        pointFormat: '{point.y} '
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        data: [parseInt(data[6][0]),parseInt(data[6][1])]
+                    }],
+                    credits: {
+                        enabled: false
+                    }
                 });
 
                 if(bi<20){
