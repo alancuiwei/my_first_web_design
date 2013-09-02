@@ -399,28 +399,26 @@
               <tr class="win"><th class="grey">资产项目</th><th>金额(元)</th><th class="grey">负债项目</th><th>金额(元)</th></tr>
               </thead>
               <tbody>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype1.size-1 %>
                   <tr class="asset line1<%= k %>"><td class="grey"><%= @assettype1[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype2.size-1 %>
                   <tr class="asset line2<%= k %>"><td class="grey"><%= @assettype2[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype3.size-1 %>
                   <tr class="asset line3<%= k %>"><td class="grey"><%= @assettype3[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="strong"></td><td class="grey"></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype4.size-1 %>
                   <tr class="asset line4<%= k %>"><td class="grey"><%= @assettype4[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum4"><td class="grey right strong">固定资产</td><td class="strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="sum4"><td class="grey right strong">固定资产</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr class="red"><td class="grey">总资产</td><td class=" total0"></td><td class="grey">总负债</td><td class="total1"></td></tr>
-              <tr class="red"><td class="grey">家庭净资产</td><td class="total2"></td><td class="grey"></td><td></td></tr>
+              <tr class="red"><td class="grey right">总资产</td><td class="total0 right"></td><td class="grey right">总负债</td><td class="total1 right"></td></tr>
+              <tr class="red"><td class="grey strong right">家庭资产净值</td><td class="total2 right strong"></td><td class="grey"></td><td></td></tr>
               </tbody>
             </table>
             <h1 class="h1">2、家庭现金流量表：</h1>
@@ -455,14 +453,22 @@
               <th data-hide="phone">金额(元)</th></tr>
             <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
             </thead>
-            <% for i in 0..@expensetype.size-1 %>
-                <tr class="acta1"><td class="grey"></td><td></td><td class="grey"><%= @expensetype[i].expense_name %></td> <td></td></tr>
-            <% end %>
-            <tr class="acta0"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
-            <tr class="acta0"><td class="grey">&nbsp;</td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
-            <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey">贷款支出</td>     <td></td></tr>
+            <tr><td class="grey">工资</td><td></td><td class="grey"><%= @expensetype[0].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">额外收入</td><td></td><td class="grey"><%= @expensetype[1].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[5].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">生活必要支出</td><td class="right"></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[2].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[3].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[4].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[6].expense_name %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">消费性支出</td><td class="right"></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[0].debt_typename %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[1].debt_typename %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[2].debt_typename %></td> <td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">贷款支出</td><td class="right"></td></tr>
             <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
-            <tr><td class="grey">家庭月度结余</td> <td></td> <td class="grey"></td>             <td></td></tr>
+            <tr class="red"><td class="grey right">月总收入</td><td class="right"></td><td class="grey right">月总支出</td><td class="right"></td></tr>
+            <tr class="red"><td class="grey right strong">家庭月度结余</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
           </table>
         </td>
         <td class="align">
@@ -484,19 +490,16 @@
               <th data-hide="phone">金额(元)</th></tr>
             <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
             </thead>
-            <tr class="actb0"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
-            <tr class="actb0"><td class="grey">年度收入</td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
-            <tr class="actb0"><td class="grey">&nbsp;</td><td></td><td class="grey">贷款支出</td><td></td></tr>
-            <tr class="actb0"><td class="grey">&nbsp;</td><td></td><td class="grey">年度开销</td><td></td></tr>
-            <tr class="actb1"><td class="grey">工资</td><td></td><td class="grey">生活必须开销</td><td></td></tr>
-            <tr class="actb1"><td class="grey"><%= @incomeannual[0].income_name %></td><td></td><td class="grey">零花娱乐开销</td><td></td></tr>
-            <tr class="actb1"><td class="grey"><%= @incomeannual[1].income_name %></td><td></td><td class="grey">贷款支出</td><td></td></tr>
-            <tr class="actb1"><td class="grey"><%= @incomeannual[2].income_name %></td><td></td><td class="grey"><%= @expenseannual[0].expense_name %></td><td></td></tr>
-            <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[1].expense_name %></td><td></td></tr>
-            <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[2].expense_name %></td><td></td></tr>
-            <tr class="actb1"><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[3].expense_name %></td><td></td></tr>
+            <tr><td class="grey">工资</td><td></td><td class="grey">生活必要支出</td><td></td></tr>
+            <tr><td class="grey">额外收入</td><td></td><td class="grey">消费性支出</td><td></td></tr>
+            <tr><td class="grey">年终奖</td><td></td><td class="grey">贷款支出</td><td></td></tr>
+            <tr><td class="grey">其他年终收入</td><td></td><td class="grey"><%= @expenseannual[0].expense_name %></td><td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[1].expense_name %></td><td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[2].expense_name %></td><td></td></tr>
+            <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[3].expense_name %></td><td></td></tr>
             <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-            <tr><td class="grey">家庭年度结余</td><td></td><td class="grey"></td><td></td></tr>
+            <tr class="red"><td class="grey right">年度收入</td><td class="right"></td><td class="grey right">年度支出</td><td  class="right"></td></tr>
+            <tr class="red"><td class="grey strong right">年结余金额</td><td class="strong right"></td><td class="grey"></td><td></td></tr>
           </table>
         </td>
         <td>
@@ -943,8 +946,8 @@
             $("#expenseannual").attr("value",datas[1]);
             document.getElementById("expenseannual").disabled=true;
         });
-        showQn(7,'','',1);
         actb=1;
+        showQn(7,'','',1);
     });
 
     $('#sum').click(function() {
@@ -972,7 +975,7 @@
             }
         }
 
-        if(mid==1){
+        if(acta==0 && mid==1){
             var income1=parseInt($("#salary").attr("value").replace(/,/g, ""));
             var income2=0;
             var income3=0;
@@ -1311,8 +1314,16 @@
             }
         }
         else if(num4==6){
+            var exect=document.getElementsByName('exect2');
+           if(actb==0){
             var a1=parseInt($("#incomeannual").attr("value").replace(/,/g, ""));
             var a2=parseInt($("#expenseannual").attr("value").replace(/,/g, ""));
+           }
+            else{
+               var a1=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value)
+               var a2=parseInt(exect[3].value)+parseInt(exect[4].value)+parseInt(exect[5].value)+parseInt(exect[6].value)
+           }
+
             $.post("/usersurvey/userdataannual",{username:'<%= session[:webusername] %>',incomeannual:a1,expenseannual:a2},function(data){
             });
         }
@@ -1473,46 +1484,51 @@
                 var funmonth=0; //每月零花娱乐开销
 
                 if(acta==1){
-                    $(".acta0").hide();
-                    $(".acta1").show();
                     $("#expense").html("调整月收入支配");
                     var acta2="";
                     <% for i in 0..@expensetype.size-1 %>
-                    if(parseInt(data[1][<%= i+3 %>])<parseInt(data[1][<%= i+10 %>])){
-                        acta2=acta2+'<%= @expensetype[i].expense_name %>开销 略显偏低<br>'
+                    if(acta2==""){
+                        if(parseInt(data[1][<%= i+3 %>])>parseInt(data[1][<%= i+10 %>])){
+                            acta2=acta2+'<%= @expensetype[i].expense_name %>开销 略显偏高<br>'
+                        }
                     }
-                    else if(parseInt(data[1][<%= i+3 %>])>parseInt(data[1][<%= i+10 %>])){
-                        acta2=acta2+'<%= @expensetype[i].expense_name %>开销 略显偏高<br>'
+                    else{
+                        if(parseInt(data[1][<%= i+3 %>])>parseInt(data[1][<%= i+10 %>])){
+                            acta2=acta2+'<span style="padding-left: 15px;"><%= @expensetype[i].expense_name %>开销 略显偏高</span><br>'
+                    }
                     }
                      <% end %>
 
                     $(".acta2").html(acta2);
-                <% for i in 0..@incometype.size-1 %>
-                    $("#detailed tr:eq('<%= i+1 %>') td:eq(0)").html(' <%= @incometype[i].income_name %>');
-                <% end %>
                     salarymonth=parseInt(data[1][0])+parseInt(data[1][1])+parseInt(data[1][2]);
                     mustmonth=parseInt(data[1][3])+parseInt(data[1][4])+parseInt(data[1][8]);
                     funmonth=parseInt(data[1][5])+parseInt(data[1][6])+parseInt(data[1][7])+parseInt(data[1][9]);
-                    $("#detailed tr:eq(1) td:eq(1)").html(parseInt(data[1][0]));
-                    $("#detailed tr:eq(2) td:eq(1)").html(parseInt(data[1][1]));
-                    $("#detailed tr:eq(3) td:eq(1)").html(parseInt(data[1][2]));
+                    $("#detailed tr:eq(1) td:eq(1)").html(parseInt(data[1][0])+parseInt(data[1][1]));
+                    $("#detailed tr:eq(2) td:eq(1)").html(parseInt(data[1][2]));
                     $("#detailed tr:eq(1) td:eq(3)").html(parseInt(data[1][3]));
                     $("#detailed tr:eq(2) td:eq(3)").html(parseInt(data[1][4]));
-                    $("#detailed tr:eq(3) td:eq(3)").html(parseInt(data[1][5]));
-                    $("#detailed tr:eq(4) td:eq(3)").html(parseInt(data[1][6]));
-                    $("#detailed tr:eq(5) td:eq(3)").html(parseInt(data[1][7]));
-                    $("#detailed tr:eq(6) td:eq(3)").html(parseInt(data[1][8]));
-                    $("#detailed tr:eq(7) td:eq(3)").html(parseInt(data[1][9]));
-                    $("#detailed tr:eq(10) td:eq(3)").html(debtmonth);
-                    $("#detailed tr:eq(12) td:eq(1)").html(salarymonth-mustmonth-funmonth-debtmonth);
-                    $("#indicators tr:eq(1) td:eq(4)").html(((salarymonth-mustmonth-funmonth)/salarymonth).toFixed(2));
+                    $("#detailed tr:eq(3) td:eq(3)").html(parseInt(data[1][8]));
+                    $("#detailed tr:eq(4) td:eq(3)").html(mustmonth);
+                    $("#detailed tr:eq(5) td:eq(3)").html(parseInt(data[1][5]));
+                    $("#detailed tr:eq(6) td:eq(3)").html(parseInt(data[1][6]));
+                    $("#detailed tr:eq(7) td:eq(3)").html(parseInt(data[1][7]));
+                    $("#detailed tr:eq(8) td:eq(3)").html(parseInt(data[1][9]));
+                    $("#detailed tr:eq(9) td:eq(3)").html(funmonth);
+                    $("#detailed tr:eq(10) td:eq(3)").html(parseInt(data[0][1]));
+                    $("#detailed tr:eq(11) td:eq(3)").html(parseInt(data[1][1]));
+                    $("#detailed tr:eq(12) td:eq(3)").html(parseInt(data[2][1]));
+                    $("#detailed tr:eq(13) td:eq(3)").html(debtmonth);
+                    $("#detailed tr:eq(15) td:eq(1)").html(salarymonth);
+                    $("#detailed tr:eq(15) td:eq(3)").html(mustmonth+funmonth+debtmonth);
+                    $("#detailed tr:eq(16) td:eq(1)").html(salarymonth-mustmonth-funmonth-debtmonth);
+                    $("#indicators tr:eq(1) td:eq(4)").html(((salarymonth-mustmonth-funmonth-debtmonth)/salarymonth).toFixed(2));
                     $("#indicators tr:eq(2) td:eq(4)").html(((parseInt(data[1][0])+parseInt(data[1][1]))/salarymonth).toFixed(2));
                     $("#indicators tr:eq(3) td:eq(4)").html((mustmonth/salarymonth).toFixed(2));
                     $("#indicators tr:eq(4) td:eq(4)").html((funmonth/(mustmonth+funmonth)).toFixed(2));
-                    $("#indicators tr:eq(5) td:eq(4)").html(((salarymonth-mustmonth-funmonth)/(mustmonth+funmonth)).toFixed(2));
+                    $("#indicators tr:eq(5) td:eq(4)").html(((salarymonth-mustmonth-funmonth-debtmonth)/salarymonth).toFixed(2));
                     $("#indicators tr:eq(10) td:eq(4)").html((debtmonth/salarymonth).toFixed(2));
 
-                    if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(12) td:eq(1)").html())<0){
+                    if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(16) td:eq(1)").html())<0){
                         level=1;
                     }
                     else if(jixu+salarymonth*12<xian){
@@ -1526,26 +1542,37 @@
                     }
                 }
                 else{
-                    $(".acta1").hide();
-                    $(".acta0").show();
                     $("#expense").html("月支配 明细");
                     $(".acta2").html("因为月支出数据太少，可能会导致分析不够完整。请点击下面按钮进行完善。");
                     salarymonth=parseInt(data[2][0]);
                     mustmonth=parseInt(data[2][1]);
                     funmonth=parseInt(data[2][2]);
-                    $("#detailed tr:eq(8) td:eq(1)").html(parseInt(data[2][0]));
-                    $("#detailed tr:eq(8) td:eq(3)").html(parseInt(data[2][1]));
+                    $("#detailed tr:eq(1) td:eq(1)").html(parseInt(data[2][0]));
+                    $("#detailed tr:eq(2) td:eq(1)").html(0);
+                    $("#detailed tr:eq(1) td:eq(3)").html('--');
+                    $("#detailed tr:eq(2) td:eq(3)").html('--');
+                    $("#detailed tr:eq(3) td:eq(3)").html('--');
+                    $("#detailed tr:eq(4) td:eq(3)").html(parseInt(data[2][1]));
+                    $("#detailed tr:eq(5) td:eq(3)").html('--');
+                    $("#detailed tr:eq(6) td:eq(3)").html('--');
+                    $("#detailed tr:eq(7) td:eq(3)").html('--');
+                    $("#detailed tr:eq(8) td:eq(3)").html('--');
                     $("#detailed tr:eq(9) td:eq(3)").html(parseInt(data[2][2]));
-                    $("#detailed tr:eq(10) td:eq(3)").html(debtmonth);
-                    $("#detailed tr:eq(12) td:eq(1)").html(parseInt(data[2][3])-debtmonth);
-                    $("#indicators tr:eq(1) td:eq(4)").html((parseInt(data[2][3])/parseInt(data[2][0])).toFixed(2));
+                    $("#detailed tr:eq(10) td:eq(3)").html(parseInt(data[0][1]));
+                    $("#detailed tr:eq(11) td:eq(3)").html(parseInt(data[1][1]));
+                    $("#detailed tr:eq(12) td:eq(3)").html(parseInt(data[2][1]));
+                    $("#detailed tr:eq(13) td:eq(3)").html(parseInt(data[2][2]));
+                    $("#detailed tr:eq(15) td:eq(1)").html(parseInt(data[2][0]));
+                    $("#detailed tr:eq(15) td:eq(3)").html(parseInt(data[2][1])+parseInt(data[2][2])+debtmonth);
+                    $("#detailed tr:eq(16) td:eq(1)").html(parseInt(data[2][3])-debtmonth);
+                    $("#indicators tr:eq(1) td:eq(4)").html(((parseInt(data[2][3])-debtmonth)/parseInt(data[2][0])).toFixed(2));
                     $("#indicators tr:eq(2) td:eq(4)").html(1);
                     $("#indicators tr:eq(3) td:eq(4)").html((parseInt(data[2][1])/parseInt(data[2][0])).toFixed(2));
                     $("#indicators tr:eq(4) td:eq(4)").html((parseInt(data[2][2])/(parseInt(data[2][1])+parseInt(data[2][2]))).toFixed(2));
-                    $("#indicators tr:eq(5) td:eq(4)").html((parseInt(data[2][3])/(parseInt(data[2][1])+parseInt(data[2][2]))).toFixed(2));
+                    $("#indicators tr:eq(5) td:eq(4)").html(((parseInt(data[2][3])-debtmonth)/parseInt(data[2][0])).toFixed(2));
                     $("#indicators tr:eq(10) td:eq(4)").html((debtmonth/parseInt(data[2][0])).toFixed(2));
 
-                    if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(12) td:eq(1)").html())<0){
+                    if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(16) td:eq(1)").html())<0){
                         level=1;
                     }
                     else if(total<xian){
@@ -1558,7 +1585,7 @@
                         level=4;
                     }
                 }
-                $("#indicators tr:eq(8) td:eq(4)").html((parseInt(data[6][3])/debtmonth).toFixed(2));
+                $("#indicators tr:eq(8) td:eq(4)").html((parseInt(data[6][3])/(debtmonth*12)).toFixed(2));
                 if(parseInt(data[6][0])!=0){
                    $("#indicators tr:eq(7) td:eq(4)").html((parseInt(data[6][2])/parseInt(data[6][0])).toFixed(2));
                    $("#indicators tr:eq(9) td:eq(4)").html(((parseInt(data[6][3])+parseInt(data[6][4])+parseInt(data[6][5]))/parseInt(data[6][0])).toFixed(2));
@@ -1570,71 +1597,63 @@
                    }
                 <% end %>
                 var dataarray=[];
+                var dataarray1=[];
                 if(acta==1){
-                    dataarray=[
-                        [array2[0], parseInt(data[1][3])],
-                        [array2[1], parseInt(data[1][4])],
-                        [array2[2], parseInt(data[1][5])],
-                        [array2[3], parseInt(data[1][6])],
-                        [array2[4], parseInt(data[1][7])],
-                        [array2[5], parseInt(data[1][8])],
-                        [array2[6], parseInt(data[1][9])],
-                        ['贷款支出', parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])]
-                    ]
+                    dataarray=[array2[0],array2[1],array2[2],array2[3],array2[4],array2[5],array2[6],'<%= @debttype[0].debt_typename %>','<%= @debttype[1].debt_typename %>','<%= @debttype[2].debt_typename %>']
+                    dataarray1=[parseInt(data[1][3]),parseInt(data[1][4]),parseInt(data[1][5]),parseInt(data[1][6]),parseInt(data[1][7]),parseInt(data[1][8]),parseInt(data[1][9]),parseInt(arrayObj0[0][1]),parseInt(arrayObj0[1][1]),parseInt(arrayObj0[2][1])]
                 }
                 else{
-                    dataarray=[
-                        ['生活必须开销', mustmonth],
-                        ['零花娱乐开销', funmonth],
-                        ['贷款支出', parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1])]
-                    ]
+                    dataarray=['生活必要支出', '消费性支出', '<%= @debttype[0].debt_typename %>','<%= @debttype[1].debt_typename %>','<%= @debttype[2].debt_typename %>']
+                    dataarray1=[ mustmonth,funmonth,parseInt(arrayObj0[0][1]),parseInt(arrayObj0[1][1]),parseInt(arrayObj0[2][1])]
                 }
                 var chart = new Highcharts.Chart({
                     chart: {
                         renderTo: 'container',
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
+                        type: 'column'
                     },
                     title: {
                         text: false
+                    },
+                    subtitle: {
+                        text: false
+                    },
+                    xAxis: {
+                        categories: dataarray ,
+                        labels: {
+                            rotation: -45,
+                            align: 'right',
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '金额'
+                        },
+                        labels:{
+                            formatter: function() {
+                                return this.value
+                                    }
+                                }
+                            },
+                    legend: {
+                        enabled: false
                     },
                     tooltip: {
                         pointFormat: '{point.y} '
                     },
                     plotOptions: {
-                        pie: {
-                            allowPointSelect: false,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                distance: 10,
-                                connectorColor: '#000000',
-                                formatter:function(index) {
-                                    if(this.point.percentage>0){
-                                        var str=this.point.name,str1,aa='';
-                                        for(var i=0,len=str.length/4;i<len;i++) {
-                                            str1 = str.substr(0,4);
-                                            str = str.replace(str1,'');
-                                            if(i==0){aa=str1}
-                                            else{aa=aa+"<br>"+str1}
-                                        }
-                                        return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
-                                    }
-                                }
-                            },
-                            showInLegend: true,
-                            size: 120,
+                        column: {
+                            pointPadding: 0.2,
                             borderWidth: 0
                         }
                     },
                     series: [{
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: dataarray
+                        data: dataarray1
                     }],
-                    legend: false,
                     credits: {
                         enabled: false
                     }
@@ -1642,20 +1661,18 @@
 
                 var dataarray2=[];
                 if(actb==1){
-                    $(".actb1").show();
-                    $(".actb0").hide();
-                    $("#detailannual tr:eq(5) td:eq(1)").html(parseInt(data[4][0]));
-                    $("#detailannual tr:eq(6) td:eq(1)").html(parseInt(data[3][0]));
-                    $("#detailannual tr:eq(7) td:eq(1)").html(parseInt(data[3][1]));
-                    $("#detailannual tr:eq(8) td:eq(1)").html(parseInt(data[3][2]));
-                    $("#detailannual tr:eq(5) td:eq(3)").html(parseInt(data[4][3]));
-                    $("#detailannual tr:eq(6) td:eq(3)").html(parseInt(data[4][4]));
-                    $("#detailannual tr:eq(7) td:eq(3)").html(parseInt(data[4][5]));
-                    $("#detailannual tr:eq(8) td:eq(3)").html(parseInt(data[3][3]));
-                    $("#detailannual tr:eq(9) td:eq(3)").html(parseInt(data[3][4]));
-                    $("#detailannual tr:eq(10) td:eq(3)").html(parseInt(data[3][5]));
-                    $("#detailannual tr:eq(11) td:eq(3)").html(parseInt(data[3][6]));
-                    $("#detailannual tr:eq(13) td:eq(1)").html(parseInt(data[4][8]));
+                    $("#detailannual tr:eq(1) td:eq(1)").html(parseInt(data[4][0]));
+                    $("#detailannual tr:eq(2) td:eq(1)").html(parseInt(data[1][2])*12);
+                    $("#detailannual tr:eq(3) td:eq(1)").html(parseInt(data[3][0])+parseInt(data[3][1]));
+                    $("#detailannual tr:eq(4) td:eq(1)").html(parseInt(data[3][2]));
+                    $("#detailannual tr:eq(1) td:eq(3)").html(parseInt(data[4][3]));
+                    $("#detailannual tr:eq(2) td:eq(3)").html(parseInt(data[4][4]));
+                    $("#detailannual tr:eq(3) td:eq(3)").html(parseInt(data[4][5]));
+                    $("#detailannual tr:eq(4) td:eq(3)").html(parseInt(data[3][3]));
+                    $("#detailannual tr:eq(5) td:eq(3)").html(parseInt(data[3][4]));
+                    $("#detailannual tr:eq(6) td:eq(3)").html(parseInt(data[3][5]));
+                    $("#detailannual tr:eq(7) td:eq(3)").html(parseInt(data[3][6]));
+                    $("#detailannual tr:eq(10) td:eq(1)").html(parseInt(data[4][8]));
                     dataarray2=[
                         ['生活必须开销', parseInt(data[4][3])],
                         ['零花娱乐开销', parseInt(data[4][4])],
@@ -1675,7 +1692,7 @@
                     $("#detailannual tr:eq(2) td:eq(3)").html(parseInt(data[4][4]));
                     $("#detailannual tr:eq(3) td:eq(3)").html(parseInt(data[4][5]));
                     $("#detailannual tr:eq(4) td:eq(3)").html(parseInt(data[4][7]));
-                    $("#detailannual tr:eq(13) td:eq(1)").html(parseInt(data[4][8]));
+                    $("#detailannual tr:eq(14) td:eq(1)").html(parseInt(data[4][8]));
                     dataarray2=[
                         ['生活必须开销', parseInt(data[4][3])],
                         ['零花娱乐开销', parseInt(data[4][4])],
@@ -1683,7 +1700,8 @@
                         ['年度开销', parseInt(data[4][7])]
                     ];
                 }
-
+                $("#detailannual tr:eq(9) td:eq(1)").html(parseInt(data[4][0])+parseInt(data[4][6]));
+                $("#detailannual tr:eq(9) td:eq(3)").html(parseInt(data[4][3])+parseInt(data[4][4])+parseInt(data[4][5])+parseInt(data[4][7]));
                 var chart = new Highcharts.Chart({
                     chart: {
                         renderTo: 'container2',

@@ -16,7 +16,7 @@ class UsersurveyController < ApplicationController
       else
         salary_annual=0
       end
-    elsif @userdatamonth && @userdatamonth.income!=nil
+    elsif @userdatamonth!=nil && @userdatamonth.income!=nil
       salary_annual=@userdatamonth.income*12
     else
       salary_annual=0
@@ -72,7 +72,7 @@ class UsersurveyController < ApplicationController
       income3_account=0
     end
 
-    net_annual=salary_annual+params[:incomeannual].to_i+income3_account-must_expense_annual-fun_expense_annual-debt_annual-params[:expenseannual].to_i
+    net_annual=salary_annual+params[:incomeannual].to_i-must_expense_annual-fun_expense_annual-debt_annual-params[:expenseannual].to_i
     if @userdata==nil
       Userdata_annual.new do |e|
         e.username=params[:username]
