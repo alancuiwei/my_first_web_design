@@ -2,6 +2,68 @@
 require 'open-uri'
 class UsersurveyController < ApplicationController
 
+  def goal
+   if session[:webusername]!=nil
+    @targets=User_targets.find_by_username(session[:webusername])
+   else
+     redirect_to(:controller=>"sales", :action=>"login", :goal=>"1")
+   end
+  end
+
+  def target1
+    @targets=User_targets.find_by_username_and_user_target(params[:username],params[:target])
+    if @targets==nil
+      User_targets.new do |e|
+        e.username=params[:username]
+        e.user_target=params[:target]
+        e.user_target_period=params[:target_period]
+        e.user_target_value=params[:target_value]
+        e.save
+      end
+    else
+      @targets.update_attributes(:user_target=>params[:target],:user_target_period=>params[:target_period],:user_target_value=>params[:target_value])
+    end
+    render :json => "s".to_json
+  end
+
+  def targets
+    @targets=User_targets.find_all_by_username(params[:username])
+    @hash={}
+    for i in 0..@targets.size-1
+      if @targets[i].user_target_period<=2
+        nature="短期"
+      elsif @targets[i].user_target_period<=5
+        nature="中期"
+      else
+        nature="长期"
+      end
+      @hash.store(i,[@targets[i].user_target,@targets[i].user_target_period,@targets[i].user_target_value,nature])
+    end
+    @userdata=Userdata_annual.find_by_username(session[:webusername])
+    @detailedmonth=Userdata_detailed_month.find_by_username(session[:webusername])
+    annual=0
+    if @userdata!=nil &&  @userdata.net_annual!=nil
+      if @detailedmonth!=nil && @detailedmonth.income3_account!=nil
+        annual=@userdata.net_annual+@detailedmonth.income3_account*12
+      else
+        annual=@userdata.net_annual
+      end
+    elsif @detailedmonth!=nil && @detailedmonth.income3_account!=nil
+      annual=@detailedmonth.income3_account*12
+    end
+    month=0
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    if @userdatamonth!=nil
+      if @userdatamonth.debt_month!=nil
+      month=@userdatamonth.invest_expense-@userdatamonth.debt_month
+      else
+        month=@userdatamonth.invest_expense
+      end
+    end
+    @hash.store('length',[@targets.size,annual,month])
+    render :json => @hash.to_json
+  end
+
   def userdatadetailedannual
     @userdataannual=Userdata_detailed_annual.find_by_username(params[:username])
     if @userdataannual==nil

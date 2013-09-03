@@ -1,0 +1,275 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<style type="text/css">
+ .modal-body input{
+      width: 40px;
+  }
+</style>
+
+<script>
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
+
+<div class="welcomes goal">
+<div class="ofa-funnel-pages">
+<div id="page-wrapper">
+<div id="page-content">
+<a class="home" href="/">首页</a>
+<h1>
+  <span id="title">理财目标选择</span>
+  <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
+</h1>
+
+<div id="questionnaire-view">
+<div id="questionnaire">
+<div class="question first">
+  <table id="tiles">
+    <tbody>
+    <tr>
+      <td><a class="img1"  href="#myModal" role="button" data-toggle="modal"></a></td>
+      <td><a class="img2" href=""></a></td>
+      <td><a class="img3" href=""></a></td>
+    </tr>
+    <tr>
+      <td><a class="img4" href=""></a></td>
+      <td><a class="img5" href=""></a></td>
+      <td><a class="img6" href=""></a></td>
+    </tr>
+    </tbody>
+  </table>
+  <input type="checkbox" class="hide">
+</div>
+
+<div class="question">
+   <table class="table table-striped table-bordered">
+     <thead>
+     <tr><th>目标描述</th><th>现需资金</th><th>实现所需年限</th><th>属性</th><th>到期所需资金</th><th>每年投入</th><th>每月投入</th><th>需要投资报酬率</th></tr>
+     </thead>
+     <% for i in 0..7 %><tr class="goals<%= i %> hide"><% for i in 0..7 %><td></td><% end %></tr><% end %>
+     <tr></tr>
+   </table>
+  <blockquote><small class="intro">上表基于如下假设：<span>通货膨胀率 5%</span><span>投资回报率 4%-10%</span><span>退休后净报酬率 2%</span><span>学费增长率 6%</span><span>薪资成长率 5%</span><span>退休金增长率 3%</span><span>社会平均寿命： 80岁</span></small></blockquote>
+  <a class="right">修改理财目标</a> <a class="right">我真的需要设置理财目标吗？</a>
+  <input type="checkbox" class="hide">
+</div>
+<div class="question">
+
+</div>
+</div>
+<div id="q-fade-t"></div>
+<div id="q-fade-b"></div>
+</div>
+<div id="q-buttons">
+  <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back"><span>上一项</span></button>
+  <button class="q-button orange-button big-button" id="q-next">下一项</button>
+  <button class="q-button orange-button big-button" id="q-submit">风险评估</button>
+
+  <p class="q-privacy">
+    <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
+    <span class="win">我们不会问你的身份识别信息，除非阁下主动联系我们。</span>
+  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>买房梦想描述</h3>
+  </div>
+  <div class="modal-body">
+    我准备用<input type="text" id="target_period1" onkeyup="updatenum(this)">年时间来实现买房的梦想，我希望买的房子大约总价是<input type="text" id="amount10" class="amount1" onkeyup="updatenum(this)">万。<br>
+    我应该会向父母亲戚借<input type="text" id="amount11" class="amount1" onkeyup="updatenum(this)">万元，向银行商业贷款<input type="text" id="amount12" class="amount1" onkeyup="updatenum(this)">万元，公积金贷款<input type="text" id="amount13" class="amount1" onkeyup="updatenum(this)">万元，
+    所以我只需要在这几年内准备首付金额 <span id="target_value1">0</span> 万元就可以了。
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target1">确认</button>
+  </div>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+       <% if @targets!=nil && @targets.user_target=="买房" %>
+       $("#target_period1").attr("value","<%= @targets.user_target_period %>")
+       $("#target_value1").html("<%= @targets.user_target_value %>")
+       <% end %>
+    });
+
+    function updatenum(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        if(numfor.test(e.value)==false && e.value!=""){
+            $("#"+e.id).attr('value',0);
+        }
+        if(e.id=="amount10" || e.id=="amount11" || e.id=="amount12" || e.id=="amount13"){
+            if($("#amount10").attr('value')-$("#amount11").attr('value')-$("#amount12").attr('value')-$("#amount13").attr('value')<0){
+                $("#"+e.id).addClass("invalid");
+            }
+            else{
+                $(".amount1").removeClass("invalid");
+            }
+            $("#target_value1").html($("#amount10").attr('value')-$("#amount11").attr('value')-$("#amount12").attr('value')-$("#amount13").attr('value'));
+        }
+    }
+
+    $("#target1").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买房",target_period:$("#target_period1").attr("value"),target_value:$("#target_value1").html()},function(data){
+           showQn(1);
+        });
+    })
+</script>
+
+<script>
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
+
+    var $qv = $("#questionnaire-view");
+    var $qr = $("#questionnaire");
+    var accountMin = 0;
+
+    $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+        w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+    });
+
+    $("#q-numbers").delegate(".q-num.past", "click", function() {
+        var $i = $qr.find(".invalid");
+        if ($i.length) {
+            $i.focus().select();
+        } else {
+            showQn($(this).index());
+        }
+    });
+
+    $qr.data("vals", 0)
+            .data("init", function(doCalc) {
+
+                $("#q-back,#q-next").click(function(e) {
+                    $("html,body").animate({"scrollTop":"0"},"slow")
+                    var back = this.id == "q-back";
+                    if (back) {
+                        w.trackEvent("OFA", "questionnaire_back");
+                    } else {
+                        w.trackEvent("OFA", "questionnaire_next", qPayload());
+                    }
+                    var new_q_num = $qr.data("q") + (back ? -1 : 1);
+                    showQn(new_q_num);
+                });
+                $("#q-submit").click(function(e) {
+                    location.href='/usersurvey/measure/2';
+                });
+                function qPayload() {
+                    var $n = $qr.find("input[tabindex=0]").filter(":checked");
+                    if (!$n.length) {
+                        $n = $n.end();
+                    }
+                    return $n.attr("name") + ":" + $n.val();
+                }
+                showQn(0);
+            });
+
+    function showQn(i, immediately) {
+        var $qns = $qr.children(".question");
+        var $qn = $qns.eq(i);
+        var test_div=document.getElementById("questionnaire-view");
+        if(i==0){
+            $("#title").html("理财目标选择");
+            test_div.style.height="600px";
+        }
+        if(i==1){
+            $("#title").html("目标描述");
+            test_div.style.height="400px";
+            $.post("/usersurvey/targets",{username:'<%= session[:webusername] %>'},function(data){
+                $("[class*='goals']").hide();
+             for(j=0;j<parseInt(data["length"][0]);j++){
+                 $(".goals"+ j).show();
+                 $(".goals"+ j + " td:eq(0)").html(data[j][0]);
+                 $(".goals"+ j + " td:eq(1)").html(data[j][2]+"万");
+                 $(".goals"+ j + " td:eq(2)").html(data[j][1]+"年");
+                 $(".goals"+ j + " td:eq(3)").html(data[j][3]);
+                 $(".goals"+ j + " td:eq(5)").html(data["length"][1]);
+                 $(".goals"+ j + " td:eq(6)").html(data["length"][2]);
+             }
+            });
+        }
+
+        var test_div1=document.getElementsByClassName("question");
+            test_div1[0].style.height="570px";
+            test_div1[1].style.height="370px";
+
+        if (i >= 0 && $qn.length) {
+            $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
+            //   $("#q-back span").text(i === 2 ? "上一项" : "上一项");
+            $qr.data({q: i, transition: true});
+            var newTop = -i * $qn.height() + "px";
+            if(i==1){newTop='-570px'}
+            if(i==2){newTop='-940px'}
+            //  alert(newTop)
+            if (immediately) {
+                $qr.css("top", newTop);
+            }
+            if (immediately || $qr.css("top") === newTop) {
+                setTimeout(onAtQn, 5);
+            } else {
+                $qr.animate({"top": newTop}, onAtQn);
+            }
+
+            var isLastQn = i == $qns.length - 1;
+            $("#q-buttons").toggleClass("q-submit", isLastQn);
+
+            var $i = $qn.find("input");
+            var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
+            $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
+            $qr.trigger("qr:nav", i);
+
+            w.trackEvent("OFA", "question_display", (i+1) + "." + $i.attr("name"));
+        }
+
+        function onAtQn() {
+            $qr.removeData("transition");
+            $qn.find("input").attr("tabindex", "0")
+                    .filter("[checked=true],input:first").focus().select();
+        }
+    }
+
+</script>
+<script>
+    $(function() {
+        var $n = $("#q-numbers"), $qr = $("#questionnaire");
+        $qr.bind("qr:nav", function(e, i) {
+            var $n = $("#q-numbers");
+            $n.children(".q-num.curr").removeClass("curr").addClass("past");
+            $n.children().eq(i).removeClass("past").addClass("curr");
+        })
+                .data("init")(true);
+    });
+</script>

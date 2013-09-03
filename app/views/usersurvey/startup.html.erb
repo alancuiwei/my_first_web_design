@@ -57,7 +57,7 @@
           <p class="q-text">良好的资产体检得分意味着您的投资组合好，多元化，波动幅度小，如果您的体检得分小于60分，我们建议您应该做一些变动调整。</p>
         </td>
         <td style="width: 168px;text-align: center;">
-          <a class="introduce" href="#myModal" role="button" data-toggle="modal">资产体检原理介绍</a>
+          <a class="introduce" href="#myModal" role="button" data-toggle="modal">家庭财务报表分析原理</a>
         </td>
         <td>
           <div class="image"><img src="/assets/morningstar2.png"><br><img src="/assets/logo.jpg"></div>
@@ -350,8 +350,8 @@
   </div>
   <div class="mobile"><br></div>
 </div>
-<div class="question" style="height: 3830px;">
-  <div id="num9" style="padding-right: 80px;height: 3800px;overflow: auto;">
+<div class="question">
+  <div id="num9" style="padding-right: 80px;overflow: auto;">
     <table>
       <tr>
         <td>
@@ -833,6 +833,23 @@
         if (val != null) {
             e.value = w.formatNum(val, 0);
         }
+        if(e.name=="exect2"){
+            var exect=document.getElementsByName('exect2');
+            var a=1;
+            for(j=0;j<exect.length;j++){
+                if(exect[j].value==""){
+                    a=0;
+                    document.getElementById("q-next").disabled=true;
+                    return false;
+                }
+                else{
+                    a=1;
+                }
+            }
+            if(a==1){
+                document.getElementById("q-next").disabled=false;
+            }
+        }
     }
 
     function updateintro(e){
@@ -1101,7 +1118,6 @@
         showQn(6,'','load');
         showQn(7,'','load');
         showQn(8,'','load');
-        showQn(9,'','load');
         showQn(0,'','load');
     });
 
@@ -1204,14 +1220,14 @@
                             family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
                             income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
                             income9:$("#income9").attr("value"),income10:$("#income10").attr("value"),income11:$("#income11").attr("value"),income12:$("#income12").attr("value")},function(data){
-                            location.href='/usersurvey/measure/2';
+                            location.href='/usersurvey/goal';
                         });
                     }
                     else{
                     <% if session[:webusername]!=nil %>
                         $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                             xian:xian,wen:wen,feng:feng,acta:0,level:level},function(data){
-                            location.href='/usersurvey/measure/2';
+                            location.href='/usersurvey/goal';
                         });
                     <% end %>
                     }
@@ -1244,7 +1260,6 @@
         }
         else if(num4==6){
             var exect=document.getElementsByName('exect2');
-
             $.post("/usersurvey/userdatadetailedannual",{username:'<%= session[:webusername] %>',income1:exect[0].value.replace(/,/g, ""),income2:exect[1].value.replace(/,/g, ""),income3:exect[2].value.replace(/,/g, ""),expense1:exect[3].value.replace(/,/g, ""),expense2:exect[4].value.replace(/,/g, ""),expense3:exect[5].value.replace(/,/g, ""),expense4:exect[6].value.replace(/,/g, "")},function(data){
             });
         }
@@ -1295,7 +1310,7 @@
         }
         num4=i;
         //if(e==1){复杂输入}
-        if(i==0){$("#title").html("资产体检 系统介绍");}
+        if(i==0){$("#title").html("家庭财务分析系统 介绍");}
         if(i==1){$("#title").html("流动性资产 介绍");}
         if(i==2){$("#title").html("保本型资产 介绍");}
         if(i==3){$("#title").html("风险型资产 介绍");}
@@ -1392,14 +1407,6 @@
             num3=0;
         }
         if(i==9){
-            var test_div=document.getElementById("questionnaire-view");
-            test_div.style.width="108%";
-            test_div.style.height="3860px";
-
-            var test_div=document.getElementsByClassName("question");
-            for(k=0;k<test_div.length-1;k++){
-                test_div[k].style.height="296px";
-            }
 
             var arrayObj0 = [[0,0],[0,0],[0,0]];
             $.post("/usersurvey/step9",{username:'<%= session[:webusername] %>'},function(data){
@@ -1487,7 +1494,7 @@
                     $("#detailed tr:eq(10) td:eq(3)").html(parseInt(data[0][1]));
                     $("#detailed tr:eq(11) td:eq(3)").html(parseInt(data[0][3]));
                     $("#detailed tr:eq(12) td:eq(3)").html(parseInt(data[0][5]));
-                    $("#detailed tr:eq(13) td:eq(3)").html(parseInt(data[2][2]));
+                    $("#detailed tr:eq(13) td:eq(3)").html(debtmonth);
                     $("#detailed tr:eq(15) td:eq(1)").html(parseInt(data[2][0]));
                     $("#detailed tr:eq(15) td:eq(3)").html(parseInt(data[2][1])+parseInt(data[2][2])+debtmonth);
                     $("#detailed tr:eq(16) td:eq(1)").html(parseInt(data[2][3])-debtmonth);
@@ -1511,7 +1518,12 @@
                         level=4;
                     }
                 }
+                if(debtmonth!=0){
                 $("#indicators tr:eq(8) td:eq(4)").html((parseInt(data[6][3])/(debtmonth*12)).toFixed(2));
+                }
+                else{
+                    $("#indicators tr:eq(8) td:eq(4)").html(100);
+                }
                 if(parseInt(data[6][0])!=0){
                    $("#indicators tr:eq(7) td:eq(4)").html((parseInt(data[6][2])/parseInt(data[6][0])).toFixed(2));
                    $("#indicators tr:eq(9) td:eq(4)").html(((parseInt(data[6][3])+parseInt(data[6][4])+parseInt(data[6][5]))/parseInt(data[6][0])).toFixed(2));
@@ -1856,6 +1868,27 @@
                 $(".total1").html(parseInt(data[6][1]));
                 $(".total2").html(parseInt(data[6][2]));
 
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.width="108%";
+                if(level==1){
+                    test_div.style.height="3810px";
+                }
+                else{
+                    test_div.style.height="3750px";
+                }
+                var test_div=document.getElementsByClassName("question");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="296px";
+                }
+                var test_div2=document.getElementById("num9");
+                if(level==1){
+                    test_div[test_div.length-1].style.height="3780px";
+                    test_div2.style.height="3780px";
+                }
+                else{
+                    test_div[test_div.length-1].style.height="3720px";
+                    test_div2.style.height="3720px";
+                }
             });
             $("#title").html("资产体检 总结");
         }
