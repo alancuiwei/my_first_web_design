@@ -2,7 +2,24 @@
 require 'open-uri'
 class UsersurveyController < ApplicationController
 
-  def userdataannual
+  def userdatadetailedannual
+    @userdataannual=Userdata_detailed_annual.find_by_username(params[:username])
+    if @userdataannual==nil
+      Userdata_detailed_annual.new do |e|
+        e.username=params[:username]
+        e.income1_account=params[:income1]
+        e.income2_account=params[:income2]
+        e.income3_account=params[:income3]
+        e.expense1_account=params[:expense1]
+        e.expense2_account=params[:expense2]
+        e.expense3_account=params[:expense3]
+        e.expense4_account=params[:expense4]
+        e.save
+      end
+    else
+      @userdataannual.update_attributes(:income1_account=>params[:income1],:income2_account=>params[:income2],:income3_account=>params[:income3],:expense1_account=>params[:expense1],
+                                        :expense2_account=>params[:expense2],:expense3_account=>params[:expense3],:expense4_account=>params[:expense4])
+    end
     @userdata=Userdata_annual.find_by_username(session[:webusername])
     @detailedmonth=Userdata_detailed_month.find_by_username(session[:webusername])
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
@@ -51,45 +68,33 @@ class UsersurveyController < ApplicationController
       else
         debt99_account_monthly=0
       end
-      debt_annual=debt1_account_monthly+debt2_account_monthly+debt99_account_monthly
+      debt_annual=(debt1_account_monthly+debt2_account_monthly+debt99_account_monthly)*12
     else
       debt_annual=0
     end
-    @userdataannual=Userdata_detailed_annual.find_by_username(session[:webusername])
-    if @userdataannual!=nil && @userdataannual.income1_account!=nil
-      income1_account= @userdataannual.income1_account
-    else
-      income1_account=0
-    end
-    if @userdataannual!=nil && @userdataannual.income2_account!=nil
-      income2_account= @userdataannual.income2_account
-    else
-      income2_account=0
-    end
-    if @userdataannual!=nil && @userdataannual.income3_account!=nil
-      income3_account= @userdataannual.income3_account
-    else
-      income3_account=0
-    end
 
-    net_annual=salary_annual+params[:incomeannual].to_i-must_expense_annual-fun_expense_annual-debt_annual-params[:expenseannual].to_i
+    income=params[:income1].to_i+params[:income2].to_i+params[:income3].to_i
+    expense=params[:expense1].to_i+params[:expense2].to_i+params[:expense3].to_i+params[:expense4].to_i
+
+    net_annual=salary_annual+income-must_expense_annual-fun_expense_annual-debt_annual-expense
+
     if @userdata==nil
       Userdata_annual.new do |e|
         e.username=params[:username]
         e.salary_annual=salary_annual
-        e.bonus_annual=income1_account+income2_account
-        e.other_income_annual=income3_account
+        e.bonus_annual=params[:income1].to_i+params[:income2].to_i
+        e.other_income_annual=params[:income3]
         e.must_expense_annual=must_expense_annual
         e.fun_expense_annual=fun_expense_annual
         e.debt_annual=debt_annual
-        e.income_annual=params[:incomeannual]
-        e.expense_annual=params[:expenseannual]
+        e.income_annual=income
+        e.expense_annual=expense
         e.net_annual=net_annual
         e.save
       end
     else
-      @userdata.update_attributes(:income_annual=>params[:incomeannual],:expense_annual=>params[:expenseannual],:salary_annual=>salary_annual,:must_expense_annual=>must_expense_annual,bonus_annual:income1_account+income2_account,
-                                  :other_income_annual=>income3_account,:fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:net_annual=>net_annual)
+      @userdata.update_attributes(:salary_annual=>salary_annual,:bonus_annual=>(params[:income1].to_i+params[:income2].to_i),:other_income_annual=>params[:income3],:must_expense_annual=>must_expense_annual,
+                                  :fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:income_annual=>income,:expense_annual=>expense,:net_annual=>net_annual)
     end
     render :json => "s".to_json
   end
@@ -98,42 +103,6 @@ class UsersurveyController < ApplicationController
     @webuser2=Webuser.find_by_username(session[:webusername])
     @webuser2.update_attributes(:moonlite_typeid=>params[:moonlite_typeid])
     render :json => "s".to_json
-  end
-
-  def userdatadetailedannual
-    @userdataannual=Userdata_detailed_annual.find_by_username(params[:username])
-    if @userdataannual==nil
-      Userdata_detailed_annual.new do |e|
-        e.username=params[:username]
-        e.income1_account=params[:income1]
-        e.income2_account=params[:income2]
-        e.income3_account=params[:income3]
-        e.expense1_account=params[:expense1]
-        e.expense2_account=params[:expense2]
-        e.expense3_account=params[:expense3]
-        e.expense4_account=params[:expense4]
-        e.save
-      end
-    else
-      @userdataannual.update_attributes(:income1_account=>params[:income1],:income2_account=>params[:income2],:income3_account=>params[:income3],:expense1_account=>params[:expense1],
-                                                 :expense2_account=>params[:expense2],:expense3_account=>params[:expense3],:expense4_account=>params[:expense4])
-    end
-    @userdata=Userdata_annual.find_by_username(session[:webusername])
-    income=params[:income1].to_i+params[:income2].to_i+params[:income3].to_i
-    expense=params[:expense1].to_i+params[:expense2].to_i+params[:expense3].to_i+params[:expense4].to_i
-    if @userdata==nil
-      Userdata_annual.new do |e|
-        e.username=params[:username]
-        e.bonus_annual=params[:income1].to_i+params[:income2].to_i
-        e.other_income_annual=params[:income3]
-        e.income_annual=income
-        e.expense_annual=expense
-        e.save
-      end
-    else
-      @userdata.update_attributes(:bonus_annual=>(params[:income1].to_i+params[:income2].to_i),:other_income_annual=>params[:income3],:income_annual=>income,:expense_annual=>expense)
-    end
-    render :json => (income.to_s+','+expense.to_s).to_json
   end
 
   def userdatadetailedmonth
