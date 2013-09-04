@@ -3,8 +3,11 @@ require 'open-uri'
 class UsersurveyController < ApplicationController
 
   def goal
+    @blog=Blog.find_by_id(452)
    if session[:webusername]!=nil
-    @targets=User_targets.find_by_username(session[:webusername])
+    @targets=User_targets.find_all_by_username(session[:webusername])
+    @webuser=Webuser.find_by_username(session[:webusername])
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
    else
      redirect_to(:controller=>"sales", :action=>"login", :goal=>"1")
    end
