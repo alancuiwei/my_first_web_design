@@ -1,0 +1,76 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  风险级别ID：<input type="text" name="risk_typeid" id="risk_typeid"><br>
+  风险类型：<input type="text" name="risk_typename" id="risk_typename" title="风险类型"><br>
+  一句话点评：<input type="text" name="risk_brief_intro" id="risk_brief_intro"><br>
+  分值范围：<input type="text" name="risk_score_arrange" id="risk_score_arrange"><br>
+  适合产品：<input type="text" name="risk_type_products" id="risk_type_products"><br>
+  年收益率：<input type="text" name="risk_type_returnrate" id="risk_type_returnrate">%<br>
+  <% if params[:id]!="0" %>
+      类型代表：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risk_classicperson" id="risk_classicperson"><%= @risktype.risk_classicperson %></textarea><br>
+      行家解释：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risk_spec_intro" id="risk_spec_intro"><%= @risktype.risk_spec_intro %></textarea><br>
+  <% else %>
+      类型代表：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risk_classicperson" id="risk_classicperson"></textarea><br>
+      行家解释：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risk_spec_intro" id="risk_spec_intro"></textarea><br>
+  <% end %>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/admin/risktypeconfigajax/<%= params[:id] %>",{ risk_typeid: $("#risk_typeid").attr("value"),risk_typename:$("#risk_typename").attr("value"),risk_brief_intro:$("#risk_brief_intro").attr("value"),
+                    risk_classicperson:$("#risk_classicperson").attr("value"),risk_spec_intro:$("#risk_spec_intro").attr("value"),risk_score_arrange:$("#risk_score_arrange").attr("value"),
+                    risk_type_products:$("#risk_type_products").attr("value"),risk_type_returnrate:$("#risk_type_returnrate").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#risk_typeid").attr("value",'<%= @risktype.risk_typeid%>');
+        $("#risk_typename").attr("value",'<%= @risktype.risk_typename%>');
+        $("#risk_brief_intro").attr("value",'<%= @risktype.risk_brief_intro%>');
+        $("#risk_score_arrange").attr("value",'<%= @risktype.risk_score_arrange%>');
+        $("#risk_type_products").attr("value",'<%= @risktype.risk_type_products%>');
+        $("#risk_type_returnrate").attr("value",'<%= @risktype.risk_type_returnrate%>');
+        <% end %>
+    });
+
+</script>

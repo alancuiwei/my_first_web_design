@@ -22,6 +22,7 @@ class AdminController < ApplicationController
       @indicators=Admin_finacialindicators.all
       @incomeannual=Admin_income_type_annual.all
       @expenseannual=Admin_expense_type_annual.all
+      @risktype=Admin_risktolerance_type.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -34,6 +35,47 @@ class AdminController < ApplicationController
     end
   end
 
+  def risktypeconfig
+    if params[:id]!="0"
+      @risktype=Admin_risktolerance_type.find_by_id(params[:id])
+    else
+      @risktype=Admin_risktolerance_type.limit(1)
+    end
+  end
+
+  def risktypeconfigajax
+    @risktype=Admin_risktolerance_type.find_by_risk_typename(params[:risk_typename])
+    if @risktype==nil
+      Admin_risktolerance_type.new do |b|
+        b.risk_typeid=params[:risk_typeid]
+        b.risk_typename=params[:risk_typename]
+        b.risk_brief_intro=params[:risk_brief_intro]
+        b.risk_classicperson=params[:risk_classicperson]
+        b.risk_spec_intro=params[:risk_spec_intro]
+        b.risk_score_arrange=params[:risk_score_arrange]
+        b.risk_type_products=params[:risk_type_products]
+        b.risk_type_returnrate=params[:risk_type_returnrate]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @risktype.update_attributes(:risk_typeid=>params[:risk_typeid],:risk_typename=>params[:risk_typename],:risk_brief_intro=>params[:risk_brief_intro],
+                                    :risk_score_arrange=>params[:risk_score_arrange],:risk_type_products=>params[:risk_type_products],:risk_type_returnrate=>params[:risk_type_returnrate],
+                                    :risk_classicperson=>params[:risk_classicperson],:risk_spec_intro=>params[:risk_spec_intro])
+      render :json => "s2".to_json
+    end
+  end
+
+  def risktypedeleteajax
+    @risktype=Admin_risktolerance_type.find_by_id(params[:id])
+    if @risktype!=nil
+      if @risktype.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
   def indicatorsconfig
     if params[:id]!="0"
       @indicators=Admin_finacialindicators.find_by_id(params[:id])
@@ -714,7 +756,7 @@ class AdminController < ApplicationController
           w.password=password
           w.tel=params[:tel]
           w.email=params[:email]
-          w.risktolerance=params[:risktolerance]
+          w.risk_score=params[:risk_score]
           w.save
         end
 
@@ -765,7 +807,7 @@ class AdminController < ApplicationController
           if  @webuser.username=="admin" || @webuser.username=="blog"
             session[:webusername]=@webuser.username
             render :json => "admin".to_json
-          elsif @webuser.risktolerance!=nil
+          elsif @webuser.risk_score!=nil
             session[:webusername]=@webuser.username
             render :json => "g1".to_json
           else

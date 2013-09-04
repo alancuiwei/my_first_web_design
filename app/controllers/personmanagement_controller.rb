@@ -3,7 +3,7 @@ class PersonmanagementController < ApplicationController
 
   def selectproduct
     @webuser = Webuser.find_by_username(params[:username])
-    @webuser.update_attributes(:selection=>params[:selection])
+    @webuser.update_attributes(:risk_productid=>params[:risk_productid])
     render :json => "s".to_json
   end
 
@@ -181,14 +181,14 @@ class PersonmanagementController < ApplicationController
                                    :wenp=>params[:wenp],:fengp=>params[:fengp])
     @webuser = Webuser.find_by_username(params[:username])
     if @webuser!=nil
-      @webuser.update_attributes(:selection=>params[:selection],:selectproductl=>params[:selectproductl],:selectproductb=>params[:selectproductb])
+      @webuser.update_attributes(:risk_productid=>params[:risk_productid],:fluid_productid=>params[:fluid_productid],:safe_productid=>params[:safe_productid])
     end
     render :json => "s".to_json
   end
 
   def personconfigajax
         @webuser=Webuser.find_by_username(session[:webusername])
-    @webuser.update_attributes(:risktolerance=>params[:risktolerance]);
+    @webuser.update_attributes(:risk_score=>params[:risk_score],:risk_typeid=>params[:risk_typeid]);
     render :json => "s".to_json
   end
 
@@ -262,15 +262,15 @@ class PersonmanagementController < ApplicationController
       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
       @record=Record.find_all_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-      @finance1=Financial.find_by_pname(@webuser.selectproductl)
+      @finance1=Financial.find_by_pname(@webuser.fluid_productid)
         if @finance1!=nil
           @category1=Category_2.find_by_classify(@finance1.classify)
         end
-      @finance2=Financial.find_by_pname(@webuser.selectproductb)
+      @finance2=Financial.find_by_pname(@webuser.safe_productid)
       if @finance2!=nil
         @category2=Category_2.find_by_classify(@finance2.classify)
       end
-      @finance3=Financial.find_by_pname(@webuser.selection)
+      @finance3=Financial.find_by_pname(@webuser.risk_productid)
       if @finance3!=nil
         @category3=Category_2.find_by_classify(@finance3.classify)
       end
@@ -281,15 +281,15 @@ class PersonmanagementController < ApplicationController
         @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-        @finance1=Financial.find_by_pname(@webuser.selectproductl)
+        @finance1=Financial.find_by_pname(@webuser.fluid_productid)
         if @finance1!=nil
           @category1=Category_2.find_by_classify(@finance1.classify)
         end
-        @finance2=Financial.find_by_pname(@webuser.selectproductb)
+        @finance2=Financial.find_by_pname(@webuser.safe_productid)
         if @finance2!=nil
           @category2=Category_2.find_by_classify(@finance2.classify)
         end
-        @finance3=Financial.find_by_pname(@webuser.selection)
+        @finance3=Financial.find_by_pname(@webuser.risk_productid)
         if @finance3!=nil
           @category3=Category_2.find_by_classify(@finance3.classify)
         end

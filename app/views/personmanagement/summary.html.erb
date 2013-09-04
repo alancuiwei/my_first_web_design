@@ -879,7 +879,7 @@
     var risk=0;
 
     <% if session[:webusername]!=nil %>
-       risk='<%= @webuser.risktolerance %>'
+       risk='<%= @webuser.risk_score %>'
     <% end %>
 
     $(function(){
@@ -940,7 +940,7 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                        $.post("/personmanagement/userajax/0",{ username:"<%= session[:webusername] %>",selection: $(".productfeng").html(),selectproductl: $(".productliu").html(),selectproductb: $(".productbao").html(),xianp:$("#xian1").attr("value"),
+                        $.post("/personmanagement/userajax/0",{ username:"<%= session[:webusername] %>",risk_productid: $(".productfeng").html(),fluid_productid: $(".productliu").html(),safe_productid: $(".productbao").html(),xianp:$("#xian1").attr("value"),
                             wenp: $("#wen1").attr("value"),fengp: $("#feng1").attr("value")
                         },function(data){
                             location.href='/personmanagement/personfinance';
@@ -1107,9 +1107,9 @@
 </script>
 
 <script>
-    var selectproductl='<%= @webuser.selectproductl %>';
-    var selectproductb='<%= @webuser.selectproductb %>';
-    var selection='<%= @webuser.selection %>';
+    var fluid_productid='<%= @webuser.fluid_productid %>';
+    var safe_productid='<%= @webuser.safe_productid %>';
+    var risk_productid='<%= @webuser.risk_productid %>';
     var variety,amount,pname,jixu,total,xian,feng,wen;
     var xianjin= 0,wenjian= 0,fengxian=0;
     $(document).ready(function(){
@@ -1217,7 +1217,7 @@
         <% if params[:score]!=nil &&  params[:score]!='' %>
         animate(0,parseFloat('<%= params[:score] %>'));
         <% elsif session[:webusername]!=nil %>
-        animate(0,parseFloat('<%= @webuser.score %>'));
+        animate(0,parseFloat('<%= @webuser.asset_score %>'));
         <% end %>
         update();
     });
@@ -1362,7 +1362,7 @@
                 var aa="<a href='/bankinvest/classify/"+eq[0]+"'><%= f.classify %></a>";
                 $("#ground tr:eq(3) td:eq(4)").html(aa)
                 $("#ground tr:eq(3) td:eq(5)").html("<a class='productfeng' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
-                selection='<%= f.pname %>';
+                risk_productid='<%= f.pname %>';
             <% for i in 0..@category.size-1 %>
                 <% if @category[i].classify==f.classify %>
                   $("#remark").html("这里您的风险型资产是 <%= @category[i].classify %>，<%= @category[i].prisk %>");
@@ -1374,14 +1374,14 @@
             var fwen=parseInt($("#wen1").attr("value"));
             var ffeng=parseInt($("#feng1").attr("value"));
             if(jixu!=0 && total!=0){
-            var score=((3-(Math.abs(fxian/total-xianjin/jixu)+Math.abs(fwen/total-wenjian/jixu)+Math.abs(ffeng/total-fengxian/jixu)))*100/3).toFixed(1);
+            var asset_score=((3-(Math.abs(fxian/total-xianjin/jixu)+Math.abs(fwen/total-wenjian/jixu)+Math.abs(ffeng/total-fengxian/jixu)))*100/3).toFixed(1);
             }
             else{
-                var score=0;
+                var asset_score=0;
             }
-            $.post("/usersurvey/score",{username:"<%= session[:webusername] %>",score:score},function(data){
+            $.post("/usersurvey/score",{username:"<%= session[:webusername] %>",asset_score:asset_score},function(data){
             });
-            animate(0,score);
+            animate(0,asset_score);
             update();
         }
         else if(this.name=='iCheck3'){
@@ -1396,7 +1396,7 @@
                 }
             <% end %>
                 $("#ground tr:eq(1) td:eq(5)").html("<a class='productliu' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
-                selectproductl='<%= f.pname %>'
+                fluid_productid='<%= f.pname %>'
             }
         <% end %>
             $("tr").removeClass("four");
@@ -1417,7 +1417,7 @@
                 }
             <% end %>
                 $("#ground tr:eq(2) td:eq(5)").html("<a class='productbao' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
-                selectproductb='<%= f.pname %>';
+                safe_productid='<%= f.pname %>';
             }
         <% end %>
             $("tr").removeClass("five");
@@ -1447,10 +1447,10 @@ function update(){
 <% @record.each do |r| %>
     if(parseInt('<%= r.date %>'.split('-')[0])== yearNow && parseInt('<%= r.date %>'.split('-')[1])<=monthNow){
 
-        if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==selectproductl){
+        if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==fluid_productid){
             thismonth=thismonth+parseInt('<%= r.amount %>')
         }
-        else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==selectproductl){
+        else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==fluid_productid){
             thismonth=thismonth-parseInt('<%= r.amount %>')
         }
     }
@@ -1534,7 +1534,7 @@ function update(){
     }
     // xianjin,wenjian,fengxian,jixu,xian,wen,feng
 
-    //selectproductl 流动性产品名
+    //fluid_productid 流动性产品名
     for(i=1;i<12;i++){
         var months=monthNow+i;
         if(months>12){
@@ -1549,10 +1549,10 @@ function update(){
         <% @record.each do |r| %>
         if(parseInt('<%= r.date %>'.split('-')[0])== year && parseInt('<%= r.date %>'.split('-')[1])==months){
 
-            if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==selectproductl){
+            if('<%= r.nature %>'=='买入' && '<%= r.pname %>'==fluid_productid){
                 thismonth=thismonth+parseInt('<%= r.amount %>')
             }
-            else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==selectproductl){
+            else if('<%= r.nature %>'=='赎回取现' && '<%= r.pname %>'==fluid_productid){
                 thismonth=thismonth-parseInt('<%= r.amount %>')
             }
         }
@@ -1654,17 +1654,17 @@ function update(){
     /*
      var yearrate1= 0,monthrate1= 0,yearrate2= 0,monthrate2= 0,yearrate3= 0,monthrate3= 0;
     <% @financial2.each do |f| %>
-        if('<%= f.pname %>'==selectproductl){
+        if('<%= f.pname %>'==fluid_productid){
            <% if f.averrate!=nil %>
              yearrate1=<%= f.averrate %>,monthrate1=<%= f.averrate/12 %>;
            <% end %>
         }
-        if('<%= f.pname %>'==selectproductb){
+        if('<%= f.pname %>'==safe_productid){
            <% if f.averrate!=nil %>
              yearrate2=<%= f.averrate %>,monthrate2=<%= f.averrate/12 %>;
            <% end %>
         }
-        if('<%= f.pname %>'==selection){
+        if('<%= f.pname %>'==risk_productid){
            <% if f.averrate!=nil %>
              yearrate3=<%= f.averrate %>,monthrate3=<%= f.averrate/12 %>;
            <% end %>

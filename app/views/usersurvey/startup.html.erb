@@ -25,13 +25,13 @@
   <div class="top-tabs-content">
     <b>1.</b> <span> 资产体检</span>
     <b>&nbsp;&gt;&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.risktolerance!=nil %>
+    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
         <a href="/usersurvey/measure/2"><b>2.</b> 风险评估</a>
     <% else %>
         <span class="disabled"><b>2.</b> 风险评估</span>
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.selection!=nil %>
+    <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
         <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 理财建议</span>
@@ -1210,12 +1210,12 @@
                         var rent= tot3;
                         var wages= avge-tot2;
                         if(level==4){
-                            var score=run();
+                            var asset_score=run();
                         }
                         else{
-                            var score=0;
+                            var asset_score=0;
                         }
-                        $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',score:score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                        $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',asset_score:asset_score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                             salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,level:level,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
                             family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
                             income4:$("#income4").attr("value"),income5:$("#income5").attr("value"),income6:$("#income6").attr("value"),income7:$("#income7").attr("value"),income8:$("#income8").attr("value"),
@@ -1225,7 +1225,7 @@
                     }
                     else{
                     <% if session[:webusername]!=nil %>
-                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',score:score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
+                        $.post("/usersurvey/savescore",{username:'<%= session[:webusername] %>',asset_score:asset_score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                             xian:xian,wen:wen,feng:feng,acta:0,level:level},function(data){
                             location.href='/usersurvey/goal';
                         });
@@ -2345,12 +2345,12 @@
 
     function run(){
         if(jixu!=0 && total!=0){
-            var score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
+            var asset_score=(3-(Math.abs(xian/total-xianjin/jixu)+Math.abs(wen/total-wenjian/jixu)+Math.abs(feng/total-fengxian/jixu)))*100/3
         }
         else{
-            var score=0;
+            var asset_score=0;
         }
-        return  score.toFixed(1);
+        return  asset_score.toFixed(1);
     }
 
 </script>

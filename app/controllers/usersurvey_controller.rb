@@ -319,7 +319,7 @@ class UsersurveyController < ApplicationController
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     a6=format("%.2f",a3/@userdatamonth.must_expense.to_f).to_f
     a7=format("%.2f",a4/a1.to_f).to_f
-    a8=format("%.2f",a5/a1.to_f).to_f
+    a8=format("%.2f",(a3+a5)/a1.to_f).to_f
     a9=a6.to_s+','+a7.to_s+','+a8.to_s
     render :json => a9.to_json
   end
@@ -539,7 +539,7 @@ class UsersurveyController < ApplicationController
   def score
     @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
-    @webuser.update_attributes(:score=>params[:score])
+    @webuser.update_attributes(:asset_score=>params[:asset_score])
     end
     render :json => "s".to_json
   end
@@ -555,7 +555,7 @@ class UsersurveyController < ApplicationController
   def savescore
     @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
-    @webuser.update_attributes(:score=>params[:score])
+    @webuser.update_attributes(:asset_score=>params[:asset_score])
     end
     @examination=Examination.find_by_username(params[:username])
     if @examination==nil
@@ -598,7 +598,7 @@ class UsersurveyController < ApplicationController
   def savescore2
     @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
-    @webuser.update_attributes(:score=>params[:score])
+    @webuser.update_attributes(:asset_score=>params[:asset_score])
     end
     @examination=Examination.find_by_username(params[:username])
     if @examination==nil

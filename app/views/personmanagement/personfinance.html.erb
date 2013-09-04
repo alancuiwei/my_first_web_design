@@ -85,13 +85,13 @@
 <h1><%= @webuser.username %>的个人首页</h1>
 <div id="top-tabs" style="padding: 15px 60px;background: #f4f4f4;border-bottom: 1px solid #ececec;">
   <div class="row-fluid" style="height: 18px;">
-    <% if @webuser.score ==nil %>
+    <% if @webuser.asset_score ==nil %>
         <div class="span12">
           <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span>
           <span class="disabled"><b>2.</b> <span>风险评估</span><span class="separator"> > </span></span>
           <span class="disabled"><b>3.</b> <span>理财建议</span></span>
         </div>
-    <% elsif @webuser.risktolerance ==nil %>
+    <% elsif @webuser.risk_score ==nil %>
         <div class="span12">
           <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a><span class="separator"> > </span>
           <a href="/usersurvey/measure/2"><b>2.</b> <span>风险评估</span></a><span class="separator"> > </span>
@@ -117,25 +117,25 @@
       <% end %>
     </div>
     <hr>
-    <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risktolerance!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risktolerance %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
+    <div id="title" style="font-size: 14px;line-height: 30px;"><% if  @webuser.risk_score!=nil %><%= @webuser.username %>的风险承受度：<%= @webuser.risk_score %><% else %><%= @webuser.username %> 尚未进行 风险承受度评估<% end %></div>
     <div id="container" style="width: 130px;margin: auto;"></div>
     <% if @webuser.username == session[:webusername] %>
-        <% if @webuser.risktolerance ==nil %>
+        <% if @webuser.risk_score ==nil %>
             <a href="/usersurvey/measure/2" id="change-answers" style="font-size: 12px;">风险承受度评估</a>
         <% else %>
             <a href="/usersurvey/measure/2" id="change-answers" style="font-size: 12px;">修改我的答案</a>
         <% end %>
     <% end %>
-    <% if  @webuser.risktolerance!=nil %>
-        <% if @webuser.risktolerance.to_f>=0 && @webuser.risktolerance.to_f<=2 %>
+    <% if  @webuser.risk_score!=nil %>
+        <% if @webuser.risk_score.to_f>=0 && @webuser.risk_score.to_f<=2 %>
             <p class="risk">对于安益型投资人，其投资组合配置在风险最小的领域，如现金、活期存储、定期存款等。</p>
-        <% elsif @webuser.risktolerance.to_f>2 && @webuser.risktolerance.to_f<=4 %>
+        <% elsif @webuser.risk_score.to_f>2 && @webuser.risk_score.to_f<=4 %>
             <p class="risk">对于保守型投资人，其投资组合较大比例配置纯债券型基金，此类投资人注重获得稳定的投资回报，而不追求最大回报，且限制短期内的大幅波动。</p>
-        <% elsif @webuser.risktolerance.to_f>4 && @webuser.risktolerance.to_f<=6 %>
+        <% elsif @webuser.risk_score.to_f>4 && @webuser.risk_score.to_f<=6 %>
             <p class="risk"> 对于稳健型投资人，其投资组合均衡配置债券类基金资产，通过这种债券型基金，将有少许被配置到股票等二级市场。</p>
-        <% elsif @webuser.risktolerance.to_f>6 && @webuser.risktolerance.to_f<=8 %>
+        <% elsif @webuser.risk_score.to_f>6 && @webuser.risk_score.to_f<=8 %>
             <p class="risk">对于积极型投资人，其投资组合较大比例配置指数型基金或混合型基金，同时还有小部分比例配置于现金、活期、货币基金等流动性资产。</p>
-        <% elsif @webuser.risktolerance.to_f>8 && @webuser.risktolerance.to_f<=10 %>
+        <% elsif @webuser.risk_score.to_f>8 && @webuser.risk_score.to_f<=10 %>
             <p class="risk">对于激进型投资人，其投资组合将绝大部分比例投资于股票类资产或股票型基金，并且敢于涉足一些投机领域。</p>
         <% end %>
     <% end %>
@@ -199,7 +199,7 @@
             </tr>
             </thead>
             <tbody>
-            <% if @webuser.selectproductl!=nil && @webuser.selectproductl!="" %>
+            <% if @webuser.fluid_productid!=nil && @webuser.fluid_productid!="" %>
             <tr class="monthpay2">
               <td class="name2"><% if @finance1!=nil %><%= @finance1.pname %><% end %></td>
               <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
@@ -208,7 +208,7 @@
               <td><% if @finance1!=nil %><a href="/bankinvest/productdetails/<%= @finance1.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
             <% end %>
-            <% if @webuser.selectproductb!=nil && @webuser.selectproductb!="" %>
+            <% if @webuser.safe_productid!=nil && @webuser.safe_productid!="" %>
             <tr class="monthpay4">
               <td class="name4"><% if @finance2!=nil %><%= @finance2.pname %><% end %></td>
               <td><% if @category2!=nil %><a href="/bankinvest/classify/<%= @category2.id %>"><%= @category2.classify %></a><% end %></td>
@@ -217,8 +217,8 @@
               <td><% if @finance2!=nil %><a href="/bankinvest/productdetails/<%= @finance2.id %>" class="btn btn-primary">查看</a><% end %></td>
             </tr>
             <% end %>
-            <% if  @webuser.risktolerance!=nil %>
-                <% if @webuser.selection!=nil && @webuser.selection!="" %>
+            <% if  @webuser.risk_score!=nil %>
+                <% if @webuser.risk_productid!=nil && @webuser.risk_productid!="" %>
                     <tr class="monthpay5">
                       <td class="name5"><% if @finance3!=nil %><%= @finance3.pname %><% end %></td>
                       <td><% if @category3!=nil %><a href="/bankinvest/classify/<%= @category3.id %>"><%= @category3.classify %></a><% end %></td>
@@ -1315,10 +1315,10 @@
 
     $(document).ready(function(){
         initPieChart();
-        <% if @webuser.score!=nil %>
+        <% if @webuser.asset_score!=nil %>
         $('.percentage').each(function() {
-            $(this).data('easyPieChart').update(<%= format("%0.1f",@webuser.score) %>);
-            $('span', this).text('<%= format("%0.1f",@webuser.score) %>');
+            $(this).data('easyPieChart').update(<%= format("%0.1f",@webuser.asset_score) %>);
+            $('span', this).text('<%= format("%0.1f",@webuser.asset_score) %>');
         });
         <% end %>
         $('#records').dataTable({});
@@ -1345,8 +1345,8 @@
     $(function () {
         var chart;
 
-        <% if @webuser.risktolerance!=nil %>
-        var dataArray2= [<%= @webuser.risktolerance %>];
+        <% if @webuser.risk_score!=nil %>
+        var dataArray2= [<%= @webuser.risk_score %>];
         <% else %>
         var dataArray2= [0];
         <% end %>

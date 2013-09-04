@@ -139,7 +139,11 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
+                       <% if session[:webusername]!=nil %>
 						location.href="/usersurvey/measure/1";
+                       <% else %>
+                         location.href="/home/learn_more";
+                        <% end %>
                     });
                     function qPayload() {
                         var $n = $qr.find("input[tabindex=0]").filter(":checked");
