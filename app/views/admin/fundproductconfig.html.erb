@@ -1,0 +1,130 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: FontAwesome;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: url("/assets/glyphicons-halflings.png");
+        background-repeat: repeat;
+        margin-top: 0;
+    }
+    span{
+        color: #999;
+        font-size: 12px;
+    }
+    table td{padding: 0 10px 10px 0;}
+</style>
+
+<div class="main-body">
+  产品ID：<input type="text" name="productid" id="productid" title="产品代码"><br>
+  产品名称：<input type="text" name="productname" id="productname" title="产品名称"><br>
+  小类代码(L2_typeid)：<input type="text" name="L2_typeid" id="L2_typeid" title="L2_typeid" value="101" readonly><br>
+  产品小类：<input type="text" name="L2_typename" id="L2_typename" title="产品小类" value="货币基金" readonly><br>
+  产品属性：<select name="internet_product" id="internet_product" class="internet_product">
+  <option value="0">传统产品</option>
+  <option value="1">互联网产品</option>
+</select><br>
+  管理机构：<input type="text" name="institution" id="institution" title="管理机构"><br>
+  产品代码：<input type="text" name="product_code" id="product_code"><br>
+  最低投资金额：<input type="text" name="min_purchase_account" id="min_purchase_account" title="最低投资金额"><br>
+  日期：<input type="text" name="create_date" id="create_date" title="日期" onclick="WdatePicker()" class="Wdate">  <br>
+  销售规模：<input type="text" name="fund_size" id="fund_size" title="销售规模"><br>
+  <% if params[:id]!="0" %>
+      其它：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="other_usage" id="other_usage" title="其它"><%= @fundproduct.other_usage %></textarea><br>
+      官网介绍：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="official_link" id="official_link" title="官网介绍"><%= @fundproduct.official_link %></textarea> <br>
+  <% else %>
+      其它：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="other_usage" id="other_usage" title="其它"></textarea><br>
+      官网介绍：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="official_link" id="official_link" title="官网介绍"></textarea> <br>
+  <% end %>
+  <div id="web">
+    绑定基金数目：<select  name="bind_funds_number" id="bind_funds_number" class="bind_funds_number">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select><br>
+  </div>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++){
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            var a=document.getElementsByClassName("idd");
+            for(var i=0;i<a.length;i++){
+                var a0=$("#id"+i).attr("value");
+                var a1=$("#date"+i).attr("value");
+                var a2=$("#ranknum"+i).attr("value");
+                var a3=$("#totalnum"+i).attr("value");
+                var a4=$("#years"+i).attr("value");
+                if(a1!='' || a2!='' || a3!='' || a4!=''){
+                    $.post("/admin/rankconfigajax/"+a0,{ productid: $("#productid").attr("value"),date: a1,rank_num: a2,total_num: a3,years: a4},function(data){});
+                }
+            }
+
+            $.post("/admin/fundproductconfigajax/<%= params[:id] %>",{ productid: $("#productid").attr("value"),productname: $("#productname").attr("value"),L2_typeid: $("#L2_typeid").attr("value"),
+                L2_typename: $("#L2_typename").attr("value"),internet_product:$("#internet_product").attr("value"),institution: $("#institution").attr("value"),product_code: $("#product_code").attr("value"),
+                min_purchase_account: $("#min_purchase_account").attr("value"),create_date: $("#create_date").attr("value"),fund_size: $("#fund_size").attr("value"),
+                other_usage: $("#other_usage").attr("value"),official_link: $("#official_link").attr("value"),bind_funds_number: $("#bind_funds_number").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("货币基金产品创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#productid").attr("value",'<%= @fundproduct.productid%>');
+        $("#productname").attr("value",'<%= @fundproduct.productname%>');
+        $("#internet_product").attr("value",'<%= @fundproduct.internet_product %>');
+        $("#institution").attr("value",'<%= @fundproduct.institution %>');
+        $("#product_code").attr("value",'<%= @fundproduct.product_code %>');
+        $("#min_purchase_account").attr("value",'<%= @fundproduct.min_purchase_account %>');
+        $("#create_date").attr("value",'<%= @fundproduct.create_date %>');
+        $("#fund_size").attr("value",'<%= @fundproduct.fund_size %>');
+        $("#bind_funds_number").attr("value",'<%= @fundproduct.bind_funds_number %>');
+        <% end %>
+    });
+</script>

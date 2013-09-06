@@ -16,13 +16,13 @@ class HomeController < ApplicationController
       @risk=User_risktolerance_qa.find_all_by_username(session[:webusername])
     end
     @risktype=Admin_risktolerance_type.all
-    @category1=Category_2.find_all_by_risklevel(1)
-    @category2=Category_2.find_all_by_risklevel(2)
-    @category3=Category_2.find_all_by_risklevel(3)
-    @category4=Category_2.find_all_by_risklevel(4)
-    @category5=Category_2.find_all_by_risklevel(5)
+    @category1=Admin_asset_type_L2.find_all_by_risklevel(1)
+    @category2=Admin_asset_type_L2.find_all_by_risklevel(2)
+    @category3=Admin_asset_type_L2.find_all_by_risklevel(3)
+    @category4=Admin_asset_type_L2.find_all_by_risklevel(4)
+    @category5=Admin_asset_type_L2.find_all_by_risklevel(5)
     @hash={}
-    @category=Category_2.all
+    @category=Admin_asset_type_L2.all
     for i in 0..@category.size-1
       @financial=Financial.find_all_by_classify(@category[i].classify)
       a=''

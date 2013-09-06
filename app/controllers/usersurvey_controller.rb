@@ -521,7 +521,7 @@ class UsersurveyController < ApplicationController
       @userdateannual=Userdata_annual.find_by_username(session[:webusername])
       @detailedannual=Userdata_detailed_annual.find_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
-      @category=Category_2.all
+      @category=Admin_asset_type_L2.all
       @hash={}
       for i in 0..@category.size-1
         if @category[i].averagerate!=nil && @category[i].averagerate!=''

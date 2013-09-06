@@ -11,15 +11,17 @@
 </style>
 
 <div class="main-body">
-    产品大类ID：<input type="text" name="L1_typeid" id="L1_typeid"> <br><br>
-    产品大类：<input type="text" name="category" id="category" title="产品大类"> <br><br>
-    <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+  类型ID：<input type="text" name="typeid" id="typeid" title="类型ID"> <br><br>
+  投资回报率：<input type="text" name="average_return_rate" id="average_return_rate"> <br><br>
+  年数：<input type="text" name="years" id="years"> <br><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
 </div>
 
 <script type="text/javascript">
     <% if params[:id]!="0" %>
-    $("#L1_typeid").attr("value",'<%= @category1.L1_typeid%>');
-    $("#category").attr("value",'<%= @category1.category%>');
+    $("#typeid").attr("value",'<%= @average.typeid %>');
+    $("#average_return_rate").attr("value",'<%= @average.average_return_rate%>');
+    $("#years").attr("value",'<%= @average.years%>');
     <% end %>
 
     $("#categoryconfig").click(function(e){
@@ -34,10 +36,10 @@
             }
         }
         if(nom_flag==0){
-            $.post("/admin/category1configajax/<%= params[:id] %>",{ L1_typeid: $("#L1_typeid").attr("value"),category: $("#category").attr("value")
+            $.post("/admin/averageconfigajax/<%= params[:id] %>",{ typeid: $("#typeid").attr("value"),average_return_rate: $("#average_return_rate").attr("value"),years: $("#years").attr("value")
             },function(data){
                 if(data=="s1"){
-                    alert("产品大类创建成功！");
+                    alert("创建成功！");
                     location.href='/admin';
                 }
                 else{

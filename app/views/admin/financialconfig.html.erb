@@ -364,8 +364,10 @@
                 var a1=$("#fundname"+i).attr("value");
                 var a2=$("#poundage"+i).attr("value");
                 var a3=$("#link"+i).attr("value");
+               if(a2!='' || a3!=''){
                 $.post("/admin/poundageconfigajax/"+a0,{ pname: $("#pname").attr("value"),fundname: a1,poundage: a2,link: a3},function(data){
                 });
+            }
             }
             var way=''
             if(document.getElementById("iphone").checked){

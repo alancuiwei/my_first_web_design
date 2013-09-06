@@ -141,97 +141,44 @@
               <thead>
               <tr>
                 <th class="hide" rowspan="2">购买途径</th>
-                <th class="hide" rowspan="2">起购金额</th>
                 <th rowspan="2">产品名</th>
                 <th rowspan="2">机构名称</th>
                 <th rowspan="2">绑定基金</th>
                 <th rowspan="2">起购金额</th>
                 <th colspan="2">近一年</th>
-                <th colspan="3">购买途径</th>
                 <th rowspan="2">选择</th>
               </tr>
               <tr>
                 <th>收益率</th>
                 <th>排名</th>
-                <th>iphone</th>
-                <th>android</th>
-                <th>微信</th>
               </tr>
               </thead>
               <tfoot class="hide">
               <tr>
                 <th class="hide" rowspan="2">购买途径</th>
-                <th class="hide" rowspan="2">起购金额</th>
                 <th rowspan="2">产品名</th>
                 <th rowspan="2">机构名称</th>
                 <th rowspan="2">绑定基金</th>
                 <th rowspan="2">起购金额</th>
                 <th>收益率</th>
                 <th>排名</th>
-                <th>iphone</th>
-                <th>android</th>
-                <th>微信</th>
                 <th rowspan="2">选择</th>
               </tr>
               <tr>
                 <th colspan="2">近一年</th>
-                <th colspan="3">购买途径</th>
               </tr>
               </tfoot>
-              <% @financial3.each do |f| %>
-                  <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
-                    <td class="hide"><%= f.way %></td>
-                    <td class="hide"><%= f.startvalue %></td>
-                    <td><%= f.pname %></td>
-                    <td><%= f.trusts %></td>
-                    <% if f.property=='互联网产品'%>
-                        <% if f.bound>1%>
-                            <td>多个货币基金</td>
-                            <td><%= f.startvalue %></td>
-                            <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                            <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                        <% else %>
-                              <% if @hash3[f.id][0]>1 %>
-                                 <td><%= @hash3[f.id][1] %></td>
-                                <td><%= f.startvalue %></td>
-                                <td class="red"><% if @hash3[f.id][5] !=nil && @hash3[f.id][5].to_f!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %></td>
-                                <td><% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %></td>
-                              <% else %>
-                                <td><%= f.pname %></td>
-                                <td><%= f.startvalue %></td>
-                                <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                                <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                              <% end %>
-                         <% end %>
-                    <% else %>
-                        <td><%= f.pname %></td>
-                        <td><%= f.startvalue %></td>
-                        <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                        <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                    <% end %>
-                    <% if f.property=='互联网产品'%>
-                        <td><%= @hash3[f.id][2] %></td>
-                        <td><%= @hash3[f.id][3] %></td>
-                        <td><%= @hash3[f.id][4] %></td>
-                    <% else %>
-                        <td>否</td>
-                        <td>否</td>
-                        <td>否</td>
-                    <% end %>
+              <% @fundproduct.each do |f| %>
+                  <tr>
+                    <td class="hide"><%=  %></td>
+                    <td><%= f.productname %></td>
+                    <td><%= f.institution %></td>
+                    <td></td>
+                    <td><%= f.min_purchase_account %></td>
+                    <td class="red"><% if @hash3[f.productid][0]!='' %><%= @hash3[f.productid][0] %>%<% else %>--<% end %></td>
+                    <td><% if @hash3[f.productid][1]!='' %><%= @hash3[f.productid][1] %>/<%= @hash3[f.productid][2] %><% else %>--<% end %></td>
                     <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td>
                   </tr>
-                   <!--
-                    <tr id="finan<%= f.id %>" class="rights hide">
-                    <td class="left" colspan="9">
-                      购买途径:
-                      <% if f.property=='互联网产品'%>
-                        iphone:<%= @hash3[f.id][2] %> android:<%= @hash3[f.id][3] %> 微信:<%= @hash3[f.id][4] %>
-                        <% else %>
-                        iphone:N android:N 微信:N
-                        <% end %>
-                    </td>
-                  </tr>
-                    -->
               <% end %>
             </table>
              </div>
@@ -244,45 +191,18 @@
                     <th>选择</th>
                   </tr>
                   </thead>
-                  <% @financial3.each do |f| %>
+                  <% @fundproduct.each do |f| %>
                       <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
-                        <td class="leng expand"><%= f.pname %></td>
-                        <td class="leng"><%= f.trusts %></td>
+                        <td class="leng expand"><%= f.productname %></td>
+                        <td class="leng"><%= f.institution %></td>
                         <td><input type="radio" id="iCheck8" name="iCheck3" class="<%= f.id %>"></td>
                       </tr>
                       <tr id="finan<%= f.id %>" class="rights hide"><td class="left" colspan="3">
-                        绑定基金：
-                        <% if f.property=='互联网产品'%>
-                            <% if f.bound>1%>
-                                多个货币基金<br>
-                                起购金额：<%= f.startvalue %><br>
-                                近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
-                                近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
-                            <% else %>
-                                <% if @hash3[f.id][0]>1 %>
-                                    <%= @hash3[f.id][1] %><br>
-                                    起购金额：<%= f.startvalue %><br>
-                                    近1年收益率：<% if @hash3[f.id][5] !=nil && @hash3[f.id][5]!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %><br>
-                                    近1年排名：<% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %><br>
-                                <% else %>
-                                    <%= f.pname %><br>
-                                    起购金额：<%= f.startvalue %><br>
-                                    近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
-                                    近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
-                                <% end %>
-                            <% end %>
-                        <% else %>
-                            <%= f.pname %><br>
-                            起购金额：<%= f.startvalue %><br>
-                            近1年收益率：<% if f.rate !=nil && f.rate!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %><br>
-                            近1年排名：<% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %><br>
-                        <% end %> <br>
-                        购买途径：
-                        <% if f.property=='互联网产品'%>
-                            iphone：<%= @hash3[f.id][2] %> android：<%= @hash3[f.id][3] %> 微信：<%= @hash3[f.id][4] %>
-                        <% else %>
-                            iphone：否 android：否 微信：否
-                        <% end %>
+                        绑定基金：<br>
+                        起购金额：<%= f.min_purchase_account %><br>
+                        收益率：   <% if @hash3[f.productid][0]!='' %><%= @hash3[f.productid][0] %>%<% else %>--<% end %> <br>
+                        排名：  <% if @hash3[f.productid][1]!='' %><%= @hash3[f.productid][1] %>/<%= @hash3[f.productid][2] %><% else %>--<% end %>
+                      </td>
                       </tr>
                   <% end %>
                 </table>
@@ -830,28 +750,28 @@
 
     $("[class*='expectYID']").click(function(){
         $("[class*='expectYID']").removeClass('currbg');
-        if(this.id=='expectYID'){$("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
+        if(this.id=='expectYID'){$("#liudong_range_from_4").val('');$("#liudong_range_to_4").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
         else{
-            if(this.id=='expectYID1'){$("#liudong_range_from_1").val('0');$("#liudong_range_to_1").val('10');$("#expectYID1").addClass('currbg');};
-            if(this.id=='expectYID2'){$("#liudong_range_from_1").val('11');$("#liudong_range_to_1").val('500');$("#expectYID2").addClass('currbg');};
-            if(this.id=='expectYID3'){$("#liudong_range_from_1").val('501');$("#liudong_range_to_1").val('1000');$("#expectYID3").addClass('currbg');};
+            if(this.id=='expectYID1'){$("#liudong_range_from_4").val('0');$("#liudong_range_to_4").val('10');$("#expectYID1").addClass('currbg');};
+            if(this.id=='expectYID2'){$("#liudong_range_from_4").val('11');$("#liudong_range_to_4").val('500');$("#expectYID2").addClass('currbg');};
+            if(this.id=='expectYID3'){$("#liudong_range_from_4").val('501');$("#liudong_range_to_4").val('1000');$("#expectYID3").addClass('currbg');};
             $("#s-expectYID").removeClass('hide');
             $("#st-expectYID").html('起购金额:'+$('#'+this.id).html());
         }
-        $("#liudong_range_from_1").keyup();
+        $("#liudong_range_from_4").keyup();
     });
 
     $("[class*='duration']").click(function(){
         $("[class*='duration']").removeClass('currbg');
-        if(this.id=='durations'){$("#search3").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
+        if(this.id=='durations'){$("#search2").val('');$("#s-duration").addClass('hide');$("#durations").addClass('currbg');}
         else{
-            if(this.id=='duration1'){$("#search3").val('支付宝');$("#duration1").addClass('currbg');};
-            if(this.id=='duration2'){$("#search3").val('天天基金');$("#duration2").addClass('currbg');};
-            if(this.id=='duration3'){$("#search3").val('华夏基金');$("#duration3").addClass('currbg');};
+            if(this.id=='duration1'){$("#search2").val('支付宝');$("#duration1").addClass('currbg');};
+            if(this.id=='duration2'){$("#search2").val('天天基金');$("#duration2").addClass('currbg');};
+            if(this.id=='duration3'){$("#search2").val('华夏基金');$("#duration3").addClass('currbg');};
             $("#s-duration").removeClass('hide');
             $("#st-duration").html('已有账号:'+$('#'+this.id).html());
         }
-        $("#search3").keyup();
+        $("#search2").keyup();
     });
 
     $(".delete").click(function(){
@@ -865,14 +785,14 @@
         else if($(this).attr("cid")=='expectYID'){
             $("[class*='expectYID']").removeClass('currbg');
             $("#expectYID").addClass('currbg');
-            $("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#s-expectYID").addClass('hide');
-            $("#liudong_range_from_1").keyup();
+            $("#liudong_range_from_4").val('');$("#liudong_range_to_4").val('');$("#s-expectYID").addClass('hide');
+            $("#liudong_range_from_4").keyup();
         }
         else if($(this).attr("cid")=='duration'){
             $("[class*='duration']").removeClass('currbg');
             $("#durations").addClass('currbg');
-            $("#search3").val('');$("#s-duration").addClass('hide');
-            $("#search3").keyup();
+            $("#search2").val('');$("#s-duration").addClass('hide');
+            $("#search2").keyup();
         }
     });
 
@@ -1122,14 +1042,10 @@
         $('#liudong').dataTable().columnFilter({
             aoColumns: [
                 { type: "text"},
-                { type: "number-range" },
                 null,
                 { type: "text"},
                 null,
-                null,
-                null,
-                null,
-                null,
+                { type: "number-range" },
                 null,
                 null,
                 null
@@ -1329,14 +1245,14 @@
         <% @financial2.each do |f| %>
             if(this.className=='<%= f.id %>'){
             <% if f.risklevel==1 ||  f.risklevel==2 %>
-            <% if f.category=="随存随取型资产" %>
+            <% if f.category=="流动性资产" %>
                 $("#xian0").html(((xian+feng)/total*100).toFixed(1).toString()+'%');
                 $("#wen").html((wen/total*100).toFixed(1).toString()+'%');
                 $("#feng").html('0%');
                 $("#xian1").attr("value",(xian+feng));
                 $("#wen1").attr("value",wen);
                 $("#feng1").attr("value",0);
-            <% elsif f.category=="保本型资产" %>
+            <% elsif f.category=="保本性资产" %>
                 $("#xian0").html((xian/total*100).toFixed(1).toString()+'%');
                 $("#wen").html(((wen+feng)/total*100).toFixed(1).toString()+'%');
                 $("#feng").html('0%');
@@ -1387,16 +1303,16 @@
         else if(this.name=='iCheck3'){
             done0=1;
             showQn(0);
-        <% @financial3.each do |f| %>
+        <% @fundproduct.each do |f| %>
             if(this.className=='<%= f.id %>'){
             <%  for i in 0..@hash.size-1 %>
-                if('<%= f.classify %>'=='<%= @hash[i][1] %>'){
-                    var aa="<a href='/bankinvest/classify/<%= @hash[i][0] %>'><%= f.classify %></a>";
+                if('<%= f.L2_typename %>'=='<%= @hash[i][1] %>'){
+                    var aa="<a href='/bankinvest/classify/<%= @hash[i][0] %>'><%= f.L2_typename %></a>";
                     $("#ground tr:eq(1) td:eq(4)").html(aa)
                 }
             <% end %>
-                $("#ground tr:eq(1) td:eq(5)").html("<a class='productliu' href='/bankinvest/productdetails/<%= f.id %>'><%= f.pname %></a>")
-                fluid_productid='<%= f.pname %>'
+                $("#ground tr:eq(1) td:eq(5)").html("<a class='productliu'><%= f.productname %></a>")
+                fluid_productid='<%= f.productname %>'
             }
         <% end %>
             $("tr").removeClass("four");

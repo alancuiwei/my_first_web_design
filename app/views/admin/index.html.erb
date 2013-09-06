@@ -186,13 +186,14 @@
           <a href="/admin/category1config/0">添加</a>
           <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category1">
             <thead><tr>
-              <th class="hide">ID</th><th>产品大类</th>
+              <th class="hide">ID</th><th>产品大类ID</th><th>产品大类</th>
               <th>查看</th><th>修改</th><th>删除</th>
             </tr></thead>
 
             <% @category1.each do |b| %>
                 <tr>
                   <td class="hide"><%= b.id%></td>
+                  <td><%= b.L1_typeid%></td>
                   <td><%= b.category%></td>
                   <td></td>
                   <td><a href="/admin/category1config/<%= b.id %>">修改</a></td>
@@ -204,19 +205,38 @@
           <a href="/admin/category2config/0">添加</a>
           <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category2">
             <thead><tr>
-              <th class="hide">ID</th><th>产品小类</th><th>风险级别</th><th>产品大类</th>
+              <th class="hide">ID</th><th>产品小类ID</th><th>产品小类</th><th>风险级别</th><th>产品大类</th>
               <th>查看</th><th>修改</th><th>删除</th>
             </tr></thead>
 
             <% @category2.each do |b| %>
                 <tr>
                   <td class="hide"><%= b.id%></td>
+                  <td><%= b.L2_typeid%></td>
                   <td><%= b.classify%></td>
                   <td><%= b.risklevel%></td>
                   <td><%= b.category%></td>
                   <td><a href="/bankinvest/classify/<%= b.id %>">查看</a></td>
                   <td><a href="/admin/category2config/<%= b.id %>">修改</a></td>
                   <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category2deleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>平均投资回报率管理</h1>
+          <a href="/admin/averageconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="average">
+            <thead><tr>
+              <th class="hide">ID</th><th>类型ID</th><th>投资回报率</th><th>年数</th><th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @average.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.typeid%></td>
+                  <td><% if b.average_return_rate!=nil %><%= b.average_return_rate %>%<% end %></td>
+                  <td><%= b.years %></td>
+                  <td><a href="/admin/averageconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','averagedeleteajax')">删除</a></td>
                 </tr>
             <% end %>
           </table>
@@ -237,6 +257,46 @@
                   <td><a href="/bankinvest/productdetails/<%= b.id %>">查看</a></td>
                   <td><a href="/admin/financialconfig/<%= b.id %>">修改</a></td>
                   <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','financialdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>货币基金产品管理</h1>
+          <a href="/admin/fundproductconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="fundproduct">
+            <thead><tr>
+              <th class="hide">ID</th><th>产品代码</th><th>产品名称</th><th>管理机构</th>
+              <th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @fundproduct.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.productid%></td>
+                  <td><%= b.productname%></td>
+                  <td><%= b.institution%></td>
+                  <td><a href="/admin/fundproductconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','fundproductdeleteajax')">删除</a></td>
+                </tr>
+            <% end %>
+          </table>
+          <h1>排名管理</h1>
+          <a href="/admin/rankconfig/0">添加</a>
+          <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="rank">
+            <thead><tr>
+              <th class="hide">ID</th><th>类型ID</th><th>日期</th><th>排名数</th><th>总数</th><th>最近几年</th>
+              <th>修改</th><th>删除</th>
+            </tr></thead>
+
+            <% @rank.each do |b| %>
+                <tr>
+                  <td class="hide"><%= b.id%></td>
+                  <td><%= b.productid%></td>
+                  <td><%= b.date%></td>
+                  <td><%= b.rank_num%></td>
+                  <td><%= b.total_num%></td>
+                  <td><%= b.years%></td>
+                  <td><a href="/admin/rankconfig/<%= b.id %>">修改</a></td>
+                  <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','rankdeleteajax')">删除</a></td>
                 </tr>
             <% end %>
           </table>
@@ -436,7 +496,8 @@
 
 <script>
     $(document).ready(function(){
-        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators,#incomeannual,#expenseannual,#risktype').dataTable();
+        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators,#incomeannual,#expenseannual,#risktype,#fundproduct,#average').dataTable();
+        $('#rank').dataTable();
         /* Initialise datatables */
         var oTable = $('#blog').dataTable({
             "aaSorting": [[ 5, "desc" ]]

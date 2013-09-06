@@ -11,8 +11,8 @@ class AdminController < ApplicationController
       @methodology=Methodology.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
-      @category1=Category_1.all
-      @category2=Category_2.all
+      @category1=Admin_asset_type_L1.all
+      @category2=Admin_asset_type_L2.all
       @financial=Financial.all
       @expensetype=Admin_expense_type_month.all
       @incometype=Admin_income_type_month.all
@@ -23,6 +23,9 @@ class AdminController < ApplicationController
       @incomeannual=Admin_income_type_annual.all
       @expenseannual=Admin_expense_type_annual.all
       @risktype=Admin_risktolerance_type.all
+      @fundproduct=Monetary_fund_product.all
+      @average=Average_return_rate.all
+      @rank=Rank.all
       #user
       @hash_password={}
       @hash_remind={}
@@ -35,6 +38,89 @@ class AdminController < ApplicationController
     end
   end
 
+  def rankconfig
+    if params[:id]!="0"
+      @rank=Rank.find_by_id(params[:id])
+    else
+      @rank=Rank.limit(1)
+    end
+  end
+
+  def rankconfigajax
+    if params[:id]=="0"
+      Rank.new do |p|
+        p.productid=params[:productid]
+        p.date=params[:date]
+        p.rank_num=params[:rank_num]
+        p.total_num=params[:total_num]
+        p.years=params[:years]
+        p.save
+      end
+      render :json => "s1".to_json
+    else
+      @rank=Rank.find_by_id(params[:id])
+      @rank.update_attributes(:productid=>params[:productid],:date=>params[:date],:rank_num=>params[:rank_num],:total_num=>params[:total_num],:years=>params[:years])
+      render :json => "s2".to_json
+    end
+  end
+  def rankdeleteajax
+    @rank=Rank.find_by_id(params[:id])
+    if @rank!=nil
+      if @rank.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def fundproductconfig
+    if params[:id]!="0"
+      @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+    else
+      @fundproduct=Monetary_fund_product.limit(1)
+    end
+  end
+
+  def fundproductconfigajax
+    @fundproduct=Monetary_fund_product.find_by_productname(params[:productname])
+    if @fundproduct==nil
+      Monetary_fund_product.new do |b|
+        b.productid=params[:productid]
+        b.productname=params[:productname]
+        b.L2_typeid=params[:L2_typeid]
+        b.L2_typename=params[:L2_typename]
+        b.internet_product=params[:internet_product]
+        b.institution=params[:institution]
+        b.product_code=params[:product_code]
+        b.min_purchase_account=params[:min_purchase_account]
+        b.create_date=params[:create_date]
+        b.fund_size=params[:fund_size]
+        b.other_usage=params[:other_usage]
+        b.official_link=params[:official_link]
+        b.bind_funds_number=params[:bind_funds_number]
+        b.save
+      end
+      render :json => "s1".to_json
+    else
+      @fundproduct.update_attributes(:productid=>params[:productid],:productname=>params[:productname],:L2_typeid=>params[:L2_typeid],
+                                    :L2_typename=>params[:L2_typename],:internet_product=>params[:internet_product],:institution=>params[:institution],
+                                    :product_code=>params[:product_code],:min_purchase_account=>params[:min_purchase_account],:create_date=>params[:create_date],
+                                    :fund_size=>params[:fund_size],:other_usage=>params[:other_usage],:official_link=>params[:official_link],:bind_funds_number=>params[:bind_funds_number])
+      render :json => "s2".to_json
+    end
+  end
+
+  def fundproductdeleteajax
+    @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+    if @fundproduct!=nil
+      if @fundproduct.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
   def risktypeconfig
     if params[:id]!="0"
       @risktype=Admin_risktolerance_type.find_by_id(params[:id])
@@ -477,28 +563,29 @@ class AdminController < ApplicationController
 
   def category1config
       if params[:id]!="0"
-        @category1=Category_1.find_by_id(params[:id])
+        @category1=Admin_asset_type_L1.find_by_id(params[:id])
       else
-        @category1=Category_1.limit(1)
+        @category1=Admin_asset_type_L1.limit(1)
       end
   end
 
   def category1configajax
     if params[:id]=="0"
-      Category_1.new do |b|
+      Admin_asset_type_L1.new do |b|
+        b.L1_typeid=params[:L1_typeid]
         b.category=params[:category]
         b.save
       end
       render :json => "s1".to_json
     else
-      @category1=Category_1.find_by_id(params[:id])
-      @category1.update_attributes(:category=>params[:category])
+      @category1=Admin_asset_type_L1.find_by_id(params[:id])
+      @category1.update_attributes(:L1_typeid=>params[:L1_typeid],:category=>params[:category])
       render :json => "s2".to_json
     end
   end
 
   def category1deleteajax
-    @category1=Category_1.find_by_id(params[:id])
+    @category1=Admin_asset_type_L1.find_by_id(params[:id])
     if @category1!=nil
       if @category1.destroy
         render :json => "s".to_json
@@ -509,17 +596,22 @@ class AdminController < ApplicationController
   end
 
   def category2config
-      @category1=Category_1.all
+      @category1=Admin_asset_type_L1.all
       if params[:id]!="0"
-        @category2=Category_2.find_by_id(params[:id])
+        @category2=Admin_asset_type_L2.find_by_id(params[:id])
+        @probability=Loss_probability.find_all_by_typeid(@category2.L2_typeid)
+        @max=Max_return_rate.find_all_by_typeid(@category2.L2_typeid)
       else
-        @category2=Category_2.limit(1)
+        @category2=Admin_asset_type_L2.limit(1)
+        @probability=Loss_probability.limit(1)
+        @max=Max_return_rate.limit(1)
       end
   end
 
   def category2configajax
     if params[:id]=="0"
-      Category_2.new do |b|
+      Admin_asset_type_L2.new do |b|
+        b.L2_typeid=params[:L2_typeid]
         b.category=params[:category]
         b.risklevel=params[:risklevel]
         b.classify=params[:classify]
@@ -527,36 +619,23 @@ class AdminController < ApplicationController
         b.prisk=params[:prisk]
         b.returns=params[:returns]
         b.startvalue=params[:startvalue]
-        b.risk1=params[:risk1]
-        b.risk3=params[:risk3]
-        b.risk5=params[:risk5]
-        b.return1=params[:return1]
-        b.return3=params[:return3]
-        b.return5=params[:return5]
-        b.rate12=params[:rate12]
-        b.rate11=params[:rate11]
-        b.rate10=params[:rate10]
-        b.rate09=params[:rate09]
-        b.rate08=params[:rate08]
         b.averagerate=params[:averagerate]
         b.save
       end
       render :json => "s1".to_json
     else
-      @category2=Category_2.find_by_id(params[:id])
+      @category2=Admin_asset_type_L2.find_by_id(params[:id])
       @financial=Financial.find_all_by_category_and_classify(params[:category],params[:classify])
       for i in 0..@financial.size-1
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
       end
-      @category2.update_attributes(:risk1=>params[:risk1],:risk3=>params[:risk3],:risk5=>params[:risk5],:return1=>params[:return1],:return3=>params[:return3],:return5=>params[:return5],
-                                   :rate12=>params[:rate12],:rate11=>params[:rate11],:rate10=>params[:rate10],:rate09=>params[:rate09],:rate08=>params[:rate08],:averagerate=>params[:averagerate],
-                                   :category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
+      @category2.update_attributes(:averagerate=>params[:averagerate],:L2_typeid=>params[:L2_typeid],:category=>params[:category],:risklevel=>params[:risklevel],:classify=>params[:classify],:ptype=>params[:ptype],:prisk=>params[:prisk],:returns=>params[:returns],:startvalue=>params[:startvalue])
       render :json => "s2".to_json
     end
   end
 
   def category2deleteajax
-    @category2=Category_2.find_by_id(params[:id])
+    @category2=Admin_asset_type_L2.find_by_id(params[:id])
     if @category2!=nil
       if @category2.destroy
         render :json => "s".to_json
@@ -576,9 +655,9 @@ class AdminController < ApplicationController
       end
       @salescompany=Salescompany.all
       @hash={}
-      @category=Category_2.find_by_sql("select distinct category from category_2")
+      @category=Admin_asset_type_L2.find_by_sql("select distinct category from admin_asset_type_L2")
       for i in 0..@category.size-1
-         @category2=Category_2.find_all_by_category(@category[i].category)
+         @category2=Admin_asset_type_L2.find_all_by_category(@category[i].category)
          for j in 0..@category2.size-1
            if j==0
              @cate='|'+@category2[j].classify
@@ -591,7 +670,7 @@ class AdminController < ApplicationController
   end
 
   def financialconfigajax
-    @category2=Category_2.find_by_category_and_classify(params[:category],params[:classify])
+    @category2=Admin_asset_type_L2.find_by_category_and_classify(params[:category],params[:classify])
     @risklevel=@category2.risklevel
     if params[:id]=="0"
       Financial.new do |b|
@@ -694,6 +773,95 @@ class AdminController < ApplicationController
     end
   end
 
+  def averageconfig
+    if params[:id]!="0"
+      @average=Average_return_rate.find_by_id(params[:id])
+    else
+      @average=Average_return_rate.limit(1)
+    end
+  end
+
+  def averageconfigajax
+    if params[:id]=="0"
+      Average_return_rate.new do |p|
+        p.typeid=params[:typeid]
+        p.average_return_rate=params[:average_return_rate]
+        p.years=params[:years]
+        p.save
+      end
+      render :json => "s1".to_json
+    else
+      @average=Average_return_rate.find_by_id(params[:id])
+      @average.update_attributes(:typeid=>params[:typeid],:average_return_rate=>params[:average_return_rate],:years=>params[:years])
+      render :json => "s2".to_json
+    end
+  end
+
+  def averagedeleteajax
+    @average=Average_return_rate.find_by_id(params[:id])
+    if @average!=nil
+      if @average.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def maxconfigajax
+    if params[:id]=="0"
+      Max_return_rate.new do |p|
+        p.typeid=params[:typeid]
+        p.returnrate=params[:returnrate]
+        p.years=params[:years]
+        p.save
+      end
+      render :json => "s1".to_json
+    else
+      @max=Max_return_rate.find_by_id(params[:id])
+      @max.update_attributes(:typeid=>params[:typeid],:returnrate=>params[:returnrate],:years=>params[:years])
+      render :json => "s2".to_json
+    end
+  end
+
+  def maxdeleteajax
+    @max=Max_return_rate.find_by_id(params[:id])
+    if @max!=nil
+      if @max.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
+  def lossconfigajax
+    if params[:id]=="0"
+      Loss_probability.new do |p|
+        p.typeid=params[:typeid]
+        p.probability=params[:probability]
+        p.years=params[:years]
+        p.save
+      end
+      render :json => "s1".to_json
+    else
+      @probability=Loss_probability.find_by_id(params[:id])
+      @probability.update_attributes(:typeid=>params[:typeid],:probability=>params[:probability],:years=>params[:years])
+      render :json => "s2".to_json
+    end
+  end
+
+  def lossdeleteajax
+    @probability=Loss_probability.find_by_id(params[:id])
+    if @probability!=nil
+      if @probability.destroy
+        render :json => "s".to_json
+      else
+        render :json => "f".to_json
+      end
+    end
+  end
+
   def poundageconfig
     if params[:id]!="0"
       @productcompany=Productcompany.find_by_id(params[:id])
@@ -720,6 +888,7 @@ class AdminController < ApplicationController
       render :json => "s2".to_json
     end
   end
+
 
   def poundagedeleteajax
     @productcompany=Productcompany.find_by_id(params[:id])

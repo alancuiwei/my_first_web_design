@@ -52,45 +52,36 @@ class PersonmanagementController < ApplicationController
     else
       redirect_to(:controller=>"sales", :action=>"login", :summary=>"1")
     end
+    @fundproduct=Monetary_fund_product.all
+
     @hash3={}
-    @financial3=Financial.find_all_by_classify('货币基金')
-    for i in 0..@financial3.size-1
-      @financial5=Financial.find_all_by_productcode(@financial3[i].productcode)
-      @f1=@financial3[i].pname
-      @f5=@financial3[i].rate
-      @f6=@financial3[i].rank
-      for j in 0..@financial5.size-1
-        if @financial5[j].pname!=@financial3[i].pname
-          @f1=@financial5[j].pname
-          @f5=@financial5[j].rate
-          @f6=@financial5[j].rank
+    for i in 0..@fundproduct.size-1
+      @average=Average_return_rate.find_by_typeid_and_years(@fundproduct[i].productid,1)
+      if @average!=nil
+      f1=@average.average_return_rate
+      else
+       f1=''
         end
+      @rank=Rank.find_by_productid_and_years(@fundproduct[i].productid,1)
+      if @rank!=nil
+        f2=@rank.rank_num
+        f3=@rank.total_num
+      else
+        f2=''
+        f3=''
       end
-      @f2='否'
-      @f3='否'
-      @f4='否'
-      if @financial3[i].way!=nil
-      if @financial3[i].way.include? "iphone"
-        @f2='是'
-      end
-      if @financial3[i].way.include? "android"
-        @f3='是'
-      end
-      if @financial3[i].way.include? "weixin"
-        @f4='是'
-      end
-      end
-      @hash3.store(@financial3[i].id,[@financial5.length,@f1,@f2,@f3,@f4,@f5,@f6])
+      @hash3.store(@fundproduct[i].productid,[f1,f2,f3])
     end
-    @financial4=Financial.find_all_by_category('保本型资产')
-    @category1=Category_2.find_all_by_risklevel(1)
-    @category2=Category_2.find_all_by_risklevel(2)
-    @category3=Category_2.find_all_by_risklevel(3)
-    @category4=Category_2.find_all_by_risklevel(4)
-    @category5=Category_2.find_all_by_risklevel(5)
+
+    @financial4=Financial.find_all_by_category('保本性资产')
+    @category1=Admin_asset_type_L2.find_all_by_risklevel(1)
+    @category2=Admin_asset_type_L2.find_all_by_risklevel(2)
+    @category3=Admin_asset_type_L2.find_all_by_risklevel(3)
+    @category4=Admin_asset_type_L2.find_all_by_risklevel(4)
+    @category5=Admin_asset_type_L2.find_all_by_risklevel(5)
     @hash={}
     @hash2={}
-    @category=Category_2.all
+    @category=Admin_asset_type_L2.all
     for i in 0..@category.size-1
       @financial=Financial.find_all_by_classify(@category[i].classify)
       @hash2.store(@category[i].id,[@financial.length])
@@ -153,13 +144,13 @@ class PersonmanagementController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
     end
-      @category1=Category_2.find_all_by_risklevel(1)
-      @category2=Category_2.find_all_by_risklevel(2)
-      @category3=Category_2.find_all_by_risklevel(3)
-      @category4=Category_2.find_all_by_risklevel(4)
-      @category5=Category_2.find_all_by_risklevel(5)
+      @category1=Admin_asset_type_L2.find_all_by_risklevel(1)
+      @category2=Admin_asset_type_L2.find_all_by_risklevel(2)
+      @category3=Admin_asset_type_L2.find_all_by_risklevel(3)
+      @category4=Admin_asset_type_L2.find_all_by_risklevel(4)
+      @category5=Admin_asset_type_L2.find_all_by_risklevel(5)
       @hash={}
-      @category=Category_2.all
+      @category=Admin_asset_type_L2.all
       for i in 0..@category.size-1
         @financial=Financial.find_all_by_classify(@category[i].classify)
         a=''
@@ -264,15 +255,15 @@ class PersonmanagementController < ApplicationController
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
       @finance1=Financial.find_by_pname(@webuser.fluid_productid)
         if @finance1!=nil
-          @category1=Category_2.find_by_classify(@finance1.classify)
+          @category1=Admin_asset_type_L2.find_by_classify(@finance1.classify)
         end
       @finance2=Financial.find_by_pname(@webuser.safe_productid)
       if @finance2!=nil
-        @category2=Category_2.find_by_classify(@finance2.classify)
+        @category2=Admin_asset_type_L2.find_by_classify(@finance2.classify)
       end
       @finance3=Financial.find_by_pname(@webuser.risk_productid)
       if @finance3!=nil
-        @category3=Category_2.find_by_classify(@finance3.classify)
+        @category3=Admin_asset_type_L2.find_by_classify(@finance3.classify)
       end
       @examination=Examination.find_by_username(@webuser.username)
       @comments=Comments.find_all_by_pid(params[:id])
@@ -283,15 +274,15 @@ class PersonmanagementController < ApplicationController
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
         @finance1=Financial.find_by_pname(@webuser.fluid_productid)
         if @finance1!=nil
-          @category1=Category_2.find_by_classify(@finance1.classify)
+          @category1=Admin_asset_type_L2.find_by_classify(@finance1.classify)
         end
         @finance2=Financial.find_by_pname(@webuser.safe_productid)
         if @finance2!=nil
-          @category2=Category_2.find_by_classify(@finance2.classify)
+          @category2=Admin_asset_type_L2.find_by_classify(@finance2.classify)
         end
         @finance3=Financial.find_by_pname(@webuser.risk_productid)
         if @finance3!=nil
-          @category3=Category_2.find_by_classify(@finance3.classify)
+          @category3=Admin_asset_type_L2.find_by_classify(@finance3.classify)
         end
         @examination=Examination.find_by_username(@webuser.username)
         @comments=Comments.find_all_by_pid(@webuser.id)
