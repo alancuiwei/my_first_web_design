@@ -1,4 +1,5 @@
 #encoding: utf-8
+require 'date'
 class PersonmanagementController < ApplicationController
 
   def selectproduct
@@ -20,6 +21,11 @@ class PersonmanagementController < ApplicationController
    end
 
   def summary
+    @blog=Blog.find_by_id(469)
+    @blog2=Blog.find_by_id(472)
+    @blog3=Blog.find_by_id(467)
+    @blog4=Blog.find_by_id(468)
+    @blog5=Blog.find_by_id(111)
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
@@ -55,6 +61,7 @@ class PersonmanagementController < ApplicationController
     @fundproduct=Monetary_fund_product.all
 
     @hash3={}
+    @hash5={}
     for i in 0..@fundproduct.size-1
       @average=Average_return_rate.find_by_typeid_and_years(@fundproduct[i].productid,1)
       if @average!=nil
@@ -69,6 +76,22 @@ class PersonmanagementController < ApplicationController
       else
         f2=''
         f3=''
+      end
+      @quote=Monetary_fund_quote.find_by_product_code(@fundproduct[i].product_code)
+      t = Time.new
+      date = t.strftime("%Y-%m-%d")
+      if @quote!=nil
+        if @fundproduct[i].create_date!=nil
+        @hash5.store(@fundproduct[i].product_code,[@quote.date,@quote.million_income,@quote.sevenD_years_return,@quote.one_year_return,@quote.two_year_return,@quote.three_year_return,@quote.one_year_rank,@quote.two_year_rank,@quote.three_year_rank,DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)])
+      else
+          @hash5.store(@fundproduct[i].product_code,[@quote.date,@quote.million_income,@quote.sevenD_years_return,@quote.one_year_return,@quote.two_year_return,@quote.three_year_return,@quote.one_year_rank,@quote.two_year_rank,@quote.three_year_rank,nil])
+        end
+      else
+        if @fundproduct[i].create_date!=nil
+          @hash5.store(@fundproduct[i].product_code,[nil,nil,nil,nil,nil,nil,nil,nil,nil,DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)])
+        else
+          @hash5.store(@fundproduct[i].product_code,[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil])
+        end
       end
       @hash3.store(@fundproduct[i].productid,[f1,f2,f3])
     end

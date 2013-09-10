@@ -919,7 +919,7 @@ class AdminController < ApplicationController
     password=encode(params[:password])
    end
     if params[:id]=="0"
-      if @webuser==nil
+      if @webuser==nil && params[:username]!=""
         Webuser.new do |w|
           w.username=params[:username]
           w.password=password

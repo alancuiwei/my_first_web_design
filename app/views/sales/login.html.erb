@@ -155,9 +155,9 @@
     system.mac = p.indexOf('Mac') == 0;
     system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
     if(system.win||system.mac||system.xll){
-        $(".win").hide();
     }
     else{
+        $(".win").hide();
     }
 
     $('a.close, #mask,#subscribe').live('click', function() {
@@ -251,7 +251,7 @@
             alert("联系电话格式不正确！");
         }
         else{
-            $.get("/admin/userconfigajax/0",{username:$(uid).attr("value"),password:$(pid).attr("value"),tel:$('#tel2').attr("value"),address: 1,name:1,email:$('#email2').attr("value"),company:1,ulogin:1},function(data){
+            $.get("/admin/userconfigajax/0",{username:$("#username").attr("value"),password:$("#password").attr("value"),tel:$('#tel2').attr("value"),address: 1,name:1,email:$('#email2').attr("value"),company:1,ulogin:1},function(data){
                 if(data!="s"){
                     alert("用户名已注册！");
                 }

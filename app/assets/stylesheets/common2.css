@@ -27,6 +27,13 @@
     color: #069;
 }
 
+.summary .question td a.introduce{
+    font: italic 10pt sans-serif;
+    border-color: #32669a;
+    border-bottom: 1px dotted;
+    color: #069;
+}
+
 .startup small.intro{
     font-size: 12px;
     width: 230px;
@@ -584,6 +591,24 @@ button.light-gray{
     font: bold 28pt Helvetica, Arial, sans-serif;
     color: #ccc;
 }
+
+.summary .question:before {
+    content: none;
+}
+.summary  .question.first{
+    padding:  0;
+}
+
+.summary  #q-numbers{
+    display: none;
+}
+
+.summary  .question h2 span {
+    padding-right: 20px;
+    font: bold 28pt Helvetica, Arial, sans-serif;
+    color: #ccc;
+}
+
 p.q-text {
     margin: 0 0 16px;
     font: 12pt Helvetica, Arial, sans-serif;
@@ -1011,12 +1036,11 @@ p.q-text {
 }
 .summary #liudong_paginate{
     float: right;
-    display: none;
 }
 .summary #liudong .hide{
     display: none!important;
 }
-.summary #liudong th{
+.summary #liudong thead th{
    white-space: nowrap;
     font-size: 14px;
 }
@@ -1051,4 +1075,29 @@ p.q-text {
 
 .summary .box_sxtj_bottom dl.fore {
     margin-top: 0px;
+}
+
+.paginate_disabled_previous,.paginate_disabled_next {
+    color: #666 !important;
+}
+
+.paginate_disabled_next, .paginate_enabled_next {
+    padding-right: 23px;
+    margin-left: 10px;
+}
+
+.summary .dataTables_paginate {
+    font: 12px Hiragino Sans GB W3;
+}
+
+.summary #num h2{
+    font-size: 20px;
+}
+.summary #num p{
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 80px;
+}
+.summary .win.left{
+    padding-left: 80px;
 }
