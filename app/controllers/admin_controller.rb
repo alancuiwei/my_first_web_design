@@ -11,8 +11,8 @@ class AdminController < ApplicationController
       @methodology=Methodology.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
-      @category1=Admin_asset_type_L1.all
-      @category2=Admin_asset_type_L2.all
+      @category1=Admin_asset_type_l1.all
+      @category2=Admin_asset_type_l2.all
       @financial=Financial.all
       @expensetype=Admin_expense_type_month.all
       @incometype=Admin_income_type_month.all
@@ -563,29 +563,29 @@ class AdminController < ApplicationController
 
   def category1config
       if params[:id]!="0"
-        @category1=Admin_asset_type_L1.find_by_id(params[:id])
+        @category1=Admin_asset_type_l1.find_by_id(params[:id])
       else
-        @category1=Admin_asset_type_L1.limit(1)
+        @category1=Admin_asset_type_l1.limit(1)
       end
   end
 
   def category1configajax
     if params[:id]=="0"
-      Admin_asset_type_L1.new do |b|
+      Admin_asset_type_l1.new do |b|
         b.L1_typeid=params[:L1_typeid]
         b.category=params[:category]
         b.save
       end
       render :json => "s1".to_json
     else
-      @category1=Admin_asset_type_L1.find_by_id(params[:id])
+      @category1=Admin_asset_type_l1.find_by_id(params[:id])
       @category1.update_attributes(:L1_typeid=>params[:L1_typeid],:category=>params[:category])
       render :json => "s2".to_json
     end
   end
 
   def category1deleteajax
-    @category1=Admin_asset_type_L1.find_by_id(params[:id])
+    @category1=Admin_asset_type_l1.find_by_id(params[:id])
     if @category1!=nil
       if @category1.destroy
         render :json => "s".to_json
@@ -596,13 +596,13 @@ class AdminController < ApplicationController
   end
 
   def category2config
-      @category1=Admin_asset_type_L1.all
+      @category1=Admin_asset_type_l1.all
       if params[:id]!="0"
-        @category2=Admin_asset_type_L2.find_by_id(params[:id])
+        @category2=Admin_asset_type_l2.find_by_id(params[:id])
         @probability=Loss_probability.find_all_by_typeid(@category2.L2_typeid)
         @max=Max_return_rate.find_all_by_typeid(@category2.L2_typeid)
       else
-        @category2=Admin_asset_type_L2.limit(1)
+        @category2=Admin_asset_type_l2.limit(1)
         @probability=Loss_probability.limit(1)
         @max=Max_return_rate.limit(1)
       end
@@ -610,7 +610,7 @@ class AdminController < ApplicationController
 
   def category2configajax
     if params[:id]=="0"
-      Admin_asset_type_L2.new do |b|
+      Admin_asset_type_l2.new do |b|
         b.L2_typeid=params[:L2_typeid]
         b.category=params[:category]
         b.risklevel=params[:risklevel]
@@ -624,7 +624,7 @@ class AdminController < ApplicationController
       end
       render :json => "s1".to_json
     else
-      @category2=Admin_asset_type_L2.find_by_id(params[:id])
+      @category2=Admin_asset_type_l2.find_by_id(params[:id])
       @financial=Financial.find_all_by_category_and_classify(params[:category],params[:classify])
       for i in 0..@financial.size-1
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
@@ -635,7 +635,7 @@ class AdminController < ApplicationController
   end
 
   def category2deleteajax
-    @category2=Admin_asset_type_L2.find_by_id(params[:id])
+    @category2=Admin_asset_type_l2.find_by_id(params[:id])
     if @category2!=nil
       if @category2.destroy
         render :json => "s".to_json
@@ -655,9 +655,9 @@ class AdminController < ApplicationController
       end
       @salescompany=Salescompany.all
       @hash={}
-      @category=Admin_asset_type_L2.find_by_sql("select distinct category from admin_asset_type_L2")
+      @category=Admin_asset_type_l2.find_by_sql("select distinct category from admin_asset_type_L2")
       for i in 0..@category.size-1
-         @category2=Admin_asset_type_L2.find_all_by_category(@category[i].category)
+         @category2=Admin_asset_type_l2.find_all_by_category(@category[i].category)
          for j in 0..@category2.size-1
            if j==0
              @cate='|'+@category2[j].classify
@@ -670,7 +670,7 @@ class AdminController < ApplicationController
   end
 
   def financialconfigajax
-    @category2=Admin_asset_type_L2.find_by_category_and_classify(params[:category],params[:classify])
+    @category2=Admin_asset_type_l2.find_by_category_and_classify(params[:category],params[:classify])
     @risklevel=@category2.risklevel
     if params[:id]=="0"
       Financial.new do |b|
@@ -917,7 +917,7 @@ class AdminController < ApplicationController
     @webuser=Webuser.find_by_username(params[:username])
     if params[:password]!=nil
     password=encode(params[:password])
-   end
+    end
     if params[:id]=="0"
       if @webuser==nil && params[:username]!=""
         Webuser.new do |w|

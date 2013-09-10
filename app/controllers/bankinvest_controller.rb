@@ -9,7 +9,7 @@ class BankinvestController < ApplicationController
 
   def classify
    if params[:id]!=nil
-    @category=Admin_asset_type_L2.find_by_id(params[:id])
+    @category=Admin_asset_type_l2.find_by_id(params[:id])
    else
      redirect_to(:controller=>"home",:action=>"index")
    end
@@ -23,7 +23,7 @@ class BankinvestController < ApplicationController
     @financial=Financial.find_all_by_category("风险性资产");
     @hash={}
     for i in 0..@financial.size-1
-      @category=Admin_asset_type_L2.find_by_classify(@financial[i].classify)
+      @category=Admin_asset_type_l2.find_by_classify(@financial[i].classify)
       if @category!=nil
         @hash.store(@category.classify,[@category.id])
       else
@@ -98,7 +98,7 @@ class BankinvestController < ApplicationController
   def productdetails
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])
-      @category=Admin_asset_type_L2.find_by_classify(@financial.classify)
+      @category=Admin_asset_type_l2.find_by_classify(@financial.classify)
       @productcompany=Productcompany.find_all_by_pname(@financial.pname)
       @hash={}
       for i in 0..@productcompany.size-1
@@ -133,7 +133,7 @@ class BankinvestController < ApplicationController
     @hash={}
     for i in 0..@compareid.size-1
       @compareobj[i]= Financial.find(@compareid[i]);
-      @category=Admin_asset_type_L2.find_by_classify(@compareobj[i].classify)
+      @category=Admin_asset_type_l2.find_by_classify(@compareobj[i].classify)
      if @category!=nil
        @hash.store(i,[@category.risk1,@category.return1,@category.prisk])
      else
