@@ -10,6 +10,12 @@ class BankinvestController < ApplicationController
   def classify
    if params[:id]!=nil
     @category=Admin_asset_type_l2.find_by_id(params[:id])
+    @probability=Loss_probability.find_all_by_typeid(@category.L2_typeid)
+    @max=Max_return_rate.find_all_by_typeid(@category.L2_typeid)
+    @average=Average_return_rate.find_all_by_typeid(@category.L2_typeid)
+    t = Time.new
+    year = t.strftime("%Y")
+    @average2=Average_return_rate.find_by_typeid_and_years(@category.L2_typeid,year.to_i-1)
    else
      redirect_to(:controller=>"home",:action=>"index")
    end

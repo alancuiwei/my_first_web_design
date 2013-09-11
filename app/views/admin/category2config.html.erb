@@ -33,6 +33,8 @@
       潜在收益回报：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="returns" id="returns" title="潜在收益回报"></textarea><br>
   <% end %>
   最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"> <br>
+  流动性：<input type="text" name="fluidvalue" id="fluidvalue"> <br>
+  波动性：<input type="text" name="volatilityvalue" id="volatilityvalue"> <br>
 
   <h1 style="font-size: 20px;">亏损概率管理:</h1><br>
   <div class="founder-inputs">
@@ -132,7 +134,7 @@
             var averagerate=((1/15*rate08+2/15*rate09+3/15*rate10+4/15*rate11+5/15*rate12)/100).toFixed(5)
 
             $.post("/admin/category2configajax/<%= params[:id] %>",{ category: $("#category").attr("value"),L2_typeid: $("#L2_typeid").attr("value"),classify: $("#classify").attr("value"),risklevel: $("#risklevel").attr("value"),
-               averagerate:averagerate,ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value"),returns: $("#returns").attr("value"),startvalue: $("#startvalue").attr("value")
+               averagerate:averagerate,ptype: $("#ptype").attr("value"),prisk: $("#prisk").attr("value"),returns: $("#returns").attr("value"),startvalue: $("#startvalue").attr("value"),fluidvalue: $("#fluidvalue").attr("value"),volatilityvalue: $("#volatilityvalue").attr("value")
             },function(data){
                 if(data=="s1"){
                     alert("产品小类创建成功！");
@@ -374,6 +376,8 @@
     $("#classify").attr("value",'<%= @category2.classify%>');
     $("#risklevel").attr("value",'<%= @category2.risklevel%>');
     $("#startvalue").attr("value",'<%= @category2.startvalue%>');
+    $("#fluidvalue").attr("value",'<%= @category2.fluidvalue%>');
+    $("#volatilityvalue").attr("value",'<%= @category2.volatilityvalue%>');
     <% for i in 0..@probability.size-1 %>
     <% if i!=0 %>
     addFounder(null, false);
