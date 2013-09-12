@@ -32,7 +32,7 @@ table.table.table-striped.table-bordered th,table.table.table-striped.table-bord
     color: #069;
 }
 
-.summary .question td a.introduce,.goal .question a.introduce{
+.summary .question td a.introduce,.goal .question a.introduce,.questions .question a.introduce{
     font: italic 10pt sans-serif;
     border-color: #32669a;
     border-bottom: 1px dotted;
@@ -546,7 +546,7 @@ button.light-gray{
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 30px;
+    height: 0px;
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#00ffffff', endColorStr='#ffffffff')";
     background: -webkit-gradient(linear, center top, center bottom, from(rgba(255,255,255,0)), to(#fff));
     background: -webkit-linear-gradient(rgba(255,255,255,0), #fff);
@@ -640,6 +640,38 @@ button.light-gray{
     font: bold 28pt Helvetica, Arial, sans-serif;
     color: #ccc;
 }
+
+.questions .question:before {
+    content: none;
+}
+
+.questions  .question.last{
+    padding:  0;
+}
+
+.questions .question.last h2{
+    font-size: 20px;
+}
+
+
+.questions  .question.last p{
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 80px;
+}
+
+
+.questions  .question.last .left{
+    padding-left: 80px;
+}
+
+
+.questions  .question h2 span {
+    padding-right: 20px;
+    font: bold 28pt Helvetica, Arial, sans-serif;
+    color: #ccc;
+}
+
 
 p.q-text {
     margin: 0 0 16px;

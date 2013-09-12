@@ -202,7 +202,7 @@ class PersonmanagementController < ApplicationController
 
   def personconfigajax
         @webuser=Webuser.find_by_username(session[:webusername])
-    @webuser.update_attributes(:risk_score=>params[:risk_score],:risk_typeid=>params[:risk_typeid]);
+    @webuser.update_attributes(:risk_score=>params[:risk_score]);
     render :json => "s".to_json
   end
 
