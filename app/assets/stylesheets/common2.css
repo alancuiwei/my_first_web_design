@@ -2,6 +2,11 @@
     font-family:"helvetica neue",helvetica,arial,sans-serif
 }
 
+table.table.table-striped.table-bordered th,table.table.table-striped.table-bordered td{
+    font-family: Hiragino Sans GB W3;
+    font-size: 14px;
+}
+
 .questions #type th{
     white-space: nowrap;
     font-family: Hiragino Sans GB W3;
@@ -27,7 +32,7 @@
     color: #069;
 }
 
-.summary .question td a.introduce{
+.summary .question td a.introduce,.goal .question a.introduce{
     font: italic 10pt sans-serif;
     border-color: #32669a;
     border-bottom: 1px dotted;
@@ -191,10 +196,12 @@ padding-left:30px;
 .goal .intro span{
     padding-left: 10px;
 }
-.goal a.right {
-   float: right;
-    padding-left: 15px;
+.goal #tback.grey,.goal #tnext.grey{
+    color: #666 !important;
+}
+.goal #tback,.goal #tnext{
     font-size: 12px;
+    padding-left: 10px;
 }
 
 .goal .modal-body #compute th,.goal .modal-body #compute td {
@@ -604,6 +611,31 @@ button.light-gray{
 }
 
 .summary  .question h2 span {
+    padding-right: 20px;
+    font: bold 28pt Helvetica, Arial, sans-serif;
+    color: #ccc;
+}
+.goal .question:before {
+    content: none;
+}
+.goal  .question.second{
+    padding:  0;
+}
+.goal  .question.second h2{
+   font-size: 20px;
+}
+
+.goal  .question.second p{
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 80px;
+}
+
+.goal  .question.second .left{
+    padding-left: 80px;
+}
+
+.goal  .question h2 span {
     padding-right: 20px;
     font: bold 28pt Helvetica, Arial, sans-serif;
     color: #ccc;

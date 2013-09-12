@@ -14,7 +14,7 @@ class UsersurveyController < ApplicationController
   end
 
   def target1
-    @targets=User_targets.find_by_username_and_user_target(params[:username],params[:target])
+    @targets=User_targets.find_by_username(params[:username])
     if @targets==nil
       User_targets.new do |e|
         e.username=params[:username]
@@ -23,10 +23,11 @@ class UsersurveyController < ApplicationController
         e.user_target_value=params[:target_value]
         e.save
       end
+      render :json => "s".to_json
     else
       @targets.update_attributes(:user_target=>params[:target],:user_target_period=>params[:target_period],:user_target_value=>params[:target_value])
+      render :json => "f".to_json
     end
-    render :json => "s".to_json
   end
 
   def targets
@@ -54,6 +55,13 @@ class UsersurveyController < ApplicationController
     elsif @detailedmonth!=nil && @detailedmonth.income3_account!=nil
       annual=@detailedmonth.income3_account*12
     end
+
+    @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+    income=0
+    if @userbalancesheet!=nil
+      income=@userbalancesheet.asset_fluid_account+@userbalancesheet.asset_safefy_account+@userbalancesheet.asset_risky_account
+    end
+
     month=0
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     if @userdatamonth!=nil
@@ -63,7 +71,7 @@ class UsersurveyController < ApplicationController
         month=@userdatamonth.invest_expense
       end
     end
-    @hash.store('length',[@targets.size,annual,month])
+    @hash.store('length',[@targets.size,annual,month,income])
     render :json => @hash.to_json
   end
 

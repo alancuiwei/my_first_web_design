@@ -31,7 +31,11 @@ class AdminController < ApplicationController
       @hash_remind={}
       @hash_confirm={}
       @webusers.each do |w|
+        if w.username!=nil && w.username!=""
         @hash_password.store(w.id,decode(w.password))
+        else
+          @hash_password.store(w.id,nil)
+        end
       end
     else
       redirect_to(:controller=>"home")
@@ -922,13 +926,12 @@ class AdminController < ApplicationController
     password=encode(params[:password])
     end
     if params[:id]=="0"
-      if @webuser==nil && params[:username]!=""
+      if @webuser==nil && params[:username]!="" && params[:username]!=nil
         Webuser.new do |w|
           w.username=params[:username]
           w.password=password
           w.tel=params[:tel]
           w.email=params[:email]
-          w.risk_score=params[:risk_score]
           w.save
         end
 
