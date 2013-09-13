@@ -6,6 +6,7 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
 <%= stylesheet_link_tag "demo_table_jui.css" %>
 <%= javascript_include_tag "footable-0.1.js" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
@@ -55,7 +56,7 @@
         <div id="questionnaire-view">
           <div id="questionnaire">
           <div class="question first" style="padding-right: 0;height: 1730px;">
-            <div style="padding-right: 0;height: 1700px;overflow: auto;">
+            <div style="padding-right: 0;height: 1700px;">
             <table id="num">
               <tr>
                 <td>
@@ -233,17 +234,17 @@
                   <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                     <td class="hide"><%= f.internet_product %></td>
                     <td><%= f.productname %></td>
-                    <td><%= @hash5[f.product_code][1] %></td>
+                    <td><% if @hash5[f.product_code][1]!=0 %><%= @hash5[f.product_code][1] %><% else %>--<% end %></td>
                     <td><% if @hash5[f.product_code][2]!=0 %><%= @hash5[f.product_code][2] %>%<% else %>--<% end %></td>
                     <td><% if f.min_purchase_account!=nil %><%= f.min_purchase_account %><% else %>0<% end %></td>
                     <td><% if f.fund_size!=nil %><%= f.fund_size %><% else %>0<% end %></td>
                     <td><% if f.create_date!=nil %><%= f.create_date %><% else %>--<% end %></td>
                     <td class="hide"><% if @hash5[f.product_code][9]!=nil %><%= @hash5[f.product_code][9].to_s.split("/")[0] %><% end %></td>
-                    <td><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6] %><% else %>--<% end %></td>
+                    <td class="red"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6] %><% else %>--<% end %></td>
                     <td class="hide"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6].split("/")[0] %><% else %>1000<% end %></td>
                     <td class="hide"><% if @hash5[f.product_code][7]!=nil %><%= @hash5[f.product_code][7].split("/")[0] %><% else %>--<% end %></td>
                     <td class="hide"><% if @hash5[f.product_code][8]!=nil %><%= @hash5[f.product_code][8].split("/")[0] %><% else %>--<% end %></td>
-                    <td><% if @hash5[f.product_code][3]!=0 %><%= @hash5[f.product_code][3] %>%<% else %>--<% end %></td>
+                    <td class="red"><% if @hash5[f.product_code][3]!=0 %><%= @hash5[f.product_code][3] %>%<% else %>--<% end %></td>
                     <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>">选择</a></td>
                     <!-- <td><input type="radio" id="iCheck6" name="iCheck3" class="<%= f.id %>"></td> -->
                   </tr>
@@ -1576,7 +1577,7 @@
     $(document).ready(function(){
         var oTable =  $('#liudong').dataTable({
             "iDisplayLength": 10,
-            "aaSorting": [[ 2, "asc" ]]
+            "aaSorting": [[ 2, "desc" ]]
         });
 
         $("[id*='amounts']").click(function(){

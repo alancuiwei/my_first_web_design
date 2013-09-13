@@ -7,6 +7,7 @@
 <%= javascript_include_tag "nicEdit-latest.js" %>
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
 <%= javascript_include_tag "excanvas.js" %>
 <%= javascript_include_tag "jquery.easy-pie-chart.js" %>
 <%= javascript_include_tag "footable-0.1.js" %>
@@ -69,7 +70,7 @@
         margin-left:88px;
     }
 
-    #records_length,#records_filter{
+    #records_length,#records_filter,#records_wrapper .row-fluid:first-child{
         display: none;
     }
 
@@ -1321,7 +1322,9 @@
             $('span', this).text('<%= format("%0.1f",@webuser.asset_score) %>');
         });
         <% end %>
-        $('#records').dataTable({});
+        $('#records').dataTable({
+            "iDisplayLength": 10
+        });
      //   var dateNow = new Date();
     //    var yearNow = dateNow.getFullYear()+'年';
     //    var monthNow = (dateNow.getMonth()+1).toString()+'月';

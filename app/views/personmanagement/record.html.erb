@@ -1,6 +1,7 @@
 <%= javascript_include_tag "jquery.dataTables.min.js" %>
 <%= stylesheet_link_tag "datatables.css" %>
 <%= stylesheet_link_tag "personmanagement.css" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
 
 <style>
     tr.even td.sorting_1 {
@@ -9,6 +10,10 @@
 
    #record td,#record th{
        font-family: Hiragino Sans GB W3;
+    }
+
+    #record_length,#record_filter,#record_wrapper .row-fluid:first-child{
+        display: none;
     }
 </style>
 
@@ -39,6 +44,8 @@
 
 <script>
     $(document).ready(function(){
-        $('#record').dataTable();
+        $('#record').dataTable({
+            "iDisplayLength": 10
+        });
     });
 </script>

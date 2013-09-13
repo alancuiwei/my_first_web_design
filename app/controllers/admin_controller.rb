@@ -125,7 +125,9 @@ class AdminController < ApplicationController
       end
     end
   end
+
   def risktypeconfig
+    @typel2=Admin_asset_type_l2.all
     if params[:id]!="0"
       @risktype=Admin_risktolerance_type.find_by_id(params[:id])
     else

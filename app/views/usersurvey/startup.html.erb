@@ -190,7 +190,7 @@
               <td></td>
             </tr>
             <tr>
-              <td class="q-text">每月至少存储：</td>
+              <td class="q-text">当前每月存储：</td>
               <td>
                 <div class="input-prepend">
                   <span class="add-on">￥</span>
@@ -350,7 +350,7 @@
   </div>
   <div class="mobile"><br></div>
 </div>
-<div class="question">
+<div class="question last">
   <div id="num9" style="padding-right: 80px;overflow: auto;">
     <table>
       <tr>
@@ -382,7 +382,7 @@
           <h2>家庭财务报表分析：</h2>
           <div id="detailedreport">
             <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
-            <h1 class="h1">1、家庭资产负债表：</h1>
+            <h1 class="h1"><span>1</span>家庭资产负债表：</h1>
             <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
             <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的进资产增长，这说明您的经济状况一直在改善。</p>
             <table id="asset" class="table table-striped table-bordered footable">
@@ -416,7 +416,7 @@
               <tr class="red"><td class="grey strong right">家庭资产净值</td><td class="total2 right strong"></td><td class="grey"></td><td></td></tr>
               </tbody>
             </table>
-            <h1 class="h1">2、家庭现金流量表：</h1>
+            <h1 class="h1"><span>2</span>家庭现金流量表：</h1>
             <p class="q-text">现金流量表，又称家庭收入和支出表，是对某段时间，例如一个月或一年，现金流入和流出情况的总结。这个报表对于您做家庭财政规划非常有帮助。
               通俗的概括，这张表将告诉您，您的钱到什么地方去了？</p>
             <input type="checkbox" class="hide">
@@ -504,7 +504,7 @@
       </tr>
     </table>
     <div class="detailleft">
-      <h1 class="h1">3、家庭财务指数：</h1>
+      <h1 class="h1"><span>3</span>家庭财务指数：</h1>
       <table id="indicators" class="table table-striped table-bordered footable">
         <thead>
         <tr class="win"><th>家庭财务比率</th><th>定义</th><th>反映情况</th><th>合理范围</th><th>实际比率</th></tr>
@@ -1306,9 +1306,11 @@
             $.post("/usersurvey/userdebtsheet",{username:'<%= session[:webusername] %>',debt1_account_totally:arrayObj0[0][0],debt1_account_monthly:arrayObj0[0][1],debt1_years:arrayObj0[0][2],
                 debt2_account_totally:arrayObj0[1][0],debt2_account_monthly:arrayObj0[1][1],debt2_years:arrayObj0[1][2],debt99_account_totally:arrayObj0[2][0],debt99_account_monthly:arrayObj0[2][1],debt99_years:arrayObj0[2][2]},function(data){
                 $("#indicators tr:eq(6) td:eq(4)").html(data.toFixed(2));
+              if(i==9){
+                step9();
+              }
             });
         }
-        num4=i;
         //if(e==1){复杂输入}
         if(i==0){$("#title").html("家庭财务分析系统 介绍");}
         if(i==1){$("#title").html("流动性资产 介绍");}
@@ -1407,7 +1409,54 @@
             num3=0;
         }
         if(i==9){
-
+             if(num4!=8){
+                 step9();
+             }
+            $("#title").html("资产体检 总结");
+        }
+        else{
+            if(system.win||system.mac||system.xll){
+            if(i==7){
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.height="600px";
+                var test_div=document.getElementsByClassName("question");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="570px";
+                }
+                var test_div=document.getElementsByClassName("well-b");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="540px";
+                }
+            }
+            else if(i==6){
+                var test_div=document.getElementById("questionnaire-view");
+                test_div.style.height="400px";
+                var test_div=document.getElementsByClassName("question");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="370px";
+                }
+                var test_div=document.getElementsByClassName("well-b");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="340px";
+                }
+            }
+            else{
+            var test_div=document.getElementById("questionnaire-view");
+            test_div.style.width="100%";
+            test_div.style.height="326px";
+                var test_div=document.getElementsByClassName("question");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="296px";
+                }
+                var test_div=document.getElementsByClassName("well-b");
+                for(k=0;k<test_div.length-1;k++){
+                    test_div[k].style.height="266px";
+                }
+            }
+            }
+        }
+        num4=i;
+        function step9(){
             var arrayObj0 = [[0,0],[0,0],[0,0]];
             $.post("/usersurvey/step9",{username:'<%= session[:webusername] %>'},function(data){
                 arrayObj0=[[parseInt(data[0][0]),parseInt(data[0][1])],[parseInt(data[0][2]),parseInt(data[0][3])],[parseInt(data[0][4]),parseInt(data[0][5])]];
@@ -1890,49 +1939,9 @@
                     test_div2.style.height="3720px";
                 }
             });
-            $("#title").html("资产体检 总结");
+
         }
-        else{
-            if(system.win||system.mac||system.xll){
-            if(i==7){
-                var test_div=document.getElementById("questionnaire-view");
-                test_div.style.height="600px";
-                var test_div=document.getElementsByClassName("question");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="570px";
-                }
-                var test_div=document.getElementsByClassName("well-b");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="540px";
-                }
-            }
-            else if(i==6){
-                var test_div=document.getElementById("questionnaire-view");
-                test_div.style.height="400px";
-                var test_div=document.getElementsByClassName("question");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="370px";
-                }
-                var test_div=document.getElementsByClassName("well-b");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="340px";
-                }
-            }
-            else{
-            var test_div=document.getElementById("questionnaire-view");
-            test_div.style.width="100%";
-            test_div.style.height="326px";
-                var test_div=document.getElementsByClassName("question");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="296px";
-                }
-                var test_div=document.getElementsByClassName("well-b");
-                for(k=0;k<test_div.length-1;k++){
-                    test_div[k].style.height="266px";
-                }
-            }
-            }
-        }
+
         if(system.win||system.mac||system.xll){
         }else{
             if(i!=9 && i!=5 && i!=2 && i!=6){

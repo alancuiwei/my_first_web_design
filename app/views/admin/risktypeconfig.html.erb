@@ -15,7 +15,10 @@
   风险类型：<input type="text" name="risk_typename" id="risk_typename" title="风险类型"><br>
   一句话点评：<input type="text" name="risk_brief_intro" id="risk_brief_intro"><br>
   分值范围：<input type="text" name="risk_score_arrange" id="risk_score_arrange"><br>
-  适合产品：<input type="text" name="risk_type_products" id="risk_type_products"><br>
+  适合产品：<br><% @typel2.each do |y| %>
+       <p style="padding-left: 80px;"><input type="checkbox" name="checkbox" class="<%= y.L2_typeid %>"> <%= y.classify %></p>
+  <% end %>
+  <br>
   年收益率：<input type="text" name="risk_type_returnrate" id="risk_type_returnrate">%<br>
   <% if params[:id]!="0" %>
       类型代表：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risk_classicperson" id="risk_classicperson"><%= @risktype.risk_classicperson %></textarea><br>
@@ -44,9 +47,23 @@
         }
 
         if(nom_flag==0){
+            var obj = document.getElementsByName("checkbox"); // 获取多选框数组
+            var objLen = obj.length;
+            var risk_type_products="";
+            for (var i = 0; i < objLen; i++) {
+                if (obj [i].checked == true) {
+                    if(risk_type_products==""){
+                        risk_type_products= obj [i].className;
+                    }
+                    else{
+                        risk_type_products= risk_type_products+","+obj [i].className;
+                    }
+                }
+            }
+
             $.post("/admin/risktypeconfigajax/<%= params[:id] %>",{ risk_typeid: $("#risk_typeid").attr("value"),risk_typename:$("#risk_typename").attr("value"),risk_brief_intro:$("#risk_brief_intro").attr("value"),
                     risk_classicperson:$("#risk_classicperson").attr("value"),risk_spec_intro:$("#risk_spec_intro").attr("value"),risk_score_arrange:$("#risk_score_arrange").attr("value"),
-                    risk_type_products:$("#risk_type_products").attr("value"),risk_type_returnrate:$("#risk_type_returnrate").attr("value")},function(data){
+                    risk_type_products:risk_type_products,risk_type_returnrate:$("#risk_type_returnrate").attr("value")},function(data){
                 if(data=="s1"){
                     alert("创建成功！");
                     location.href='/admin';
@@ -68,8 +85,15 @@
         $("#risk_typename").attr("value",'<%= @risktype.risk_typename%>');
         $("#risk_brief_intro").attr("value",'<%= @risktype.risk_brief_intro%>');
         $("#risk_score_arrange").attr("value",'<%= @risktype.risk_score_arrange%>');
-        $("#risk_type_products").attr("value",'<%= @risktype.risk_type_products%>');
         $("#risk_type_returnrate").attr("value",'<%= @risktype.risk_type_returnrate%>');
+        var obj = document.getElementsByName("checkbox"); // 获取多选框数组
+        var objLen = obj.length;
+        var risk_type_products="";
+        for (var i = 0; i < objLen; i++) {
+            if('<%= @risktype.risk_type_products%>'.indexOf(obj [i].className) >= 0){
+                obj [i].checked = true;
+            }
+        }
         <% end %>
     });
 
