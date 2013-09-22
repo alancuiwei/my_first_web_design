@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <div class="welcomes start">
   <%= render "side" %>
@@ -7,25 +8,56 @@
       <div id="q-numbers"><b class="q-num curr">1</b><b class="q-num">2</b><b class="q-num">3</b><b class="q-num">4</b><b class="q-num">5</b></div>
     </h1>
     <div class="tablet">
-    <div class="row-fluid">
+      <div class="row-fluid">
       <div class="span1">
         <span>1</span>
       </div>
       <div class="span6">
         <div class="mleft">
           <p class="q-text">您的年纪、性别将直接影响到您的资产配置比例。</p>
-          <table>
-            <tr>
-              <td class="q-text" style="width: 120px;">年龄：</td>
-              <td><input type="text" name="age" id="age" onkeyup="next()" tabindex="-1"> (?)</td>
-            </tr>
-      <tr>
-              <td class="q-text">性别：</td>
-              <td><select id="sex"><option value="男">男</option><option value="女">女</option></select> (?)</td>
-      </tr>
-    </table>
+            <form class="form-horizontal">
+              <div class="control-group">
+                <label class="q-text control-label">年龄</label>
+                <div class="controls">
+                  <input type="text" id="age" onkeyup="next()">
+                  <span><a href="#myModal_age" role="button" data-toggle="modal">(?)</a></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">性别</label>
+                <div class="controls">
+                  <select id="sex"><option value="男">男</option><option value="女">女</option></select>
+                  <span><a href="#myModal_sex" role="button" data-toggle="modal">(?)</a></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">婚姻</label>
+                <div class="controls">
+                  <select id="married"><option value="0">未婚</option><option value="1">已婚</option></select>
+                  <span><a href="#myModal_married" role="button" data-toggle="modal">(?)</a></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">子女</label>
+                <div class="controls">
+                  <select id="kids"><option value="0">没有孩子</option><option value="1">有孩子</option></select>
+                  <span><a href="#myModal_kids" role="button" data-toggle="modal">(?)</a></span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">子女年龄</label>
+                <div class="controls">
+                  <div class="input-append">
+                    <input id="kidage" type="text">
+                    <span class="add-on">岁</span>
+                  </div>
+                  <span><a href="#myModal_kids" role="button" data-toggle="modal">(?)</a></span>
+                </div>
+              </div>
+            </form>
   </div>
-</div>      <div class="span4 offset1">
+        </div>
+        <div class="span4 offset1">
         <div class="image"><img src="/assets/121079.png"></div>
       </div>
     </div>
@@ -37,26 +69,105 @@
   </div>
 </div>
 
+<div id="myModal_age" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog_age!=nil %><%=@blog_age.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog_age!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_age.imagepath %>"><br><br>
+        <%=raw @blog_age.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="myModal_sex" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog_sex!=nil %><%=@blog_sex.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog_sex!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_sex.imagepath %>"><br><br>
+        <%=raw @blog_sex.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="myModal_married" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog_married!=nil %><%=@blog_married.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog_married!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_married.imagepath %>"><br><br>
+        <%=raw @blog_married.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="myModal_kids" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog_kid!=nil %><%=@blog_kid.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog_kid!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_kid.imagepath %>"><br><br>
+        <%=raw @blog_kid.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
 <script>
     $(document).ready(function(){
         var next=1;
         <% if session[:webusername]!=nil %>
-        <% if @webuser.age!=nil %>
-          $("#age").attr("value",<%= @webuser.age %>);
-        <% else %>
-          next=0;
-        <% end %>
-        <% if @webuser.sex!=nil %>
-        $("#sex").attr("value","<%= @webuser.sex %>")
-        <% end %>
+
+            <% if @webuser.age!=nil %>
+                $("#age").attr("value",<%= @webuser.age %>);
+            <% else %>
+                next=0;
+            <% end %>
+
+            <% if @webuser.sex!=nil %>
+                $("#sex").attr("value","<%= @webuser.sex %>")
+            <% end %>
+
+            <% if @webuser.married!=nil %>
+            $("#married").attr("value","<%= @webuser.married %>")
+            <% end %>
+
+            <% if @webuser.kids!=nil %>
+                <% if @webuser.kids!=0 %>
+                    $("#kids").attr("value",1);
+                    $("#kidage").attr("value","<%= @webuser.kids %>");
+                <% else %>
+                    $("#kids").attr("value",0);
+                <% end %>
+            <% end %>
         <% end %>
         if(next==0){
             document.getElementById("q-next").disabled=true;
-        }
+            }
         else{
             document.getElementById("q-next").disabled=false;
-        }
-    });
+            }
+        });
 
         function next(){
             if($("#age").attr("value")!=""){
@@ -66,8 +177,16 @@
                 document.getElementById("q-next").disabled=true;
             }
         }
+
         $("#q-next").click(function(){
-            $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:$("#age").attr("value"),sex:$("#sex").attr("value")},function(data){
+        var age_input_value=$("#age").attr("value");
+        var sex_input_value=$("#sex").attr("value");
+        var married_input_value=$("#married").attr("value");
+        var kids_input_value=$("#kids").attr("value");
+            if(kids_input_value==1){
+                kids_input_value=$("#kidage").attr("value")
+        }
+        $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:age_input_value,sex:sex_input_value,married:married_input_value,kids:kids_input_value},function(data){
                 location.herf="";
             });
         });

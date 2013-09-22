@@ -14,6 +14,10 @@ class UsersurveyController < ApplicationController
   def p1s1_user_basic_info
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @blog_age=Blog.find_by_id(490)
+      @blog_sex=Blog.find_by_id(491)
+      @blog_married=Blog.find_by_id(492)
+      @blog_kid=Blog.find_by_id(493)
     else
       redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -22,7 +26,7 @@ class UsersurveyController < ApplicationController
   def p1s1_user_basic_info_save
     @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
-      @webuser.update_attributes(:age=>params[:age],:sex=>params[:sex])
+      @webuser.update_attributes(:age=>params[:age],:sex=>params[:sex],:married=>params[:married],:kids=>params[:kids])
       render :json => "s".to_json
     end
   end
