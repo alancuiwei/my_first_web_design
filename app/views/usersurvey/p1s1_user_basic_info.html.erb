@@ -1,0 +1,74 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+
+<div class="welcomes start">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>基本信息
+      <div id="q-numbers"><b class="q-num curr">1</b><b class="q-num">2</b><b class="q-num">3</b><b class="q-num">4</b><b class="q-num">5</b></div>
+    </h1>
+    <div class="tablet">
+    <div class="row-fluid">
+      <div class="span1">
+        <span>1</span>
+      </div>
+      <div class="span6">
+        <div class="mleft">
+          <p class="q-text">您的年纪、性别将直接影响到您的资产配置比例。</p>
+          <table>
+            <tr>
+              <td class="q-text" style="width: 120px;">年龄：</td>
+              <td><input type="text" name="age" id="age" onkeyup="next()" tabindex="-1"> (?)</td>
+            </tr>
+      <tr>
+              <td class="q-text">性别：</td>
+              <td><select id="sex"><option value="男">男</option><option value="女">女</option></select> (?)</td>
+      </tr>
+    </table>
+  </div>
+</div>      <div class="span4 offset1">
+        <div class="image"><img src="/assets/121079.png"></div>
+      </div>
+    </div>
+   </div>
+    <div id="q-buttons" class="">
+      <button class="q-button light-gray big-button" id="q-back" disabled>◄&nbsp; <span>上一题</span>&nbsp;</button>
+      <button class="q-button orange-button big-button" id="q-next">&nbsp;下一题 &nbsp;►</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var next=1;
+        <% if session[:webusername]!=nil %>
+        <% if @webuser.age!=nil %>
+          $("#age").attr("value",<%= @webuser.age %>);
+        <% else %>
+          next=0;
+        <% end %>
+        <% if @webuser.sex!=nil %>
+        $("#sex").attr("value","<%= @webuser.sex %>")
+        <% end %>
+        <% end %>
+        if(next==0){
+            document.getElementById("q-next").disabled=true;
+        }
+        else{
+            document.getElementById("q-next").disabled=false;
+        }
+    });
+
+        function next(){
+            if($("#age").attr("value")!=""){
+                document.getElementById("q-next").disabled=false;
+            }
+            else{
+                document.getElementById("q-next").disabled=true;
+            }
+        }
+        $("#q-next").click(function(){
+            $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:$("#age").attr("value"),sex:$("#sex").attr("value")},function(data){
+                location.herf="";
+            });
+        });
+</script>

@@ -32,7 +32,7 @@
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b>
     <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
-        <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
+        <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 理财建议</span>
     <% end %>
@@ -229,7 +229,7 @@
               <td style="width: 220px;">
                 <div class="input-prepend">
                   <span class="add-on">￥</span>
-                  <input type="text" name="exect2" onkeyup="updatenum(this)" id="in<%= i %>" tabindex="-1">
+                  <input type="text" name="incomeannual" onkeyup="updatenum(this)" id="in<%= i %>" class="<%= @incomeannual[i].income_id %>" tabindex="-1">
                 </div>
               </td>
               <td></td>
@@ -244,7 +244,7 @@
               <td>
                 <div class="input-prepend">
                   <span class="add-on">￥</span>
-                  <input type="text" name="exect2" onkeyup="updatenum(this)" id="expen<%= i %>" tabindex="-1">
+                  <input type="text" name="expenseannual" onkeyup="updatenum(this)" id="expen<%= i %>" class="<%= @expenseannual[i].expense_id %>" tabindex="-1">
                 </div>
               </td>
               <td></td>
@@ -275,7 +275,7 @@
             <div class="mobile">资产品种:</div>
             <select  name="variety" id="variety" class="founder-name" title="资产品种"  onchange="updateintro(this)">
               <% @assettype.each do |a| %>
-                  <option value="<%= a.asset_typename %>"><%= a.asset_typename %></option>
+                  <option value="<%= a.asset_typeid %>"><%= a.asset_typename %></option>
               <% end %>
             </select>
           </div>
@@ -319,7 +319,7 @@
             <div class="mobile">贷款类型:</div>
             <select  name="variety" id="debttype" class="found-name" title="贷款类型" style="width: 140px;">
               <% @debttype.each do |d| %>
-                  <option value="<%= d.debt_typename %>"><%= d.debt_typename %></option>
+                  <option value="<%= d.debt_typeid %>"><%= d.debt_typename %></option>
               <% end %>
             </select>
           </div>
@@ -357,27 +357,10 @@
         <td>
           <h2>体检简报：</h2>
           <% @moonlite.each do |m| %>
-              <% if m.typename=='负翁' %>
-                  <div id="level0" class="hide">
-                    <p class="q-text"><%=raw m.type_intro %></p>
-                    <p class="q-text result" style="color: red;"></p>
-                  </div>
-              <% elsif m.typename=='重度月光族' %>
-                  <div id="level1" class="hide">
-                    <p class="q-text"><%=raw m.type_intro %></p>
-                    <p class="q-text result" style="color: red;"></p>
-                  </div>
-              <% elsif m.typename=='中度月光族' %>
-                  <div id="level2" class="hide">
-                    <p class="q-text"><%=raw m.type_intro %></p>
-                    <p class="q-text result" style="color: red;"></p>
-                  </div>
-              <% elsif m.typename=='轻度月光族' %>
-                  <div id="level3" class="hide">
-                    <p class="q-text"><%=raw m.type_intro %></p>
-                    <p class="q-text result" style="color: red;"></p>
-                  </div>
-              <% end %>
+              <div id="level<%= m.typeid %>" class="hide">
+                <p class="q-text"><%=raw m.type_intro %></p>
+                <p class="q-text result" style="color: red;"></p>
+              </div>
           <% end %>
           <h2>家庭财务报表分析：</h2>
           <div id="detailedreport">
@@ -620,7 +603,7 @@
             <td class="last">
               <div class="input-prepend">
                 <span class="add-on">￥</span>
-                <input type="text" onkeyup="inva(this);" name="exect" id="income<%= i %>">
+                <input type="text" onkeyup="inva(this);" name="incomemonth" id="income<%= i %>" class="<%= @incometype[i].income_id %>">
               </div>
             </td>
           </tr>
@@ -637,7 +620,7 @@
             <td class="last">
               <div class="input-prepend">
                 <span class="add-on">￥</span>
-                <input type="text" onkeyup="inva(this);" name="exect" id="expense<%= i %>">
+                <input type="text" onkeyup="inva(this);" name="expensemonth" id="expense<%= i %>" class="<%= @expensetype[i].expense_id %>">
               </div>
             </td>
             <td class="update<%= i %> hide last"></td>
@@ -697,7 +680,7 @@
 
 <script>
     var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
-    var tot1= 0,tot2= 0,avge= 0,tot3= 0,mid=0;
+    var avge= 0,mid=0;
     var normal=0; //月收入支出 明细1/2
     <% if @detailedmonth!=nil %>
     var acta= 1;
@@ -756,12 +739,14 @@
         if(normal==1 || this.id=="expense"){
 
             $(".h3").html("月支出详细调节");
-            var exect=document.getElementsByName('exect');
+            var incomemonth=document.getElementsByName('incomemonth');
             if(acta==1){
-                avge=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);
+                for(k=0;k<incomemonth.length;k++){
+                    avge=avge+parseInt(incomemonth[k].value);
+                }
             }
             else{
-                avge=parseInt($("#salary").attr("value").replace(/,/g, ""));
+                avge=parseInt($("#salary").attr("value").replace(/,/g,""));
             }
         <% for i in 0..@expensetype.size-1 %>
         <% if @expensetype[i].expense_expect!=nil %>
@@ -896,43 +881,77 @@
         showQn(6,'',1);
     });
 
-    $('#sum').click(function() {
-        var exect=document.getElementsByName('exect');
+    $('#sum').click(function() {    //精确输入
+        var incomemonth=document.getElementsByName('incomemonth');
+        var expensemonth=document.getElementsByName('expensemonth');
         if(mid==0){
-            for(i=0;i<exect.length;i++){
-                if(numfor.test(exect[i].value)==false){
-                    $("#"+exect[i].id).addClass('invalid');
+            for(i=0;i<incomemonth.length;i++){
+                if(numfor.test(incomemonth[i].value)==false){
+                    $("#"+incomemonth[i].id).addClass('invalid');
                     return false;
                 }
                 else{
-                    $("#"+exect[i].id).removeClass('invalid');
+                    $("#"+incomemonth[i].id).removeClass('invalid');
+                }
+            }
+            for(i=0;i<expensemonth.length;i++){
+                if(numfor.test(expensemonth[i].value)==false){
+                    $("#"+expensemonth[i].id).addClass('invalid');
+                    return false;
+                }
+                else{
+                    $("#"+expensemonth[i].id).removeClass('invalid');
                 }
             }
         }
         else{
-            for(i=3;i<exect.length;i++){
-                if(numfor.test(exect[i].value)==false){
-                    $("#"+exect[i].id).addClass('invalid');
+            for(i=0;i<expensemonth.length;i++){
+                if(numfor.test(expensemonth[i].value)==false){
+                    $("#"+expensemonth[i].id).addClass('invalid');
                     return false;
                 }
                 else{
-                    $("#"+exect[i].id).removeClass('invalid');
+                    $("#"+expensemonth[i].id).removeClass('invalid');
                 }
             }
         }
 
-        if(acta==0 && mid==1){
-            var income1=parseInt($("#salary").attr("value").replace(/,/g, ""));
-            var income2=0;
-            var income3=0;
-        }
-        else{
-            var income1=exect[0].value;
-            var income2=exect[1].value;
-            var income3=exect[2].value;
+        var expensetypeid='',expensevalue='';
+        for(i=0;i<expensemonth.length;i++){
+            if(expensetypeid==''){
+                expensetypeid=expensemonth[i].className;
+                expensevalue=expensemonth[i].value.replace(/,/g, "");
+            }
+            else{
+                expensetypeid=expensetypeid+','+expensemonth[i].className;
+                expensevalue=expensevalue+','+expensemonth[i].value.replace(/,/g, "");
+            }
         }
 
-        $.post("/usersurvey/userdatadetailedmonth",{username:'<%= session[:webusername] %>',expense1:exect[3].value,expense2:exect[4].value,expense3:exect[5].value,expense4:exect[6].value,expense5:exect[7].value,expense6:exect[8].value,expense7:exect[9].value,income1:income1,income2:income2,income3:income3,mid:mid},function(data){
+        if(acta==0 && mid==1){                //12
+            $.post("/usersurvey/detailedmonth",{username:'<%= session[:webusername] %>',income_typeid:<%= @incometype[0].income_id %>,income_value:parseInt($("#salary").attr("value").replace(/,/g, "")),expense_typeid:expensetypeid,expense_value:expensevalue,mid:mid},function(data){
+                process(data);
+            });
+        }
+        else{
+            var incometypeid='',incomevalue='';
+            for(i=0;i<incomemonth.length;i++){
+                if(incometypeid==''){
+                    incometypeid=incomemonth[i].className;
+                    incomevalue=incomemonth[i].value.replace(/,/g, "");
+                }
+                else{
+                    incometypeid=incometypeid+','+incomemonth[i].className;
+                    incomevalue=incomevalue+','+incomemonth[i].value.replace(/,/g, "");
+                }
+            }
+
+            $.post("/usersurvey/detailedmonth",{username:'<%= session[:webusername] %>',income_typeid:incometypeid,income_value:incomevalue,expense_typeid:expensetypeid,expense_value:expensevalue,mid:mid},function(data){
+                    process(data);
+            });
+        }
+
+        function process(data){
             var datas=data.split(",");
             if(mid==0){
                 if(normal==1){
@@ -946,7 +965,7 @@
                 }
                 else if(parseInt(datas[0])<20){
                     if(parseInt(datas[0])>=0){
-                    $("#text").html('而现在，您用的是<span style="color: red;">'+datas[0]+'%</span>的月收入比例，会不会有点消费过度？您觉得呢？')
+                        $("#text").html('而现在，您用的是<span style="color: red;">'+datas[0]+'%</span>的月收入比例，会不会有点消费过度？您觉得呢？')
                     }
                     else{
                         $("#text").html('而现在，您月消费金额超过您的月收入，您肯定是消费过度。')
@@ -969,19 +988,7 @@
             $("#wages").attr("value",datas[3]);
             document.getElementById("wages").disabled=true;
             bi=data;
-        });
-
-        avge=parseInt(exect[0].value)+parseInt(exect[1].value)+parseInt(exect[2].value);          //1
-        tot1=avge*12;
-        tot2=parseInt(exect[3].value)+parseInt(exect[4].value)+parseInt(exect[5].value)+parseInt(exect[6].value)+parseInt(exect[7].value)+parseInt(exect[8].value)+parseInt(exect[9].value)
-        tot3=0;
-        if('<%= @hash2[100][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[3].value);}
-        if('<%= @hash2[200][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[4].value);}
-        if('<%= @hash2[300][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[5].value);}
-        if('<%= @hash2[400][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[6].value);}
-        if('<%= @hash2[500][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[7].value);}
-        if('<%= @hash2[600][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[8].value);}
-        if('<%= @hash2[700][0]%>'=='must_expense'){tot3=tot3+parseInt(exect[9].value);}
+        }
         acta=1;
     });
 
@@ -1011,114 +1018,123 @@
         <% if @webuser.age!=nil %>$("#age").attr("value",parseInt('<%= @webuser.age %>'));<% end %>
         <% if @webuser.sex!=nil %>$("#sex").attr("value",'<%= @webuser.sex %>');<% end %>
         <% if @userdatamonth!=nil %>
-        <% if @userdatamonth.income!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.income %>'));<% end %>
-        <% if @userdatamonth.must_expense!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense %>'));<% end %>
-        <% if @userdatamonth.invest_expense!=nil %>$("#wages").attr("value",parseInt('<%= @userdatamonth.invest_expense %>'));<% end %>
+        <% if @userdatamonth.salary_month!=nil %>$("#salary").attr("value",parseInt('<%= @userdatamonth.salary_month %>')+parseInt('<%= @userdatamonth.extra_income_month %>'));<% end %>
+        <% if @userdatamonth.must_expense_month!=nil %>$("#rent").attr("value",parseInt('<%=  @userdatamonth.must_expense_month %>'));<% end %>
+        <% if @userdatamonth.invest_expense_month!=nil %>$("#wages").attr("value",parseInt('<%= @userdatamonth.invest_expense_month %>'));<% end %>
         <% end %>
         <% if @userdateannual!=nil %>
         <% if @userdateannual.income_annual!=nil %>$("#incomeannual").attr("value",parseInt('<%= @userdateannual.income_annual %>'));<% end %>
         <% if @userdateannual.expense_annual!=nil %>$("#expenseannual").attr("value",parseInt('<%=  @userdateannual.expense_annual %>'));<% end %>
         <% end %>
         <% if @detailedannual!=nil %>
-        <% if @detailedannual.income1_account!=nil %>$("#in0").attr("value",parseInt('<%= @detailedannual.income1_account %>'));<% end %>
-        <% if @detailedannual.income2_account!=nil %>$("#in1").attr("value",parseInt('<%= @detailedannual.income2_account %>'));<% end %>
-        <% if @detailedannual.income3_account!=nil %>$("#in2").attr("value",parseInt('<%= @detailedannual.income3_account %>'));<% end %>
-        <% if @detailedannual.expense1_account!=nil %>$("#expen0").attr("value",parseInt('<%=  @detailedannual.expense1_account %>'));<% end %>
-        <% if @detailedannual.expense2_account!=nil %>$("#expen1").attr("value",parseInt('<%=  @detailedannual.expense2_account %>'));<% end %>
-        <% if @detailedannual.expense3_account!=nil %>$("#expen2").attr("value",parseInt('<%=  @detailedannual.expense3_account %>'));<% end %>
-        <% if @detailedannual.expense4_account!=nil %>$("#expen3").attr("value",parseInt('<%=  @detailedannual.expense4_account %>'));<% end %>
+        <% for i in 0..@detailedannual.size-1 %>
+        <% if @detailedannual[i].income_type==2001 %>
+        $("#in0").attr("value",parseInt('<%= @detailedannual[i].income_value %>'));
+        <% elsif @detailedannual[i].income_type==2002 %>
+        $("#in1").attr("value",parseInt('<%= @detailedannual[i].income_value %>'));
+        <% elsif @detailedannual[i].income_type==2099 %>
+        $("#in2").attr("value",parseInt('<%= @detailedannual[i].income_value %>'));
+        <% end %>
+        <% end %>
+       <% end %>
+        <% if @expenannual!=nil %>
+        <% for i in 0..@expenannual.size-1 %>
+        <% if @expenannual[i].expense_type==1001 %>
+        $("#expen0").attr("value",parseInt('<%= @expenannual[i].expense_value %>'));
+        <% elsif @expenannual[i].expense_type==1002 %>
+        $("#expen1").attr("value",parseInt('<%= @expenannual[i].expense_value %>'));
+        <% elsif @expenannual[i].expense_type==1003 %>
+        $("#expen2").attr("value",parseInt('<%= @expenannual[i].expense_value %>'));
+        <% elsif @expenannual[i].expense_type==1099 %>
+        $("#expen3").attr("value",parseInt('<%= @expenannual[i].expense_value %>'));
+        <% end %>
+        <% end %>
         <% end %>
         <% if @detailedmonth!=nil %>
-        <% for i in 0..@incometype.size-1 %>
-        <% if i==0 %>
-        <% if @detailedmonth.income1_account!=nil %>$("#income0").attr("value",parseInt('<%= @detailedmonth.income1_account %>'));<% end %>
-        <% elsif i==1 %>
-        <% if @detailedmonth.income2_account!=nil %>$("#income1").attr("value",parseInt('<%= @detailedmonth.income2_account %>'));<% end %>
-        <% elsif i==2 %>
-        <% if @detailedmonth.income3_account!=nil %>$("#income2").attr("value",parseInt('<%= @detailedmonth.income3_account %>'));<% end %>
+        <% for i in 0..@detailedmonth.size-1 %>
+        <% if @detailedmonth[i].income_typeid==1000 %>
+        $("#income0").attr("value",parseInt('<%= @detailedmonth[i].income_value %>'));
+        <% elsif @detailedmonth[i].income_typeid==2000 %>
+        $("#income1").attr("value",parseInt('<%= @detailedmonth[i].income_value %>'));
+        <% elsif @detailedmonth[i].income_typeid==3000 %>
+        $("#income2").attr("value",parseInt('<%= @detailedmonth[i].income_value %>'));
         <% end %>
         <% end %>
-        <% for i in 0..@expensetype.size-1 %>
-        <% if i==0 %>
-        <% if @detailedmonth.expense1_account!=nil %>$("#expense0").attr("value",parseInt('<%= @detailedmonth.expense1_account %>'));<% end %>
-        <% elsif i==1 %>
-        <% if @detailedmonth.expense2_account!=nil %>$("#expense1").attr("value",parseInt('<%= @detailedmonth.expense2_account %>'));<% end %>
-        <% elsif i==2 %>
-        <% if @detailedmonth.expense3_account!=nil %>$("#expense2").attr("value",parseInt('<%= @detailedmonth.expense3_account %>'));<% end %>
-        <% elsif i==3 %>
-        <% if @detailedmonth.expense4_account!=nil %>$("#expense3").attr("value",parseInt('<%= @detailedmonth.expense4_account %>'));<% end %>
-        <% elsif i==4 %>
-        <% if @detailedmonth.expense5_account!=nil %>$("#expense4").attr("value",parseInt('<%= @detailedmonth.expense5_account %>'));<% end %>
-        <% elsif i==5 %>
-        <% if @detailedmonth.expense6_account!=nil %>$("#expense5").attr("value",parseInt('<%= @detailedmonth.expense6_account %>'));<% end %>
-        <% elsif i==6 %>
-        <% if @detailedmonth.expense7_account!=nil %>$("#expense6").attr("value",parseInt('<%= @detailedmonth.expense7_account %>'));<% end %>
+        <% end %>
+        <% if @expensemonth!=nil %>
+        <% for i in 0..@expensemonth.size-1 %>
+        <% if @expensemonth[i].expense_typeid==100 %>
+        $("#expense0").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==200 %>
+        $("#expense1").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==300 %>
+        $("#expense2").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==400 %>
+        $("#expense3").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==500 %>
+        $("#expense4").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==600 %>
+        $("#expense5").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
+        <% elsif @expensemonth[i].expense_typeid==700 %>
+        $("#expense6").attr("value",parseInt('<%= @expensemonth[i].expense_value %>'));
         <% end %>
         <% end %>
         <% end %>
 
         var first=0;
-        <% if @userassetsheet!=nil %>
-        var array0=[<%= @userassetsheet.asset1_account %>,<%= @userassetsheet.asset2_account %>,<%= @userassetsheet.asset3_account %>,
-            <%= @userassetsheet.asset4_account %>,<%= @userassetsheet.asset5_account %>,<%= @userassetsheet.asset6_account %>,
-            <%= @userassetsheet.asset7_account %>,<%= @userassetsheet.asset8_account %>,<%= @userassetsheet.asset9_account %>,<%= @userassetsheet.asset10_account %>]
-        for(i=0;i<10;i++){
-            if(array0[i]!=0){
-                if(first==0){
-                    $("#variety").attr("value",array1[i])
-                    $("#amount").attr("value",array0[i])
-                <% @assettype.each do |a| %>
-                    if('<%= a.asset_typename %>'==array1[i]){
-                        $("#pname").html('<%= a.asset_intro %>')
-                    }
-                <% end %>
-                }
-                else{
-                    addFounder(null, false);
-                    $("#variety"+first).attr("value",array1[i])
-                    $("#amount"+first).attr("value",array0[i]);
-                <% @assettype.each do |a| %>
-                    if('<%= a.asset_typename %>'==array1[i]){
-                        $("#pname"+first).html('<%= a.asset_intro %>')
-                    }
-                <% end %>
-                }
-                first=first+1;
-            }
-        }
+        <% if @userassetsheet!=nil && @userassetsheet.size!=0 %>
+        <% for i in 0..@userassetsheet.size-1 %>
+           if(first==0){
+               $("#variety").attr("value",'<%= @userassetsheet[i].asset_typeid %>')
+               $("#amount").attr("value",'<%= @userassetsheet[i].asset_value %>')
+           <% @assettype.each do |a| %>
+               if('<%= a.asset_typeid %>'=='<%= @userassetsheet[i].asset_typeid %>'){
+                   $("#pname").html('<%= a.asset_intro %>')
+               }
+           <% end %>
+           }
+           else{
+               addFounder(null, false);
+               $("#variety"+first).attr("value",'<%= @userassetsheet[i].asset_typeid %>')
+               $("#amount"+first).attr("value",'<%= @userassetsheet[i].asset_value %>');
+           <% @assettype.each do |a| %>
+               if('<%= a.asset_typeid %>'=='<%= @userassetsheet[i].asset_typeid %>'){
+                   $("#pname"+first).html('<%= a.asset_intro %>')
+               }
+           <% end %>
+           }
+        first=first+1;
+        <% end %>
         <% end %>
         var second=first;
-        <% if @userdebtsheet!=nil %>
-        var array3=[[<%= @userdebtsheet.debt1_account_totally %>,<%= @userdebtsheet.debt1_account_monthly %>,<%= @userdebtsheet.debt1_years %>],
-            [<%= @userdebtsheet.debt2_account_totally %>,<%= @userdebtsheet.debt2_account_monthly %>,<%= @userdebtsheet.debt2_years %>],
-            [<%= @userdebtsheet.debt99_account_totally %>,<%= @userdebtsheet.debt99_account_monthly %>,<%= @userdebtsheet.debt99_years %>]]
-        for(i=0;i<3;i++){
-            if(array3[i][0]!=0){
-                if(first==second){
-                    $("#debttype").attr("value",array4[i])
-                    $("#loan").attr("value",array3[i][0])
-                    $("#repayment").attr("value",array3[i][1])
-                    $("#period").attr("value",array3[i][2])
-                }
-                else{
-                    add(null, false);
-                    $("#debttype"+(first-1).toString()).attr("value",array4[i])
-                    $("#loan"+(first-1).toString()).attr("value",array3[i][0])
-                    $("#repayment"+(first-1).toString()).attr("value",array3[i][1])
-                    $("#period"+(first-1).toString()).attr("value",array3[i][2])
-                }
-                first=first+1;
-            }
+        <% if @userdebtsheet!=nil && @userdebtsheet.size!=0 %>
+        <% for i in 0..@userdebtsheet.size-1 %>
+        if(first==second){
+            $("#debttype").attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
+            $("#loan").attr("value",'<%= @userdebtsheet[i].debt_value %>')
+            $("#repayment").attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
+            $("#period").attr("value",'<%= @userdebtsheet[i].debt_years %>')
         }
+        else{
+            add(null, false);
+            $("#debttype"+(first-1).toString()).attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
+            $("#loan"+(first-1).toString()).attr("value",'<%= @userdebtsheet[i].debt_value %>')
+            $("#repayment"+(first-1).toString()).attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
+            $("#period"+(first-1).toString()).attr("value",'<%= @userdebtsheet[i].debt_years %>')
+        }
+        first=first+1;
+        <% end %>
         <% end %>
 
         <% end %>
         initPieChart();
+        /*
         showQn(5,'','load');
         showQn(6,'','load');
         showQn(7,'','load');
         showQn(8,'','load');
         showQn(0,'','load');
+        */
     });
 
     $qr.data("vals", valsFromDom($qr.find("input")))
@@ -1206,15 +1222,15 @@
                 $("#q-submit").click(function(e) {
                     if(acta==1){
 
-                        var salary= avge;
-                        var rent= tot3;
-                        var wages= avge-tot2;
-                        if(level==4){
+                        var salary= 0;
+                        var rent= 0;
+                        var wages= 0;
+                      //  if(level==4){
                             var asset_score=run();
-                        }
-                        else{
-                            var asset_score=0;
-                        }
+                      //  }
+                      //  else{
+                      //      var asset_score=0;
+                      //  }
                         $.post("/usersurvey/savescore2",{username:'<%= session[:webusername] %>',asset_score:asset_score,amount:amounts,variety:varietys,age:$("#age").attr("value"),arr:arr.toFixed(4),
                             salary:salary,rent:rent,wages:wages,xian:xian,wen:wen,feng:feng,acta:1,level:level,meals:$("#meals").attr("value"),fare:$("#fare").attr("value"),shop:$("#shop").attr("value"),taste:$("#taste").attr("value"),education:$("#education").attr("value"),
                             family:$("#family").attr("value"),intercourse:$("#intercourse").attr("value"),income1:$("#income1").attr("value"),income2:$("#income2").attr("value"),income3:$("#income3").attr("value"),
@@ -1259,25 +1275,50 @@
             }
         }
         else if(num4==6){
-            var exect=document.getElementsByName('exect2');
-            $.post("/usersurvey/userdatadetailedannual",{username:'<%= session[:webusername] %>',income1:exect[0].value.replace(/,/g, ""),income2:exect[1].value.replace(/,/g, ""),income3:exect[2].value.replace(/,/g, ""),expense1:exect[3].value.replace(/,/g, ""),expense2:exect[4].value.replace(/,/g, ""),expense3:exect[5].value.replace(/,/g, ""),expense4:exect[6].value.replace(/,/g, "")},function(data){
+            var incomeannual=document.getElementsByName('incomeannual');
+            var expenseannual=document.getElementsByName('expenseannual');
+            var incometypeid='',incomevalue='',expensetypeid='',expensevalue='';
+            for(k=0;k<incomeannual.length;k++){
+                if(incometypeid==''){
+                    incometypeid=incomeannual[k].className;
+                    incomevalue=incomeannual[k].value.replace(/,/g, "");
+                }
+                else{
+                    incometypeid=incometypeid+','+incomeannual[k].className;
+                    incomevalue=incomevalue+','+incomeannual[k].value.replace(/,/g, "");
+                }
+            }
+            for(k=0;k<expenseannual.length;k++){
+                if(expensetypeid==''){
+                    expensetypeid=expenseannual[k].className;
+                    expensevalue=expenseannual[k].value.replace(/,/g, "");
+                }
+                else{
+                    expensetypeid=expensetypeid+','+expenseannual[k].className;
+                    expensevalue=expensevalue+','+expenseannual[k].value.replace(/,/g, "");
+                }
+            }
+            $.post("/usersurvey/userdatadetailedannual",{username:'<%= session[:webusername] %>',income_type:incometypeid,income_value:incomevalue,expense_type:expensetypeid,expense_value:expensevalue},function(data){
             });
         }
         else if(num4==7){
-            variety=document.getElementsByClassName("founder-name")  //资产品种
-            amount=document.getElementsByClassName("init-share")  //资产金额
-            arrayObj = [0,0,0,0,0,0,0,0,0,0];
+            var variety=document.getElementsByClassName("founder-name")  //资产品种
+            var amount=document.getElementsByClassName("init-share")  //资产金额
+            var typeid='',typevalue='';
             for(j=0;j<variety.length;j++){
                 var ccc=amount[j].value.replace(/,/g, "");
                 if(ccc==''){ccc=0;}
-            <% for k in 0..@assettype.size-1 %>
-                if('<%= @assettype[k].asset_typename %>'==variety[j].value){
-                    arrayObj[<%= k %>]=arrayObj[<%= k %>]+parseFloat(ccc);
+                if(j==0){
+                    typeid=variety[j].value.replace(/,/g, "");
+                    typevalue=amount[j].value.replace(/,/g, "");
                 }
-            <% end %>
+                else{
+                    typeid=typeid+','+variety[j].value.replace(/,/g, "");
+                    typevalue=typevalue+','+amount[j].value.replace(/,/g, "");
+                }
             }
 
-            $.post("/usersurvey/userassetsheet",{username:'<%= session[:webusername] %>',asset1_account:arrayObj[0],asset2_account:arrayObj[1],asset3_account:arrayObj[2],asset4_account:arrayObj[3],asset5_account:arrayObj[4],asset6_account:arrayObj[5],asset7_account:arrayObj[6],asset8_account:arrayObj[7],asset9_account:arrayObj[8],asset10_account:arrayObj[9]},function(data){
+            $.post("/usersurvey/userassetsheet",{username:'<%= session[:webusername] %>',asset_typeid:typeid,asset_value:typevalue},function(data){
                 $("#indicators tr:eq(11) td:eq(4)").html(data.split(",")[0]);
                 $("#indicators tr:eq(12) td:eq(4)").html(data.split(",")[1]);
                 $("#indicators tr:eq(13) td:eq(4)").html(data.split(",")[2]);
@@ -1288,23 +1329,26 @@
             loan=document.getElementsByClassName("init")  //总负债
             repayment=document.getElementsByClassName("repayment")  //每月还贷
             period=document.getElementsByClassName("period")  //贷款年限
-            var arrayObj0 = [[0,0,0],[0,0,0],[0,0,0]];
-
+            var debtid='',debtvalue='',debtvaluemonth='',debtyear='';
             for(k=0;k<debttype.length;k++){
                 var c1=loan[k].value.replace(/,/g, "");
                 var c2=repayment[k].value.replace(/,/g, "");
                 if(c1==''){c1=0;}
                 if(c2==''){c2=0;}
-            <% for k in 0..@debttype.size-1 %>
-                if('<%= @debttype[k].debt_typename %>'==debttype[k].value){
-                    arrayObj0[<%= k %>][0]=arrayObj0[<%= k %>][0]+parseFloat(c1);
-                    arrayObj0[<%= k %>][1]=arrayObj0[<%= k %>][1]+parseFloat(c2);
-                    arrayObj0[<%= k %>][2]=arrayObj0[<%= k %>][2]+parseFloat(period[k].value);
+              if(k==0){
+                  debtid=debttype[k].value
+                  debtvalue=c1
+                  debtvaluemonth=c2
+                  debtyear=period[k].value
+              }
+                else{
+                  debtid=debtid+','+debttype[k].value
+                  debtvalue=debtvalue+','+c1
+                  debtvaluemonth=debtvaluemonth+','+c2
+                  debtyear=debtyear+','+period[k].value
                 }
-            <% end %>
             }
-            $.post("/usersurvey/userdebtsheet",{username:'<%= session[:webusername] %>',debt1_account_totally:arrayObj0[0][0],debt1_account_monthly:arrayObj0[0][1],debt1_years:arrayObj0[0][2],
-                debt2_account_totally:arrayObj0[1][0],debt2_account_monthly:arrayObj0[1][1],debt2_years:arrayObj0[1][2],debt99_account_totally:arrayObj0[2][0],debt99_account_monthly:arrayObj0[2][1],debt99_years:arrayObj0[2][2]},function(data){
+            $.post("/usersurvey/userdebtsheet",{username:'<%= session[:webusername] %>',debt_typeid:debtid,debt_value:debtvalue,debt_value_monthly:debtvaluemonth,debt_years:debtyear},function(data){
                 $("#indicators tr:eq(6) td:eq(4)").html(data.toFixed(2));
               if(i==9){
                 step9();
@@ -1393,13 +1437,16 @@
                         xian=parseInt((parseFloat($("#rent").attr("value").replace(/,/g, ""))*3)/100)*100;
                     }
                     else{
-                        total=parseInt((tot1+jixu)/100)*100;//总资产
-                        xian=parseInt((parseFloat(tot3)*3)/100)*10;
+                        total=parseInt((parseFloat(datas[4])*12+jixu)/100)*100;//总资产
+                        xian=parseInt((parseFloat(datas[3])*3)/100)*10;
                     }
                     feng=parseInt((total*(80-parseFloat($("#age").attr("value").replace(/,/g, "")))/100)/100)*100;
                     wen=total-xian-feng;
                     arr=parseFloat('<%= @hash["活期存款"][0] %>')*mea1/jixu+parseFloat('<%= @hash["货币基金"][0] %>')*mea2/jixu+parseFloat('<%= @hash["银行理财产品"][0] %>')*mea3/jixu+parseFloat('<%= @hash["定期存款"][0] %>')*mea4/jixu+
                             parseFloat('<%= @hash["债券基金"][0] %>')*mea5/jixu+parseFloat('<%= @hash["股票型基金"][0] %>')*mea6/jixu+0.03*mea7/jixu;
+
+                    $.post("/usersurvey/saveassetscore",{username:'<%= session[:webusername] %>',asset_score:run()},function(data){
+                    });
                 });
             }
             $("#title").html("资产净值估算-负债");
@@ -1464,7 +1511,8 @@
                 var debtmonth=parseInt(arrayObj0[0][1])+parseInt(arrayObj0[1][1])+parseInt(arrayObj0[2][1]); //每月还贷
                 var mustmonth=0; //每月必要开销
                 var funmonth=0; //每月零花娱乐开销
-
+                var netassets=parseInt(data[6][2]);
+                var balance=0;
                 if(acta==1){
                     $("#expense").html("调整月收入支配");
                     var acta2="";
@@ -1485,6 +1533,7 @@
                     salarymonth=parseInt(data[1][0])+parseInt(data[1][1])+parseInt(data[1][2]);
                     mustmonth=parseInt(data[1][3])+parseInt(data[1][4])+parseInt(data[1][8]);
                     funmonth=parseInt(data[1][5])+parseInt(data[1][6])+parseInt(data[1][7])+parseInt(data[1][9]);
+                    balance=salarymonth-mustmonth-funmonth-debtmonth;
                     $("#detailed tr:eq(1) td:eq(1)").html(parseInt(data[1][0])+parseInt(data[1][1]));
                     $("#detailed tr:eq(2) td:eq(1)").html(parseInt(data[1][2]));
                     $("#detailed tr:eq(1) td:eq(3)").html(parseInt(data[1][3]));
@@ -1509,7 +1558,7 @@
                     $("#indicators tr:eq(4) td:eq(4)").html((funmonth/(mustmonth+funmonth)).toFixed(2));
                     $("#indicators tr:eq(5) td:eq(4)").html(((salarymonth-mustmonth-funmonth-debtmonth)/salarymonth).toFixed(2));
                     $("#indicators tr:eq(10) td:eq(4)").html((debtmonth/salarymonth).toFixed(2));
-
+                    /*
                     if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(16) td:eq(1)").html())<0){
                         level=1;
                     }
@@ -1521,7 +1570,7 @@
                     }
                     else{
                         level=4;
-                    }
+                    }   */
                 }
                 else{
                     $("#expense").html("月支配 明细");
@@ -1529,6 +1578,7 @@
                     salarymonth=parseInt(data[2][0]);
                     mustmonth=parseInt(data[2][1]);
                     funmonth=parseInt(data[2][2]);
+                    balance=parseInt(data[2][3])-debtmonth;
                     $("#detailed tr:eq(1) td:eq(1)").html(parseInt(data[2][0]));
                     $("#detailed tr:eq(2) td:eq(1)").html(0);
                     $("#detailed tr:eq(1) td:eq(3)").html('--');
@@ -1553,7 +1603,7 @@
                     $("#indicators tr:eq(4) td:eq(4)").html((parseInt(data[2][2])/(parseInt(data[2][1])+parseInt(data[2][2]))).toFixed(2));
                     $("#indicators tr:eq(5) td:eq(4)").html(((parseInt(data[2][3])-debtmonth)/parseInt(data[2][0])).toFixed(2));
                     $("#indicators tr:eq(10) td:eq(4)").html((debtmonth/parseInt(data[2][0])).toFixed(2));
-
+                    /*
                     if(salarymonth<mustmonth+funmonth || parseInt($("#detailed tr:eq(16) td:eq(1)").html())<0){
                         level=1;
                     }
@@ -1565,8 +1615,35 @@
                     }
                     else{
                         level=4;
-                    }
+                    }   */
                 }
+               // alert(netassets)
+               // alert(balance)
+                if(netassets<0 && balance<0 && (netassets<-2000 || balance<-200)){
+                    level=1
+                }
+                else if(netassets>=0 && balance<0 && (netassets>=2000 || balance<-200)){
+                    level=2
+                }
+                else if(Math.abs(netassets)<2000 && Math.abs(balance)<200){
+                    level=3
+                }
+                else if(netassets<0 && balance>=0 && (netassets<-2000 || balance>=200)){
+                    level=4
+                }
+                else if(netassets>=0 && netassets<50000 && balance>=5000){
+                    level=5
+                }
+                else if(netassets>=0 && balance>=0 && netassets<50000 && balance<5000 && (netassets>=2000 || balance>=200)){
+                    level=6
+                }
+                else if(balance>=0 && netassets>=50000 && balance<5000){
+                    level=7
+                }
+                else if(netassets>=50000 && balance>=5000){
+                    level=8
+                }
+
                 if(debtmonth!=0){
                 $("#indicators tr:eq(8) td:eq(4)").html((parseInt(data[6][3])/(debtmonth*12)).toFixed(2));
                 }
@@ -1856,7 +1933,7 @@
                 else{
                     $(".result").hide();
                 }
-
+               /*
                 if(level==1){
                     $("#level0").show();
                     $("#level1").hide();
@@ -1889,7 +1966,15 @@
                     animate(0,run());
                     $(".intro").html("您属于轻度月光族，您当前家庭资产体检得分约等于"+run()+"分。")
                 }
-
+                */
+                $("[id*='level']").hide();
+                $("#level"+level).show();
+                animate(0,data[7][0]);
+                <% @moonlite.each do |m| %>
+                if('<%= m.typeid %>'==level){
+                $(".intro").html("您属于<%= m.typename %>，您当前家庭资产体检得分约等于"+data[7][0]+"分。")
+                }
+                <% end %>
                 $(".line10 td:eq(1)").html(parseInt(data[5][0]));
                 $(".line11 td:eq(1)").html(parseInt(data[5][3]));
                 $(".line20 td:eq(1)").html(parseInt(data[5][1]));
@@ -2087,7 +2172,7 @@
                 else{
                     if(i==5){
                     <% if @userdatamonth!=nil %>
-                    <% if @userdatamonth.income!=nil && @userdatamonth.must_expense!=nil && @userdatamonth.invest_expense!=nil %>
+                    <% if @userdatamonth.salary_month!=nil && @userdatamonth.must_expense_month!=nil && @userdatamonth.invest_expense_month!=nil %>
                         $(this).addClass("past");
                     <% else %>
                         return false;

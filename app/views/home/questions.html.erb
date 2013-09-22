@@ -35,12 +35,12 @@
 <div id="page-wrapper">
 <div id="top-tabs">
   <div class="top-tabs-content">
-    <a href="/usersurvey/measure/1"><b>1.</b> <span>资产体检</span></a>
+    <a href="/usersurvey/p1_usersurvey"><b>1.</b> <span>资产体检</span></a>
     <b>&nbsp;>&nbsp;</b>
     <b>2.</b> <span>风险评估</span>
     <b>&nbsp;>&nbsp;</b>
     <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
-        <a href="/usersurvey/measure/3"><b>3.</b> 理财建议</a>
+        <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
     <% else %>
         <span class="disabled"><b>3.</b> 理财建议</span>
     <% end %>
@@ -425,7 +425,7 @@
                         <% if session[:webusername]!=nil %>
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",risk_score:risk_score
                         },function(data){
-                            location.href='/usersurvey/measure/3';
+                            location.href='/personmanagement/summary';
                         });
                         <% end %>
                         return false
