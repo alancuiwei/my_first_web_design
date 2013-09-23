@@ -1,0 +1,150 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<div class="welcomes start p1s3">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>现金流量表<span class="red">（年）</span>
+      <div id="q-numbers"><b class="q-num past">1</b><b class="q-num past">2</b><b class="q-num curr">3</b><b class="q-num">4</b><b class="q-num">5</b></div>
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span1">
+          <span>3</span>
+        </div>
+        <div class="span11">
+          <div class="mleft">
+            <form class="form-horizontal">
+              <p class="q-text">年度收入主要是指年终奖等额外年末收入。</p>
+              <% @incometypeannual.each do |i| %>
+              <div class="control-group">
+                <label class="q-text control-label"><%= i.income_name %></label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input id="income<%= i.income_id %>" name="incomeannual" type="text" onkeyup="next(1,this)" class="<%= i.income_id %>">
+                  </div>
+                </div>
+              </div>
+             <% end %>
+              <p class="q-text">年度开销主要是指年计划开销，例如每年旅游费用，每年保险费用等。</p>
+              <% @expensetypeannual.each do |e| %>
+                  <div class="control-group">
+                    <label class="q-text control-label"><%= e.expense_name %></label>
+                    <div class="controls">
+                      <div class="input-prepend">
+                        <span class="add-on">￥</span>
+                        <input id="expense<%= e.expense_id %>" name="expenseannual" type="text" onkeyup="next(1,this)" class="<%= e.expense_id %>">
+                      </div>
+                    </div>
+                  </div>
+              <% end %>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="q-buttons" class="">
+      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
+      <button class="q-button orange-button big-button" id="q-next" disabled>&nbsp;下一题 &nbsp;►</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+    $(document).ready(function(){
+        <% if session[:webusername]!=nil %>
+
+        <% for i in 0..@incomeannual.size-1 %>
+        $("#income<%= @incomeannual[i].income_type %>").attr("value",'<%= @incomeannual[i].income_value %>');
+        <% end %>
+
+        <% for i in 0..@expenseannual.size-1 %>
+        $("#expense<%= @expenseannual[i].expense_type %>").attr("value",'<%= @expenseannual[i].expense_value %>');
+        <% end %>
+
+        next(0,0);
+        <% end %>
+    });
+
+    function next(a,e){
+        if(a==1){
+            if(numfor.test(e.value)==false){
+                $("#"+e.id).addClass('invalid');
+            }
+            else{
+                $("#"+e.id).removeClass('invalid');
+            }
+        }
+        var isright=1;
+        var incomeannual=document.getElementsByName('incomeannual');
+        for(i=0;i<incomeannual.length;i++){
+            if(numfor.test(incomeannual[i].value)==false){
+                isright=0;
+                break;
+            }
+        }
+        var expenseannual=document.getElementsByName('expenseannual');
+        for(i=0;i<expenseannual.length;i++){
+            if(numfor.test(expenseannual[i].value)==false){
+                isright=0;
+                break;
+            }
+        }
+
+        if(isright==1){
+            document.getElementById("q-next").disabled=false;
+        }
+        else{
+            document.getElementById("q-next").disabled=true;
+        }
+    }
+
+    $("#q-numbers").delegate(".q-num.past", "click", function() {
+        if($(this).html()=='1'){
+            save("/usersurvey/p1s1_user_basic_info");
+        }
+        if($(this).html()=='2'){
+            save("/usersurvey/p1s2_cash_flow_statement_month");
+        }
+    });
+
+    $("#q-back").click(function(){
+        location.href="/usersurvey/p1s2_cash_flow_statement_month";
+    });
+
+    $("#q-next").click(function(){
+        save("/usersurvey/p1s4_asset_table");
+    });
+
+    function save(e){
+        var incomeannual=document.getElementsByName('incomeannual');
+        var expenseannual=document.getElementsByName('expenseannual');
+        var incometype='',incomevalue='';
+        for(i=0;i<incomeannual.length;i++){
+            if(incometype==''){
+                incometype=parseInt(incomeannual[i].className).toString();
+                incomevalue=incomeannual[i].value.replace(/,/g, "");
+            }
+            else{
+                incometype=incometype+','+parseInt(incomeannual[i].className).toString();
+                incomevalue=incomevalue+','+incomeannual[i].value.replace(/,/g, "");
+            }
+        }
+        var expensetype='',expensevalue='';
+        for(i=0;i<expenseannual.length;i++){
+            if(expensetype==''){
+                expensetype=parseInt(expenseannual[i].className).toString();
+                expensevalue=expenseannual[i].value.replace(/,/g, "");
+            }
+            else{
+                expensetype=expensetype+','+parseInt(expenseannual[i].className).toString();
+                expensevalue=expensevalue+','+expenseannual[i].value.replace(/,/g, "");
+            }
+        }
+        $.post("/usersurvey/p1s3_cash_flow_statement_year_save",{username:'<%= session[:webusername] %>',income_type:incometype,income_value:incomevalue,expense_type:expensetype,expense_value:expensevalue},function(data){
+            location.href=e;
+        });
+    }
+</script>

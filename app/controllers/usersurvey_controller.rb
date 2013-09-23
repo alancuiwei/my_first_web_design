@@ -31,6 +31,152 @@ class UsersurveyController < ApplicationController
     end
   end
 
+  def p1s2_cash_flow_statement_month
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @incometype=Admin_income_type_month.all
+      @expensetype=Admin_expense_type_month.order("expense_id ASC").all
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
+      @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+    end
+  end
+
+  def p1s2_cash_flow_statement_month_save_simple
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      if @userdatamonth==nil
+        Userdata_month.new do |e|
+          e.username=params[:username]
+          e.salary_month=params[:income]
+          e.extra_income_month=0
+          e.must_expense_month=params[:mustexpense]
+          e.fun_expense_month=params[:income]-params[:mustexpense]-params[:investexpense]
+          e.invest_expense_month=params[:investexpense]
+          e.save
+        end
+      else
+        @userdatamonth.update_attributes(:salary_month=>params[:income],:extra_income_month=>0,:must_expense_month=>params[:mustexpense],:fun_expense_month=>params[:income].to_i-params[:mustexpense].to_i-params[:investexpense].to_i,:invest_expense_month=>params[:investexpense])
+      end
+      render :json => "s1".to_json
+  end
+
+    def p1s2_cash_flow_statement_month_save_complex
+      if params[:income_typeid]!=nil
+        @incometypeid=params[:income_typeid].split(",")
+        @incomevalue=params[:income_value].split(",")
+
+        for i in 0..@incometypeid.size-1
+          @incomemonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],@incometypeid[i])
+          if @incomemonth==nil
+            Userdata_detailedincome_month.new do |e|
+              e.username=params[:username]
+              e.income_typeid=@incometypeid[i]
+              e.income_value=@incomevalue[i]
+              e.save
+            end
+          else
+            @incomemonth.update_attributes(:income_value=>@incomevalue[i])
+          end
+        end
+        income=@incomevalue[0].to_i+@incomevalue[1].to_i
+        extra=@incomevalue[2].to_i
+
+      end
+      if params[:expense_typeid]!=nil
+        @expensetypeid=params[:expense_typeid].split(",")
+        @expensevalue=params[:expense_value].split(",")
+        must_expense=0
+        fun_expense=0
+        for i in 0..@expensetypeid.size-1
+          @expensemonth=Userdata_detailedexpense_month.find_by_username_and_expense_typeid(session[:webusername],@expensetypeid[i])
+          if @expensemonth==nil
+            Userdata_detailedexpense_month.new do |e|
+              e.username=params[:username]
+              e.expense_typeid=@expensetypeid[i]
+              e.expense_value=@expensevalue[i]
+              e.save
+            end
+          else
+            @expensemonth.update_attributes(:expense_value=>@expensevalue[i])
+          end
+          @expensetype=Admin_expense_type_month.find_by_expense_id(@expensetypeid[i].to_i)
+          if @expensetype.expense_type=='must_expense'
+            must_expense=must_expense+@expensevalue[i].to_i
+          else
+            fun_expense=fun_expense+@expensevalue[i].to_i
+          end
+        end
+      end
+      @userdatamonth=Userdata_month.find_by_username(params[:username])
+      if @userdatamonth==nil
+        Userdata_month.new do |e|
+          e.username=params[:username]
+          e.salary_month=income
+          e.extra_income_month=extra
+          e.must_expense_month=must_expense
+          e.fun_expense_month=fun_expense
+          e.invest_expense_month=income+extra-must_expense-fun_expense
+          e.save
+        end
+      else
+        @userdatamonth.update_attributes(:salary_month=>income,:extra_income_month=>extra,:must_expense_month=>must_expense,:fun_expense_month=>fun_expense,:invest_expense_month=>income+extra-must_expense-fun_expense)
+      end
+      render :json => "s2".to_json
+  end
+
+  def p1s3_cash_flow_statement_year
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @incometypeannual=Admin_income_type_annual.all
+      @expensetypeannual=Admin_expense_type_annual.all
+      @incomeannual=Userdata_detailedincome_annual.find_all_by_username(session[:webusername])
+      @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+    end
+  end
+
+  def p1s3_cash_flow_statement_year_save
+    if params[:income_type]!=nil
+      @incometype=params[:income_type].split(",")
+      @incomevalue=params[:income_value].split(",")
+      for i in 0..@incometype.size-1
+        @incomeannual=Userdata_detailedincome_annual.find_by_username_and_income_type(params[:username],@incometype[i])
+        if @incomeannual==nil
+          Userdata_detailedincome_annual.new do |e|
+            e.username=params[:username]
+            e.income_type=@incometype[i]
+            e.income_value=@incomevalue[i]
+            e.save
+          end
+        else
+          @incomeannual.update_attributes(:income_value=>@incomevalue[i])
+        end
+      end
+    end
+
+    if params[:expense_type]!=nil
+      @expensetype=params[:expense_type].split(",")
+      @expensevalue=params[:expense_value].split(",")
+      for i in 0..@expensetype.size-1
+        @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(params[:username],@expensetype[i])
+        if @expenseannual==nil
+        Userdata_detailedexpense_annual.new do |e|
+          e.username=params[:username]
+          e.expense_type=@expensetype[i]
+          e.expense_value=@expensevalue[i]
+          e.save
+        end
+        else
+          @expenseannual.update_attributes(:expense_value=>@expensevalue[i])
+        end
+      end
+    end
+    render :json => "s".to_json
+  end
+
   def detailedmonth
     if params[:income_typeid]!=nil
     @incometypeid=params[:income_typeid].split(",")

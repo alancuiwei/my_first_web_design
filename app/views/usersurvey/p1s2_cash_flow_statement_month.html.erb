@@ -1,0 +1,266 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<div class="welcomes start p1s2">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>现金流量表<span class="red">（月)</span>
+      <div id="q-numbers"><b class="q-num past">1</b><b class="q-num curr">2</b><b class="q-num">3</b><b class="q-num">4</b><b class="q-num">5</b></div>
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span1">
+          <span>2</span>
+        </div>
+        <div class="span11">
+          <div class="mleft">
+            <p class="q-text">月现金流量表是指一个月内，现金流入和流出情况的总结，对您的规划预算很有帮助。<br>
+              对于大多数来说，工资收入是最重要的现金流入，租金、食物支出、贷款则为现金流出。</p>
+            <form class="form-horizontal">
+              <div class="control-group">
+                <label class="q-text control-label">税前月收入</label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input id="income" name="cash" type="text" onkeyup="next(1,this)">
+                  </div>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">每月衣食住行</label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input id="mustexpense" name="cash" type="text" onkeyup="next(1,this)">
+                  </div>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="q-text control-label">每月至少储蓄</label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input id="investexpense" name="cash" type="text" onkeyup="next(1,this)">
+                  </div>
+                </div>
+              </div>
+              <a class="fill" href="#myModal_cash" role="button" data-toggle="modal">怎么办，怎么填？</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="q-buttons" class="">
+      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
+      <button class="q-button orange-button big-button" id="q-next" disabled>&nbsp;下一题 &nbsp;►</button>
+    </div>
+  </div>
+</div>
+
+<div id="myModal_cash" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>月收入支出明细</h3>
+  </div>
+  <div class="modal-body">
+    <table id="incomemonth" class="table table-striped table-bordered">
+      <thead>
+      <tr><th>收入明细</th><th>说明</th><th>金额</th></tr>
+      </thead>
+      <% for i in 0..@incometype.size-1 %>
+          <tr>
+            <td><%= @incometype[i].income_name %></td>
+            <td><%= @incometype[i].income_intro %></td>
+            <td>
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input type="text" name="incomemonth" id="income<%= @incometype[i].income_id %>" onkeyup="next(1,this)" class="<%= @incometype[i].income_id %>">
+              </div>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+    <table id="expensemonth" class="table table-striped table-bordered">
+      <thead>
+      <tr><th>支出明细</th><th>说明</th><th>金额</th><th class="update hide">建议金额</th></tr>
+      </thead>
+      <% for i in 0..@expensetype.size-1 %>
+          <tr>
+            <td><%= @expensetype[i].expense_name %></td>
+            <td><%= @expensetype[i].expense_intro %></td>
+            <td>
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input type="text" name="expensemonth" id="expense<%= @expensetype[i].expense_id %>" onkeyup="next(1,this)" class="<%= @expensetype[i].expense_id %>">
+              </div>
+            </td>
+            <td class="update<%= i %> hide last"></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">确认</button>
+  </div>
+</div>
+
+<script>
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+    var fill=0;
+    $(document).ready(function(){
+        <% if session[:webusername]!=nil %>
+
+          <% if @userdatamonth!=nil %>
+          var income=0;
+            <% if @userdatamonth.salary_month!=nil %>
+              income=parseInt('<%= @userdatamonth.salary_month %>');
+            <% end %>
+            <% if @userdatamonth.extra_income_month!=nil %>
+              income=income+parseInt('<%= @userdatamonth.extra_income_month %>');
+            <% end %>
+          $("#income").attr("value",income);
+          <% if @userdatamonth.must_expense_month!=nil %>
+            $("#mustexpense").attr("value",'<%= @userdatamonth.must_expense_month %>');
+          <% end %>
+          <% if @userdatamonth.invest_expense_month!=nil %>
+            $("#investexpense").attr("value",'<%= @userdatamonth.invest_expense_month %>');
+          <% end %>
+        <% end %>
+
+        <% for i in 0..@incomemonth.size-1 %>
+           $("#income<%= @incomemonth[i].income_typeid %>").attr("value",'<%= @incomemonth[i].income_value %>');
+        <% end %>
+
+        <% for i in 0..@expensemonth.size-1 %>
+           $("#expense<%= @expensemonth[i].expense_typeid %>").attr("value",'<%= @expensemonth[i].expense_value %>');
+        <% end %>
+        <% if @incomemonth.size>0 && @expensemonth.size>0 %>
+        document.getElementById("income").disabled=true;
+        document.getElementById("mustexpense").disabled=true;
+        document.getElementById("investexpense").disabled=true;
+        fill=1;
+        <% end %>
+        next(0,0);
+        <% end %>
+    });
+
+    function next(a,e){
+        if(a==1){
+            if(numfor.test(e.value)==false){
+                $("#"+e.id).addClass('invalid');
+            }
+            else{
+                $("#"+e.id).removeClass('invalid');
+            }
+          }
+        var simple=1, complex=1;
+        var cashflag=document.getElementsByName('cash');
+            for(i=0;i<cashflag.length;i++){
+                if(numfor.test(cashflag[i].value)==false){
+                simple=0;
+                break;
+                }
+            }
+        var incomemonth=document.getElementsByName('incomemonth');
+        var expensemonth=document.getElementsByName('expensemonth');
+        for(i=0;i<incomemonth.length;i++){
+            if(numfor.test(incomemonth[i].value)==false){
+                complex=0;
+                break;
+            }
+        }
+        for(i=0;i<expensemonth.length;i++){
+            if(numfor.test(expensemonth[i].value)==false){
+                complex=0;
+                break;
+            }
+        }
+
+        if(simple==1 || complex==1){
+            document.getElementById("q-next").disabled=false;
+        }
+        else{
+            document.getElementById("q-next").disabled=true;
+        }
+    }
+
+    $("#q-numbers").delegate(".q-num.past", "click", function() {
+            if($(this).html()=='1'){
+                save("/usersurvey/p1s1_user_basic_info");
+            }
+    });
+
+    $("#q-back").click(function(){
+            location.href="/usersurvey/p1s1_user_basic_info";
+    });
+
+    $("#q-next").click(function(){
+         save("/usersurvey/p1s3_cash_flow_statement_year");
+    });
+
+    $('#confirm').click(function() {    //精确输入
+        var incomemonth=document.getElementsByName('incomemonth');
+        var expensemonth=document.getElementsByName('expensemonth');
+        for(i=0;i<incomemonth.length;i++){
+            if(numfor.test(incomemonth[i].value)==false){
+                $("#"+incomemonth[i].id).addClass('invalid');
+                return false;
+            }
+            else{
+                $("#"+incomemonth[i].id).removeClass('invalid');
+            }
+        }
+        for(i=0;i<expensemonth.length;i++){
+            if(numfor.test(expensemonth[i].value)==false){
+                $("#"+expensemonth[i].id).addClass('invalid');
+                return false;
+            }
+            else{
+                $("#"+expensemonth[i].id).removeClass('invalid');
+            }
+        }
+        fill=1;
+        save("/usersurvey/p1s3_cash_flow_statement_year");
+    });
+
+    function save(e){
+        var income=$("#income").attr("value");
+        var mustexpense=$("#mustexpense").attr("value");
+        var investexpense=$("#investexpense").attr("value");
+
+        var incomemonth=document.getElementsByName('incomemonth');
+        var expensemonth=document.getElementsByName('expensemonth');
+        var incometypeid='',incomevalue='';
+        for(i=0;i<incomemonth.length;i++){
+            if(incometypeid==''){
+                incometypeid=parseInt(incomemonth[i].className).toString();
+                incomevalue=incomemonth[i].value.replace(/,/g, "");
+            }
+            else{
+                incometypeid=incometypeid+','+parseInt(incomemonth[i].className).toString();
+                incomevalue=incomevalue+','+incomemonth[i].value.replace(/,/g, "");
+            }
+        }
+        var expensetypeid='',expensevalue='';
+        for(i=0;i<expensemonth.length;i++){
+            if(expensetypeid==''){
+                expensetypeid=parseInt(expensemonth[i].className).toString();
+                expensevalue=expensemonth[i].value.replace(/,/g, "");
+            }
+            else{
+                expensetypeid=expensetypeid+','+parseInt(expensemonth[i].className).toString();
+                expensevalue=expensevalue+','+expensemonth[i].value.replace(/,/g, "");
+            }
+        }
+        if(fill==0){
+            $.post("/usersurvey/p1s2_cash_flow_statement_month_save_simple",{username:'<%= session[:webusername] %>',income:income,mustexpense:mustexpense,investexpense:investexpense},function(data){
+                location.href=e;
+            });
+        }
+        else{
+            $.post("/usersurvey/p1s2_cash_flow_statement_month_save_complex",{username:'<%= session[:webusername] %>',income_typeid:incometypeid,income_value:incomevalue,expense_typeid:expensetypeid,expense_value:expensevalue},function(data){
+                location.href=e;
+            });
+        }
+    }
+</script>

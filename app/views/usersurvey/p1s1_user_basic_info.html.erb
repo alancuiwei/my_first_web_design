@@ -40,15 +40,15 @@
               <div class="control-group">
                 <label class="q-text control-label">子女</label>
                 <div class="controls">
-                  <select id="kids"><option value="0">没有孩子</option><option value="1">有孩子</option></select>
+                  <select id="kids" onChange = "next()"><option value="0">没有孩子</option><option value="1">有孩子</option></select>
                   <span><a href="#myModal_kids" role="button" data-toggle="modal">(?)</a></span>
                 </div>
               </div>
-              <div class="control-group">
+              <div class="control-group kidage hide">
                 <label class="q-text control-label">子女年龄</label>
                 <div class="controls">
                   <div class="input-append">
-                    <input id="kidage" type="text">
+                    <input id="kidage" onkeyup="next()" type="text">
                     <span class="add-on">岁</span>
                   </div>
                   <span><a href="#myModal_kids" role="button" data-toggle="modal">(?)</a></span>
@@ -135,13 +135,10 @@
 
 <script>
     $(document).ready(function(){
-        var next=1;
         <% if session[:webusername]!=nil %>
 
             <% if @webuser.age!=nil %>
                 $("#age").attr("value",<%= @webuser.age %>);
-            <% else %>
-                next=0;
             <% end %>
 
             <% if @webuser.sex!=nil %>
@@ -160,19 +157,29 @@
                     $("#kids").attr("value",0);
                 <% end %>
             <% end %>
+            next();
         <% end %>
-        if(next==0){
-            document.getElementById("q-next").disabled=true;
-            }
-        else{
-            document.getElementById("q-next").disabled=false;
-            }
         });
 
         function next(){
+        var age=0,kidage=0;
             if($("#age").attr("value")!=""){
-                document.getElementById("q-next").disabled=false;
+            age=1;
             }
+            if($("#kids").attr("value")=="1"){
+                $(".kidage").show();
+                if($("#kidage").attr("value")!=""){
+                kidage=1;
+                }
+                }
+                else{
+            kidage=1;
+                $(".kidage").hide();
+                }
+
+        if(age==1 && kidage==1){
+                document.getElementById("q-next").disabled=false;
+                }
             else{
                 document.getElementById("q-next").disabled=true;
             }
@@ -187,7 +194,7 @@
                 kids_input_value=$("#kidage").attr("value")
         }
         $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:age_input_value,sex:sex_input_value,married:married_input_value,kids:kids_input_value},function(data){
-                location.herf="";
+            location.href="/usersurvey/p1s2_cash_flow_statement_month";
             });
         });
 </script>
