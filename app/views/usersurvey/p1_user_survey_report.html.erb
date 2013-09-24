@@ -1,0 +1,204 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "jquery.easy-pie-chart.js" %>
+<%= javascript_include_tag "html2canvas.js" %>
+
+<div class="welcomes start p1s4">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>家庭财务争端报告
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>诊断简报：<% @moonlite.each do |m| %><% if m.typeid==@webuser.moonlite_typeid.to_i %><%= m.typename %><% end %><% end %></h2>
+          <div class="mleft">
+            <p class="q-text"><% @moonlite.each do |m| %><% if m.typeid==@webuser.moonlite_typeid.to_i %><%=raw m.type_intro %><% end %><% end %></p>
+          </div>
+        </div>
+        <div class="span4 offset1">
+          <div id="percent" style="width: 300px;text-align: center;">
+            <div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
+            <br>
+            <blockquote><small class="intro">
+              <% @moonlite.each do |m| %>
+                  <% if m.typeid==@webuser.moonlite_typeid.to_i  %>
+                      您属于<%= m.typename %>，您当前家庭资产体检得分约等于<%= @webuser.asset_score %>分。
+                  <% end %>
+              <% end %>
+            </small></blockquote>
+            <a class="introduce" href="#myModal" role="button" data-toggle="modal">分数如何计算得到的？</a>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>家庭财务诊断报告：</h2>
+          <div class="mleft">
+            <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
+            <h1 class="h1"><span>1</span>家庭资产负债表：</h1>
+            <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
+            <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的进资产增长，这说明您的经济状况一直在改善。</p>
+            <table id="asset" class="table table-striped table-bordered">
+              <thead>
+              <tr><th class="grey">资产项目</th><th>金额(元)</th><th class="grey">负债项目</th><th>金额(元)</th></tr>
+              </thead>
+              <tbody>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <% for k in 0..@assettype1.size-1 %>
+                  <tr class="asset line1<%= k %>"><td class="grey"><%= @assettype1[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+              <% end %>
+              <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <% for k in 0..@assettype2.size-1 %>
+                  <tr class="asset line2<%= k %>"><td class="grey"><%= @assettype2[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+              <% end %>
+              <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <% for k in 0..@assettype3.size-1 %>
+                  <tr class="asset line3<%= k %>"><td class="grey"><%= @assettype3[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+              <% end %>
+              <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <% for k in 0..@assettype4.size-1 %>
+                  <tr class="asset line4<%= k %>"><td class="grey"><%= @assettype4[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+              <% end %>
+              <tr class="sum4"><td class="grey right strong">固定资产</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <tr class="red"><td class="grey right">总资产</td><td class="total0 right"></td><td class="grey right">总负债</td><td class="total1 right"></td></tr>
+              <tr class="red"><td class="grey strong right">家庭资产净值</td><td class="total2 right strong"></td><td class="grey"></td><td></td></tr>
+              </tbody>
+            </table>
+            <h1 class="h1"><span>2</span>家庭现金流量表：</h1>
+            <p class="q-text">现金流量表，又称家庭收入和支出表，是对某段时间，例如一个月或一年，现金流入和流出情况的总结。这个报表对于您做家庭财政规划非常有帮助。
+              通俗的概括，这张表将告诉您，您的钱到什么地方去了？</p>
+          </div>
+        </div>
+        <div class="span4 offset1">
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span7">
+          <div class="mleft">
+            <p class="q-text">月收入开销表</p>
+            <table id="detailed" class="table table-striped table-bordered footable">
+              <thead>
+              <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
+                <th data-sort-ignore="true">金额(元)</th>
+                <th data-hide="phone" class="grey">家庭支出项目</th>
+                <th data-hide="phone">金额(元)</th></tr>
+              <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
+              </thead>
+              <tr><td class="grey">工资</td><td></td><td class="grey"><%= @expensetype[0].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">额外收入</td><td></td><td class="grey"><%= @expensetype[1].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[5].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">生活必要支出</td><td class="right"></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[2].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[3].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[4].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[6].expense_name %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">消费性支出</td><td class="right"></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[0].debt_typename %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[1].debt_typename %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[2].debt_typename %></td> <td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">贷款支出</td><td class="right"></td></tr>
+              <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
+              <tr class="red"><td class="grey right">月总收入</td><td class="right"></td><td class="grey right">月总支出</td><td class="right"></td></tr>
+              <tr class="red"><td class="grey right strong">家庭月度结余</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="span4 offset1">
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span7">
+          <div class="mleft">
+            <p class="q-text">年收入开销表</p>
+            <table id="detailannual" class="table table-striped table-bordered footable">
+              <thead>
+              <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
+                <th data-sort-ignore="true">金额(元)</th>
+                <th data-hide="phone" class="grey">家庭支出项目</th>
+                <th data-hide="phone">金额(元)</th></tr>
+              <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
+              </thead>
+              <tr><td class="grey">工资</td><td></td><td class="grey">生活必要支出</td><td></td></tr>
+              <tr><td class="grey">额外收入</td><td></td><td class="grey">消费性支出</td><td></td></tr>
+              <tr><td class="grey">年终奖</td><td></td><td class="grey">贷款支出</td><td></td></tr>
+              <tr><td class="grey">其他年终收入</td><td></td><td class="grey"><%= @expenseannual[0].expense_name %></td><td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[1].expense_name %></td><td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[2].expense_name %></td><td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[3].expense_name %></td><td></td></tr>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
+              <tr class="red"><td class="grey right">年度收入</td><td class="right"></td><td class="grey right">年度支出</td><td  class="right"></td></tr>
+              <tr class="red"><td class="grey strong right">年结余金额</td><td class="strong right"></td><td class="grey"></td><td></td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="span4 offset1">
+
+        </div>
+      </div>
+    </div>
+    <div id="q-buttons" class="">
+      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
+      <button class="q-button orange-button big-button" id="q-next">&nbsp;理想目标选择&nbsp;</button>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>分数如何计算得到的？</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=raw @blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        <% if session[:webusername]!=nil %>
+        initPieChart();
+        animate(0,<%= @webuser.asset_score %>);
+        <% end %>
+    });
+   /*
+    html2canvas(document.body, {
+        onrendered: function(canvas) {
+            document.body.appendChild(canvas);
+        }
+    });
+   */
+</script>
+
+<script type="text/javascript">
+    var initPieChart = function() {
+        $('.percentage').easyPieChart({
+            animate: 1000
+        });
+    };
+    function animate(i,a){
+        if(i<a){
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(i);
+                $('span', this).text(i);
+            });
+            setTimeout("animate("+(i+1).toString()+','+a+")",50);
+        }
+        else{
+            $('.percentage').each(function() {
+                $(this).data('easyPieChart').update(a);
+                $('span', this).text(a);
+            });
+        }
+    }
+</script>

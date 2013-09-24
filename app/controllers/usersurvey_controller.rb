@@ -177,6 +177,206 @@ class UsersurveyController < ApplicationController
     render :json => "s".to_json
   end
 
+  def p1s4_asset_table
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @assettype=Admin_asset_type.all
+      @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+    end
+  end
+
+  def p1s4_asset_table_save
+    @userassetsheet=User_asset_sheet.destroy_all(:username => params[:username])
+
+    if params[:asset_typeid]!=nil
+      @typeid=params[:asset_typeid].split(",")
+      @assetvalue=params[:asset_value].split(",")
+      for i in 0..@typeid.size-1
+        User_asset_sheet.new do |e|
+          e.username=params[:username]
+          e.asset_typeid=@typeid[i]
+          e.asset_value=@assetvalue[i]
+          e.save
+        end
+      end
+    end
+    render :json => "s".to_json
+  end
+
+  def p1s5_debt_table
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @debttype=Admin_debt_type.all
+      @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+    end
+  end
+
+  def p1s5_debt_table_save
+    @userdebtsheet=User_debt_sheet.destroy_all(:username => params[:username])
+    debt_month=0
+    debt_account=0
+    if params[:debt_typeid]!=nil
+      @debtid=params[:debt_typeid].split(",")
+      @debtvalue=params[:debt_value].split(",")
+      @debtvaluemonth=params[:debt_value_monthly].split(",")
+      @debtyear=params[:debt_years].split(",")
+      for i in 0..@debtid.size-1
+        User_debt_sheet.new do |e|
+          e.username=params[:username]
+          e.debt_typeid=@debtid[i]
+          e.debt_value=@debtvalue[i]
+          e.debt_value_monthly=@debtvaluemonth[i]
+          e.debt_years=@debtyear[i]
+          e.save
+        end
+        debt_account=debt_account+@debtvalue[i].to_i
+        debt_month=debt_month+@debtvaluemonth[i].to_i
+      end
+    end
+
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    net_month=@userdatamonth.salary_month+@userdatamonth.extra_income_month-@userdatamonth.must_expense_month-@userdatamonth.fun_expense_month-debt_month
+    @userdatamonth.update_attributes(:debt_month=>debt_month,:net_month=>net_month)
+
+    @userdataannual=Userdata_annual.find_by_username(session[:webusername])
+    salary_annual=@userdatamonth.salary_month*12
+    bonus_annual=0;
+    other_income_annual=@userdatamonth.extra_income_month*12;
+    @incomeannual=Userdata_detailedincome_annual.find_all_by_username(params[:username])
+    for i in 0..@incomeannual.size-1
+      if @incomeannual[i].income_type==2001 || @incomeannual[i].income_type==2002
+        bonus_annual=bonus_annual+@incomeannual[i].income_value
+      elsif @incomeannual[i].income_type==2099
+        other_income_annual=other_income_annual+@incomeannual[i].income_value
+      end
+    end
+    must_expense_annual=@userdatamonth.must_expense_month*12
+    fun_expense_annual=@userdatamonth.fun_expense_month*12;
+    debt_annual=@userdatamonth.debt_month*12;
+    income_annual=bonus_annual+other_income_annual;
+    @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(params[:username])
+    expense_annual=0;
+    for i in 0..@expenseannual.size-1
+      expense_annual=expense_annual+@expenseannual[i].expense_value
+    end
+    net_annual=salary_annual+income_annual-must_expense_annual-fun_expense_annual-debt_annual-expense_annual
+    if @userdataannual==nil
+      Userdata_annual.new do |e|
+        e.username=params[:username]
+        e.salary_annual=salary_annual
+        e.bonus_annual=bonus_annual
+        e.other_income_annual=other_income_annual
+        e.must_expense_annual=must_expense_annual
+        e.fun_expense_annual=fun_expense_annual
+        e.debt_annual=debt_annual
+        e.income_annual=income_annual
+        e.expense_annual=expense_annual
+        e.net_annual=net_annual
+        e.save
+      end
+    else
+      @userdataannual.update_attributes(:salary_annual=>salary_annual,:bonus_annual=>bonus_annual,:other_income_annual=>other_income_annual,:must_expense_annual=>must_expense_annual,
+                                        :fun_expense_annual=>fun_expense_annual,:debt_annual=>debt_annual,:income_annual=>income_annual,:expense_annual=>expense_annual,:net_annual=>net_annual)
+    end
+
+    @userbalancesheet=User_balance_sheet.find_by_username(params[:username])
+    asset_account=0;
+    asset_fluid_account=0;
+    asset_safefy_account=0;
+    asset_risky_account=0;
+    @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+    for i in 0..@userassetsheet.size-1
+      asset_account=asset_account+@userassetsheet[i].asset_value
+      @assettype=Admin_asset_type.find_by_asset_typeid(@userassetsheet[i].asset_typeid)
+      if @assettype!=nil
+        if @assettype.asset_type_L1==100
+          asset_fluid_account=asset_fluid_account+@userassetsheet[i].asset_value
+        elsif @assettype.asset_type_L1==200
+          asset_safefy_account=asset_safefy_account+@userassetsheet[i].asset_value
+        elsif @assettype.asset_type_L1==300
+          asset_risky_account=asset_risky_account+@userassetsheet[i].asset_value
+        end
+      end
+    end
+    net_account=asset_account-debt_account
+
+    if @userbalancesheet==nil
+      User_balance_sheet.new do |e|
+        e.username=params[:username]
+        e.asset_account=asset_account
+        e.debt_account=debt_account
+        e.net_account=net_account
+        e.asset_fluid_account=asset_fluid_account
+        e.asset_risky_account=asset_risky_account
+        e.asset_safefy_account=asset_safefy_account
+        e.save
+      end
+    else
+      a2=@userbalancesheet.debt_account
+      @userbalancesheet.update_attributes(:asset_account=>asset_account,:debt_account=>debt_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
+                                          :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
+    end
+
+    @webuser=Webuser.find_by_username(session[:webusername])
+    xianjin=asset_fluid_account
+    wenjian=asset_safefy_account
+    fengxian=asset_risky_account
+    jixu=asset_account
+    total=@userdatamonth.invest_expense_month*12+jixu
+    xian=@userdatamonth.must_expense_month*3
+    feng=(total*(80-@webuser.age)/100).to_i
+    wen=total-xian-feng
+    if jixu!=0 && total!=0
+      asset_score=(3-((xian.to_f/total-xianjin.to_f/jixu).abs+(wen.to_f/total-wenjian.to_f/jixu).abs+(feng.to_f/total-fengxian.to_f/jixu).abs))*100/3
+    else
+      asset_score=0;
+    end
+
+    if net_account<0 && net_month<0 && (net_account<-2000 || net_month<-200)
+      level=1
+    elsif net_account>=0 && net_month<0 && (net_account>=2000 || net_month<-200)
+      level=2
+    elsif net_account.abs<2000 && net_month.abs<200
+      level=3
+    elsif net_account<0 && net_month>=0 && (net_account<-2000 || net_month>=200)
+      level=4
+    elsif net_account>=0 && net_account<50000 && net_month>=5000
+      level=5
+    elsif net_account>=0 && net_month>=0 && net_account<50000 && net_month<5000 && (net_account>=2000 || net_month>=200)
+      level=6
+    elsif net_month>=0 && net_account>=50000 && net_month<5000
+      level=7
+    elsif net_account>=50000 && net_month>=5000
+      level=8
+    end
+    @webuser.update_attributes(:asset_score=>asset_score.round(1),:moonlite_typeid=>level)
+
+    @user_financial_indicators=User_financial_indicators.find_by_username(session[:webusername])
+
+    render :json => 's'.to_json
+  end
+
+  def p1_user_survey_report
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @moonlite=Admin_moonlite_type.all
+      @blog=Blog.find_by_id(401)
+      @assettype1=Admin_asset_type.find_all_by_asset_type_L1(100);
+      @assettype2=Admin_asset_type.find_all_by_asset_type_L1(200);
+      @assettype3=Admin_asset_type.find_all_by_asset_type_L1(300);
+      @assettype4=Admin_asset_type.find_all_by_asset_type_L1(400);
+      @expensetype=Admin_expense_type_month.order("expense_id ASC").all
+      @debttype=Admin_debt_type.all
+      @expenseannual=Admin_expense_type_annual.all
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+    end
+  end
+
   def detailedmonth
     if params[:income_typeid]!=nil
     @incometypeid=params[:income_typeid].split(",")
