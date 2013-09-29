@@ -58,5 +58,6 @@ Ver01::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
    match ':controller(/:action(/:id))(.:format)'
    resource :weixin
+   match '*a', :to => 'errors#handle'
 end
 

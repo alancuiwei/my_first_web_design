@@ -2,12 +2,17 @@
 <%= javascript_include_tag "bootstrap.min.js" %>
 <%= javascript_include_tag "excanvas.js" %>
 <%= javascript_include_tag "jquery.easy-pie-chart.js" %>
+<%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "html2canvas.js" %>
 
-<div class="welcomes start p1s4">
+<div id="image" class="welcomes start report">
   <%= render "side" %>
   <div id="page-content">
-    <h1>家庭财务争端报告
+    <h1 id="financialreport">家庭财务诊断报告
+      <!--
+      <a id="goal" class="btn btn-primary btn-large pull-right" href="/usersurvey/goal">下一步：理财目标</a>
+      <a id="download" class="pull-right" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
+      -->
     </h1>
     <div class="tablet">
       <div class="row-fluid">
@@ -16,12 +21,16 @@
           <div class="mleft">
             <p class="q-text"><% @moonlite.each do |m| %><% if m.typeid==@webuser.moonlite_typeid.to_i %><%=raw m.type_intro %><% end %><% end %></p>
           </div>
+          <h2>家庭财务诊断报告：</h2>
+          <div class="mleft">
+            <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
+          </div>
         </div>
         <div class="span4 offset1">
           <div id="percent" style="width: 300px;text-align: center;">
             <div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
             <br>
-            <blockquote><small class="intro">
+            <blockquote><small>
               <% @moonlite.each do |m| %>
                   <% if m.typeid==@webuser.moonlite_typeid.to_i  %>
                       您属于<%= m.typename %>，您当前家庭资产体检得分约等于<%= @webuser.asset_score %>分。
@@ -34,9 +43,7 @@
       </div>
       <div class="row-fluid">
         <div class="span7">
-          <h2>家庭财务诊断报告：</h2>
           <div class="mleft">
-            <p class="q-text">对家庭财务现状进行体检剖析是家庭理财规划的起点。如果没有健康的财务现状，则一切美好的未来都无从叹气，根据您的家庭财务输入，我们为您绘制了相应比例结构图，并做出了各项结构图的分析：</p>
             <h1 class="h1"><span>1</span>家庭资产负债表：</h1>
             <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
             <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的进资产增长，这说明您的经济状况一直在改善。</p>
@@ -47,24 +54,34 @@
               <tbody>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype1.size-1 %>
-                  <tr class="asset line1<%= k %>"><td class="grey"><%= @assettype1[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+                  <tr class="asset<%= @assettype1[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype1[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_fluid_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype2.size-1 %>
-                  <tr class="asset line2<%= k %>"><td class="grey"><%= @assettype2[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+                  <tr class="asset<%= @assettype2[k].asset_typeid %>" name="asset"><td class="grey"><% if @userbalancesheet!=nil %><%= @assettype2[k].asset_typename %><% end %></td><td>0</td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_safefy_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype3.size-1 %>
-                  <tr class="asset line3<%= k %>"><td class="grey"><%= @assettype3[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+                  <tr class="asset<%= @assettype3[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype3[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_risky_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype4.size-1 %>
-                  <tr class="asset line4<%= k %>"><td class="grey"><%= @assettype4[k].asset_typename %></td><td></td><td class="grey"></td><td></td></tr>
+                  <tr class="asset<%= @assettype4[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype4[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
               <% end %>
-              <tr class="sum4"><td class="grey right strong">固定资产</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="sum4">
+                <td class="grey right strong">固定资产</td>
+                <td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account-@userbalancesheet.asset_fluid_account-@userbalancesheet.asset_safefy_account-@userbalancesheet.asset_risky_account %><% end %></td>
+                <td class="grey"></td><td></td>
+              </tr>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr class="red"><td class="grey right">总资产</td><td class="total0 right"></td><td class="grey right">总负债</td><td class="total1 right"></td></tr>
-              <tr class="red"><td class="grey strong right">家庭资产净值</td><td class="total2 right strong"></td><td class="grey"></td><td></td></tr>
+              <tr class="red">
+                <td class="grey right">总资产</td>
+                <td class="total0 right"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account %><% end %></td>
+                <td class="grey right">总负债</td>
+                <td class="total1 right"><% if @userbalancesheet!=nil %><%= @userbalancesheet.debt_account %><% end %></td></tr>
+              <tr class="red"><td class="grey strong right">家庭资产净值</td>
+                <td class="total2 right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.net_account %><% end %></td><td class="grey"></td><td></td>
+              </tr>
               </tbody>
             </table>
             <h1 class="h1"><span>2</span>家庭现金流量表：</h1>
@@ -73,7 +90,13 @@
           </div>
         </div>
         <div class="span4 offset1">
-
+          <p class="q-text tips">资产分布图</p>
+          <div id="container3" style="width: 300px;height: 200px;"></div>
+          <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
+          <p class="q-text tips">资产负债对比</p>
+          <div id="container4" style="width: 300px;height: 200px;"></div>
+          <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
+          <a class="btn btn-success" href="/usersurvey/p1s4_asset_table"> 更新 资产负债表 数据 </a>
         </div>
       </div>
       <div class="row-fluid">
@@ -82,33 +105,100 @@
             <p class="q-text">月收入开销表</p>
             <table id="detailed" class="table table-striped table-bordered footable">
               <thead>
-              <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
-                <th data-sort-ignore="true">金额(元)</th>
-                <th data-hide="phone" class="grey">家庭支出项目</th>
-                <th data-hide="phone">金额(元)</th></tr>
-              <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
+              <tr><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th><th>理想状况(?)</th></tr>
               </thead>
-              <tr><td class="grey">工资</td><td></td><td class="grey"><%= @expensetype[0].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">额外收入</td><td></td><td class="grey"><%= @expensetype[1].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[5].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">生活必要支出</td><td class="right"></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[2].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[3].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[4].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetype[6].expense_name %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">消费性支出</td><td class="right"></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[0].debt_typename %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[1].debt_typename %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @debttype[2].debt_typename %></td> <td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">贷款支出</td><td class="right"></td></tr>
-              <tr><td class="grey">&nbsp;</td>      <td></td> <td class="grey"></td>             <td></td></tr>
-              <tr class="red"><td class="grey right">月总收入</td><td class="right"></td><td class="grey right">月总支出</td><td class="right"></td></tr>
-              <tr class="red"><td class="grey right strong">家庭月度结余</td><td class="right strong"></td><td class="grey"></td><td></td></tr>
+              <% @expensetype.each do |e| %>
+                   <% if e.expense_type=="must_expense" %>
+                  <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= e.expense_name %></td><td>
+                    <% if @expensemonth.size>0 %>
+                    <% for k in 0..@expensemonth.size-1 %>
+                        <% if @expensemonth[k].expense_typeid==e.expense_id %>
+                            <%= @expensemonth[k].expense_value %>
+                            <% break %>
+                        <% elsif k==@expensemonth.size-1 %>
+                        --
+                        <% end %>
+                    <% end %>
+                    <% else %>
+                        --
+                    <% end %>
+                  </td><td>
+                    <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*e.expense_expect/100).to_i %><% end %>
+                  </td></tr>
+                  <% end %>
+              <% end %>
+              <tr>
+                <td class="grey">&nbsp;</td><td></td><td class="grey right">生活必要支出</td>
+                <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %></td>
+                <td class="right">
+                  <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*@hash['must_expense'][0]/100).to_i %><% end %>
+                </td>
+              </tr>
+              <% @expensetype.each do |e| %>
+                  <% if e.expense_type=="fun_expense" %><tr>
+                      <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= e.expense_name %></td><td>
+                        <% if @expensemonth.size>0 %>
+                        <% for k in 0..@expensemonth.size-1 %>
+                            <% if @expensemonth[k].expense_typeid==e.expense_id %>
+                                <%= @expensemonth[k].expense_value %>
+                                <% break %>
+                            <% elsif k==@expensemonth.size-1 %>
+                                --
+                            <% end %>
+                        <% end %>
+                        <% else %>
+                            --
+                        <% end %>
+                      </td><td>
+                        <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*e.expense_expect/100).to_i %><% end %>
+                      </td></tr>
+                  <% end %>
+              <% end %>
+              <tr>
+                <td class="grey">&nbsp;</td><td></td><td class="grey right">消费性支出</td>
+                <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.fun_expense_month %><% end %></td>
+                <td class="right">
+                  <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*@hash['fun_expense'][0]/100).to_i %><% end %>
+                </td>
+              </tr>
+              <% @debttype.each do |d| %>
+                  <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= d.debt_typename %></td><td>
+                    <% for k in 0..@userdebtsheet.size-1 %>
+                        <% if @userdebtsheet[k].debt_typeid==d.debt_typeid %>
+                            <%= @userdebtsheet[k].debt_value_monthly %>
+                            <% break %>
+                        <% elsif k==@userdebtsheet.size-1 %>
+                           0
+                        <% end %>
+                    <% end %>
+                  </td><td></td></tr>
+              <% end %>
+              <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">贷款支出</td>
+                <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.debt_month %><% end %></td>
+                <td class="right">
+                  <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)/2).to_i %><% end %>
+                </td>
+              </tr>
+              <tr><td class="grey">&nbsp;</td><td></td> <td class="grey"></td><td></td><td></td></tr>
+              <tr class="red"><td class="grey right">月总收入</td>
+                <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.salary_month+@userdatamonth.extra_income_month %><% end %></td>
+                <td class="grey right">月总支出</td>
+                <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month+@userdatamonth.fun_expense_month+@userdatamonth.debt_month %><% end %></td>
+                <td class="right"></td>
+              </tr>
+              <tr class="red"><td class="grey right strong">家庭月度结余</td>
+                <td class="right strong"><% if @userdatamonth!=nil %><%= @userdatamonth.net_month %><% end %></td>
+                <td class="grey"></td><td></td><td></td>
+              </tr>
             </table>
           </div>
         </div>
         <div class="span4 offset1">
-
+          <p class="q-text tips">月收入开销图</p>
+          <div id="container" style="width: 300px;height: 200px;"></div>
+          <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
+          <blockquote><small class="intro"></small></blockquote>
+          <a class="btn btn-success" href="/usersurvey/p1s2_cash_flow_statement_month"> 更新 月收入开销 明细 </a>
         </div>
       </div>
       <div class="row-fluid">
@@ -117,33 +207,86 @@
             <p class="q-text">年收入开销表</p>
             <table id="detailannual" class="table table-striped table-bordered footable">
               <thead>
-              <tr class="mobile"><th data-sort-initial="descending" data-class="expand" class="grey">家庭收入项目</th>
-                <th data-sort-ignore="true">金额(元)</th>
-                <th data-hide="phone" class="grey">家庭支出项目</th>
-                <th data-hide="phone">金额(元)</th></tr>
-              <tr class="win"><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
+              <tr><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
               </thead>
-              <tr><td class="grey">工资</td><td></td><td class="grey">生活必要支出</td><td></td></tr>
-              <tr><td class="grey">额外收入</td><td></td><td class="grey">消费性支出</td><td></td></tr>
-              <tr><td class="grey">年终奖</td><td></td><td class="grey">贷款支出</td><td></td></tr>
-              <tr><td class="grey">其他年终收入</td><td></td><td class="grey"><%= @expenseannual[0].expense_name %></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[1].expense_name %></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[2].expense_name %></td><td></td></tr>
-              <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expenseannual[3].expense_name %></td><td></td></tr>
+              <tr><td class="grey">工资</td><td><%= @userdataannyal.salary_annual %></td><td class="grey">生活必要支出</td><td><%= @userdataannyal.must_expense_annual %></td></tr>
+              <tr><td class="grey">额外收入</td><td><%= @userdatamonth.extra_income_month*12 %></td><td class="grey">消费性支出</td><td><%= @userdataannyal.fun_expense_annual %></td></tr>
+              <tr><td class="grey">年终奖</td><td><%= @userdataannyal.bonus_annual %></td><td class="grey">贷款支出</td><td><%= @userdataannyal.debt_annual %></td></tr>
+              <% for k in 0..@expensetypeannual.size-1 %>
+                  <% if k==0 %>
+                      <tr><td class="grey">其他年终收入</td><td><%= @userdataannyal.other_income_annual-@userdatamonth.extra_income_month*12 %></td><td class="grey"><%= @expensetypeannual[k].expense_name %></td>
+                        <td>
+                          <% @expenseannual.each do |e| %>
+                             <% if e.expense_type==@expensetypeannual[k].expense_id %>
+                                  <%= e.expense_value %>
+                              <% end %>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <% else %>
+                      <tr><td class="grey">&nbsp;</td><td></td><td class="grey"><%= @expensetypeannual[k].expense_name %></td>
+                        <td>
+                          <% @expenseannual.each do |e| %>
+                              <% if e.expense_type==@expensetypeannual[k].expense_id %>
+                                  <%= e.expense_value %>
+                              <% end %>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <% end %>
+               <% end %>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
-              <tr class="red"><td class="grey right">年度收入</td><td class="right"></td><td class="grey right">年度支出</td><td  class="right"></td></tr>
-              <tr class="red"><td class="grey strong right">年结余金额</td><td class="strong right"></td><td class="grey"></td><td></td></tr>
+              <tr class="red"><td class="grey right">年度收入</td><td class="right">
+                <%= @userdataannyal.income_annual %>
+              </td><td class="grey right">年度支出</td><td  class="right">
+                <%= @userdataannyal.expense_annual %>
+              </td></tr>
+              <tr class="red"><td class="grey strong right">年结余金额</td><td class="strong right"><%= @userdataannyal.net_annual %></td><td class="grey"></td><td></td></tr>
             </table>
           </div>
         </div>
         <div class="span4 offset1">
-
+          <p class="q-text tips">年收入开销图</p>
+          <div id="container2" style="width: 300px;height: 200px;"></div>
+          <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
+          <a class="btn btn-success" href="/usersurvey/p1s3_cash_flow_statement_year"> 更新 年收入开销 数据 </a>
         </div>
+      </div>
+      <div class="mleft">
+        <h1 class="h1"><span>3</span>家庭财务指数：</h1>
+        <table id="indicators" class="table table-striped table-bordered footable">
+          <thead>
+          <tr><th>家庭财务比率</th><th>定义</th><th>反映情况</th><th>合理范围</th><th>实际比率</th></tr>
+          </thead>
+          <% @indicators.each do |i| %>
+              <tr>
+                <td class="detailed"><%= i.indicators_names %></td>
+                <td class="detailed"><%= i.indicators_defination %></td>
+                <td class="left"><%=raw i.indicators_intro %></td>
+                <% if i.indicators_recomn_max!=nil && i.indicators_recomn_min!=nil %>
+                    <td><%= i.indicators_recomn_min %>-<%= i.indicators_recomn_max %></td>
+                <% elsif i.indicators_recomn_max==nil && i.indicators_recomn_min!=nil %>
+                    <td>><%= i.indicators_recomn_min %></td>
+                <% elsif i.indicators_recomn_max!=nil && i.indicators_recomn_min==nil %>
+                    <td><<%= i.indicators_recomn_max %></td>
+                <% else %>
+                    <td></td>
+                <% end %>
+                <td>
+                  <% @financialindicators.each do |f| %>
+                      <% if i.indicators_id==f.indicatortypeid %>
+                        <%= f.indicators_value %>
+                      <% end %>
+                  <% end %>
+                </td>
+              </tr>
+          <% end %>
+        </table>
       </div>
     </div>
     <div id="q-buttons" class="">
-      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
-      <button class="q-button orange-button big-button" id="q-next">&nbsp;理想目标选择&nbsp;</button>
+        <a id="goal" class="btn btn-primary btn-large pull-right" href="/usersurvey/goal">下一步：理财目标</a>
+        <a id="download" class="pull-right" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
     </div>
   </div>
 </div>
@@ -164,20 +307,327 @@
   </div>
 </div>
 
+<div id="myModal_image" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>家庭财务分析报告 下载发送</h3>
+  </div>
+  <div class="modal-body">
+    <p>由于文件较大，为了不影响您下面的理财目标设定，我们将把您的家庭财务分析报告发送到您的注册邮箱。</p>
+    <input type="text" id="email" value="<%= @webuser.email %>">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">发送 并 理财目标设置</button>
+  </div>
+</div>
+
 <script>
     $(document).ready(function(){
         <% if session[:webusername]!=nil %>
+        var asset=document.getElementsByName("asset");
+        for(i=0;i<asset.length;i++){
+           <% @userassetsheet.each do |u| %>
+            if(asset[i].className=='asset<%= u.asset_typeid %>'){
+                $("."+asset[i].className+" td:eq(1)").html('<%= u.asset_value %>');
+            }
+           <% end %>
+        }
+        <% for i in 0..@debttype.size-1 %>
+        $("#asset tr:eq(<%= i+2 %>) td:eq(2)").html('<%= @debttype[i].debt_typename %>');
+        $("#asset tr:eq(<%= i+2 %>) td:eq(3)").html('0');
+        <% for k in 0..@userdebtsheet.size-1 %>
+        <% if @userdebtsheet[k].debt_typeid==@debttype[i].debt_typeid %>
+        $("#asset tr:eq(<%= i+2 %>) td:eq(3)").html('<%= @userdebtsheet[k].debt_value %>');
+        <% end %>
+        <% end %>
+        <% end %>
+        $("#detailed tr:eq(1) td:eq(0)").html("工资");
+        $("#detailed tr:eq(2) td:eq(0)").html("额外收入");
+        $("#detailed tr:eq(1) td:eq(1)").html("<%= @userdatamonth.salary_month %>");
+        $("#detailed tr:eq(2) td:eq(1)").html("<%= @userdatamonth.extra_income_month %>");
+
+        <% if @incomemonth.size>0 && @expensemonth.size>0 %>
+         var intro='';
+        <% for i in 0..@expensetype.size-1 %>
+        var amount=0;
+        var cause=<%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*@expensetype[i].expense_expect/100).to_i %>;
+        <% for k in 0..@expensemonth.size-1 %>
+          <% if @expensemonth[k].expense_typeid==@expensetype[i].expense_id %>
+             amount=<%= @expensemonth[k].expense_value %>;
+          <% end %>
+        <% end %>
+
+        if(amount>cause){
+        if(intro==""){
+            intro=intro+'<%= @expensetype[i].expense_name %>开销 略显偏高<br>'
+        }
+        else{
+            intro=intro+'<span style="padding-left: 15px;"><%= @expensetype[i].expense_name %>开销 略显偏高</span><br>'
+        }
+        }
+        <% end %>
+        $(".intro").html(intro);
+        <% else %>
+        $(".intro").html("因为月支出数据太少，可能会导致分析不够完整。请点击下面按钮进行完善。");
+        <% end %>
+        <% for i in 0..@indicators.size-1 %>
+        if(parseFloat('<%= @indicators[i].indicators_recomn_min %>')>parseFloat($("#indicators tr:eq(<%= i+1 %>) td:eq(4)").html()) || parseFloat('<%= @indicators[i].indicators_recomn_max %>')<parseFloat($("#indicators tr:eq(<%= i+1 %>) td:eq(4)").html())){
+            $("#indicators tr:eq(<%= i+1 %>) td:eq(4)").addClass("red");
+        }
+        <% end %>
         initPieChart();
         animate(0,<%= @webuser.asset_score %>);
         <% end %>
     });
-   /*
-    html2canvas(document.body, {
-        onrendered: function(canvas) {
-            document.body.appendChild(canvas);
+
+    var dataarray3=[];
+
+    <% for i in 0..@userassetsheet.size-1 %>
+    <% for k in 0..@assettype.size-1 %>
+    <% if @assettype[k].asset_typeid==@userassetsheet[i].asset_typeid.to_s %>
+    dataarray3.push(['<%= @assettype[k].asset_typename %>',parseInt('<%= @userassetsheet[i].asset_value %>')])
+    <% end %>
+    <% end %>
+    <% end %>
+
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container3',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: false
+        },
+        tooltip: {
+            pointFormat: '{point.y} '
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: false,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    distance: 10,
+                    connectorColor: '#000000',
+                    formatter:function(index) {
+                        if(this.point.percentage>0){
+                            var str=this.point.name,str1,aa='';
+                            for(var i=0,len=str.length/4;i<len;i++) {
+                                str1 = str.substr(0,4);
+                                str = str.replace(str1,'');
+                                if(i==0){aa=str1}
+                                else{aa=aa+"<br>"+str1}
+                            }
+                            return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                        }
+                    }
+                },
+                showInLegend: true,
+                size: 120,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            data: dataarray3
+        }],
+        legend: false,
+        credits: {
+            enabled: false
         }
     });
-   */
+
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container4',
+            type: 'column'
+        },
+        title: {
+            text: false
+        },
+        subtitle: {
+            text: false
+        },
+        xAxis: {
+            categories: ["总资产","总负债"]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '金额'
+            },
+            labels:{
+                formatter: function() {
+                    return this.value
+                }
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{point.y} '
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            data: [<%= @userbalancesheet.asset_account %>,<%= @userbalancesheet.debt_account %>]
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+
+    var dataarray=[];
+    var dataarray1=[];
+
+
+    <% if @incomemonth.size>0 && @expensemonth.size>0 %>
+    <% @expensemonth.each do |m| %>
+    <% @expensetype.each do |e| %>
+    <% if m.expense_typeid==e.expense_id %>
+    dataarray.push('<%= e.expense_name %>')
+    dataarray1.push(<%= m.expense_value %>)
+    <% end %>
+    <% end %>
+    <% end %>
+    <% else %>
+    dataarray.push('生活必要支出')
+    dataarray1.push(<%=@userdatamonth.must_expense_month %>)
+    dataarray.push('消费性支出')
+    dataarray1.push(<%= @userdatamonth.fun_expense_month %>)
+    <% end %>
+
+    <% for k in 0..@userdebtsheet.size-1 %>
+    <% for i in 0..@debttype.size-1 %>
+    <% if @userdebtsheet[k].debt_typeid==@debttype[i].debt_typeid %>
+    dataarray.push('<%= @debttype[i].debt_typename %>')
+    dataarray1.push(<%= @userdebtsheet[k].debt_value_monthly %>)
+    <% end %>
+    <% end %>
+    <% end %>
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: 'column'
+        },
+        title: {
+            text: false
+        },
+        subtitle: {
+            text: false
+        },
+        xAxis: {
+            categories: dataarray ,
+            labels: {
+                rotation: -45,
+                align: 'right',
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '金额'
+            },
+            labels:{
+                formatter: function() {
+                    return this.value
+                }
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{point.y} '
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            data: dataarray1
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+    var dataarray2=[
+        ['生活必要支出', <%= @userdataannyal.must_expense_annual %>],
+        ['消费性支出', <%= @userdataannyal.fun_expense_annual %>],
+        ['贷款支出', <%= @userdataannyal.debt_annual %>]
+    ];
+    <% @expenseannual.each do |e| %>
+    <% for k in 0..@expensetypeannual.size-1 %>
+            <% if e.expense_type==@expensetypeannual[k].expense_id %>
+    dataarray2.push(['<%= @expensetypeannual[k].expense_name %>',<%= e.expense_value %>])
+            <% end %>
+            <% end %>
+    <% end %>
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container2',
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: false
+        },
+        tooltip: {
+            pointFormat: '{point.y} '
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: false,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    distance: 10,
+                    connectorColor: '#000000',
+                    formatter:function(index) {
+                        if(this.point.percentage>0){
+                            var str=this.point.name,str1,aa='';
+                            for(var i=0,len=str.length/4;i<len;i++) {
+                                str1 = str.substr(0,4);
+                                str = str.replace(str1,'');
+                                if(i==0){aa=str1}
+                                else{aa=aa+"<br>"+str1}
+                            }
+                            return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                        }
+                    }
+                },
+                showInLegend: true,
+                size: 120,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Browser share',
+            data: dataarray2
+        }],
+        legend: false,
+        credits: {
+            enabled: false
+        }
+    });
 </script>
 
 <script type="text/javascript">
@@ -202,3 +652,118 @@
         }
     }
 </script>
+
+<script>
+  var number=0;
+   $("#download").click(function(){
+       $("[id*='container']").hide();
+       $(".convas_image").show();
+       html2canvas(document.getElementById("page-content"), {
+           onrendered: function(canvas) {
+             if(number==0){
+               document.body.appendChild(canvas);
+                 number=number+1;
+             }
+               $("[id*='container']").show();
+               $(".convas_image").hide();
+               var canvas = document.getElementsByTagName("canvas");
+               canvas[1].className="hide";
+               canvas[1].id='myCanvas';
+               var canvas=document.getElementById("myCanvas");
+               var type = 'png';
+               var imgData = canvas.toDataURL(type);
+               $.post("/usersurvey/save_image",{image:imgData},function(data){
+
+               });
+              /*
+               var _fixType = function(type) {
+                   type = type.toLowerCase().replace(/jpg/i, 'jpeg');
+                   var r = type.match(/png|jpeg|bmp|gif/)[0];
+                   return 'image/' + r;
+               };
+
+               //    imgData = imgData.replace(_fixType(type),'image/octet-stream');
+
+               var saveFile = function(data, filename){
+                   var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+                   save_link.href = data;
+                   save_link.download = filename;
+
+                   var event = document.createEvent('MouseEvents');
+                   event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                   save_link.dispatchEvent(event);
+               };
+               var filename = 'tongtianshun_' + (new Date()).getTime() + '.' + type;
+               saveFile(imgData,filename);
+               */
+           }
+       });
+
+   });
+   $("#confirm").click(function(){
+       if($("#email").attr("value")!=""){
+       $.post("/usersurvey/send_image",{username:'<%= session[:webusername] %>',email:$("#email").attr("value")},function(data){
+        //   location.href="/usersurvey/goal";
+       });
+       }
+       else{
+           alert("请输入邮箱！")
+       }
+   });
+</script>
+
+
+<!--
+<%= javascript_include_tag "canvas2image.js" %>
+
+<div class="doc">
+ <button id="save">保存</button> 或者 <button id="convert">显示</button>
+  <div id="imgs">
+  </div>
+</div>
+<script>
+    var canvas, ctx, bMouseIsDown = false,
+            $save, $imgs,
+            $convert, $imgW, $imgH,
+            $sel;
+    function init (e) {
+        html2canvas(document.getElementById("image"), {
+            onrendered: function(canvas) {
+                if(number==0){
+                    document.body.appendChild(canvas);
+                    number=number+1;
+                }
+                var canvas = document.getElementsByTagName("canvas");
+                canvas[1].className="hide";
+                canvas[1].id='myCanvas';
+                ahah(e);
+            }
+        });
+    }
+
+    $imgs = document.getElementById('imgs');
+    $imgW = '100%';
+    $imgH = '100%';
+    function ahah(e){
+        canvas=document.getElementById("myCanvas");
+        ctx = canvas.getContext('2d');
+
+        var type = 'png',
+                w = $imgW.value,
+                h = $imgH.value;
+        if (e==1){
+            $imgs.appendChild(Canvas2Image.convertToImage(canvas, w, h, type))
+        }
+        else{
+            Canvas2Image.saveAsImage(canvas, w, h, type);
+        }
+    }
+
+    $("#save").click(function (e) {
+        init(2);
+    })
+    $("#convert").click(function (e) {
+        init(1);
+    })
+</script>
+-->
