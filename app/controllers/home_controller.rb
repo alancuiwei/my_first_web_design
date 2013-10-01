@@ -8,10 +8,8 @@ class HomeController < ApplicationController
     @blog=Blog.find_by_id(461)
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
-      @examination=Examination.find_by_username(session[:webusername])
       @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
-      @assetaccount=@assetsheet.asset1_account+@assetsheet.asset2_account+@assetsheet.asset3_account+@assetsheet.asset4_account+@assetsheet.asset5_account+
-          @assetsheet.asset6_account+@assetsheet.asset7_account+@assetsheet.asset8_account+@assetsheet.asset9_account+@assetsheet.asset10_account
+      @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @risk=User_risktolerance_qa.find_all_by_username(session[:webusername])
     end

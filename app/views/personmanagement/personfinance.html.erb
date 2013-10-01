@@ -202,11 +202,11 @@
             <tbody>
             <% if @webuser.fluid_productid!=nil && @webuser.fluid_productid!="" %>
             <tr class="monthpay2">
-              <td class="name2"><% if @finance1!=nil %><%= @finance1.pname %><% end %></td>
+              <td class="name2"><% if @finance1!=nil %><%= @finance1.productname %><% end %></td>
               <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
               <td class="amounts2"></td>
               <td class="finish2"></td>
-              <td><% if @finance1!=nil %><a href="/bankinvest/productdetails/<%= @finance1.id %>" class="btn btn-primary">查看</a><% end %></td>
+              <td><% if @finance1!=nil %><a href="#" class="btn btn-primary">查看</a><% end %></td>
             </tr>
             <% end %>
             <% if @webuser.safe_productid!=nil && @webuser.safe_productid!="" %>
@@ -418,7 +418,7 @@
         <td>
           <select name="pname" id="pname">
             <% if @finance1!=nil %>
-               <option value="<%= @finance1.pname %>"><%= @finance1.pname %></option>
+               <option value="<%= @finance1.productname %>"><%= @finance1.productname %></option>
             <% end %>
             <% if @finance2!=nil %>
                <option value="<%= @finance2.pname %>"><%= @finance2.pname %></option>
@@ -449,7 +449,7 @@
     var xianjin=0,wenjian=0,fengxian= 0,jixu= 0,xian= 0,wen= 0,feng= 0,monthdeposit=0;
     var arrayObj = new Array();
     <% if @finance1 !=nil %>
-      a2="<%= @finance1.pname %>";
+      a2="<%= @finance1.productname %>";
     <% end %>
     <% if @finance2 !=nil %>
       a4="<%= @finance2.pname %>";
@@ -610,8 +610,8 @@
     var amounts1=0;
     var amounts0=0;
     <% if @userdatamonth!=nil %>
-    amounts1=parseFloat('<%= @userdatamonth.must_expense %>');
-    amounts0=parseFloat('<%= @userdatamonth.fun_expense %>');
+    amounts1=parseFloat('<%= @userdatamonth.must_expense_month %>');
+    amounts0=parseFloat('<%= @userdatamonth.fun_expense_month %>');
     <% end %>
 
     var dateNow = new Date();
@@ -639,7 +639,6 @@
         xianjin=0;
         wenjian=0;
         fengxian=0;
-    <% if @examination !=nil %>
     <% if @userbalancesheet!=nil %>
         xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
         wenjian=parseInt(<%= @userbalancesheet.asset_safefy_account %>)
@@ -647,22 +646,20 @@
             <% end %>
         jixu=xianjin+wenjian+fengxian;
     <% if @userdatamonth!=nil %>
-        monthdeposit=parseFloat('<%= @userdatamonth.invest_expense %>');
+        monthdeposit=parseFloat('<%= @userdatamonth.invest_expense_month %>');
         total=monthdeposit*12+jixu;//总资产
-        xian=parseFloat('<%= @userdatamonth.must_expense %>')*3;
+        xian=parseFloat('<%= @userdatamonth.must_expense_month %>')*3;
     <% end %>
-        feng=total*(80-parseFloat('<%= @examination.age %>'))/100;
+        feng=total*(80-parseFloat('<%= @webuser.age %>'))/100;
         wen=total-xian-feng;
         if(wen<1000){
             xian=xian+wen-1000;
             wen=1000;
         }
-    <% end %>
         var loca2=$("#dates").attr("value").split("-")[0]+'年';
         var loca4=parseInt($("#dates").attr("value").split("-")[1]).toString()+'月';
 
         if(yearNow+'年'==loca2 && monthNow+'月'==loca4){
-        <% if @examination !=nil %>
             //   var a=[xian,wen,feng,xianjin,wenjian,fengxian]
             //    alert(a)
             $(".amounts2").html('');
@@ -818,7 +815,6 @@
                     }
                 }
             }
-        <% end %>
         <% end %>
         if(a5==a2){
            $(".monthpay5").hide();
@@ -1474,7 +1470,7 @@
                                 if(numfor.test(a5)==false){a5=0}
                                 data.push(['吃喝住行',a1]);
                                 data.push(['零花钱',a0]);
-                                <% if @finance1 !=nil && @finance3 !=nil && @finance1.pname==@finance3.pname %>
+                                <% if @finance1 !=nil && @finance3 !=nil && @finance1.productname==@finance3.pname %>
                                     data.push([$(".name2").html(),a2+a5]);
                                     data.push([$(".name4").html(),a4]);
                                <% elsif @finance2 !=nil && @finance3 !=nil && @finance2.pname==@finance3.pname %>

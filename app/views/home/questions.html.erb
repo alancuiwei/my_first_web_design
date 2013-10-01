@@ -321,10 +321,15 @@
     <% if  session[:webusername]!=nil %>
     s_age='<%= @webuser.age %>';
     <% if @assetsheet!=nil %>
-    s_amount=parseInt('<%= @assetaccount %>');
+    s_amount=parseInt('<%= @userbalancesheet.asset_account %>');
     <% end %>
     <% if @userdatamonth!=nil %>
-    s_salary='<%= @userdatamonth.income %>';
+    <% if @userdatamonth.salary_month!=nil %>
+    s_salary=parseInt('<%= @userdatamonth.salary_month %>');
+    <% end %>
+    <% if @userdatamonth.extra_income_month!=nil %>
+    s_salary=s_salary+parseInt('<%= @userdatamonth.extra_income_month %>');
+    <% end %>
     <% end %>
     <% end %>
 

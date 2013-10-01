@@ -28,31 +28,13 @@ class PersonmanagementController < ApplicationController
     @blog5=Blog.find_by_id(111)
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
-      @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
+      @assetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
       @assettype=Admin_asset_type.all
       @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
       @hash4={}
       for i in 0..@assettype.size-1
-       case i
-          when 0
-            @hash4.store(0,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset1_account])
-          when 1
-            @hash4.store(1,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset2_account])
-          when 2
-            @hash4.store(2,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset3_account])
-          when 3
-            @hash4.store(3,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset4_account])
-          when 4
-            @hash4.store(4,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset5_account])
-          when 5
-            @hash4.store(5,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset6_account])
-          when 8
-            @hash4.store(6,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset9_account])
-          when 8
-            @hash4.store(6,[@assettype[i].asset_typename,@assettype[i].asset_type_L1,@assetsheet.asset10_account])
+        @hash4.store(@assettype[i].asset_typeid.to_i,[@assettype[i].asset_typename,@assettype[i].asset_type_L1])
        end
-      end
-      @examination=Examination.find_by_username(session[:webusername])
       @record=Record.find_all_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     else
@@ -191,8 +173,10 @@ class PersonmanagementController < ApplicationController
 
   def userajax
     @examination=Examination.find_by_username(params[:username])
+    if @examination!=nil
     @examination.update_attributes(:xianp=>params[:xianp],
                                    :wenp=>params[:wenp],:fengp=>params[:fengp])
+    end
     @webuser = Webuser.find_by_username(params[:username])
     if @webuser!=nil
       @webuser.update_attributes(:risk_productid=>params[:risk_productid],:fluid_productid=>params[:fluid_productid],:safe_productid=>params[:safe_productid])
@@ -258,6 +242,47 @@ class PersonmanagementController < ApplicationController
     if params[:tol1]!=nil && params[:tol1]!=''
       @examination.update_attributes(:tol1=>params[:tol1],:tol2=>params[:tol2]);
     end
+    else
+      Examination.new do |w|
+        w.username=params[:username]
+        w.month01=params[:month01]
+        w.month02=params[:month02]
+        w.month03=params[:month03]
+        w.month11=params[:month11]
+        w.month12=params[:month12]
+        w.month13=params[:month13]
+        w.month21=params[:month21]
+        w.month22=params[:month22]
+        w.month23=params[:month23]
+        w.month31=params[:month31]
+        w.month32=params[:month32]
+        w.month33=params[:month33]
+        w.month41=params[:month41]
+        w.month42=params[:month42]
+        w.month43=params[:month43]
+        w.month51=params[:month51]
+        w.month52=params[:month52]
+        w.month53=params[:month53]
+        w.month61=params[:month61]
+        w.month62=params[:month62]
+        w.month63=params[:month63]
+        w.month71=params[:month71]
+        w.month72=params[:month72]
+        w.month73=params[:month73]
+        w.month81=params[:month81]
+        w.month82=params[:month82]
+        w.month83=params[:month83]
+        w.month91=params[:month91]
+        w.month92=params[:month92]
+        w.month93=params[:month93]
+        w.month101=params[:month101]
+        w.month102=params[:month102]
+        w.month103=params[:month103]
+        w.month111=params[:month111]
+        w.month112=params[:month112]
+        w.month113=params[:month113]
+        w.save
+      end
     end
 
     render :json => "s1".to_json
@@ -276,9 +301,9 @@ class PersonmanagementController < ApplicationController
       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
       @record=Record.find_all_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-      @finance1=Financial.find_by_pname(@webuser.fluid_productid)
+      @finance1=Monetary_fund_product.find_by_productname(@webuser.fluid_productid)
         if @finance1!=nil
-          @category1=Admin_asset_type_l2.find_by_classify(@finance1.classify)
+          @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
         end
       @finance2=Financial.find_by_pname(@webuser.safe_productid)
       if @finance2!=nil
@@ -295,9 +320,9 @@ class PersonmanagementController < ApplicationController
         @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
         @record=Record.find_all_by_username(session[:webusername])
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-        @finance1=Financial.find_by_pname(@webuser.fluid_productid)
+        @finance1=Monetary_fund_product.find_by_productname(@webuser.fluid_productid)
         if @finance1!=nil
-          @category1=Admin_asset_type_l2.find_by_classify(@finance1.classify)
+          @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
         end
         @finance2=Financial.find_by_pname(@webuser.safe_productid)
         if @finance2!=nil

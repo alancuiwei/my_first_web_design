@@ -49,7 +49,7 @@
         <h1>
           <span id="title">应急基金准备</span>
           <div id="q-numbers" style="right: 205px;">
-            <b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><% if session[:webusername]!=nil && @webuser.moonlite_typeid!='1' &&  @webuser.moonlite_typeid!='2' %><b class="q-num"></b><% if @webuser.moonlite_typeid!='3' %><b class="q-num"></b><% end %><% end %>
+            <b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b>
           </div>
         </h1>
 
@@ -64,7 +64,7 @@
                     <p class="q-text">为您的家庭建设安全保护网，以防突发事件、以防失业是建立应急基金的重要原因，点击查看更详细的原因。</p>
                   <p style="display: table;width: 100%;"><a class="introduce pull-right" href="#myModal6" role="button" data-toggle="modal" tabindex="-1">我真的需要应急基金吗？</a></p>
                   <h2><span>2</span>金额：</h2>
-                  <p class="q-text">经典理财观念认为，我们应该在应急基金中储备相当于3-6个月家庭生活必要开支的资金金额，因为失业后找到一份新工作可能就需要这么长的时间。对于您而言，您每个月必要开销是<%= @userdatamonth.must_expense %>元，所以我们建议您的应急基金应储蓄<%= @userdatamonth.must_expense*3 %>元左右。</p>
+                  <p class="q-text">经典理财观念认为，我们应该在应急基金中储备相当于3-6个月家庭生活必要开支的资金金额，因为失业后找到一份新工作可能就需要这么长的时间。对于您而言，您每个月必要开销是<%= @userdatamonth.must_expense_month %>元，所以我们建议您的应急基金应储蓄<%= @userdatamonth.must_expense_month*3 %>元左右。</p>
                 </td>
                 <td style="width: 300px;"></td>
               </tr>
@@ -73,7 +73,7 @@
                   <h2><span>3</span>投资产品：</h2>
                   <p class="q-text">根据经验，应急基金应该由流动性很强的投资产品组成，在当前，最合适的就是货币基金。这是因为货币基金的赎回方式最迟也是隔天取现，另外就是它的投资风险相对来说是当前市面上非常非常低的。</p>
                   <h2><span>4</span>基金池资金分配：</h2>
-                    <p class="q-text">我们建议您将<%= @userdatamonth.must_expense %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<%= @userdatamonth.must_expense*2 %>元，用来购买货币基金。</p>
+                    <p class="q-text">我们建议您将<%= @userdatamonth.must_expense_month %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<%= @userdatamonth.must_expense_month*2 %>元，用来购买货币基金。</p>
                 </td>
                 <td>
                   <div id="container" class="win" style="width: 300px;height: 150px;"></div>
@@ -82,7 +82,7 @@
               <tr>
                 <td>
                   <h2><span>5</span>产品选择：</h2>
-                    <p class="q-text">下面的表格是市面上的货币基金信息，您可以根据您的个人情况，进行产品筛选，您将把<%= @userdatamonth.must_expense*2 %>元投入到您选择的货币基金产品中去。</p>
+                    <p class="q-text">下面的表格是市面上的货币基金信息，您可以根据您的个人情况，进行产品筛选，您将把<%= @userdatamonth.must_expense_month*2 %>元投入到您选择的货币基金产品中去。</p>
                 </td>
                 <td></td>
               </tr>
@@ -278,8 +278,7 @@
               </div>
               </div>
           </div>
-<% if session[:webusername]!=nil && @webuser.moonlite_typeid!='1' &&  @webuser.moonlite_typeid!='2' %>
-    <% if @webuser.moonlite_typeid!='3' %>
+
           <div class="question" style="padding-right: 0;height:376px;">
             <div  style="padding-right: 0;height:346px;overflow: auto;">
             <div class="win">
@@ -351,7 +350,6 @@
               </div>
             </div>
           </div>
-    <% end %>
             <div class="question" style="height: 630px;">
               <div style="padding-right: 0;height: 600px;overflow: auto;">
               <div class="mobile" style="height:30px;"></div>
@@ -649,7 +647,6 @@
               </div>
             </div>
             </div>
-<% end %>
 <div class="question" style="height: 436px;">
   <div style="padding-right: 0;height: 400px;overflow: auto;">
                 <div class="mobile" style="height:30px;"></div>
@@ -739,19 +736,19 @@
                         <th data-hide="phone">操作</th>
                       </tr>
                       </thead>
-                      <% for i in 0..@hash4.size-1 %>
-                          <% if @hash4[i][1]==100 && @hash4[i][2]!=0 %>
-                              <tr><td>流动型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                      <% for i in 0..@assetsheet.size-1 %>
+                          <% if @hash4[@assetsheet[i].asset_typeid][1]==100 %>
+                              <tr><td>流动型资产</td><td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td><td><%= @assetsheet[i].asset_value %></td><td></td></tr>
                           <% end %>
                       <% end %>
-                      <% for i in 0..@hash4.size-1 %>
-                          <% if @hash4[i][1]==200 && @hash4[i][2]!=0 %>
-                              <tr><td>保本型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                      <% for i in 0..@assetsheet.size-1 %>
+                          <% if @hash4[@assetsheet[i].asset_typeid][1]==200 %>
+                              <tr><td>保本型资产</td><td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td><td><%= @assetsheet[i].asset_value %></td><td></td></tr>
                           <% end %>
                       <% end %>
-                      <% for i in 0..@hash4.size-1 %>
-                          <% if @hash4[i][1]==300 && @hash4[i][2]!=0 %>
-                              <tr><td>风险型资产</td><td><%= @hash4[i][0] %></td><td><%= @hash4[i][2] %></td><td></td></tr>
+                      <% for i in 0..@assetsheet.size-1 %>
+                          <% if @hash4[@assetsheet[i].asset_typeid][1]==300 %>
+                              <tr><td>风险型资产</td><td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td><td><%= @assetsheet[i].asset_value %></td><td></td></tr>
                           <% end %>
                       <% end %>
                     </table>
@@ -1100,7 +1097,6 @@
                 .data("init", function(doCalc) {
 
                     $("#q-back,#q-next").click(function(e) {
-                        $("html,body").animate({"scrollTop":"0"},"slow")
                         var back = this.id == "q-back";
                         if (back) {
                             w.trackEvent("OFA", "questionnaire_back");
@@ -1128,6 +1124,7 @@
                 });
 
         function showQn(i, immediately,e) {
+            $("html,body").animate({"scrollTop":"0"},"slow")
             var $qns = $qr.children(".question");
             var $qn = $qns.eq(i);
             if(i==0){
@@ -1140,13 +1137,13 @@
             else{
                 $("#q-buttons").show();
             };
-        if('<%= @webuser.moonlite_typeid %>'=='4' && i==1){
+            if(i==1){
                 $("#title").html("保本型理财产品 选择");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
                 test_div.style.height="406px";
             }
-        if(('<%= @webuser.moonlite_typeid %>'=='3' && i==1) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==2)){
+        if(i==2){
                 $("#title").html("风险性理财产品选择 选择");
                 if(risk>8 && risk<=10){
                     $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
@@ -1177,13 +1174,13 @@
                 test_div.style.width="98%";
                 test_div.style.height="660px";
             }
-        if((('<%= @webuser.moonlite_typeid %>'=='1'||'<%= @webuser.moonlite_typeid %>'=='2') && i==1) || ('<%= @webuser.moonlite_typeid %>'=='3' && i==2) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==3)){
+        if(i==3){
                 $("#title").html("概要总结");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
             test_div.style.height="466px";
             }
-        if((('<%= @webuser.moonlite_typeid %>'=='1'||'<%= @webuser.moonlite_typeid %>'=='2') && i==2) || ('<%= @webuser.moonlite_typeid %>'=='3' && i==3) || ('<%= @webuser.moonlite_typeid %>'=='4' && i==4)){
+        if(i==4){
                 $("#title").html("已有资金调整");
                 var test_div=document.getElementById("questionnaire-view");
                 test_div.style.width="98%";
@@ -1195,23 +1192,9 @@
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
                 if(i==1){newTop= "-1730px"}
-            if(i==2){
-            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
-                newTop= "-2166px";
-            <% elsif @webuser.moonlite_typeid=='3' %>
-                newTop= "-2360px";
-            <% else %>
-                newTop= "-2106px";
-            <% end %>
-            }
-            if(i==3){
-            <% if @webuser.moonlite_typeid=='3' %>
-                newTop= "-2796px";
-            <% elsif @webuser.moonlite_typeid=='4' %>
-                newTop= "-2736px"
-            <% end %>
-            }
-            if(i==4){<% if @webuser.moonlite_typeid=='4' %>newTop= "-3172px"<% end %>}
+            if(i==2){newTop= "-2106px";}
+            if(i==3){ newTop= "-2736px"}
+            if(i==4){newTop= "-3172px"}
                 //  alert(newTop)
               if(e!=1){
                 if (immediately) {
@@ -1233,25 +1216,12 @@
                    else if(done0==1){done=true};
                }
                else if(i==1){
-            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
-                done=true;
-            <% elsif @webuser.moonlite_typeid=='3' %>
-                if(done2==0){done=false;}
-                else if(done2==1){done=true};
-            <% else %>
                  if(done1==0){done=false;}
                    else if(done1==1){done=true};
-            <% end %>
                }
                else if(i==2){
-            <% if @webuser.moonlite_typeid=='1'|| @webuser.moonlite_typeid=='2' %>
-                done=true;
-            <% elsif @webuser.moonlite_typeid=='3' %>
-                done=true;
-            <% else %>
                  if(done2==0){done=false;}
                    else if(done2==1){done=true};
-            <% end %>
                }
                 else{
                    done=true;
@@ -1653,28 +1623,7 @@
         });
 
         initPieChart();
-        /*
-        var array=new Array();
-        for(var i=0;i<10;i++){
-            array[i]=new Array();
-            for(var j=0;j<2;j++){
-                array[i][j]=0;
-            }
-        }
-        <% for i in 0..@assettype.size-1 %>
-           array[<%= i %>][0]='<%= @assettype[i].asset_typename %>'
-        <% end %>
-        array[0][1]=<%= @assetsheet.asset1_account %>
-        array[1][1]=<%= @assetsheet.asset2_account %>
-        array[2][1]=<%= @assetsheet.asset3_account %>
-        array[3][1]=<%= @assetsheet.asset4_account %>
-        array[4][1]=<%= @assetsheet.asset5_account %>
-        array[5][1]=<%= @assetsheet.asset6_account %>
-        array[6][1]=<%= @assetsheet.asset7_account %>
-        array[7][1]=<%= @assetsheet.asset8_account %>
-        array[8][1]=<%= @assetsheet.asset9_account %>
-        array[9][1]=<%= @assetsheet.asset10_account %>
-        */
+
          xianjin=parseInt(<%= @userbalancesheet.asset_fluid_account %>)
         wenjian=parseInt(<%= @userbalancesheet.asset_safefy_account %>)
         fengxian=parseInt(<%= @userbalancesheet.asset_risky_account %>)
@@ -1682,8 +1631,8 @@
         jixu=xianjin+wenjian+fengxian;//积蓄
         <% if session[:webusername]!=nil %>
         <% if @userdatamonth!=nil %>
-        total=parseInt((parseFloat('<%= @userdatamonth.invest_expense %>')*12+jixu)/100)*100;//总资产
-        xian=parseInt((parseFloat('<%= @userdatamonth.must_expense %>')*3)/100)*100;
+        total=parseInt((parseFloat('<%= @userdatamonth.invest_expense_month %>')*12+jixu)/100)*100;//总资产
+        xian=parseInt((parseFloat('<%= @userdatamonth.must_expense_month %>')*3)/100)*100;
         <% end %>
         feng=parseInt((total*(80-parseFloat('<%= @webuser.age %>'))/100)/100)*100;
         wen=total-xian-feng;
@@ -1774,7 +1723,7 @@
             series: [{
                 type: 'pie',
                 name: 'Browser share',
-                data: [['现金',<%= @userdatamonth.must_expense %>],['货币基金',<%= @userdatamonth.must_expense*2 %>]]
+                data: [['现金',<%= @userdatamonth.must_expense_month %>],['货币基金',<%= @userdatamonth.must_expense_month*2 %>]]
             }],
             legend: false,
             credits: {
@@ -1995,12 +1944,20 @@ function update(){
     var sxian=$("#xian1").attr("value");        //标准流动
     var swen=$("#wen1").attr("value");          //标准稳健
     var sfeng=$("#feng1").attr("value");        //标准风险
-    var yxian=parseInt('<%= @hash4[0][2] %>');  //已有流动（现金）
-    var yhuo=parseInt('<%= @hash4[1][2] %>');   //已有流动（货币基金）
+    var yxian= 0,yhuo=0;
+    <% for i in 0..@assetsheet.size-1 %>
+      <% if @assetsheet[i].asset_typeid==101 %>
+         yxian=<%= @assetsheet[i].asset_value %>       //已有流动（现金）
+      <% end %>
+      <% if @assetsheet[i].asset_typeid==201 %>
+         yhuo=<%= @assetsheet[i].asset_value %>        //已有流动（货币基金）
+      <% end %>
+    <% end %>
+
     var text0='',text1='',text2='',text3=''
     var month1=0,month2=0,month3=0;   //每月分配多少
     var amount1= 0,amount2= 0,amount3=0; //每月分配后还剩下的总额
-    var wages=parseFloat('<%= @userdatamonth.invest_expense %>')     //每月存储
+    var wages=parseFloat('<%= @userdatamonth.invest_expense_month %>')     //每月存储
     var dateNow = new Date();
     var yearNow = dateNow.getFullYear();
     var monthNow = dateNow.getMonth()+1;
@@ -2211,7 +2168,7 @@ function update(){
         }
             arrayObj[i]=[parseInt(month1),parseInt(month2),parseInt(month3),parseInt(amount1),parseInt(amount2),parseInt(amount3)]
     }
-    //xianjin,wenjian,fengxian,jixu,@finance1.averrate,@finance2.averrate,@finance3.averrate,@examination.month01
+    //xianjin,wenjian,fengxian,jixu,@finance1.averrate,@finance2.averrate,@finance3.averrate
     /*
      var yearrate1= 0,monthrate1= 0,yearrate2= 0,monthrate2= 0,yearrate3= 0,monthrate3= 0;
     <% @financial2.each do |f| %>

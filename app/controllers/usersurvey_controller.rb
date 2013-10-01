@@ -700,9 +700,9 @@ class UsersurveyController < ApplicationController
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     if @userdatamonth!=nil
       if @userdatamonth.debt_month!=nil
-      month=@userdatamonth.invest_expense-@userdatamonth.debt_month
+        month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
       else
-        month=@userdatamonth.invest_expense
+        month=@userdatamonth.invest_expense_month
       end
     end
     @hash.store('length',[@targets.size,annual,month,income])

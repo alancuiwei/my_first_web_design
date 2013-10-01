@@ -22,14 +22,14 @@
               <div class="span1"></div>
             </div>
             <div class="seperator thick"></div>
-            <div class="founder-inputs">
+            <div class="line-inputs">
 
-              <div class="op-input first" fid="founder">
+              <div class="op-input first" fid="line">
                 <div class="seperator bottom"></div>
 
                 <div class="row-fluid">
                   <div class="span2 control-group">
-                    <select  name="variety" id="debttype" class="founder-name" title="贷款类型" style="width: 140px;">
+                    <select  name="variety" id="debt_typeid" class="debt_typeid" title="贷款类型" style="width: 140px;">
                       <% @debttype.each do |d| %>
                           <option value="<%= d.debt_typeid %>"><%= d.debt_typename %></option>
                       <% end %>
@@ -38,24 +38,24 @@
                   <div class="span2 control-group" style="text-align: left;">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="init" name="lnw" id="loan" style="width: 120px;" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+                      <input class="debt_value" name="lnw" id="debt_value" style="width: 120px;" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
                     </div>
                   </div>
                   <div class="span2">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="repayment" name="lnw" id="repayment" style="width: 120px;" type="text">
+                      <input class="debt_value_monthly" name="lnw" id="debt_value_monthly" style="width: 120px;" type="text">
                     </div>
                   </div>
                   <div class="span2">
-                    <input class="period" id="period" style="width: 120px;" type="text">
+                    <input class="debt_years" id="debt_years" style="width: 120px;" type="text">
                   </div>
-                  <div class="span1 top5" style="margin-top: 10px;margin-left: 0;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeFounder(this);">&nbsp;&nbsp;</i></div>
+                  <div class="span1 top5" style="margin-top: 10px;margin-left: 0;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeline(this);">&nbsp;&nbsp;</i></div>
                 </div>
               </div>
             </div>
             <div class="seperator bottom thick"></div>
-            <a class="xtip pull-right" style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加贷款 </a>
+            <a class="xtip pull-right" style="padding: 0 20px 10px 0;" onclick="addline();"> + 添加贷款 </a>
           </div>
         </div>
       </div>
@@ -68,43 +68,34 @@
 </div>
 
 <script>
-    var eCalcShareHolders = new Object();
+    var newline = new Object();
     var debug = false;
 
-    function addFounder(founder, isFirst)
+    function addline()
     {
-        var aaa = genId(eCalcShareHolders);
-        var f = founder;
-        if(f == null) // create a new share holder
-        {
-            f = new ShareHolder();
-            f.setupShareHolder(true, false, false);
-            f.id= "founder-" + aaa;
-            f.name = "Founder " + getNewNameNumber(eCalcShareHolders, "founder");
-            eCalcShareHolders[f.id] = f;
-        }
+        var number = genId(newline);
+        var line = new lines();
+        line.id= "line-" + number;
+        line.name = "line " + getNewNameNumber(newline);
+        newline[line.id] = line;
 
-        if(!isFirst)
-        {
-            var fi = $("div.founder-inputs div.op-input").last().clone().removeClass("first");
-            $(fi).find(".icon-remove-sign").show();
-            var fid = f.id;
-            $(fi).attr("fid", fid);
-            // put values in
-            $(fi).find(".founder-name").attr("id",'debttype'+aaa);
-            $(fi).find(".init").val(0);
-            $(fi).find(".init").attr("id",'loan'+aaa);
-            $(fi).find(".repayment").attr("id",'repayment'+aaa);
-            $(fi).find(".period").attr("id",'period'+aaa);
-            $("div.founder-inputs").append(fi);
-        }
+        var fi = $("div.line-inputs div.op-input").last().clone().removeClass("first");
+        $(fi).find(".icon-remove-sign").show();
+        var fid = line.id;
+        $(fi).attr("fid", fid);
+        // put values in
+        $(fi).find(".debt_typeid").attr("id",'debt_typeid'+number);
+        $(fi).find(".debt_value").val(0);
+        $(fi).find(".debt_value").attr("id",'debt_value'+number);
+        $(fi).find(".debt_value_monthly").attr("id",'debt_value_monthly'+number);
+        $(fi).find(".debt_years").attr("id",'debt_years'+number);
+        $("div.line-inputs").append(fi);
     }
 
-    function genId(map)
+    function genId(newline)
     {
-        //cslog("Generating id for object.");
         var tId = 0;
-        for(var id in map)
+        for(var id in newline)
         {
             var count = id.split("-")[1];
             if(getInteger(count) > tId)
@@ -134,92 +125,21 @@
         return 0;
     }
 
-    var ShareHolder = function()
+    var lines = function()
     {
-        this.isFounder = true;
-        this.isEmployee = false;
-        this.isSeries = false;
-        this.percentStake = 0;
-        this.exitValue = 0;
-        this.totalShares = 0;
         this.name = "name";
         this.id = null;
-
-        this.setFounder = function()
-        {
-            this.isFounder = true;
-            this.isEmployee = false;
-            this.isSeries = false;
-        }
-
-        this.setSeries = function()
-        {
-            this.isFounder = false;
-            this.isEmployee = false;
-            this.isSeries = true;
-        }
-
-        this.setEmployee = function()
-        {
-            this.isFounder = false;
-            this.isEmployee = true;
-            this.isSeries = false;
-        }
-
-        this.setupShareHolder = function(isFounder, isEmployee, isSeries)
-        {
-            if(isFounder)
-            {
-                this.isFounder = true;
-                this.isEmployee = false;
-                this.isSeries = false;
-            }
-            else if(isEmployee)
-            {
-                this.isFounder = false;
-                this.isEmployee = true;
-                this.isSeries = false;
-            }
-            else if(isSeries)
-            {
-                this.isFounder = false;
-                this.isEmployee = false;
-                this.isSeries = true;
-            }
-        }
-
-        // Use to create a JSON object from the Founder
-        this.renderJson = function()
-        {
-            return {
-                isFounder: this.isFounder, isEmployee: this.isEmployee,
-                isSeries: this.isSeries, percentStake: this.percentStake,
-                totalShares: this.totalShares, id: this.id, name:this.name
-            };
-        }
     }
 
-    function getNewNameNumber(shareHolders, type)
+    function getNewNameNumber(newline)
     {
-        var fRegex = /founder\s\d/i;
-        if(type == "employee")
-        {
-            fRegex = /employee\s\d/i;
-        }
+        var fRegex = /line\s\d/i;
         var latestId = 1;
-        for(var id in shareHolders)
+        for(var id in newline)
         {
-            if(type != "employee" && shareHolders[id].isFounder && fRegex.test(shareHolders[id].name))
+            if(newline[id].isline && fRegex.test(newline[id].name))
             {
-                var curNum = getInteger(fRegex.exec(shareHolders[id].name)[0].split(" ")[1]);
-                if(curNum >= latestId)
-                {
-                    latestId  = curNum + 1;
-                }
-            }
-            else if(type == "employee" && shareHolders[id].isEmployee && fRegex.test(shareHolders[id].name))
-            {
-                var curNum = getInteger(fRegex.exec(shareHolders[id].name)[0].split(" ")[1]);
+                var curNum = getInteger(fRegex.exec(newline[id].name)[0].split(" ")[1]);
                 if(curNum >= latestId)
                 {
                     latestId  = curNum + 1;
@@ -229,11 +149,11 @@
         return latestId;
     }
 
-    function removeFounder(e)
+    function removeline(e)
     {
         var fi = $(e).closest("div.op-input");
         var fid = $(fi).attr("fid");
-        delete eCalcShareHolders[fid];
+        delete newline[fid];
         $(fi).detach();
     }
 </script>
@@ -246,17 +166,17 @@
         <% if @userdebtsheet!=nil && @userdebtsheet.size!=0 %>
         <% for i in 0..@userdebtsheet.size-1 %>
         if(first==0){
-            $("#debttype").attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
-            $("#loan").attr("value",'<%= @userdebtsheet[i].debt_value %>')
-            $("#repayment").attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
-            $("#period").attr("value",'<%= @userdebtsheet[i].debt_years %>')
+            $("#debt_typeid").attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
+            $("#debt_value").attr("value",'<%= @userdebtsheet[i].debt_value %>')
+            $("#debt_value_monthly").attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
+            $("#debt_years").attr("value",'<%= @userdebtsheet[i].debt_years %>')
         }
         else{
-            addFounder(null, false);
-            $("#debttype"+first).attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
-            $("#loan"+first).attr("value",'<%= @userdebtsheet[i].debt_value %>')
-            $("#repayment"+first).attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
-            $("#period"+first).attr("value",'<%= @userdebtsheet[i].debt_years %>')
+            addline();
+            $("#debt_typeid"+first).attr("value",'<%= @userdebtsheet[i].debt_typeid %>')
+            $("#debt_value"+first).attr("value",'<%= @userdebtsheet[i].debt_value %>')
+            $("#debt_value_monthly"+first).attr("value",'<%= @userdebtsheet[i].debt_value_monthly %>')
+            $("#debt_years"+first).attr("value",'<%= @userdebtsheet[i].debt_years %>')
         }
         first=first+1;
         <% end %>
@@ -288,27 +208,27 @@
     });
 
     function save(e){
-        debttype=document.getElementsByClassName("founder-name")  //贷款类型
-        loan=document.getElementsByClassName("init")  //总负债
-        repayment=document.getElementsByClassName("repayment")  //每月还贷
-        period=document.getElementsByClassName("period")  //贷款年限
+        debt_typeid=document.getElementsByClassName("debt_typeid")  //贷款类型
+        debt_value=document.getElementsByClassName("debt_value")  //总负债
+        debt_value_monthly=document.getElementsByClassName("debt_value_monthly")  //每月还贷
+        debt_years=document.getElementsByClassName("debt_years")  //贷款年限
         var debtid='',debtvalue='',debtvaluemonth='',debtyear='';
-        for(k=0;k<debttype.length;k++){
-            var c1=loan[k].value.replace(/,/g, "");
-            var c2=repayment[k].value.replace(/,/g, "");
+        for(k=0;k<debt_typeid.length;k++){
+            var c1=debt_value[k].value.replace(/,/g, "");
+            var c2=debt_value_monthly[k].value.replace(/,/g, "");
             if(c1==''){c1=0;}
             if(c2==''){c2=0;}
             if(k==0){
-                debtid=debttype[k].value
+                debtid=debt_typeid[k].value
                 debtvalue=c1
                 debtvaluemonth=c2
-                debtyear=period[k].value
+                debtyear=debt_years[k].value
             }
             else{
-                debtid=debtid+','+debttype[k].value
+                debtid=debtid+','+debt_typeid[k].value
                 debtvalue=debtvalue+','+c1
                 debtvaluemonth=debtvaluemonth+','+c2
-                debtyear=debtyear+','+period[k].value
+                debtyear=debtyear+','+debt_years[k].value
             }
         }
         $.post("/usersurvey/p1s5_debt_table_save",{username:'<%= session[:webusername] %>',debt_typeid:debtid,debt_value:debtvalue,debt_value_monthly:debtvaluemonth,debt_years:debtyear},function(data){
