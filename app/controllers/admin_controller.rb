@@ -980,6 +980,10 @@ class AdminController < ApplicationController
     @webuser=Webuser.find_by_username(params[:username])
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
+        if params[:weixincode]!=nil && params[:weixincode]!=""
+          @webuser.update_attributes(:weixincode=>params[:weixincode])
+          render :json => "weixincode".to_json
+        else
         if params[:organ]=='3'|| params[:organ]=='4'
           if  @webuser.username=="admin" || @webuser.username=="blog"
             session[:webusername]=@webuser.username
@@ -994,6 +998,7 @@ class AdminController < ApplicationController
         else
           session[:webusername]=@webuser.username
           render :json => "s2".to_json
+        end
         end
       else
         render :json => "f".to_json

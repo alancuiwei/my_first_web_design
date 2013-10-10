@@ -212,6 +212,29 @@
     });
 
     function save(e){
+        var ie = !-[1,];
+        if(ie){
+            document.getElementsByClassName = function(){
+                var tTagName ="*";
+                if(arguments.length > 1){
+                    tTagName = arguments[1];
+                }
+                if(arguments.length > 2){
+                    var pObj = arguments[2]
+                }
+                else{
+                    var pObj = document;
+                }
+                var objArr = pObj.getElementsByTagName(tTagName);
+                var tRObj = new Array();
+                for(var k=0; k<objArr.length; k++){
+                    if(objArr[k].className == arguments[0]){
+                        tRObj.push(objArr[k]);
+                    }
+                }
+                return tRObj;
+            }
+        }
         var typename=document.getElementsByClassName("asset_typename")  //资产品种
         var amount=document.getElementsByClassName("asset_value")  //资产金额
         var typeid='',typevalue='';

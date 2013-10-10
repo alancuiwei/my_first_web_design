@@ -245,7 +245,18 @@ class UsersurveyController < ApplicationController
         debt_month=debt_month+@debtvaluemonth[i].to_i
       end
     end
+    render :json => 's'.to_json
+  end
 
+  def p1_report_count
+    if session[:webusername]!=nil
+      @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+      debt_month=0
+      debt_account=0
+      for i in 0..@userdebtsheet.size-1
+        debt_account=debt_account+@userdebtsheet[i].debt_value
+        debt_month=debt_month+@userdebtsheet[i].debt_value_monthly
+      end
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     net_month=@userdatamonth.salary_month+@userdatamonth.extra_income_month-@userdatamonth.must_expense_month-@userdatamonth.fun_expense_month-debt_month
     @userdatamonth.update_attributes(:debt_month=>debt_month,:net_month=>net_month)
@@ -571,6 +582,7 @@ class UsersurveyController < ApplicationController
     else
       @indicators.update_attributes(:indicators_value=>indicators_value)
     end
+    end
     render :json => 's'.to_json
   end
 
@@ -678,16 +690,16 @@ class UsersurveyController < ApplicationController
       @hash.store(i,[@targets[i].user_target,@targets[i].user_target_period,@targets[i].user_target_value,nature])
     end
     @userdata=Userdata_annual.find_by_username(session[:webusername])
-    @detailedmonth=Userdata_detailedincome_month.find_by_username(session[:webusername])
+    @detailedmonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],3000)
     annual=0
     if @userdata!=nil &&  @userdata.net_annual!=nil
-      if @detailedmonth!=nil && @detailedmonth.income3_account!=nil
-        annual=@userdata.net_annual+@detailedmonth.income3_account*12
+      if @detailedmonth!=nil
+        annual=@userdata.net_annual+@detailedmonth.income_value*12
       else
         annual=@userdata.net_annual
       end
-    elsif @detailedmonth!=nil && @detailedmonth.income3_account!=nil
-      annual=@detailedmonth.income3_account*12
+    elsif @detailedmonth!=nil && @detailedmonth.income_value!=nil
+      annual=@detailedmonth.income_value*12
     end
 
     @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])

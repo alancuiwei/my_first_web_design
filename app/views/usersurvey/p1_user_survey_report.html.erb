@@ -9,10 +9,8 @@
   <%= render "side" %>
   <div id="page-content">
     <h1 id="financialreport">家庭财务诊断报告
-      <!--
-      <a id="goal" class="btn btn-primary btn-large pull-right" href="/usersurvey/goal">下一步：理财目标</a>
-      <a id="download" class="pull-right" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
-      -->
+      <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide" href="/usersurvey/goal">下一步：理财目标</a>
+      <a id="downloadtop" class="pull-right reporthide" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
     </h1>
     <div class="tablet">
       <div class="row-fluid">
@@ -655,8 +653,10 @@
 
 <script>
   var number=0;
-   $("#download").click(function(){
+   $("#download,#downloadtop").click(function(){
        $("[id*='container']").hide();
+       $(".btn-success").hide();
+       $(".reporthide").hide();
        $(".convas_image").show();
        html2canvas(document.getElementById("page-content"), {
            onrendered: function(canvas) {
@@ -665,6 +665,8 @@
                  number=number+1;
              }
                $("[id*='container']").show();
+               $(".btn-success").show();
+               $(".reporthide").show();
                $(".convas_image").hide();
                var canvas = document.getElementsByTagName("canvas");
                canvas[1].className="hide";

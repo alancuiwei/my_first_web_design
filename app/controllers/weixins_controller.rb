@@ -18,7 +18,12 @@ class WeixinsController < ApplicationController
 		when "V301"
 			render "rtn101", :formats => :xml
     when "V110"
+      @webuser=Webuser.find_by_weixincode(params[:xml][:FromUserName])
+      if @webuser!=nil
+        render "rtn401", :formats => :xml
+      else
       render "rtn110", :formats => :xml
+      end
     when "V202"
       render "rtn202", :formats => :xml
     when "V203"

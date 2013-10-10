@@ -86,6 +86,10 @@
           </form>
         </div>
       </div>
+      <div class="hide" id="back">
+        <h1 class="h1">您已与通天顺帐号成功绑定</h1>
+        <p>请点击左上角 返回<br>开始财务分析</p>
+      </div>
     </div>
     <div class="span7">
       <dl class="qrcode-panel">
@@ -271,12 +275,20 @@
             alert("密码为空！");
         }
         else{
-            $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value"),organ:organ},function(data){
+            var weixincode="";
+            <% if params[:weixincode]!=nil %>
+               weixincode='<%= params[:weixincode] %>';
+            <% end %>
+            $.get("/admin/userlogin",{username:$(uid).attr("value"),password:$(pid).attr("value"),organ:organ,weixincode:weixincode},function(data){
                 if(data=="f"){
                     alert("登录失败!");
                 }
                 else if(data=="f2"){
                     alert("找不到该用户");
+                }
+                else if(data=="weixincode"){
+                    $("#myTabContent").hide();
+                    $("#back").show();
                 }
                 else if('<%= params[:p1_usersurvey] %>'=='1'){
                     location.href="/usersurvey/p1_usersurvey";

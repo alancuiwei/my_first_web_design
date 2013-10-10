@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag "common2.css" %>
-<%= stylesheet_link_tag "founder.css" %>
 <%= javascript_include_tag "base.js" %>
+<%= stylesheet_link_tag "founder.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
 <%= javascript_include_tag "highcharts.js" %>
 
@@ -27,7 +27,7 @@
 
 <div id="questionnaire-view">
 <div id="questionnaire">
-<div class="question first">
+            <div class="question first" style="height: 570px;">
   <table id="tiles">
     <tbody>
     <tr>
@@ -45,7 +45,7 @@
   <input type="checkbox" class="hide">
 </div>
 
-            <div class="question second">
+            <div class="question second" style="height: 1570px;">
               <div id="num" style="height: 1570px;overflow: auto;">
               <h2><span>1</span>目标的重要性：</h2>
               <p class="q-text">现代社会的理财之路，不仅需要了解国家政策、寻找到各种投资机会之外，我们还要强调一下制定理财目标的重要性。如同出海要有一个目的地一样，我们需要明确自己家庭朝着哪一个方向发展。理财理的是资产，规划的是生活。</p>
@@ -142,7 +142,7 @@
 <div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>结婚梦想描述</h3>
+      <h3>旅游度假梦想描述</h3>
   </div>
   <div class="modal-body">
     我想去<input type="text" id="amount40">旅游度假，我准备用<input type="text" id="target_period4" class="amount4" onkeyup="updatenum4(this)">年时间来准备预算和工作假期，
@@ -155,7 +155,7 @@
 <div id="myModal6" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>结婚梦想描述</h3>
+      <h3>子女教育梦想描述</h3>
   </div>
   <div class="modal-body">
     <table class="table table-striped table-bordered">
@@ -174,7 +174,7 @@
   <div id="myModal7" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3>结婚梦想描述</h3>
+      <h3>退休计划梦想描述</h3>
     </div>
     <div class="modal-body">
       您当前家庭月正常开销将是<%= @userdatamonth.must_expense_month %>元，您现在是<%= @webuser.age %>岁，您距离退休年纪还有<% if @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年。
@@ -607,10 +607,6 @@
              }
             });
         }
-
-        var test_div1=document.getElementsByClassName("question");
-            test_div1[0].style.height="570px";
-        test_div1[1].style.height="1570px";
 
         if (i >= 0 && $qn.length) {
             $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");

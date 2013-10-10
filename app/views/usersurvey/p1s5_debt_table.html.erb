@@ -29,7 +29,7 @@
 
                 <div class="row-fluid">
                   <div class="span2 control-group">
-                    <select  name="variety" id="debt_typeid" class="debt_typeid" title="贷款类型" style="width: 140px;">
+                    <select  name="debt_typeid" id="debt_typeid" class="debt_typeid" title="贷款类型" style="width: 140px;">
                       <% @debttype.each do |d| %>
                           <option value="<%= d.debt_typeid %>"><%= d.debt_typename %></option>
                       <% end %>
@@ -208,10 +208,33 @@
     });
 
     function save(e){
-        debt_typeid=document.getElementsByClassName("debt_typeid")  //贷款类型
-        debt_value=document.getElementsByClassName("debt_value")  //总负债
-        debt_value_monthly=document.getElementsByClassName("debt_value_monthly")  //每月还贷
-        debt_years=document.getElementsByClassName("debt_years")  //贷款年限
+        var ie = !-[1,];
+        if(ie){
+            document.getElementsByClassName = function(){
+                var tTagName ="*";
+                if(arguments.length > 1){
+                    tTagName = arguments[1];
+                }
+                if(arguments.length > 2){
+                    var pObj = arguments[2]
+                }
+                else{
+                    var pObj = document;
+                }
+                var objArr = pObj.getElementsByTagName(tTagName);
+                var tRObj = new Array();
+                for(var k=0; k<objArr.length; k++){
+                    if(objArr[k].className == arguments[0]){
+                        tRObj.push(objArr[k]);
+                    }
+                }
+                return tRObj;
+            }
+        }
+       var debt_typeid=document.getElementsByClassName("debt_typeid")  //贷款类型
+       var debt_value=document.getElementsByClassName("debt_value")  //总负债
+       var debt_value_monthly=document.getElementsByClassName("debt_value_monthly")  //每月还贷
+       var debt_years=document.getElementsByClassName("debt_years")  //贷款年限
         var debtid='',debtvalue='',debtvaluemonth='',debtyear='';
         for(k=0;k<debt_typeid.length;k++){
             var c1=debt_value[k].value.replace(/,/g, "");
@@ -232,7 +255,9 @@
             }
         }
         $.post("/usersurvey/p1s5_debt_table_save",{username:'<%= session[:webusername] %>',debt_typeid:debtid,debt_value:debtvalue,debt_value_monthly:debtvaluemonth,debt_years:debtyear},function(data){
+            $.post("/usersurvey/p1_report_count",{username:'<%= session[:webusername] %>'},function(data){
             location.href=e;
+        });
         });
     }
 </script>

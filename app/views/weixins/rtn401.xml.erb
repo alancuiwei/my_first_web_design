@@ -1,0 +1,13 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您的年龄、性别、婚姻、有无子女、子女年龄。
+     例子1：28，男，未婚，无子女，0
+     例子2：30，女，已婚，无子女，0
+     例子3：32，男，已婚，有子女，3
+     注释：暂不支持有2个或2个以上子女的家庭财务分析。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>
