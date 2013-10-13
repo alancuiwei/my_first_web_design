@@ -14,6 +14,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => email,:subject=>title)
   end
 
+  def report(email,title)
+    mail(:to => email,:subject=>title)
+  end
+
   def sendimage(usename,email,title)
     @usename = usename
   #  attachments.inline['tongtianshun.png'] = File.read('/assets/tongtianshun.png')

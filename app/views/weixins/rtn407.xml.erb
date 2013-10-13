@@ -1,0 +1,14 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您家庭负债情况：
+     负债名称：房贷，负债代码：101
+     负债名称：车贷，负债代码：102
+     负债名称：其他贷款，负债代码：199
+     例子： 负债,101,200000,20,4000,102,5000,1,2000代表您家有房贷共200000元，还贷时间为20年，每个月还贷4000元，另外还有车贷50000元，还贷时间为1年，每个月还贷2000元。
+     输入格式：负债,101,200000,20,4000,102,5000,1,2000
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

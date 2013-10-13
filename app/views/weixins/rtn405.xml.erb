@@ -1,0 +1,11 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您的年度开销：年旅游开销，年保险开销，年子女教育学费，其他年度开销
+     例子： 年度开销,10000,5000,12000,3000代表您家每年旅游开销将在10000元，您家每年保险费用将在5000元，每年子女教育开销在12000元，其他年度开销是3000元。
+     输入格式：年度开销,10000,5000,12000,3000
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

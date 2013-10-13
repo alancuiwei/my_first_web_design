@@ -1,0 +1,12 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您的每月工资，如果您已婚的话，也请输入您爱人的每月工资，另外还请输入您每个月的额外非工资收入。
+     例子1： 月收入,3000,2200,0 ；这代表您月工资3000，您爱人2200，每月没有额外收入。
+     例子2： 月收入,4000,0,1000 ；这代表你月工资4000，你没有爱人月工资信息，每月将有额外收入1000元。
+     输入格式：月收入,4000,2000,500
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

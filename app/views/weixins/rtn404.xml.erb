@@ -1,0 +1,11 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您的年终奖金额、您爱人的年终奖金额、以及您家庭的年终其他非工资收入：
+     例子： 年度收入,20000,10000,3000 代表您的年终奖收入为20000元，您爱人的年终奖为10000元，另外您家还有近3000元的年终收入。
+     输入格式：年度收入,20000,10000,3000
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

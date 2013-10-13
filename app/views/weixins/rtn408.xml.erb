@@ -1,0 +1,11 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您的家庭财务诊断报告已经生成。请回复电子邮箱地址，我们将财务报告发送到该电子邮箱中。
+     例子：myemail@gmail.com,我们将把报告发送到myemail@gmail.com信箱中。
+     输入格式：myemail@gmail.com
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

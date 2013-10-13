@@ -225,8 +225,6 @@ class UsersurveyController < ApplicationController
 
   def p1s5_debt_table_save
     @userdebtsheet=User_debt_sheet.destroy_all(:username => params[:username])
-    debt_month=0
-    debt_account=0
     if params[:debt_typeid]!=nil
       @debtid=params[:debt_typeid].split(",")
       @debtvalue=params[:debt_value].split(",")
@@ -241,8 +239,6 @@ class UsersurveyController < ApplicationController
           e.debt_years=@debtyear[i]
           e.save
         end
-        debt_account=debt_account+@debtvalue[i].to_i
-        debt_month=debt_month+@debtvaluemonth[i].to_i
       end
     end
     render :json => 's'.to_json
@@ -622,7 +618,7 @@ class UsersurveyController < ApplicationController
       @indicators=Admin_finacialindicators.all
       @financialindicators=User_financial_indicators.find_all_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
     end
   end
 
