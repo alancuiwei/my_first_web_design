@@ -1,0 +1,254 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<style type="text/css">
+    .modal-body input{
+        width: 40px; text-align: center;
+    }
+</style>
+
+<div class="welcomes goal">
+  <div class="ofa-funnel-pages">
+    <div id="page-wrapper">
+      <div id="page-content">
+        <a class="home" href="/">首页</a>
+        <h1>
+          <span id="title">理财目标选择</span>
+        </h1>
+
+        <div id="questionnaire-view">
+          <div id="questionnaire">
+            <div class="question first" style="height: 570px;">
+              <table id="tiles">
+                <tbody>
+                <tr>
+                  <td><a class="img1"  href="#myModal" role="button" data-toggle="modal"></a></td>
+                  <td><a class="img2" href="#myModal2" role="button" data-toggle="modal"></a></td>
+                  <td><a class="img3" href="#myModal4" role="button" data-toggle="modal"></a></td>
+                </tr>
+                <tr>
+                  <td><a class="img4" href="#myModal6" role="button" data-toggle="modal"></a></td>
+                  <td><a class="img5" href="#myModal5" role="button" data-toggle="modal"></a></td>
+                  <td><a class="img6" href="#myModal7" role="button" data-toggle="modal"></a></td>
+                </tr>
+                </tbody>
+              </table>
+              <input type="checkbox" class="hide">
+            </div>
+          </div>
+        </div>
+        <div id="q-buttons">
+          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back" disabled><span>上一项</span></button>
+          <button class="q-button orange-button big-button" id="q-next">下一项</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>买房梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      我准备用<input type="text" id="target_period1" onkeyup="updatenum(this)">年时间来实现买房的梦想，我希望买的房子大约总价是<input type="text" id="amount10" class="amount1" onkeyup="updatenum(this)">万。<br>
+      首付金额是总房价的<input type="text" id="amount14" onkeyup="updatenum(this)">%，也就是<span id="target_value0">0</span>万。<br>
+      我应该会向父母亲戚借<input type="text" id="amount11" class="amount1" onkeyup="updatenum(this)">万元，向银行商业贷款<input type="text" id="amount12" class="amount1" onkeyup="updatenum(this)">万元，公积金贷款<input type="text" id="amount13" class="amount1" onkeyup="updatenum(this)">万元，
+      所以我只需要在这几年内准备首付金额 <span id="target_value1">0</span> 万元就可以了。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target1">确认</button>
+    </div>
+  </div>
+  <div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>买车梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      我准备用<input type="text" id="target_period2" onkeyup="updatenum2(this)">年时间来实现买车的梦想，我希望买的车子大约总价是<input type="text" id="amount20" class="amount2" onkeyup="updatenum2(this)">万。<br>
+      我应该会向亲戚或银行借<input type="text" id="amount21" class="amount2" onkeyup="updatenum2(this)">万元，所以我只需要在这几年内准备资金 <span id="target_value2">0</span> 万元。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target2">确认</button>
+    </div>
+  </div>
+  <div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>结婚梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      我准备用<input type="text" id="target_period3" onkeyup="updatenum3(this)">年时间来准备结婚，我预估这次婚礼准备开销将在<input type="text" id="amount30" class="amount3" onkeyup="updatenum3(this)">万元左右，
+      我会向父母借<input type="text" id="amount31" class="amount3" onkeyup="updatenum3(this)">万元左右，所以我只需要准备 <span id="target_value3">0</span> 万元。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target3">确认</button>
+    </div>
+  </div>
+  <div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>旅游度假梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      我想去<input type="text" id="amount40">旅游度假，我准备用<input type="text" id="target_period4" class="amount4" onkeyup="updatenum4(this)">年时间来准备预算和工作假期，
+      我预估这次旅游的开销将在<input type="text" id="target_value4" class="amount4" onkeyup="updatenum4(this)">万元左右。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target4">确认</button>
+    </div>
+  </div>
+  <div id="myModal6" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>子女教育梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      <table class="table table-striped table-bordered">
+        <thead><tr><th>上学阶段</th><th>年数</th><th>年均支出（元）</th><th>总支出（元）</th></tr></thead>
+        <tr><td>幼儿园</td><td>3</td><td>5400</td><td>162000</td></tr>
+        <tr><td>小学</td><td>6</td><td>11100</td><td>66600</td></tr>
+        <tr><td>初中</td><td>3</td><td>15200</td><td>45600</td></tr>
+        <tr><td>高中</td><td>3</td><td>31000</td><td>93000</td></tr>
+        <tr><td>总和</td><td>15</td><td></td><td>221400</td></tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target5">确认</button>
+    </div>
+  </div>
+  <div id="myModal7" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>退休计划梦想描述</h3>
+    </div>
+    <div class="modal-body">
+      您当前家庭月正常开销将是<%= @userdatamonth.must_expense_month %>元，您现在是<%= @webuser.age %>岁，您距离退休年纪还有<% if @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年。
+      假设80岁之前，您还希望维持当前的生活水准，则需要<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>万元。
+      所以您需要在这<% if @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年内准备将近<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>万的退休基金。
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target6">确认</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    var count=new Array();
+    $(document).ready(function(){
+        <% if @targets!=nil %>
+        <% @targets.each do |t| %>
+        <% if t.user_target=="买房" %>
+        $("#target_period1").attr("value","<%= t.user_target_period %>")
+        $("#target_value1").html("<%= t.user_target_value %>")
+        <% elsif t.user_target=="买车" %>
+        $("#target_period2").attr("value","<%= t.user_target_period %>")
+        $("#target_value2").html("<%= t.user_target_value %>")
+        <% elsif t.user_target=="结婚" %>
+        $("#target_period3").attr("value","<%= t.user_target_period %>")
+        $("#target_value3").html("<%= t.user_target_value %>")
+        <% elsif t.user_target=="旅游度假" %>
+        $("#target_period4").attr("value","<%= t.user_target_period %>")
+        $("#target_value4").attr("value","<%= t.user_target_value %>")
+        <% end %>
+        <% end %>
+        <% end %>
+    });
+
+    function updatenum(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        if(numfor.test(e.value)==false && e.value!=""){
+            $("#"+e.id).attr('value',0);
+        }
+        if(e.id=="amount10" || e.id=="amount11" || e.id=="amount12" || e.id=="amount13" || e.id=="amount14"){
+            var rate=0
+            if($("#amount14").attr('value')!=""){rate=$("#amount14").attr('value')/100}
+           $("#target_value0").html(parseInt($("#amount10").attr('value')*rate));
+            if($("#amount10").attr('value')*rate-$("#amount11").attr('value')-$("#amount12").attr('value')-$("#amount13").attr('value')<0){
+                $("#"+e.id).addClass("invalid");
+            }
+            else{
+                $(".amount1").removeClass("invalid");
+            }
+            $("#target_value1").html($("#amount10").attr('value')*rate-$("#amount11").attr('value')-$("#amount12").attr('value')-$("#amount13").attr('value'));
+        }
+    }
+    function updatenum2(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        if(numfor.test(e.value)==false && e.value!=""){
+            $("#"+e.id).attr('value',0);
+        }
+        if(e.id=="amount20" || e.id=="amount21"){
+            if($("#amount20").attr('value')-$("#amount21").attr('value')<0){
+                $("#"+e.id).addClass("invalid");
+            }
+            else{
+                $(".amount2").removeClass("invalid");
+            }
+            $("#target_value2").html($("#amount20").attr('value')-$("#amount21").attr('value'));
+        }
+    }
+    function updatenum3(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        if(numfor.test(e.value)==false && e.value!=""){
+            $("#"+e.id).attr('value',0);
+        }
+        if(e.id=="amount30" || e.id=="amount31"){
+            if($("#amount30").attr('value')-$("#amount31").attr('value')<0){
+                $("#"+e.id).addClass("invalid");
+            }
+            else{
+                $(".amount3").removeClass("invalid");
+            }
+            $("#target_value3").html($("#amount30").attr('value')-$("#amount31").attr('value'));
+        }
+    }
+    function updatenum4(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        if(numfor.test(e.value)==false && e.value!=""){
+            $("#"+e.id).attr('value',0);
+        }
+    }
+
+    $("#target1").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买房",target_period:$("#target_period1").attr("value"),target_value:$("#target_value1").html()},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+    $("#target2").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买车",target_period:$("#target_period2").attr("value"),target_value:$("#target_value2").html()},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+    $("#target3").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"结婚",target_period:$("#target_period3").attr("value"),target_value:$("#target_value3").html()},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+    $("#target4").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"旅游度假",target_period:$("#target_period4").attr("value"),target_value:$("#target_value4").attr("value")},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+    $("#target5").click(function(){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"子女教育",target_period:15,target_value:22.14},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+    $("#target6").click(function(){
+        <% if @webuser.age<=65 %>
+        var year='<%= 65-@webuser.age %>';
+        <% else %>
+        var year=0
+        <% end %>
+
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"退休计划",target_period:year,target_value:'<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>'},function(data){
+            location.href="/usertargets/p2s2_user_target_intro";
+        });
+    })
+
+    $("#q-next").click(function(){
+        location.href="/usertargets/p2s2_user_target_intro";
+    });
+</script>

@@ -26,45 +26,28 @@ class BankinvestController < ApplicationController
   end
 
   def products
-    @financial=Financial.find_all_by_category("风险性资产");
+    @monetary=Monetary_fund_quote.all
     @hash={}
-    for i in 0..@financial.size-1
-      @category=Admin_asset_type_l2.find_by_classify(@financial[i].classify)
-      if @category!=nil
-        @hash.store(@category.classify,[@category.id])
+    for i in 0..@monetary.size-1
+      @fundproduct=Monetary_fund_product.find_by_product_code(@monetary[i].product_code)
+      t = Time.new
+      date = t.strftime("%Y-%m-%d")
+      if @fundproduct!=nil
+        if @fundproduct.create_date!=nil
+          @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)])
       else
-        @hash.store(@category.classify,[nil])
+          @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil])
       end
+      else
+        @hash.store(@monetary[i].product_code,[nil,nil,nil,nil])
     end
-    @hash3={}
-    @financial2=Financial.find_all_by_classify('货币基金')
-    for i in 0..@financial2.size-1
-      @financial1=Financial.find_all_by_productcode(@financial2[i].productcode)
-      @f1=@financial2[i].pname
-      @f5=@financial2[i].rate
-      @f6=@financial2[i].rank
-      for j in 0..@financial1.size-1
-        if @financial1[j].pname!=@financial2[i].pname
-          @f1=@financial1[j].pname
-          @f5=@financial1[j].rate
-          @f6=@financial1[j].rank
         end
-      end
-      @f2='否'
-      @f3='否'
-      @f4='否'
-      if @financial2[i].way!=nil
-        if @financial2[i].way.include? "iphone"
-          @f2='是'
-        end
-        if @financial2[i].way.include? "android"
-          @f3='是'
-        end
-        if @financial2[i].way.include? "weixin"
-          @f4='是'
-        end
-      end
-      @hash3.store(@financial2[i].id,[@financial1.length,@f1,@f2,@f3,@f4,@f5,@f6])
+
+    @general=General_fund_quote.all
+    @hash2={}
+    @typel2=Admin_asset_type_l2.all
+    for i in 0..@typel2.size-1
+      @hash2.store(@typel2[i].L2_typeid,[@typel2[i].classify])
     end
   end
 

@@ -1,0 +1,55 @@
+#encoding: utf-8
+require 'open-uri'
+class UsertargetsController < ApplicationController
+
+  def p2_usertargets
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @blog=Blog.find_by_id(452)
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p2_usertargets=>"1")
+    end
+  end
+
+  def p2s1_user_target_select
+    if session[:webusername]!=nil
+      @targets=User_targets.find_all_by_username(session[:webusername])
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"sales", :action=>"login", :p2s1=>"1")
+    end
+  end
+
+  def p2s2_user_target_intro
+    @targets=User_targets.find_by_username(session[:webusername])
+    @userdata=Userdata_annual.find_by_username(session[:webusername])
+    @detailedmonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],3000)
+    @annual=0
+    if @userdata!=nil &&  @userdata.net_annual!=nil
+      if @detailedmonth!=nil
+        @annual=@userdata.net_annual+@detailedmonth.income_value*12
+      else
+        @annual=@userdata.net_annual
+      end
+    elsif @detailedmonth!=nil && @detailedmonth.income_value!=nil
+      @annual=@detailedmonth.income_value*12
+    end
+
+    @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+    @income=0
+    if @userbalancesheet!=nil
+      @income=@userbalancesheet.asset_fluid_account+@userbalancesheet.asset_safefy_account+@userbalancesheet.asset_risky_account
+    end
+
+    @month=0
+    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    if @userdatamonth!=nil
+      if @userdatamonth.debt_month!=nil
+        @month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
+      else
+        @month=@userdatamonth.invest_expense_month
+      end
+    end
+  end
+end

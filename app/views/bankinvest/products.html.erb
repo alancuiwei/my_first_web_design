@@ -5,7 +5,7 @@
 <%= javascript_include_tag "dataTables.bootstrap.js" %>
 <%= javascript_include_tag "bootstrap.js" %>
 <style>
-    #products th,#products td,#liudong th,#liudong td{
+    #products th,#products td,#fengxian th,#fengxian td{
         text-align: center;
         font-family: Hiragino Sans GB W3;
     }
@@ -46,54 +46,71 @@
           <div class="box_sxtj">
             <div class="box_sxtj_top">理财产品－查询</div>
             <div class="box_sxtj_center">
+              <dl class="fore" id="amount_all">
+                <dt>起购金额:</dt>
+                <dd>
+                  <label class="checkbox inline all">
+                    <a id="amounts0" class="curr  btn-link currbg">不限</a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox1" id="amounts1"><a class="color11"> 0-10元 </a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox1" id="amounts2"><a class="color12"> 11-500元 </a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox1" id="amounts3"><a class="color13"> 501-1000元 </a>
+                  </label>
+                </dd>
+              </dl>
+              <dl class="fore" id="expectYID_all">
+                <dt>历史业绩:</dt>
+                <dd>
+                  <label class="checkbox inline all">
+                    <a id="expectYIDs0" class="curr btn-link currbg">不限</a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox2" id="expectYIDs1"><a class="color21">近一年20名</a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox2" id="expectYIDs2"><a class="color22">近二年20名</a>
+                  </label>
+                  <label class="checkbox inline">
+                    <input type="checkbox" class="curr btn-link" name="checkbox2" id="expectYIDs3"><a class="color23">近三年20名</a>
+                  </label>
+                </dd>
+              </dl>
               <dl class="fore" id="scate_all">
-                <dt id="scate-cate_all">购买途径:</dt>
+                <dt>成立时间<a class="introduce" href="#myModal4" role="button" data-toggle="modal">(?)</a>:</dt>
                 <dd>
                   <label class="checkbox inline all">
-                    <a id="scate0" class="curr scate btn-link currbg">不限</a>
+                    <a id="scates0" class="curr btn-link currbg">不限</a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="scate1" class="curr scate1 btn-link"> Iphone手机 </a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox4" id="scates1"><a class="color41"> 不足一年 </a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="scate2" class="curr scate2 btn-link"> Android手机 </a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox4" id="scates2"><a class="color42"> 1年-3年 </a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="scate3" class="curr scate3 btn-link"> 微信购买 </a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox4" id="scates3"><a class="color43"> 3年以上 </a>
                   </label>
                 </dd>
               </dl>
-              <dl class="fore">
-                <dt id="scate-expect">起购金额:</dt>
+              <dl class="fore" id="duration_all">
+                <dt>基金规模<a class="introduce" href="#myModal5" role="button" data-toggle="modal">(?)</a>:</dt>
                 <dd>
                   <label class="checkbox inline all">
-                    <a id="sexpect" class="curr sexpect btn-link currbg">不限</a>
+                    <a id="durations0" class="curr btn-link currbg"> 不限</a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="sexpect1" class="curr sexpect1 btn-link"> 0-10元 </a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox3" id="durations1"><a class="color31"> 小于20亿 </a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="sexpect2" class="curr sexpect2 btn-link"> 11-500元 </a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox3" id="durations2"><a class="color32"> 20亿-100亿</a>
                   </label>
                   <label class="checkbox inline">
-                    <a id="sexpect3" class="curr sexpect3 btn-link"> 501-1000元 </a>
-                  </label>
-                </dd>
-              </dl>
-              <dl class="fore" id="sdur">
-                <dt id="scate-dur">已有账号:</dt>
-                <dd>
-                  <label class="checkbox inline all">
-                    <a id="sdurs" class="curr sdur btn-link currbg">不限</a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="sdur1" class="curr sdur1 btn-link"> 支付宝</a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="sdur2" class="curr sdur2 btn-link"> 天天基金 </a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="sdur3" class="curr sdur3 btn-link"> 华夏基金</a>
+                    <input type="checkbox" class="curr btn-link" name="checkbox3" id="durations3"><a class="color33"> 大于100亿</a>
                   </label>
                 </dd>
               </dl>
@@ -103,134 +120,71 @@
               <dl class="fore">
                 <dt>已选择的筛选条件:&nbsp;</dt>
                 <dd id="sselected">
-
-                  <div id="ss-cate" class="del hide">
-                    <h6 class="text" id="sst-cate" condition="">购买途径:不限</h6>
-                    <a class="sdelete" cid="cate"></a>
+                  <div id="s-amount" class="del hide">
+                    <h6 class="text" id="st-amount" condition="">起购金额:不限</h6>
+                    <a class="delete" cid="amount"></a>
                   </div>
 
-                  <div id="ss-expect" class="del hide">
-                    <h6 class="text" id="sst-expect" condition="">起购金额:不限</h6>
-                    <a class="sdelete" cid="expect"></a>
+                  <div id="s-expectYID" class="del hide">
+                    <h6 class="text" id="st-expectYID" condition="">历史业绩:不限</h6>
+                    <a class="delete" cid="expectYID"></a>
                   </div>
 
-                  <div id="ss-dur" class="del hide">
-                    <h6 class="text" id="sst-dur" condition="">已有账号：不限</h6>
-                    <a class="sdelete" cid="dur"></a>
+                  <div id="s-scate" class="del hide">
+                    <h6 class="text" id="st-scate" condition="">成立时间：不限</h6>
+                    <a class="delete" cid="scate"></a>
+                  </div>
+
+                  <div id="s-duration" class="del hide">
+                    <h6 class="text" id="st-duration" condition="">基金规模：不限</h6>
+                    <a class="delete" cid="duration"></a>
                   </div>
                 </dd>
               </dl>
             </div>
           </div>
         </div>
-        <table id="liudong" class="table table-striped table-bordered">
+        <table id="products" class="table table-striped table-bordered">
           <thead>
           <tr>
-            <th class="hide" rowspan="2">购买途径</th>
-            <th class="hide" rowspan="2">起购金额</th>
-            <th rowspan="2">产品名</th>
-            <th rowspan="2">机构名称</th>
-            <th rowspan="2">绑定基金</th>
-            <th rowspan="2">起购金额</th>
-            <th colspan="2">近一年</th>
-            <th colspan="3">购买途径</th>
-          </tr>
-          <tr>
-            <th>收益率</th>
-            <th>排名</th>
-            <th>iphone</th>
-            <th>android</th>
-            <th>微信</th>
+            <th>产品名称</th>
+            <th>万份收益<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a>(元)</th>
+            <th>7日年化收益<br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
+            <th>起购金额</th>
+            <th>基金规模<br>(亿元)</th>
+            <th>成立时间</th>
+            <th class="hide">时间差</th>
+            <th>一年收益率</th>
+            <th class="hide">一年排名</th>
+            <th>一年排名</th>
+            <th class="hide">二年排名</th>
+            <th class="hide">三年排名</th>
           </tr>
           </thead>
-          <tfoot class="hide">
-          <tr>
-            <th class="hide" rowspan="2">购买途径</th>
-            <th class="hide" rowspan="2">起购金额</th>
-            <th rowspan="2">产品名</th>
-            <th rowspan="2">机构名称</th>
-            <th rowspan="2">绑定基金</th>
-            <th rowspan="2">起购金额</th>
-            <th>收益率</th>
-            <th>排名</th>
-            <th>iphone</th>
-            <th>android</th>
-            <th>微信</th>
-          </tr>
-          <tr>
-            <th colspan="2">近一年</th>
-            <th colspan="3">购买途径</th>
-          </tr>
-          </tfoot>
-          <% @financial2.each do |f| %>
-              <tr id="nan<%= f.id %>" onclick="show3(this);" class="finan<%= f.id %>">
-                <td class="hide"><%= f.way %></td>
-                <td class="hide"><%= f.startvalue %></td>
-                <td><a href="/bankinvest/productdetails/<%= f.id %>"><%= f.pname %></a></td>
-                <td><%= f.trusts %></td>
-                <% if f.property=='互联网产品'%>
-                    <% if f.bound>1%>
-                        <td>多个货币基金</td>
-                        <td><%= f.startvalue %></td>
-                        <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                        <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                    <% else %>
-                        <% if @hash3[f.id][0]>1 %>
-                            <td><%= @hash3[f.id][1] %></td>
-                            <td><%= f.startvalue %></td>
-                            <td class="red"><% if @hash3[f.id][5] !=nil && @hash3[f.id][5].to_f!=0 %><%= format("%0.2f",@hash3[f.id][5].to_f*100) %>%<% else %>--<% end %></td>
-                            <td><% if @hash3[f.id][6]!=nil && @hash3[f.id][6]!='0' && @hash3[f.id][6]!='' %><%= @hash3[f.id][6] %><% else %>--<% end %></td>
-                        <% else %>
-                            <td><%= f.pname %></td>
-                            <td><%= f.startvalue %></td>
-                            <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                            <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                        <% end %>
-                    <% end %>
-                <% else %>
-                    <td><%= f.pname %></td>
-                    <td><%= f.startvalue %></td>
-                    <td class="red"><% if f.rate !=nil && f.rate.to_f!=0 %><%= format("%0.2f",f.rate.to_f*100) %>%<% else %>--<% end %></td>
-                    <td><% if f.rank!=nil && f.rank!='0' && f.rank!='' %><%= f.rank %><% else %>--<% end %></td>
-                <% end %>
-                <% if f.property=='互联网产品'%>
-                    <td><%= @hash3[f.id][2] %></td>
-                    <td><%= @hash3[f.id][3] %></td>
-                    <td><%= @hash3[f.id][4] %></td>
-                <% else %>
-                    <td>否</td>
-                    <td>否</td>
-                    <td>否</td>
-                <% end %>
+          <% @monetary.each do |f| %>
+              <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
+                <td><%= f.productname %></td>
+                <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
+                <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
+                <td><% if @hash[f.product_code][0]!=nil %><%= @hash[f.product_code][0] %><% else %>0<% end %></td>
+                <td><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
+                <td><% if @hash[f.product_code][2]!=nil %><%= @hash[f.product_code][2] %><% else %>--<% end %></td>
+                <td class="hide"><% if @hash[f.product_code][3]!=nil %><%= @hash[f.product_code][3].to_s.split("/")[0] %><% end %></td>
+                <td class="red"><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                <td class="red"><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>1000<% end %></td>
+                <td class="hide"><% if f.two_year_rank!=nil %><%= f.two_year_rank.split("/")[0] %><% else %>--<% end %></td>
+                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>--<% end %></td>
               </tr>
           <% end %>
         </table>
         <blockquote style="margin-top: 30px;"><small>-- 表示该产品成立时间较短，没有相应的数据 或 没有同类产品。</small></blockquote>
       </div>
       <div class="tab-pane" id="tab2">
-        <div id="optionsRadios">
+       <!-- <div id="optionsRadios">
           <div class="box_sxtj">
             <div class="box_sxtj_top">理财产品－查询</div>
             <div class="box_sxtj_center">
-              <!--
-              <dl class="fore" id="category_all">
-                <dt id="category-category_all">产品类型:</dt>
-                <dd>
-                  <label class="checkbox inline all">
-                    <a id="category" class="curr category btn-link currbg">不限</a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="category1" class="curr category1 btn-link"> 随存随取型 </a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="category2" class="curr category2 btn-link"> 保本型 </a>
-                  </label>
-                  <label class="checkbox inline">
-                    <a id="category3" class="curr category3 btn-link"> 风险型 </a>
-                  </label>
-                </dd>
-              </dl>
-              -->
               <dl class="fore">
                 <dt id="category-expectYID">年收益率:</dt>
                 <dd>
@@ -272,7 +226,6 @@
                 </dd>
               </dl>
             </div>
-
             <div class="box_sxtj_bottom">
               <dl class="fore">
                 <dt>已选择的筛选条件:&nbsp;</dt>
@@ -297,25 +250,20 @@
             </div>
           </div>
         </div>
-        <table class="table table-striped table-bordered" id="products"  cellpadding="0" cellspacing="0" border="0">
+          -->
+        <table class="table table-striped table-bordered" id="fengxian"  cellpadding="0" cellspacing="0" border="0">
           <thead>
           <tr>
-            <th rowspan="2">对比</th>
+            <th rowspan="2">理财产品</th>
             <th rowspan="2">产品代码</th>
-            <th rowspan="2">产品名称</th>
-            <th rowspan="2">类型</th>
-            <th rowspan="2" class="hide">风险级别</th>
-            <th rowspan="2">风险级别</th>
+            <th rowspan="2">投资品种</th>
+            <th rowspan="2">单位净值</th>
+            <th rowspan="2">日增长率</th>
             <th colspan="2">近1年</th>
             <th colspan="2">近3年</th>
-            <th colspan="2">近5年</th>
-            <th rowspan="2" class="hide">收益率</th>
-            <!--<th rowspan="2" class="hide">产品大类</th>-->
             <th rowspan="2">晨星评级</th>
           </tr>
           <tr>
-            <th>收益率</th>
-            <th>排名</th>
             <th>收益率</th>
             <th>排名</th>
             <th>收益率</th>
@@ -324,50 +272,34 @@
           </thead>
           <tfoot class="hide">
           <tr>
-            <th rowspan="2">对比</th>
+            <th rowspan="2">理财产品</th>
             <th rowspan="2">产品代码</th>
-            <th rowspan="2">产品名称</th>
-            <th rowspan="2">类型</th>
-            <th rowspan="2" class="hide">风险级别</th>
-            <th rowspan="2">风险级别</th>
+            <th rowspan="2">投资品种</th>
+            <th rowspan="2">单位净值</th>
+            <th rowspan="2">日增长率</th>
             <th>收益率</th>
             <th>排名</th>
             <th>收益率</th>
             <th>排名</th>
-            <th>收益率</th>
-            <th>排名</th>
-            <th rowspan="2" class="hide">收益率</th>
-            <!--<th rowspan="2" class="hide">产品大类</th>-->
             <th rowspan="2">晨星评级</th>
           </tr>
           <tr>
             <th colspan="2">近1年</th>
             <th colspan="2">近3年</th>
-            <th colspan="2">近5年</th>
           </tr>
           </tfoot>
-
-          <% @financial.each do |f| %>
+          <% @general.each do |f| %>
               <tr>
-                <td class="second"><input type="checkbox" onclick="check_chose('<%= f.pname%>',<%= f.id%>)" id="chose<%= f.id%>" name="chose"></td>
-                <td><% if f.productcode !=nil && f.productcode !='' %><%= f.productcode %><% else %>--<% end %></td>
-                <td class="first"><a href="/bankinvest/productdetails/<%= f.id %>"><%= f.pname %></a></td>
-                <td><a href="/bankinvest/classify/<%= @hash[f.classify][0] %>"><%= f.classify %></a></td>
-                <% if f.risklevel==1 %><td>无风险</td><td class="hide">1</td>
-                <% elsif  f.risklevel==2 %><td>低风险</td><td class="hide">2</td>
-                <% elsif  f.risklevel==3 %><td>中级风险</td><td class="hide">3</td>
-                <% elsif  f.risklevel==4 %><td>高风险</td><td class="hide">4</td>
-                <% elsif  f.risklevel==5 %><td>极高风险</td><td class="hide">5</td>
-                <% end %>
-                <td><strong><% if f.rate !=nil && f.rate.to_f !=0 %><% if f.rate.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
-                <td><% if f.rank !='0' && f.rank !=nil  %><%= f.rank %><% else %>--<% end %></td>
-                <td><strong><% if f.rate1 !=nil && f.rate1.to_f !=0 %><% if f.rate1.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate1.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate1.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
-                <td><% if f.rank1 !='0' && f.rank1 !=nil  %><%= f.rank1 %><% else %>--<% end %></td>
-                <td><strong><% if f.rate2 !=nil && f.rate2.to_f !=0 %><% if f.rate2.to_f>0 %><span style="color: red;"><%= format("%0.2f",f.rate2.to_f*100) %>%</span><% else %><span style="color: green;"><%= format("%0.2f",f.rate2.to_f*100) %>%</span><% end %><% else %>--<% end %></strong></td>
-                <td><% if f.rank2 !='0' && f.rank2 !=nil %><%= f.rank2 %><% else %>--<% end %></td>
-                <td class="hide"><% if f.rate !=nil %><% if f.rate.to_f !=0 %><%= format("%0.2f",f.rate.to_f*100) %><% else %>--<% end %><% end %></td>
-               <!-- <td class="hide"><%= f.category %></td> -->
-                <td style="color:red;"><% if f.level==1 %>★<% elsif f.level==2 %>★★<% elsif f.level==3 %>★★★<% elsif f.level==4 %>★★★★<% elsif f.level==5 %>★★★★★<% else %>--<% end %></td>
+                <td class="first"><%= f.product_name %></td>
+                <td><% if f.product_code !=nil %><%= f.product_code %><% else %>--<% end %></td>
+                <td><%= @hash2[f.L2_typeid][0] %></a></td>
+                <td><%= f.today_value %></td>
+                <td><%= f.today_rate %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
           <% end %>
         </table>
@@ -377,50 +309,289 @@
   </div>
 </div>
 
-<div class="modal" id="shape_control">
-  <div class="modal-header">
-    <h3>您已经选择的理财产品</h3>
-  </div>
-  <div class="modal-body">
-  <div class="con"></div>
-  </div>
-  <div class="modal-footer">
-    <div class="btns"><a class="btn btn-primary pull-right" target="_blank" href="/bankinvest/compare">对比</a><a class="btn pull-right" onclick="check_clear()" style="margin-right: 10px;">清空</a></div>
-  </div>
+<script>
+    $.fn.dataTableExt.afnFiltering.push(
+            function( oSettings, aData, iDataIndex ) {
+                var num1=0,num2=1,num3=0,num4=0;
+                var obj = document.getElementsByName("checkbox1"); // 获取多选框数组
+                var objLen = obj.length;
+                var objYN = false; // 是否有选择
+                for (var i = 0; i < objLen; i++) {
+                    if (obj [i].checked == true) {
+                        objYN = true;
+                        break;
+                    }
+                }
+                if(!objYN){
+                    $("#amounts0").addClass('currbg');
+                    $("#s-amount").addClass('hide');
+                    $("[class*='color1']").removeClass('currbg');
+                    num1=1;
+                }
+                else{
+                    $("#amounts0").removeClass('currbg');
+                    $("#s-amount").removeClass('hide');
+                    var text='';
+                    if(obj[0].checked == true){
+                        $(".color11").addClass('currbg');
+                        text='0-10元';
+                        if(aData[3]>=0 && aData[3]<=10){
+                            num1=1;
+                        }
+                    }
+                    else{
+                        $(".color11").removeClass('currbg');
+                    }
+                    if(obj[1].checked == true){
+                        $(".color12").addClass('currbg');
+                        if(text!=""){text=text+",11-500元"}else{text="11-500元"}
+                        if(aData[3]>=11 && aData[3]<=500){
+                            num1=1;
+                        }
+                    }
+                    else{
+                        $(".color12").removeClass('currbg');
+                    }
+                    if(obj[2].checked == true){
+                        $(".color13").addClass('currbg');
+                        if(text!=""){text=text+",501-1000元"}else{text="501-1000元"}
+                        if(aData[3]>=501 && aData[3]<=2000){
+                            num1=1;
+                        }
+                    }
+                    else{
+                        $(".color13").removeClass('currbg');
+                    }
+                    $("#st-amount").html('起购金额:'+text);
+                }
 
-</div>
+                var obj = document.getElementsByName("checkbox2"); // 获取多选框数组
+                var objLen = obj.length;
+                var objYN = false; // 是否有选择
+                for (var i = 0; i < objLen; i++) {
+                    if (obj [i].checked == true) {
+                        objYN = true;
+                        break;
+                    }
+                }
+                if(!objYN){
+                    $("#expectYIDs0").addClass('currbg');
+                    $("#s-expectYID").addClass('hide');
+                    $("[class*='color2']").removeClass('currbg');
+                }
+                else{
+                    $("#expectYIDs0").removeClass('currbg');
+                    $("#s-expectYID").removeClass('hide');
+                    var text='';
+                    if(obj[0].checked == true){text='一';}
+                    if(obj[1].checked == true){if(text!=""){text=text+",二"}else{text="二"}}
+                    if(obj[2].checked == true){if(text!=""){text=text+",三"}else{text="三"}}
+                    $("#st-expectYID").html('同类排名:近'+text+'年来20名');
+                    if(obj[0].checked == true){
+                        $(".color21").addClass('currbg');
+                        if(!(aData[9]>=1 && aData[9]<=20)){
+                            num2=0;
+                        }
+                    }
+                    else{
+                        $(".color21").removeClass('currbg');
+                    }
+                    if(obj[1].checked == true){
+                        $(".color22").addClass('currbg');
+                        if(!(aData[10]>=1 && aData[10]<=20)){
+                            num2=0;
+                        }
+                    }
+                    else{
+                        $(".color22").removeClass('currbg');
+                    }
+                    if(obj[2].checked == true){
+                        $(".color23").addClass('currbg');
+                        if(!(aData[11]>=1 && aData[11]<=20)){
+                            num2=0;
+                        }
+                    }
+                    else{
+                        $(".color23").removeClass('currbg');
+                    }
+                }
 
+                var obj = document.getElementsByName("checkbox3"); // 获取多选框数组
+                var objLen = obj.length;
+                var objYN = false; // 是否有选择
+                for (var i = 0; i < objLen; i++) {
+                    if (obj [i].checked == true) {
+                        objYN = true;
+                        break;
+                    }
+                }
+                if(!objYN){
+                    $("#durations0").addClass('currbg');
+                    $("#s-duration").addClass('hide');
+                    $("[class*='color3']").removeClass('currbg');
+                    num3=1;
+                }
+                else{
+                    $("#durations0").removeClass('currbg');
+                    $("#s-duration").removeClass('hide');
+                    var text='';
+                    if(obj[0].checked == true){
+                        $(".color31").addClass('currbg');
+                        text='小于20亿';
+                        if(aData[4]>=0 && aData[4]<=20){
+                            num3=1;
+                        }
+                    }
+                    else{
+                        $(".color31").removeClass('currbg');
+                    }
+                    if(obj[1].checked == true){
+                        $(".color32").addClass('currbg');
+                        if(text!=""){text=text+",20亿-100亿"}else{text="20亿-100亿"}
+                        if(aData[4]>20 && aData[4]<=100){
+                            num3=1;
+                        }
+                    }
+                    else{
+                        $(".color32").removeClass('currbg');
+                    }
+                    if(obj[2].checked == true){
+                        $(".color33").addClass('currbg');
+                        if(text!=""){text=text+",大于100亿"}else{text="大于100亿"}
+                        if(aData[4]>100){
+                            num3=1;
+                        }
+                    }
+                    else{
+                        $(".color33").removeClass('currbg');
+                    }
+                    $("#st-duration").html('资金规模:'+text);
+                }
+
+                var obj = document.getElementsByName("checkbox4"); // 获取多选框数组
+                var objLen = obj.length;
+                var objYN = false; // 是否有选择
+                for (var i = 0; i < objLen; i++) {
+                    if (obj [i].checked == true) {
+                        objYN = true;
+                        break;
+                    }
+                }
+                if(!objYN){
+                    $("#scates0").addClass('currbg');
+                    $("#s-scate").addClass('hide');
+                    $("[class*='color4']").removeClass('currbg');
+                    num4=1;
+                }
+                else{
+                    $("#scates0").removeClass('currbg');
+                    $("#s-scate").removeClass('hide');
+                    var text='';
+                    if(obj[0].checked == true){
+                        $(".color41").addClass('currbg');
+                        text='不足一年';
+                        if(aData[6]>0 && aData[6]<365){
+                            num4=1;
+                        }
+                    }
+                    else{
+                        $(".color41").removeClass('currbg');
+                    }
+                    if(obj[1].checked == true){
+                        $(".color42").addClass('currbg');
+                        if(text!=""){text=text+",1年-3年"}else{text="1年-3年"}
+                        if(aData[6]>=365 && aData[6]<=1095){
+                            num4=1;
+                        }
+                    }
+                    else{
+                        $(".color42").removeClass('currbg');
+                    }
+                    if(obj[2].checked == true){
+                        $(".color43").addClass('currbg');
+                        if(text!=""){text=text+",3年以上"}else{text="3年以上"}
+                        if(aData[6]>1095){
+                            num4=1;
+                        }
+                    }
+                    else{
+                        $(".color43").removeClass('currbg');
+                    }
+                    $("#st-scate").html('成立时间:'+text);
+                }
+
+                if(num1==1 && num2==1 && num3==1 && num4==1){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+    );
+</script>
 <script>
     $(document).ready(function(){
-        $('#products').dataTable({
+        var oTable = $('#products').dataTable({
             "iDisplayLength": 50,
-            "aaSorting": [[ 4, "asc" ]]
+            "aaSorting": [[ 2, "asc" ]]
         });
 
-        $('#products').dataTable().columnFilter({
-            aoColumns: [
-                null,
-                null,
-                null,
-                null,
-                null,
-                { type: "number" },
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                { type: "number-range" },
-                null
-            ]
+        $("[id*='amounts']").click(function(){
+            if(this.id=='amounts0'){
+                $("#amount_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='expectYIDs']").click(function(){
+            if(this.id=='expectYIDs0'){
+                $("#expectYID_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='durations']").click(function(){
+            if(this.id=='durations0'){
+                $("#duration_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='scates']").click(function(){
+            if(this.id=='scates0'){
+                $("#scate_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='sexpects']").click(function(){
+            if(this.id=='sexpects0'){
+                $("#sexpect_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
         });
 
-        $('#liudong').dataTable({
+        $(".delete").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='amount'){
+                $("#amount_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='expectYID'){
+                $("#expectYID_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='duration'){
+                $("#duration_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='scate'){
+                $("#scate_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='sexpect'){
+                $("#sexpect_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $('#fengxian').dataTable({
             "iDisplayLength": 50
         });
 
-        $('#liudong').dataTable().columnFilter({
+        $('#fengxian').dataTable().columnFilter({
             aoColumns: [
                 { type: "text"},
                 { type: "number-range" },
@@ -436,20 +607,7 @@
             ]
         });
     });
-    /*
-    $("[class*='category']").click(function(){
-        $("[class*='category']").removeClass('currbg');
-        if(this.id=='category'){$("#search13").val('');$("#s-category").addClass('hide');$("#category").addClass('currbg');}
-        else{
-            if(this.id=='category1'){$("#search13").val('随存随取型');$("#category1").addClass('currbg');};
-            if(this.id=='category2'){$("#search13").val('保本型');$("#category2").addClass('currbg');};
-            if(this.id=='category3'){$("#search13").val('风险型');$("#category3").addClass('currbg');};
-            $("#s-category").removeClass('hide');
-            $("#st-category").html('产品类型:'+$('#'+this.id).html());
-        }
-        $("#search13").keyup();
-    });
-    */
+
     $("[class*='expectYID']").click(function(){
         $("[class*='expectYID']").removeClass('currbg');
         if(this.id=='expectYID'){$("#products_range_from_12").val('');$("#products_range_to_12").val('');$("#s-expectYID").addClass('hide');$("#expectYID").addClass('currbg');}
@@ -502,7 +660,7 @@
         }
     });
 
-
+    /*
     $("[class*='scate']").click(function(){
         $("[class*='scate']").removeClass('currbg');
         if(this.id=='scate0'){$("#search0").val('');$("#ss-cate").addClass('hide');$("#scate0").addClass('currbg');}
@@ -519,15 +677,15 @@
 
     $("[class*='sexpect']").click(function(){
         $("[class*='sexpect']").removeClass('currbg');
-        if(this.id=='sexpect'){$("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#ss-expect").addClass('hide');$("#sexpect").addClass('currbg');}
+        if(this.id=='sexpect'){$("#fengxian_range_from_1").val('');$("#fengxian_range_to_1").val('');$("#ss-expect").addClass('hide');$("#sexpect").addClass('currbg');}
         else{
-            if(this.id=='sexpect1'){$("#liudong_range_from_1").val('0');$("#liudong_range_to_1").val('10');$("#sexpect1").addClass('currbg');};
-            if(this.id=='sexpect2'){$("#liudong_range_from_1").val('11');$("#liudong_range_to_1").val('500');$("#sexpect2").addClass('currbg');};
-            if(this.id=='sexpect3'){$("#liudong_range_from_1").val('501');$("#liudong_range_to_1").val('1000');$("#sexpect3").addClass('currbg');};
+            if(this.id=='sexpect1'){$("#fengxian_range_from_1").val('0');$("#fengxian_range_to_1").val('10');$("#sexpect1").addClass('currbg');};
+            if(this.id=='sexpect2'){$("#fengxian_range_from_1").val('11');$("#fengxian_range_to_1").val('500');$("#sexpect2").addClass('currbg');};
+            if(this.id=='sexpect3'){$("#fengxian_range_from_1").val('501');$("#fengxian_range_to_1").val('1000');$("#sexpect3").addClass('currbg');};
             $("#ss-expect").removeClass('hide');
             $("#sst-expect").html('起购金额:'+$('#'+this.id).html());
         }
-        $("#liudong_range_from_1").keyup();
+        $("#fengxian_range_from_1").keyup();
     });
 
 
@@ -556,8 +714,8 @@
         else if($(this).attr("cid")=='expect'){
             $("[class*='sexpect']").removeClass('currbg');
             $("#sexpect").addClass('currbg');
-            $("#liudong_range_from_1").val('');$("#liudong_range_to_1").val('');$("#ss-expect").addClass('hide');
-            $("#liudong_range_from_1").keyup();
+            $("#fengxian_range_from_1").val('');$("#fengxian_range_to_1").val('');$("#ss-expect").addClass('hide');
+            $("#fengxian_range_from_1").keyup();
         }
         else if($(this).attr("cid")=='dur'){
             $("[class*='sdur']").removeClass('currbg');
@@ -566,51 +724,5 @@
             $("#search3").keyup();
         }
     });
-
-    var flag=0;
-    var comparenum=0;
-    // var session_compare;
-    // var height=document.getElementsByClassName("con").height;
-    $('#shape_control').hide();
-    <%session[:compareid]=""%>
-    function check_chose(name,id){
-        havecheck("chose");
-        if(flag==1){
-            $('#shape_control').show();
-        }
-
-        if($("#chose"+id).attr("checked")=="checked"){
-            $("<div class='comparetitle' id=comparetitle"+id+"><p><ul><li>"+name+"</li></ul></p></div>").appendTo(".con");
-            $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum});
-            comparenum=comparenum+1;
-        }
-        else
-        {
-            $("#comparetitle"+id).remove();
-            $.get("/bankinvest/comparesession",{compareid:id,comparenum:comparenum,type:'deleteid'});
-            comparenum=comparenum-1;
-            if(comparenum==0){
-                $('#shape_control').hide();
-            }
-        }
-    }
-
-    function check_clear(){
-        var txts=document.getElementsByName("chose");
-        $(".comparetitle").remove();
-        $("#products :checkbox").attr("checked", !1);
-        $.get("/bankinvest/comparesession",{comparenum:"0",type:'clearid'});
-        $('#shape_control').hide();
-    }
-
-    function $N(name){return document.getElementsByName(name);}
-    function havecheck(name){ //v当前要设置的值true/false;name要设置的checkbox组的name,如果省略则默认为所有的checkbox
-        o=name?$N(name):$N("input");
-        //alert(o.length)
-        for(i=0;i<o.length;i++)
-            if(o[i].type=="checkbox"){
-                flag=1;
-                break;
-            };
-    }
+        */
 </script>

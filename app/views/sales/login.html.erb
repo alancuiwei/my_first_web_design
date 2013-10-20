@@ -88,7 +88,7 @@
       </div>
       <div class="hide" id="back">
         <h1 class="h1">您已与通天顺帐号成功绑定</h1>
-        <p>请点击左上角 返回<br>开始财务分析</p>
+        <p>请点击左上角 返回<br><a id="bunding">重新绑定 请点击这里</a></p>
       </div>
     </div>
     <div class="span7">
@@ -293,6 +293,15 @@
                 else if('<%= params[:p1_usersurvey] %>'=='1'){
                     location.href="/usersurvey/p1_usersurvey";
                 }
+                else if('<%= params[:p2s1] %>'=='1'){
+                    location.href="/usertargets/p2s1_user_target_select";
+                }
+                else if('<%= params[:p2_usertargets] %>'=='1'){
+                    location.href="/usertargets/p2_usertargets";
+                }
+                else if('<%= params[:p3_userrisk] %>'=='1'){
+                    location.href="/userrisktolerance/p3_userrisktolerance";
+                }
                 else if('<%= params[:p1_usersurvey_report] %>'=='1'){
                     location.href="/usersurvey/p1_user_survey_report";
                 }
@@ -332,4 +341,21 @@
             })
         }
     }
+
+    $(document).ready(function(){
+        <% if params[:weixincode]!=nil %>
+        <% if @webuser!=nil %>
+        $("#myTabContent").hide();
+        $("#back").show();
+       <% else %>
+        $("#myTabContent").show();
+        $("#back").hide();
+        <% end %>
+        <% end %>
+    });
+
+    $("#bunding").click(function(){
+        $("#myTabContent").show();
+        $("#back").hide();
+    });
 </script>

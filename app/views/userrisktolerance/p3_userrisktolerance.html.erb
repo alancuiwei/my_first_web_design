@@ -1,0 +1,67 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<div class="welcomes">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>风险评估结果</h1>
+
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>风险评估重要性：</h2>
+          <div class="mleft">
+            <p class="q-text">每个人的风险承受能力的高低也是家庭理财规划中需要考虑的重要因素。我们应了解自己可接受的风险程度，选取适合的投资工具。若风险承受能力较高，可考虑一些高风险高回报的投资工具，如股票、基金。若风险承受能力较低，可考虑一些较为保守的投资工具，如债券、保本基金等。</p>
+            <p class="q-text">此外，在不同的人生阶段和不同的财务状况下，同一个投资者的风险承受能力也不尽相同，因此需要根据具体的情况调整投资策略。一般来说，随着年龄的增长，理财规划的目标会由年轻时候的“资产累积”转为“资产增值”，等到计划退休时，又会演变成“资产保值”，而投资者的风险承受能力也会随着年龄增长由强变弱。</p>
+          </div>
+          <h2>通天顺风险评估简介：</h2>
+          <div class="mleft">
+            <p class="q-text">这个风险承受度评估系统是通天顺使用美国Caterina Lucarelli & Gianni Brighetti的Risk Tolerance in Financial Decision Making的投资风险评估理论，引用美国高盛公司的开源资产风险度管理模型，通过10个问题，包含投资取向，个人资金状况，个人工作情况，个人投资经验，从而了解您的风险承受度。</p>
+            <p class="plink"><a class="introduce pull-left" href="#myModal" role="button" data-toggle="modal">风险评估 理论介绍</a></p>
+          </div>
+          <h2>通天顺风险评估内容：</h2>
+          <div class="mleft">
+            <p class="q-text">我们问六个主观风险问题，来确定个人是否愿意承担的风险和个人面对实际情况处理的一致性。不一致的答案，意味着个人实际能够承担风险承受能力低。例如，如果一个人愿意在一种情况下，愿意承担很高风险，在另一个情况下则承受力很低，这就说明他是不一致的，因此将被评估为风险承受能力较低。在我们的主观的问题，我们也要求投资人回答：他们是否拥有股票、基金、期货等高风险品种，我们认为，这个问题的答案，对于个人是否愿意承担风险的准确评估至关重要。</p>
+            <p class="q-text">我们问四个客观个人情况问题，包括个人是否有足够的钱承担她将来退休生活等四个客观题。当前充足的资金以为着客户能够承担更多的风险。相反，如果她的预期退休收入达不到她退休支出的话，他将不能拿出足够的资金进行风险投资。</p>
+            <a class="btn btn-primary btn-large" href="/userrisktolerance/p3s1">开 始 风 险 评 估</a>
+          </div>
+        </div>
+        <div class="span4 offset1">
+          <a href="#myModal_pic" role="button" data-toggle="modal" style="display: table;"><img src="/assets/usersurvey-1.png"></a>
+          <br>
+          <a class="btn btn-primary btn-large" href="/userrisktolerance/p3s1">开 始 风 险 评 估</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog!=nil %><%=raw @blog.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="myModal_pic" class="modal hide fade p1_usersurvey" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>&nbsp;</h3>
+  </div>
+  <div class="modal-body">
+    <img src="/assets/usersurvey-2.jpg">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+
+</div>

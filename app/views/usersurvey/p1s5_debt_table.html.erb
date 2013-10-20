@@ -255,7 +255,7 @@
             }
         }
         $.post("/usersurvey/p1s5_debt_table_save",{username:'<%= session[:webusername] %>',debt_typeid:debtid,debt_value:debtvalue,debt_value_monthly:debtvaluemonth,debt_years:debtyear},function(data){
-            $.post("/usersurvey/p1_report_count",{username:'<%= session[:webusername] %>'},function(data){
+            $.post("/weixins/create",{username:'<%= session[:webusername] %>'},function(data){
             location.href=e;
         });
         });

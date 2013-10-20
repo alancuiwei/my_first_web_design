@@ -4,12 +4,17 @@
 <%= javascript_include_tag "jquery.easy-pie-chart.js" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "html2canvas.js" %>
-
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
 <div id="image" class="welcomes start report">
   <%= render "side" %>
   <div id="page-content">
     <h1 id="financialreport">家庭财务诊断报告
-      <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide" href="/usersurvey/goal">下一步：理财目标</a>
+      <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide" href="/usertargets/p2_usertargets">下一步：理财目标</a>
       <a id="downloadtop" class="pull-right reporthide" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
     </h1>
     <div class="tablet">
@@ -89,10 +94,12 @@
         </div>
         <div class="span4 offset1">
           <p class="q-text tips">资产分布图</p>
-          <div id="container3" style="width: 300px;height: 200px;"></div>
+          <div id="container3" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container3" class="mobile" style="width: 100%;height: 200px;"></div>
           <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
           <p class="q-text tips">资产负债对比</p>
-          <div id="container4" style="width: 300px;height: 200px;"></div>
+          <div id="container4" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container4" class="mobile" style="width: 100%;height: 200px;"></div>
           <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
           <a class="btn btn-success" href="/usersurvey/p1s4_asset_table"> 更新 资产负债表 数据 </a>
         </div>
@@ -193,7 +200,8 @@
         </div>
         <div class="span4 offset1">
           <p class="q-text tips">月收入开销图</p>
-          <div id="container" style="width: 300px;height: 200px;"></div>
+          <div id="container" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container" class="mobile" style="width: 100%;height: 200px;"></div>
           <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
           <blockquote><small class="intro"></small></blockquote>
           <a class="btn btn-success" href="/usersurvey/p1s2_cash_flow_statement_month"> 更新 月收入开销 明细 </a>
@@ -245,7 +253,8 @@
         </div>
         <div class="span4 offset1">
           <p class="q-text tips">年收入开销图</p>
-          <div id="container2" style="width: 300px;height: 200px;"></div>
+          <div id="container2" class="win" style="width: 300px;height: 200px;"></div>
+          <div id="container2" class="mobile" style="width: 100%;height: 200px;"></div>
           <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
           <a class="btn btn-success" href="/usersurvey/p1s3_cash_flow_statement_year"> 更新 年收入开销 数据 </a>
         </div>
@@ -254,7 +263,13 @@
         <h1 class="h1"><span>3</span>家庭财务指数：</h1>
         <table id="indicators" class="table table-striped table-bordered footable">
           <thead>
-          <tr><th>家庭财务比率</th><th>定义</th><th>反映情况</th><th>合理范围</th><th>实际比率</th></tr>
+          <tr>
+            <th data-sort-initial="descending" data-class="expand">家庭财务比率</th>
+            <th data-hide="phone">定义</th>
+            <th data-hide="phone">反映情况</th>
+            <th data-hide="phone">合理范围</th>
+            <th data-sort-ignore="true">实际比率</th>
+          </tr>
           </thead>
           <% @indicators.each do |i| %>
               <tr>
@@ -283,7 +298,7 @@
       </div>
     </div>
     <div id="q-buttons" class="">
-        <a id="goal" class="btn btn-primary btn-large pull-right" href="/usersurvey/goal">下一步：理财目标</a>
+        <a id="goal" class="btn btn-primary btn-large pull-right" href="/usertargets/p2_usertargets">下一步：理财目标</a>
         <a id="download" class="pull-right" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
     </div>
   </div>
@@ -319,9 +334,29 @@
   </div>
 </div>
 
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>
+
 <script>
     $(document).ready(function(){
-        <% if session[:webusername]!=nil %>
+        <% if session[:webusername]!=nil || params[:username]!=nil %>
         var asset=document.getElementsByName("asset");
         for(i=0;i<asset.length;i++){
            <% @userassetsheet.each do |u| %>
@@ -674,7 +709,12 @@
                var canvas=document.getElementById("myCanvas");
                var type = 'png';
                var imgData = canvas.toDataURL(type);
-               $.post("/usersurvey/save_image",{image:imgData},function(data){
+               <% if params[:username]!=nil %>
+               username='<%= params[:username] %>'
+               <% else %>
+               username='<%= session[:webusername] %>'
+               <% end %>
+               $.post("/usersurvey/save_image",{username:username,image:imgData},function(data){
 
                });
               /*
@@ -704,7 +744,12 @@
    });
    $("#confirm").click(function(){
        if($("#email").attr("value")!=""){
-       $.post("/usersurvey/send_image",{username:'<%= session[:webusername] %>',email:$("#email").attr("value")},function(data){
+       <% if params[:username]!=nil %>
+           username='<%= params[:username] %>'
+       <% else %>
+           username='<%= session[:webusername] %>'
+       <% end %>
+       $.post("/usersurvey/send_image",{username:username,email:$("#email").attr("value")},function(data){
         //   location.href="/usersurvey/goal";
        });
        }
@@ -713,7 +758,6 @@
        }
    });
 </script>
-
 
 <!--
 <%= javascript_include_tag "canvas2image.js" %>

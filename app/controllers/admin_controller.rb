@@ -939,7 +939,7 @@ class AdminController < ApplicationController
 
         Thread.new{
           if params[:ulogin]=="1"
-            UserMailer.confirm(params[:username],params[:email],params[:tel],"新投资人首页注册").deliver
+          #  UserMailer.confirm(params[:username],params[:email],params[:tel],"新投资人首页注册").deliver
             UserMailer.welcome(params[:username],params[:email],"欢迎注册通天顺家庭理财").deliver
           end
         }
@@ -981,6 +981,10 @@ class AdminController < ApplicationController
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
         if params[:weixincode]!=nil && params[:weixincode]!=""
+          @weixin=Webuser.find_by_weixincode(params[:weixincode])
+          if @weixin!=nil
+            @weixin.update_attributes(:weixincode=>nil)
+          end
           @webuser.update_attributes(:weixincode=>params[:weixincode])
           render :json => "weixincode".to_json
         else

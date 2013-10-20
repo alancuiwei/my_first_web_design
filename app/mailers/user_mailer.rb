@@ -2,19 +2,13 @@
 class UserMailer < ActionMailer::Base
   default from: "info@tongtianshun.com"
 
-  def confirm(usename,email,tel,title)
-    @usename = usename
-        @email = email
-        @tel = tel
-    mail(:to => "cuiwei@tongtianshun.com",:subject=>title)
-  end
-
   def welcome(usename,email,title)
     @usename = usename
     mail(:to => email,:subject=>title)
   end
 
-  def report(email,title)
+  def report(username,email,title)
+    @username=username
     mail(:to => email,:subject=>title)
   end
 
