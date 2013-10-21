@@ -711,6 +711,8 @@
                var imgData = canvas.toDataURL(type);
                <% if params[:username]!=nil %>
                username='<%= params[:username] %>'
+               <% elsif params[:fromusername]!=nil %>
+               username='<%= @webuser.username %>'
                <% else %>
                username='<%= session[:webusername] %>'
                <% end %>
@@ -746,6 +748,8 @@
        if($("#email").attr("value")!=""){
        <% if params[:username]!=nil %>
            username='<%= params[:username] %>'
+       <% elsif params[:fromusername]!=nil %>
+           username='<%= @webuser.username %>'
        <% else %>
            username='<%= session[:webusername] %>'
        <% end %>
