@@ -1,17 +1,33 @@
+<style>
+    #top-tabs .disabled {
+        color: #999;
+    }
+</style>
+
 <div id="top-tabs">
   <div class="top-tabs-content">
     <b>1.</b> <span> 财务分析</span>
     <b>&nbsp;&gt;&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
-        <a href="/home/questions"><b>2.</b> 风险评估</a>
+    <% if @targets!=nil %>
+        <a href="/usertargets/p2_usertargets"><b>2.</b> 理财目标</a>
     <% else %>
-        <span class="disabled"><b>2.</b> 风险评估</span>
+        <span class="disabled"><b>2.</b> 理财目标</span>
+    <% end %>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
+        <a href="/userrisktolerance/p3_userrisktolerance"><b>3.</b> 风险评估</a>
+    <% else %>
+        <span class="disabled"><b>3.</b> 风险评估</span>
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b>
     <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
-        <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
+        <a href="/personmanagement/summary"><b>4.</b> 制定理财规划</a>
     <% else %>
-        <span class="disabled"><b>3.</b> 理财建议</span>
+        <span class="disabled"><b>4.</b> 制定理财规划</span>
     <% end %>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>5.</b> 执行理财规划</span>
+    <b>&nbsp;&gt;&nbsp;</b>
+    <span class="disabled"><b>6.</b> 跟踪理财规划</span>
   </div>
 </div>

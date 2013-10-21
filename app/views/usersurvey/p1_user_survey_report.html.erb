@@ -356,7 +356,7 @@
 
 <script>
     $(document).ready(function(){
-        <% if session[:webusername]!=nil || params[:username]!=nil %>
+        <% if session[:webusername]!=nil || params[:username]!=nil || params[:fromusername]!=nil %>
         var asset=document.getElementsByName("asset");
         for(i=0;i<asset.length;i++){
            <% @userassetsheet.each do |u| %>
@@ -385,7 +385,7 @@
         var amount=0;
         var cause=<%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)*@expensetype[i].expense_expect/100).to_i %>;
         <% for k in 0..@expensemonth.size-1 %>
-          <% if @expensemonth[k].expense_typeid==@expensetype[i].expense_id %>
+          <% if @expensemonth[k].expense_typeid==@expensetype[i].expense_id && @expensemonth[k].expense_value!=nil %>
              amount=<%= @expensemonth[k].expense_value %>;
           <% end %>
         <% end %>

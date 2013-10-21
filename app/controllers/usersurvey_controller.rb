@@ -5,6 +5,7 @@ class UsersurveyController < ApplicationController
   def p1_usersurvey
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @blog=Blog.find_by_id(401)
     else
       redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
@@ -14,6 +15,7 @@ class UsersurveyController < ApplicationController
   def p1s1_user_basic_info
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @blog_age=Blog.find_by_id(490)
       @blog_sex=Blog.find_by_id(491)
       @blog_married=Blog.find_by_id(492)
@@ -34,6 +36,7 @@ class UsersurveyController < ApplicationController
   def p1s2_cash_flow_statement_month
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @incometype=Admin_income_type_month.all
       @expensetype=Admin_expense_type_month.order("expense_id ASC").all
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
@@ -137,6 +140,7 @@ class UsersurveyController < ApplicationController
   def p1s3_cash_flow_statement_year
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @incometypeannual=Admin_income_type_annual.all
       @expensetypeannual=Admin_expense_type_annual.all
       @incomeannual=Userdata_detailedincome_annual.find_all_by_username(session[:webusername])
@@ -188,6 +192,7 @@ class UsersurveyController < ApplicationController
   def p1s4_asset_table
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @assettype=Admin_asset_type.all
       @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
     else
@@ -216,6 +221,7 @@ class UsersurveyController < ApplicationController
   def p1s5_debt_table
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @debttype=Admin_debt_type.all
       @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
     else
@@ -245,15 +251,21 @@ class UsersurveyController < ApplicationController
   end
 
   def p1_user_survey_report
-    if params[:username]!=nil || session[:webusername]!=nil
+    if params[:username]!=nil || session[:webusername]!=nil || params[:fromusername]!=nil
       if params[:username]!=nil
         @webuser=Webuser.find_by_username(params[:username])
         if @webuser==nil
           redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
       end
+      elsif params[:fromusername]!=nil
+        @webuser=Webuser.find_by_weixincode(params[:fromusername])
+        if @webuser==nil
+          redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
+        end
     else
     @webuser=Webuser.find_by_username(session[:webusername])
     end
+      @targets=User_targets.find_by_username(@webuser.username)
       @moonlite=Admin_moonlite_type.all
       @blog=Blog.find_by_id(401)
       @assettype1=Admin_asset_type.find_all_by_asset_type_L1(100);
@@ -311,17 +323,6 @@ class UsersurveyController < ApplicationController
         UserMailer.sendimage(params[:username],params[:email],"家庭财务诊断报告").deliver
     }
     render :json => 's'.to_json
-  end
-
-  def goal
-    @blog=Blog.find_by_id(452)
-   if session[:webusername]!=nil
-    @targets=User_targets.find_all_by_username(session[:webusername])
-    @webuser=Webuser.find_by_username(session[:webusername])
-    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-   else
-     redirect_to(:controller=>"sales", :action=>"login", :goal=>"1")
-   end
   end
 
   def target1

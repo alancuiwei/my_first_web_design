@@ -16,6 +16,7 @@
     #category td.second,#category th.second,tr.third td{
         background-color: #CCCCCC!important;
     }
+    .question{padding:0 168px 0 56px!important;}
 </style>
 <script>
     t0=new Date
@@ -33,29 +34,16 @@
 <div class="welcomes questions">
 <div class="ofa-funnel-pages">
 <div id="page-wrapper">
-<div id="top-tabs">
-  <div class="top-tabs-content">
-    <a href="/usersurvey/p1_usersurvey"><b>1.</b> <span>资产体检</span></a>
-    <b>&nbsp;>&nbsp;</b>
-    <b>2.</b> <span>风险评估</span>
-    <b>&nbsp;>&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
-        <a href="/personmanagement/summary"><b>3.</b> 理财建议</a>
-    <% else %>
-        <span class="disabled"><b>3.</b> 理财建议</span>
-    <% end %>
-  </div>
-</div>
+  <%= render "side" %>
 
 <div id="page-content">
   <div class="clearfix"></div>
   <h1>
     看看您的风险承受度是多少？
-    <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+    <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
   </h1>
 
   <div id="pict" style="float:right;width: 280px;margin:40px 0 0 0;position:relative">
-    <!-- <div id="risk-meter"></div>  -->
     <div id="container"></div>
   </div>
 
@@ -67,7 +55,7 @@
         <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>卖掉一部分股票</span></label>
         <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>继续持有</span></label>
         <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>购买更多的股票</span></label>
-        <div style="clear:both"></div>
+        <div style="clear:both"></div><div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -87,7 +75,7 @@
         <br>
         <div class="q-portfolio-choices">
           <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
-        </div>
+        </div><div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您为了获取较高收益率所愿意承受的波动幅度。正常情况而言，您能接受的波动幅度越大，您的风险度得分将越高。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -97,7 +85,7 @@
         <label class="stacked"><input type="radio" name="concern" value="gain" tabindex="-1"><span>最大利润</span></label>
         <label class="stacked"><input type="radio" name="concern" value="loss" tabindex="-1"><span>最小损失</span></label>
         <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>两者都很重要</span></label>
-        <div style="clear:both"></div>
+        <div style="clear:both"></div><div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a demo-tip-yellowsimple" title=" 更关注最大利润意味着愿意承担更大的风险。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -106,6 +94,7 @@
         <p class="q-text">你是否自己参与购买过股票、基金或期货等高风险投资品种?</p>
         <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>是</span></label> &nbsp;
         <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>否</span></label>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a demo-tip-yellowsimple" title="主动参与高风险产品投资意味着您愿意承担更大的风险" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -113,6 +102,7 @@
       <div class="question">
         <p class="q-text">您参加工作有多少时间了?</p>
         <input type="text" name="age" id="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">年
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a demo-tip-yellowsimple" title="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -124,6 +114,7 @@
         <p>
           <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" id="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
         </p>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a demo-tip-yellowsimple" title="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -135,6 +126,7 @@
         <label class="stacked"><input type="radio" name="income" value="180" tabindex="-1"><span>六个月</span></label>
         <label class="stacked"><input type="radio" name="income" value="365" tabindex="-1"><span>一年</span></label>
         <label class="stacked"><input type="radio" name="income" value="730" tabindex="-1"><span>二年</span></label>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a demo-tip-yellowsimple" title="你投资的时间越长，收益率会相对越高,能承受的风险度越高。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -146,6 +138,7 @@
         <label class="stacked"><input type="radio" name="stability" value="C" tabindex="-1"><span>比较不稳定</span></label>
         <label class="stacked"><input type="radio" name="stability" value="D" tabindex="-1"><span>非常不稳定</span></label>
         <div style="clear:both"></div>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a demo-tip-yellowsimple" title="一个稳定的收入，意味着您能承担较高的风险。 " target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -157,6 +150,7 @@
         <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>余额宝等货币基金</span></label>
         <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>P2P理财产品</span></label>
         <div style="clear:both"></div>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a demo-tip-yellowsimple" title="我们将根据你感兴趣的产品的风险度来判断您的承受力，一般来说，选择P2P的话风险承受力会高，选择定期存款，风险承受力会较低。" target="_top">为什么我们问这个问题?</a></span>
         </p>
@@ -165,48 +159,11 @@
         <p class="q-text">您短期内（1-2年）有买房或买车等大额消费目标吗?</p>
         <label><input type="radio" name="goal" value="false" tabindex="-1"><span>是</span></label>
         <label><input type="radio" name="goal" value="true" tabindex="-1"><span>否</span></label>
+        <div class="mobile"><br></div>
         <p class="why-do-we-ask">
           <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 短期内有大额消费目标的话，说明资金的安全性对您来说很重要，相应您的风险承受力则会降低。 " target="_top">为什么我们问这个问题?</a></span>
         </p>
       </div>
-      <div class="question last" style="padding-right: 0;height:1400px;">
-        <h2><span>1</span>风险评估重要性：</h2>
-        <p class="q-text">每个人的风险承受能力的高低也是家庭理财规划中需要考虑的重要因素。我们应了解自己可接受的风险程度，选取适合的投资工具。若风险承受能力较高，可考虑一些高风险高回报的投资工具，如股票、基金。若风险承受能力较低，可考虑一些较为保守的投资工具，如债券、保本基金等。</p>
-        <p class="q-text">此外，在不同的人生阶段和不同的财务状况下，同一个投资者的风险承受能力也不尽相同，因此需要根据具体的情况调整投资策略。一般来说，随着年龄的增长，理财规划的目标会由年轻时候的“资产累积”转为“资产增值”，等到计划退休时，又会演变成“资产保值”，而投资者的风险承受能力也会随着年龄增长由强变弱。</p>
-        <h2><span>2</span>通天顺风险评估简介：</h2>
-        <p class="q-text">这个风险承受度评估系统是通天顺使用美国Caterina Lucarelli & Gianni Brighetti的Risk Tolerance in Financial Decision Making的投资风险评估理论，引用美国高盛公司的开源资产风险度管理模型，通过10个问题，包含投资取向，个人资金状况，个人工作情况，个人投资经验，从而了解您的风险承受度。</p>
-        <div style="display: table;width: 100%;"><a class="introduce pull-right" href="#myModal" role="button" data-toggle="modal" tabindex="-1">风险评估理论介绍</a></div>
-        <h2><span>3</span>通天顺风险评估内容：</h2>
-        <p class="q-text">我们问六个主观风险问题，来确定个人是否愿意承担的风险和个人面对实际情况处理的一致性。不一致的答案，意味着个人实际能够承担风险承受能力低。例如，如果一个人愿意在一种情况下，愿意承担很高风险，在另一个情况下则承受力很低，这就说明他是不一致的，因此将被评估为风险承受能力较低。在我们的主观的问题，我们也要求投资人回答：他们是否拥有股票、基金、期货等高风险品种，我们认为，这个问题的答案，对于个人是否愿意承担风险的准确评估至关重要。</p>
-        <p class="q-text">我们问四个客观个人情况问题，包括个人是否有足够的钱承担她将来退休生活等四个客观题。当前充足的资金以为着客户能够承担更多的风险。相反，如果她的预期退休收入达不到她退休支出的话，他将不能拿出足够的资金进行风险投资。</p>
-        <h2><span>4</span>您的风险评估：</h2>
-        <p class="q-text" id="risk"></p>
-        <div class="left">
-          <div id="container2" style="width: 280px;height: 170px;"></div>
-          <table id="type" class="table table-striped table-bordered footable">
-            <thead>
-            <tr>
-              <th data-sort-initial="descending" data-class="expand" style="width: 80px;">风险类型</th>
-              <th data-sort-ignore="true">分值范围</th>
-              <th data-hide="phone">年收益率</th>
-              <th data-hide="phone" style="width: 120px;">适合产品</th>
-              <th data-hide="phone">说明</th>
-            </tr>
-            </thead>
-            <% @risktype.each do |r| %>
-                <tr>
-                  <td><%= r.risk_typename %></td>
-                  <td><%= r.risk_score_arrange %></td>
-                  <td><% if r.risk_type_returnrate!=nil %><%= r.risk_type_returnrate %>%<% end %></td>
-                  <td><%= r.risk_type_products %></td>
-                  <td><%= r.risk_spec_intro %></td>
-                </tr>
-            <% end %>
-          </table>
-        </div>
-        <input type="checkbox" class="hide">
-      </div>
-      <input type="hidden" name="rec" value="0.1" tabindex="-1">
     </form>
     <div id="q-fade-t"></div>
     <div id="q-fade-b"></div>
@@ -214,7 +171,7 @@
   <div id="q-buttons">
     <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
     <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
-    <button class="q-button orange-button big-button" id="q-submit">理财建议</button>
+    <button class="q-button orange-button big-button" id="q-submit">风险评估报告</button>
 
     <p class="q-privacy">
       <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
@@ -224,30 +181,66 @@
 </div>
 </div>
 </div>
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>为何我的风险评估结果和我想象中的不是很一致？这个风险评估准嘛？</h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/56EC6735-84CC-4B22-BD6B-2806435D811D.png"><br><br>
-        <%=raw @blog.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
-  </div>
-</div>
 </div>
 
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $("#container").remove();
+        $(".win").remove();
+    }
+</script>
+
 <script>
+
     <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
     var risk=<%= @webuser.risk_score %>;
     <% else %>
     var risk=0;
     <% end %>
     var tol;
+
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
+    w.requestId = "1092152607";
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
     var s_age= 0,s_amount= 0,s_salary=0;
     <% if  session[:webusername]!=nil %>
     s_age='<%= @webuser.age %>';
@@ -265,8 +258,22 @@
     <% end %>
 
     $(function() {
+        var $qv = $("#questionnaire-view");
         var $qr = $("#questionnaire");
         var accountMin = 0;
+
+        $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+            w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+        });
+
+        $("#q-numbers").delegate(".q-num.past", "click", function() {
+            var $i = $qr.find(".invalid");
+            if ($i.length) {
+                $i.focus().select();
+            } else {
+                showQn($(this).index());
+            }
+        });
 
         $qr.data("vals", valsFromDom($qr.find("input")))
                 .data("init", function(doCalc) {
@@ -343,11 +350,20 @@
                         showQn(new_q_num);
                     });
                     $("#q-submit").click(function(e) {
-                        var risk_score=tol;
                         <% if session[:webusername]!=nil %>
+                        var svaue=0;
+                        var rate=document.getElementsByName("goal");
+                        for(j=0;j<rate.length;j++){
+                            if(rate[j].checked){
+                                svalue=rate[j].value;
+                            }
+                        }
+                        $.post("/home/riskconfig",{ username:"<%= session[:webusername] %>",num:10,svalue: svalue},function(data){
+                        });
+                        var risk_score=tol;
                         $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",risk_score:risk_score
                         },function(data){
-                            location.href='/personmanagement/summary';
+                            location.href='/userrisktolerance/p3_risktolerence_report';
                         });
                         <% end %>
                         return false
@@ -368,10 +384,10 @@
                         calculateRiskTol();
                     }
                 });
-        var num= 0,svalue=0;
+        var num= -1,svalue=0;
         function showQn(i, immediately) {
-            if(num>=1 && num<=10){
-                if(num==1){
+            if(num>=0 && num<10){
+                if(num==0){
                     var fluct=document.getElementsByName("response");
                     for(j=0;j<fluct.length;j++){
                         if(fluct[j].checked){
@@ -379,7 +395,7 @@
                         }
                     }
                 }
-                else if(num==2){
+                else if(num==1){
                     var rate=document.getElementsByName("portfolio");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -387,7 +403,7 @@
                         }
                     }
                 }
-                else if(num==3){
+                else if(num==2){
                     var rate=document.getElementsByName("concern");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -395,7 +411,7 @@
                         }
                     }
                 }
-                else if(num==4){
+                else if(num==3){
                     var rate=document.getElementsByName("options");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -403,13 +419,13 @@
                         }
                     }
                 }
-                else if(num==5){
+                else if(num==4){
                     svalue=$("#age").attr("value");
                 }
-                else if(num==6){
+                else if(num==5){
                     svalue=$("#lnw").attr("value").replace(/,/g,'');
                 }
-                else if(num==7){
+                else if(num==6){
                     var rate=document.getElementsByName("income");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -417,7 +433,7 @@
                         }
                     }
                 }
-                else if(num==8){
+                else if(num==7){
                     var rate=document.getElementsByName("stability");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -425,7 +441,7 @@
                         }
                     }
                 }
-                else if(num==9){
+                else if(num==8){
                     var rate=document.getElementsByName("angel");
                     for(j=0;j<rate.length;j++){
                         if(rate[j].checked){
@@ -433,55 +449,18 @@
                         }
                     }
                 }
-                else if(num==10){
-                    var rate=document.getElementsByName("goal");
-                    for(j=0;j<rate.length;j++){
-                        if(rate[j].checked){
-                            svalue=rate[j].value;
-                        }
-                    }
-                }
-                $.post("/home/riskconfig",{ username:"<%= session[:webusername] %>",num:num,svalue: svalue},function(data){
+                $.post("/home/riskconfig",{ username:"<%= session[:webusername] %>",num:num+1,svalue: svalue},function(data){
                 });
             }
             num=i;
-            if(i==11){
-                $("#type tr").removeClass("back");
-                if(risk>8 && risk<=10){
-                    $("#risk").html("您的风险评估得分是"+risk+"分，您属于激进型投资人。");
-                    $("#type tr:eq(5)").addClass("back");
-                }
-                else if(risk>6 && risk<=8){
-                    $("#risk").html("您的风险评估得分是"+risk+"分，您属于积极型投资人。");
-                    $("#type tr:eq(4)").addClass("back");
-                }
-                else if(risk>4 && risk<=6){
-                    $("#risk").html("您的风险评估得分是"+risk+"分，您属于稳健型投资人。");
-                    $("#type tr:eq(3)").addClass("back");
-                }
-                else if(risk>2 && risk<=4){
-                    $("#risk").html("您的风险评估得分是"+risk+"分，您属于保守型投资人。");
-                    $("#type tr:eq(2)").addClass("back");
-                }
-                else if(risk>=0 && risk<=2){
-                    $("#risk").html("您的风险评估得分是"+risk+"分，您属于安益型投资人。");
-                    $("#type tr:eq(1)").addClass("back");
-                }
-                $("#pict").hide();
-                var test_div=document.getElementById("questionnaire-view");
-                test_div.style.width="98%";
-                test_div.style.height="1430px";
+            var test_div=document.getElementById("questionnaire-view");
+            test_div.style.height="326px";
+            if(system.win||system.mac||system.xll){
+                $("#pict").show();
+                test_div.style.width="642px";
             }
             else{
-                var test_div=document.getElementById("questionnaire-view");
-                test_div.style.height="326px";
-                if(system.win||system.mac||system.xll){
-                    $("#pict").show();
-                    test_div.style.width="642px";
-                }
-                else{
-                    $("#pict").hide();
-                }
+                $("#pict").hide();
             }
 
             var $qns = $qr.children(".question");
@@ -491,7 +470,6 @@
 
                 $qr.data({q: i, transition: true});
                 var newTop = -i * $qn.height() + "px";
-                if(i==11){newTop= (-i * 296).toString()+"px"}
                 //  alert(newTop)
                 if (immediately) {
                     $qr.css("top", newTop);
@@ -674,6 +652,7 @@
         for(i=0;i<fluct.length;i++){
             if(fluct[i].value==fvalue){
                 fluct[i].checked=true;
+                document.getElementById("q-next").disabled=false;
             }
         }
         <% elsif r.question_id==2 %>
@@ -743,114 +722,6 @@
         <% end %>
     });
 
-    var chart = new Highcharts.Chart({
-
-                chart: {
-                    renderTo: 'container2',
-                    type: 'gauge',
-                    plotBorderWidth: 1,
-                    plotBackgroundColor: {
-                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                        stops: [
-                            [0, '#FFF4C6'],
-                            [0.3, '#FFFFFF'],
-                            [1, '#FFF4C6']
-                        ]
-                    },
-                    plotBackgroundImage: null,
-                    height: 170,
-                    width: 280
-                },
-                title: false,
-                pane: [{
-                    startAngle: -45,
-                    endAngle: 45,
-                    background: null,
-                    center: ['50%', '145%'],
-                    size: 280
-                }],
-
-                yAxis: [{
-                    min: 0,
-                    max: 10,
-                    tickInterval: 2,
-                    minorTickPosition: 'outside',
-                    tickPosition: 'outside',
-                    labels: {
-                        rotation: 'auto',
-                        distance: 20
-                    },
-                    plotBands: [{
-                        from: 0,
-                        to: 2,
-                        color: '#09a509',
-                        innerRadius: '100%',
-                        outerRadius: '105%'
-                    },{
-                        from: 2,
-                        to: 4,
-                        color: '#69c908',
-                        innerRadius: '100%',
-                        outerRadius: '105%'
-                    },{
-                        from: 4,
-                        to: 6,
-                        color: '#eded07',
-                        innerRadius: '100%',
-                        outerRadius: '105%'
-                    },{
-                        from: 6,
-                        to: 8,
-                        color: '#fa8c1e',
-                        innerRadius: '100%',
-                        outerRadius: '105%'
-                    },{
-                        from: 8,
-                        to: 10,
-                        color: '#C02316',
-                        innerRadius: '100%',
-                        outerRadius: '105%'
-                    }],
-                    pane: 0,
-                    title: false
-                }],
-
-                plotOptions: {
-                    gauge: {
-                        dataLabels: {
-                            enabled: false
-                        },
-                        dial: {
-                            radius: '90%'
-                        }
-                    }
-                },
-                series: [{
-                    data: [0],
-                    yAxis: 0
-                }],
-                credits: {
-                    enabled: false
-                }
-            },
-
-            // Let the music play
-            function(chart) {
-                setInterval(function() {
-                    var left = chart.series[0].points[0],
-                            leftVal;
-                    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
-                    if(tol==0.1){
-                        tol=<%= @webuser.risk_score %>;
-                    }
-                    <% end %>
-                    leftVal = tol;
-                    left.update(leftVal, false);
-                    chart.redraw();
-
-                }, 500);
-
-            });
     $(function () {
         if(system.win||system.mac||system.xll){
             var chart = new Highcharts.Chart({
@@ -968,175 +839,3 @@
         }
     });
 </script>
-
-<!--
-<%= stylesheet_link_tag "p1_usersurvey.css" %>
-<%= javascript_include_tag "bootstrap.min.js" %>
-
-<div class="welcomes start">
-  <%= render "side" %>
-  <div id="page-content">
-    <h1>看看您的风险承受度是多少？
-      <div id="q-numbers"><b class="q-num curr">1</b><b class="q-num">2</b><b class="q-num">3</b><b class="q-num">4</b><b class="q-num">5</b><b class="q-num">6</b><b class="q-num">7</b><b class="q-num">8</b><b class="q-num">9</b><b class="q-num">10</b></div>
-    </h1>
-    <div class="tablet">
-      <div class="row-fluid">
-        <div class="span1">
-          <span>1</span>
-        </div>
-        <div class="span6">
-          <div class="mleft">
-            <p class="q-text">当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</p>
-            <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>卖掉所有股票</span></label>
-            <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>卖掉一部分股票</span></label>
-            <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>继续持有</span></label>
-            <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>购买更多的股票</span></label>
-          </div>
-        </div>
-        <div class="span1">
-          <p class="why-do-we-ask">
-            <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
-          </p>
-        </div>
-        <div class="span4">
-          <div class="image"><img src="/assets/121079.png"></div>
-        </div>
-      </div>
-    </div>
-    <div id="q-buttons" class="">
-      <button class="q-button light-gray big-button" id="q-back" disabled>◄&nbsp; <span>上一题</span>&nbsp;</button>
-      <button class="q-button orange-button big-button" id="q-next">&nbsp;下一题 &nbsp;►</button>
-    </div>
-  </div>
-</div>
-
-<div id="myModal_age" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><% if @blog_age!=nil %><%=@blog_age.btitle %><% end %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog_age!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_age.imagepath %>"><br><br>
-        <%=raw @blog_age.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-
-<div id="myModal_sex" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><% if @blog_sex!=nil %><%=@blog_sex.btitle %><% end %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog_sex!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_sex.imagepath %>"><br><br>
-        <%=raw @blog_sex.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-
-<div id="myModal_married" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><% if @blog_married!=nil %><%=@blog_married.btitle %><% end %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog_married!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_married.imagepath %>"><br><br>
-        <%=raw @blog_married.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-
-<div id="myModal_kids" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><% if @blog_kid!=nil %><%=@blog_kid.btitle %><% end %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog_kid!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog_kid.imagepath %>"><br><br>
-        <%=raw @blog_kid.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-
-<script>
-    $(document).ready(function(){
-        <% if session[:webusername]!=nil %>
-
-        <% if @webuser.age!=nil %>
-        $("#age").attr("value",<%= @webuser.age %>);
-        <% end %>
-
-        <% if @webuser.sex!=nil %>
-        $("#sex").attr("value","<%= @webuser.sex %>")
-        <% end %>
-
-        <% if @webuser.married!=nil %>
-        $("#married").attr("value","<%= @webuser.married %>")
-        <% end %>
-
-        <% if @webuser.kids!=nil %>
-        <% if @webuser.kids!=0 %>
-        $("#kids").attr("value",1);
-        $("#kidage").attr("value","<%= @webuser.kids %>");
-        <% else %>
-        $("#kids").attr("value",0);
-        <% end %>
-        <% end %>
-        next();
-        <% end %>
-    });
-
-    function next(){
-        var age=0,kidage=0;
-        if($("#age").attr("value")!=""){
-            age=1;
-        }
-        if($("#kids").attr("value")=="1"){
-            $(".kidage").show();
-            if($("#kidage").attr("value")!=""){
-                kidage=1;
-            }
-        }
-        else{
-            kidage=1;
-            $(".kidage").hide();
-        }
-
-        if(age==1 && kidage==1){
-            document.getElementById("q-next").disabled=false;
-        }
-        else{
-            document.getElementById("q-next").disabled=true;
-        }
-    }
-
-    $("#q-next").click(function(){
-        var age_input_value=$("#age").attr("value");
-        var sex_input_value=$("#sex").attr("value");
-        var married_input_value=$("#married").attr("value");
-        var kids_input_value=$("#kids").attr("value");
-        if(kids_input_value==1){
-            kids_input_value=$("#kidage").attr("value")
-        }
-        $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:age_input_value,sex:sex_input_value,married:married_input_value,kids:kids_input_value},function(data){
-            location.href="/usersurvey/p1s2_cash_flow_statement_month";
-        });
-    });
-</script>
--->
