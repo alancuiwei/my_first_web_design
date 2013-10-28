@@ -7,6 +7,10 @@ class UserMailer < ActionMailer::Base
     mail(:to => email,:subject=>title)
   end
 
+  def forgetpassword(email,title)
+    mail(:to => email,:subject=>title)
+  end
+
   def report(username,email,title)
     @username=username
     mail(:to => email,:subject=>title)

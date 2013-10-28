@@ -38,7 +38,7 @@ class PersonmanagementController < ApplicationController
       @record=Record.find_all_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :summary=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :summary=>"1")
     end
     @fundproduct=Monetary_fund_product.all
 

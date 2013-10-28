@@ -25,7 +25,7 @@
 </style>
 <!--
 <script type="text/javascript">
-    <% if params[:controller]!="sales" || params[:action]!="login" %>
+    <% if params[:controller]!="usermanagement" || params[:action]!="login" %>
     QC.Login({
                 btnId:"qqLoginBtn"	//插入按钮的节点id
             },function(reqData,opts){
@@ -90,8 +90,8 @@
                   <a class="pull-right rounder" href="/personmanagement/personfinance"><%=session[:webusername]%> 的投资</a>
           <% end %>
       <% else %>
-         <!-- <a class="pull-right rounder" href="/sales/login?logintype=creat" id="layout_creat" onclick="question('change_creat')">注册</a> -->
-          <a class="pull-right rounder" href="/sales/login" id="layout_login">登陆注册</a>
+         <!-- <a class="pull-right rounder" href="/usermanagement/login?logintype=creat" id="layout_creat" onclick="question('change_creat')">注册</a> -->
+          <a class="pull-right rounder" href="/usermanagement/login" id="layout_login">登陆注册</a>
       <% end %>
         <a class="pull-right rounder" href="/home/methodology">理论依据</a>
         <a class="pull-right rounder" href="/home/learn_more">服务介绍</a>

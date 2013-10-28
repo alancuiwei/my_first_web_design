@@ -1,7 +1,14 @@
 <%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
 
 <style type="text/css">
      .table th, .table td {
@@ -11,8 +18,11 @@
 </style>
 
 <div class="welcomes start goal">
+  <%= render "side" %>
   <div id="page-content">
-    <h1>您的理财目标</h1>
+    <h1>您的理财目标
+      <a class="btn btn-primary btn-large pull-right reporthide win" href="/userrisktolerance/p3_userrisktolerance">下一步：风险评估</a>
+    </h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span1">
@@ -22,9 +32,15 @@
           <h2>您的目标概述：</h2>
           <div class="mleft">
             <div class="left">
-              <table id="target" class="table table-striped table-bordered">
+              <table id="target" class="table table-striped table-bordered footable">
                 <thead>
-                <tr><th>目标描述</th><th>现需资金</th><th>实现所需年限</th><th>属性</th><th>到期所需资金</th><th>每年投入</th><th>每月投入</th><th>需要投资报酬率</th></tr>
+                <tr>
+                  <th data-sort-initial="descending" data-class="expand">目标描述</th>
+                  <th data-sort-ignore="true">现需资金</th>
+                  <th data-hide="phone">实现所需年限</th>
+                  <th data-hide="phone">属性</th>
+                  <th data-hide="phone">到期所需资金</th>
+                </tr>
                 </thead>
                 <% if @targets!=nil %>
                     <tr class="goals">
@@ -41,16 +57,13 @@
                         <% end %>
                       </td>
                       <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
                     </tr>
                 <% end %>
                 <tr></tr>
               </table>
               <blockquote><small class="intro">上表基于如下假设：<span>通货膨胀率 6%</span><span>投资回报率 4%-10%</span><span>退休后净报酬率 2%</span><span>学费增长率 6%</span><span>薪资成长率 5%</span><span>退休金增长率 3%</span><span>社会平均寿命： 80岁</span></small></blockquote>
             </div>
-            <div style="display: table;width: 100%;"><a class="introduce pull-right" href="/usertargets/p2s1_user_target_select">修改理财目标</a></div>
+            <div style="display: table;width: 100%;"><a class="introduce pull-right win" href="/usertargets/p2s1_user_target_select">修改理财目标</a></div>
           </div>
         </div>
       </div>
@@ -63,17 +76,24 @@
           <div class="mleft">
             <p class="q-text" id="intro"></p>
             <div class="left">
-              <table id="calculate" class="table table-striped table-bordered"></table>
-              <a id="tnext" class="pull-right">下一页</a><a id="tback" class="pull-right grey" name="0">上一页</a>
-              <div id="container" style="width: 100%;height: 300px;"></div>
+              <table style="width: 100%;">
+                <tr>
+                  <td class="highcharts">
+                    <div id="container" style="width: 200px;height: 300px;"></div>
+                  </td>
+                  <td class="highcharts">
+                    <table id="calculate" class="table table-striped table-bordered"></table>
+                    <a id="tnext" class="pull-right">下一页</a><a id="tback" class="pull-right grey" name="0">上一页</a>
+                  </td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div id="q-buttons" class="">
-      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
-      <button class="q-button orange-button big-button" id="q-next">风险评估</button>
+    <div id="q-buttons" class="win">
+      <a class="btn btn-primary btn-large pull-right" href="/userrisktolerance/p3_userrisktolerance">下一步：风险评估</a>
     </div>
   </div>
 
@@ -93,13 +113,29 @@
     </div>
   </div>
 </div>
-
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>
 <script>
     var count=new Array();
     $(document).ready(function(){
         $(".goals td:eq(4)").html(parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))+" <a href='#myModal8' role='button' data-toggle='modal' onclick='model()'>(?)</a>");
-        $(".goals td:eq(5)").html(<%= @annual %>);
-        $(".goals td:eq(6)").html(<%= @month %>);
         for(var k=1;k<=parseInt(<%= @targets.user_target_period %>);k++){
             count[k]=parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,k))
         }
@@ -114,8 +150,6 @@
                 y=z
             }
         }
-        $(".goals td:eq(7)").html((x*100).toFixed(2)+'%');
-
 
         $("#intro").html("您的目标是<%= @targets.user_target %>，您将需要在<%= @targets.user_target_period %>年后准备"+parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,parseInt(<%= @targets.user_target_period %>)))+"元，您现在的已有的资金为<%= @targets.user_target_value %>万，之后，您每年将投入资金<%= @annual %>元，如果您能找到年收益率为"+(x*100).toFixed(2)+"%左右的投资渠道，您将能在<%= @targets.user_target_period %>年后实现您的目标。")
         var array=new Array();
@@ -176,70 +210,83 @@
             $("#tback,#tnext").addClass("grey");
         }
         $("#calculate").html(text);
-        var dataarray=new Array();
-        var dataarray1=new Array();
-        for(var k=1;k<parseInt(<%= @targets.user_target_period %>)+2;k++){
-            dataarray.push(array[k][0]);
-            dataarray1.push(parseInt(array[k][parseInt(<%= @targets.user_target_period %>)+2]));
-        }
+
+        var dataarray=[];
+
+        <% if @targets!=nil %>
+          <% if @targets.user_target=="买房" %>
+            dataarray.push(['父母亲戚',parseInt('<%= @targets.transition_value3 %>')])
+            dataarray.push(['银行贷款',parseInt('<%= @targets.transition_value4 %>')])
+            dataarray.push(['公积金贷款',parseInt('<%= @targets.transition_value5 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="买车" %>
+            dataarray.push(['父母、银行',parseInt('<%= @targets.transition_value2 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="结婚" %>
+            dataarray.push(['父母',parseInt('<%= @targets.transition_value2 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="子女教育" %>
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% else %>
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% end %>
+        <% end %>
 
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container',
-                type: 'column'
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
             },
             title: {
                 text: false
-            },
-            subtitle: {
-                text: false
-            },
-            xAxis: {
-                categories: dataarray ,
-                labels: {
-                    rotation: -45,
-                    align: 'right',
-                    style: {
-                        fontSize: '13px',
-                        fontFamily: 'Verdana, sans-serif'
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: '回报金额'
-                },
-                labels:{
-                    formatter: function() {
-                        return this.value
-                    }
-                }
-            },
-            legend: {
-                enabled: false
             },
             tooltip: {
                 pointFormat: '{point.y} '
             },
             plotOptions: {
-                column: {
-                    pointPadding: 0.2,
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        distance: -50,
+                        connectorColor: '#000000',
+                        formatter:function(index) {
+                            if(this.point.percentage>0){
+                                var str=this.point.name,str1,aa='';
+                                for(var i=0,len=str.length/4;i<len;i++) {
+                                    str1 = str.substr(0,4);
+                                    str = str.replace(str1,'');
+                                    if(i==0){aa=str1}
+                                    else{aa=aa+"<br>"+str1}
+                                }
+                                return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                            }
+                        }
+                    },
+                    showInLegend: true,
+                    size: 190,
                     borderWidth: 0
                 }
             },
             series: [{
-                data: dataarray1
+                type: 'pie',
+                name: 'Browser share',
+                data: dataarray
             }],
+            legend: false,
             credits: {
                 enabled: false
             }
         });
     });
-    function model(e){
+    function model(){
         var text="<tr><td></td><td>6%</td></tr>"
-        for(var i=1;i<count[e].length;i++){
-            text=text+"<tr><td>"+i+"</td>"+"<td>"+count[e][i]+"</td></tr>"
+        for(var i=1;i<count.length;i++){
+            text=text+"<tr><td>"+i+"</td>"+"<td>"+count[i]+"</td></tr>"
         }
         $("#newbody").html(text);
     }
@@ -280,13 +327,6 @@
         for(i=page*8;i<(page+1)*8;i++){
             $("#calculate tbody tr:eq("+i+")").removeClass("hide");
         }
-    });
-
-    $("#q-back").click(function(){
-       location.href="/usertargets/p2s1_user_target_select";
-    });
-    $("#q-next").click(function(){
-        location.href='/usersurvey/p1_usersurvey';
     });
 
 </script>

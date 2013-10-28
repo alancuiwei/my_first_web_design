@@ -8,7 +8,7 @@ class UsersurveyController < ApplicationController
       @targets=User_targets.find_by_username(session[:webusername])
       @blog=Blog.find_by_id(401)
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -21,7 +21,7 @@ class UsersurveyController < ApplicationController
       @blog_married=Blog.find_by_id(492)
       @blog_kid=Blog.find_by_id(493)
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -43,7 +43,7 @@ class UsersurveyController < ApplicationController
       @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
       @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -146,7 +146,7 @@ class UsersurveyController < ApplicationController
       @incomeannual=Userdata_detailedincome_annual.find_all_by_username(session[:webusername])
       @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -196,7 +196,7 @@ class UsersurveyController < ApplicationController
       @assettype=Admin_asset_type.all
       @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -206,11 +206,31 @@ class UsersurveyController < ApplicationController
     if params[:asset_typeid]!=nil
       @typeid=params[:asset_typeid].split(",")
       @assetvalue=params[:asset_value].split(",")
+      @productcode=params[:asset_product_code].split(",")
+      @productshare=params[:asset_product_share].split(",")
+
       for i in 0..@typeid.size-1
+        assetproductvalue=0
+        @fundquote=Monetary_fund_quote.find_by_product_code(@productcode[i])       #million_income
+        if @fundquote!=nil && @fundquote.million_income!=nil
+          assetproductvalue=@fundquote.million_income*@productshare[i].to_i
+        end
+        @fundquote=General_fund_quote.find_by_product_code(@productcode[i])
+        if @fundquote!=nil && @fundquote.today_value!=nil
+          assetproductvalue=@fundquote.today_value*@productshare[i].to_i
+        end
+
         User_asset_sheet.new do |e|
           e.username=params[:username]
           e.asset_typeid=@typeid[i]
+          e.asset_product_code=@productcode[i]
+          e.asset_product_share=@productshare[i]
+          if assetproductvalue!=0
+            e.asset_product_value=assetproductvalue
+            e.asset_value=assetproductvalue
+          else
           e.asset_value=@assetvalue[i]
+          end
           e.save
         end
       end
@@ -225,7 +245,7 @@ class UsersurveyController < ApplicationController
       @debttype=Admin_debt_type.all
       @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
   end
 
@@ -255,12 +275,12 @@ class UsersurveyController < ApplicationController
       if params[:username]!=nil
         @webuser=Webuser.find_by_username(params[:username])
         if @webuser==nil
-          redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
+          redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
       end
       elsif params[:fromusername]!=nil
         @webuser=Webuser.find_by_weixincode(params[:fromusername])
         if @webuser==nil
-          redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
+          redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
         end
     else
     @webuser=Webuser.find_by_username(session[:webusername])
@@ -299,7 +319,7 @@ class UsersurveyController < ApplicationController
       @indicators=Admin_finacialindicators.all
       @financialindicators=User_financial_indicators.find_all_by_username(@webuser.username)
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p1_usersurvey_report=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
     end
   end
 
@@ -333,11 +353,20 @@ class UsersurveyController < ApplicationController
         e.user_target=params[:target]
         e.user_target_period=params[:target_period]
         e.user_target_value=params[:target_value]
+        e.transition_value1=params[:transition_value1]
+        e.transition_value2=params[:transition_value2]
+        e.transition_value3=params[:transition_value3]
+        e.transition_value4=params[:transition_value4]
+        e.transition_value5=params[:transition_value5]
+        e.destination=params[:destination]
         e.save
       end
       render :json => "s".to_json
     else
-      @targets.update_attributes(:user_target=>params[:target],:user_target_period=>params[:target_period],:user_target_value=>params[:target_value])
+      @targets.update_attributes(:user_target=>params[:target],:user_target_period=>params[:target_period],:destination=>params[:destination],
+                                 :user_target_value=>params[:target_value],:transition_value1=>params[:transition_value1],
+                                 :transition_value2=>params[:transition_value2],:transition_value3=>params[:transition_value3],
+                                 :transition_value4=>params[:transition_value4],:transition_value5=>params[:transition_value5])
       render :json => "f".to_json
     end
   end

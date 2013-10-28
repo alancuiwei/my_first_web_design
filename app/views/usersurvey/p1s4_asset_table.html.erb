@@ -17,9 +17,10 @@
             <p class="q-text">总结至今为止您已积攒的资产，这个简明的资产表仅仅是您在某个时期的阶段性总结，实际上资产净值每天都根据资产价值张张落落，但这个资产表可以在很长时间里帮助你及时发现财务危机，计划理财方式，并确保您直达目标。<br>
             切记，填写的应该是资产的当期市值，而不是购买价格。</p>
             <div class="row-fluid op-label">
-              <div class="span3 q-text">资产品种</div>
-              <div class="span3 q-text" style="text-align: left;">产品简介</div>
+              <div class="span2 q-text">资产品种</div>
               <div class="span2 q-text" style="text-align: left;">资产金额</div>
+              <div class="span2 q-text" style="text-align: left;">产品代码</div>
+              <div class="span2 q-text" style="text-align: left;">产品份额</div>
               <div class="span1"></div>
             </div>
             <div class="seperator thick"></div>
@@ -27,21 +28,24 @@
               <div class="op-input first" fid="line">
                 <div class="seperator bottom"></div>
                 <div class="row-fluid">
-                  <div class="span3 control-group">
-                    <select name="typename" id="typename" class="asset_typename" title="资产品种"  onchange="updateintro(this)">
+                  <div class="span2 control-group">
+                    <select name="typename" id="typename" class="asset_typename" style="width: 140px;" title="资产品种">
                       <% @assettype.each do |a| %>
                           <option value="<%= a.asset_typeid %>"><%= a.asset_typename %></option>
                       <% end %>
                     </select>
                   </div>
-                  <div class="span3 control-group" style="text-align: left;">
-                    <blockquote><small class="productintro" id="productintro"><%= @assettype[0].asset_intro %></small></blockquote>
-                  </div>
-                  <div class="span2" style="text-align: center;">
+                  <div class="span2 control-group" style="text-align: left;">
                     <div class="input-prepend">
                       <span class="add-on">￥</span>
-                      <input class="asset_value" name="lnw" id="amount" style="width: 180px;" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
+                      <input class="asset_value" name="lnw" id="amount" style="width: 120px;" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
                     </div>
+                    </div>
+                  <div class="span2">
+                    <input class="asset_product_code" name="lnw" id="productcode" style="width: 140px;" value="" type="text" placeholder="选填">
+                  </div>
+                  <div class="span2">
+                    <input class="asset_product_share" name="lnw" id="productshare" style="width: 140px;" value="" type="text" placeholder="选填">
                   </div>
                   <div class="span1 top5" style="margin-top: 10px;margin-left: 40px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeline(this);">&nbsp;&nbsp;</i></div>
                 </div>
@@ -80,7 +84,8 @@
         $(fi).find(".asset_typename").attr("id",'typename'+number);
         $(fi).find(".asset_value").val(0);
         $(fi).find(".asset_value").attr("id",'amount'+number);
-        $(fi).find(".productintro").attr("id",'productintro'+number);
+        $(fi).find(".asset_product_code").attr("id",'productcode'+number);
+        $(fi).find(".asset_product_share").attr("id",'productshare'+number);
         $("div.line-inputs").append(fi);
     }
 
@@ -152,14 +157,6 @@
 </script>
 
 <script>
-    function updateintro(e){
-        var pid=e.id.replace('typename','productintro')
-    <% @assettype.each do |a| %>
-        if('<%= a.asset_typeid %>'== e.value){
-            $("#"+pid).html('<%= a.asset_intro %>')
-        }
-    <% end %>
-    }
 
     $(document).ready(function(){
         <% if session[:webusername]!=nil %>
@@ -169,21 +166,15 @@
         if(first==0){
             $("#typename").attr("value",'<%= @userassetsheet[i].asset_typeid %>')
             $("#amount").attr("value",'<%= @userassetsheet[i].asset_value %>')
-        <% @assettype.each do |a| %>
-            if('<%= a.asset_typeid %>'=='<%= @userassetsheet[i].asset_typeid %>'){
-                $("#productintro").html('<%= a.asset_intro %>')
-            }
-        <% end %>
+            $("#productcode").attr("value",'<%= @userassetsheet[i].asset_product_code %>')
+            $("#productshare").attr("value",'<%= @userassetsheet[i].asset_product_share %>')
         }
         else{
             addline();
             $("#typename"+first).attr("value",'<%= @userassetsheet[i].asset_typeid %>')
             $("#amount"+first).attr("value",'<%= @userassetsheet[i].asset_value %>');
-        <% @assettype.each do |a| %>
-            if('<%= a.asset_typeid %>'=='<%= @userassetsheet[i].asset_typeid %>'){
-                $("#productintro"+first).html('<%= a.asset_intro %>')
-            }
-        <% end %>
+            $("#productcode"+first).attr("value",'<%= @userassetsheet[i].asset_product_code %>')
+            $("#productshare"+first).attr("value",'<%= @userassetsheet[i].asset_product_share %>')
         }
         first=first+1;
         <% end %>
@@ -237,21 +228,28 @@
         }
         var typename=document.getElementsByClassName("asset_typename")  //资产品种
         var amount=document.getElementsByClassName("asset_value")  //资产金额
-        var typeid='',typevalue='';
+        var productcode=document.getElementsByClassName("asset_product_code")  //资产金额
+        var productshare=document.getElementsByClassName("asset_product_share")  //资产金额
+        var typeid='',typevalue='',assetcode='',assetshare='';
         for(j=0;j<typename.length;j++){
             var ccc=amount[j].value.replace(/,/g, "");
             if(ccc==''){ccc=0;}
             if(j==0){
                 typeid=typename[j].value.replace(/,/g, "");
                 typevalue=amount[j].value.replace(/,/g, "");
+                assetcode=productcode[j].value.replace(/,/g, "");
+                assetshare=productshare[j].value.replace(/,/g, "");
             }
             else{
                 typeid=typeid+','+typename[j].value.replace(/,/g, "");
                 typevalue=typevalue+','+amount[j].value.replace(/,/g, "");
+                assetcode=assetcode+','+productcode[j].value.replace(/,/g, "");
+                assetshare=assetshare+','+productshare[j].value.replace(/,/g, "");
             }
         }
 
-        $.post("/usersurvey/p1s4_asset_table_save",{username:'<%= session[:webusername] %>',asset_typeid:typeid,asset_value:typevalue},function(data){
+        $.post("/usersurvey/p1s4_asset_table_save",{username:'<%= session[:webusername] %>',asset_typeid:typeid,asset_value:typevalue,
+            asset_product_code:assetcode,asset_product_share:assetshare},function(data){
             location.href=e;
         });
     }

@@ -1,22 +1,16 @@
- <xml>
- <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
- <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
- <CreateTime>1<%= Time.now.to_i %></CreateTime>
- <MsgType><![CDATA[news]]></MsgType>
- <ArticleCount>1</ArticleCount>
- <Articles>
- 
- <item>
- <Title><![CDATA[]]></Title>
- <Description><![CDATA[您好，欢迎您使用通天顺家庭理财帐号绑定功能。
- 请先绑定帐号，即可享受通天顺家庭理财微信更多服务：
- 1.家庭资产体检。
- 2.风险评估。
- 3.理财规划。]]></Description>
- <PicUrl><![CDATA[]]></PicUrl>
- <Url><![CDATA[http://www.tongtianshun.com/sales/login?weixincode=<%= params[:xml][:FromUserName] %>]]></Url>
- </item>
- 
- </Articles>
- <FuncFlag>1</FuncFlag>
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您好，欢迎您使用通天顺家庭理财。
+ 请先<a href="http://www.tongtianshun.com/usermanagement/login?weixincode=<%= params[:xml][:FromUserName] %>">绑定帐号</a>，即可享受通天顺家庭理财微信更多服务：
+ 1.财务分析。
+ 2.理财目标设定。
+ 3.投资风险度评估。
+ 4.制作理财规划。
+ 5.执行理财规划。
+ 6.跟踪修正规则。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
  </xml>

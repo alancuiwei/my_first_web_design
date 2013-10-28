@@ -1,7 +1,6 @@
 #top-tabs,h1{
     font-family:"helvetica neue",helvetica,arial,sans-serif
 }
-
 table.table.table-striped.table-bordered th,table.table.table-striped.table-bordered td{
     font-family: Hiragino Sans GB W3;
     font-size: 14px;
@@ -883,6 +882,14 @@ p.q-text {
 }
 
 @media screen and (max-width: 767px){
+
+    tr.detail > td.expand {
+        background: url('/assets/minus.png') no-repeat 5px center;
+    }
+    tr > td.expand {
+        background: url('/assets/plus.png') no-repeat 5px center;
+        padding-left: 40px!important;
+    }
     /* usersurvey/measure */
     .catalog{
         margin: 0px!important;
@@ -907,6 +914,7 @@ p.q-text {
     }
     .ofa-funnel-pages #top-tabs .top-tabs-content{
        width: 100%;
+        padding-left: 0!important;
     }
     .question {
         padding: 0 0 0 12%;
@@ -965,7 +973,7 @@ p.q-text {
         position: static;
     }
     #page-content {
-        width: 100%;
+        width: 100%!important;
     }
 
     .q-num{

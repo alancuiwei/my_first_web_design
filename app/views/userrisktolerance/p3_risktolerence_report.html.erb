@@ -2,11 +2,19 @@
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
 
 <div id="image" class="welcomes start report">
 <%= render "side" %>
 <div id="page-content">
-<h1>风险评估报告</h1>
+<h1>风险评估报告
+  <a class="btn btn-primary btn-large pull-right reporthide win" href="/personmanagement/summary">下一步：制定理财规划</a>
+</h1>
 <div class="tablet">
 <div class="row-fluid">
   <div class="span12">
@@ -50,8 +58,7 @@
 </div>
 </div>
 <div id="q-buttons" class="">
-  <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一题</span>&nbsp;</button>
-  <button class="q-button orange-button big-button" id="q-next">制定理财规划</button>
+  <a class="btn btn-primary btn-large pull-right" href="/personmanagement/summary">下一步：制定理财规划</a>
 </div>
 </div>
 </div>
@@ -84,13 +91,6 @@
         <% elsif @webuser.risk_score>=0 && @webuser.risk_score<=2 %>
         $("#type tr:eq(1)").addClass("back");
         <% end %>
-    });
-
-    $("#q-back").click(function(){
-        location.href="/userrisktolerance/p3steps";
-    });
-    $("#q-next").click(function(){
-        location.href="/personmanagement/summary";
     });
 
     var chart = new Highcharts.Chart({

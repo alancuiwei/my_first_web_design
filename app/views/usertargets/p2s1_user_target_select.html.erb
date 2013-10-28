@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
 
 <style type="text/css">
@@ -8,13 +9,11 @@
 </style>
 
 <div class="welcomes goal">
+  <%= render "side" %>
   <div class="ofa-funnel-pages">
     <div id="page-wrapper">
       <div id="page-content">
-        <a class="home" href="/">首页</a>
-        <h1>
-          <span id="title">理财目标选择</span>
-        </h1>
+        <h1><span>理财目标选择</span></h1>
 
         <div id="questionnaire-view">
           <div id="questionnaire">
@@ -142,15 +141,26 @@
         <% if t.user_target=="买房" %>
         $("#target_period1").attr("value","<%= t.user_target_period %>")
         $("#target_value1").html("<%= t.user_target_value %>")
+        $("#amount10").attr("value","<%= t.transition_value1/10000 %>")
+        $("#amount14").attr("value","<%= t.transition_value2*10 %>")
+        $("#target_value0").html("<%= t.transition_value1*t.transition_value2/100000 %>")
+        $("#amount11").attr("value","<%= t.transition_value3/10000 %>")
+        $("#amount12").attr("value","<%= t.transition_value4/10000 %>")
+        $("#amount13").attr("value","<%= t.transition_value5/10000 %>")
         <% elsif t.user_target=="买车" %>
         $("#target_period2").attr("value","<%= t.user_target_period %>")
         $("#target_value2").html("<%= t.user_target_value %>")
+        $("#amount20").attr("value","<%= t.transition_value1/10000 %>")
+        $("#amount21").attr("value","<%= t.transition_value2/10000 %>")
         <% elsif t.user_target=="结婚" %>
         $("#target_period3").attr("value","<%= t.user_target_period %>")
         $("#target_value3").html("<%= t.user_target_value %>")
+        $("#amount30").attr("value","<%= t.transition_value1/10000 %>")
+        $("#amount31").attr("value","<%= t.transition_value2/10000 %>")
         <% elsif t.user_target=="旅游度假" %>
         $("#target_period4").attr("value","<%= t.user_target_period %>")
         $("#target_value4").attr("value","<%= t.user_target_value %>")
+        $("#amount40").attr("value","<%= t.destination %>")
         <% end %>
         <% end %>
         <% end %>
@@ -212,22 +222,25 @@
     }
 
     $("#target1").click(function(){
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买房",target_period:$("#target_period1").attr("value"),target_value:$("#target_value1").html()},function(data){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买房",target_period:$("#target_period1").attr("value"),target_value:$("#target_value1").html(),transition_value1:parseInt($("#amount10").attr("value"))*10000,
+            transition_value2:parseFloat($("#amount14").attr("value"))/10,transition_value3:parseFloat($("#amount11").attr("value"))*10000,transition_value4:parseFloat($("#amount12").attr("value"))*10000,transition_value5:parseFloat($("#amount13").attr("value"))*10000},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })
     $("#target2").click(function(){
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买车",target_period:$("#target_period2").attr("value"),target_value:$("#target_value2").html()},function(data){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"买车",target_period:$("#target_period2").attr("value"),target_value:$("#target_value2").html(),transition_value1:parseInt($("#amount20").attr("value"))*10000,
+            transition_value2:parseFloat($("#amount21").attr("value"))*10000},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })
     $("#target3").click(function(){
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"结婚",target_period:$("#target_period3").attr("value"),target_value:$("#target_value3").html()},function(data){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"结婚",target_period:$("#target_period3").attr("value"),target_value:$("#target_value3").html(),transition_value1:parseInt($("#amount30").attr("value"))*10000,
+            transition_value2:parseFloat($("#amount31").attr("value"))*10000},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })
     $("#target4").click(function(){
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"旅游度假",target_period:$("#target_period4").attr("value"),target_value:$("#target_value4").attr("value")},function(data){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"旅游度假",target_period:$("#target_period4").attr("value"),target_value:$("#target_value4").attr("value"),destination:$("#amount40").attr("value")},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })

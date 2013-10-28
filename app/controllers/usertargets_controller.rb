@@ -7,7 +7,7 @@ class UsertargetsController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
       @blog=Blog.find_by_id(452)
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p2_usertargets=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p2_usertargets=>"1")
     end
   end
 
@@ -17,14 +17,21 @@ class UsertargetsController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     else
-      redirect_to(:controller=>"sales", :action=>"login", :p2s1=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1=>"1")
     end
   end
 
   def p2s2_user_target_intro
-    @targets=User_targets.find_by_username(session[:webusername])
-    @userdata=Userdata_annual.find_by_username(session[:webusername])
-    @detailedmonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],3000)
+    if params[:username]!=nil
+      @webuser=Webuser.find_by_username(params[:username])
+    elsif session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p2s2=>"1")
+    end
+    @targets=User_targets.find_by_username(@webuser.username)
+    @userdata=Userdata_annual.find_by_username(@webuser.username)
+    @detailedmonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(@webuser.username,3000)
     @annual=0
     if @userdata!=nil &&  @userdata.net_annual!=nil
       if @detailedmonth!=nil
@@ -36,14 +43,14 @@ class UsertargetsController < ApplicationController
       @annual=@detailedmonth.income_value*12
     end
 
-    @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+    @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
     @income=0
     if @userbalancesheet!=nil
       @income=@userbalancesheet.asset_fluid_account+@userbalancesheet.asset_safefy_account+@userbalancesheet.asset_risky_account
     end
 
     @month=0
-    @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    @userdatamonth=Userdata_month.find_by_username(@webuser.username)
     if @userdatamonth!=nil
       if @userdatamonth.debt_month!=nil
         @month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month

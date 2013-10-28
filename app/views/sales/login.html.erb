@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="hide" id="back">
-        <h1 class="h1">您已与通天顺帐号成功绑定</h1>
+        <h1 class="h1">您已与通天顺帐号成功绑定<br>您的通天顺会员名是:<span id="webusername"></span></h1>
         <p>请点击左上角 返回<br><a id="bunding">重新绑定 请点击这里</a></p>
       </div>
     </div>
@@ -288,7 +288,11 @@
                 }
                 else if(data=="weixincode"){
                     $("#myTabContent").hide();
+                    $("#webusername").html($(uid).attr("value"));
                     $("#back").show();
+                }
+                else if('<%= params[:familyassettable] %>'=='1'){
+                    location.href="/usermanagement/family_asset_table";
                 }
                 else if('<%= params[:p1_usersurvey] %>'=='1'){
                     location.href="/usersurvey/p1_usersurvey";
@@ -298,6 +302,9 @@
                 }
                 else if('<%= params[:p2_usertargets] %>'=='1'){
                     location.href="/usertargets/p2_usertargets";
+                }
+                else if('<%= params[:p2s2] %>'=='1'){
+                    location.href="/usertargets/p2s2_user_target_intro";
                 }
                 else if('<%= params[:p3_userrisk] %>'=='1'){
                     location.href="/userrisktolerance/p3_userrisktolerance";
@@ -343,9 +350,14 @@
     }
 
     $(document).ready(function(){
+        <% if session[:webusername]!=nil %>
+        $("#webusername").html("<%= session[:webusername] %>");
+        <% end %>
         <% if params[:weixincode]!=nil %>
         <% if @webuser!=nil %>
         $("#myTabContent").hide();
+
+        $("#webusername").html("<%= session[:webusername] %>");
         $("#back").show();
        <% else %>
         $("#myTabContent").show();
@@ -355,6 +367,7 @@
     });
 
     $("#bunding").click(function(){
+        <%= session[:webusername]=nil %>
         $("#myTabContent").show();
         $("#back").hide();
     });

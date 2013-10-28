@@ -1,0 +1,18 @@
+ <xml>
+ <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+ <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+ <CreateTime>1<%= Time.now.to_i %></CreateTime>
+ <MsgType><![CDATA[news]]></MsgType>
+ <ArticleCount>1</ArticleCount>
+ <Articles>
+
+ <item>
+ <Title><![CDATA[理财目标报告]]></Title>
+ <Description><![CDATA[您已经完成理财目标设定，请点击查看您的理财目标分析报告。]]></Description>
+ <PicUrl><![CDATA[]]></PicUrl>
+ <Url><![CDATA[http://www.tongtianshun.com/usertargets/p2s2_user_target_intro?username=<%= @webuser.username %>]]></Url>
+ </item>
+
+ </Articles>
+ <FuncFlag>1</FuncFlag>
+ </xml>

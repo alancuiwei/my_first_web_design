@@ -971,6 +971,26 @@ class AdminController < ApplicationController
     end
   end
 
+
+  def forgetpassword
+    @webuser=Webuser.find_by_email(params[:email])
+    password=encode("tongtianshun")
+    if @webuser!=nil
+      @webuser.update_attributes(:password=>password)
+    else
+      Webuser.new do |w|
+        w.username=params[:email]
+        w.password=password
+        w.email=params[:email]
+        w.save
+      end
+    end
+    Thread.new{
+        UserMailer.forgetpassword(params[:email],"修改密码").deliver
+    }
+    render :json => "s".to_json
+  end
+
   def userlogin
     if params[:login]!='qq'
       session[:qq]=1
@@ -986,6 +1006,7 @@ class AdminController < ApplicationController
             @weixin.update_attributes(:weixincode=>nil)
           end
           @webuser.update_attributes(:weixincode=>params[:weixincode])
+          session[:webusername]=@webuser.username
           render :json => "weixincode".to_json
         else
         if params[:organ]=='3'|| params[:organ]=='4'
