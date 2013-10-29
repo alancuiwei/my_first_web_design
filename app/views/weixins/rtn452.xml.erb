@@ -3,7 +3,7 @@
      <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
      <CreateTime><%= Time.now.to_i %></CreateTime>
      <MsgType><![CDATA[text]]></MsgType>
-     <Content><![CDATA[请问您(家庭)其他年终收入是多少？没有的话直接回复0。
+     <Content><![CDATA[您的家庭贷款如下：<% @userdebtsheet452.each do |u| %><%= @hash452[u.debt_typeid][0] %><%= u.debt_value %>元，贷款<%= u.debt_years %>年，月还<%= @hash452[u.debt_typeid][0] %><%= u.debt_value_monthly %>元，<% end %>确认请回复1，返回修改请回复0。
 ]]></Content>
      <FuncFlag>0</FuncFlag>
  </xml>

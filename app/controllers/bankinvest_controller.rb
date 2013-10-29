@@ -84,6 +84,38 @@ class BankinvestController < ApplicationController
     end
   end
 
+  def huobi
+    if params[:id]!=nil
+      @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+      @hash={}
+      if @fundproduct!=nil
+        @fundquote=Monetary_fund_quote.find_by_product_code(@fundproduct.product_code)
+        @productcompany=Productcompany.find_all_by_pname(@fundquote.productname)
+        @hash={}
+        for i in 0..@productcompany.size-1
+          @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
+          if @salescompany!=nil
+            @hash.store(@productcompany[i].fundname,[@salescompany.id])
+          else
+            @hash.store(@productcompany[i].fundname,[nil,nil,nil])
+          end
+          if i==0
+            @min=@productcompany[i].poundage
+          elsif @min>@productcompany[i].poundage
+            @min=@productcompany[i].poundage
+          end
+        end
+        @average1=Average_return_rate.find_by_typeid_and_years(101,1)
+        @average2=Average_return_rate.find_by_typeid_and_years(101,2)
+        @average3=Average_return_rate.find_by_typeid_and_years(101,3)
+      else
+        redirect_to(:controller=>"personmanagement", :action=>"summary")
+      end
+    else
+      redirect_to(:controller=>"personmanagement", :action=>"summary")
+    end
+  end
+
   def productdetails
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])

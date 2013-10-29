@@ -233,7 +233,7 @@
               <% @fundproduct.each do |f| %>
                   <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                     <td class="hide"><%= f.internet_product %></td>
-                    <td><%= f.productname %></td>
+                    <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
                     <td><% if @hash5[f.product_code][1]!=0 %><%= @hash5[f.product_code][1] %><% else %>--<% end %></td>
                     <td><% if @hash5[f.product_code][2]!=0 %><%= @hash5[f.product_code][2] %>%<% else %>--<% end %></td>
                     <td><% if f.min_purchase_account!=nil %><%= f.min_purchase_account %><% else %>0<% end %></td>

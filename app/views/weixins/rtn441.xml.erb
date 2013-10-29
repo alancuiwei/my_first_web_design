@@ -3,7 +3,11 @@
      <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
      <CreateTime><%= Time.now.to_i %></CreateTime>
      <MsgType><![CDATA[text]]></MsgType>
-     <Content><![CDATA[请问您(家庭)其他年终收入是多少？没有的话直接回复0。
+     <Content><![CDATA[您的家庭资产如下：
+     <% @userassetsheet441.each do |u| %>
+     <%= @hash441[u.asset_typeid][0] %><%= u.asset_value %>元，
+     <% end %>
+     确认请回复1，返回修改请回复0。
 ]]></Content>
      <FuncFlag>0</FuncFlag>
  </xml>

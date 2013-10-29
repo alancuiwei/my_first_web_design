@@ -159,7 +159,7 @@ class WeixinsController < ApplicationController
     end
 
     if (params[:username]==nil && params[:xml][:MsgType]=="text") || session[:webusername]!=nil
-      if params[:username]==nil && params[:xml][:MsgType]=="text"
+      if params[:username]==nil && params[:xml][:MsgType]=="text" && !(@webuser.segment>0)
         case params[:xml][:Content]
           when "100"
             if @webuser!=nil
@@ -237,16 +237,16 @@ class WeixinsController < ApplicationController
 #	    render "echo", :formats => :xml
         end
       end
-
+      count=0
       if @webuser!=nil && (@webuser.segment==400 || @webuser.segment==4001 || @webuser.segment==4002 ) && params[:username]==nil
         content=params[:xml][:Content]
         if content=="Y" || content=="y"
           @webuser.update_attributes(:segment=>401,:targets=>0)
           render "rtn401", :formats => :xml
-        elsif content=="D" || content=="d"
+        elsif content=="X" || content=="x"
           @webuser.update_attributes(:segment=>4001,:targets=>0)
           render "rtn4001", :formats => :xml
-        elsif content=="X" || content=="x"
+        elsif content=="D" || content=="d"
           @webuser.update_attributes(:segment=>4002,:targets=>0)
           render "rtn4002", :formats => :xml
         elsif content=="N" || content=="n"
@@ -328,23 +328,19 @@ class WeixinsController < ApplicationController
         if content=="W" || content=="w"
           render "rtn4061", :formats => :xml
         else
-          @incomemonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(@webuser.username,1000)
-          if @incomemonth==nil
-            Userdata_detailedincome_month.new do |e|
-              e.username=@webuser.username
-              e.income_typeid=1000
-              e.income_value=content
-              e.save
-            end
-          else
-            @incomemonth.update_attributes(:income_value=>content)
+          @incomemonth=Userdata_detailedincome_month.destroy_all(:username => @webuser.username)
+          Userdata_detailedincome_month.new do |e|
+            e.username=@webuser.username
+            e.income_typeid=1000
+            e.income_value=content
+            e.save
           end
           if @webuser.married==1
             @webuser.update_attributes(:segment=>407,:targets=>0)
             render "rtn407", :formats => :xml
           else
-            @webuser.update_attributes(:segment=>408,:targets=>0)
-            render "rtn408", :formats => :xml
+            @webuser.update_attributes(:segment=>414,:targets=>0)
+            render "rtn414", :formats => :xml
           end
         end
 
@@ -353,16 +349,11 @@ class WeixinsController < ApplicationController
         if content=="W" || content=="w"
           render "rtn4061", :formats => :xml
         else
-          @incomemonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(@webuser.username,2000)
-          if @incomemonth==nil
-            Userdata_detailedincome_month.new do |e|
-              e.username=@webuser.username
-              e.income_typeid=2000
-              e.income_value=content
-              e.save
-            end
-          else
-            @incomemonth.update_attributes(:income_value=>content)
+          Userdata_detailedincome_month.new do |e|
+            e.username=@webuser.username
+            e.income_typeid=2000
+            e.income_value=content
+            e.save
           end
           @webuser.update_attributes(:segment=>414,:targets=>0)
           render "rtn414", :formats => :xml
@@ -370,16 +361,11 @@ class WeixinsController < ApplicationController
 
       elsif @webuser!=nil && @webuser.segment==414 && params[:username]==nil   #月额外收入
         content=params[:xml][:Content]
-        @incomemonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(@webuser.username,3000)
-        if @incomemonth==nil
-          Userdata_detailedincome_month.new do |e|
-            e.username=@webuser.username
-            e.income_typeid=3000
-            e.income_value=content
-            e.save
-          end
-        else
-          @incomemonth.update_attributes(:income_value=>content)
+        Userdata_detailedincome_month.new do |e|
+          e.username=@webuser.username
+          e.income_typeid=3000
+          e.income_value=content
+          e.save
         end
         income=0
         extra=0
@@ -542,18 +528,14 @@ class WeixinsController < ApplicationController
 
       elsif @webuser!=nil && @webuser.segment==422 && params[:username]==nil   #年终奖
         content=params[:xml][:Content]
-        @incomeannual=Userdata_detailedincome_annual.find_by_username_and_income_type(@webuser.username,2001)
-        if @incomeannual==nil
-          Userdata_detailedincome_annual.new do |e|
-            e.username=@webuser.username
-            e.income_type=2001
-            e.income_value=content
-            e.save
-          end
-        else
-          @incomeannual.update_attributes(:income_value=>content)
+        @incomeannual=Userdata_detailedincome_annual.destroy_all(:username => @webuser.username)
+        Userdata_detailedincome_annual.new do |e|
+          e.username=@webuser.username
+          e.income_type=2001
+          e.income_value=content
+          e.save
         end
-        if @webuser.married=="1"
+        if @webuser.married==1
           @webuser.update_attributes(:segment=>423,:targets=>0)
           render "rtn423", :formats => :xml
         else
@@ -561,89 +543,402 @@ class WeixinsController < ApplicationController
           render "rtn424", :formats => :xml
         end
 
-
-
-
-
-
-
-
-
-
-
-      elsif @webuser!=nil && @webuser.segment==404 && params[:username]==nil
-        content=params[:xml][:Content].gsub("，",",")
-        content=content.split(",")
-        incometype=[2001,2002,2099]
-        for i in 0..2
-          @incomeannual=Userdata_detailedincome_annual.find_by_username_and_income_type(@webuser.username,incometype[i])
-          if @incomeannual==nil
-            Userdata_detailedincome_annual.new do |e|
-              e.username=@webuser.username
-              e.income_type=incometype[i]
-              e.income_value=content[i]
-              e.save
-            end
-          else
-            @incomeannual.update_attributes(:income_value=>content[i])
-          end
+      elsif @webuser!=nil && @webuser.segment==423 && params[:username]==nil   #爱人年终奖
+        content=params[:xml][:Content]
+        Userdata_detailedincome_annual.new do |e|
+          e.username=@webuser.username
+          e.income_type=2002
+          e.income_value=content
+          e.save
         end
-        @webuser.update_attributes(:segment=>405,:targets=>0)
-        render "rtn405", :formats => :xml
+        @webuser.update_attributes(:segment=>424,:targets=>0)
+        render "rtn424", :formats => :xml
 
-      elsif @webuser!=nil && @webuser.segment==405 && params[:username]==nil
-        content=params[:xml][:Content].gsub("，",",")
-        content=content.split(",")
-        expensetype=[1001,1002,1003,1099]
-        for i in 0..3
-          @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(@webuser.username,expensetype[i])
-          if @expenseannual==nil
-            Userdata_detailedexpense_annual.new do |e|
-              e.username=@webuser.username
-              e.expense_type=expensetype[i]
-              e.expense_value=content[i]
-              e.save
-            end
-          else
-            @expenseannual.update_attributes(:expense_value=>content[i])
-          end
+      elsif @webuser!=nil && @webuser.segment==424 && params[:username]==nil   #其他年终收入
+        content=params[:xml][:Content]
+        Userdata_detailedincome_annual.new do |e|
+          e.username=@webuser.username
+          e.income_type=2099
+          e.income_value=content
+          e.save
         end
-        @webuser.update_attributes(:segment=>406,:targets=>0)
-        render "rtn406", :formats => :xml
+        @webuser.update_attributes(:segment=>425,:targets=>0)
+        render "rtn425", :formats => :xml
 
-      elsif @webuser!=nil && @webuser.segment==406 && params[:username]==nil
-        content=params[:xml][:Content].gsub("，",",")
-        content=content.split(",")
-        @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username)
-        for i in 0..content.size/2-1
-          User_asset_sheet.new do |e|
+      elsif @webuser!=nil && @webuser.segment==425 && params[:username]==nil   #是否有年度开销
+        content=params[:xml][:Content]
+        if content=="0"
+          @expenseannual=Userdata_detailedexpense_annual.destroy_all(:username => @webuser.username)
+          @webuser.update_attributes(:segment=>431,:targets=>0)
+          render "rtn431", :formats => :xml
+        elsif content=="100"
+          @webuser.update_attributes(:segment=>426,:targets=>0)
+          render "rtn426", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==426 && params[:username]==nil   #年度旅游开销
+        content=params[:xml][:Content]
+        @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(@webuser.username,1001)
+        if @expenseannual==nil
+          Userdata_detailedexpense_annual.new do |e|
             e.username=@webuser.username
-            e.asset_typeid=content[2*i]
-            e.asset_value=content[2*i+1]
+            e.expense_type=1001
+            e.expense_value=content
             e.save
           end
+        else
+          @expenseannual.update_attributes(:expense_value=>content)
         end
-        @webuser.update_attributes(:segment=>407,:targets=>0)
-        render "rtn407", :formats => :xml
+        @webuser.update_attributes(:segment=>427,:targets=>0)
+        render "rtn427", :formats => :xml
 
-      elsif @webuser!=nil && @webuser.segment==407 || session[:webusername]!=nil
-        if params[:username]==nil && params[:xml][:MsgType]=="text"
-          @userdebtsheet=User_debt_sheet.destroy_all(:username => @webuser.username)
-          if params[:xml][:Content]!="0"
-            content=params[:xml][:Content].gsub("，",",")
-            content=content.split(",")
-            for i in 0..content.size/4-1
-              User_debt_sheet.new do |e|
-                e.username=@webuser.username
-                e.debt_typeid=content[4*i]
-                e.debt_value=content[4*i+1]
-                e.debt_value_monthly=content[4*i+3]
-                e.debt_years=content[4*i+2]
-                e.save
-              end
-            end
+      elsif @webuser!=nil && @webuser.segment==427 && params[:username]==nil   #年度保险开销
+        content=params[:xml][:Content]
+        @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(@webuser.username,1002)
+        if @expenseannual==nil
+          Userdata_detailedexpense_annual.new do |e|
+            e.username=@webuser.username
+            e.expense_type=1002
+            e.expense_value=content
+            e.save
           end
+        else
+          @expenseannual.update_attributes(:expense_value=>content)
         end
+        @webuser.update_attributes(:segment=>428,:targets=>0)
+        render "rtn428", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==428 && params[:username]==nil   #年度子女学费
+        content=params[:xml][:Content]
+        @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(@webuser.username,1003)
+        if @expenseannual==nil
+          Userdata_detailedexpense_annual.new do |e|
+            e.username=@webuser.username
+            e.expense_type=1003
+            e.expense_value=content
+            e.save
+          end
+        else
+          @expenseannual.update_attributes(:expense_value=>content)
+        end
+        @webuser.update_attributes(:segment=>429,:targets=>0)
+        render "rtn429", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==429 && params[:username]==nil   #其他年度开销
+        content=params[:xml][:Content]
+        @expenseannual=Userdata_detailedexpense_annual.find_by_username_and_expense_type(@webuser.username,1099)
+        if @expenseannual==nil
+          Userdata_detailedexpense_annual.new do |e|
+            e.username=@webuser.username
+            e.expense_type=1099
+            e.expense_value=content
+            e.save
+          end
+        else
+          @expenseannual.update_attributes(:expense_value=>content)
+        end
+        @expenseannual430=Userdata_detailedexpense_annual.find_all_by_username(@webuser.username)
+        @expensetype430=Admin_expense_type_annual.all
+        @hash430={}
+        for i in 0..@expensetype430.size-1
+          @hash430.store(@expensetype430[i].expense_id,[@expensetype430[i].expense_name])
+        end
+        @webuser.update_attributes(:segment=>430,:targets=>0)
+        render "rtn430", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==430 && params[:username]==nil   #显示所有年度开销
+        content=params[:xml][:Content]
+        if content=="1"
+        @webuser.update_attributes(:segment=>431,:targets=>0)
+        render "rtn431", :formats => :xml
+        elsif content=="0"
+          @webuser.update_attributes(:segment=>426,:targets=>0)
+          render "rtn426", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==431 && params[:username]==nil   #活期存款
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username)
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=101
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>432,:targets=>0)
+          render "rtn432", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==432 && params[:username]==nil   #定期存款
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=201
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>433,:targets=>0)
+          render "rtn433", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==433 && params[:username]==nil   #银行理财产品
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=202
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>434,:targets=>0)
+          render "rtn434", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==434 && params[:username]==nil   #货币基金
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=102
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>435,:targets=>0)
+          render "rtn435", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==435 && params[:username]==nil   #股票、基金
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=301
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>436,:targets=>0)
+          render "rtn436", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==436 && params[:username]==nil   #债券、基金
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=203
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>437,:targets=>0)
+          render "rtn437", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==437 && params[:username]==nil   #房产
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=401
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>438,:targets=>0)
+          render "rtn438", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==438 && params[:username]==nil   #汽车
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=402
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>439,:targets=>0)
+          render "rtn439", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==439 && params[:username]==nil   #借贷
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=302
+            e.asset_value=content
+            e.save
+          end
+          @webuser.update_attributes(:segment=>440,:targets=>0)
+          render "rtn440", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==440 && params[:username]==nil   #其他资产
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4311", :formats => :xml
+        else
+          User_asset_sheet.new do |e|
+            e.username=@webuser.username
+            e.asset_typeid=399
+            e.asset_value=content
+            e.save
+          end
+          @userassetsheet441=User_asset_sheet.find_all_by_username(@webuser.username)
+          @assettype441=Admin_asset_type.all
+          @hash441={}
+          for i in 0..@assettype441.size-1
+            @hash441.store(@assettype441[i].asset_typeid.to_i,[@assettype441[i].asset_typename])
+          end
+          @webuser.update_attributes(:segment=>441,:targets=>0)
+          render "rtn441", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==441 && params[:username]==nil   #显示所有资产
+        content=params[:xml][:Content]
+        if content=="1"
+          @webuser.update_attributes(:segment=>442,:targets=>0)
+          render "rtn442", :formats => :xml
+        elsif content=="0"
+          @webuser.update_attributes(:segment=>431,:targets=>0)
+          render "rtn431", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==442 && params[:username]==nil   #是否有贷款负债
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4421", :formats => :xml
+        elsif content=="0"
+          @userdebtsheet=User_debt_sheet.destroy_all(:username => @webuser.username)
+          count=1
+        elsif content=="100"
+          @webuser.update_attributes(:segment=>443,:targets=>0)
+          render "rtn443", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==443 && params[:username]==nil   #房贷
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.destroy_all(:username => @webuser.username)
+        User_debt_sheet.new do |e|
+          e.username=@webuser.username
+          e.debt_typeid=101
+          e.debt_value=content
+          e.save
+        end
+        @webuser.update_attributes(:segment=>444,:targets=>0)
+        render "rtn444", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==444 && params[:username]==nil   #房贷
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,101)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_years=>content)
+        end
+        @webuser.update_attributes(:segment=>445,:targets=>0)
+        render "rtn445", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==445 && params[:username]==nil   #房贷
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,101)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_value_monthly=>content)
+        end
+        @webuser.update_attributes(:segment=>446,:targets=>0)
+        render "rtn446", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==446 && params[:username]==nil   #车贷
+        content=params[:xml][:Content]
+        User_debt_sheet.new do |e|
+          e.username=@webuser.username
+          e.debt_typeid=102
+          e.debt_value=content
+          e.save
+        end
+        @webuser.update_attributes(:segment=>447,:targets=>0)
+        render "rtn447", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==447 && params[:username]==nil   #车贷
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,102)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_years=>content)
+        end
+        @webuser.update_attributes(:segment=>448,:targets=>0)
+        render "rtn448", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==448 && params[:username]==nil   #车贷
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,102)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_value_monthly=>content)
+        end
+        @webuser.update_attributes(:segment=>449,:targets=>0)
+        render "rtn449", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==449 && params[:username]==nil   #其他贷款
+        content=params[:xml][:Content]
+        User_debt_sheet.new do |e|
+          e.username=@webuser.username
+          e.debt_typeid=199
+          e.debt_value=content
+          e.save
+        end
+        @webuser.update_attributes(:segment=>450,:targets=>0)
+        render "rtn450", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==450 && params[:username]==nil   #其他贷款
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,199)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_years=>content)
+        end
+        @webuser.update_attributes(:segment=>451,:targets=>0)
+        render "rtn451", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==451 && params[:username]==nil   #其他贷款
+        content=params[:xml][:Content]
+        @userdebtsheet=User_debt_sheet.find_by_username_and_debt_typeid(@webuser.username,199)
+        if @userdebtsheet!=nil
+          @userdebtsheet.update_attributes(:debt_value_monthly=>content)
+        end
+        @userdebtsheet452=User_debt_sheet.find_all_by_username(@webuser.username)
+        @debttype452=Admin_debt_type.all
+        @hash452={}
+        for i in 0..@debttype452.size-1
+          @hash452.store(@debttype452[i].debt_typeid,[@debttype452[i].debt_typename])
+        end
+        @webuser.update_attributes(:segment=>452,:targets=>0)
+        render "rtn452", :formats => :xml
+
+      elsif @webuser!=nil && @webuser.segment==452 && params[:username]==nil   #显示所有贷款
+        content=params[:xml][:Content]
+        if content=="1"
+          count=1
+        elsif content=="0"
+          @webuser.update_attributes(:segment=>443,:targets=>0)
+          render "rtn443", :formats => :xml
+        end
+      end
+      if count==1 || session[:webusername]!=nil
         @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
         debt_month=0
         debt_account=0

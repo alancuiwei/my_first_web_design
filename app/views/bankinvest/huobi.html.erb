@@ -1,0 +1,160 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<style>
+    .details td.right{
+        font-family: "Open Sans",Helvetica,Arial,sans-serif;
+        margin: 0;
+        font-style: italic;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(68, 68, 68);
+        text-align: center;
+    }
+    .details td.left{
+        width:15%;
+        vertical-align: middle;
+        background-color: #fbfbfb;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 17px;
+        text-align: left;
+        padding-left: 10px;
+        font-family: Hiragino Sans GB W3;
+        font-weight: normal;
+        color: rgb(51, 51, 51);
+    }
+
+    .details .box_left_title1 {
+        font-size: 20px;
+        padding-bottom: 10px;
+    }
+
+    .details .cell{
+        display: table-cell;
+    }
+</style>
+
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+    <a href="/">首页</a>
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;">产品名称：<%= @fundproduct.productname %></span><br>
+      <span style="font-size: 12px;">我们为您提供公正、透明的理财产品信息，供你做参考。</span>
+    </div>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left" style="width: 100%;">
+        <ul>
+          <li>
+          <span class="qq_bankbig red"><% if @fundquote!=nil %><%= @fundquote.million_income %>元<% end %></span>
+            <span class="qq_banksmall">万份年收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundquote!=nil %><%= @fundquote.sevenD_years_return %><% end %></span>
+            <span class="qq_banksmall">七日年收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundquote!=nil %><%= @fundquote.one_year_rank %><% else %>--<% end %></span>
+            <span class="qq_banksmall">排名</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundproduct!=nil %><%= @fundproduct.min_purchase_account %><% else %>--<% end %></span>
+            <span class="qq_banksmall">最低金额</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td class="left">管理机构</td>
+        <td class="right">--</td>
+        <td class="right">同类产品</td>
+      </tr>
+      <tr>
+        <td class="left">产品代码</td>
+        <td class="right"><% if @fundproduct.product_code!=nil %><%= @fundproduct.product_code %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">产品类型</td>
+        <td class="right"><% if @fundproduct.L2_typename!=nil %><%= @fundproduct.L2_typename %><% else %>--<% end %></td>
+        <td class="right"><% if @fundproduct.L2_typename!=nil %><%= @fundproduct.L2_typename %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">基金规模(?)</td>
+        <td class="right"><% if @fundproduct.fund_size!=nil %><%= @fundproduct.fund_size %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">基金成立时间(?)</td>
+        <td class="right"><% if @fundproduct.create_date!=nil %><%= @fundproduct.create_date %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">其他支付功能</td>
+        <td class="right"><% if @fundproduct.other_usage!=nil %><%= @fundproduct.other_usage %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">官网介绍</td>
+        <td class="right"><% if @fundproduct.official_link!=nil %><%= @fundproduct.official_link %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">产品描述</td>
+        <td class="right"><% if @fundproduct.institution!=nil %><%= @fundproduct.institution %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">风险描述</td>
+        <td class="right">--</td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">一年收益率</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
+        <td class="right"><% if @average1!=nil %><%= @average1.average_return_rate %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">一年同类排名</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">两年收益率</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.two_year_return!=0 %><%= @fundquote.two_year_return %>%<% else %>--<% end %></td>
+        <td class="right"><% if @average2!=nil %><%= @average2.average_return_rate %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">两年同类排名</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.two_year_rank!=0 %><%= @fundquote.two_year_rank %><% else %>--<% end %></td>
+        <td class="right">--</td>
+      </tr>
+      <tr>
+        <td class="left">三年收益率</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
+        <td class="right"><% if @average3!=nil %><%= @average3.average_return_rate %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">三年同类排名</td>
+        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>-<% end %></td>
+        <td class="right">--</td>
+      </tr>
+    </table>
+  </div>
+  <div class="cell">
+    <div style="height: 100px;">&nbsp;</div>
+    <div class="gray_ad" id="buyinfo">
+      <div id="buyinfo-printed">
+        <h2 class="">
+          在哪儿买这个理财产品?
+        </h2>
+        <% @productcompany.each do |b| %>
+            <a href="/bankinvest/salescompany/<%= @hash[b.fundname][0] %>?pid=<%= params[:id] %>" class=""><%= b.fundname %> ( 手续费 <%= b.poundage %>% )</a><br>
+        <% end %>
+        <a href="/bankinvest/buylinks/<%= params[:id] %>">查看<%= @productcompany.length %>家购买详情 ( 手续费 <%= @min %>% 起 )</a>
+      </div>
+    </div>
+  </div>
+</div>
