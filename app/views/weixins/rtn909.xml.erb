@@ -1,0 +1,12 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[下面我们是根据您的个人情况、投资风险度评估做出的货币基金推荐，请回复基金代码表示您选中该基金。
+<% for i in 0..@hash909.size-1 %>
+基金代码：<%= @hash909[i][0] %>, 名称：<%= @hash909[i][1] %>, 起购金额：<%= @hash909[i][2] %>元, 基金资金规模：<%= @hash909[i][3] %>亿元, 成立时间：<%= @hash909[i][4] %>, 近1年基金排名：<%= @hash909[i][5] %>, 近2年基金排名：<%= @hash909[i][6] %>, 近3年基金排名：<%= @hash909[i][7] %>；
+<% end %>
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+</xml>

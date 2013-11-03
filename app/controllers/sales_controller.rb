@@ -1,15 +1,6 @@
 #encoding: utf-8
 class SalesController < ApplicationController
 
-  def login
-    if params[:weixincode]!=nil
-      @webuser=Webuser.find_by_weixincode(params[:weixincode])
-      if @webuser!=nil && session[:webusername]==nil
-        session[:webusername]=@webuser.username
-      end
-    end
-  end
-
   def getpassword
     @webuser=Webuser.find_by_username(params[:username])
     if  @webuser==nil

@@ -1,0 +1,9 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[经典理财观念认为，我们应该在应急基金中储备相当于3-6个月家庭生活必要开支的资金金额，因为失业后找到一份新工作可能就需要这么长的时间。对于您而言，您每个月必要开销是<% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %>元，所以我们建议您的应急基金应储蓄<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*3 %><% end %>元左右。请回复Y表示确认。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

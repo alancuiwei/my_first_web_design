@@ -6,12 +6,14 @@
      <Content><![CDATA[您的资产信息如下：
 <% @userasset.each do |u| %>
 <% if u.asset_product_code!=nil %>
-<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %><% else %><%= @hash1[u.asset_typeid][0] %><% end %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
+<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %>(<%= @hash[u.asset_product_code][1] %>)<% else %><%= @hash1[u.asset_typeid][0] %><% end %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
 <% else %>
 <%= @hash1[u.asset_typeid][0] %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
 <% end %>
 <% end %>
 流动总资产<%= @liudong %>元，固定资产<%= @guding %>元，总资产<%= @zong %>元。
+全部修改请回复100，
+投资资产修改请回复200。
 ]]></Content>
      <FuncFlag>0</FuncFlag>
  </xml>

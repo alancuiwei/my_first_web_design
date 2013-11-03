@@ -1,0 +1,16 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您的投资资产信息如下：
+<% @userasset.each do |u| %>
+<% if u.asset_product_code!=nil %>
+<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %>(<% if @hash[u.asset_product_code][2]==101 %>货币基金、<% elsif @hash[u.asset_product_code][2]==301 %>债券基金、<% elsif @hash[u.asset_product_code][2]==304 %>股票型基金、<% end %><%= @hash[u.asset_product_code][1] %>):<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %><% end %>元
+<% end %>
+<% end %>
+请重新输入您对其中某个产品的修改，例如您最近新买260104基金(非货币基金)500份，则输入 +，260104,500；如您最近刚赎回260104基金500份，则输入 -，260104,500。
+注：货币基金修改时请输入金额，您最近新买000198基金产品1000元则输入 +，000198，1000
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

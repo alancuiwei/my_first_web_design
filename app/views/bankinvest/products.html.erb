@@ -261,15 +261,18 @@
             <th rowspan="2">日增长率</th>
             <th colspan="2">近1年</th>
             <th colspan="2">近3年</th>
+            <th colspan="2" class="hide"></th>
             <th rowspan="2">晨星评级</th>
           </tr>
           <tr>
             <th>收益率</th>
+            <th class="hide">排名</th>
             <th>排名</th>
             <th>收益率</th>
+            <th class="hide">排名</th>
             <th>排名</th>
           </tr>
-          </thead>
+          </thead>  <!--
           <tfoot class="hide">
           <tr>
             <th rowspan="2">理财产品</th>
@@ -288,6 +291,7 @@
             <th colspan="2">近3年</th>
           </tr>
           </tfoot>
+          -->
           <% @general.each do |f| %>
               <tr>
                 <td class="first"><%= f.product_name %></td>
@@ -295,10 +299,12 @@
                 <td><%= @hash2[f.L2_typeid][0] %></a></td>
                 <td><%= f.today_value %></td>
                 <td><%= f.today_rate %></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><% if f.one_year_return!=nil && f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+                <td><% if f.three_year_return!=nil && f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
                 <td></td>
               </tr>
           <% end %>

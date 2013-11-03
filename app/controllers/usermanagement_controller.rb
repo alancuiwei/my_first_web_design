@@ -1,5 +1,15 @@
 #encoding: utf-8
 class UsermanagementController < ApplicationController
+
+  def login
+    if params[:weixincode]!=nil
+      @webuser=Webuser.find_by_weixincode(params[:weixincode])
+      if @webuser!=nil && session[:webusername]==nil
+        session[:webusername]=@webuser.username
+      end
+    end
+  end
+
    def family_asset_table
      @hash={}
      @hash1={}
