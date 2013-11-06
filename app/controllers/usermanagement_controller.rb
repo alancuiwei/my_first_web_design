@@ -10,6 +10,31 @@ class UsermanagementController < ApplicationController
     end
   end
 
+  def getpassword
+    @webuser=Webuser.find_by_username(params[:username])
+    if  @webuser==nil
+      render :json => "s".to_json
+    else
+      password=decode(@webuser.password)
+      password2=encode(params[:password2])
+      if params[:password]!=password
+        render :json => "s1".to_json
+      else
+        @webuser.update_attributes(:password=>password2)
+        render :json => "s2".to_json
+      end
+    end
+  end
+
+  def profile
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(@webuser.username)
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :profile=>"1")
+    end
+  end
+
    def family_asset_table
      @hash={}
      @hash1={}
@@ -18,6 +43,8 @@ class UsermanagementController < ApplicationController
        @hash1.store(@assettype[i].asset_typeid.to_i,[@assettype[i].asset_typename])
      end
      if session[:webusername]!=nil
+       @webuser=Webuser.find_by_username(session[:webusername])
+       @targets=User_targets.find_by_username(@webuser.username)
        @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
        @total=0
        for i in 0..@userassetsheet.size-1
@@ -45,4 +72,30 @@ class UsermanagementController < ApplicationController
        redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
      end
    end
+end
+
+
+require 'openssl'
+require 'base64'
+ALG = 'DES-EDE3-CBC'  #算法
+KEY = "mZ4Wjs6L"  #8位密钥
+DES_KEY = "nZ4wJs6L"
+
+#加密
+def encode(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.encrypt
+  cipher = des.update(str)
+  cipher << des.final
+  return Base64.encode64(cipher) #Base64编码，才能保存到数据库
+end
+
+#解密
+def decode(str)
+  str = Base64.decode64(str)
+  des = OpenSSL::Cipher::Cipher.new(ALG)
+  des.pkcs5_keyivgen(KEY, DES_KEY)
+  des.decrypt
+  des.update(str) + des.final
 end

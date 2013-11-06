@@ -23,27 +23,7 @@
     }
     .main-body{padding: 20px;}
 </style>
-<!--
-<script type="text/javascript">
-    <% if params[:controller]!="usermanagement" || params[:action]!="login" %>
-    QC.Login({
-                btnId:"qqLoginBtn"	//插入按钮的节点id
-            },function(reqData,opts){
-                $("#log").hide();
-                var dom= document.getElementById("qqLogin"),
-                        _logoutTemplate=['<a><img src="{figureurl}" class="size_key" width="30" height="30"></a>','&nbsp;<a href="/personmanagement/personfinance" style="font-size: 14px;">{nickname}</a>&nbsp;<a href="#" style="font-size: 14px;" onclick="QC.Login.signOut();">退出</a>'].join("");
-                dom && (dom.innerHTML =QC.String.format(_logoutTemplate,{
-                    nickname: QC.String.escHTML(reqData.nickname),
-                    figureurl: reqData.figureurl
-                }))
-            },function(opts){
-                $("#log").show();
-                logout();
-            }
-    );
-  <% end %>
-</script>
- -->
+
 <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -205,35 +185,5 @@ olark.identify('5644-792-10-3841');/*]]>{/literal}*/</script><noscript><a href="
         })
     }
 </script>
-  <!--
-    <script type="text/javascript">
-        setTimeout(function(){var a=document.createElement("script");
-            var b=document.getElementsByTagName("script")[0];
-            a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0017/1011.js?"+Math.floor(new Date().getTime()/3600000);
-            a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-    </script>
-   -->
-<!--
-     <script type="text/javascript">
-        (function() {
-            var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
-            mf.src = "//cdn.mouseflow.com/projects/459d9d12-066e-43ad-80a7-1f84c6cabfda.js";
-            document.getElementsByTagName("head")[0].appendChild(mf);
-        })();
-        function question(name)
-        {
-            if(document.all)
-            {
-                document.getElementById(name).click();
-            }
-            else
-            {
-                var evt = document.createEvent("MouseEvents");
-                evt.initEvent("click", true, true);
-                document.getElementById(name).dispatchEvent(evt);
-            }
-        }
-    </script>
-    -->
 </body>
 </html>

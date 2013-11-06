@@ -1,0 +1,129 @@
+<%= stylesheet_link_tag "usermanagement.css" %>
+
+<div class="main-content">
+  <div class="trow">
+    <div class="main-inputs">
+      <div id="inputs" class="content">
+        <div id="main-inputs" style="">
+          <div class="padded">
+            <h3>
+              <a href="/">tongtianshun.com</a>
+            </h3>
+            <p>通天顺家庭理财</p>
+          </div>
+          <div class="general">
+            <div class="input-group plaintext">
+              <div style="padding: 10px 5px 10px 20px">
+                <%= session[:webusername] %> 首页<br><br>
+                <a href="/usermanagement/family_asset_table">家庭资产总值</a><br>
+                <a>基本信息设置</a><br>
+                <%= render "side" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-body">
+      <a href="/">首页</a>
+      <h1>个人信息设置</h1>
+      <table width="100%" class="logintb">
+        <tbody>
+        <tr>
+          <td colspan="4">
+            <h2>电子邮件</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="tlabel">电子邮件地址</td>
+          <td colspan="3" style="padding-top: 5px">
+            <b><u><%= @webuser.email %></u></b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <hr noshade="">
+            <h2>移动电话</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="tlabel">电话号码</td>
+          <td colspan="3" style="padding-top: 5px">
+            <b><u><%= @webuser.tel %></u></b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <hr noshade="">
+            <h2>修改密码</h2>
+          </td>
+        </tr>
+        <tr>
+          <td class="tlabel">原先密码</td>
+          <td colspan="2" style="font-family: georgia, times; font-style: italic; font-size: 10px">
+            <input type="password" id="password" value="" class="" placeholder="原先密码" title="原先密码" style="margin-bottom:0px"><br>
+          </td>
+        </tr>
+        <tr class="newpassword">
+          <td class="tlabel">新密码</td>
+          <td>
+            <input type="password" id="npassword" placeholder="新密码" title="新密码">
+          </td>
+          <td class="tlabel">确认密码</td>
+          <td>
+            <input type="password" id="cpassword" placeholder="确认密码" title="确认密码">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <hr noshade="" style="margin-bottom: 5px;">
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="2">
+            <button class="btn btn-success" id="confirm" style="width: 120px">保存</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+    $("#confirm").click(function(){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if($("#password").attr("value")==$("#npassword").attr("value") && nom_flag==0){
+            alert('新密码不能与原密码相同！')
+            nom_flag=1;
+        }
+        else if($("#npassword").attr("value")!=$("#cpassword").attr("value") && nom_flag==0){
+            alert('两次密码不一致！')
+            nom_flag=1;
+        }
+        if(nom_flag==0){
+            $.get("/usermanagement/getpassword",{ username:'<%= session[:webusername] %>',password:$("#password").attr("value"),password2:$("#npassword").attr("value")
+            },function(data){
+                if(data=="s"){
+                    alert('用户不存在！')
+                }
+                else if(data=="s1"){
+                    alert('原密码输入错误！')
+                }
+                else{
+                    alert('修改成功！')
+                }
+            });
+        }
+    });
+</script>

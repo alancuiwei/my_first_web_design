@@ -141,22 +141,22 @@
         <% if t.user_target=="买房" %>
         $("#target_period1").attr("value","<%= t.user_target_period %>")
         $("#target_value1").html("<%= t.user_target_value %>")
-        $("#amount10").attr("value","<%= t.transition_value1/10000 %>")
-        $("#amount14").attr("value","<%= t.transition_value2*10 %>")
-        $("#target_value0").html("<%= t.transition_value1*t.transition_value2/100000 %>")
-        $("#amount11").attr("value","<%= t.transition_value3/10000 %>")
-        $("#amount12").attr("value","<%= t.transition_value4/10000 %>")
-        $("#amount13").attr("value","<%= t.transition_value5/10000 %>")
+        <% if t.transition_value1!=nil %>$("#amount10").attr("value","<%= t.transition_value1/10000 %>")<% end %>
+        <% if t.transition_value2!=nil %>$("#amount14").attr("value","<%= t.transition_value2*10 %>")<% end %>
+        <% if t.transition_value1!=nil && t.transition_value2!=nil %>$("#target_value0").html("<%= t.transition_value1*t.transition_value2/100000 %>")<% end %>
+        <% if t.transition_value3!=nil %>$("#amount11").attr("value","<%= t.transition_value3/10000 %>")<% end %>
+        <% if t.transition_value4!=nil %>$("#amount12").attr("value","<%= t.transition_value4/10000 %>")<% end %>
+        <% if t.transition_value5!=nil %>$("#amount13").attr("value","<%= t.transition_value5/10000 %>")<% end %>
         <% elsif t.user_target=="买车" %>
         $("#target_period2").attr("value","<%= t.user_target_period %>")
         $("#target_value2").html("<%= t.user_target_value %>")
-        $("#amount20").attr("value","<%= t.transition_value1/10000 %>")
-        $("#amount21").attr("value","<%= t.transition_value2/10000 %>")
+        <% if t.transition_value1!=nil %>$("#amount20").attr("value","<%= t.transition_value1/10000 %>")<% end %>
+        <% if t.transition_value2!=nil %>$("#amount21").attr("value","<%= t.transition_value2/10000 %>")<% end %>
         <% elsif t.user_target=="结婚" %>
         $("#target_period3").attr("value","<%= t.user_target_period %>")
         $("#target_value3").html("<%= t.user_target_value %>")
-        $("#amount30").attr("value","<%= t.transition_value1/10000 %>")
-        $("#amount31").attr("value","<%= t.transition_value2/10000 %>")
+        <% if t.transition_value1!=nil %>$("#amount30").attr("value","<%= t.transition_value1/10000 %>")<% end %>
+        <% if t.transition_value2!=nil %>$("#amount31").attr("value","<%= t.transition_value2/10000 %>")<% end %>
         <% elsif t.user_target=="旅游度假" %>
         $("#target_period4").attr("value","<%= t.user_target_period %>")
         $("#target_value4").attr("value","<%= t.user_target_value %>")

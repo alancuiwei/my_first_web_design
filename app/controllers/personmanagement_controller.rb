@@ -88,19 +88,64 @@ class PersonmanagementController < ApplicationController
     @hash2={}
     @category=Admin_asset_type_l2.all
     for i in 0..@category.size-1
-      @financial=Financial.find_all_by_classify(@category[i].classify)
-      @hash2.store(@category[i].id,[@financial.length])
-      a=''
-      for j in 0..@financial.size-1
-        if j==0
-          a=@financial[j].id
-        else
-          a=a.to_s+','+@financial[j].id.to_s
-        end
+      loss1='--';loss2='--';loss3='--';max1='--';max2='--';max3='--';
+      @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,1)
+      if @loss!=nil
+        loss1=@loss.probability.round(3)
       end
-      @hash.store(i,[@category[i].id,@category[i].classify,a])
+      @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,2)
+      if @loss!=nil
+        loss2=@loss.probability.round(3)
+      end
+      @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,3)
+      if @loss!=nil
+        loss3=@loss.probability.round(3)
+      end
+      @max=Max_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,1)
+      if @max!=nil
+        max1=@max.returnrate
+      end
+      @max=Max_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,2)
+      if @max!=nil
+        max2=@max.returnrate
+      end
+      @max=Max_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,3)
+      if @max!=nil
+        max3=@max.returnrate
+      end
+      @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss2,loss3,max1,max2,max3])
+      @hash.store(i,[@category[i].id,@category[i].classify])
     end
     @financial2=Financial.all
+    @hash6={}
+    @monetaryfundquote=Monetary_fund_quote.all
+    t = Time.new
+    date = t.strftime("%Y-%m-%d")
+    for i in 0..@monetaryfundquote.size-1
+      @product=Monetary_fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
+      if @product!=nil
+        if @product.create_date!=nil
+          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,DateTime.parse(date)-DateTime.parse(@product.create_date.to_s),@product.fund_size])
+        else
+          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,nil,@product.fund_size])
+        end
+      else
+        @hash6.store(@monetaryfundquote[i].product_code,[nil,nil,nil])
+      end
+    end
+    @generalfundquote=General_fund_quote.all
+    for i in 0..@generalfundquote.size-1
+      @product=General_fund_product.find_by_product_code(@generalfundquote[i].product_code)
+      if @product!=nil
+        if @product.date!=nil
+          @hash6.store(@generalfundquote[i].product_code,[1000,DateTime.parse(date)-DateTime.parse(@product.date.to_s),@product.fund_size])
+        else
+          @hash6.store(@generalfundquote[i].product_code,[1000,nil,@product.fund_size])
+        end
+      else
+        @hash6.store(@generalfundquote[i].product_code,[nil,nil,nil])
+      end
+    end
   end
 
   def zhifubao
