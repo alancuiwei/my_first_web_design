@@ -49,65 +49,65 @@ class WeixinsController < ApplicationController
         case params[:xml][:EventKey]
           when "V301"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>301)
             end
             render "rtn101", :formats => :xml
           when "V110"
             if @webuser!=nil && @webuser.asset_score!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>110)
               render "rtn413", :formats => :xml
             elsif @webuser!=nil
-              @webuser.update_attributes(:segment=>400,:targets=>0)
+              @webuser.update_attributes(:segment=>400,:targets=>0,:subject=>110)
               render "rtn400", :formats => :xml
             else
               render "rtn110", :formats => :xml
             end
           when "V111"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>111)
             end
             render "rtn110", :formats => :xml
           when "V202"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>202)
             end
             render "rtn202", :formats => :xml
           when "V203"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>203)
             end
             render "rtn203", :formats => :xml
           when "V204"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>204)
             end
             render "rtn204", :formats => :xml
           when "V302"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>302)
             end
             render "rtn302", :formats => :xml
           when "V303"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>303)
             end
             render "rtn303", :formats => :xml
           when "V304"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>304)
             end
             render "rtn304", :formats => :xml
           when "V500"
             if @webuser!=nil
-            @targets=User_targets.find_by_username(@webuser.username)
+              @targets=User_targets.find_by_username(@webuser.username)
               if @webuser.asset_score!=nil && @targets!=nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>500)
                 render "rtn509", :formats => :xml
               elsif @webuser.asset_score!=nil
-                @webuser.update_attributes(:segment=>0,:targets=>500)
+                @webuser.update_attributes(:segment=>0,:targets=>500,:subject=>500)
                 render "rtn500", :formats => :xml
               else
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>500)
                 render "rtn508", :formats => :xml
               end
             else
@@ -115,7 +115,7 @@ class WeixinsController < ApplicationController
             end
           when "V600"
             if @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>600)
               render "rtn600", :formats => :xml
             else
               render "rtn110", :formats => :xml
@@ -124,23 +124,23 @@ class WeixinsController < ApplicationController
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
               if @webuser.asset_score==nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn508", :formats => :xml
               elsif  @targets==nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn510", :formats => :xml
               elsif @webuser.risk_score!=nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn701", :formats => :xml
               else
-              @webuser.update_attributes(:segment=>0,:targets=>0)
-              render "rtn700", :formats => :xml
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
+                render "rtn700", :formats => :xml
               end
             else
               render "rtn110", :formats => :xml
             end
           when "V800"
-            if @webuser!=nil && @webuser.property==805
+            if @webuser!=nil && @webuser.property>=805 && @webuser.property<=811
               @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
               @liudong=0
               @guding=0
@@ -159,9 +159,10 @@ class WeixinsController < ApplicationController
                 end
                 @zong=@zong+value
               end
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805,:subject=>800)
               render "rtn805", :formats => :xml
             elsif @webuser!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>800)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>800,:subject=>800)
               render "rtn800", :formats => :xml
             else
               render "rtn110", :formats => :xml
@@ -170,16 +171,16 @@ class WeixinsController < ApplicationController
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
               if @webuser.asset_score==nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn508", :formats => :xml
               elsif  @targets==nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn510", :formats => :xml
               elsif @webuser.risk_score==nil
-                @webuser.update_attributes(:segment=>0,:targets=>0)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn511", :formats => :xml
               else
-                @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>900)
+                @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>900,:subject=>900)
                 render "rtn900", :formats => :xml
               end
             else
@@ -242,7 +243,7 @@ class WeixinsController < ApplicationController
             end
           when "602"
             if @webuser!=nil
-            @targets=User_targets.find_by_username(@webuser.username)
+              @targets=User_targets.find_by_username(@webuser.username)
               @webuser.update_attributes(:segment=>0,:targets=>0)
               if @targets!=nil
                 render "rtn601", :formats => :xml
@@ -314,20 +315,20 @@ class WeixinsController < ApplicationController
         end
 
       elsif @webuser!=nil && @webuser.segment==403 && params[:username]==nil        #婚姻
-          content=params[:xml][:Content]
-          if content=="W" || content=="w"
-            render "rtn4031", :formats => :xml
-          elsif content=="1"
-            @webuser.update_attributes(:married=>content)
-            @webuser.update_attributes(:segment=>404,:targets=>0)
-            render "rtn404", :formats => :xml
-          elsif content=="0"
-            @webuser.update_attributes(:married=>content,:kids=>0)
-            @webuser.update_attributes(:segment=>406,:targets=>0)
-            render "rtn406", :formats => :xml
-          else
-            render "rtn4032", :formats => :xml
-          end
+        content=params[:xml][:Content]
+        if content=="W" || content=="w"
+          render "rtn4031", :formats => :xml
+        elsif content=="1"
+          @webuser.update_attributes(:married=>content)
+          @webuser.update_attributes(:segment=>404,:targets=>0)
+          render "rtn404", :formats => :xml
+        elsif content=="0"
+          @webuser.update_attributes(:married=>content,:kids=>0)
+          @webuser.update_attributes(:segment=>406,:targets=>0)
+          render "rtn406", :formats => :xml
+        else
+          render "rtn4032", :formats => :xml
+        end
 
       elsif @webuser!=nil && @webuser.segment==404 && params[:username]==nil         #是否有子女
         content=params[:xml][:Content]
@@ -680,8 +681,8 @@ class WeixinsController < ApplicationController
       elsif @webuser!=nil && @webuser.segment==430 && params[:username]==nil   #显示所有年度开销
         content=params[:xml][:Content]
         if content=="1"
-        @webuser.update_attributes(:segment=>431,:targets=>0)
-        render "rtn431", :formats => :xml
+          @webuser.update_attributes(:segment=>431,:targets=>0)
+          render "rtn431", :formats => :xml
         elsif content=="0"
           @webuser.update_attributes(:segment=>426,:targets=>0)
           render "rtn426", :formats => :xml
@@ -1330,261 +1331,244 @@ class WeixinsController < ApplicationController
       end
 
       if params[:username]==nil && params[:xml][:MsgType]=="text"
-        if @webuser!=nil && @webuser.targets==500
-          content=params[:xml][:Content]
-          targts=["买房","买车","结婚","子女教育","旅游度假","退休计划"]
-          if content=="1" || content=="2" || content=="3" || content=="4" || content=="5" || content=="6"
-            @targets=User_targets.find_by_username(@webuser.username)
-            if @targets==nil
-              User_targets.new do |e|
-                e.username=@webuser.username
-                e.user_target=targts[content.to_i-1]
-                e.save
+
+        if @webuser!=nil && @webuser.subject==500
+          if @webuser!=nil && @webuser.targets==500
+            content=params[:xml][:Content]
+            targts=["买房","买车","结婚","子女教育","旅游度假","退休计划"]
+            if content=="1" || content=="2" || content=="3" || content=="4" || content=="5" || content=="6"
+              @targets=User_targets.find_by_username(@webuser.username)
+              if @targets==nil
+                User_targets.new do |e|
+                  e.username=@webuser.username
+                  e.user_target=targts[content.to_i-1]
+                  e.save
+                end
+              else
+                @targets.update_attributes(:user_target=>targts[content.to_i-1])
               end
-            else
-              @targets.update_attributes(:user_target=>targts[content.to_i-1])
+              @webuser.update_attributes(:segment=>0,:targets=>500+content.to_i)
+              render "rtn50"+content, :formats => :xml
             end
-            @webuser.update_attributes(:segment=>0,:targets=>500+content.to_i)
-            render "rtn50"+content, :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.targets==501                    #买房
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:transition_value1=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5011)
-          render "rtn5011", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5011                    #买房
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:user_target_period=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5012)
-          render "rtn5012", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5012                    #买房
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:transition_value2=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5013)
-          render "rtn5013", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5013                    #买房
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:transition_value3=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5014)
-          render "rtn5014", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5014                    #买房
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          user_target_value=@targets.transition_value1*@targets.transition_value2/10-@targets.transition_value3-content.to_i
-          @targets.update_attributes(:transition_value4=>content,:transition_value5=>0,:user_target_value=>user_target_value/10000)
-          Thread.new{
-            UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
-          }
-          @webuser.update_attributes(:segment=>0,:targets=>507)
-          render "rtn507", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==502                    #买车
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:transition_value1=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5021)
-          render "rtn5021", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5021                    #买车
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:user_target_period=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5022)
-          render "rtn5022", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5022                    #买车
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          user_target_value=@targets.transition_value1-content.to_i
-          @targets.update_attributes(:transition_value2=>content,:user_target_value=>user_target_value/10000)
-          Thread.new{
-            UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
-          }
-          @webuser.update_attributes(:segment=>0,:targets=>507)
-          render "rtn507", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==503                    #结婚
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:transition_value1=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5031)
-          render "rtn5031", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5031                    #结婚
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:user_target_period=>content)
-          @webuser.update_attributes(:segment=>0,:targets=>5032)
-          render "rtn5032", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5032                    #结婚
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          user_target_value=@targets.transition_value1-content.to_i
-          @targets.update_attributes(:transition_value2=>content,:user_target_value=>user_target_value/10000)
-          Thread.new{
-            UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
-          }
-          @webuser.update_attributes(:segment=>0,:targets=>507)
-          render "rtn507", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==504                    #子女教育
-          if params[:xml][:Content]=="1"
+          elsif @webuser!=nil && @webuser.targets==501                    #买房
+            content=params[:xml][:Content]
             @targets=User_targets.find_by_username(@webuser.username)
-            @targets.update_attributes(:user_target_period=>15,:user_target_value=>22.14)
+            @targets.update_attributes(:transition_value1=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5011)
+            render "rtn5011", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5011                    #买房
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:user_target_period=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5012)
+            render "rtn5012", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5012                    #买房
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:transition_value2=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5013)
+            render "rtn5013", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5013                    #买房
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:transition_value3=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5014)
+            render "rtn5014", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5014                    #买房
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            user_target_value=@targets.transition_value1*@targets.transition_value2/10-@targets.transition_value3-content.to_i
+            @targets.update_attributes(:transition_value4=>content,:transition_value5=>0,:user_target_value=>user_target_value/10000)
             Thread.new{
               UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
             }
             @webuser.update_attributes(:segment=>0,:targets=>507)
             render "rtn507", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.targets==505                    #旅游度假
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:user_target_value=>content.to_f/10000)
-          @webuser.update_attributes(:segment=>0,:targets=>5051)
-          render "rtn5051", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==5051                    #旅游度假
-          content=params[:xml][:Content]
-          @targets=User_targets.find_by_username(@webuser.username)
-          @targets.update_attributes(:user_target_period=>content.to_i)
-          Thread.new{
-            UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
-          }
-          @webuser.update_attributes(:segment=>0,:targets=>507)
-          render "rtn507", :formats => :xml
-        elsif @webuser!=nil && @webuser.targets==506                    #退休计划
-          if params[:xml][:Content]=="1"
+          elsif @webuser!=nil && @webuser.targets==502                    #买车
+            content=params[:xml][:Content]
             @targets=User_targets.find_by_username(@webuser.username)
-            @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-            @targets.update_attributes(:user_target_period=>65-@webuser.age,:user_target_value=>@userdatamonth.must_expense_month*12*15/10000)
+            @targets.update_attributes(:transition_value1=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5021)
+            render "rtn5021", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5021                    #买车
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:user_target_period=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5022)
+            render "rtn5022", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5022                    #买车
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            user_target_value=@targets.transition_value1-content.to_i
+            @targets.update_attributes(:transition_value2=>content,:user_target_value=>user_target_value/10000)
             Thread.new{
               UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
             }
             @webuser.update_attributes(:segment=>0,:targets=>507)
             render "rtn507", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==503                    #结婚
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:transition_value1=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5031)
+            render "rtn5031", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5031                    #结婚
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:user_target_period=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>5032)
+            render "rtn5032", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5032                    #结婚
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            user_target_value=@targets.transition_value1-content.to_i
+            @targets.update_attributes(:transition_value2=>content,:user_target_value=>user_target_value/10000)
+            Thread.new{
+              UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
+            }
+            @webuser.update_attributes(:segment=>0,:targets=>507)
+            render "rtn507", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==504                    #子女教育
+            if params[:xml][:Content]=="1"
+              @targets=User_targets.find_by_username(@webuser.username)
+              @targets.update_attributes(:user_target_period=>15,:user_target_value=>22.14)
+              Thread.new{
+                UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
+              }
+              @webuser.update_attributes(:segment=>0,:targets=>507)
+              render "rtn507", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.targets==505                    #旅游度假
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:user_target_value=>content.to_f/10000)
+            @webuser.update_attributes(:segment=>0,:targets=>5051)
+            render "rtn5051", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==5051                    #旅游度假
+            content=params[:xml][:Content]
+            @targets=User_targets.find_by_username(@webuser.username)
+            @targets.update_attributes(:user_target_period=>content.to_i)
+            Thread.new{
+              UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
+            }
+            @webuser.update_attributes(:segment=>0,:targets=>507)
+            render "rtn507", :formats => :xml
+          elsif @webuser!=nil && @webuser.targets==506                    #退休计划
+            if params[:xml][:Content]=="1"
+              @targets=User_targets.find_by_username(@webuser.username)
+              @userdatamonth=Userdata_month.find_by_username(@webuser.username)
+              @targets.update_attributes(:user_target_period=>65-@webuser.age,:user_target_value=>@userdatamonth.must_expense_month*12*15/10000)
+              Thread.new{
+                UserMailer.targetreport(@webuser.username,@webuser.email,"理财目标报告").deliver
+              }
+              @webuser.update_attributes(:segment=>0,:targets=>507)
+              render "rtn507", :formats => :xml
+            end
           end
         end
-        if @webuser!=nil && @webuser.property==800
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            huobi=0,zhaiquan=0,gupiao=0;
-            @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
-            for i in 0..@userassetsheet.size-1
-              if @userassetsheet[i].asset_typeid==102
-                huobi=1;
+
+        if @webuser!=nil && @webuser.subject==800
+          if @webuser!=nil && @webuser.property==800
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              huobi=0,zhaiquan=0,gupiao=0;
+              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              for i in 0..@userassetsheet.size-1
+                if @userassetsheet[i].asset_typeid==102
+                  huobi=1;
+                end
+                if @userassetsheet[i].asset_typeid==203
+                  zhaiquan=1
+                end
+                if @userassetsheet[i].asset_typeid==301
+                  gupiao=1
+                end
               end
-              if @userassetsheet[i].asset_typeid==203
-                zhaiquan=1
-              end
-              if @userassetsheet[i].asset_typeid==301
-                gupiao=1
+              if huobi==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
+                render "rtn801", :formats => :xml
+              elsif zhaiquan==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
+                render "rtn802", :formats => :xml
+              elsif gupiao==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
+                render "rtn803", :formats => :xml
+              else
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
+                render "rtn804", :formats => :xml
               end
             end
-            if huobi==1
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
-              render "rtn801", :formats => :xml
-            elsif zhaiquan==1
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
-              render "rtn802", :formats => :xml
-            elsif gupiao==1
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>801)
-              render "rtn803", :formats => :xml
+          elsif @webuser!=nil && @webuser.property==801
+            content=params[:xml][:Content].gsub("，",",")
+            content=content.split(",")
+            @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 102)
+
+            User_asset_sheet.new do |e|
+              e.username=@webuser.username
+              e.asset_typeid=102
+              e.asset_product_value=content[1].to_i
+              e.asset_value=content[1].to_i
+              e.asset_product_code=content[0]
+              e.save
+            end
+
+            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8011)
+            render "rtn8011", :formats => :xml
+          elsif @webuser!=nil && @webuser.property==8011
+            if params[:xml][:Content]!="0";
+              content=params[:xml][:Content].gsub("，",",")
+              content=content.split(",")
+
+              User_asset_sheet.new do |e|
+                e.username=@webuser.username
+                e.asset_typeid=102
+                e.asset_product_value=content[1].to_i
+                e.asset_value=content[1].to_i
+                e.asset_product_code=content[0]
+                e.save
+              end
+              render "rtn8011", :formats => :xml
             else
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
-              render "rtn804", :formats => :xml
+              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              zhaiquan=0,gupiao=0;
+              for i in 0..@userassetsheet.size-1
+                if @userassetsheet[i].asset_typeid==203
+                  zhaiquan=1
+                end
+                if @userassetsheet[i].asset_typeid==301
+                  gupiao=1
+                end
+              end
+              if zhaiquan==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>802)
+                render "rtn802", :formats => :xml
+              elsif gupiao==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
+                render "rtn803", :formats => :xml
+              else
+                @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+                @liudong=0
+                @guding=0
+                @zong=0
+                for i in 0..@userasset.size-1
+                  value=0
+                  if @userasset[i].asset_product_value!=nil
+                    value=@userasset[i].asset_product_value
+                  elsif @userasset[i].asset_value!=nil
+                    value=@userasset[i].asset_value
+                  end
+                  if @hash1[@userasset[i].asset_typeid][1]==100
+                    @liudong=@liudong+value
+                  elsif @hash1[@userasset[i].asset_typeid][1]==400
+                    @guding=@guding+value
+                  end
+                  @zong=@zong+value
+                end
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
+                render "rtn805", :formats => :xml
+              end
             end
-          end
-        elsif @webuser!=nil && @webuser.property==801
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 102)
-
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=102
-            e.asset_product_value=content[1].to_i
-            e.asset_value=content[1].to_i
-            e.asset_product_code=content[0]
-            e.save
-          end
-
-          @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8011)
-          render "rtn8011", :formats => :xml
-        elsif @webuser!=nil && @webuser.property==8011
-         if params[:xml][:Content]!="0";
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=102
-            e.asset_product_value=content[1].to_i
-            e.asset_value=content[1].to_i
-            e.asset_product_code=content[0]
-            e.save
-          end
-          render "rtn8011", :formats => :xml
-         else
-           @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
-           zhaiquan=0,gupiao=0;
-           for i in 0..@userassetsheet.size-1
-             if @userassetsheet[i].asset_typeid==203
-               zhaiquan=1
-             end
-             if @userassetsheet[i].asset_typeid==301
-               gupiao=1
-             end
-           end
-           if zhaiquan==1
-             @webuser.update_attributes(:segment=>0,:targets=>0,:property=>802)
-             render "rtn802", :formats => :xml
-           elsif gupiao==1
-             @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
-             render "rtn803", :formats => :xml
-           else
-             @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
-             @liudong=0
-             @guding=0
-             @zong=0
-             for i in 0..@userasset.size-1
-               value=0
-               if @userasset[i].asset_product_value!=nil
-                 value=@userasset[i].asset_product_value
-               elsif @userasset[i].asset_value!=nil
-                 value=@userasset[i].asset_value
-               end
-               if @hash1[@userasset[i].asset_typeid][1]==100
-                 @liudong=@liudong+value
-               elsif @hash1[@userasset[i].asset_typeid][1]==400
-                 @guding=@guding+value
-               end
-               @zong=@zong+value
-             end
-             @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
-             render "rtn805", :formats => :xml
-           end
-         end
-        elsif @webuser!=nil && @webuser.property==802
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 203)
-          assetproductvalue=0
-          @fundquote=General_fund_quote.find_by_product_code(content[0])
-          if @fundquote!=nil && @fundquote.today_value!=nil
-            assetproductvalue=@fundquote.today_value*content[1].to_i
-          end
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=203
-            e.asset_product_value=assetproductvalue
-            e.asset_value=assetproductvalue
-            e.asset_product_code=content[0]
-            e.asset_product_share=content[1]
-            e.save
-          end
-
-          @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8021)
-          render "rtn8021", :formats => :xml
-        elsif @webuser!=nil && @webuser.property==8021
-          if params[:xml][:Content]!="0";
+          elsif @webuser!=nil && @webuser.property==802
             content=params[:xml][:Content].gsub("，",",")
             content=content.split(",")
             @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 203)
@@ -1602,18 +1586,104 @@ class WeixinsController < ApplicationController
               e.asset_product_share=content[1]
               e.save
             end
+
+            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8021)
             render "rtn8021", :formats => :xml
-          else
-            @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
-            gupiao=0;
-            for i in 0..@userassetsheet.size-1
-              if @userassetsheet[i].asset_typeid==301
-                gupiao=1
+          elsif @webuser!=nil && @webuser.property==8021
+            if params[:xml][:Content]!="0";
+              content=params[:xml][:Content].gsub("，",",")
+              content=content.split(",")
+              @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 203)
+              assetproductvalue=0
+              @fundquote=General_fund_quote.find_by_product_code(content[0])
+              if @fundquote!=nil && @fundquote.today_value!=nil
+                assetproductvalue=@fundquote.today_value*content[1].to_i
+              end
+              User_asset_sheet.new do |e|
+                e.username=@webuser.username
+                e.asset_typeid=203
+                e.asset_product_value=assetproductvalue
+                e.asset_value=assetproductvalue
+                e.asset_product_code=content[0]
+                e.asset_product_share=content[1]
+                e.save
+              end
+              render "rtn8021", :formats => :xml
+            else
+              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              gupiao=0;
+              for i in 0..@userassetsheet.size-1
+                if @userassetsheet[i].asset_typeid==301
+                  gupiao=1
+                end
+              end
+              if gupiao==1
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
+                render "rtn803", :formats => :xml
+              else
+                @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+                @liudong=0
+                @guding=0
+                @zong=0
+                for i in 0..@userasset.size-1
+                  value=0
+                  if @userasset[i].asset_product_value!=nil
+                    value=@userasset[i].asset_product_value
+                  elsif @userasset[i].asset_value!=nil
+                    value=@userasset[i].asset_value
+                  end
+                  if @hash1[@userasset[i].asset_typeid][1]==100
+                    @liudong=@liudong+value
+                  elsif @hash1[@userasset[i].asset_typeid][1]==400
+                    @guding=@guding+value
+                  end
+                  @zong=@zong+value
+                end
+                @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
+                render "rtn805", :formats => :xml
               end
             end
-            if gupiao==1
-              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
-              render "rtn803", :formats => :xml
+          elsif @webuser!=nil && @webuser.property==803
+            content=params[:xml][:Content].gsub("，",",")
+            content=content.split(",")
+            @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 301)
+            assetproductvalue=0
+            @fundquote=General_fund_quote.find_by_product_code(content[0])
+            if @fundquote!=nil && @fundquote.today_value!=nil
+              assetproductvalue=@fundquote.today_value*content[1].to_i
+            end
+            User_asset_sheet.new do |e|
+              e.username=@webuser.username
+              e.asset_typeid=301
+              e.asset_product_value=assetproductvalue
+              e.asset_value=assetproductvalue
+              e.asset_product_code=content[0]
+              e.asset_product_share=content[1]
+              e.save
+            end
+
+            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8031)
+            render "rtn8031", :formats => :xml
+          elsif @webuser!=nil && @webuser.property==8031
+            if params[:xml][:Content]!="0";
+              content=params[:xml][:Content].gsub("，",",")
+              content=content.split(",")
+              @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 301)
+              assetproductvalue=0
+              @fundquote=General_fund_quote.find_by_product_code(content[0])
+              if @fundquote!=nil && @fundquote.today_value!=nil
+                assetproductvalue=@fundquote.today_value*content[1].to_i
+              end
+              User_asset_sheet.new do |e|
+                e.username=@webuser.username
+                e.asset_typeid=301
+                e.asset_product_value=assetproductvalue
+                e.asset_value=assetproductvalue
+                e.asset_product_code=content[0]
+                e.asset_product_share=content[1]
+                e.save
+              end
+              render "rtn8031", :formats => :xml
             else
               @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
               @liudong=0
@@ -1636,33 +1706,137 @@ class WeixinsController < ApplicationController
               @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
               render "rtn805", :formats => :xml
             end
-          end
-        elsif @webuser!=nil && @webuser.property==803
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 301)
+          elsif @webuser!=nil && @webuser.property==805
+            content=params[:xml][:Content]
+            if content=="100"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>800)
+              render "rtn800", :formats => :xml
+            elsif content=="200"
+              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
+              render "rtn806", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.property==806
+            content=params[:xml][:Content]
+            if content.upcase=="M"
+              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>807)
+              render "rtn807", :formats => :xml
+            elsif content.upcase=="A"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>808)
+              render "rtn808", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.property==807
+            content=params[:xml][:Content].gsub("，",",")
+            content=content.split(",")
+            @fundquote1=Monetary_fund_quote.find_by_product_code(content[1])
+            @fundquote2=General_fund_quote.find_by_product_code(content[1])
+            if @fundquote1!=nil
+              @userasset=User_asset_sheet.find_by_username_and_asset_product_code(@webuser.username,content[1])
+              if content[0]=="+"
+                asset_value=0
+                if @userasset!=nil && @userasset.asset_product_value!=nil
+                  asset_value=@userasset.asset_product_value+content[2].to_i
+                elsif @userasset!=nil && @userasset.asset_value!=nil
+                  asset_value=@userasset.asset_value+content[2].to_i
+                end
+                if @userasset!=nil
+                  @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
+                end
+              elsif content[0]=="-"
+                asset_value=0
+                if @userasset!=nil && @userasset.asset_product_value!=nil
+                  asset_value=@userasset.asset_product_value-content[2].to_i
+                elsif @userasset!=nil && @userasset.asset_value!=nil
+                  asset_value=@userasset.asset_value-content[2].to_i
+                end
+                if @userasset!=nil
+                  @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
+                end
+              end
+            end
+            if @fundquote2!=nil
+              @userasset=User_asset_sheet.find_by_username_and_asset_product_code(@webuser.username,content[1])
+              assetproductvalue=0
+              if @fundquote2.today_value!=nil
+                assetproductvalue=@fundquote2.today_value*content[2].to_i
+              end
+              if content[0]=="+"
+                asset_value=0
+                if @userasset!=nil && @userasset.asset_product_value!=nil
+                  asset_value=@userasset.asset_product_value+assetproductvalue
+                elsif @userasset!=nil && @userasset.asset_value!=nil
+                  asset_value=@userasset.asset_value+assetproductvalue
+                end
+                if @userasset!=nil
+                  @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
+                  if @userasset.asset_product_share!=nil
+                    asset_product_share=@userasset.asset_product_share+content[2].to_i
+                    @userasset.update_attributes(:asset_product_share=>asset_product_share)
+                  end
+                end
+              elsif content[0]=="-"
+                asset_value=0
+                if @userasset!=nil && @userasset.asset_product_value!=nil
+                  asset_value=@userasset.asset_product_value-assetproductvalue
+                elsif @userasset!=nil && @userasset.asset_value!=nil
+                  asset_value=@userasset.asset_value-assetproductvalue
+                end
+                if @userasset!=nil
+                  @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
+                  if @userasset.asset_product_share!=nil
+                    asset_product_share=@userasset.asset_product_share-content[2].to_i
+                    @userasset.update_attributes(:asset_product_share=>asset_product_share)
+                  end
+                end
+              end
+            end
+            @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
+            render "rtn806", :formats => :xml
+          elsif @webuser!=nil && @webuser.property==808
+            content=params[:xml][:Content]
+            if content=="102"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>809)
+              render "rtn809", :formats => :xml
+            elsif content=="203"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>810)
+              render "rtn810", :formats => :xml
+            elsif content=="301"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:property=>811)
+              render "rtn811", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.property==809
+            content=params[:xml][:Content].gsub("，",",")
+            content=content.split(",")
+            User_asset_sheet.new do |e|
+              e.username=@webuser.username
+              e.asset_typeid=102
+              e.asset_product_value=content[1].to_i
+              e.asset_value=content[1].to_i
+              e.asset_product_code=content[0]
+              e.save
+            end
+          elsif @webuser!=nil && @webuser.property==810
+            content=params[:xml][:Content].gsub("，",",")
+            content=content.split(",")
             assetproductvalue=0
             @fundquote=General_fund_quote.find_by_product_code(content[0])
             if @fundquote!=nil && @fundquote.today_value!=nil
               assetproductvalue=@fundquote.today_value*content[1].to_i
             end
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=301
-            e.asset_product_value=assetproductvalue
-            e.asset_value=assetproductvalue
-            e.asset_product_code=content[0]
-            e.asset_product_share=content[1]
-            e.save
-          end
-
-          @webuser.update_attributes(:segment=>0,:targets=>0,:property=>8031)
-          render "rtn8031", :formats => :xml
-        elsif @webuser!=nil && @webuser.property==8031
-          if params[:xml][:Content]!="0";
+            User_asset_sheet.new do |e|
+              e.username=@webuser.username
+              e.asset_typeid=203
+              e.asset_product_value=assetproductvalue
+              e.asset_value=assetproductvalue
+              e.asset_product_code=content[0]
+              e.asset_product_share=content[1]
+              e.save
+            end
+          elsif @webuser!=nil && @webuser.property==811
             content=params[:xml][:Content].gsub("，",",")
             content=content.split(",")
-            @userassetsheet=User_asset_sheet.destroy_all(:username => @webuser.username,:asset_typeid => 301)
             assetproductvalue=0
             @fundquote=General_fund_quote.find_by_product_code(content[0])
             if @fundquote!=nil && @fundquote.today_value!=nil
@@ -1677,348 +1851,440 @@ class WeixinsController < ApplicationController
               e.asset_product_share=content[1]
               e.save
             end
-            render "rtn8031", :formats => :xml
-          else
-            @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
-            @liudong=0
-            @guding=0
-            @zong=0
-            for i in 0..@userasset.size-1
-              value=0
-              if @userasset[i].asset_product_value!=nil
-                value=@userasset[i].asset_product_value
-              elsif @userasset[i].asset_value!=nil
-                value=@userasset[i].asset_value
-              end
-              if @hash1[@userasset[i].asset_typeid][1]==100
-                @liudong=@liudong+value
-              elsif @hash1[@userasset[i].asset_typeid][1]==400
-                @guding=@guding+value
-              end
-              @zong=@zong+value
-            end
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>805)
-            render "rtn805", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.property==805
-          content=params[:xml][:Content]
-          if content=="100"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>800)
-            render "rtn800", :formats => :xml
-          elsif content=="200"
-            @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
-            render "rtn806", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.property==806
-          content=params[:xml][:Content]
-          if content.upcase=="M"
-            @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>807)
-            render "rtn807", :formats => :xml
-          elsif content.upcase=="A"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>808)
-            render "rtn808", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.property==807
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          @fundquote1=Monetary_fund_quote.find_by_product_code(content[1])
-          @fundquote2=General_fund_quote.find_by_product_code(content[1])
-          if @fundquote1!=nil
-            @userasset=User_asset_sheet.find_by_username_and_asset_product_code(@webuser.username,content[1])
-            if content[0]=="+"
-              asset_value=0
-              if @userasset!=nil && @userasset.asset_product_value!=nil
-                asset_value=@userasset.asset_product_value+content[2].to_i
-              elsif @userasset!=nil && @userasset.asset_value!=nil
-                asset_value=@userasset.asset_value+content[2].to_i
-              end
-              if @userasset!=nil
-                @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
-              end
-            elsif content[0]=="-"
-              asset_value=0
-              if @userasset!=nil && @userasset.asset_product_value!=nil
-                asset_value=@userasset.asset_product_value-content[2].to_i
-              elsif @userasset!=nil && @userasset.asset_value!=nil
-                asset_value=@userasset.asset_value-content[2].to_i
-              end
-              if @userasset!=nil
-                @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
-              end
-            end
-          end
-          if @fundquote2!=nil
-            @userasset=User_asset_sheet.find_by_username_and_asset_product_code(@webuser.username,content[1])
-            assetproductvalue=0
-            if @fundquote2.today_value!=nil
-              assetproductvalue=@fundquote2.today_value*content[2].to_i
-            end
-            if content[0]=="+"
-              asset_value=0
-              if @userasset!=nil && @userasset.asset_product_value!=nil
-                asset_value=@userasset.asset_product_value+assetproductvalue
-              elsif @userasset!=nil && @userasset.asset_value!=nil
-                asset_value=@userasset.asset_value+assetproductvalue
-              end
-              if @userasset!=nil
-                @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
-                if @userasset.asset_product_share!=nil
-                  asset_product_share=@userasset.asset_product_share+content[2].to_i
-                  @userasset.update_attributes(:asset_product_share=>asset_product_share)
-                end
-              end
-            elsif content[0]=="-"
-              asset_value=0
-              if @userasset!=nil && @userasset.asset_product_value!=nil
-                asset_value=@userasset.asset_product_value-assetproductvalue
-              elsif @userasset!=nil && @userasset.asset_value!=nil
-                asset_value=@userasset.asset_value-assetproductvalue
-              end
-              if @userasset!=nil
-                @userasset.update_attributes(:asset_product_value=>asset_value,:asset_value=>asset_value)
-                if @userasset.asset_product_share!=nil
-                  asset_product_share=@userasset.asset_product_share-content[2].to_i
-                  @userasset.update_attributes(:asset_product_share=>asset_product_share)
-                end
-              end
-            end
-          end
-          @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
-          @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
-          render "rtn806", :formats => :xml
-        elsif @webuser!=nil && @webuser.property==808
-          content=params[:xml][:Content]
-          if content=="102"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>809)
-            render "rtn809", :formats => :xml
-          elsif content=="203"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>810)
-            render "rtn810", :formats => :xml
-          elsif content=="301"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:property=>811)
-            render "rtn811", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.property==809
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=102
-            e.asset_product_value=content[1].to_i
-            e.asset_value=content[1].to_i
-            e.asset_product_code=content[0]
-            e.save
-          end
-        elsif @webuser!=nil && @webuser.property==810
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          assetproductvalue=0
-          @fundquote=General_fund_quote.find_by_product_code(content[0])
-          if @fundquote!=nil && @fundquote.today_value!=nil
-            assetproductvalue=@fundquote.today_value*content[1].to_i
-          end
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=203
-            e.asset_product_value=assetproductvalue
-            e.asset_value=assetproductvalue
-            e.asset_product_code=content[0]
-            e.asset_product_share=content[1]
-            e.save
-          end
-        elsif @webuser!=nil && @webuser.property==811
-          content=params[:xml][:Content].gsub("，",",")
-          content=content.split(",")
-          assetproductvalue=0
-          @fundquote=General_fund_quote.find_by_product_code(content[0])
-          if @fundquote!=nil && @fundquote.today_value!=nil
-            assetproductvalue=@fundquote.today_value*content[1].to_i
-          end
-          User_asset_sheet.new do |e|
-            e.username=@webuser.username
-            e.asset_typeid=301
-            e.asset_product_value=assetproductvalue
-            e.asset_value=assetproductvalue
-            e.asset_product_code=content[0]
-            e.asset_product_share=content[1]
-            e.save
           end
         end
-        if @webuser!=nil && @webuser.plan==900
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>901)
-            render "rtn901", :formats => :xml
-          else
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>0)
-          end
-        elsif @webuser!=nil && @webuser.plan==901
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>902)
-            render "rtn902", :formats => :xml
-          elsif content=="D" || content=="d"
-            render "rtn9011", :formats => :xml
-          elsif content=="N" || content=="n"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>0)
-          end
-        elsif @webuser!=nil && @webuser.plan==902
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>903)
-            render "rtn903", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==903
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>904)
-            render "rtn904", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==904
-          content=params[:xml][:Content]
-          if content=="Y" || content=="y"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>905)
-            render "rtn905", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==905
-          content=params[:xml][:Content]
-          if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
-            @webuser.update_attributes(:fluidselect1=>content)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>906)
-            render "rtn906", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==906
-          content=params[:xml][:Content]
-          if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
-            @webuser.update_attributes(:fluidselect2=>content)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>907)
-            render "rtn907", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==907
-          content=params[:xml][:Content]
-          if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
-            @webuser.update_attributes(:fluidselect3=>content)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>908)
-            render "rtn908", :formats => :xml
-          elsif content=="D" || content=="d"
-            render "rtn9071", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==908
-          content=params[:xml][:Content]
-          if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
-            @webuser.update_attributes(:fluidselect4=>content)
-            @fundproduct=Monetary_fund_product.all
-            @hash909={}
-            k=0
-            for i in 0..@fundproduct.size-1
-              num1=0
-              num2=1
-              num3=0
-              num4=0
-              if @fundproduct[i].min_purchase_account!=nil
-                if @fundproduct[i].min_purchase_account>=0 && @fundproduct[i].min_purchase_account<=500
-                  if @webuser.fluidselect1.upcase=="A" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="ABC"
-                  num1=1
-                 end
-                end
-                if @fundproduct[i].min_purchase_account>500 && @fundproduct[i].min_purchase_account<=1000
-                  if @webuser.fluidselect1.upcase=="B" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
-                  num1=1
-                 end
-                end
-                if @fundproduct[i].min_purchase_account>1000
-                  if @webuser.fluidselect1.upcase=="C" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
-                  num1=1
-                 end
-                end
-              end
-              @fundquote=Monetary_fund_quote.find_by_product_code(@fundproduct[i].product_code)
-              if @fundquote!=nil
-                if @webuser.fluidselect2.upcase=="A" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="ABC"
-                  if !(@fundquote.one_year_rank!=nil && @fundquote.one_year_rank.split("/")[0].to_i<=20)
-                    num2=0
-                  end
-                end
-                if @webuser.fluidselect2.upcase=="B" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
-                  if !(@fundquote.two_year_rank!=nil && @fundquote.two_year_rank.split("/")[0].to_i<=20)
-                    num2=0
-                  end
-                end
-                if @webuser.fluidselect2.upcase=="C" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
-                  if !(@fundquote.three_year_rank!=nil && @fundquote.three_year_rank.split("/")[0].to_i<=20)
-                    num2=0
-                  end
-                end
-              end
-              if @fundproduct[i].fund_size!=nil
-                if @fundproduct[i].fund_size>=0 && @fundproduct[i].fund_size<=1
-                  if @webuser.fluidselect3.upcase=="A" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="ABC"
-                    num3=1
-                  end
-                end
-                if @fundproduct[i].fund_size>1 && @fundproduct[i].fund_size<=10
-                  if @webuser.fluidselect3.upcase=="B" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
-                    num3=1
-                  end
-                end
-                if @fundproduct[i].fund_size>10
-                  if @webuser.fluidselect3.upcase=="C" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
-                    num3=1
-                  end
-                end
-              end
-              if @fundproduct[i].create_date!=nil
-                t = Time.new
-                date = t.strftime("%Y-%m-%d")
-                fate=(DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)).to_s.split("/")[0].to_i
 
-                if fate<=365
-                  if @webuser.fluidselect4.upcase=="A" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="ABC"
-                    num4=1
-                  end
-                end
-                if fate>365 && fate<=1095
-                  if @webuser.fluidselect4.upcase=="B" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
-                    num4=1
-                  end
-                end
-                if fate>1095
-                  if @webuser.fluidselect4.upcase=="C" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
-                    num4=1
-                  end
-                end
-              end
-              if num1==1 && num2==1 && num3==1 && num4==1
-                @hash909.store(k,[@fundproduct[i].product_code,@fundproduct[i].productname,@fundproduct[i].min_purchase_account,@fundproduct[i].fund_size,@fundproduct[i].create_date,@fundquote.one_year_rank,@fundquote.two_year_rank,@fundquote.three_year_rank])
-                k=k+1
-              end
-            end
-            if @hash909.size!=0
-              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>909)
-              render "rtn909", :formats => :xml
+        if @webuser!=nil && @webuser.subject==900
+          if @webuser!=nil && @webuser.plan==900
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>901)
+              render "rtn901", :formats => :xml
             else
-              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>910)
-              render "rtn910", :formats => :xml
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>0)
             end
-          elsif content=="D" || content=="d"
-            render "rtn9081", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==909
-          content=params[:xml][:Content]
-          @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
-          if @monetaryfundproduct!=nil
-            @webuser.update_attributes(:fluid_productid=>@monetaryfundproduct.productname)
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>911)
-            render "rtn911", :formats => :xml
-          end
-        elsif @webuser!=nil && @webuser.plan==910
-          content=params[:xml][:Content]
-          if content=="1000"
-            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>905)
-            render "rtn905", :formats => :xml
+          elsif @webuser!=nil && @webuser.plan==901
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @userdatamonth=Userdata_month.find_by_username(@webuser.username)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>902)
+              render "rtn902", :formats => :xml
+            elsif content=="D" || content=="d"
+              render "rtn9011", :formats => :xml
+            elsif content=="N" || content=="n"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>0)
+            end
+          elsif @webuser!=nil && @webuser.plan==902
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>903)
+              render "rtn903", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==903
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>904)
+              render "rtn904", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==904
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>905)
+              render "rtn905", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==905
+            content=params[:xml][:Content]
+            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:fluidselect1=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>906)
+              render "rtn906", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==906
+            content=params[:xml][:Content]
+            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:fluidselect2=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>907)
+              render "rtn907", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==907
+            content=params[:xml][:Content]
+            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:fluidselect3=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>908)
+              render "rtn908", :formats => :xml
+            elsif content=="D" || content=="d"
+              render "rtn9071", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==908
+            content=params[:xml][:Content]
+            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:fluidselect4=>content)
+              @fundproduct=Monetary_fund_product.all
+              @hash909={}
+              k=0
+              for i in 0..@fundproduct.size-1
+                num1=0
+                num2=1
+                num3=0
+                num4=0
+                if @fundproduct[i].min_purchase_account!=nil
+                  if @fundproduct[i].min_purchase_account>=0 && @fundproduct[i].min_purchase_account<=500
+                    if @webuser.fluidselect1.upcase=="A" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="ABC"
+                      num1=1
+                    end
+                  end
+                  if @fundproduct[i].min_purchase_account>500 && @fundproduct[i].min_purchase_account<=1000
+                    if @webuser.fluidselect1.upcase=="B" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
+                      num1=1
+                    end
+                  end
+                  if @fundproduct[i].min_purchase_account>1000
+                    if @webuser.fluidselect1.upcase=="C" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
+                      num1=1
+                    end
+                  end
+                end
+                @fundquote=Monetary_fund_quote.find_by_product_code(@fundproduct[i].product_code)
+                if @fundquote!=nil
+                  if @webuser.fluidselect2.upcase=="A" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="ABC"
+                    if !(@fundquote.one_year_rank!=nil && @fundquote.one_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @webuser.fluidselect2.upcase=="B" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
+                    if !(@fundquote.two_year_rank!=nil && @fundquote.two_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @webuser.fluidselect2.upcase=="C" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
+                    if !(@fundquote.three_year_rank!=nil && @fundquote.three_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                end
+                if @fundproduct[i].fund_size!=nil
+                  if @fundproduct[i].fund_size>=0 && @fundproduct[i].fund_size<=1
+                    if @webuser.fluidselect3.upcase=="A" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="ABC"
+                      num3=1
+                    end
+                  end
+                  if @fundproduct[i].fund_size>1 && @fundproduct[i].fund_size<=10
+                    if @webuser.fluidselect3.upcase=="B" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
+                      num3=1
+                    end
+                  end
+                  if @fundproduct[i].fund_size>10
+                    if @webuser.fluidselect3.upcase=="C" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
+                      num3=1
+                    end
+                  end
+                end
+                if @fundproduct[i].create_date!=nil
+                  t = Time.new
+                  date = t.strftime("%Y-%m-%d")
+                  fate=(DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)).to_s.split("/")[0].to_i
+
+                  if fate<=365
+                    if @webuser.fluidselect4.upcase=="A" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="ABC"
+                      num4=1
+                    end
+                  end
+                  if fate>365 && fate<=1095
+                    if @webuser.fluidselect4.upcase=="B" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
+                      num4=1
+                    end
+                  end
+                  if fate>1095
+                    if @webuser.fluidselect4.upcase=="C" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
+                      num4=1
+                    end
+                  end
+                end
+                if num1==1 && num2==1 && num3==1 && num4==1
+                  @hash909.store(k,[@fundproduct[i].product_code,@fundproduct[i].productname,@fundproduct[i].min_purchase_account,@fundproduct[i].fund_size,@fundproduct[i].create_date,@fundquote.one_year_rank,@fundquote.two_year_rank,@fundquote.three_year_rank])
+                  k=k+1
+                end
+              end
+              if @hash909.size!=0
+                @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>909)
+                render "rtn909", :formats => :xml
+              else
+                @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>910)
+                render "rtn910", :formats => :xml
+              end
+            elsif content=="D" || content=="d"
+              render "rtn9081", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==909
+            content=params[:xml][:Content]
+            @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
+            if @monetaryfundproduct!=nil
+              @webuser.update_attributes(:fluid_productid=>@monetaryfundproduct.productname)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>911)
+              render "rtn911", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==910
+            content=params[:xml][:Content]
+            if content=="1000"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>905)
+              render "rtn905", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==911
+            content=params[:xml][:Content]
+            if content=="Y" || content=="y"
+              @category=Admin_asset_type_l2.all
+              if @webuser.risk_score>=0 && @webuser.risk_score<=2
+                @min=1;@max=2;
+              elsif @webuser.risk_score>2 && @webuser.risk_score<=4
+                @min=1;@max=3;
+              elsif @webuser.risk_score>4 && @webuser.risk_score<=6
+                @min=2;@max=4;
+              elsif @webuser.risk_score>6 && @webuser.risk_score<=8
+                @min=3;@max=5;
+              elsif @webuser.risk_score>8 && @webuser.risk_score<=10
+                @min=4;@max=5;
+              end
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>912)
+              render "rtn912", :formats => :xml
+            elsif content=="N" || content=="n"
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>0)
+            end
+          elsif @webuser!=nil && @webuser.plan==912
+            content=params[:xml][:Content]
+            @webuser.update_attributes(:riskselect1=>content)
+            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>913)
+            render "rtn913", :formats => :xml
+          elsif @webuser!=nil && @webuser.plan==913
+            content=params[:xml][:Content]
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:riskselect2=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>914)
+              render "rtn914", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==914
+            content=params[:xml][:Content]
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:riskselect3=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>915)
+              render "rtn907", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==915
+            content=params[:xml][:Content]
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:riskselect4=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>916)
+              render "rtn908", :formats => :xml
+            elsif content=="D" || content=="d"
+              render "rtn9071", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==916
+            content=params[:xml][:Content]
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:riskselect5=>content)
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>917)
+              render "rtn915", :formats => :xml
+            elsif content=="D" || content=="d"
+              render "rtn9081", :formats => :xml
+            end
+          elsif @webuser!=nil && @webuser.plan==917
+            content=params[:xml][:Content]
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+              @webuser.update_attributes(:riskselect6=>content)
+              @hash916={}
+              k=0
+              if @webuser.riskselect1==101
+                @fundquote=Monetary_fund_quote.all
+                for i in 0..@fundquote.size-1
+                  num1=0
+                  num2=1
+                  num3=0
+                  num4=0
+                  num5=0
+                  @fundproduct=Monetary_fund_product.find_by_product_code(@fundquote[i].product_code)
+                  if @fundproduct!=nil && @fundproduct.min_purchase_account!=nil
+                    if @fundproduct.min_purchase_account>=0 && @fundproduct.min_purchase_account<=500
+                      if @webuser.riskselect2.upcase=="A" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="AC" || @webuser.riskselect2.upcase=="ABC"
+                        num1=1
+                      end
+                    end
+                    if @fundproduct.min_purchase_account>500 && @fundproduct.min_purchase_account<=1000
+                      if @webuser.riskselect2.upcase=="B" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                        num1=1
+                      end
+                    end
+                    if @fundproduct.min_purchase_account>1000
+                      if @webuser.riskselect2.upcase=="C" || @webuser.riskselect2.upcase=="AC" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                        num1=1
+                      end
+                    end
+                  end
+                  if @webuser.riskselect3.upcase=="A" || @webuser.riskselect3.upcase=="AB"
+                    if !(@fundquote[i].one_year_rank!=nil && @fundquote[i].one_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @webuser.riskselect3.upcase=="B" || @webuser.riskselect3.upcase=="AB"
+                    if !(@fundquote[i].three_year_rank!=nil && @fundquote[i].three_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @fundproduct!=nil && @fundproduct.fund_size!=nil
+                    if @fundproduct.fund_size>=0 && @fundproduct.fund_size<=1
+                      if @webuser.riskselect4.upcase=="A" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                    if @fundproduct.fund_size>1 && @fundproduct.fund_size<=10
+                      if @webuser.riskselect4.upcase=="B" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                    if @fundproduct.fund_size>10
+                      if @webuser.riskselect4.upcase=="C" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                  end
+                  if @fundproduct!=nil && @fundproduct.create_date!=nil
+                    t = Time.new
+                    date = t.strftime("%Y-%m-%d")
+                    fate=(DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)).to_s.split("/")[0].to_i
+
+                    if fate<=365
+                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                    if fate>365 && fate<=1095
+                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                    if fate>1095
+                      if @webuser.riskselect5.upcase=="C" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                  end
+                  num5=1
+                  if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
+                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].productname,@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
+                    k=k+1
+                  end
+                end
+                if @hash916.size!=0
+                  @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>918)
+                  render "rtn916", :formats => :xml
+                else
+                  @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>919)
+                  render "rtn910", :formats => :xml
+                end
+              else
+                @fundquote=General_fund_quote.find_all_by_L2_typeid(@webuser.riskselect1)
+                for i in 0..@fundquote.size-1
+                  num1=0
+                  num2=1
+                  num3=0
+                  num4=0
+                  num5=0
+                  @fundproduct=General_fund_product.find_by_product_code(@fundquote[i].product_code)
+                  if @fundproduct!=nil
+                    if @webuser.riskselect2.upcase=="B" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                      num1=1
+                    end
+                  end
+                  if @webuser.riskselect3.upcase=="A" || @webuser.riskselect3.upcase=="AB"
+                    if !(@fundquote[i].one_year_rank!=nil && @fundquote[i].one_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @webuser.riskselect3.upcase=="B" || @webuser.riskselect3.upcase=="AB"
+                    if !(@fundquote[i].three_year_rank!=nil && @fundquote[i].three_year_rank.split("/")[0].to_i<=20)
+                      num2=0
+                    end
+                  end
+                  if @fundproduct!=nil && @fundproduct.fund_size!=nil
+                    if @fundproduct.fund_size>=0 && @fundproduct.fund_size<=1
+                      if @webuser.riskselect4.upcase=="A" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                    if @fundproduct.fund_size>1 && @fundproduct.fund_size<=10
+                      if @webuser.riskselect4.upcase=="B" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                    if @fundproduct.fund_size>10
+                      if @webuser.riskselect4.upcase=="C" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
+                        num3=1
+                      end
+                    end
+                  end
+                  if @fundproduct!=nil && @fundproduct.date!=nil
+                    t = Time.new
+                    date = t.strftime("%Y-%m-%d")
+                    fate=(DateTime.parse(date)-DateTime.parse(@fundproduct.date.to_s)).to_s.split("/")[0].to_i
+
+                    if fate<=365
+                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                    if fate>365 && fate<=1095
+                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                    if fate>1095
+                      if @webuser.riskselect5.upcase=="C" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+                        num4=1
+                      end
+                    end
+                  end
+                  num5=1
+                  if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
+                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].product_name,1000,@fundproduct.fund_size,@fundproduct.date,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
+                    k=k+1
+                  end
+                end
+                if @hash916.size!=0
+                  @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>918)
+                  render "rtn916", :formats => :xml
+                else
+                  @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>919)
+                  render "rtn910", :formats => :xml
+                end
+              end
+            end
+          elsif @webuser!=nil && @webuser.plan==918
+            content=params[:xml][:Content]
+            @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
+            @generalfundproduct=General_fund_product.find_by_product_code(content)
+            if @monetaryfundproduct!=nil
+              @webuser.update_attributes(:risk_productid=>@monetaryfundproduct.productname)
+            elsif @generalfundproduct!=nil
+              @webuser.update_attributes(:risk_productid=>@generalfundproduct.product_name)
+            end
+            @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>920)
+            render "rtn917", :formats => :xml
+          elsif @webuser!=nil && @webuser.plan==919
+            content=params[:xml][:Content]
+            if content=="1000"
+              @category=Admin_asset_type_l2.all
+              if @webuser.risk_score>=0 && @webuser.risk_score<=2
+                @min=1;@max=2;
+              elsif @webuser.risk_score>2 && @webuser.risk_score<=4
+                @min=1;@max=3;
+              elsif @webuser.risk_score>4 && @webuser.risk_score<=6
+                @min=2;@max=4;
+              elsif @webuser.risk_score>6 && @webuser.risk_score<=8
+                @min=3;@max=5;
+              elsif @webuser.risk_score>8 && @webuser.risk_score<=10
+                @min=4;@max=5;
+              end
+              @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>912)
+              render "rtn912", :formats => :xml
+            end
           end
         end
       end
