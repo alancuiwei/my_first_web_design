@@ -206,7 +206,8 @@
           <td><% if @hash2[@category1[i].L2_typeid][2]!="--" %><%= @hash2[@category1[i].L2_typeid][2] %>%<% else %>--<% end %></td>
           <td><% if @hash2[@category1[i].L2_typeid][3]!="--" %><%= @hash2[@category1[i].L2_typeid][3] %>%<% else %>--<% end %></td>
           <td><% if @hash2[@category1[i].L2_typeid][4]!="--" %><%= @hash2[@category1[i].L2_typeid][4] %>%<% else %>--<% end %></td>
-          <td><% if @hash2[@category1[i].L2_typeid][5]!="--" %><%= @hash2[@category1[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+          <td><% if @hash2[@category1[i].L2_typeid][5]!="--" %><%= @hash2[@category1[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+          <td><% if @hash2[@category1[i].L2_typeid][6]!="--" %><%= @hash2[@category1[i].L2_typeid][6] %>%<% else %>--<% end %></td>
           <td class="leng"><a class="btn btn-primary choose3" id="<%= @category1[i].id %>,<%= @category1[i].classify %>,<%= @category1[i].L2_typeid %>">选择</a></td>
         </tr>
     <% end %>
@@ -722,11 +723,11 @@
 
 <script>
 
-    var done0= 0,done1=0;done2=0;
+    var done0=0,done1=0;done2=0;
     var risk=0;
 
-    <% if session[:webusername]!=nil %>
-    risk='<%= @webuser.risk_score %>'
+    <% if @userfinancedata!=nil %>
+    risk='<%= @userfinancedata.risk_score %>'
     <% end %>
 
     $(function(){
@@ -932,9 +933,11 @@
 </script>
 
 <script>
-    var fluid_productid='<%= @webuser.fluid_productid %>';
-    var safe_productid='<%= @webuser.safe_productid %>';
-    var risk_productid='<%= @webuser.risk_productid %>';
+    <% if @userfinancedata!=nil %>
+    var fluid_productid='<%= @userfinancedata.fluid_productid %>';
+    var safe_productid='<%= @userfinancedata.safe_productid %>';
+    var risk_productid='<%= @userfinancedata.risk_productid %>';
+    <% end %>
     var variety,amount,pname,jixu,total,xian,feng,wen;
     var xianjin= 0,wenjian= 0,fengxian=0;
     var grey=0;

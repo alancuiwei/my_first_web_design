@@ -1,0 +1,332 @@
+<%= stylesheet_link_tag "personmanagement.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "bootstrap-datetimepicker.js" %>
+<%= stylesheet_link_tag "datetimepicker.css" %>
+<style>
+    #target td,#target th{
+        font-family: Hiragino Sans GB W3;
+    }
+    .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
+    h1,h2{font-weight: 600;}
+
+    .table th {
+        font-family: Georgia;
+        text-transform: uppercase;
+        height: 10px;
+        font-size: 14px;
+    }
+    .close {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #000000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        position: static;
+    }
+    .table th,.table td{
+        font-family: Hiragino Sans GB W3;
+    }
+    .modal.fade.in{
+        width: 950px;
+        left: 40%;
+    }
+</style>
+
+<div class="main-content dream">
+  <%= render "side" %>
+  <h1><%= @webuser.username %>的个人首页</h1>
+  <div style="height: 30px;"></div>
+  <table id="person" style="width: 100%;color: #555;">
+    <tr>
+      <td id="center">
+        <table id="table" style="width: 100%;">
+          <tr>
+            <td id="pad" style="padding-left: 68px;">
+              <div class="account-types">
+                <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
+                  <table clas="left" style="width: 100%;">
+                    <tr>
+                      <td class="left" style="width: 26%;">
+                        <div class="account-type-tab active taxable-account-type">
+                          <p><span class="product" style="line-height: 20px;">本月收入安排</span></p>
+                        </div>
+                      </td>
+                      <td class="left" style="width: 255px;">
+                        <div class="controls input-append date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                          <input size="16" id="dates" type="text" readonly>
+                          <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                        <input type="hidden" id="dtp_input2" value="" />
+                      </td>
+                      <td class="left" style="vertical-align: middle;">
+                        <!-- Button to trigger modal -->
+                        <a href="#myModal" role="button" data-toggle="modal">显示全年计划</a>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="border-bottom: 1px solid #E2E2E2;" >
+              <div class="plan-details">
+
+                <table style="width: 100%;float: left;">
+                  <tr><td class="cation high left" style="width: 30%;height: 180px;padding-bottom: 50px;">
+                    <div class="allocation-chart-container">
+                      <div id="container3" style="width: 280px;height: 180px;"></div>
+                    </div>
+                  </td><td class="cation left">
+                    <table id="top" class="table table-striped table-bordered">
+                      <thead>
+                      <tr>
+                        <th style="width: 20%;">投资产品</th>
+                        <th style="width: 20%;">产品类型</th>
+                        <th style="width: 20%;">本月目标</th>
+                        <th style="width: 20%;"> 购买指导</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% if @userfinancedata!=nil && @userfinancedata.fluid_productid!=nil && @userfinancedata.fluid_productid!="" %>
+                          <tr class="monthpay2">
+                            <td class="name2"><% if @finance1!=nil %><%= @finance1.productname %><% end %></td>
+                            <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
+                            <td class="amounts2"></td>
+                            <td><% if @finance1!=nil %><a href="#" class="btn btn-primary">查看</a><% end %></td>
+                          </tr>
+                      <% end %>
+                      <% if @userfinancedata!=nil && @userfinancedata.safe_productid!=nil && @userfinancedata.safe_productid!="" %>
+                          <tr class="monthpay4">
+                            <td class="name4"><% if @finance2!=nil %><%= @finance2.pname %><% end %></td>
+                            <td><% if @category2!=nil %><a href="/bankinvest/classify/<%= @category2.id %>"><%= @category2.classify %></a><% end %></td>
+                            <td class="amounts4"></td>
+                            <td><% if @finance2!=nil %><a href="/bankinvest/productdetails/<%= @finance2.id %>" class="btn btn-primary">查看</a><% end %></td>
+                          </tr>
+                      <% end %>
+                      <% if @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
+                          <% if @userfinancedata!=nil && @userfinancedata.risk_productid!=nil && @userfinancedata.risk_productid!="" %>
+                              <tr class="monthpay5">
+                                <td class="name5"><% if @finance3!=nil %><%= @finance3.pname %><% end %></td>
+                                <td><% if @category3!=nil %><a href="/bankinvest/classify/<%= @category3.id %>"><%= @category3.classify %></a><% end %></td>
+                                <td class="amounts5"></td>
+                                <td><% if @finance3!=nil %><a href="/bankinvest/productdetails/<%= @finance3.id %>" class="btn btn-primary">查看</a><% end %></td>
+                              </tr>
+                          <% end %>
+                      <% end %>
+                      </tbody>
+                    </table>
+                    <blockquote style="text-align: left;">
+                      <small>产品是完全根据您的风险评估结果来推荐的。重新进行<a href="/userrisktolerance/p3_userrisktolerance">风险评估</a></small>
+                    </blockquote>
+                  </td></tr></table>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">全年目标</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped table-bordered" id="target">
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<script language="javascript">
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+
+    var amounts1=0;
+    var amounts0=0;
+    <% if @userdatamonth!=nil %>
+    amounts1=parseFloat('<%= @userdatamonth.must_expense_month %>');
+    amounts0=parseFloat('<%= @userdatamonth.fun_expense_month %>');
+    <% end %>
+
+    var dateNow = new Date();
+    var yearNow = dateNow.getFullYear();
+    var monthNow = dateNow.getMonth()+1;
+
+    function select() {
+        var loca2=$("#dates").attr("value").split("-")[0]+'年';
+        var loca4=parseInt($("#dates").attr("value").split("-")[1]).toString()+'月';
+    }
+
+    $(document).ready(function(){
+        $("#dates").attr("value",yearNow+'-'+monthNow);
+        select();
+    });
+</script>
+
+<script>
+    $(function () {
+        var chart;
+        $(document).ready(function() {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container3',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    events:{
+                        load: function(){
+                            // set up the updating of the chart each second
+                            var series = this.series[0];
+                            setInterval(function() {
+                                var data = [];
+                                var a1= amounts1;
+                                var a0= amounts0;
+                                var a2= parseFloat($(".amounts2").html());
+                                if($(".amounts4").html()!=""){
+                                    var a4= parseFloat($(".amounts4").html());}else{var a4=0;}
+                                if($(".amounts5").html()!=""){
+                                    var a5= parseFloat($(".amounts5").html());}else{var a5=0;}
+                                var numfor= /^[-+]?[0-9]+(\.[0-9]+)?$/
+                                if(numfor.test(a1)==false){a1=0}
+                                if(numfor.test(a0)==false){a0=0}
+                                if(numfor.test(a2)==false){a2=0}
+                                if(numfor.test(a4)==false){a4=0}
+                                if(numfor.test(a5)==false){a5=0}
+                                data.push(['吃喝住行',a1]);
+                                data.push(['零花钱',a0]);
+                                <% if @finance1 !=nil && @finance3 !=nil && @finance1.productname==@finance3.pname %>
+                                data.push([$(".name2").html(),a2+a5]);
+                                data.push([$(".name4").html(),a4]);
+                                <% elsif @finance2 !=nil && @finance3 !=nil && @finance2.pname==@finance3.pname %>
+                                data.push([$(".name2").html(),a2]);
+                                data.push([$(".name4").html(),a4+a5]);
+                                <% else %>
+                                <% if @finance1 !=nil %> data.push([$(".name2").html(),a2]);<% end %>
+                                <% if @finance2 !=nil %> data.push([$(".name4").html(),a4]);<% end %>
+                                <% if @finance3 !=nil %> data.push([$(".name5").html(),a5]); <% end %>
+                                <% end %>
+                                series.setData(data);
+                            }, 500);
+                        }
+                    }
+                },
+                title: {
+                    text: false
+                },
+                tooltip: false,
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: false,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            distance: 10,
+                            connectorColor: '#000000',
+                            formatter:function(index) {
+                                if(this.point.percentage>0){
+                                    var str=this.point.name,str1,aa='';
+                                    for(var i=0,len=str.length/5;i<len;i++) {
+                                        str1 = str.substr(0,5);
+                                        str = str.replace(str1,'');
+                                        if(i==0){aa=str1}
+                                        else{aa=aa+"<br>"+str1}
+                                    }
+                                    return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                                }
+                            }
+                        },
+                        showInLegend: true,
+                        size: 120,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    data: [
+                        ['吃喝住行', amounts1],
+                        ['零花钱', amounts0],
+                        [$(".name2").html(), parseFloat($(".amounts2").html())],
+                        [$(".name4").html(), parseFloat($(".amounts4").html())],
+                        [$(".name5").html(), parseFloat($(".amounts5").html())]
+                    ]
+                }],
+                legend: false,
+                credits: {
+                    enabled: false
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>
+
+<script type="text/javascript">
+    ;(function($){
+        $.fn.datetimepicker.dates['fr'] = {
+            days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+            daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+            daysMin: ["D", "L", "Ma", "Me", "J", "V", "S", "D"],
+            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+            today: "本月",
+            meridiem: ["am", "pm"]
+        };
+    }(jQuery));
+    var start=yearNow+'-'+monthNow
+    $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        startDate: yearNow+'-'+monthNow,
+        endDate: (parseInt(yearNow)+1).toString()+'-'+(parseInt(monthNow)-1).toString(),
+        format: 'yyyy-mm',
+        pickerPosition: "bottom-left"
+    }).on('changeDate', function(ev){
+                select();
+            });
+</script>

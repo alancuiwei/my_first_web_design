@@ -1,4 +1,4 @@
-<% if @webuser.asset_score!=nil %>
+<% if @userfinancedata!=nil && @userfinancedata.asset_score!=nil %>
     <a href="/usersurvey/p1_user_survey_report">财务分析报告</a><br>
 <% else %>
     <a href="/usersurvey/p1_usersurvey">财务分析报告</a><br>
@@ -8,7 +8,7 @@
 <% else %>
     <a href="/usertargets/p2_usertargets">理财目标报告</a><br>
 <% end %>
-<% if @webuser.risk_score!=nil %>
+<% if @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
     <a href="/userrisktolerance/p3_risktolerence_report">投资风险度报告</a><br>
 <% else %>
     <a href="/userrisktolerance/p3_userrisktolerance">投资风险度报告</a><br>

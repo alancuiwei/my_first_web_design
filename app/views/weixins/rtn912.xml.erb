@@ -3,17 +3,17 @@
      <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
      <CreateTime><%= Time.now.to_i %></CreateTime>
      <MsgType><![CDATA[text]]></MsgType>
-     <Content><![CDATA[<% if @webuser.risk_score>=0 && @webuser.risk_score<=2 %>
+     <Content><![CDATA[<% if @userfinancedate!=nil %><% if @userfinancedate.risk_score>=0 && @userfinancedate.risk_score<=2 %>
 您是安益型的投资者，但我们将和您类似的保守型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
-<% elsif @webuser.risk_score>2 && @webuser.risk_score<=4 %>
+<% elsif @userfinancedate.risk_score>2 && @userfinancedate.risk_score<=4 %>
 您是保守型的投资者，但我们将和您类似的安益型、稳健型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
-<% elsif @webuser.risk_score>4 && @webuser.risk_score<=6 %>
+<% elsif @userfinancedate.risk_score>4 && @userfinancedate.risk_score<=6 %>
 您是稳健型的投资者，但我们将和您类似的保守型、积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
-<% elsif @webuser.risk_score>6 && @webuser.risk_score<=8 %>
+<% elsif @userfinancedate.risk_score>6 && @userfinancedate.risk_score<=8 %>
 您是积极型的投资者，但我们将和您类似的稳健型、激进型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
-<% elsif @webuser.risk_score>8 && @webuser.risk_score<=10 %>
+<% elsif @userfinancedate.risk_score>8 && @userfinancedate.risk_score<=10 %>
 您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
-<% end %>
+<% end %><% end %>
 <% @category.each do |c| %>
 <% if c.risklevel>=@min && c.risklevel<=@max %>
 <% if c.risklevel==1 %>

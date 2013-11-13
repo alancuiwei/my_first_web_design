@@ -21,13 +21,15 @@
     <h2>风险评估：</h2>
    <div class="mleft">
     <p class="q-text" id="risk">
-      您的风险评估得分是<%= @webuser.risk_score %>分,
-      <% if @webuser.risk_score>8 && @webuser.risk_score<=10 %>  您属于激进型投资人。
-          <% elsif @webuser.risk_score>6 && @webuser.risk_score<=8 %>您属于积极型投资人。
-          <% elsif @webuser.risk_score>4 && @webuser.risk_score<=6 %>您属于稳健型投资人。
-          <% elsif @webuser.risk_score>2 && @webuser.risk_score<=4 %>您属于保守型投资人。
-          <% elsif @webuser.risk_score>=0 && @webuser.risk_score<=2 %>您属于安益型投资人。
+      <% if @userfinancedata!=nil %>
+      您的风险评估得分是<%= @userfinancedata.risk_score %>分,
+      <% if @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>  您属于激进型投资人。
+          <% elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8 %>您属于积极型投资人。
+          <% elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6 %>您属于稳健型投资人。
+          <% elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4 %>您属于保守型投资人。
+          <% elsif @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2 %>您属于安益型投资人。
           <% end %>
+      <% end %>
     </p>
     <div class="left">
       <div id="container2" style="width: 280px;height: 170px;"></div>
@@ -80,16 +82,18 @@
 </div>
 <script>
     $(document).ready(function(){
-        <% if @webuser.risk_score>8 && @webuser.risk_score<=10 %>
+        <% if @userfinancedata!=nil %>
+        <% if @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>
         $("#type tr:eq(5)").addClass("back");
-        <% elsif @webuser.risk_score>6 && @webuser.risk_score<=8 %>
+        <% elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8 %>
         $("#type tr:eq(4)").addClass("back");
-        <% elsif @webuser.risk_score>4 && @webuser.risk_score<=6 %>
+        <% elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6 %>
         $("#type tr:eq(3)").addClass("back");
-        <% elsif @webuser.risk_score>2 && @webuser.risk_score<=4 %>
+        <% elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4 %>
         $("#type tr:eq(2)").addClass("back");
-        <% elsif @webuser.risk_score>=0 && @webuser.risk_score<=2 %>
+        <% elsif @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2 %>
         $("#type tr:eq(1)").addClass("back");
+        <% end %>
         <% end %>
     });
 
@@ -188,7 +192,9 @@
             function(chart) {
                     var left = chart.series[0].points[0],
                             leftVal;
-                    leftVal = <%= @webuser.risk_score %>;
+                <% if @userfinancedata!=nil %>
+                leftVal = <%= @userfinancedata.risk_score %>;
+                <% end %>
                     left.update(leftVal, false);
                     chart.redraw();
             });

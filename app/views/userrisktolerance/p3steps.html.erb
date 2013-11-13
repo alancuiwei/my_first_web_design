@@ -206,8 +206,8 @@
 
 <script>
 
-    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
-    var risk=<%= @webuser.risk_score %>;
+    <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
+    var risk=<%= @userfinancedata.risk_score %>;
     <% else %>
     var risk=0;
     <% end %>
@@ -824,9 +824,9 @@
                         setInterval(function() {
                             var left = chart.series[0].points[0],
                                     leftVal;
-                            <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
+                            <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
                             if(tol==0.1){
-                                tol=<%= @webuser.risk_score %>;
+                                tol=<%= @userfinancedata.risk_score %>;
                             }
                             <% end %>
                             leftVal = tol;

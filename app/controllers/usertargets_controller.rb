@@ -5,6 +5,7 @@ class UsertargetsController < ApplicationController
   def p2_usertargets
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @userfinancedata=User_finance_data.find_by_username(session[:webusername])
       @blog=Blog.find_by_id(452)
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2_usertargets=>"1")
@@ -16,6 +17,7 @@ class UsertargetsController < ApplicationController
       @targets=User_targets.find_all_by_username(session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @userfinancedata=User_finance_data.find_by_username(session[:webusername])
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1=>"1")
     end
@@ -31,6 +33,7 @@ class UsertargetsController < ApplicationController
     end
     @targets=User_targets.find_by_username(@webuser.username)
     @userdata=Userdata_annual.find_by_username(@webuser.username)
+    @userfinancedata=User_finance_data.find_by_username(@webuser.username)
     @detailedmonth=Userdata_detailedincome_month.find_by_username_and_income_typeid(@webuser.username,3000)
     @annual=0
     if @userdata!=nil &&  @userdata.net_annual!=nil

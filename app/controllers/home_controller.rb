@@ -51,9 +51,6 @@ class HomeController < ApplicationController
         w.password=password
         w.tel=params[:tel]
         w.email=params[:email]
-        w.risk_score=params[:risk_score]
-        w.certificate=params[:certificate]
-        w.exeitdeposit=params[:exeitdeposit]
         w.save
       end
     end

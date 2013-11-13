@@ -44,6 +44,7 @@ class UsermanagementController < ApplicationController
      end
      if session[:webusername]!=nil
        @webuser=Webuser.find_by_username(session[:webusername])
+       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
        @targets=User_targets.find_by_username(@webuser.username)
        @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
        @total=0

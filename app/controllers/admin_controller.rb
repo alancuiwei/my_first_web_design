@@ -4,6 +4,15 @@ class AdminController < ApplicationController
   def index
     if session[:webusername]=="admin" || session[:webusername]=="blog"
       @webusers=Webuser.all
+      @hash={}
+      for i in 0..@webusers.size-1
+        @userfinancedata=User_finance_data.find_by_username(@webusers[i].username)
+        if @userfinancedata!=nil
+        @hash.store(@webusers[i].username,[@userfinancedata.risk_productid,@userfinancedata.risk_score])
+        else
+          @hash.store(@webusers[i].username,[nil,nil])
+        end
+      end
       @blogs=Blog.all
       @activity=Activity.all
       @pace=Pace.all
@@ -998,6 +1007,7 @@ class AdminController < ApplicationController
       session[:qq]=2
     end
     @webuser=Webuser.find_by_username(params[:username])
+    @userfinancedata=User_finance_data.find_by_username(params[:username])
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
         if params[:weixincode]!=nil && params[:weixincode]!=""
@@ -1013,7 +1023,7 @@ class AdminController < ApplicationController
           if  @webuser.username=="admin" || @webuser.username=="blog"
             session[:webusername]=@webuser.username
             render :json => "admin".to_json
-          elsif @webuser.risk_score!=nil
+          elsif @userfinancedata!=nil && @userfinancedata.risk_score!=nil
             session[:webusername]=@webuser.username
             render :json => "g1".to_json
           else

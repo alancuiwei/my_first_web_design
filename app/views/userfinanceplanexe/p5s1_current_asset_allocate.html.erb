@@ -1,0 +1,103 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+
+<div class="welcomes start p1s2">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>已有资金分配</h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span1">
+          <span></span>
+        </div>
+        <div class="span11">
+          <div class="mleft">
+            <table class="table table-striped table-bordered footable" id="update">
+              <thead>
+              <tr>
+                <th data-sort-initial="descending" data-class="expand" style="width: 150px;"></th>
+                <!--<th data-sort-ignore="true" style="width: 150px;">已有资产名称</th> -->
+                <th data-hide="phone" style="width: 150px;">当前情况</th>
+                <th data-hide="phone" style="width: 150px;">规划目标</th>
+                <th data-hide="phone">调整后</th>
+              </tr>
+              </thead>
+              <tr>
+                <td>流动型资产</td>
+                <td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_fluid_account %><% end %></td>
+                <td><% if @userplanedsheet!=nil %><%= @userplanedsheet.asset_planed_fluid_account %><% end %></td>
+                <td><% if @userfirstmove!=nil %><%= @userfirstmove.asset_firstmove_fluid_account %><% end %></td>
+              </tr>
+              <tr>
+                <td>流动型资产</td>
+                <td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_safefy_account %><% end %></td>
+                <td><% if @userplanedsheet!=nil %><%= @userplanedsheet.asset_planed_safety_account %><% end %></td>
+                <td><% if @userfirstmove!=nil %><%= @userfirstmove.asset_firstmove_safety_account %><% end %></td>
+              </tr>
+              <tr>
+                <td>流动型资产</td>
+                <td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_risky_account %><% end %></td>
+                <td><% if @userplanedsheet!=nil %><%= @userplanedsheet.asset_planed_risky_account %><% end %></td>
+                <td><% if @userfirstmove!=nil %><%= @userfirstmove.asset_firstmove_risky_account %><% end %></td>
+              </tr>
+              <!--
+              <% for i in 0..@assetsheet.size-1 %>
+                  <% if @hash4[@assetsheet[i].asset_typeid][1]==100 %>
+                      <tr>
+                        <td>流动型资产</td>
+                        <td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td>
+                        <td><%= @assetsheet[i].asset_value %></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  <% end %>
+              <% end %>
+              <% for i in 0..@assetsheet.size-1 %>
+                  <% if @hash4[@assetsheet[i].asset_typeid][1]==200 %>
+                      <tr>
+                        <td>保本型资产</td>
+                        <td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td>
+                        <td><%= @assetsheet[i].asset_value %></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  <% end %>
+              <% end %>
+              <% for i in 0..@assetsheet.size-1 %>
+                  <% if @hash4[@assetsheet[i].asset_typeid][1]==300 %>
+                      <tr>
+                        <td>风险型资产</td>
+                        <td><%= @hash4[@assetsheet[i].asset_typeid][0] %></td>
+                        <td><%= @assetsheet[i].asset_value %></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                  <% end %>
+              <% end %>
+              -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="q-buttons" class="">
+      <button class="q-button light-gray big-button" id="q-back">◄&nbsp; <span>上一项</span>&nbsp;</button>
+      <button class="q-button orange-button big-button" id="q-next">&nbsp;下一项 &nbsp;►</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        <% if session[:webusername]!=nil %>
+
+        <% end %>
+    });
+
+    $("#q-back").click(function(){
+        location.href="/personmanagement/summary";
+    });
+
+    $("#q-next").click(function(){
+        location.href="/userfinanceplanexe/p5s2_salary_allocate_month";
+    });
+</script>

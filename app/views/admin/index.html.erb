@@ -153,23 +153,23 @@
                   <td class="hide"><%= @hash_password[w.id]%></td>
                   <td><% if w.email!="1" %><%= w.email %><% end %></td>
                   <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
-                  <td><%= w.risk_score %></td>
-                  <% if w.risk_score!=nil %>
-                      <% if w.risk_score>=0 && w.risk_score<=2 %>
+                  <td><%= @hash[w.username][1] %></td>
+                  <% if @hash[w.username][1]!=nil %>
+                      <% if @hash[w.username][1]>=0 && @hash[w.username][1]<=2 %>
                           <td>安逸型</td>
-                      <% elsif w.risk_score>2 && w.risk_score<=4 %>
+                      <% elsif @hash[w.username][1]>2 && @hash[w.username][1]<=4 %>
                           <td>保守型</td>
-                      <% elsif w.risk_score>4 && w.risk_score<=6 %>
+                      <% elsif @hash[w.username][1]>4 && @hash[w.username][1]<=6 %>
                           <td>稳健型</td>
-                      <% elsif w.risk_score>6 && w.risk_score<=8 %>
+                      <% elsif @hash[w.username][1]>6 && @hash[w.username][1]<=8 %>
                           <td>积极型</td>
-                      <% elsif w.risk_score>8 && w.risk_score<=10 %>
+                      <% elsif @hash[w.username][1]>8 && @hash[w.username][1]<=10 %>
                           <td>激进型</td>
                       <% end %>
                   <% else %>
                       <td></td>
                   <% end %>
-                  <td><%= w.risk_productid %></td>
+                  <td><%= @hash[w.username][0] %></td>
                   <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
                   <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
                   <td><a href="/personmanagement/personfinance/<%= w.id %>">查看</a></td>

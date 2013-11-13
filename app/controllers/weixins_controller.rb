@@ -15,6 +15,7 @@ class WeixinsController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
     end
     if @webuser!=nil
+      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
       @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
       @assettype=Admin_asset_type.all
@@ -53,7 +54,7 @@ class WeixinsController < ApplicationController
             end
             render "rtn101", :formats => :xml
           when "V110"
-            if @webuser!=nil && @webuser.asset_score!=nil
+            if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>110)
               render "rtn413", :formats => :xml
             elsif @webuser!=nil
@@ -100,10 +101,10 @@ class WeixinsController < ApplicationController
           when "V500"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
-              if @webuser.asset_score!=nil && @targets!=nil
+              if @userfinancedata!=nil && @userfinancedata.asset_score!=nil && @targets!=nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>500)
                 render "rtn509", :formats => :xml
-              elsif @webuser.asset_score!=nil
+              elsif @userfinancedata!=nil && @userfinancedata.asset_score!=nil
                 @webuser.update_attributes(:segment=>0,:targets=>500,:subject=>500)
                 render "rtn500", :formats => :xml
               else
@@ -123,13 +124,13 @@ class WeixinsController < ApplicationController
           when "V700"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
-              if @webuser.asset_score==nil
+              if @userfinancedata==nil || @userfinancedata.asset_score==nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn508", :formats => :xml
               elsif  @targets==nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn510", :formats => :xml
-              elsif @webuser.risk_score!=nil
+              elsif @userfinancedata==nil || @userfinancedata.risk_score!=nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>700)
                 render "rtn701", :formats => :xml
               else
@@ -170,13 +171,13 @@ class WeixinsController < ApplicationController
           when "V900"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
-              if @webuser.asset_score==nil
+              if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn508", :formats => :xml
               elsif  @targets==nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn510", :formats => :xml
-              elsif @webuser.risk_score==nil
+              elsif @userfinancedata==nil || @userfinancedata.risk_score==nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn511", :formats => :xml
               else
@@ -233,7 +234,7 @@ class WeixinsController < ApplicationController
           when "601"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
-              if @webuser.asset_score!=nil
+              if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
                 render "rtn412", :formats => :xml
               else
                 render "rtn411", :formats => :xml
@@ -256,7 +257,7 @@ class WeixinsController < ApplicationController
           when "603"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
-              if @webuser.risk_score!=nil
+              if @userfinancedata==nil || @userfinancedata.risk_score!=nil
                 render "rtn603", :formats => :xml
               else
                 render "rtn604", :formats => :xml
@@ -1066,18 +1067,177 @@ class WeixinsController < ApplicationController
           @userbalancesheet.update_attributes(:asset_account=>asset_account,:debt_account=>debt_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
                                               :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
         end
+        asset_planed_account=asset_fluid_account+asset_risky_account+asset_safefy_account+net_annual
+        fluid=@userdatamonth.must_expense_month*3
+        risky=(asset_planed_account*(80-@webuser.age)/100).to_i
+        safety=asset_planed_account-fluid-risky
+        if fluid>asset_planed_account
+          fluid=asset_planed_account
+          risky=0
+          safety=0
+        elsif fluid+risky>asset_planed_account
+          risky=asset_planed_account-fluid
+          safety=0
+        end
+        @userplaned=User_planed_balance_sheets.find_by_username(@webuser.username)
+        if @userplaned==nil
+          User_planed_balance_sheets.new do |e|
+            e.username=@webuser.username
+            e.asset_planed_account=asset_planed_account
+            e.asset_planed_fluid_account=fluid
+            e.asset_planed_risky_account=risky
+            e.asset_planed_safety_account=safety
+            e.save
+          end
+        else
+          @userplaned.update_attributes(:asset_planed_account=>asset_planed_account,:asset_planed_fluid_account=>fluid,
+                                              :asset_planed_risky_account=>risky,:asset_planed_safety_account=>safety)
+        end
+        asset_firstmove_account=asset_fluid_account+asset_risky_account+asset_safefy_account
+        asset_firstmove_fluid_account=0
+        asset_firstmove_risky_account=0
+        asset_firstmove_safety_account=0
+        if asset_safefy_account>safety || asset_fluid_account>fluid || asset_risky_account>risky
+          a=asset_firstmove_account
+          if a>safety
+            asset_firstmove_safety_account=safety
+            a=a-safety
+            if a>fluid
+              asset_firstmove_fluid_account=fluid
+              asset_firstmove_risky_account=a-fluid
+            else
+              asset_firstmove_fluid_account=a
+            end
+          else
+            asset_firstmove_safety_account=a
+          end
+        else
+          asset_firstmove_fluid_account=asset_fluid_account
+          asset_firstmove_risky_account=asset_risky_account
+          asset_firstmove_safety_account=asset_safefy_account
+        end
+        @userfirstmove=User_firstmove_balance_sheets.find_by_username(@webuser.username)
+        if @userfirstmove==nil
+          User_firstmove_balance_sheets.new do |e|
+            e.username=@webuser.username
+            e.asset_firstmove_account=asset_firstmove_account
+            e.asset_firstmove_fluid_account=asset_firstmove_fluid_account
+            e.asset_firstmove_risky_account=asset_firstmove_risky_account
+            e.asset_firstmove_safety_account=asset_firstmove_safety_account
+            e.save
+          end
+        else
+          @userfirstmove.update_attributes(:asset_firstmove_account=>asset_firstmove_account,:asset_firstmove_fluid_account=>asset_firstmove_fluid_account,
+                                        :asset_firstmove_safety_account=>asset_firstmove_safety_account,:asset_firstmove_risky_account=>asset_firstmove_risky_account)
+        end
 
+        invest_expense_month=0
+        @userdatamonth=Userdata_month.find_by_username(@webuser.username)
+        if @userdatamonth!=nil
+          invest_expense_month=@userdatamonth.invest_expense_month
+        end
+        arrayObj=Array.new
+        array0=0
+        array1=0
+        array2=0
+        array3=fluid-asset_firstmove_fluid_account
+        array4=safety-asset_firstmove_safety_account
+        array5=risky-asset_firstmove_risky_account
+        averagesafety=0
+        if array4>0
+          averagesafety=array4.to_f/12
+        end
+        remain=invest_expense_month
+        if remain>0 && array4>0
+           if averagesafety>remain
+             array1=remain
+             remain=0
+             array4=array4-remain
+           else
+             array1=averagesafety
+             remain=remain-averagesafety
+             array4=array4-averagesafety
+           end
+        end
+        if remain>0 && array3>0
+          if array3>remain
+            array0=remain
+            remain=0
+            array3=array3-remain
+          else
+            array0=array3
+            remain=remain-array3
+            array3=0
+          end
+        end
+        if remain>0
+            array2=remain
+            array5=array5-remain
+        end
+        arrayObj[0]=[array0.to_i,array1.to_i,array2.to_i,array3.to_i,array4.to_i,array5.to_i]
+        for i in 1..11
+          array0=0
+          array1=0
+          array2=0
+          array3=arrayObj[i-1][3]
+          array4=arrayObj[i-1][4]
+          array5=arrayObj[i-1][5]
+          remain=invest_expense_month
+          if remain>0 && array4>0
+            if averagesafety>remain
+              array1=remain
+              remain=0
+              array4=array4-remain
+            else
+              array1=averagesafety
+              remain=remain-averagesafety
+              array4=array4-averagesafety
+            end
+          end
+          if remain>0 && array3>0
+            if array3>remain
+              array0=remain
+              remain=0
+              array3=array3-remain
+            else
+              array0=array3
+              remain=remain-array3
+              array3=0
+            end
+          end
+          if remain>0
+            array2=remain
+            array5=array5-remain
+          end
+          arrayObj[i]=[array0.to_i,array1.to_i,array2.to_i,array3.to_i,array4.to_i,array5.to_i]
+        end
+        @userplanmonth=User_plan_month.destroy_all(:username => @webuser.username)
+
+        for i in 0..11
+          t = Time.new
+          year = t.strftime("%Y").to_i
+          month = t.strftime("%m").to_i
+          months=month+i;
+          if months>12
+              months=months-12;
+              year=year+1
+          end
+          User_plan_month.new do |w|
+            w.username=@webuser.username
+            w.date=year.to_s+'.'+months.to_s
+            w.fluid_account=arrayObj[i][0]
+            w.safety_account=arrayObj[i][1]
+            w.risky_account=arrayObj[i][2]
+            w.save
+          end
+        end
         @webuser=Webuser.find_by_username(@webuser.username)
         xianjin=asset_fluid_account
         wenjian=asset_safefy_account
         fengxian=asset_risky_account
         jixu=asset_account
-        total=@userdatamonth.invest_expense_month*12+jixu
-        xian=@userdatamonth.must_expense_month*3
-        feng=(total*(80-@webuser.age)/100).to_i
-        wen=total-xian-feng
-        if jixu!=0 && total!=0
-          asset_score=(3-((xian.to_f/total-xianjin.to_f/jixu).abs+(wen.to_f/total-wenjian.to_f/jixu).abs+(feng.to_f/total-fengxian.to_f/jixu).abs))*100/3
+        if jixu!=0 && asset_planed_account!=0
+          asset_score=(3-((fluid.to_f/asset_planed_account-xianjin.to_f/jixu).abs+(safety.to_f/asset_planed_account-wenjian.to_f/jixu).abs+(risky.to_f/asset_planed_account-fengxian.to_f/jixu).abs))*100/3
         else
           asset_score=0;
         end
@@ -1099,7 +1259,16 @@ class WeixinsController < ApplicationController
         elsif net_account>=50000 && net_month>=5000
           level=8
         end
-        @webuser.update_attributes(:asset_score=>asset_score.round(1),:moonlite_typeid=>level)
+        if @userfinancedata==nil
+          User_finance_data.new do |w|
+            w.username=@webuser.username
+            w.asset_score=asset_score.round(1)
+            w.moonlite_typeid=level
+            w.save
+          end
+        else
+          @userfinancedata.update_attributes(:asset_score=>asset_score.round(1),:moonlite_typeid=>level)
+        end
 
         @indicators=User_financial_indicators.find_by_username_and_indicatortypeid(@webuser.username,1100)                        # 储蓄比率=月结余/月收入
         if @userdatamonth.salary_month+@userdatamonth.extra_income_month!=0
@@ -2019,7 +2188,15 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
             if @monetaryfundproduct!=nil
-              @webuser.update_attributes(:fluid_productid=>@monetaryfundproduct.productname)
+              if @userfinancedata!=nil
+                @userfinancedata.update_attributes(:fluid_productid=>@monetaryfundproduct.productname)
+              else
+                User_finance_data.new do |u|
+                  u.username=@webuser.username
+                  u.fluid_productid=@monetaryfundproduct.productname
+                  u.save
+                end
+              end
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>911)
               render "rtn911", :formats => :xml
             end
@@ -2033,16 +2210,18 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             if content=="Y" || content=="y"
               @category=Admin_asset_type_l2.all
-              if @webuser.risk_score>=0 && @webuser.risk_score<=2
+              if @userfinancedata==nil
+              if @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2
                 @min=1;@max=2;
-              elsif @webuser.risk_score>2 && @webuser.risk_score<=4
+              elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4
                 @min=1;@max=3;
-              elsif @webuser.risk_score>4 && @webuser.risk_score<=6
+              elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6
                 @min=2;@max=4;
-              elsif @webuser.risk_score>6 && @webuser.risk_score<=8
+              elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8
                 @min=3;@max=5;
-              elsif @webuser.risk_score>8 && @webuser.risk_score<=10
+              elsif @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10
                 @min=4;@max=5;
+              end
               end
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>912)
               render "rtn912", :formats => :xml
@@ -2261,9 +2440,25 @@ class WeixinsController < ApplicationController
             @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
             @generalfundproduct=General_fund_product.find_by_product_code(content)
             if @monetaryfundproduct!=nil
-              @webuser.update_attributes(:risk_productid=>@monetaryfundproduct.productname)
+              if @userfinancedata!=nil
+                @userfinancedata.update_attributes(:risk_productid=>@monetaryfundproduct.productname)
+              else
+                User_finance_data.new do |u|
+                  u.username=@webuser.username
+                  u.risk_productid=@monetaryfundproduct.productname
+                  u.save
+                end
+              end
             elsif @generalfundproduct!=nil
-              @webuser.update_attributes(:risk_productid=>@generalfundproduct.product_name)
+              if @userfinancedata!=nil
+                @userfinancedata.update_attributes(:risk_productid=>@generalfundproduct.product_name)
+              else
+                User_finance_data.new do |u|
+                  u.username=@webuser.username
+                  u.risk_productid=@generalfundproduct.product_name
+                  u.save
+                end
+              end
             end
             @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>920)
             render "rtn917", :formats => :xml
@@ -2271,16 +2466,18 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             if content=="1000"
               @category=Admin_asset_type_l2.all
-              if @webuser.risk_score>=0 && @webuser.risk_score<=2
+              if @userfinancedata!=nil
+              if @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2
                 @min=1;@max=2;
-              elsif @webuser.risk_score>2 && @webuser.risk_score<=4
+              elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4
                 @min=1;@max=3;
-              elsif @webuser.risk_score>4 && @webuser.risk_score<=6
+              elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6
                 @min=2;@max=4;
-              elsif @webuser.risk_score>6 && @webuser.risk_score<=8
+              elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8
                 @min=3;@max=5;
-              elsif @webuser.risk_score>8 && @webuser.risk_score<=10
+              elsif @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10
                 @min=4;@max=5;
+              end
               end
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>912)
               render "rtn912", :formats => :xml

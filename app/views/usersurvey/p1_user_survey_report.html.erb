@@ -20,9 +20,9 @@
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">
-          <h2>诊断简报：<% @moonlite.each do |m| %><% if m.typeid==@webuser.moonlite_typeid.to_i %><%= m.typename %><% end %><% end %></h2>
+          <h2>诊断简报：<% @moonlite.each do |m| %><% if @userfinancedata!=nil && m.typeid==@userfinancedata.moonlite_typeid.to_i  %><%= m.typename %><% end %><% end %></h2>
           <div class="mleft">
-            <p class="q-text"><% @moonlite.each do |m| %><% if m.typeid==@webuser.moonlite_typeid.to_i %><%=raw m.type_intro %><% end %><% end %></p>
+            <p class="q-text"><% @moonlite.each do |m| %><% if @userfinancedata!=nil && m.typeid==@userfinancedata.moonlite_typeid.to_i  %><%=raw m.type_intro %><% end %><% end %></p>
           </div>
           <h2>家庭财务诊断报告：</h2>
           <div class="mleft">
@@ -35,8 +35,8 @@
             <br>
             <blockquote><small>
               <% @moonlite.each do |m| %>
-                  <% if m.typeid==@webuser.moonlite_typeid.to_i  %>
-                      您属于<%= m.typename %>，您当前家庭资产体检得分约等于<%= @webuser.asset_score %>分。
+                  <% if @userfinancedata!=nil && m.typeid==@userfinancedata.moonlite_typeid.to_i  %>
+                      您属于<%= m.typename %>，您当前家庭资产体检得分约等于<%= @userfinancedata.asset_score %>分。
                   <% end %>
               <% end %>
             </small></blockquote>
@@ -409,7 +409,9 @@
         }
         <% end %>
         initPieChart();
-        animate(0,<%= @webuser.asset_score %>);
+        <% if @userfinancedata!=nil %>
+        animate(0,<%= @userfinancedata.asset_score %>);
+        <% end %>
         <% end %>
     });
 

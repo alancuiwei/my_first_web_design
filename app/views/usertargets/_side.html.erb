@@ -13,13 +13,13 @@
     <b>&nbsp;&gt;&nbsp;</b>
         <span class="red"><b>2.</b> 理财目标</span>
     <b>&nbsp;&gt;&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.risk_score!=nil %>
+    <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
         <span><b>3.</b> 风险评估</span>
     <% else %>
         <span class="disabled"><b>3.</b> 风险评估</span>
     <% end %>
     <b>&nbsp;&gt;&nbsp;</b>
-    <% if session[:webusername]!=nil && @webuser.risk_productid!=nil %>
+    <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_productid!=nil %>
         <span><b>4.</b> 制定理财规划</span>
     <% else %>
         <span class="disabled"><b>4.</b> 制定理财规划</span>
