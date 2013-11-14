@@ -25,7 +25,7 @@ $.fn.dataTableExt.afnFiltering.push(
                 if(obj[0].checked == true){
                     $(".color11").addClass('currbg');
                     text='0-500元';
-                    if(aData[3]>=0 && aData[3]<=500){
+                    if(aData[3]>=1 && aData[3]<=1000){
                         num1=1;
                     }
                 }
@@ -35,7 +35,7 @@ $.fn.dataTableExt.afnFiltering.push(
                 if(obj[1].checked == true){
                     $(".color12").addClass('currbg');
                     if(text!=""){text=text+",501-1000元"}else{text="501-1000元"}
-                    if(aData[3]>=501 && aData[3]<=1000){
+                    if(aData[3]>=1001 && aData[3]<=10000){
                         num1=1;
                     }
                 }
@@ -45,7 +45,7 @@ $.fn.dataTableExt.afnFiltering.push(
                 if(obj[2].checked == true){
                     $(".color13").addClass('currbg');
                     if(text!=""){text=text+",1001元以上"}else{text="1001元以上"}
-                    if(aData[3]>=1001){
+                    if(aData[3]>10000){
                         num1=1;
                     }
                 }
@@ -426,6 +426,9 @@ $.fn.dataTableExt.afnFiltering.push(
             else{
                 return false;
             }
+        }
+        else{
+            return true;
         }
     }
 );

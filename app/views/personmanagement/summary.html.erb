@@ -1050,6 +1050,7 @@
     }
 
     $(document).ready(function(){
+        $("#update").html("<% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %>");
         var oTable =  $('#liudong').dataTable({
             "iDisplayLength": 10,
             "aaSorting": [[ 9, "asc" ]]

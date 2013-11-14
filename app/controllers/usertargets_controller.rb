@@ -31,6 +31,7 @@ class UsertargetsController < ApplicationController
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2s2=>"1")
     end
+    if @webuser!=nil
     @targets=User_targets.find_by_username(@webuser.username)
     @userdata=Userdata_annual.find_by_username(@webuser.username)
     @userfinancedata=User_finance_data.find_by_username(@webuser.username)
@@ -62,4 +63,5 @@ class UsertargetsController < ApplicationController
       end
     end
   end
+end
 end

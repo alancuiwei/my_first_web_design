@@ -1,0 +1,193 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
+<%= javascript_include_tag "productchoose.js" %>
+
+<div class="welcomes summary">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>应急基金产品选择</h1>
+    <div class="tablet">
+      <h2>产品选择：</h2>
+      <div class="mleft">
+        <p class="q-text">下面的表格是市面上的货币基金信息，您可以根据您的个人情况，进行产品筛选，<br>您将把<%= @userdatamonth.must_expense_month*2 %>元投入到您选择的货币基金产品中去。</p>
+        <%= render "/bankinvest/product" %>
+        <table id="liudong" class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th>产品名</th>
+            <th>万份收益<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a>(元)</th>
+            <th>7日年化<br>收益率<a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
+            <th>起购金额</th>
+            <th>资金规模<br>(亿元)</th>
+            <th>成立时间</th>
+            <th class="hide">时间差</th>
+            <th>近一年(%)</th>
+            <th class="hide">近一年排名</th>
+            <th>近一年排名</th>
+            <th class="hide">近二年排名</th>
+            <th class="hide">近三年排名</th>
+            <th>选择</th>
+          </tr>
+          </thead>
+          <% @fundproduct.each do |f| %>
+              <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
+                <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
+                <td><% if @hash5[f.product_code][1]!=0 %><%= @hash5[f.product_code][1] %><% else %>--<% end %></td>
+                <td><% if @hash5[f.product_code][2]!=0 %><%= @hash5[f.product_code][2] %>%<% else %>--<% end %></td>
+                <td><% if f.min_purchase_account!=nil %><%= f.min_purchase_account %><% else %>0<% end %></td>
+                <td><% if f.fund_size!=nil %><%= f.fund_size %><% else %>0<% end %></td>
+                <td><% if f.create_date!=nil %><%= f.create_date %><% else %>--<% end %></td>
+                <td class="hide"><% if @hash5[f.product_code][9]!=nil %><%= @hash5[f.product_code][9].to_s.split("/")[0] %><% end %></td>
+                <td class="red"><% if @hash5[f.product_code][3]!=0 %><%= @hash5[f.product_code][3] %>%<% else %>--<% end %></td>
+                <td class="red"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6] %><% else %>--<% end %></td>
+                <td class="hide"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6].split("/")[0] %><% else %>1000<% end %></td>
+                <td class="hide"><% if @hash5[f.product_code][7]!=nil %><%= @hash5[f.product_code][7].split("/")[0] %><% else %>--<% end %></td>
+                <td class="hide"><% if @hash5[f.product_code][8]!=nil %><%= @hash5[f.product_code][8].split("/")[0] %><% else %>--<% end %></td>
+                <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>">选择</a></td>
+              </tr>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog2.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog2!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog2.imagepath %>"><br><br>
+        <%=raw @blog2.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog3.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog3!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog3.imagepath %>"><br><br>
+        <%=raw @blog3.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog4.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog4!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog4.imagepath %>"><br><br>
+        <%=raw @blog4.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<script>
+
+    var grey=0;
+    function choose(uid){
+        grey=uid;
+    <% @fundproduct.each do |f| %>
+        if(uid=='<%= f.id %>'){
+            $.post("/userfinanceplan/savefluid",{ username:"<%= session[:webusername] %>",fluid_productid: '<%= f.productname %>'
+            },function(data){
+                location.href='/userfinanceplan/p4s3_stableprofit_fund';
+            });
+        }
+    <% end %>
+        $("tr").removeClass("four");
+        $(".finan"+uid).addClass("four");
+    }
+
+    $(document).ready(function(){
+        $("#update").html("<% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %>");
+        var oTable =  $('#liudong').dataTable({
+            "iDisplayLength": 10,
+            "aaSorting": [[ 9, "asc" ]]
+        });
+
+        $("[id*='amounts']").click(function(){
+            if(this.id=='amounts0'){
+                $("#amount_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='expectYIDs']").click(function(){
+            if(this.id=='expectYIDs0'){
+                $("#expectYID_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='durations']").click(function(){
+            if(this.id=='durations0'){
+                $("#duration_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+        $("[id*='scates']").click(function(){
+            if(this.id=='scates0'){
+                $("#scate_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $(".delete").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='amount'){
+                $("#amount_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='expectYID'){
+                $("#expectYID_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='duration'){
+                $("#duration_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='scate'){
+                $("#scate_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("#liudong_previous,#liudong_next").attr("href","javascript:void(0)");
+
+        $('#liudong_previous,#liudong_next').click(function(){
+            $("tr").removeClass("four");
+            $(".finan"+grey).addClass("four");
+        });
+    });
+</script>
