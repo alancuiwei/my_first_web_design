@@ -30,6 +30,7 @@ class UsermanagementController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(@webuser.username)
+      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :profile=>"1")
     end

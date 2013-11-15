@@ -95,30 +95,28 @@
                       <tbody>
                       <% if @userfinancedata!=nil && @userfinancedata.fluid_productid!=nil && @userfinancedata.fluid_productid!="" %>
                           <tr class="monthpay2">
-                            <td class="name2"><% if @finance1!=nil %><%= @finance1.productname %><% end %></td>
-                            <td><% if @category1!=nil %><a href="/bankinvest/classify/<%= @category1.id %>"><%= @category1.classify %></a><% end %></td>
+                            <td class="name2"><%= @hash['fluid'][0] %></td>
+                            <td><a href="/bankinvest/classify/<%= @hash['fluid'][1] %>"><%= @hash['fluid'][2] %></a></td>
                             <td class="amounts2"></td>
-                            <td><% if @finance1!=nil %><a href="#" class="btn btn-primary">查看</a><% end %></td>
+                            <td><% if @hash['fluid'][3]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][4] %>" class="btn btn-primary">详情、购买</a><% end %></td>
                           </tr>
                       <% end %>
                       <% if @userfinancedata!=nil && @userfinancedata.safe_productid!=nil && @userfinancedata.safe_productid!="" %>
                           <tr class="monthpay4">
-                            <td class="name4"><% if @finance2!=nil %><%= @finance2.pname %><% end %></td>
-                            <td><% if @category2!=nil %><a href="/bankinvest/classify/<%= @category2.id %>"><%= @category2.classify %></a><% end %></td>
+                            <td class="name4"><%= @hash['safe'][0] %></td>
+                            <td><a href="/bankinvest/classify/<%= @hash['safe'][1] %>"><%= @hash['safe'][2] %></a></td>
                             <td class="amounts4"></td>
-                            <td><% if @finance2!=nil %><a href="/bankinvest/productdetails/<%= @finance2.id %>" class="btn btn-primary">查看</a><% end %></td>
+                            <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>" class="btn btn-primary">详情、购买</a><% end %></td>
                           </tr>
                       <% end %>
-                      <% if @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
                           <% if @userfinancedata!=nil && @userfinancedata.risk_productid!=nil && @userfinancedata.risk_productid!="" %>
                               <tr class="monthpay5">
-                                <td class="name5"><% if @finance3!=nil %><%= @finance3.pname %><% end %></td>
-                                <td><% if @category3!=nil %><a href="/bankinvest/classify/<%= @category3.id %>"><%= @category3.classify %></a><% end %></td>
+                            <td class="name5"><%= @hash['risk'][0] %></td>
+                            <td><a href="/bankinvest/classify/<%= @hash['risk'][1] %>"><%= @hash['risk'][2] %></a></td>
                                 <td class="amounts5"></td>
-                                <td><% if @finance3!=nil %><a href="/bankinvest/productdetails/<%= @finance3.id %>" class="btn btn-primary">查看</a><% end %></td>
+                            <td><% if @hash['risk'][3]==1 %><a href="/bankinvest/huobi/<%= @hash['risk'][4] %>" class="btn btn-primary">详情、购买</a><% end %></td>
                               </tr>
                           <% end %>
-                      <% end %>
                       </tbody>
                     </table>
                     <blockquote style="text-align: left;">
@@ -142,14 +140,36 @@
   </div>
   <div class="modal-body">
     <table class="table table-striped table-bordered" id="target">
-      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-        <td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr>
+        <td></td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.date %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>流动</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.fluid_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>稳定</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.safety_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>风险</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.risky_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>总</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.fluid_account+u.safety_account+u.risky_account %></td>
+        <% end %>
+      </tr>
     </table>
   </div>
   <div class="modal-footer">
@@ -172,8 +192,14 @@
     var monthNow = dateNow.getMonth()+1;
 
     function select() {
-        var loca2=$("#dates").attr("value").split("-")[0]+'年';
-        var loca4=parseInt($("#dates").attr("value").split("-")[1]).toString()+'月';
+        var date=$("#dates").attr("value").split("-")[0]+'.'+(parseInt($("#dates").attr("value").split("-")[1])).toString();
+    <% for i in 0..@userplanmonth.size-1 %>
+        if('<%= @userplanmonth[i].date %>'==date){
+            $(".amounts2").html("<%= @userplanmonth[i].fluid_account %>")
+            $(".amounts4").html("<%= @userplanmonth[i].safety_account %>")
+            $(".amounts5").html("<%= @userplanmonth[i].risky_account %>")
+        }
+    <% end %>
     }
 
     $(document).ready(function(){
@@ -207,23 +233,15 @@
                                     var a5= parseFloat($(".amounts5").html());}else{var a5=0;}
                                 var numfor= /^[-+]?[0-9]+(\.[0-9]+)?$/
                                 if(numfor.test(a1)==false){a1=0}
-                                if(numfor.test(a0)==false){a0=0}
                                 if(numfor.test(a2)==false){a2=0}
                                 if(numfor.test(a4)==false){a4=0}
                                 if(numfor.test(a5)==false){a5=0}
+                                if(numfor.test(a0)==false){a0=0}
                                 data.push(['吃喝住行',a1]);
                                 data.push(['零花钱',a0]);
-                                <% if @finance1 !=nil && @finance3 !=nil && @finance1.productname==@finance3.pname %>
-                                data.push([$(".name2").html(),a2+a5]);
-                                data.push([$(".name4").html(),a4]);
-                                <% elsif @finance2 !=nil && @finance3 !=nil && @finance2.pname==@finance3.pname %>
                                 data.push([$(".name2").html(),a2]);
-                                data.push([$(".name4").html(),a4+a5]);
-                                <% else %>
-                                <% if @finance1 !=nil %> data.push([$(".name2").html(),a2]);<% end %>
-                                <% if @finance2 !=nil %> data.push([$(".name4").html(),a4]);<% end %>
-                                <% if @finance3 !=nil %> data.push([$(".name5").html(),a5]); <% end %>
-                                <% end %>
+                                data.push([$(".name4").html(),a4]);
+                                data.push([$(".name5").html(),a5]);
                                 series.setData(data);
                             }, 500);
                         }

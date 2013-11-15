@@ -1,0 +1,57 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+
+<style>
+    #result td,#result th{
+        width: 20%;
+    }
+</style>
+
+<div class="welcomes">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>投资结果预测</h1>
+    <div class="tablet">
+      <table id="result" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th></th>
+          <th>流动性资金投入</th>
+          <th>风险性资金投入</th>
+          <th>稳健性资金投入</th>
+          <th>总投入</th>
+        </tr>
+        </thead>
+        <% @userplanmonth.each do |u| %>
+            <tr>
+              <td><%= u.date %></td>
+              <td><%= u.fluid_account %></td>
+              <td><%= u.risky_account %></td>
+              <td><%= u.safety_account %></td>
+              <td><%= u.fluid_account+u.risky_account+u.safety_account %></td>
+            </tr>
+        <% end %>
+        <tr>
+          <td>全年</td>
+          <td><%= @totalfluid %></td>
+          <td><%= @totalrisky %></td>
+          <td><%= @totalsafety %></td>
+          <td><%= @total %></td>
+        </tr>
+      </table>
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th style="width: 50%;">日期</th>
+          <th>您的家庭资产</th>
+        </tr>
+        </thead>
+        <% for i in 0..14 %>
+            <tr>
+              <td><%= @date.to_i+i+1 %></td>
+              <td><%= @total*(i+1) %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

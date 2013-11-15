@@ -104,4 +104,45 @@ class UserfinanceplanController < ApplicationController
     end
   end
 
+  def p4s4_invest_estimate_plan
+    if session[:webusername]!=nil
+      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @totalfluid=0
+      @totalrisky=0
+      @totalsafety=0
+      for i in 0..@userplanmonth.size-1
+        @totalfluid=@totalfluid+@userplanmonth[i].fluid_account
+        @totalrisky=@totalrisky+@userplanmonth[i].risky_account
+        @totalsafety=@totalsafety+@userplanmonth[i].safety_account
+      end
+      @total=@totalfluid+@totalrisky+@totalsafety
+      t = Time.new
+      @date = t.strftime("%Y")
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p4s4=>"1")
+    end
+  end
+
+  def p4_user_finance_plan_report
+    if session[:webusername]!=nil
+      @targets=User_targets.find_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @totalfluid=0
+      @totalrisky=0
+      @totalsafety=0
+      for i in 0..@userplanmonth.size-1
+        @totalfluid=@totalfluid+@userplanmonth[i].fluid_account
+        @totalrisky=@totalrisky+@userplanmonth[i].risky_account
+        @totalsafety=@totalsafety+@userplanmonth[i].safety_account
+      end
+      @total=@totalfluid+@totalrisky+@totalsafety
+      t = Time.new
+      @date = t.strftime("%Y")
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p4=>"1")
+    end
+    if @webuser!=nil
+    end
+  end
+
 end

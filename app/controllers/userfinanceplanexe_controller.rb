@@ -21,54 +21,38 @@ class UserfinanceplanexeController < ApplicationController
    @financial=Financial.all
    @assettype=Admin_asset_type.all
    if  session[:webusername]!=nil
-     @webusers=Webuser.find_by_username(session[:webusername])
-   else
-     @webusers=Webuser.find_by_username('admin')
-   end
-   if  params[:id]!=nil
-     @webuser=Webuser.find_by_id(params[:id])
-     @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-     @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
-     @record=Record.find_all_by_username(@webuser.username)
-     @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-     if @userfinancedata!=nil
-       @finance1=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
-       if @finance1!=nil
-         @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
-       end
-       @finance2=Financial.find_by_pname(@userfinancedata.safe_productid)
-       if @finance2!=nil
-         @category2=Admin_asset_type_l2.find_by_classify(@finance2.classify)
-       end
-       @finance3=Financial.find_by_pname(@userfinancedata.risk_productid)
-       if @finance3!=nil
-         @category3=Admin_asset_type_l2.find_by_classify(@finance3.classify)
-       end
-     end
-     @examination=Examination.find_by_username(@webuser.username)
-     @comments=Comments.find_all_by_pid(params[:id])
-   elsif session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
+     @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-     @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
-     @record=Record.find_all_by_username(session[:webusername])
      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+     @hash={}
      if @userfinancedata!=nil
-       @finance1=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
-       if @finance1!=nil
-         @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
+       @fluidproduct=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
+       if @fluidproduct!=nil
+         @category1=Admin_asset_type_l2.find_by_L2_typeid(101)
+         @hash.store('fluid',[@fluidproduct.productname,@category1.id,@category1.classify,1,@fluidproduct.id])
+       else
+         @hash.store('fluid',[nil,nil,nil,0,nil])
        end
-       @finance2=Financial.find_by_pname(@userfinancedata.safe_productid)
-       if @finance2!=nil
-         @category2=Admin_asset_type_l2.find_by_classify(@finance2.classify)
+       @safeproduct=Financial.find_by_pname(@userfinancedata.safe_productid)
+       if @safeproduct!=nil
+         @category2=Admin_asset_type_l2.find_by_classify(@safeproduct.classify)
+         @hash.store('safe',[@safeproduct.pname,@category2.id,@category2.classify])
+       else
+         @hash.store('safe',[nil,nil,nil])
        end
-       @finance3=Financial.find_by_pname(@userfinancedata.risk_productid)
-       if @finance3!=nil
-         @category3=Admin_asset_type_l2.find_by_classify(@finance3.classify)
+       @riskproduct1=Monetary_fund_quote.find_by_productname(@userfinancedata.risk_productid)
+       @riskproduct2=General_fund_quote.find_by_product_name(@userfinancedata.risk_productid)
+       if @riskproduct1!=nil
+         @category3=Admin_asset_type_l2.find_by_L2_typeid(101)
+         @hash.store('risk',[@riskproduct1.productname,@category3.id,@category3.classify,1,@riskproduct1.id])
+       elsif @riskproduct2!=nil
+         @category3=Admin_asset_type_l2.find_by_L2_typeid(@riskproduct2.L2_typeid)
+         @hash.store('risk',[@riskproduct2.product_name,@category3.id,@category3.classify,0,nil])
+       else
+         @hash.store('risk',[nil,nil,nil,0,nil])
        end
      end
-     @examination=Examination.find_by_username(@webuser.username)
-     @comments=Comments.find_all_by_pid(@webuser.id)
    else
      redirect_to(:controller=>"usermanagement", :action=>"login", :p5s2=>"1")
    end
