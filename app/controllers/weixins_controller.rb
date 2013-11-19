@@ -1228,7 +1228,7 @@ class WeixinsController < ApplicationController
             array5=array5-remain
         end
         arrayObj[0]=[array0.to_i,array1.to_i,array2.to_i,array3.to_i,array4.to_i,array5.to_i]
-        for i in 1..11
+        for i in 1..12
           array0=0
           array1=0
           array2=0
@@ -1266,7 +1266,7 @@ class WeixinsController < ApplicationController
         end
         @userplanmonth=User_plan_month.destroy_all(:username => @webuser.username)
 
-        for i in 0..11
+        for i in 0..12
           t = Time.new
           year = t.strftime("%Y").to_i
           month = t.strftime("%m").to_i

@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "highcharts.js" %>
 
 <style>
     #page-content .mleft {
@@ -22,15 +23,23 @@
           </div>
           <h2><span>2</span>金额：</h2>
           <div class="mleft">
-            <p class="q-text">您现在每个月有约<%= @userdatamonth.invest_expense_month %>元的储蓄，除去构建应急基金和购买高收益资产配置，我们建议您每个月进行一定金额的保本收益资产的投资。<br>具体投资金额参考右边表格</p>
+            <p class="q-text" style="text-align: center;">定期存款</p>
+            <div id="container" style="width: 100%;height: 200px;"></div>
+            <% if @userbanlance.asset_safefy_account!=nil && @userplanedbalance.asset_planed_safety_account!=nil %>
+                <% if @userbanlance.asset_safefy_account>@userplanedbalance.asset_planed_safety_account %>
+                    <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,高于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，稳健收益资产一般收益率都比较低，而且流动性比较差，我们建议您将这<%= @userbanlance.asset_safefy_account-@userplanedbalance.asset_planed_safety_account %>元赎出来，用作其他（应急流动资产、高收益资产）的投资。</p>
+                <% else %>
+                    <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,低于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，由于稳健收益资产对于家庭的重要性，我们建议您将其他（应急流动资产、高收益资产）投资中拨款到稳健收益资产中。如果拨款不够的话，您将每月从工资中抽取一部分资金进来。</p>
+                <% end %>
+            <% end %>
             <table id="oneyear" class="table table-striped table-bordered">
               <thead>
-              <tr><th></th><th>当月投资金额</th></tr>
+              <tr><th>日期</th><th>银行定期（元）</th></tr>
               </thead>
               <% @userplanmonth.each do |u| %>
                   <tr>
                     <td><%= u.date %></td>
-                    <td><%= u.safety_account %></td>
+                    <td><% if u.safety_account!=0 %>+<%= u.safety_account %><% else %>0<% end %></td>
                   </tr>
               <% end %>
             </table>
@@ -55,7 +64,7 @@
           那么，即使以像100元这样的起点，经过一定的时间以后，你也一样可以买得起买万豪宅。</p>
           <table id="oneyear" class="table table-striped table-bordered">
             <thead>
-            <tr><th></th><th>应急基金金额</th></tr>
+            <tr><th></th><th>保本收益资产</th></tr>
             </thead>
             <% for i in 0..14 %>
                 <tr>
@@ -87,3 +96,50 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
+
+<script>
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            type: 'column'
+        },
+        title: {
+            text: false
+        },
+        subtitle: {
+            text: false
+        },
+        xAxis: {
+            categories: ["现在","规划"]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '金额'
+            },
+            labels:{
+                formatter: function() {
+                    return this.value
+                }
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '{point.y} '
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            data: [<%= @userbanlance.asset_safefy_account %>,<%= @userplanedbalance.asset_planed_safety_account %>]
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+</script>

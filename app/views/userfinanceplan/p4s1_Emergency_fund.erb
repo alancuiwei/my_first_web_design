@@ -32,16 +32,35 @@
           <div class="mleft">
             <p class="q-text">我们建议您将<%= @userdatamonth.must_expense_month %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<%= @userdatamonth.must_expense_month*2 %>元，用来购买货币基金。</p>
           </div>
-          <h2><span>5</span>近一年投入资金：</h2>
+          <h2><span>5</span>投资计划：</h2>
           <div class="mleft">
-            <table id="oneyear" class="table table-striped table-bordered">
+            <div id="container2" style="width: 100%;height: 200px;"></div>
+            <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
+                <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
+                    <p class="q-text">您当前的流动性资金为<%= @userbanlance.asset_fluid_account %>元,高于理想的<%= @userplanedbalance.asset_planed_fluid_account %>元，应急资金一般收益率都比较低，我们建议您将这<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>元赎出来，用作其他（稳健收益资产、高收益资产）的投资。</p>
+                <% else %>
+                    <p class="q-text">您当前的流动性资金为<%= @userbanlance.asset_fluid_account %>元,低于理想的<%= @userplanedbalance.asset_planed_fluid_account %>元，由于应急资金对于家庭的重要性，我们建议您将其他（稳健收益资产、高收益资产）投资中拨款到应急资金中。如果拨款不够的话，您将每月从工资中抽取一部分资金进来，知道充满应急资金池。</p>
+                <% end %>
+            <% end %>
+            <table id="firstyear" class="table table-striped table-bordered">
               <thead>
-              <tr><th></th><th>当月投资金额</th></tr>
+              <tr><th>日期</th><th>现金/活期（元）</th><th>货币基金（元）</th></tr>
               </thead>
-              <% @userplanmonth.each do |u| %>
+              <% for i in 0..@userplanmonth.size-1 do %>
                 <tr>
-                  <td><%= u.date %></td>
-                  <td><%= u.fluid_account %></td>
+                  <td><%= @userplanmonth[i].date %></td>
+                  <td>
+                    <% if i==0 && @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
+                        <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
+                        -<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
+                        <% else %>
+                        0
+                        <% end %>
+                    <% else %>
+                    0
+                    <% end %>
+                  </td>
+                  <td><% if @userplanmonth[i].fluid_account!=0 %>+<%= @userplanmonth[i].fluid_account %><% else %>0<% end %></td>
                 </tr>
               <% end %>
             </table>
@@ -53,7 +72,7 @@
           <p class="q-text">15年内应急基金情况</p>
           <table id="oneyear" class="table table-striped table-bordered">
             <thead>
-            <tr><th></th><th>应急基金金额</th></tr>
+            <tr>日期<th></th><th>应急基金金额</th></tr>
             </thead>
             <% for i in 0..14 %>
                 <tr>
@@ -68,7 +87,6 @@
     </div>
   </div>
 </div>
-
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -136,5 +154,58 @@
         credits: {
             enabled: false
         }
+    });
+    $(function () {
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container2',
+                type: 'column'
+            },
+
+            title: {
+                text:false
+            },
+
+            xAxis: {
+                categories: ['现在', '规划']
+            },
+
+            yAxis: {
+                allowDecimals: false,
+                min: 0,
+                title: {
+                    text: '金额'
+                }
+            },
+
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                            this.series.name +': '+ this.y +'<br/>'
+                }
+            },
+
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
+                }
+            },
+
+            series: [{
+                name: '现金、活期存款',
+                data: [<%= @array[0] %>,<%= @array[1] %>],
+                stack: 'first'
+            }, {
+                name: '货币基金',
+                data: [<%= @array[2] %>,<%= @array[3] %>],
+                stack: 'second'
+            }]  ,
+            legend: {
+                verticalAlign: 'top'
+            },
+            credits: {
+                enabled: false
+            }
+        });
     });
 </script>
