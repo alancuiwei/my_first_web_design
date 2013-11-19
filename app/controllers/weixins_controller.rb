@@ -1097,19 +1097,72 @@ class WeixinsController < ApplicationController
         asset_firstmove_fluid_account=0
         asset_firstmove_risky_account=0
         asset_firstmove_safety_account=0
+        a=0
         if asset_safefy_account>safety || asset_fluid_account>fluid || asset_risky_account>risky
-          a=asset_firstmove_account
-          if a>safety
+          if asset_safefy_account>safety
+             a=a+asset_safefy_account-safety
+          end
+          if asset_fluid_account>fluid
+             a=a+asset_fluid_account-fluid
+          end
+          if asset_risky_account>risky
+             a=a+asset_risky_account-risky
+          end
+          if asset_fluid_account>fluid
+            asset_firstmove_fluid_account=fluid
+            if asset_safefy_account>safety
             asset_firstmove_safety_account=safety
-            a=a-safety
-            if a>fluid
-              asset_firstmove_fluid_account=fluid
-              asset_firstmove_risky_account=a-fluid
+              asset_firstmove_risky_account=asset_risky_account+a
+            elsif asset_safefy_account+a>safety
+              asset_firstmove_safety_account=safety
+              a=a+asset_safefy_account-safety
+              if asset_risky_account>risky
+                asset_firstmove_risky_account=risky+a
+              else
+                asset_firstmove_risky_account=asset_risky_account
+              end
             else
-              asset_firstmove_fluid_account=a
+              asset_firstmove_safety_account=asset_safefy_account+a
+              if asset_risky_account>risky
+                asset_firstmove_risky_account=risky
+              else
+                asset_firstmove_risky_account=asset_risky_account
+              end
+            end
+          elsif asset_fluid_account+a>fluid
+              asset_firstmove_fluid_account=fluid
+            a=a+asset_fluid_account-fluid
+            if asset_safefy_account>safety
+              asset_firstmove_safety_account=safety
+              asset_firstmove_risky_account=asset_risky_account+a
+            elsif asset_safefy_account+a>safety
+              asset_firstmove_safety_account=safety
+              a=a+asset_safefy_account-safety
+              if asset_risky_account>risky
+                asset_firstmove_risky_account=risky+a
+              else
+                asset_firstmove_risky_account=asset_risky_account
+              end
+            else
+              asset_firstmove_safety_account=asset_safefy_account+a
+              if asset_risky_account>risky
+                asset_firstmove_risky_account=risky
+              else
+                asset_firstmove_risky_account=asset_risky_account
+              end
             end
           else
-            asset_firstmove_safety_account=a
+            asset_firstmove_fluid_account=asset_fluid_account+a
+            if asset_safefy_account>safety
+              asset_firstmove_safety_account=safety
+            else
+              asset_firstmove_safety_account=asset_safefy_account
+            end
+            if asset_risky_account>risky
+              asset_firstmove_risky_account=risky
+          else
+              asset_firstmove_risky_account=asset_risky_account
+            end
           end
         else
           asset_firstmove_fluid_account=asset_fluid_account

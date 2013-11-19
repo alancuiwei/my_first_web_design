@@ -55,19 +55,19 @@ class UsermanagementController < ApplicationController
             a=0
             @fundquote=Monetary_fund_quote.find_by_product_code(@userassetsheet[i].asset_product_code)       #million_income
             if @fundquote!=nil && @fundquote.million_income!=nil
-              @hash.store(@userassetsheet[i].asset_typeid,[@fundquote.productname,@fundquote.million_income])
+              @hash.store(@userassetsheet[i].id,[@fundquote.productname,@fundquote.million_income])
               a=1
             end
             @fundquote=General_fund_quote.find_by_product_code(@userassetsheet[i].asset_product_code)
             if @fundquote!=nil && @fundquote.today_value!=nil
-              @hash.store(@userassetsheet[i].asset_typeid,[@fundquote.product_name,@fundquote.today_value])
+              @hash.store(@userassetsheet[i].id,[@fundquote.product_name,@fundquote.today_value])
               a=1
             end
             if a==0
-              @hash.store(@userassetsheet[i].asset_typeid,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
+              @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
             end
           else
-            @hash.store(@userassetsheet[i].asset_typeid,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
+            @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
           end
        end
      else

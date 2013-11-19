@@ -6,11 +6,21 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
-      @fluidaccountsum=0
-      for i in 0..@userplanmonth.size-1
-        @fluidaccountsum=@fluidaccountsum+@userplanmonth[i].fluid_account
-      end
+      @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
+      @hash={}
+      if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil
+        @hash.store(0,[@userplanedbalance.asset_planed_fluid_account])
+      else
+        @hash.store(0,[0])
+      end
+        for i in 1..14
+          if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil && @averagereturnrate!=nil && @averagereturnrate.average_return_rate!=nil
+            @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
+          else
+            @hash.store(i,[0])
+          end
+      end
       t = Time.new
       @date = t.strftime("%Y")
     else
@@ -86,19 +96,21 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
-      @safetyaccountsum=0
-      for i in 0..@userplanmonth.size-1
-        @safetyaccountsum=@safetyaccountsum+@userplanmonth[i].safety_account
-      end
-      @hash={}
-      @hash.store(0,[(1.03*@safetyaccountsum).to_i])
-      for i in 1..14
-        @hash.store(i,[(1.03*(@hash[i-1][0]+@safetyaccountsum)).to_i])
-      end
-
-      @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
+      @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
+      @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       t = Time.new
       @date = t.strftime("%Y")
+      @month = t.strftime("%m")
+      @hash={}
+      if @userfirstmove!=nil && @userfirstmove.asset_firstmove_safety_account!=nil && @userplanedbalance!=nil && @userplanedbalance.asset_planed_safety_account!=nil
+        @hash.store(0,[(1.03*(@userfirstmove.asset_firstmove_safety_account+(12-@month.to_i)*(@userplanedbalance.asset_planed_safety_account-@userfirstmove.asset_firstmove_safety_account)/12)).to_i])
+      else
+        @hash.store(0,[0])
+      end
+      for i in 1..14
+        @hash.store(i,[(1.03*(@hash[i-1][0])+(@userplanedbalance.asset_planed_safety_account-@userfirstmove.asset_firstmove_safety_account)).to_i])
+      end
+      @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p4s3=>"1")
     end

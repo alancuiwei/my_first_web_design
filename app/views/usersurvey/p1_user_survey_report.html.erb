@@ -4,6 +4,14 @@
 <%= javascript_include_tag "jquery.easy-pie-chart.js" %>
 <%= javascript_include_tag "highcharts.js" %>
 <%= javascript_include_tag "html2canvas.js" %>
+<!--
+<%= javascript_include_tag "jspdf.js" %>
+<%= javascript_include_tag "basic.js" %>
+<%= javascript_include_tag "FileSaver.js" %>
+<%= javascript_include_tag "jspdf.plugin.standard_fonts_metrics.js" %>
+<%= javascript_include_tag "jspdf.plugin.split_text_to_size.js" %>
+<%= javascript_include_tag "jspdf.plugin.from_html.js" %>
+-->
 <div id="image" class="welcomes start report">
   <%= render "side" %>
   <div id="page-content">
@@ -11,6 +19,7 @@
       <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide win" href="/usertargets/p2_usertargets">下一步：理财目标</a>
       <a id="downloadtop" class="pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
     </h1>
+<!--<a href="javascript:demoFromHTML()" class="button">生成pdf</a>-->
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">

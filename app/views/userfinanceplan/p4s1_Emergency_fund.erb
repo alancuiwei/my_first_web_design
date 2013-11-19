@@ -58,7 +58,7 @@
             <% for i in 0..14 %>
                 <tr>
                   <td><%= @date.to_i+i %></td>
-                  <td><%= (@fluidaccountsum*(1+i*@averagereturnrate.average_return_rate/100)).to_i %></td>
+                  <td><%= @hash[i][0] %></td>
                 </tr>
             <% end %>
           </table>
