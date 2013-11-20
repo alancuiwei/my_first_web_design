@@ -114,14 +114,30 @@ class UserfinanceplanController < ApplicationController
       @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
       @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
       @hash={}
+      t = Time.new
+      @date = t.strftime("%Y")
+      @month = t.strftime("%m")
       if @userfirstmove!=nil && @userfirstmove.asset_firstmove_risky_account!=nil
-        @hash.store(0,[@userfirstmove.asset_firstmove_risky_account])
+        firstyear=@userfirstmove.asset_firstmove_risky_account
+      end
+      for i in (@month.to_i+1)..12
+        @userplan=User_plan_month.find_by_username_and_date(session[:webusername],@date+'.'+i.to_s)
+        if @userplan!=nil
+          firstyear=firstyear+@userplan.risky_account
+        end
+      end
+      if @userfirstmove!=nil && @userfirstmove.asset_firstmove_risky_account!=nil
+        @hash.store(0,[(firstyear*1.1).to_i])
       else
         @hash.store(0,[0])
       end
+      capital=0
+      for i in 0..@userplanmonth.size-2
+        capital=capital+@userplanmonth[i].risky_account
+      end
       for i in 1..14
         if @userfirstmove!=nil && @userfirstmove.asset_firstmove_risky_account!=nil
-          @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
+          @hash.store(i,[(@hash[i-1][0]*1.1+capital).to_i])
         else
           @hash.store(i,[0])
         end
