@@ -224,7 +224,8 @@ class UsersurveyController < ApplicationController
         if @fundquote!=nil && @fundquote.today_value!=nil
           assetproductvalue=@fundquote.today_value*@productshare[i].to_i
         end
-
+        t = Time.new
+        @date = t.strftime("%Y-%m-%d")
         User_asset_sheet.new do |e|
           e.username=params[:username]
           e.asset_typeid=@typeid[i]
@@ -235,6 +236,9 @@ class UsersurveyController < ApplicationController
             e.asset_value=assetproductvalue
           else
             e.asset_value=@assetvalue[i]
+          end
+          if @typeid[i]=='308'
+            e.date=@date
           end
           e.save
         end
@@ -300,6 +304,10 @@ class UsersurveyController < ApplicationController
       @assettype3=Admin_asset_type.find_all_by_asset_type_L1(300);
       @assettype4=Admin_asset_type.find_all_by_asset_type_L1(400);
       @assettype=Admin_asset_type.all
+      @hash1={}
+      for i in 0..@assettype.size-1
+        @hash1.store(@assettype[i].asset_typeid.to_i,[0])
+      end
       @expensetype=Admin_expense_type_month.order("expense_id ASC").all
       @hash={}
       must_expense=0
@@ -313,9 +321,63 @@ class UsersurveyController < ApplicationController
       end
       @hash.store('must_expense',[must_expense])
       @hash.store('fun_expense',[fun_expense])
+      @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+      t = Time.new
+      @date = t.strftime("%Y-%m-%d")
+      for i in 0..@userassetsheet.size-1
+        if @userassetsheet[i].asset_typeid==308 && @userassetsheet[i].date!=nil && DateTime.parse(@date)-DateTime.parse(@userassetsheet[i].date.to_s)>=1
+          @asset=Admin_asset_type.find_by_asset_typeid("308")
+          @hash1.store(@userassetsheet[i].asset_typeid,[@asset.asset_value])
+          @userasset=User_asset_sheet.find_by_username_and_asset_typeid(@webuser.username,308)
+          @userasset.update_attributes(:asset_value=>@asset.asset_value,:asset_product_value=>@asset.asset_value)
+          @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
+          asset_account=0;
+          asset_fluid_account=0;
+          asset_safefy_account=0;
+          asset_risky_account=0;
+          @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+          for i in 0..@userassetsheet.size-1
+            value=0
+            if @userassetsheet[i].asset_product_value!=nil
+              value=@userassetsheet[i].asset_product_value
+            elsif @userassetsheet[i].asset_value!=nil
+              value=@userassetsheet[i].asset_value
+            end
+            asset_account=asset_account+value
+            @assettype0=Admin_asset_type.find_by_asset_typeid(@userassetsheet[i].asset_typeid)
+            if @assettype0!=nil
+              if @assettype0.asset_type_L1==100
+                asset_fluid_account=asset_fluid_account+value
+              elsif @assettype0.asset_type_L1==200
+                asset_safefy_account=asset_safefy_account+value
+              elsif @assettype0.asset_type_L1==300
+                asset_risky_account=asset_risky_account+value
+              end
+            end
+          end
+          net_account=asset_account-@userbalancesheet.debt_account
+
+          if @userbalancesheet==nil
+            User_balance_sheet.new do |e|
+              e.username=@webuser.username
+              e.asset_account=asset_account
+              e.debt_account=debt_account
+              e.net_account=net_account
+              e.asset_fluid_account=asset_fluid_account
+              e.asset_risky_account=asset_risky_account
+              e.asset_safefy_account=asset_safefy_account
+              e.save
+            end
+          else
+            @userbalancesheet.update_attributes(:asset_account=>asset_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
+                                                :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
+          end
+        else
+          @hash1.store(@userassetsheet[i].asset_typeid,[@hash1[@userassetsheet[i].asset_typeid][0]+@userassetsheet[i].asset_value])
+        end
+      end
       @debttype=Admin_debt_type.all
       @expensetypeannual=Admin_expense_type_annual.all
-      @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
       @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)

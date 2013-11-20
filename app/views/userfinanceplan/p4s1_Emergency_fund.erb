@@ -47,10 +47,11 @@
               <tr><th>日期</th><th>现金/活期（元）</th><th>货币基金（元）</th></tr>
               </thead>
               <% for i in 0..@userplanmonth.size-1 do %>
+                  <% if i==0 %>
                 <tr>
                   <td><%= @userplanmonth[i].date %></td>
                   <td>
-                    <% if i==0 && @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
+                          <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
                         <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
                         -<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
                         <% else %>
@@ -62,6 +63,15 @@
                   </td>
                   <td><% if @userplanmonth[i].fluid_account!=0 %>+<%= @userplanmonth[i].fluid_account %><% else %>0<% end %></td>
                 </tr>
+                  <% else %>
+                      <% if @userplanmonth[i].fluid_account!=0 %>
+                          <tr>
+                            <td><%= @userplanmonth[i].date %></td>
+                            <td>0</td>
+                            <td>+<%= @userplanmonth[i].fluid_account %></td>
+                          </tr>
+                      <% end %>
+                  <% end %>
               <% end %>
             </table>
             <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s1_Emergency_fund_selection">开 始 应 急 基 金 准 备</a>
@@ -105,6 +115,10 @@
 </div>
 
 <script>
+    $(document).ready(function(){
+
+    });
+
     var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'container',
@@ -175,6 +189,11 @@
                 min: 0,
                 title: {
                     text: '金额'
+                },
+                labels:{
+                    formatter: function() {
+                        return this.value
+                    }
                 }
             },
 

@@ -60,19 +60,19 @@
               <tbody>
               <tr><td class="grey">&nbsp;</td><td></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype1.size-1 %>
-                  <tr class="asset<%= @assettype1[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype1[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
+            <tr><td class="grey"><%= @assettype1[k].asset_typename %></td><td><%= @hash1[@assettype1[k].asset_typeid.to_i][0] %></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum1"><td class="grey right strong">流动资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_fluid_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype2.size-1 %>
-                  <tr class="asset<%= @assettype2[k].asset_typeid %>" name="asset"><td class="grey"><% if @userbalancesheet!=nil %><%= @assettype2[k].asset_typename %><% end %></td><td>0</td><td class="grey"></td><td></td></tr>
+            <tr><td class="grey"><% if @userbalancesheet!=nil %><%= @assettype2[k].asset_typename %><% end %></td><td><%= @hash1[@assettype2[k].asset_typeid.to_i][0] %></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum2"><td class="grey right strong">保本资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_safefy_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype3.size-1 %>
-                  <tr class="asset<%= @assettype3[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype3[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
+            <tr><td class="grey"><%= @assettype3[k].asset_typename %></td><td><%= @hash1[@assettype3[k].asset_typeid.to_i][0] %></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum3"><td class="grey right strong">投资资产合计</td><td class="right strong"><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_risky_account %><% end %></td><td class="grey"></td><td></td></tr>
               <% for k in 0..@assettype4.size-1 %>
-                  <tr class="asset<%= @assettype4[k].asset_typeid %>" name="asset"><td class="grey"><%= @assettype4[k].asset_typename %></td><td>0</td><td class="grey"></td><td></td></tr>
+            <tr><td class="grey"><%= @assettype4[k].asset_typename %></td><td><%= @hash1[@assettype4[k].asset_typeid.to_i][0] %></td><td class="grey"></td><td></td></tr>
               <% end %>
               <tr class="sum4">
                 <td class="grey right strong">固定资产</td>
@@ -377,14 +377,6 @@
 
     $(document).ready(function(){
         <% if session[:webusername]!=nil || params[:username]!=nil || params[:fromusername]!=nil %>
-        var asset=document.getElementsByName("asset");
-        for(i=0;i<asset.length;i++){
-           <% @userassetsheet.each do |u| %>
-            if(asset[i].className=='asset<%= u.asset_typeid %>'){
-                $("."+asset[i].className+" td:eq(1)").html(parseInt('<%= u.asset_value %>')+parseInt($("."+asset[i].className+" td:eq(1)").html()));
-            }
-           <% end %>
-        }
         <% for i in 0..@debttype.size-1 %>
         $("#asset tr:eq(<%= i+2 %>) td:eq(2)").html('<%= @debttype[i].debt_typename %>');
         $("#asset tr:eq(<%= i+2 %>) td:eq(3)").html('0');
