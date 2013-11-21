@@ -325,10 +325,10 @@
                     <td><% if f.today_value!=0 %><%= f.today_value %><% else %>--<% end %></td>
                     <td><% if f.today_rate!=0 %><%= f.today_rate %>%<% else %>--<% end %></td>
                     <td></td>
-                    <td><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.one_year_return!=nil && f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
-                    <td><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.three_year_return!=nil && f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
                     <td></td>
@@ -413,7 +413,7 @@
     $(document).ready(function(){
         var oTable2 =  $('#select').dataTable({
             "iDisplayLength": 10,
-            "aaSorting": [[ 9, "asc" ]]
+            "aaSorting": [[ 11, "asc" ]]
         });
 
         $("[class*='choose3']").click(function(){

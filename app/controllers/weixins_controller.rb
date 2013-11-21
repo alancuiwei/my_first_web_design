@@ -1192,7 +1192,7 @@ class WeixinsController < ApplicationController
         arrayObj=Array.new
         array0=0
         array1=0
-        array2=0
+        array2=asset_firstmove_risky_account-asset_risky_account
         array3=fluid-asset_firstmove_fluid_account
         array4=safety-asset_firstmove_safety_account
         array5=risky-asset_firstmove_risky_account
@@ -1222,10 +1222,6 @@ class WeixinsController < ApplicationController
             remain=remain-array3
             array3=0
           end
-        end
-        if remain>0
-            array2=remain
-            array5=array5-remain
         end
         arrayObj[0]=[array0.to_i,array1.to_i,array2.to_i,array3.to_i,array4.to_i,array5.to_i]
         for i in 1..12

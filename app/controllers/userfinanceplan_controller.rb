@@ -305,6 +305,11 @@ class UserfinanceplanController < ApplicationController
   def p4s4_invest_estimate_plan
     if session[:webusername]!=nil
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
+      @asset_account=0
+      if @userbanlance!=nil
+        @asset_account=@userbanlance.asset_fluid_account+@userbanlance.asset_risky_account+@userbanlance.asset_safefy_account
+      end
       @totalfluid=0
       @totalrisky=0
       @totalsafety=0
