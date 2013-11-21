@@ -218,11 +218,11 @@ class UsersurveyController < ApplicationController
         assetproductvalue=0
         @fundquote=Monetary_fund_quote.find_by_product_code(@productcode[i])       #million_income
         if @fundquote!=nil && @fundquote.million_income!=nil
-          assetproductvalue=@fundquote.million_income*@productshare[i].to_i
+          assetproductvalue=@fundquote.million_income*@productshare[i].to_f
         end
         @fundquote=General_fund_quote.find_by_product_code(@productcode[i])
         if @fundquote!=nil && @fundquote.today_value!=nil
-          assetproductvalue=@fundquote.today_value*@productshare[i].to_i
+          assetproductvalue=@fundquote.today_value*@productshare[i].to_f
         end
         t = Time.new
         @date = t.strftime("%Y-%m-%d")
@@ -238,7 +238,7 @@ class UsersurveyController < ApplicationController
             e.asset_value=@assetvalue[i]
           end
           if @typeid[i]=='308'
-            e.date=@date
+            e.date=@date.to_s
           end
           e.save
         end
@@ -327,9 +327,13 @@ class UsersurveyController < ApplicationController
       for i in 0..@userassetsheet.size-1
         if @userassetsheet[i].asset_typeid==308 && @userassetsheet[i].date!=nil && DateTime.parse(@date)-DateTime.parse(@userassetsheet[i].date.to_s)>=1
           @asset=Admin_asset_type.find_by_asset_typeid("308")
-          @hash1.store(@userassetsheet[i].asset_typeid,[@asset.asset_value])
           @userasset=User_asset_sheet.find_by_username_and_asset_typeid(@webuser.username,308)
-          @userasset.update_attributes(:asset_value=>@asset.asset_value,:asset_product_value=>@asset.asset_value)
+          asset_product_share=1
+          if @userassetsheet[i].asset_product_share!=nil
+            asset_product_share=@userassetsheet[i].asset_product_share
+          end
+          @userasset.update_attributes(:asset_value=>@asset.asset_value*asset_product_share,:asset_product_value=>@asset.asset_value*asset_product_share)
+          @hash1.store(@userassetsheet[i].asset_typeid,[@userasset.asset_value])
           @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
           asset_account=0;
           asset_fluid_account=0;
