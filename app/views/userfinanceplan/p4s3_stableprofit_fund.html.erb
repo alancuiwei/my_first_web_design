@@ -36,11 +36,20 @@
               <thead>
               <tr><th>日期</th><th>银行定期（元）</th></tr>
               </thead>
-              <% @userplanmonth.each do |u| %>
+              <% for i in 0..@userplanmonth.size-1 %>
+                  <% if i==0 %>
                   <tr>
-                    <td><%= u.date %></td>
-                    <td><% if u.safety_account!=0 %>+<%= u.safety_account %><% else %>0<% end %></td>
+                        <td><%= @userplanmonth[i].date %></td>
+                        <td><% if @userplanmonth[i].safety_account!=0 %>+<%= @userplanmonth[i].safety_account %><% else %>0<% end %></td>
                   </tr>
+                  <% else %>
+                      <% if @userplanmonth[i].safety_account!=0 %>
+                          <tr>
+                            <td><%= @userplanmonth[i].date %></td>
+                            <td>+<%= @userplanmonth[i].safety_account %></td>
+                          </tr>
+                      <% end %>
+                  <% end %>
               <% end %>
             </table>
           </div>

@@ -51,17 +51,31 @@
                 <tr>
                   <td><%= @userplanmonth[i].date %></td>
                   <td>
+                          0
+                        </td>
+                        <td>
+                          <% if @userplanmonth[i].fluid_account!=0 %>
+                              <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
+                                  <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
+                                      +<%= @userplanmonth[i].fluid_account+@userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
+                                  <% else %>
+                                      <%= @userplanmonth[i].fluid_account %>
+                                  <% end %>
+                              <% else %>
+                                  <%= @userplanmonth[i].fluid_account %>
+                              <% end %>
+                          <% else %>
                           <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
                         <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
-                        -<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
+                                      +<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
                         <% else %>
                         0
                         <% end %>
                     <% else %>
                     0
                     <% end %>
+                          <% end %>
                   </td>
-                  <td><% if @userplanmonth[i].fluid_account!=0 %>+<%= @userplanmonth[i].fluid_account %><% else %>0<% end %></td>
                 </tr>
                   <% else %>
                       <% if @userplanmonth[i].fluid_account!=0 %>
@@ -115,9 +129,6 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-
-    });
 
     var chart = new Highcharts.Chart({
         chart: {

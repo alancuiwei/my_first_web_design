@@ -288,9 +288,11 @@ class UsersurveyController < ApplicationController
           redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
         end
       elsif params[:fromusername]!=nil
-        @webuser=Webuser.find_by_weixincode(params[:fromusername])
+        @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:fromusername]+"%'")
         if @webuser==nil
           redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
+        else
+          @webuser=Webuser.find_by_username(@webuser[0].username)
         end
       else
         @webuser=Webuser.find_by_username(session[:webusername])
@@ -326,14 +328,17 @@ class UsersurveyController < ApplicationController
       @date = t.strftime("%Y-%m-%d")
       for i in 0..@userassetsheet.size-1
         if @userassetsheet[i].asset_typeid==308 && @userassetsheet[i].date!=nil && DateTime.parse(@date)-DateTime.parse(@userassetsheet[i].date.to_s)>=1
-          @asset=Admin_asset_type.find_by_asset_typeid("308")
           @userasset=User_asset_sheet.find_by_username_and_asset_typeid(@webuser.username,308)
+=begin
+          @asset=Admin_asset_type.find_by_asset_typeid("308")
           asset_product_share=1
           if @userassetsheet[i].asset_product_share!=nil
             asset_product_share=@userassetsheet[i].asset_product_share
           end
           @userasset.update_attributes(:asset_value=>@asset.asset_value*asset_product_share,:asset_product_value=>@asset.asset_value*asset_product_share)
+=end
           @hash1.store(@userassetsheet[i].asset_typeid,[@userasset.asset_value])
+=begin
           @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
           asset_account=0;
           asset_fluid_account=0;
@@ -359,23 +364,22 @@ class UsersurveyController < ApplicationController
               end
             end
           end
-          net_account=asset_account-@userbalancesheet.debt_account
 
           if @userbalancesheet==nil
             User_balance_sheet.new do |e|
               e.username=@webuser.username
               e.asset_account=asset_account
-              e.debt_account=debt_account
-              e.net_account=net_account
               e.asset_fluid_account=asset_fluid_account
               e.asset_risky_account=asset_risky_account
               e.asset_safefy_account=asset_safefy_account
               e.save
             end
           else
+            net_account=asset_account-@userbalancesheet.debt_account
             @userbalancesheet.update_attributes(:asset_account=>asset_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
                                                 :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
           end
+=end
         else
           @hash1.store(@userassetsheet[i].asset_typeid,[@hash1[@userassetsheet[i].asset_typeid][0]+@userassetsheet[i].asset_value])
         end

@@ -3,8 +3,9 @@ class UsermanagementController < ApplicationController
 
   def login
     if params[:weixincode]!=nil
-      @webuser=Webuser.find_by_weixincode(params[:weixincode])
+      @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:weixincode]+"%'")
       if @webuser!=nil && session[:webusername]==nil
+        @webuser=Webuser.find_by_username(@webuser[0].username)
         session[:webusername]=@webuser.username
       end
     end
@@ -44,6 +45,7 @@ class UsermanagementController < ApplicationController
        @hash1.store(@assettype[i].asset_typeid.to_i,[@assettype[i].asset_typename])
      end
      if session[:webusername]!=nil
+       @userassetdaily=User_assets_daily.find_all_by_username(session[:webusername])
        @webuser=Webuser.find_by_username(session[:webusername])
        @userfinancedata=User_finance_data.find_by_username(@webuser.username)
        @targets=User_targets.find_by_username(@webuser.username)
@@ -67,8 +69,13 @@ class UsermanagementController < ApplicationController
               @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
             end
           else
+            if @userassetsheet[i].asset_typeid==308
+              @adminassettype=Admin_asset_type.find_by_asset_typeid("308")
+              @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],@adminassettype.asset_value])
+            else
             @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
           end
+       end
        end
      else
        redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")

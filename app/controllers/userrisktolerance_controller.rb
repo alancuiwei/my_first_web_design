@@ -13,7 +13,8 @@ class UserrisktoleranceController < ApplicationController
   def p3steps
     if params[:fromusername]!=nil
       @webuser=Webuser.find_by_weixincode(params[:fromusername])
-      @userfinancedata=User_finance_data.find_by_username(params[:fromusername])
+      @webuser=Webuser.find_by_username(@webuser[0].username)
+      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       if @webuser!=nil
         session[:webusername]=@webuser.username
       end

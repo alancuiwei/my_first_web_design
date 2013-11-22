@@ -1011,11 +1011,31 @@ class AdminController < ApplicationController
     if @webuser!=nil
       if @webuser.password==encode(params[:password])
         if params[:weixincode]!=nil && params[:weixincode]!=""
-          @weixin=Webuser.find_by_weixincode(params[:weixincode])
+          @weixins=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:weixincode]+"%'")
+          @weixin=Webuser.find_by_username(@weixins[0].username)
           if @weixin!=nil
+            weixin=@weixin.weixincode.split(",")
+            if weixin.size==1
             @weixin.update_attributes(:weixincode=>nil)
+            else
+              code=""
+              for i in 0..weixin.size-1
+                if weixin[i]!=params[:weixincode]
+                  if i==0
+                     code=weixin[i]
+                  else
+                    code=code+","+weixin[i]
+                  end
+                end
           end
+              @weixin.update_attributes(:weixincode=>code)
+            end
+          end
+          if @webuser.weixincode==nil
           @webuser.update_attributes(:weixincode=>params[:weixincode])
+          else
+            @webuser.update_attributes(:weixincode=>@webuser.weixincode+","+params[:weixincode])
+          end
           session[:webusername]=@webuser.username
           render :json => "weixincode".to_json
         else

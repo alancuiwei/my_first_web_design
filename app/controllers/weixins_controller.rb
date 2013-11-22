@@ -10,7 +10,8 @@ class WeixinsController < ApplicationController
   def create
 
     if params[:username]==nil && params[:xml][:FromUserName]!=nil
-      @webuser=Webuser.find_by_weixincode(params[:xml][:FromUserName])
+      @webusers=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:xml][:FromUserName]+"%'")
+      @webuser=Webuser.find_by_username(@webusers[0].username)
     else
       @webuser=Webuser.find_by_username(session[:webusername])
     end
@@ -171,7 +172,7 @@ class WeixinsController < ApplicationController
           when "V900"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
-              if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
+              if @userfinancedata!=nil && @userfinancedata.asset_score==nil
                 @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>900)
                 render "rtn508", :formats => :xml
               elsif  @targets==nil
@@ -192,7 +193,7 @@ class WeixinsController < ApplicationController
     end
 
     if (params[:username]==nil && params[:xml][:MsgType]=="text") || session[:webusername]!=nil
-      if params[:username]==nil && params[:xml][:MsgType]=="text" && !(@webuser.segment>0) && !(@webuser.property>0)
+      if params[:username]==nil && params[:xml][:MsgType]=="text" && !(@webuser.segment>0)
         case params[:xml][:Content]
           when "100"
             if @webuser!=nil
