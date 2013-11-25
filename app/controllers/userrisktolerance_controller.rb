@@ -12,7 +12,7 @@ class UserrisktoleranceController < ApplicationController
 
   def p3steps
     if params[:fromusername]!=nil
-      @webuser=Webuser.find_by_weixincode(params[:fromusername])
+      @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:fromusername]+"%'")
       @webuser=Webuser.find_by_username(@webuser[0].username)
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       if @webuser!=nil

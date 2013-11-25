@@ -27,7 +27,7 @@
             <div id="container" style="width: 100%;height: 200px;"></div>
             <% if @userbanlance.asset_safefy_account!=nil && @userplanedbalance.asset_planed_safety_account!=nil %>
                 <% if @userbanlance.asset_safefy_account>@userplanedbalance.asset_planed_safety_account %>
-                    <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,高于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，稳健收益资产一般收益率都比较低，而且流动性比较差，我们建议您将这<%= @userbanlance.asset_safefy_account-@userplanedbalance.asset_planed_safety_account %>元赎出来，用作其他（应急流动资产、高收益资产）的投资。</p>
+                    <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,高于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，由于保本性资产特有的投资期限的问题，我们不建议您将已投入的稳定收益资产提前赎回，当然了，您也不需要再在这个类别中投资了。</p>
                 <% else %>
                     <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,低于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，由于稳健收益资产对于家庭的重要性，我们建议您将其他（应急流动资产、高收益资产）投资中拨款到稳健收益资产中。如果拨款不够的话，您将每月从工资中抽取一部分资金进来。</p>
                 <% end %>

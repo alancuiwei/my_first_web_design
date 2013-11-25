@@ -27,6 +27,84 @@ class UserfinanceplanController < ApplicationController
       else
         @hash.store(0,[0])
       end
+      @hash1={}
+      @hash2={}
+      if @array[0]>=@array[1] && @array[2]>=@array[3]
+        for i in 0..@userplanmonth.size-1
+          @hash1.store(i,[0])
+          @hash2.store(i,[0])
+        end
+      end
+      if @array[0]<@array[1] && @array[2]<@array[3]
+        xianjin=@array[1]-@array[0]
+        huobi=@array[3]-@array[2]
+        for i in 0..@userplanmonth.size-1
+           if @userplanmonth[i].fluid_account>0
+              if huobi>0
+                 if huobi>@userplanmonth[i].fluid_account
+                   @hash1.store(i,[0])
+                   @hash2.store(i,[@userplanmonth[i].fluid_account])
+                   huobi=huobi-@userplanmonth[i].fluid_account
+                 else
+                   @hash1.store(i,[@userplanmonth[i].fluid_account-huobi])
+                   @hash2.store(i,[huobi])
+                   huobi=0
+                   xianjin=xianjin-(@userplanmonth[i].fluid_account-huobi)
+                 end
+              else
+                @hash1.store(i,[@userplanmonth[i].fluid_account])
+                @hash2.store(i,[0])
+                huobi=0
+                xianjin=xianjin-@userplanmonth[i].fluid_account
+              end
+           else
+             @hash1.store(i,[0])
+             @hash2.store(i,[0])
+           end
+        end
+      end
+      if @array[0]>=@array[1] && @array[2]<@array[3]
+        xianjin=0
+        huobi=@array[3]-@array[2]
+        for i in 0..@userplanmonth.size-1
+          if @userplanmonth[i].fluid_account>0
+            if huobi>0
+              @hash1.store(i,[0])
+              @hash2.store(i,[@userplanmonth[i].fluid_account])
+              huobi=huobi-@userplanmonth[i].fluid_account
+            else
+              @hash1.store(i,[0])
+              @hash2.store(i,[0])
+              huobi=0
+            end
+          else
+            @hash1.store(i,[0])
+            @hash2.store(i,[huobi])
+            huobi=0
+          end
+        end
+      end
+      if @array[0]<@array[1] && @array[2]>=@array[3]
+        xianjin=@array[1]-@array[0]
+        huobi=0
+        for i in 0..@userplanmonth.size-1
+          if @userplanmonth[i].fluid_account>0
+            if xianjin>0
+              @hash1.store(i,[@userplanmonth[i].fluid_account])
+              @hash2.store(i,[0])
+              xianjin=xianjin-@userplanmonth[i].fluid_account
+            else
+              @hash1.store(i,[0])
+              @hash2.store(i,[0])
+              xianjin=0
+            end
+          else
+            @hash1.store(i,[xianjin])
+            @hash2.store(i,[0])
+            xianjin=0
+          end
+        end
+      end
         for i in 1..14
           if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil && @averagereturnrate!=nil && @averagereturnrate.average_return_rate!=nil
             @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
@@ -330,15 +408,11 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @targets=User_targets.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
-      @totalfluid=0
-      @totalrisky=0
-      @totalsafety=0
-      for i in 0..@userplanmonth.size-1
-        @totalfluid=@totalfluid+@userplanmonth[i].fluid_account
-        @totalrisky=@totalrisky+@userplanmonth[i].risky_account
-        @totalsafety=@totalsafety+@userplanmonth[i].safety_account
+      @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
+      @asset_account=0
+      if @userbanlance!=nil
+        @asset_account=@userbanlance.asset_fluid_account+@userbanlance.asset_risky_account+@userbanlance.asset_safefy_account
       end
-      @total=@totalfluid+@totalrisky+@totalsafety
       t = Time.new
       @date = t.strftime("%Y")
     else

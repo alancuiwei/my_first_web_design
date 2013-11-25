@@ -35,7 +35,7 @@
           <h2><span>5</span>投资计划：</h2>
           <div class="mleft">
             <div id="container2" style="width: 100%;height: 200px;"></div>
-            <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
+            <% if @userbanlance!=nil &&  @userplanedbalance!=nil && @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
                 <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
                     <p class="q-text">您当前的流动性资金为<%= @userbanlance.asset_fluid_account %>元,高于理想的<%= @userplanedbalance.asset_planed_fluid_account %>元，应急资金一般收益率都比较低，我们建议您将这<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>元赎出来，用作其他（稳健收益资产、高收益资产）的投资。</p>
                 <% else %>
@@ -47,44 +47,16 @@
               <tr><th>日期</th><th>现金/活期（元）</th><th>货币基金（元）</th></tr>
               </thead>
               <% for i in 0..@userplanmonth.size-1 do %>
-                  <% if i==0 %>
+                  <% if @hash1[i][0]>0 || @hash2[i][0]>0 %>
                 <tr>
                   <td><%= @userplanmonth[i].date %></td>
                   <td>
-                          0
+                            +<%= @hash1[i][0] %>
                         </td>
                         <td>
-                          <% if @userplanmonth[i].fluid_account!=0 %>
-                              <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
-                                  <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
-                                      +<%= @userplanmonth[i].fluid_account+@userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
-                                  <% else %>
-                                      <%= @userplanmonth[i].fluid_account %>
-                                  <% end %>
-                              <% else %>
-                                  <%= @userplanmonth[i].fluid_account %>
-                              <% end %>
-                          <% else %>
-                          <% if @userbanlance.asset_fluid_account!=nil && @userplanedbalance.asset_planed_fluid_account!=nil %>
-                        <% if @userbanlance.asset_fluid_account>@userplanedbalance.asset_planed_fluid_account %>
-                                      +<%= @userbanlance.asset_fluid_account-@userplanedbalance.asset_planed_fluid_account %>
-                        <% else %>
-                        0
-                        <% end %>
-                    <% else %>
-                    0
-                    <% end %>
-                          <% end %>
+                            +<%= @hash2[i][0] %>
                   </td>
                 </tr>
-                  <% else %>
-                      <% if @userplanmonth[i].fluid_account!=0 %>
-                          <tr>
-                            <td><%= @userplanmonth[i].date %></td>
-                            <td>0</td>
-                            <td>+<%= @userplanmonth[i].fluid_account %></td>
-                          </tr>
-                      <% end %>
                   <% end %>
               <% end %>
             </table>
@@ -96,7 +68,7 @@
           <p class="q-text">15年内应急基金情况</p>
           <table id="oneyear" class="table table-striped table-bordered">
             <thead>
-            <tr>日期<th></th><th>应急基金金额</th></tr>
+            <tr><th>日期</th><th>应急基金金额</th></tr>
             </thead>
             <% for i in 0..14 %>
                 <tr>

@@ -8,7 +8,7 @@ class WeixinsController < ApplicationController
   end
 
   def create
-
+    @min=0;@max=0;
     if params[:username]==nil && params[:xml][:FromUserName]!=nil
       @webusers=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:xml][:FromUserName]+"%'")
       @webuser=Webuser.find_by_username(@webusers[0].username)
@@ -142,7 +142,7 @@ class WeixinsController < ApplicationController
               render "rtn110", :formats => :xml
             end
           when "V800"
-            if @webuser!=nil && @webuser.property>=805 && @webuser.property<=811
+            if @webuser!=nil && @webuser.property!=nil && @webuser.property>=805 && @webuser.property<=811
               @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
               @liudong=0
               @guding=0
@@ -195,44 +195,44 @@ class WeixinsController < ApplicationController
     if (params[:username]==nil && params[:xml][:MsgType]=="text") || session[:webusername]!=nil
       if params[:username]==nil && params[:xml][:MsgType]=="text" && !(@webuser.segment>0)
         case params[:xml][:Content]
-          when "100"
+          when "t100"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn100", :formats => :xml
-          when "101"
+          when "t101"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn101", :formats => :xml
-          when "200"
+          when "t200"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn200", :formats => :xml
-          when "202"
+          when "t202"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn202", :formats => :xml
-          when "203"
+          when "t203"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn203", :formats => :xml
-          when "204"
+          when "t204"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn204", :formats => :xml
 
-          when "300"
+          when "t300"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn300", :formats => :xml
 
-          when "601"
+          when "t601"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
               if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
@@ -243,7 +243,7 @@ class WeixinsController < ApplicationController
             else
               render "rtn411", :formats => :xml
             end
-          when "602"
+          when "t602"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
               @webuser.update_attributes(:segment=>0,:targets=>0)
@@ -255,7 +255,7 @@ class WeixinsController < ApplicationController
             else
               render "rtn602", :formats => :xml
             end
-          when "603"
+          when "t603"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
               if @userfinancedata==nil || @userfinancedata.risk_score!=nil
@@ -1100,9 +1100,6 @@ class WeixinsController < ApplicationController
         asset_firstmove_safety_account=0
         a=0
         if asset_safefy_account>safety || asset_fluid_account>fluid || asset_risky_account>risky
-          if asset_safefy_account>safety
-             a=a+asset_safefy_account-safety
-          end
           if asset_fluid_account>fluid
              a=a+asset_fluid_account-fluid
           end
@@ -1112,7 +1109,7 @@ class WeixinsController < ApplicationController
           if asset_fluid_account>fluid
             asset_firstmove_fluid_account=fluid
             if asset_safefy_account>safety
-            asset_firstmove_safety_account=safety
+              asset_firstmove_safety_account=asset_safefy_account
               asset_firstmove_risky_account=asset_risky_account+a
             elsif asset_safefy_account+a>safety
               asset_firstmove_safety_account=safety
@@ -1131,10 +1128,10 @@ class WeixinsController < ApplicationController
               end
             end
           elsif asset_fluid_account+a>fluid
-              asset_firstmove_fluid_account=fluid
+            asset_firstmove_fluid_account=fluid
             a=a+asset_fluid_account-fluid
             if asset_safefy_account>safety
-              asset_firstmove_safety_account=safety
+              asset_firstmove_safety_account=asset_firstmove_safety_account
               asset_firstmove_risky_account=asset_risky_account+a
             elsif asset_safefy_account+a>safety
               asset_firstmove_safety_account=safety
@@ -1154,14 +1151,10 @@ class WeixinsController < ApplicationController
             end
           else
             asset_firstmove_fluid_account=asset_fluid_account+a
-            if asset_safefy_account>safety
-              asset_firstmove_safety_account=safety
-            else
               asset_firstmove_safety_account=asset_safefy_account
-            end
             if asset_risky_account>risky
               asset_firstmove_risky_account=risky
-          else
+            else
               asset_firstmove_risky_account=asset_risky_account
             end
           end
@@ -1216,8 +1209,8 @@ class WeixinsController < ApplicationController
         if remain>0 && array3>0
           if array3>remain
             array0=remain
-            remain=0
             array3=array3-remain
+            remain=0
           else
             array0=array3
             remain=remain-array3
@@ -1247,8 +1240,8 @@ class WeixinsController < ApplicationController
           if remain>0 && array3>0
             if array3>remain
               array0=remain
-              remain=0
               array3=array3-remain
+              remain=0
             else
               array0=array3
               remain=remain-array3
@@ -2260,7 +2253,7 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             if content=="Y" || content=="y"
               @category=Admin_asset_type_l2.all
-              if @userfinancedata==nil
+              if @userfinancedata!=nil
               if @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2
                 @min=1;@max=2;
               elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4

@@ -15,7 +15,7 @@
       <div class="row-fluid">
         <div class="span6">
           <div class="mleft">
-            <% if @total*@targets.user_target_period>=@targets.user_target_value %>
+            <% if @asset_account*@targets.user_target_period>=@targets.user_target_value*10000 %>
                 <p class="q-text">恭喜您，按照您现在的资产配置，您应该可以在这个时间段内实现您的理财目标。</p>
             <% else %>
                 <p class="q-text">很遗憾，根据您现在的资产配置，您很难在这个时间段内实现您的理财目标。<br>您有如下选择：</p>
@@ -53,7 +53,7 @@
         var dataarray1=new Array();
         <% for k in 0..@targets.user_target_period-1 %>
         dataarray.push(<%= @date.to_i+k+1 %>);
-        dataarray1.push(<%= @total*(k+1) %>);
+        dataarray1.push(<%= @asset_account*(k+1) %>);
         <% end %>
         var chart = new Highcharts.Chart({
             chart: {
