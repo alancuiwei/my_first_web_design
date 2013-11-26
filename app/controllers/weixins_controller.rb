@@ -10,11 +10,16 @@ class WeixinsController < ApplicationController
   def create
     @min=0;@max=0;
     if params[:username]==nil && params[:xml][:FromUserName]!=nil
-      @webusers=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:xml][:FromUserName]+"%'")
-      @webuser=Webuser.find_by_username(@webusers[0].username)
+      @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:xml][:FromUserName]+"%'")
+      if @webuser.size>0
+        @webuser=Webuser.find_by_username(@webuser[0].username)
+      else
+        @webuser=nil
+      end
     else
       @webuser=Webuser.find_by_username(session[:webusername])
     end
+
     if @webuser!=nil
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
@@ -55,7 +60,7 @@ class WeixinsController < ApplicationController
             end
             render "rtn101", :formats => :xml
           when "V110"
-            if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
+            if @webuser!=nil && @userfinancedata!=nil && @userfinancedata.asset_score!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>110)
               render "rtn413", :formats => :xml
             elsif @webuser!=nil
@@ -550,6 +555,16 @@ class WeixinsController < ApplicationController
         @userdatamonth=Userdata_month.find_by_username(@webuser.username)
         if @userdatamonth!=nil
           invest_expense_month=@userdatamonth.salary_month+@userdatamonth.extra_income_month-must_expense-fun_expense
+        end
+        @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
+        debt_month=0
+        for i in 0..@userdebtsheet.size-1
+          debt_month=debt_month+@userdebtsheet[i].debt_value_monthly
+        end
+        @incomemonth=Userdata_detailedincome_month.find_all_by_username(@webuser.username)
+        @expensemonth=Userdata_detailedexpense_month.find_all_by_username(@webuser.username)
+        if @incomemonth!=nil && @expensemonth!=nil
+          invest_expense_month=invest_expense_month-debt_month
         end
         if invest_expense_month<0
           invest_expense_month=0
@@ -1117,7 +1132,7 @@ class WeixinsController < ApplicationController
               if asset_risky_account>risky
                 asset_firstmove_risky_account=risky+a
               else
-                asset_firstmove_risky_account=asset_risky_account
+                asset_firstmove_risky_account=asset_risky_account+a
               end
             else
               asset_firstmove_safety_account=asset_safefy_account+a
@@ -1139,7 +1154,7 @@ class WeixinsController < ApplicationController
               if asset_risky_account>risky
                 asset_firstmove_risky_account=risky+a
               else
-                asset_firstmove_risky_account=asset_risky_account
+                asset_firstmove_risky_account=asset_risky_account+a
               end
             else
               asset_firstmove_safety_account=asset_safefy_account+a
@@ -1186,36 +1201,22 @@ class WeixinsController < ApplicationController
         arrayObj=Array.new
         array0=0
         array1=0
-        array2=asset_firstmove_risky_account-asset_risky_account
+        array2=0
+        if asset_firstmove_fluid_account >  asset_fluid_account
+          array0=asset_firstmove_fluid_account-asset_fluid_account
+        end
+        if asset_firstmove_safety_account >  asset_safefy_account
+          array1=asset_firstmove_safety_account-asset_safefy_account
+        end
+        if asset_firstmove_risky_account >  asset_risky_account
+          array2=asset_firstmove_risky_account-asset_risky_account
+        end
         array3=fluid-asset_firstmove_fluid_account
         array4=safety-asset_firstmove_safety_account
         array5=risky-asset_firstmove_risky_account
         averagesafety=0
         if array4>0
           averagesafety=array4.to_f/12
-        end
-        remain=invest_expense_month
-        if remain>0 && array4>0
-           if averagesafety>remain
-             array1=remain
-             remain=0
-             array4=array4-remain
-           else
-             array1=averagesafety
-             remain=remain-averagesafety
-             array4=array4-averagesafety
-           end
-        end
-        if remain>0 && array3>0
-          if array3>remain
-            array0=remain
-            array3=array3-remain
-            remain=0
-          else
-            array0=array3
-            remain=remain-array3
-            array3=0
-          end
         end
         arrayObj[0]=[array0.to_i,array1.to_i,array2.to_i,array3.to_i,array4.to_i,array5.to_i]
         for i in 1..12

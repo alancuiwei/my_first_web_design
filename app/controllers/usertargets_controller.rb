@@ -55,7 +55,13 @@ class UsertargetsController < ApplicationController
 
     @month=0
     @userdatamonth=Userdata_month.find_by_username(@webuser.username)
+
+    @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
+    @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
     if @userdatamonth!=nil
+      if @incomemonth!=nil && @expensemonth!=nil
+        @month=@userdatamonth.invest_expense_month
+      else
       if @userdatamonth.debt_month!=nil
         @month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
       else
@@ -63,5 +69,6 @@ class UsertargetsController < ApplicationController
       end
     end
   end
+end
 end
 end

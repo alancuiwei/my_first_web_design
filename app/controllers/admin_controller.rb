@@ -1012,7 +1012,11 @@ class AdminController < ApplicationController
       if @webuser.password==encode(params[:password])
         if params[:weixincode]!=nil && params[:weixincode]!=""
           @weixins=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:weixincode]+"%'")
+          if @weixins.size>0
           @weixin=Webuser.find_by_username(@weixins[0].username)
+          else
+          @weixin=nil
+          end
           if @weixin!=nil
             weixin=@weixin.weixincode.split(",")
             if weixin.size==1

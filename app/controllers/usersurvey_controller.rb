@@ -120,6 +120,12 @@ class UsersurveyController < ApplicationController
       end
     end
     invest_expense_month=income+extra-must_expense-fun_expense
+    @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+    debt_month=0
+    for i in 0..@userdebtsheet.size-1
+      debt_month=debt_month+@userdebtsheet[i].debt_value_monthly
+    end
+    invest_expense_month=invest_expense_month-debt_month
     if invest_expense_month<0
       invest_expense_month=0
     end
@@ -289,10 +295,10 @@ class UsersurveyController < ApplicationController
         end
       elsif params[:fromusername]!=nil
         @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:fromusername]+"%'")
-        if @webuser==nil
-          redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
-        else
+        if @webuser.size>0
           @webuser=Webuser.find_by_username(@webuser[0].username)
+        else
+          redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
         end
       else
         @webuser=Webuser.find_by_username(session[:webusername])
@@ -482,12 +488,18 @@ class UsersurveyController < ApplicationController
 
     month=0
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+    @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
+    @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
     if @userdatamonth!=nil
+      if @incomemonth!=nil && @expensemonth!=nil
+        month=@userdatamonth.invest_expense_month
+      else
       if @userdatamonth.debt_month!=nil
         month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
       else
         month=@userdatamonth.invest_expense_month
       end
+    end
     end
     @hash.store('length',[@targets.size,annual,month,income])
     render :json => @hash.to_json

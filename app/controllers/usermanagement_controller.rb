@@ -4,9 +4,11 @@ class UsermanagementController < ApplicationController
   def login
     if params[:weixincode]!=nil
       @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:weixincode]+"%'")
-      if @webuser!=nil && session[:webusername]==nil
+      if @webuser.size>0 && session[:webusername]==nil
         @webuser=Webuser.find_by_username(@webuser[0].username)
         session[:webusername]=@webuser.username
+      else
+        @webuser=nil
       end
     end
   end
