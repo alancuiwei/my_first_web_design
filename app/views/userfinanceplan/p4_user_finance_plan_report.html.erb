@@ -10,12 +10,17 @@
 <div class="welcomes">
   <%= render "side" %>
   <div id="page-content">
-    <h1>理财目标实现</h1>
+    <h1>理财目标实现
+      <a class="btn btn-primary btn-large pull-right" style="margin-bottom: 10px;" href="/userfinanceplanexe/p5s2_salary_allocate_month">下一步：理财规划执行</a>
+    </h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span6">
           <div class="mleft">
-            <% if @asset_account*@targets.user_target_period>=@targets.user_target_value*10000 %>
+            <% if @targets!=nil %>
+                <p class="q-text">您的理财目标是在<%= @targets.user_target_period %>年内，积蓄<%= (@targets.user_target_value*10000).to_i %>元，用来实现您的<%= @targets.user_target %>计划。</p>
+            <% end %>
+            <% if @targets!=nil && @asset_account*@targets.user_target_period>=@targets.user_target_value*10000 %>
                 <p class="q-text">恭喜您，按照您现在的资产配置，您应该可以在这个时间段内实现您的理财目标。</p>
             <% else %>
                 <p class="q-text">很遗憾，根据您现在的资产配置，您很难在这个时间段内实现您的理财目标。<br>您有如下选择：</p>
@@ -44,6 +49,8 @@
         </div>
       </div>
     </div>
+    <h1></h1>
+    <a class="btn btn-primary btn-large pull-right" style="margin-right: 20px;" href="/userfinanceplanexe/p5s2_salary_allocate_month">下一步：理财规划执行</a>
   </div>
 </div>
 

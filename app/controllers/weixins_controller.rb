@@ -1084,9 +1084,16 @@ class WeixinsController < ApplicationController
                                               :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
         end
         asset_planed_account=asset_fluid_account+asset_risky_account+asset_safefy_account+net_annual
+        if asset_planed_account<0
+          asset_planed_account=0
+        end
         fluid=@userdatamonth.must_expense_month*3
         risky=(asset_planed_account*(80-@webuser.age)/100).to_i
         safety=asset_planed_account-fluid-risky
+        if safety<0
+          safety=0
+        end
+=begin
         if fluid>asset_planed_account
           fluid=asset_planed_account
           risky=0
@@ -1095,6 +1102,7 @@ class WeixinsController < ApplicationController
           risky=asset_planed_account-fluid
           safety=0
         end
+=end
         @userplaned=User_planed_balance_sheets.find_by_username(@webuser.username)
         if @userplaned==nil
           User_planed_balance_sheets.new do |e|
@@ -1285,7 +1293,11 @@ class WeixinsController < ApplicationController
         else
           asset_score=0;
         end
-
+        if asset_score<0
+          asset_score=0
+        elsif asset_score>100
+          asset_score=100
+        end
         if net_account<0 && net_month<0 && (net_account<-2000 || net_month<-200)
           level=1
         elsif net_account>=0 && net_month<0 && (net_account>=2000 || net_month<-200)

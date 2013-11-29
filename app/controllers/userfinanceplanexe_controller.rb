@@ -20,10 +20,11 @@ class UserfinanceplanexeController < ApplicationController
  def p5s2_salary_allocate_month
    @financial=Financial.all
    @assettype=Admin_asset_type.all
-   if  session[:webusername]!=nil
+   if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
+     @record=Record.find_all_by_username(session[:webusername])
      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
      @hash={}
      if @userfinancedata!=nil

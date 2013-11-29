@@ -154,7 +154,7 @@ class UsersurveyController < ApplicationController
       @incometypeannual=Admin_income_type_annual.all
       @expensetypeannual=Admin_expense_type_annual.all
       @incomeannual=Userdata_detailedincome_annual.find_all_by_username(session[:webusername])
-      @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(session[:webusername])
+      #@expenseannual=Userdata_detailedexpense_annual.find_all_by_username(session[:webusername])
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -307,6 +307,7 @@ class UsersurveyController < ApplicationController
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @moonlite=Admin_moonlite_type.all
       @blog=Blog.find_by_id(401)
+      @blog2=Blog.find_by_id(403)
       @assettype1=Admin_asset_type.find_all_by_asset_type_L1(100);
       @assettype2=Admin_asset_type.find_all_by_asset_type_L1(200);
       @assettype3=Admin_asset_type.find_all_by_asset_type_L1(300);
@@ -494,12 +495,12 @@ class UsersurveyController < ApplicationController
       if @incomemonth!=nil && @expensemonth!=nil
         month=@userdatamonth.invest_expense_month
       else
-      if @userdatamonth.debt_month!=nil
-        month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
-      else
-        month=@userdatamonth.invest_expense_month
+        if @userdatamonth.debt_month!=nil
+          month=@userdatamonth.invest_expense_month-@userdatamonth.debt_month
+        else
+          month=@userdatamonth.invest_expense_month
+        end
       end
-    end
     end
     @hash.store('length',[@targets.size,annual,month,income])
     render :json => @hash.to_json

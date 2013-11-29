@@ -105,12 +105,12 @@ class UserfinanceplanController < ApplicationController
           end
         end
       end
-        for i in 1..14
-          if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil && @averagereturnrate!=nil && @averagereturnrate.average_return_rate!=nil
-            @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
-          else
-            @hash.store(i,[0])
-          end
+      for i in 1..14
+        if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil && @averagereturnrate!=nil && @averagereturnrate.average_return_rate!=nil
+          @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
+        else
+          @hash.store(i,[0])
+        end
       end
       t = Time.new
       @date = t.strftime("%Y")
@@ -244,7 +244,7 @@ class UserfinanceplanController < ApplicationController
     @hash2={}
     @category=Admin_asset_type_l2.all
     for i in 0..@category.size-1
-      loss1='--';loss2='--';loss3='--';max1='--';max2='--';max3='--';
+      loss1='--';loss2='--';loss3='--';max1='--';max2='--';max3='--';avg1='--';avg2='--';avg3='--';
       @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,1)
       if @loss!=nil
         loss1=@loss.probability.round(3)
@@ -269,7 +269,20 @@ class UserfinanceplanController < ApplicationController
       if @max!=nil
         max3=@max.returnrate
       end
-      @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss2,loss3,max1,max2,max3])
+      @ave=Average_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,1)
+      if @ave!=nil
+        avg1=@ave.average_return_rate.round(2)
+      end
+      @ave=Average_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,2)
+      if @ave!=nil
+        avg2=@ave.average_return_rate.round(2)
+      end
+      @ave=Average_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,3)
+      if @ave!=nil
+        avg3=@ave.average_return_rate.round(2)
+      end
+
+      @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss2,loss3,max1,max2,max3,avg1,avg2,avg3])
       @hash.store(i,[@category[i].id,@category[i].classify])
     end
     @fundproduct=Monetary_fund_product.all
@@ -367,12 +380,20 @@ class UserfinanceplanController < ApplicationController
       @month = t.strftime("%m")
       @hash={}
       if @userfirstmove!=nil && @userfirstmove.asset_firstmove_safety_account!=nil && @userplanedbalance!=nil && @userplanedbalance.asset_planed_safety_account!=nil
+       if @userplanedbalance.asset_planed_safety_account>@userfirstmove.asset_firstmove_safety_account
         @hash.store(0,[(1.03*(@userfirstmove.asset_firstmove_safety_account+(12-@month.to_i)*(@userplanedbalance.asset_planed_safety_account-@userfirstmove.asset_firstmove_safety_account)/12)).to_i])
+       else
+         @hash.store(0,[(1.03*@userfirstmove.asset_firstmove_safety_account).to_i])
+       end
       else
         @hash.store(0,[0])
       end
       for i in 1..14
-        @hash.store(i,[(1.03*(@hash[i-1][0])+(@userplanedbalance.asset_planed_safety_account-@userfirstmove.asset_firstmove_safety_account)).to_i])
+        if @userfirstmove!=nil && @userfirstmove.asset_firstmove_safety_account!=nil && @userplanedbalance!=nil && @userplanedbalance.asset_planed_safety_account!=nil && @userplanedbalance.asset_planed_safety_account>@userfirstmove.asset_firstmove_safety_account
+          @hash.store(i,[(1.03*(@hash[i-1][0])+(@userplanedbalance.asset_planed_safety_account-@userfirstmove.asset_firstmove_safety_account)).to_i])
+        else
+          @hash.store(i,[(1.03*@hash[i-1][0]).to_i])
+        end
       end
       @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
     else
@@ -396,9 +417,112 @@ class UserfinanceplanController < ApplicationController
         @totalrisky=@totalrisky+@userplanmonth[i].risky_account
         @totalsafety=@totalsafety+@userplanmonth[i].safety_account
       end
-      @total=@totalfluid+@totalrisky+@totalsafety
+     # @total=@totalfluid+@totalrisky+@totalsafety
       t = Time.new
       @date = t.strftime("%Y")
+
+      @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+      @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
+      @array=[0,0,0,0]
+      for i in 0..@userassetsheet.size-1
+        if @userassetsheet[i].asset_typeid==101
+          @array[0]=@array[0]+@userassetsheet[i].asset_value
+        end
+        if @userassetsheet[i].asset_typeid==102
+          @array[2]=@array[2]+@userassetsheet[i].asset_value
+        end
+      end
+      @hash={}
+      if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil
+        @array[1]=@userplanedbalance.asset_planed_fluid_account/3
+        @array[3]=@userplanedbalance.asset_planed_fluid_account*2/3
+        @hash.store(0,[@userplanedbalance.asset_planed_fluid_account])
+      else
+        @hash.store(0,[0])
+      end
+      @hash1={}
+      @hash2={}
+      if @array[0]>=@array[1] && @array[2]>=@array[3]
+        for i in 0..@userplanmonth.size-1
+          @hash1.store(i,[0])
+          @hash2.store(i,[0])
+        end
+      end
+      if @array[0]<@array[1] && @array[2]<@array[3]
+        xianjin=@array[1]-@array[0]
+        huobi=@array[3]-@array[2]
+        for i in 0..@userplanmonth.size-1
+          if @userplanmonth[i].fluid_account>0
+            if huobi>0
+              if huobi>@userplanmonth[i].fluid_account
+                @hash1.store(i,[0])
+                @hash2.store(i,[@userplanmonth[i].fluid_account])
+                huobi=huobi-@userplanmonth[i].fluid_account
+              else
+                @hash1.store(i,[@userplanmonth[i].fluid_account-huobi])
+                @hash2.store(i,[huobi])
+                huobi=0
+                xianjin=xianjin-(@userplanmonth[i].fluid_account-huobi)
+              end
+            else
+              @hash1.store(i,[@userplanmonth[i].fluid_account])
+              @hash2.store(i,[0])
+              huobi=0
+              xianjin=xianjin-@userplanmonth[i].fluid_account
+            end
+          else
+            @hash1.store(i,[0])
+            @hash2.store(i,[0])
+          end
+        end
+      end
+      if @array[0]>=@array[1] && @array[2]<@array[3]
+        xianjin=0
+        huobi=@array[3]-@array[2]
+        for i in 0..@userplanmonth.size-1
+          if @userplanmonth[i].fluid_account>0
+            if huobi>0
+              @hash1.store(i,[0])
+              @hash2.store(i,[@userplanmonth[i].fluid_account])
+              huobi=huobi-@userplanmonth[i].fluid_account
+            else
+              @hash1.store(i,[0])
+              @hash2.store(i,[0])
+              huobi=0
+            end
+          else
+            @hash1.store(i,[0])
+            @hash2.store(i,[huobi])
+            huobi=0
+          end
+        end
+      end
+      if @array[0]<@array[1] && @array[2]>=@array[3]
+        xianjin=@array[1]-@array[0]
+        huobi=0
+        for i in 0..@userplanmonth.size-1
+          if @userplanmonth[i].fluid_account>0
+            if xianjin>0
+              @hash1.store(i,[@userplanmonth[i].fluid_account])
+              @hash2.store(i,[0])
+              xianjin=xianjin-@userplanmonth[i].fluid_account
+            else
+              @hash1.store(i,[0])
+              @hash2.store(i,[0])
+              xianjin=0
+            end
+          else
+            @hash1.store(i,[xianjin])
+            @hash2.store(i,[0])
+            xianjin=0
+          end
+        end
+      end
+      @totalhuobi=0
+      for i in 0..@userplanmonth.size-1
+        @totalhuobi=@totalhuobi+@hash2[i][0]
+      end
+      @total=@totalhuobi+@totalrisky+@totalsafety
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p4s4=>"1")
     end

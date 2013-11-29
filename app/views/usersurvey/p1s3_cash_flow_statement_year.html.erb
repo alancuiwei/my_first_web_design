@@ -27,18 +27,6 @@
                 </div>
               </div>
              <% end %>
-              <p class="q-text">年度开销主要是指年计划开销，例如每年旅游费用，每年保险费用等。</p>
-              <% @expensetypeannual.each do |e| %>
-                  <div class="control-group">
-                    <label class="q-text control-label"><%= e.expense_name %></label>
-                    <div class="controls">
-                      <div class="input-prepend">
-                        <span class="add-on">￥</span>
-                        <input id="expense<%= e.expense_id %>" name="expenseannual" type="text" onkeyup="next(1,this)" class="<%= e.expense_id %>">
-                      </div>
-                    </div>
-                  </div>
-              <% end %>
             </form>
           </div>
         </div>
@@ -60,10 +48,6 @@
         $("#income<%= @incomeannual[i].income_type %>").attr("value",'<%= @incomeannual[i].income_value %>');
         <% end %>
 
-        <% for i in 0..@expenseannual.size-1 %>
-        $("#expense<%= @expenseannual[i].expense_type %>").attr("value",'<%= @expenseannual[i].expense_value %>');
-        <% end %>
-
         next(0,0);
         <% end %>
     });
@@ -81,13 +65,6 @@
         var incomeannual=document.getElementsByName('incomeannual');
         for(i=0;i<incomeannual.length;i++){
             if(numfor.test(incomeannual[i].value)==false){
-                isright=0;
-                break;
-            }
-        }
-        var expenseannual=document.getElementsByName('expenseannual');
-        for(i=0;i<expenseannual.length;i++){
-            if(numfor.test(expenseannual[i].value)==false){
                 isright=0;
                 break;
             }
@@ -120,7 +97,6 @@
 
     function save(e){
         var incomeannual=document.getElementsByName('incomeannual');
-        var expenseannual=document.getElementsByName('expenseannual');
         var incometype='',incomevalue='';
         for(i=0;i<incomeannual.length;i++){
             if(incometype==''){
@@ -133,16 +109,16 @@
             }
         }
         var expensetype='',expensevalue='';
-        for(i=0;i<expenseannual.length;i++){
-            if(expensetype==''){
-                expensetype=parseInt(expenseannual[i].className).toString();
-                expensevalue=expenseannual[i].value.replace(/,/g, "");
-            }
-            else{
-                expensetype=expensetype+','+parseInt(expenseannual[i].className).toString();
-                expensevalue=expensevalue+','+expenseannual[i].value.replace(/,/g, "");
-            }
+    <% @expensetypeannual.each do |e| %>
+        if(expensetype==''){
+            expensetype="<%= e.expense_id %>";
+            expensevalue='0';
         }
+        else{
+            expensetype=expensetype+','+"<%= e.expense_id %>";
+            expensevalue=expensevalue+',0';
+        }
+    <% end %>
         $.post("/usersurvey/p1s3_cash_flow_statement_year_save",{username:'<%= session[:webusername] %>',income_type:incometype,income_value:incomevalue,expense_type:expensetype,expense_value:expensevalue},function(data){
             location.href=e;
         });
