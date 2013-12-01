@@ -34,20 +34,20 @@
             <th>选择</th>
           </tr>
           </thead>
-          <% @fundproduct.each do |f| %>
+          <% @monetary.each do |f| %>
               <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                 <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
-                <td><% if @hash5[f.product_code][1]!=0 %><%= @hash5[f.product_code][1] %><% else %>--<% end %></td>
-                <td><% if @hash5[f.product_code][2]!=0 %><%= @hash5[f.product_code][2] %>%<% else %>--<% end %></td>
-                <td><% if f.min_purchase_account!=nil %><%= f.min_purchase_account %><% else %>0<% end %></td>
-                <td><% if f.fund_size!=nil %><%= f.fund_size %><% else %>0<% end %></td>
-                <td><% if f.create_date!=nil %><%= f.create_date %><% else %>--<% end %></td>
-                <td class="hide"><% if @hash5[f.product_code][9]!=nil %><%= @hash5[f.product_code][9].to_s.split("/")[0] %><% end %></td>
-                <td class="red"><% if @hash5[f.product_code][3]!=0 %><%= @hash5[f.product_code][3] %>%<% else %>--<% end %></td>
-                <td class="red"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6] %><% else %>--<% end %></td>
-                <td class="hide"><% if @hash5[f.product_code][6]!=nil %><%= @hash5[f.product_code][6].split("/")[0] %><% else %>1000<% end %></td>
-                <td class="hide"><% if @hash5[f.product_code][7]!=nil %><%= @hash5[f.product_code][7].split("/")[0] %><% else %>--<% end %></td>
-                <td class="hide"><% if @hash5[f.product_code][8]!=nil %><%= @hash5[f.product_code][8].split("/")[0] %><% else %>--<% end %></td>
+                <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
+                <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
+                <td><% if @hash[f.product_code][0]!=nil %><%= @hash[f.product_code][0] %><% else %>0<% end %></td>
+                <td><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
+                <td><% if @hash[f.product_code][2]!=nil %><%= @hash[f.product_code][2] %><% else %>--<% end %></td>
+                <td class="hide"><% if @hash[f.product_code][3]!=nil %><%= @hash[f.product_code][3].to_s.split("/")[0] %><% end %></td>
+                <td class="red"><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                <td class="red"><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>1000<% end %></td>
+                <td class="hide"><% if f.two_year_rank!=nil %><%= f.two_year_rank.split("/")[0] %><% else %>--<% end %></td>
+                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>--<% end %></td>
                 <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>">选择</a></td>
               </tr>
           <% end %>
@@ -121,7 +121,7 @@
     var grey=0;
     function choose(uid){
         grey=uid;
-    <% @fundproduct.each do |f| %>
+    <% @monetary.each do |f| %>
         if(uid=='<%= f.id %>'){
             $.post("/userfinanceplan/savefluid",{ username:"<%= session[:webusername] %>",fluid_productid: '<%= f.productname %>'
             },function(data){
@@ -134,7 +134,7 @@
     }
 
     $(document).ready(function(){
-        $("#update").html("<% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %>");
+        $("#update").html("<% if @monetary!=nil %>日期：<%= @monetary[0].date %><% end %>");
         var oTable =  $('#liudong').dataTable({
             "iDisplayLength": 10,
             "aaSorting": [[ 9, "asc" ]]

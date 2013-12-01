@@ -1,9 +1,8 @@
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
 
 <style>
-    #result td,#result th{
-        width: 20%;
-    }
+    #result td,#result th{width: 20%;}
+    #assetaccount td,#assetaccount th{width: 25%;}
 </style>
 
 <div class="welcomes">
@@ -42,17 +41,21 @@
         </tr>
       </table>
       <h2><span>2</span>15年家庭资产增值预估：</h2>
-      <table class="table table-striped table-bordered">
+      <table id="assetaccount" class="table table-striped table-bordered" style="width: 80%;">
         <thead>
         <tr>
-          <th style="width: 50%;">日期</th>
-          <th>您的家庭资产</th>
+          <th>日期</th>
+          <th>投资资产总值</th>
+          <th>固定资产总值</th>
+          <th>家庭资产总值</th>
         </tr>
         </thead>
         <% for i in 0..14 %>
             <tr>
               <td><%= @date.to_i+i+1 %></td>
               <td><%= @asset_account*(i+1) %></td>
+              <td><%= @asset_fixed_account %></td>
+              <td><%= @asset_account*(i+1)+@asset_fixed_account %></td>
             </tr>
         <% end %>
       </table>

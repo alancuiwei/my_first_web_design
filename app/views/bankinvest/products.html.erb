@@ -62,7 +62,7 @@
           </thead>
           <% @monetary.each do |f| %>
               <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
-                <td><%= f.productname %></td>
+                <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
                 <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
                 <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
                 <td><% if @hash[f.product_code][0]!=nil %><%= @hash[f.product_code][0] %><% else %>0<% end %></td>
@@ -104,7 +104,7 @@
           </thead>
           <% @general.each do |f| %>
               <tr>
-                <td class="first"><%= f.product_name %></td>
+                <td class="first"><a href="/bankinvest/highprofit/<%= f.id %>" target="_blank"><%= f.product_name %></a></td>
                 <td><% if f.product_code !=nil %><%= f.product_code %><% else %>--<% end %></td>
                 <td><%= @hash2[f.L2_typeid][0] %></a></td>
                 <td><%= f.today_value %></td>
@@ -129,7 +129,7 @@
     $(document).ready(function(){
         var oTable = $('#liudong').dataTable({
             "iDisplayLength": 50,
-            "aaSorting": [[ 2, "asc" ]]
+            "aaSorting": [[ 9, "asc" ]]
         });
 
         $("[id*='amounts']").click(function(){
@@ -175,7 +175,8 @@
         });
 
         $('#fengxian').dataTable({
-            "iDisplayLength": 50
+            "iDisplayLength": 50 ,
+            "aaSorting": [[ 7, "asc" ]]
         });
     });
 </script>

@@ -86,10 +86,10 @@ class BankinvestController < ApplicationController
 
   def huobi
     if params[:id]!=nil
-      @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+      @fundquote=Monetary_fund_quote.find_by_id(params[:id])
       @hash={}
-      if @fundproduct!=nil
-        @fundquote=Monetary_fund_quote.find_by_product_code(@fundproduct.product_code)
+      if @fundquote!=nil
+        @fundproduct=Monetary_fund_product.find_by_product_code(@fundquote.product_code)
         @productcompany=Productcompany.find_all_by_pname(@fundquote.productname)
         @hash={}
         for i in 0..@productcompany.size-1
@@ -109,10 +109,46 @@ class BankinvestController < ApplicationController
         @average2=Average_return_rate.find_by_typeid_and_years(101,2)
         @average3=Average_return_rate.find_by_typeid_and_years(101,3)
       else
-        redirect_to(:controller=>"personmanagement", :action=>"summary")
+        redirect_to(:controller=>"bankinvest", :action=>"products")
       end
     else
-      redirect_to(:controller=>"personmanagement", :action=>"summary")
+      redirect_to(:controller=>"bankinvest", :action=>"products")
+    end
+  end
+
+  def highprofit
+    if params[:id]!=nil
+      @fundquote=General_fund_quote.find_by_id(params[:id])
+      @hash={}
+      @hash2={}
+      @adminassettype=Admin_asset_type_l2.all
+      for i in 0..@adminassettype.size-1
+        @hash2.store(@adminassettype[i].L2_typeid,[@adminassettype[i].classify])
+      end
+      if @fundquote!=nil
+        @fundproduct=General_fund_product.find_by_product_code(@fundquote.product_code)
+        @productcompany=Productcompany.find_all_by_pname(@fundquote.product_name)
+        @hash={}
+        for i in 0..@productcompany.size-1
+          @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
+          if @salescompany!=nil
+            @hash.store(@productcompany[i].fundname,[@salescompany.id])
+          else
+            @hash.store(@productcompany[i].fundname,[nil,nil,nil])
+          end
+          if i==0
+            @min=@productcompany[i].poundage
+          elsif @min>@productcompany[i].poundage
+            @min=@productcompany[i].poundage
+          end
+        end
+        @average1=Average_return_rate.find_by_typeid_and_years(@fundquote.L2_typeid,1)
+        @average3=Average_return_rate.find_by_typeid_and_years(@fundquote.L2_typeid,3)
+      else
+        redirect_to(:controller=>"bankinvest", :action=>"products")
+      end
+    else
+      redirect_to(:controller=>"bankinvest", :action=>"products")
     end
   end
 

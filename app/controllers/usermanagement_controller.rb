@@ -40,6 +40,8 @@ class UsermanagementController < ApplicationController
   end
 
    def family_asset_table
+    t = Time.new
+    @date = t.strftime("%Y-%m-%d")
      @hash={}
      @hash1={}
      @assettype=Admin_asset_type.all
@@ -50,12 +52,14 @@ class UsermanagementController < ApplicationController
        @userassetdaily=User_assets_daily.find_all_by_username(session[:webusername])
        @webuser=Webuser.find_by_username(session[:webusername])
        @userfinancedata=User_finance_data.find_by_username(@webuser.username)
+       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
        @targets=User_targets.find_by_username(@webuser.username)
-       @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+       @userasset=User_asset_sheet.find_all_by_username(session[:webusername])
+       @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+session[:webusername]+"' and asset_typeid<>401 && asset_typeid<>402")
        @total=0
        for i in 0..@userassetsheet.size-1
          @total=@total+@userassetsheet[i].asset_value
-          if @userassetsheet[i].asset_product_code!=nil
+          if @userassetsheet[i].asset_product_code!=nil && @userassetsheet[i].asset_product_code!=''
             a=0
             @fundquote=Monetary_fund_quote.find_by_product_code(@userassetsheet[i].asset_product_code)       #million_income
             if @fundquote!=nil && @fundquote.million_income!=nil

@@ -43,11 +43,11 @@ class UserfinanceplanController < ApplicationController
               if huobi>0
                  if huobi>@userplanmonth[i].fluid_account
                    @hash1.store(i,[0])
-                   @hash2.store(i,[@userplanmonth[i].fluid_account])
+                   @hash2.store(i,[@userplanmonth[i].fluid_account/100*100])
                    huobi=huobi-@userplanmonth[i].fluid_account
                  else
                    @hash1.store(i,[@userplanmonth[i].fluid_account-huobi])
-                   @hash2.store(i,[huobi])
+                   @hash2.store(i,[huobi/100*100])
                    huobi=0
                    xianjin=xianjin-(@userplanmonth[i].fluid_account-huobi)
                  end
@@ -70,7 +70,7 @@ class UserfinanceplanController < ApplicationController
           if @userplanmonth[i].fluid_account>0
             if huobi>0
               @hash1.store(i,[0])
-              @hash2.store(i,[@userplanmonth[i].fluid_account])
+              @hash2.store(i,[@userplanmonth[i].fluid_account/100*100])
               huobi=huobi-@userplanmonth[i].fluid_account
             else
               @hash1.store(i,[0])
@@ -79,7 +79,7 @@ class UserfinanceplanController < ApplicationController
             end
           else
             @hash1.store(i,[0])
-            @hash2.store(i,[huobi])
+            @hash2.store(i,[huobi/100*100])
             huobi=0
           end
         end
@@ -105,6 +105,12 @@ class UserfinanceplanController < ApplicationController
           end
         end
       end
+      @link=1
+      for i in 0..@userplanmonth.size-1
+       if @hash1[i][0]>0 || @hash2[i][0]>0
+         @link=0
+       end
+      end
       for i in 1..14
         if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil && @averagereturnrate!=nil && @averagereturnrate.average_return_rate!=nil
           @hash.store(i,[(@hash[i-1][0]*(1+@averagereturnrate.average_return_rate/100)).to_i])
@@ -126,6 +132,23 @@ class UserfinanceplanController < ApplicationController
     @blog4=Blog.find_by_id(468)
     if session[:webusername]!=nil
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @monetary=Monetary_fund_quote.all
+      @hash={}
+      for i in 0..@monetary.size-1
+        @fundproduct=Monetary_fund_product.find_by_product_code(@monetary[i].product_code)
+        t = Time.new
+        date = t.strftime("%Y-%m-%d")
+        if @fundproduct!=nil
+          if @fundproduct.create_date!=nil
+            @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)])
+          else
+            @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil])
+          end
+        else
+          @hash.store(@monetary[i].product_code,[nil,nil,nil,nil])
+        end
+      end
+=begin
       @fundproduct=Monetary_fund_product.all
 
       @hash3={}
@@ -163,6 +186,7 @@ class UserfinanceplanController < ApplicationController
         end
         @hash3.store(@fundproduct[i].productid,[f1,f2,f3])
       end
+=end
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p4s1selection=>"1")
     end
@@ -218,6 +242,12 @@ class UserfinanceplanController < ApplicationController
           @hash.store(i,[(@hash[i-1][0]*1.1+capital).to_i])
         else
           @hash.store(i,[0])
+        end
+      end
+      @link=1
+      for i in 0..@userplanmonth.size-1
+        if @userplanmonth[i].risky_account>0
+          @link=0
         end
       end
       t = Time.new
@@ -406,9 +436,12 @@ class UserfinanceplanController < ApplicationController
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
       @asset_account=0
+      @asset_fixed_account=0
       if @userbanlance!=nil
         @asset_account=@userbanlance.asset_fluid_account+@userbanlance.asset_risky_account+@userbanlance.asset_safefy_account
+        @asset_fixed_account=@userbanlance.asset_account-@asset_account
       end
+
       @totalfluid=0
       @totalrisky=0
       @totalsafety=0
@@ -456,11 +489,11 @@ class UserfinanceplanController < ApplicationController
             if huobi>0
               if huobi>@userplanmonth[i].fluid_account
                 @hash1.store(i,[0])
-                @hash2.store(i,[@userplanmonth[i].fluid_account])
+                @hash2.store(i,[@userplanmonth[i].fluid_account/100*100])
                 huobi=huobi-@userplanmonth[i].fluid_account
               else
                 @hash1.store(i,[@userplanmonth[i].fluid_account-huobi])
-                @hash2.store(i,[huobi])
+                @hash2.store(i,[huobi/100*100])
                 huobi=0
                 xianjin=xianjin-(@userplanmonth[i].fluid_account-huobi)
               end
@@ -483,7 +516,7 @@ class UserfinanceplanController < ApplicationController
           if @userplanmonth[i].fluid_account>0
             if huobi>0
               @hash1.store(i,[0])
-              @hash2.store(i,[@userplanmonth[i].fluid_account])
+              @hash2.store(i,[@userplanmonth[i].fluid_account/100*100])
               huobi=huobi-@userplanmonth[i].fluid_account
             else
               @hash1.store(i,[0])
@@ -492,7 +525,7 @@ class UserfinanceplanController < ApplicationController
             end
           else
             @hash1.store(i,[0])
-            @hash2.store(i,[huobi])
+            @hash2.store(i,[huobi/100*100])
             huobi=0
           end
         end

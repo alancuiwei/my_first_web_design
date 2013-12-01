@@ -1277,9 +1277,9 @@ class WeixinsController < ApplicationController
           User_plan_month.new do |w|
             w.username=@webuser.username
             w.date=year.to_s+'.'+months.to_s
-            w.fluid_account=arrayObj[i][0]
-            w.safety_account=arrayObj[i][1]
-            w.risky_account=arrayObj[i][2]
+            w.fluid_account=arrayObj[i][0]/100*100
+            w.safety_account=arrayObj[i][1]/100*100
+            w.risky_account=arrayObj[i][2]/100*100
             w.save
           end
         end
