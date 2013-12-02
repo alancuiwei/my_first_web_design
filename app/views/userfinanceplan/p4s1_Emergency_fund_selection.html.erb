@@ -20,17 +20,18 @@
           <thead>
           <tr>
             <th>产品名</th>
-            <th>万份收益<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a>(元)</th>
-            <th>7日年化<br>收益率<a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
+            <th>万份收益(元)<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a></th>
+            <th>7日年化收益率<br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
             <th>起购金额</th>
-            <th>资金规模<br>(亿元)</th>
+            <th class="hide">基金规模<br>(亿元)</th>
             <th>成立时间</th>
             <th class="hide">时间差</th>
             <th>近一年(%)</th>
-            <th class="hide">近一年排名</th>
-            <th>近一年排名</th>
-            <th class="hide">近二年排名</th>
-            <th class="hide">近三年排名</th>
+            <th class="hide">近1年排名</th>
+            <th>近1年排名</th>
+            <th>近三年(%)</th>
+            <th class="hide">近3年排名</th>
+            <th>近3年排名</th>
             <th>选择</th>
           </tr>
           </thead>
@@ -40,15 +41,16 @@
                 <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
                 <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
                 <td><% if @hash[f.product_code][0]!=nil %><%= @hash[f.product_code][0] %><% else %>0<% end %></td>
-                <td><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
+                <td class="hide"><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
                 <td><% if @hash[f.product_code][2]!=nil %><%= @hash[f.product_code][2] %><% else %>--<% end %></td>
                 <td class="hide"><% if @hash[f.product_code][3]!=nil %><%= @hash[f.product_code][3].to_s.split("/")[0] %><% end %></td>
                 <td class="red"><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
                 <td class="red"><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
                 <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>1000<% end %></td>
-                <td class="hide"><% if f.two_year_rank!=nil %><%= f.two_year_rank.split("/")[0] %><% else %>--<% end %></td>
-                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>--<% end %></td>
-                <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>">选择</a></td>
+                <td class="red"><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                <td class="red"><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>1000<% end %></td>
+                <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>" style="white-space: nowrap;">选择</a></td>
               </tr>
           <% end %>
         </table>
@@ -56,66 +58,7 @@
     </div>
   </div>
 </div>
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog.imagepath %>"><br><br>
-        <%=raw @blog.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog2.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog2!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog2.imagepath %>"><br><br>
-        <%=raw @blog2.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-<div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog3.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog3!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog3.imagepath %>"><br><br>
-        <%=raw @blog3.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog4.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog4!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog4.imagepath %>"><br><br>
-        <%=raw @blog4.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
+
 <script>
 
     var grey=0;

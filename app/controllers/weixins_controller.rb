@@ -1216,9 +1216,7 @@ class WeixinsController < ApplicationController
         if asset_firstmove_safety_account >  asset_safefy_account
           array1=asset_firstmove_safety_account-asset_safefy_account
         end
-        if asset_firstmove_risky_account >  asset_risky_account
-          array2=asset_firstmove_risky_account-asset_risky_account
-        end
+        array2=asset_firstmove_risky_account-asset_risky_account
         array3=fluid-asset_firstmove_fluid_account
         array4=safety-asset_firstmove_safety_account
         array5=risky-asset_firstmove_risky_account
@@ -1274,12 +1272,27 @@ class WeixinsController < ApplicationController
               months=months-12;
               year=year+1
           end
+          if arrayObj[i][0]>=0
+          array1=arrayObj[i][0]/100*100
+          else
+            array1=arrayObj[i][0]/100*100+100
+          end
+          if arrayObj[i][1]>=0
+          array2=arrayObj[i][1]/100*100
+          else
+            array2=arrayObj[i][1]/100*100+100
+          end
+          if arrayObj[i][2]>=0
+          array3=arrayObj[i][2]/100*100
+          else
+            array3=arrayObj[i][2]/100*100+100
+          end
           User_plan_month.new do |w|
             w.username=@webuser.username
             w.date=year.to_s+'.'+months.to_s
-            w.fluid_account=arrayObj[i][0]/100*100
-            w.safety_account=arrayObj[i][1]/100*100
-            w.risky_account=arrayObj[i][2]/100*100
+            w.fluid_account=array1
+            w.safety_account=array2
+            w.risky_account=array3
             w.save
           end
         end

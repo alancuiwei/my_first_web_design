@@ -760,7 +760,7 @@ class AdminController < ApplicationController
         b.fundname=params[:fundname]
         b.company=params[:company]
         b.capital=params[:capital]
-        b.profile=params[:profile]
+        b.profile=params[:personalinfo]
         b.introduced=params[:introduced]
         b.logo=params[:logo]
         b.license=params[:license]
@@ -774,7 +774,7 @@ class AdminController < ApplicationController
       render :json => "s1".to_json
     else
       @salescompany=Salescompany.find_by_id(params[:id])
-      @salescompany.update_attributes(:fundname=>params[:fundname],:company=>params[:company],:capital=>params[:capital],:profile=>params[:profile],:introduced=>params[:introduced],
+      @salescompany.update_attributes(:fundname=>params[:fundname],:company=>params[:company],:capital=>params[:capital],:personalinfo=>params[:personalinfo],:introduced=>params[:introduced],
                                       :logo=>params[:logo],:license=>params[:license],:guide=>params[:guide],:time=>params[:time],:assist=>params[:assist],:imglink=>params[:imglink],:videolink=>params[:videolink])
       render :json => "s2".to_json
     end

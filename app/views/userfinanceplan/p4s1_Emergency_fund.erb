@@ -44,19 +44,25 @@
             <% end %>
             <table id="firstyear" class="table table-striped table-bordered">
               <thead>
-              <tr><th>日期</th><th>现金/活期（元）</th><th>货币基金（元）</th></tr>
+              <tr><th>日期</th><th>货币基金（元）</th></tr>
               </thead>
               <% for i in 0..@userplanmonth.size-1 do %>
-                  <% if i==0 || @hash1[i][0]>0 || @hash2[i][0]>0 %>
+                  <% if i==0 || @hash2[i][0]>0 %>
+                     <% if i==0 %>
                       <tr>
                         <td><%= @userplanmonth[i].date %></td>
                         <td>
-                            +<%= @hash1[i][0] %>
-                        </td>
-                        <td>
-                            +<%= @hash2[i][0] %>
+                          <% if @hash2[i][0]>=0 %> 买入<%= @hash2[i][0] %>元<% else %>赎回<%= -@hash2[i][0] %>元<% end %>
                         </td>
                       </tr>
+                    <% else %>
+                          <tr>
+                            <td><%= @userplanmonth[i].date %></td>
+                            <td>
+                              买入<%= @hash2[i][0] %>元
+                            </td>
+                          </tr>
+                    <% end %>
                   <% end %>
               <% end %>
             </table>

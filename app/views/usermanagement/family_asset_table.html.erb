@@ -16,8 +16,6 @@
             <div class="input-group plaintext">
               <div style="padding: 10px 5px 10px 20px">
                 <%= session[:webusername] %> 首页<br><br>
-                <a>家庭资产总值</a><br>
-                <a href="/usermanagement/profile">基本信息设置</a><br>
                 <%= render "side" %>
               </div>
             </div>
@@ -46,7 +44,7 @@
       <h1>家庭资产总值</h1>
       <div class="row-fluid">
         <div class="span6">
-          <table class="table table-striped table-bordered">
+          <table class="table table-striped table-bordered" style="margin-top: 100px;">
             <tr><td></td><td><%= @date %></td></tr>
             <tr><td>投资资产总值</td><td><%= @total %></td></tr>
             <tr><td>固定资产总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account-@total %><% end %></td></tr>

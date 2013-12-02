@@ -26,18 +26,18 @@
         <% for i in 0..@userplanmonth.size-1 %>
             <tr>
               <td><%= @userplanmonth[i].date %></td>
-              <td><%= @hash2[i][0] %></td>
-              <td><%= @userplanmonth[i].risky_account %></td>
-              <td><%= @userplanmonth[i].safety_account %></td>
-              <td><%= @hash2[i][0]+@userplanmonth[i].risky_account+@userplanmonth[i].safety_account %></td>
+              <td><% if @hash2[i][0]>=0 %> 买入<%= @hash2[i][0] %>元<% else %>赎回<%= -@hash2[i][0] %>元<% end %></td>
+              <td><% if @userplanmonth[i].risky_account>=0 %>买入<%= @userplanmonth[i].risky_account %>元<% else %>赎回<%= -@userplanmonth[i].risky_account %>元<% end %></td>
+              <td><% if @userplanmonth[i].safety_account>=0 %>买入<%= @userplanmonth[i].safety_account %>元<% else %>赎回<%= -@userplanmonth[i].safety_account %>元<% end %></td>
+              <td><% if @hash2[i][0]+@userplanmonth[i].risky_account+@userplanmonth[i].safety_account>=0 %>买入<%= @hash2[i][0]+@userplanmonth[i].risky_account+@userplanmonth[i].safety_account %>元<% else %>赎回<%= -(@hash2[i][0]+@userplanmonth[i].risky_account+@userplanmonth[i].safety_account) %>元<% end %></td>
             </tr>
         <% end %>
         <tr>
           <td>全年</td>
-          <td><%= @totalhuobi %></td>
-          <td><%= @totalrisky %></td>
-          <td><%= @totalsafety %></td>
-          <td><%= @total %></td>
+          <td><% if @totalhuobi>=0 %> 买入<%= @totalhuobi %>元<% else %>赎回<%= -@totalhuobi %>元<% end %></td>
+          <td><% if @totalrisky>=0 %> 买入<%= @totalrisky %>元<% else %>赎回<%= -@totalrisky %>元<% end %></td>
+          <td><% if @totalsafety>=0 %> 买入<%= @totalsafety %>元<% else %>赎回<%= -@totalsafety %>元<% end %></td>
+          <td><% if @total>=0 %> 买入<%= @total %>元<% else %>赎回<%= -@total %>元<% end %></td>
         </tr>
       </table>
       <h2><span>2</span>15年家庭资产增值预估：</h2>
@@ -50,9 +50,9 @@
           <th>家庭资产总值</th>
         </tr>
         </thead>
-        <% for i in 0..14 %>
+        <% for i in 0..15 %>
             <tr>
-              <td><%= @date.to_i+i+1 %></td>
+              <td><%= @date[i] %></td>
               <td><%= @asset_account*(i+1) %></td>
               <td><%= @asset_fixed_account %></td>
               <td><%= @asset_account*(i+1)+@asset_fixed_account %></td>

@@ -46,18 +46,19 @@
         <table id="liudong" class="table table-striped table-bordered">
           <thead>
           <tr>
-            <th>产品名称</th>
-            <th>万份收益<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a>(元)</th>
-            <th>7日年化收益<br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
+            <th>产品名</th>
+            <th>万份收益(元)<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a></th>
+            <th>7日年化收益率<br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
             <th>起购金额</th>
-            <th>基金规模<br>(亿元)</th>
+            <th class="hide">基金规模<br>(亿元)</th>
             <th>成立时间</th>
             <th class="hide">时间差</th>
-            <th>一年收益率</th>
-            <th class="hide">一年排名</th>
-            <th>一年排名</th>
-            <th class="hide">二年排名</th>
-            <th class="hide">三年排名</th>
+            <th>近一年(%)</th>
+            <th class="hide">近1年排名</th>
+            <th>近1年排名</th>
+            <th>近三年(%)</th>
+            <th class="hide">近3年排名</th>
+            <th>近3年排名</th>
           </tr>
           </thead>
           <% @monetary.each do |f| %>
@@ -66,14 +67,15 @@
                 <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
                 <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
                 <td><% if @hash[f.product_code][0]!=nil %><%= @hash[f.product_code][0] %><% else %>0<% end %></td>
-                <td><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
+                <td class="hide"><% if @hash[f.product_code][1]!=nil %><%= @hash[f.product_code][1] %><% else %>0<% end %></td>
                 <td><% if @hash[f.product_code][2]!=nil %><%= @hash[f.product_code][2] %><% else %>--<% end %></td>
                 <td class="hide"><% if @hash[f.product_code][3]!=nil %><%= @hash[f.product_code][3].to_s.split("/")[0] %><% end %></td>
                 <td class="red"><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
                 <td class="red"><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
                 <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>1000<% end %></td>
-                <td class="hide"><% if f.two_year_rank!=nil %><%= f.two_year_rank.split("/")[0] %><% else %>--<% end %></td>
-                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>--<% end %></td>
+                <td class="red"><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                <td class="red"><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
+                <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>1000<% end %></td>
               </tr>
           <% end %>
         </table>
@@ -119,7 +121,7 @@
               </tr>
           <% end %>
         </table>
-        <blockquote style="margin-top: 30px;"><small>-- 表示该产品成立时间较短，没有相应的数据 或 没有同类产品。</small></blockquote>
+        <blockquote style="margin-top: 0px;"><small>-- 表示该产品成立时间较短，没有相应的数据 或 没有同类产品。</small></blockquote>
       </div>
     </div>
   </div>

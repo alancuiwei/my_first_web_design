@@ -26,6 +26,10 @@ class BankinvestController < ApplicationController
   end
 
   def products
+    @blog=Blog.find_by_id(469)
+    @blog2=Blog.find_by_id(472)
+    @blog3=Blog.find_by_id(467)
+    @blog4=Blog.find_by_id(468)
     @monetary=Monetary_fund_quote.all
     @hash={}
     for i in 0..@monetary.size-1

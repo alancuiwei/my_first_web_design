@@ -30,7 +30,9 @@ class UserfinanceplanController < ApplicationController
       @hash1={}
       @hash2={}
       if @array[0]>=@array[1] && @array[2]>=@array[3]
-        for i in 0..@userplanmonth.size-1
+        @hash1.store(0,[0])
+        @hash2.store(0,[@array[3]-@array[2]])
+        for i in 1..@userplanmonth.size-1
           @hash1.store(i,[0])
           @hash2.store(i,[0])
         end
@@ -91,16 +93,28 @@ class UserfinanceplanController < ApplicationController
           if @userplanmonth[i].fluid_account>0
             if xianjin>0
               @hash1.store(i,[@userplanmonth[i].fluid_account])
-              @hash2.store(i,[0])
+              if i==0
+                @hash2.store(i,[@array[3]-@array[2]])
+              else
+                @hash2.store(i,[0])
+              end
               xianjin=xianjin-@userplanmonth[i].fluid_account
             else
               @hash1.store(i,[0])
-              @hash2.store(i,[0])
+              if i==0
+                @hash2.store(i,[@array[3]-@array[2]])
+              else
+                @hash2.store(i,[0])
+              end
               xianjin=0
             end
           else
             @hash1.store(i,[xianjin])
-            @hash2.store(i,[0])
+            if i==0
+              @hash2.store(i,[@array[3]-@array[2]])
+            else
+              @hash2.store(i,[0])
+            end
             xianjin=0
           end
         end
@@ -148,45 +162,6 @@ class UserfinanceplanController < ApplicationController
           @hash.store(@monetary[i].product_code,[nil,nil,nil,nil])
         end
       end
-=begin
-      @fundproduct=Monetary_fund_product.all
-
-      @hash3={}
-      @hash5={}
-      for i in 0..@fundproduct.size-1
-        @average=Average_return_rate.find_by_typeid_and_years(@fundproduct[i].productid,1)
-        if @average!=nil
-          f1=@average.average_return_rate
-        else
-          f1=''
-        end
-        @rank=Rank.find_by_productid_and_years(@fundproduct[i].productid,1)
-        if @rank!=nil
-          f2=@rank.rank_num
-          f3=@rank.total_num
-        else
-          f2=''
-          f3=''
-        end
-        @quote=Monetary_fund_quote.find_by_product_code(@fundproduct[i].product_code)
-        t = Time.new
-        date = t.strftime("%Y-%m-%d")
-        if @quote!=nil
-          if @fundproduct[i].create_date!=nil
-            @hash5.store(@fundproduct[i].product_code,[@quote.date,@quote.million_income,@quote.sevenD_years_return,@quote.one_year_return,@quote.two_year_return,@quote.three_year_return,@quote.one_year_rank,@quote.two_year_rank,@quote.three_year_rank,DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)])
-          else
-            @hash5.store(@fundproduct[i].product_code,[@quote.date,@quote.million_income,@quote.sevenD_years_return,@quote.one_year_return,@quote.two_year_return,@quote.three_year_return,@quote.one_year_rank,@quote.two_year_rank,@quote.three_year_rank,nil])
-          end
-        else
-          if @fundproduct[i].create_date!=nil
-            @hash5.store(@fundproduct[i].product_code,[nil,nil,nil,nil,nil,nil,nil,nil,nil,DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)])
-          else
-            @hash5.store(@fundproduct[i].product_code,[nil,nil,nil,nil,nil,nil,nil,nil,nil,nil])
-          end
-        end
-        @hash3.store(@fundproduct[i].productid,[f1,f2,f3])
-      end
-=end
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p4s1selection=>"1")
     end
@@ -258,6 +233,8 @@ class UserfinanceplanController < ApplicationController
   end
 
   def p4s2_highprofit_fund_selection
+    @blog3=Blog.find_by_id(467)
+    @blog4=Blog.find_by_id(468)
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
@@ -274,14 +251,10 @@ class UserfinanceplanController < ApplicationController
     @hash2={}
     @category=Admin_asset_type_l2.all
     for i in 0..@category.size-1
-      loss1='--';loss2='--';loss3='--';max1='--';max2='--';max3='--';avg1='--';avg2='--';avg3='--';
+      loss1='--';loss3='--';max1='--';max3='--';avg1='--';avg3='--';
       @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,1)
       if @loss!=nil
         loss1=@loss.probability.round(3)
-      end
-      @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,2)
-      if @loss!=nil
-        loss2=@loss.probability.round(3)
       end
       @loss=Loss_probability.find_by_typeid_and_years(@category[i].L2_typeid,3)
       if @loss!=nil
@@ -291,10 +264,6 @@ class UserfinanceplanController < ApplicationController
       if @max!=nil
         max1=@max.returnrate
       end
-      @max=Max_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,2)
-      if @max!=nil
-        max2=@max.returnrate
-      end
       @max=Max_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,3)
       if @max!=nil
         max3=@max.returnrate
@@ -303,16 +272,12 @@ class UserfinanceplanController < ApplicationController
       if @ave!=nil
         avg1=@ave.average_return_rate.round(2)
       end
-      @ave=Average_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,2)
-      if @ave!=nil
-        avg2=@ave.average_return_rate.round(2)
-      end
       @ave=Average_return_rate.find_by_typeid_and_years(@category[i].L2_typeid,3)
       if @ave!=nil
         avg3=@ave.average_return_rate.round(2)
       end
 
-      @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss2,loss3,max1,max2,max3,avg1,avg2,avg3])
+      @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss3,max1,max3,avg1,avg3])
       @hash.store(i,[@category[i].id,@category[i].classify])
     end
     @fundproduct=Monetary_fund_product.all
@@ -451,9 +416,7 @@ class UserfinanceplanController < ApplicationController
         @totalsafety=@totalsafety+@userplanmonth[i].safety_account
       end
      # @total=@totalfluid+@totalrisky+@totalsafety
-      t = Time.new
-      @date = t.strftime("%Y")
-
+      @date =["当前","一年后","两年后","三年后","四年后","五年后","六年后","七年后","八年后","九年后","十年后","十一年后","十二年后","十三年后","十四年后","十五年后"]
       @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @array=[0,0,0,0]
@@ -476,7 +439,9 @@ class UserfinanceplanController < ApplicationController
       @hash1={}
       @hash2={}
       if @array[0]>=@array[1] && @array[2]>=@array[3]
-        for i in 0..@userplanmonth.size-1
+        @hash1.store(i,[0])
+        @hash2.store(0,[@array[3]-@array[2]])
+        for i in 1..@userplanmonth.size-1
           @hash1.store(i,[0])
           @hash2.store(i,[0])
         end
@@ -537,16 +502,28 @@ class UserfinanceplanController < ApplicationController
           if @userplanmonth[i].fluid_account>0
             if xianjin>0
               @hash1.store(i,[@userplanmonth[i].fluid_account])
-              @hash2.store(i,[0])
+              if i==0
+                @hash2.store(i,[@array[3]-@array[2]])
+              else
+                @hash2.store(i,[0])
+              end
               xianjin=xianjin-@userplanmonth[i].fluid_account
             else
               @hash1.store(i,[0])
-              @hash2.store(i,[0])
+              if i==0
+                @hash2.store(i,[@array[3]-@array[2]])
+              else
+                @hash2.store(i,[0])
+              end
               xianjin=0
             end
           else
             @hash1.store(i,[xianjin])
-            @hash2.store(i,[0])
+            if i==0
+              @hash2.store(i,[@array[3]-@array[2]])
+            else
+              @hash2.store(i,[0])
+            end
             xianjin=0
           end
         end

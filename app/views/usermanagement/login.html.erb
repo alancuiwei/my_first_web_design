@@ -163,7 +163,7 @@
                                     QC.Login.getMe(function(openId, accessToken){
                                         $.get("/home/userconfig/0",{username:s.data.nickname,password:'tongtianshun',tel:'',address: 1,name:1,email:'',company:1,ulogin:1},function(data){
                                             $.get("/admin/userlogin",{username:s.data.nickname,password:'tongtianshun',login:'qq'},function(data){
-                                                location.href="/usermanagement/profile";
+                                                location.href="/usermanagement/personalinfo";
                                             });
                                         })
                                         $.get("/home/qquserconfigajax/0",{username:s.data.nickname,openid:openId,accesstoken: accessToken},function(data){
@@ -296,8 +296,8 @@
                 else if('<%= params[:familyassettable] %>'=='1'){
                     location.href="/usermanagement/family_asset_table";
                 }
-                else if('<%= params[:profile] %>'=='1'){
-                    location.href="/usermanagement/profile";
+                else if('<%= params[:personalinfo] %>'=='1'){
+                    location.href="/usermanagement/personalinfo";
                 }
                 else if('<%= params[:p4s1] %>'=='1'){
                     location.href="/userfinanceplan/p4s1_Emergency_fund";
@@ -369,7 +369,7 @@
                     location.href="/admin";
                 }
                 else if (organ==4){
-                    location.href="/usermanagement/profile";
+                    location.href="/usermanagement/personalinfo";
                 }
                 else if (organ==2){
                     location.href="/usersurvey/p1_usersurvey";

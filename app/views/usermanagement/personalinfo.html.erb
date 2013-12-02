@@ -1,4 +1,5 @@
 <%= stylesheet_link_tag "usermanagement.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <div class="main-content">
   <div class="trow">
@@ -15,8 +16,6 @@
             <div class="input-group plaintext">
               <div style="padding: 10px 5px 10px 20px">
                 <%= session[:webusername] %> 首页<br><br>
-                <a href="/usermanagement/family_asset_table">家庭资产总值</a><br>
-                <a>基本信息设置</a><br>
                 <%= render "side" %>
               </div>
             </div>

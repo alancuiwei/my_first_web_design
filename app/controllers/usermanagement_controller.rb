@@ -29,17 +29,17 @@ class UsermanagementController < ApplicationController
     end
   end
 
-  def profile
+  def personalinfo
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(@webuser.username)
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
     else
-      redirect_to(:controller=>"usermanagement", :action=>"login", :profile=>"1")
+      redirect_to(:controller=>"usermanagement", :action=>"login", :personalinfo=>"1")
     end
   end
 
-   def family_asset_table
+  def family_asset_table
     t = Time.new
     @date = t.strftime("%Y-%m-%d")
      @hash={}
@@ -79,9 +79,9 @@ class UsermanagementController < ApplicationController
               @adminassettype=Admin_asset_type.find_by_asset_typeid("308")
               @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],@adminassettype.asset_value])
             else
-            @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
+              @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
+            end
           end
-       end
        end
      else
        redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")

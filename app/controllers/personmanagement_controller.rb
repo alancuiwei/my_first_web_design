@@ -282,12 +282,19 @@ class PersonmanagementController < ApplicationController
       r.pname=params[:pname]
       r.amount=params[:amount]
       r.nature=params[:nature]
+      if params[:ptype]=='1'
+        r.productcode=params[:productcode]
+        r.productshare=params[:productshare]
+      end
       r.save
     end
     render :json => "s1".to_json
    else
      @record=Record.find_by_id(params[:id])
      @record.update_attributes(:username=>params[:username],:date=>params[:date],:pname=>params[:pname],:amount=>params[:amount],:nature=>params[:nature])
+     if params[:ptype]=='1'
+       @record.update_attributes(:productcode=>params[:productcode],:productshare=>params[:productshare])
+     end
      render :json => "s2".to_json
    end
   end

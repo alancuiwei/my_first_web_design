@@ -93,37 +93,57 @@
                     <table id="top" class="table table-striped table-bordered">
                       <thead>
                       <tr>
-                        <th style="width: 20%;">投资产品</th>
+                        <th style="width: 20%;">投资种类</th>
                         <th style="width: 20%;">产品类型</th>
                         <th style="width: 20%;">本月目标</th>
-                        <th style="width: 20%;"> 购买指导</th>
+                        <th style="width: 20%;">推荐产品</th>
+                        <th style="width: 20%;">操作</th>
                       </tr>
                       </thead>
                       <tbody>
-                      <% if @userfinancedata!=nil && @userfinancedata.fluid_productid!=nil && @userfinancedata.fluid_productid!="" %>
-                          <tr class="monthpay2">
-                            <td class="name2"><%= @hash['fluid'][0] %></td>
-                            <td><a href="/bankinvest/classify/<%= @hash['fluid'][1] %>"><%= @hash['fluid'][2] %></a></td>
-                            <td class="amounts2"></td>
-                            <td><% if @hash['fluid'][3]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][4] %>" class="btn btn-primary">详情、购买</a><% end %></td>
-                          </tr>
-                      <% end %>
-                      <% if @userfinancedata!=nil && @userfinancedata.safe_productid!=nil && @userfinancedata.safe_productid!="" %>
-                          <tr class="monthpay4">
-                            <td class="name4"><%= @hash['safe'][0] %></td>
-                            <td><a href="/bankinvest/classify/<%= @hash['safe'][1] %>"><%= @hash['safe'][2] %></a></td>
-                            <td class="amounts4"></td>
-                            <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>" class="btn btn-primary">详情、购买</a><% end %></td>
-                          </tr>
-                      <% end %>
-                      <% if @userfinancedata!=nil && @userfinancedata.risk_productid!=nil && @userfinancedata.risk_productid!="" %>
-                          <tr class="monthpay5">
-                            <td class="name5"><%= @hash['risk'][0] %></td>
-                            <td><a href="/bankinvest/classify/<%= @hash['risk'][1] %>"><%= @hash['risk'][2] %></a></td>
-                            <td class="amounts5"></td>
-                            <td><% if @hash['risk'][3]==1 %><a href="/bankinvest/huobi/<%= @hash['risk'][4] %>" class="btn btn-primary">详情、购买</a><% end %></td>
-                          </tr>
-                      <% end %>
+                      <tr>
+                        <td>应急基金</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['fluid'][0] %>"><%= @hash['fluid'][1] %></a></td>
+                        <td class="amounts2"></td>
+                        <td class="name2">
+                          <% if @userfinancedata!=nil %>
+                              <% if @hash['fluid'][2]==1 %>
+                                  <a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>"><%= @userfinancedata.fluid_productid %></a>
+                              <% else %>
+                                  <%= @userfinancedata.fluid_productid %>
+                              <% end %>
+                          <% end %>
+                        </td>
+                        <td><% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>" class="btn btn-primary">详情</a><% end %></td>
+                      </tr>
+                      <tr>
+                        <td>高收益资产</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['risk'][0] %>"><%= @hash['risk'][1] %></a></td>
+                        <td class="amounts5"></td>
+                        <td class="name5">
+                          <% if @userfinancedata!=nil %>
+                              <% if @hash['risk'][2]==1 %>
+                                  <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                              <% elsif @hash['risk'][2]==0 %>
+                                  <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                              <% end %>
+                          <% end %>
+                        </td>
+                        <td>
+                          <% if @hash['risk'][2]==1 %>
+                              <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>" class="btn btn-primary">详情</a>
+                          <% elsif @hash['risk'][2]==0 %>
+                              <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>" class="btn btn-primary">详情</a>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>稳定收益资产</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['safe'][0] %>"><%= @hash['safe'][1] %></a></td>
+                        <td class="amounts4"></td>
+                        <td class="name4"><% if @userfinancedata!=nil%><%= @userfinancedata.safe_productid %><% end %></td>
+                        <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>" class="btn btn-primary">详情</a><% end %></td>
+                      </tr>
                       </tbody>
                     </table>
                     <blockquote style="text-align: left;">
@@ -252,30 +272,25 @@
       <tr>
         <td>属性：</td>
         <td>
-          <div id="insert">
-            <select name="nature" id="nature" onChange='nature();'>
-              <option style="" value="买入">买入</option>
-              <option value="赎回取现">赎回取现</option>
-            </select>
-          </div>
-          <div id="edit">
-            <select name="nature1" id="nature1">
-              <option style="" value="买入">买入</option>
-              <option value="赎回取现">赎回取现</option>
-            </select>
-          </div>
+          <select name="nature" id="nature">
+            <option style="" value="买入">买入</option>
+            <option value="赎回取现">赎回取现</option>
+          </select>
         </td>
       </tr>
       <tr>
         <td>投资产品：</td>
         <td>
-          <select name="pname" id="pname">
+          <select name="pname" id="pname" onChange='nature()'>
             <% if @userfinancedata!=nil %>
                 <option value="<%= @userfinancedata.fluid_productid %>"><%= @userfinancedata.fluid_productid %></option>
                 <% if @userfinancedata.safe_productid !=nil %>
                     <option value="<%= @userfinancedata.safe_productid %>"><%= @userfinancedata.safe_productid %></option>
                 <% end %>
                 <option value="<%= @userfinancedata.risk_productid %>"><%= @userfinancedata.risk_productid %></option>
+            <% end %>
+            <% @assettype.each do |a| %>
+                <option value="<%= a.asset_typename %>"><%= a.asset_typename %></option>
             <% end %>
           </select>
         </td>
@@ -284,6 +299,18 @@
         <td>投资金额：</td>
         <td>
           <input type="text" name="amount" id="amount" title="投资金额" >
+        </td>
+      </tr>
+      <tr class="ptype hide">
+        <td>产品代码：</td>
+        <td>
+          <input type="text" name="amount" id="productcode" title="产品代码" >
+        </td>
+      </tr>
+      <tr class="ptype hide">
+        <td>产品份额：</td>
+        <td>
+          <input type="text" name="amount" id="productshare" title="产品份额" >
         </td>
       </tr>
     </table>
@@ -312,6 +339,21 @@
     var dateNow = new Date();
     var yearNow = dateNow.getFullYear();
     var monthNow = dateNow.getMonth()+1;
+    var ptype=0;
+    function nature(){
+        ptype=0;
+    <% @assettype.each do |a| %>
+        if($("#pname").attr("value")=='<%= a.asset_typename %>'){
+            ptype=1;
+        }
+    <% end %>
+        if(ptype==0){
+            $(".ptype").addClass("hide");
+        }
+        else{
+            $(".ptype").removeClass("hide");
+        }
+    }
 
     function select() {
         if($("#dates").attr("value").split("-")[1]=="08"){
@@ -363,22 +405,22 @@
             var a=parseInt('<%= r.date %>'.split('-')[1]);
         }
         if(parseInt('<%= r.date %>'.split('-')[0])==parseInt($("#dates").attr("value").split("-")[0]) && a==thismonth){
-            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a2 || '<%= r.pname %>'=="其他流动性产品")){
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a2 || '<%= @hash2[r.id][0] %>'=="100")){
                 yingji3=yingji3+parseInt('<%= r.amount %>')
             }
-            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a2 || '<%= r.pname %>'=="其他流动性产品")){
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a2 || '<%= @hash2[r.id][0] %>'=="100")){
                 yingji3=yingji3-parseInt('<%= r.amount %>')
             }
-            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a4 || '<%= r.pname %>'=="其他保本性产品")){
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a4 || '<%= @hash2[r.id][0] %>'=="200")){
                 wenjian3=wenjian3+parseInt('<%= r.amount %>')
             }
-            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a4 || '<%= r.pname %>'=="其他保本性产品")){
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a4 || '<%= @hash2[r.id][0] %>'=="200")){
                 wenjian3=wenjian3-parseInt('<%= r.amount %>')
             }
-            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a5 || '<%= r.pname %>'=="其他风险性产品")){
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a5 || '<%= @hash2[r.id][0] %>'=="300")){
                 gaoshou3=gaoshou3+parseInt('<%= r.amount %>')
             }
-            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a5 || '<%= r.pname %>'=="其他风险性产品")){
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a5 || '<%= @hash2[r.id][0] %>'=="300")){
                 gaoshou3=gaoshou3-parseInt('<%= r.amount %>')
             }
         }
@@ -471,47 +513,35 @@
     }
     function waithelp(e,q){
         removeoption(document.getElementById("pname"),product);
+        if(a2!=""){addoption(document.getElementById("pname"),a2,a2);}
+        if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
+        if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
+        handle=e;
         if(e==0){
-            $("#edit").hide();
-            $("#insert").show();
-            select();
-            handle=0;
+            $("#date").attr("value",'')
+            $("#amount").attr("value",'')
+            $("#productcode").attr("value",'')
+            $("#productshare").attr("value",'')
         }
         else{
             product=q;
-            $("#edit").show();
-            $("#insert").hide();
             addoption(document.getElementById("pname"),q,q);
-            if(a2!=""){addoption(document.getElementById("pname"),a2,a2);}
-            if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
-            if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
-            addoption(document.getElementById("pname"),'其他流动性产品','其他流动性产品');
-            addoption(document.getElementById("pname"),'其他保本性产品','其他保本性产品');
-            addoption(document.getElementById("pname"),'其他风险性产品','其他风险性产品');
         <% @record.each do |r| %>
             if('<%= r.id %>'==e){
                 $("#date").attr("value",'<%= r.date %>')
-                $("#nature1").attr("value",'<%= r.nature %>')
+                $("#nature").attr("value",'<%= r.nature %>')
                 $("#pname").attr("value",'<%= r.pname %>')
                 $("#amount").attr("value",'<%= r.amount %>')
+            <% if r.productcode!=nil %>
+                $("#productcode").attr("value",'<%= r.productcode %>')
+            <% end %>
+            <% if r.productshare!=nil %>
+                $("#productshare").attr("value",'<%= r.productshare %>')
+            <% end %>
             }
         <% end %>
-            handle=e;
         }
-    }
-
-    function nature(){
-        if($("#nature").attr("value")=='买入'){
-            select();
-        }
-        else if($("#nature").attr("value")=='赎回取现'){
-            if (a2!=''){addoption(document.getElementById("pname"),a2,a2);}
-            if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
-            if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
-            removeoption(document.getElementById("pname"),'其他流动性产品');
-            removeoption(document.getElementById("pname"),'其他保本性产品');
-            removeoption(document.getElementById("pname"),'其他风险性产品');
-        }
+        nature();
     }
 
     $("#record").click(function(){
@@ -524,16 +554,9 @@
             return false;
         }
         else{
-            if(handle==0){
-                $.post("/personmanagement/recordconfigajax/0",{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value")},function(data){
-                    location.reload();
-                });
-            }
-            else{
-                $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature1").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value")},function(data){
-                    location.reload();
-                });
-            }
+            $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                location.reload();
+            });
         }
     });
     function deleteajax(id,type){
@@ -679,26 +702,6 @@
             });
         });
     });
-</script>
-
-<script type="text/javascript">
-    //平台、设备和操作系统
-    var system ={
-        win : false,
-        mac : false,
-        xll : false
-    };
-    //检测平台
-    var p = navigator.platform;
-    system.win = p.indexOf('Win') == 0;
-    system.mac = p.indexOf('Mac') == 0;
-    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
-    //跳转语句
-    if(system.win||system.mac||system.xll){
-        $(".mobile").remove();
-    }else{
-        $(".win").remove();
-    }
 </script>
 
 <script type="text/javascript">

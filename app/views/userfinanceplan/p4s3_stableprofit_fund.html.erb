@@ -39,7 +39,9 @@
               <% for i in 0..@userplanmonth.size-1 %>
                   <tr>
                     <td><%= @userplanmonth[i].date %></td>
-                    <td>+<%= @userplanmonth[i].safety_account %></td>
+                    <td>
+                      <% if @userplanmonth[i].safety_account>=0 %> 买入<%= @userplanmonth[i].safety_account %>元<% else %>赎回<%= -@userplanmonth[i].safety_account %>元<% end %>
+                    </td>
                   </tr>
               <% end %>
             </table>
@@ -101,7 +103,7 @@
 
 <script>
 
-    <% for i in 0..@userplanmonth.size-1 %>
+    <% for i in 0..@userplanmonth.size-2 %>
     <% if @userplanmonth[@userplanmonth.size-1-i].safety_account==0 %>
     $("#oneyear tbody tr:eq(<%= @userplanmonth.size-1-i %>)").addClass("hide");
     <% else %>
