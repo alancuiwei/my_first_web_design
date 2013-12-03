@@ -36,20 +36,15 @@ class UserfinanceplanexeController < ApplicationController
      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
      @hash={}
      if @userfinancedata!=nil
-       @fluidproduct=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
+       @fluidproduct=Monetary_fund_quote.find_by_productname(@userfinancedata.fluid_productid)
+       @category1=Admin_asset_type_l2.find_by_L2_typeid(101)
        if @fluidproduct!=nil
-         @category1=Admin_asset_type_l2.find_by_L2_typeid(101)
          @hash.store('fluid',[@category1.id,@category1.classify,1,@fluidproduct.id])
        else
-         @hash.store('fluid',[nil,nil,0,nil])
+         @hash.store('fluid',[@category1.id,@category1.classify,0,nil])
        end
-       @safeproduct=Financial.find_by_pname(@userfinancedata.safe_productid)
-       if @safeproduct!=nil
-         @category2=Admin_asset_type_l2.find_by_classify(@safeproduct.classify)
+       @category2=Admin_asset_type_l2.find_by_L2_typeid(201)
          @hash.store('safe',[@category2.id,@category2.classify])
-       else
-         @hash.store('safe',[nil,nil])
-       end
        @riskproduct1=Monetary_fund_quote.find_by_productname(@userfinancedata.risk_productid)
        @riskproduct2=General_fund_quote.find_by_product_name(@userfinancedata.risk_productid)
        if @riskproduct1!=nil

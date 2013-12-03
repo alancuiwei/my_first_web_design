@@ -2132,30 +2132,30 @@ class WeixinsController < ApplicationController
             end
           elsif @webuser!=nil && @webuser.plan==905
             content=params[:xml][:Content]
-            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:fluidselect1=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>906)
               render "rtn906", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==906
             content=params[:xml][:Content]
-            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:fluidselect2=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>907)
               render "rtn907", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==907
             content=params[:xml][:Content]
-            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:fluidselect3=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>908)
               render "rtn908", :formats => :xml
-            elsif content=="D" || content=="d"
+            elsif content.upcase=="D"
               render "rtn9071", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==908
             content=params[:xml][:Content]
-            if content=="A" || content=="a" || content=="B" || content=="b" || content=="C" || content=="c" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:fluidselect4=>content)
               @fundproduct=Monetary_fund_product.all
               @hash909={}
@@ -2166,53 +2166,38 @@ class WeixinsController < ApplicationController
                 num3=0
                 num4=0
                 if @fundproduct[i].min_purchase_account!=nil
-                  if @fundproduct[i].min_purchase_account>=0 && @fundproduct[i].min_purchase_account<=500
-                    if @webuser.fluidselect1.upcase=="A" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="ABC"
-                      num1=1
-                    end
-                  end
-                  if @fundproduct[i].min_purchase_account>500 && @fundproduct[i].min_purchase_account<=1000
-                    if @webuser.fluidselect1.upcase=="B" || @webuser.fluidselect1.upcase=="AB" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
+                  if @fundproduct[i].min_purchase_account>=1 && @fundproduct[i].min_purchase_account<=1000
+                    if @webuser.fluidselect1.upcase=="A" || @webuser.fluidselect1.upcase=="AB"
                       num1=1
                     end
                   end
                   if @fundproduct[i].min_purchase_account>1000
-                    if @webuser.fluidselect1.upcase=="C" || @webuser.fluidselect1.upcase=="AC" || @webuser.fluidselect1.upcase=="BC" || @webuser.fluidselect1.upcase=="ABC"
+                    if @webuser.fluidselect1.upcase=="B" || @webuser.fluidselect1.upcase=="AB"
                       num1=1
                     end
                   end
                 end
                 @fundquote=Monetary_fund_quote.find_by_product_code(@fundproduct[i].product_code)
                 if @fundquote!=nil
-                  if @webuser.fluidselect2.upcase=="A" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="ABC"
+                  if @webuser.fluidselect2.upcase=="A" || @webuser.fluidselect2.upcase=="AB"
                     if !(@fundquote.one_year_rank!=nil && @fundquote.one_year_rank.split("/")[0].to_i<=20)
                       num2=0
                     end
                   end
-                  if @webuser.fluidselect2.upcase=="B" || @webuser.fluidselect2.upcase=="AB" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
-                    if !(@fundquote.two_year_rank!=nil && @fundquote.two_year_rank.split("/")[0].to_i<=20)
-                      num2=0
-                    end
-                  end
-                  if @webuser.fluidselect2.upcase=="C" || @webuser.fluidselect2.upcase=="AC" || @webuser.fluidselect2.upcase=="BC" || @webuser.fluidselect2.upcase=="ABC"
+                  if @webuser.fluidselect2.upcase=="B" || @webuser.fluidselect2.upcase=="AB"
                     if !(@fundquote.three_year_rank!=nil && @fundquote.three_year_rank.split("/")[0].to_i<=20)
                       num2=0
                     end
                   end
                 end
                 if @fundproduct[i].fund_size!=nil
-                  if @fundproduct[i].fund_size>=0 && @fundproduct[i].fund_size<=1
-                    if @webuser.fluidselect3.upcase=="A" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="ABC"
+                  if @fundproduct[i].fund_size>=0 && @fundproduct[i].fund_size<=100
+                    if @webuser.fluidselect3.upcase=="A" || @webuser.fluidselect3.upcase=="AB"
                       num3=1
                     end
                   end
-                  if @fundproduct[i].fund_size>1 && @fundproduct[i].fund_size<=10
-                    if @webuser.fluidselect3.upcase=="B" || @webuser.fluidselect3.upcase=="AB" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
-                      num3=1
-                    end
-                  end
-                  if @fundproduct[i].fund_size>10
-                    if @webuser.fluidselect3.upcase=="C" || @webuser.fluidselect3.upcase=="AC" || @webuser.fluidselect3.upcase=="BC" || @webuser.fluidselect3.upcase=="ABC"
+                  if @fundproduct[i].fund_size>100
+                    if @webuser.fluidselect3.upcase=="B" || @webuser.fluidselect3.upcase=="AB"
                       num3=1
                     end
                   end
@@ -2222,18 +2207,13 @@ class WeixinsController < ApplicationController
                   date = t.strftime("%Y-%m-%d")
                   fate=(DateTime.parse(date)-DateTime.parse(@fundproduct[i].create_date.to_s)).to_s.split("/")[0].to_i
 
-                  if fate<=365
-                    if @webuser.fluidselect4.upcase=="A" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="ABC"
+                  if fate<=3650
+                    if @webuser.fluidselect4.upcase=="A" || @webuser.fluidselect4.upcase=="AB"
                       num4=1
                     end
                   end
-                  if fate>365 && fate<=1095
-                    if @webuser.fluidselect4.upcase=="B" || @webuser.fluidselect4.upcase=="AB" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
-                      num4=1
-                    end
-                  end
-                  if fate>1095
-                    if @webuser.fluidselect4.upcase=="C" || @webuser.fluidselect4.upcase=="AC" || @webuser.fluidselect4.upcase=="BC" || @webuser.fluidselect4.upcase=="ABC"
+                  if fate>3650
+                    if @webuser.fluidselect4.upcase=="B" || @webuser.fluidselect4.upcase=="AB"
                       num4=1
                     end
                   end
@@ -2250,7 +2230,7 @@ class WeixinsController < ApplicationController
                 @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>910)
                 render "rtn910", :formats => :xml
               end
-            elsif content=="D" || content=="d"
+            elsif content.upcase=="D"
               render "rtn9081", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==909
@@ -2304,17 +2284,17 @@ class WeixinsController < ApplicationController
             render "rtn913", :formats => :xml
           elsif @webuser!=nil && @webuser.plan==913
             content=params[:xml][:Content]
-            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:riskselect2=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>914)
               render "rtn914", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==914
             content=params[:xml][:Content]
-            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:riskselect3=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>915)
-              render "rtn907", :formats => :xml
+              render "rtn918", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.plan==915
             content=params[:xml][:Content]
@@ -2327,7 +2307,7 @@ class WeixinsController < ApplicationController
             end
           elsif @webuser!=nil && @webuser.plan==916
             content=params[:xml][:Content]
-            if content.upcase=="A" || content.upcase=="B" || content.upcase=="C" || content.upcase=="AB" || content.upcase=="AC" || content.upcase=="BC" || content.upcase=="ABC"
+            if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:riskselect5=>content)
               @webuser.update_attributes(:segment=>0,:targets=>0,:plan=>917)
               render "rtn915", :formats => :xml
@@ -2350,18 +2330,13 @@ class WeixinsController < ApplicationController
                   num5=0
                   @fundproduct=Monetary_fund_product.find_by_product_code(@fundquote[i].product_code)
                   if @fundproduct!=nil && @fundproduct.min_purchase_account!=nil
-                    if @fundproduct.min_purchase_account>=0 && @fundproduct.min_purchase_account<=500
-                      if @webuser.riskselect2.upcase=="A" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="AC" || @webuser.riskselect2.upcase=="ABC"
-                        num1=1
-                      end
-                    end
-                    if @fundproduct.min_purchase_account>500 && @fundproduct.min_purchase_account<=1000
-                      if @webuser.riskselect2.upcase=="B" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                    if @fundproduct.min_purchase_account>=0 && @fundproduct.min_purchase_account<=1000
+                      if @webuser.riskselect2.upcase=="A" || @webuser.riskselect2.upcase=="AB"
                         num1=1
                       end
                     end
                     if @fundproduct.min_purchase_account>1000
-                      if @webuser.riskselect2.upcase=="C" || @webuser.riskselect2.upcase=="AC" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                      if @webuser.riskselect2.upcase=="B" || @webuser.riskselect2.upcase=="AB"
                         num1=1
                       end
                     end
@@ -2376,40 +2351,19 @@ class WeixinsController < ApplicationController
                       num2=0
                     end
                   end
-                  if @fundproduct!=nil && @fundproduct.fund_size!=nil
-                    if @fundproduct.fund_size>=0 && @fundproduct.fund_size<=1
-                      if @webuser.riskselect4.upcase=="A" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                    if @fundproduct.fund_size>1 && @fundproduct.fund_size<=10
-                      if @webuser.riskselect4.upcase=="B" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                    if @fundproduct.fund_size>10
-                      if @webuser.riskselect4.upcase=="C" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                  end
+                  num3=1
                   if @fundproduct!=nil && @fundproduct.create_date!=nil
                     t = Time.new
                     date = t.strftime("%Y-%m-%d")
                     fate=(DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)).to_s.split("/")[0].to_i
 
-                    if fate<=365
-                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="ABC"
+                    if fate<=3650
+                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB"
                         num4=1
                       end
                     end
-                    if fate>365 && fate<=1095
-                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
-                        num4=1
-                      end
-                    end
-                    if fate>1095
-                      if @webuser.riskselect5.upcase=="C" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+                    if fate>3650
+                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB"
                         num4=1
                       end
                     end
@@ -2437,7 +2391,7 @@ class WeixinsController < ApplicationController
                   num5=0
                   @fundproduct=General_fund_product.find_by_product_code(@fundquote[i].product_code)
                   if @fundproduct!=nil
-                    if @webuser.riskselect2.upcase=="B" || @webuser.riskselect2.upcase=="AB" || @webuser.riskselect2.upcase=="BC" || @webuser.riskselect2.upcase=="ABC"
+                    if @webuser.riskselect2.upcase=="A" || @webuser.riskselect2.upcase=="AB"
                       num1=1
                     end
                   end
@@ -2451,40 +2405,20 @@ class WeixinsController < ApplicationController
                       num2=0
                     end
                   end
-                  if @fundproduct!=nil && @fundproduct.fund_size!=nil
-                    if @fundproduct.fund_size>=0 && @fundproduct.fund_size<=1
-                      if @webuser.riskselect4.upcase=="A" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                    if @fundproduct.fund_size>1 && @fundproduct.fund_size<=10
-                      if @webuser.riskselect4.upcase=="B" || @webuser.riskselect4.upcase=="AB" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                    if @fundproduct.fund_size>10
-                      if @webuser.riskselect4.upcase=="C" || @webuser.riskselect4.upcase=="AC" || @webuser.riskselect4.upcase=="BC" || @webuser.riskselect4.upcase=="ABC"
-                        num3=1
-                      end
-                    end
-                  end
+                  num3=1
                   if @fundproduct!=nil && @fundproduct.date!=nil
                     t = Time.new
                     date = t.strftime("%Y-%m-%d")
                     fate=(DateTime.parse(date)-DateTime.parse(@fundproduct.date.to_s)).to_s.split("/")[0].to_i
 
-                    if fate<=365
-                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="ABC"
+                    if fate<=3650
+                      if @webuser.riskselect5.upcase=="A" || @webuser.riskselect5.upcase=="AB"
                         num4=1
                       end
                     end
-                    if fate>365 && fate<=1095
-                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
-                        num4=1
-                      end
-                    end
-                    if fate>1095
-                      if @webuser.riskselect5.upcase=="C" || @webuser.riskselect5.upcase=="AC" || @webuser.riskselect5.upcase=="BC" || @webuser.riskselect5.upcase=="ABC"
+
+                    if fate>3650
+                      if @webuser.riskselect5.upcase=="B" || @webuser.riskselect5.upcase=="AB"
                         num4=1
                       end
                     end

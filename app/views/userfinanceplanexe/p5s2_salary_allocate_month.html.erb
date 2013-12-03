@@ -114,7 +114,7 @@
                               <% end %>
                           <% end %>
                         </td>
-                        <td><% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>" class="btn btn-primary">详情</a><% end %></td>
+                        <td><% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>">详情</a><% end %></td>
                       </tr>
                       <tr>
                         <td>高收益资产</td>
@@ -131,9 +131,9 @@
                         </td>
                         <td>
                           <% if @hash['risk'][2]==1 %>
-                              <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>" class="btn btn-primary">详情</a>
+                              <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>">详情</a>
                           <% elsif @hash['risk'][2]==0 %>
-                              <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>" class="btn btn-primary">详情</a>
+                              <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>">详情</a>
                           <% end %>
                         </td>
                       </tr>
@@ -141,8 +141,8 @@
                         <td>稳定收益资产</td>
                         <td><a href="/bankinvest/classify/<%= @hash['safe'][0] %>"><%= @hash['safe'][1] %></a></td>
                         <td class="amounts4"></td>
-                        <td class="name4"><% if @userfinancedata!=nil%><%= @userfinancedata.safe_productid %><% end %></td>
-                        <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>" class="btn btn-primary">详情</a><% end %></td>
+                        <td class="name4">12单定存法</td>
+                        <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>">详情</a><% end %></td>
                       </tr>
                       </tbody>
                     </table>
