@@ -32,7 +32,7 @@ class AdminController < ApplicationController
       @incomeannual=Admin_income_type_annual.all
       @expenseannual=Admin_expense_type_annual.all
       @risktype=Admin_risktolerance_type.all
-      @fundproduct=Monetary_fund_product.all
+      @fundproduct=Fund_product.all
       @average=Average_return_rate.all
       @rank=Rank.all
       #user
@@ -89,16 +89,16 @@ class AdminController < ApplicationController
 
   def fundproductconfig
     if params[:id]!="0"
-      @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+      @fundproduct=Fund_product.find_by_id(params[:id])
     else
-      @fundproduct=Monetary_fund_product.limit(1)
+      @fundproduct=Fund_product.limit(1)
     end
   end
 
   def fundproductconfigajax
-    @fundproduct=Monetary_fund_product.find_by_productname(params[:productname])
+    @fundproduct=Fund_product.find_by_productname(params[:productname])
     if @fundproduct==nil
-      Monetary_fund_product.new do |b|
+      Fund_product.new do |b|
         b.productid=params[:productid]
         b.productname=params[:productname]
         b.L2_typeid=params[:L2_typeid]
@@ -125,7 +125,7 @@ class AdminController < ApplicationController
   end
 
   def fundproductdeleteajax
-    @fundproduct=Monetary_fund_product.find_by_id(params[:id])
+    @fundproduct=Fund_product.find_by_id(params[:id])
     if @fundproduct!=nil
       if @fundproduct.destroy
         render :json => "s".to_json

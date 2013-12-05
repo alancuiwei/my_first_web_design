@@ -33,7 +33,7 @@ class BankinvestController < ApplicationController
     @monetary=Monetary_fund_quote.all
     @hash={}
     for i in 0..@monetary.size-1
-      @fundproduct=Monetary_fund_product.find_by_product_code(@monetary[i].product_code)
+      @fundproduct=Fund_product.find_by_product_code(@monetary[i].product_code)
       t = Time.new
       date = t.strftime("%Y-%m-%d")
       if @fundproduct!=nil
@@ -57,8 +57,8 @@ class BankinvestController < ApplicationController
 
   def buylinks
     if params[:id]!=nil
-      @financial=Financial.find_by_id(params[:id])
-      @productcompany=Productcompany.find_all_by_pname(@financial.pname)
+      @financial=Monetary_fund_quote.find_by_id(params[:id])
+      @productcompany=Productcompany.find_all_by_pname(@financial.productname)
       @hash={}
       for i in 0..@productcompany.size-1
         @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
@@ -80,8 +80,8 @@ class BankinvestController < ApplicationController
       @saleshelp=@salescompany.assist.split(",")
       end
       if params[:pid]!=nil
-        @financial=Financial.find_by_id(params[:pid])
-        @productcompany=Productcompany.find_by_pname_and_fundname(@financial.pname,@salescompany.fundname)
+        @financial=Monetary_fund_quote.find_by_id(params[:pid])
+        @productcompany=Productcompany.find_by_pname_and_fundname(@financial.productname,@salescompany.fundname)
       end
     else
       redirect_to(:controller=>"home", :action=>"index")
@@ -89,11 +89,13 @@ class BankinvestController < ApplicationController
   end
 
   def huobi
+    @blog3=Blog.find_by_id(467)
+    @blog4=Blog.find_by_id(468)
     if params[:id]!=nil
       @fundquote=Monetary_fund_quote.find_by_id(params[:id])
       @hash={}
       if @fundquote!=nil
-        @fundproduct=Monetary_fund_product.find_by_product_code(@fundquote.product_code)
+        @fundproduct=Fund_product.find_by_product_code(@fundquote.product_code)
         @productcompany=Productcompany.find_all_by_pname(@fundquote.productname)
         @hash={}
         for i in 0..@productcompany.size-1
@@ -109,9 +111,6 @@ class BankinvestController < ApplicationController
             @min=@productcompany[i].poundage
           end
         end
-        @average1=Average_return_rate.find_by_typeid_and_years(101,1)
-        @average2=Average_return_rate.find_by_typeid_and_years(101,2)
-        @average3=Average_return_rate.find_by_typeid_and_years(101,3)
       else
         redirect_to(:controller=>"bankinvest", :action=>"products")
       end
@@ -121,6 +120,8 @@ class BankinvestController < ApplicationController
   end
 
   def highprofit
+    @blog3=Blog.find_by_id(467)
+    @blog4=Blog.find_by_id(468)
     if params[:id]!=nil
       @fundquote=General_fund_quote.find_by_id(params[:id])
       @hash={}

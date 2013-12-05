@@ -149,7 +149,7 @@ class UserfinanceplanController < ApplicationController
       @monetary=Monetary_fund_quote.all
       @hash={}
       for i in 0..@monetary.size-1
-        @fundproduct=Monetary_fund_product.find_by_product_code(@monetary[i].product_code)
+        @fundproduct=Fund_product.find_by_product_code(@monetary[i].product_code)
         t = Time.new
         date = t.strftime("%Y-%m-%d")
         if @fundproduct!=nil
@@ -280,7 +280,7 @@ class UserfinanceplanController < ApplicationController
       @hash2.store(@category[i].L2_typeid,[@category[i].classify,loss1,loss3,max1,max3,avg1,avg3])
       @hash.store(i,[@category[i].id,@category[i].classify])
     end
-    @fundproduct=Monetary_fund_product.all
+    @fundproduct=Fund_product.all
 
     @hash3={}
     @hash5={}
@@ -322,7 +322,7 @@ class UserfinanceplanController < ApplicationController
     t = Time.new
     date = t.strftime("%Y-%m-%d")
     for i in 0..@monetaryfundquote.size-1
-      @product=Monetary_fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
+      @product=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
       if @product!=nil
         if @product.create_date!=nil
           @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,DateTime.parse(date)-DateTime.parse(@product.create_date.to_s),@product.fund_size])

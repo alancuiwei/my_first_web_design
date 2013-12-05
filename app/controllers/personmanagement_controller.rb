@@ -50,7 +50,7 @@ class PersonmanagementController < ApplicationController
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :summary=>"1")
     end
-    @fundproduct=Monetary_fund_product.all
+    @fundproduct=Fund_product.all
 
     @hash3={}
     @hash5={}
@@ -132,7 +132,7 @@ class PersonmanagementController < ApplicationController
     t = Time.new
     date = t.strftime("%Y-%m-%d")
     for i in 0..@monetaryfundquote.size-1
-      @product=Monetary_fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
+      @product=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
       if @product!=nil
         if @product.create_date!=nil
           @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,DateTime.parse(date)-DateTime.parse(@product.create_date.to_s),@product.fund_size])
@@ -383,7 +383,7 @@ class PersonmanagementController < ApplicationController
       @record=Record.find_all_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
       if @userfinancedata!=nil
-        @finance1=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
+        @finance1=Fund_product.find_by_productname(@userfinancedata.fluid_productid)
         if @finance1!=nil
           @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
         end
@@ -405,7 +405,7 @@ class PersonmanagementController < ApplicationController
         @record=Record.find_all_by_username(session[:webusername])
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
         if @userfinancedata!=nil
-          @finance1=Monetary_fund_product.find_by_productname(@userfinancedata.fluid_productid)
+          @finance1=Fund_product.find_by_productname(@userfinancedata.fluid_productid)
           if @finance1!=nil
             @category1=Admin_asset_type_l2.find_by_classify(@finance1.L2_typename)
           end

@@ -2157,7 +2157,7 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             if content.upcase=="A" || content.upcase=="B" || content.upcase=="AB"
               @webuser.update_attributes(:fluidselect4=>content)
-              @fundproduct=Monetary_fund_product.all
+              @fundproduct=Fund_product.all
               @hash909={}
               k=0
               for i in 0..@fundproduct.size-1
@@ -2235,7 +2235,7 @@ class WeixinsController < ApplicationController
             end
           elsif @webuser!=nil && @webuser.plan==909
             content=params[:xml][:Content]
-            @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
+            @monetaryfundproduct=Fund_product.find_by_product_code(content)
             if @monetaryfundproduct!=nil
               if @userfinancedata!=nil
                 @userfinancedata.update_attributes(:fluid_productid=>@monetaryfundproduct.productname)
@@ -2328,7 +2328,7 @@ class WeixinsController < ApplicationController
                   num3=0
                   num4=0
                   num5=0
-                  @fundproduct=Monetary_fund_product.find_by_product_code(@fundquote[i].product_code)
+                  @fundproduct=Fund_product.find_by_product_code(@fundquote[i].product_code)
                   if @fundproduct!=nil && @fundproduct.min_purchase_account!=nil
                     if @fundproduct.min_purchase_account>=0 && @fundproduct.min_purchase_account<=1000
                       if @webuser.riskselect2.upcase=="A" || @webuser.riskselect2.upcase=="AB"
@@ -2440,7 +2440,7 @@ class WeixinsController < ApplicationController
             end
           elsif @webuser!=nil && @webuser.plan==918
             content=params[:xml][:Content]
-            @monetaryfundproduct=Monetary_fund_product.find_by_product_code(content)
+            @monetaryfundproduct=Fund_product.find_by_product_code(content)
             @generalfundproduct=General_fund_product.find_by_product_code(content)
             if @monetaryfundproduct!=nil
               if @userfinancedata!=nil
