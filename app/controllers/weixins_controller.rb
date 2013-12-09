@@ -61,7 +61,7 @@ class WeixinsController < ApplicationController
             render "rtn101", :formats => :xml
           when "V110"
             if @webuser!=nil && @userfinancedata!=nil && @userfinancedata.asset_score!=nil
-              @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>110)
+              @webuser.update_attributes(:segment=>413,:targets=>0,:subject=>400)
               render "rtn413", :formats => :xml
             elsif @webuser!=nil
               @webuser.update_attributes(:segment=>400,:targets=>0,:subject=>110)
@@ -108,7 +108,7 @@ class WeixinsController < ApplicationController
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
               if @userfinancedata!=nil && @userfinancedata.asset_score!=nil && @targets!=nil
-                @webuser.update_attributes(:segment=>0,:targets=>0,:subject=>500)
+                @webuser.update_attributes(:segment=>0,:targets=>509,:subject=>500)
                 render "rtn509", :formats => :xml
               elsif @userfinancedata!=nil && @userfinancedata.asset_score!=nil
                 @webuser.update_attributes(:segment=>0,:targets=>500,:subject=>500)
@@ -198,46 +198,46 @@ class WeixinsController < ApplicationController
     end
 
     if (params[:username]==nil && params[:xml][:MsgType]=="text") || session[:webusername]!=nil
-      if params[:username]==nil && params[:xml][:MsgType]=="text" && !(@webuser.segment>0)
+      if params[:username]==nil && params[:xml][:MsgType]=="text"
         case params[:xml][:Content]
-          when "t100"
+          when "0100"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn100", :formats => :xml
-          when "t101"
+          when "0101"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn101", :formats => :xml
-          when "t200"
+          when "0200"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn200", :formats => :xml
-          when "t202"
+          when "0202"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn202", :formats => :xml
-          when "t203"
+          when "0203"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn203", :formats => :xml
-          when "t204"
+          when "0204"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn204", :formats => :xml
 
-          when "t300"
+          when "0300"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
             end
             render "rtn300", :formats => :xml
 
-          when "t601"
+          when "0601"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
               if @userfinancedata!=nil && @userfinancedata.asset_score!=nil
@@ -248,7 +248,7 @@ class WeixinsController < ApplicationController
             else
               render "rtn411", :formats => :xml
             end
-          when "t602"
+          when "0602"
             if @webuser!=nil
               @targets=User_targets.find_by_username(@webuser.username)
               @webuser.update_attributes(:segment=>0,:targets=>0)
@@ -260,7 +260,7 @@ class WeixinsController < ApplicationController
             else
               render "rtn602", :formats => :xml
             end
-          when "t603"
+          when "0603"
             if @webuser!=nil
               @webuser.update_attributes(:segment=>0,:targets=>0)
               if @userfinancedata==nil || @userfinancedata.risk_score!=nil
@@ -396,6 +396,13 @@ class WeixinsController < ApplicationController
           end
           @webuser.update_attributes(:segment=>414,:targets=>0)
           render "rtn414", :formats => :xml
+        end
+
+      elsif @webuser!=nil && @webuser.segment==413 && params[:username]==nil   #重新财务分析
+        content=params[:xml][:Content]
+        if content=="100"
+          @webuser.update_attributes(:segment=>400,:targets=>0)
+          render "rtn400", :formats => :xml
         end
 
       elsif @webuser!=nil && @webuser.segment==414 && params[:username]==nil   #月额外收入
@@ -1702,9 +1709,19 @@ class WeixinsController < ApplicationController
               @webuser.update_attributes(:segment=>0,:targets=>507)
               render "rtn507", :formats => :xml
             end
+          elsif @webuser!=nil && @webuser.targets==509                    #重新设定理财目标
+            if params[:xml][:Content]=="100"
+              @webuser.update_attributes(:segment=>0,:targets=>500)
+              render "rtn500", :formats => :xml
+            end
           end
         end
-
+        if @webuser!=nil && @webuser.subject==700              #重新进行风险承受度评估
+          content=params[:xml][:Content]
+          if content=="100"
+            render "rtn700", :formats => :xml
+          end
+        end
         if @webuser!=nil && @webuser.subject==800
           if @webuser!=nil && @webuser.property==800
             content=params[:xml][:Content]
@@ -2219,7 +2236,7 @@ class WeixinsController < ApplicationController
                   end
                 end
                 if num1==1 && num2==1 && num3==1 && num4==1
-                  @hash909.store(k,[@fundproduct[i].product_code,@fundproduct[i].productname,@fundproduct[i].min_purchase_account,@fundproduct[i].fund_size,@fundproduct[i].create_date,@fundquote.one_year_rank,@fundquote.two_year_rank,@fundquote.three_year_rank])
+                  @hash909.store(k,[@fundproduct[i].product_code,@fundproduct[i].productname,@fundquote.one_year_rank,@fundquote.three_year_rank])
                   k=k+1
                 end
               end
@@ -2370,7 +2387,7 @@ class WeixinsController < ApplicationController
                   end
                   num5=1
                   if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
-                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].productname,@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
+                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].productname,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
                     k=k+1
                   end
                 end
@@ -2425,7 +2442,7 @@ class WeixinsController < ApplicationController
                   end
                   num5=1
                   if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
-                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].product_name,1000,@fundproduct.fund_size,@fundproduct.date,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
+                    @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].product_name,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
                     k=k+1
                   end
                 end
@@ -2440,25 +2457,25 @@ class WeixinsController < ApplicationController
             end
           elsif @webuser!=nil && @webuser.plan==918
             content=params[:xml][:Content]
-            @monetaryfundproduct=Fund_product.find_by_product_code(content)
-            @generalfundproduct=General_fund_product.find_by_product_code(content)
+            @monetaryfundquote=Monetary_fund_quote.find_by_product_code(content)
+            @generalfundquote=General_fund_quote.find_by_product_code(content)
             if @monetaryfundproduct!=nil
-              if @userfinancedata!=nil
-                @userfinancedata.update_attributes(:risk_productid=>@monetaryfundproduct.productname)
+              if @monetaryfundquote!=nil
+                @userfinancedata.update_attributes(:risk_productid=>@monetaryfundquote.productname)
               else
                 User_finance_data.new do |u|
                   u.username=@webuser.username
-                  u.risk_productid=@monetaryfundproduct.productname
+                  u.risk_productid=@monetaryfundquote.productname
                   u.save
                 end
               end
-            elsif @generalfundproduct!=nil
+            elsif @generalfundquote!=nil
               if @userfinancedata!=nil
-                @userfinancedata.update_attributes(:risk_productid=>@generalfundproduct.product_name)
+                @userfinancedata.update_attributes(:risk_productid=>@generalfundquote.product_name)
               else
                 User_finance_data.new do |u|
                   u.username=@webuser.username
-                  u.risk_productid=@generalfundproduct.product_name
+                  u.risk_productid=@generalfundquote.product_name
                   u.save
                 end
               end

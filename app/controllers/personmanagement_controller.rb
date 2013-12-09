@@ -259,7 +259,6 @@ class PersonmanagementController < ApplicationController
     else
       @userfinancedata.update_attributes(:risk_score=>params[:risk_score])
     end
-    @webuser.update_attributes(:risk_score=>params[:risk_score]);
     render :json => "s".to_json
   end
 

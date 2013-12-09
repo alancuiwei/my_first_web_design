@@ -95,7 +95,7 @@
       </tr>
       <tr>
         <td class="left">管理机构</td>
-        <td class="right">--</td>
+        <td class="right" style="white-space: nowrap;"><% if @fundproduct!=nil && @fundproduct.institution!=nil %><%= @fundproduct.institution %><% else %>--<% end %></td>
         <td class="left">三年收益率</td>
         <td class="right"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
       </tr>
