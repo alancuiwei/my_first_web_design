@@ -48,14 +48,19 @@ class UsermanagementController < ApplicationController
      for i in 0..@assettype.size-1
        @hash1.store(@assettype[i].asset_typeid.to_i,[@assettype[i].asset_typename])
      end
-     if session[:webusername]!=nil
-       @userassetdaily=User_assets_daily.find_all_by_username(session[:webusername])
+    if session[:webusername]!=nil || params[:username]!=nil
+      if params[:username]!=nil
+        @webuser=Webuser.find_by_username(params[:username])
+      else
        @webuser=Webuser.find_by_username(session[:webusername])
+      end
+      if @webuser!=nil
+        @userassetdaily=User_assets_daily.find_all_by_username(@webuser.username)
        @userfinancedata=User_finance_data.find_by_username(@webuser.username)
        @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
        @targets=User_targets.find_by_username(@webuser.username)
-       @userasset=User_asset_sheet.find_all_by_username(session[:webusername])
-       @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+session[:webusername]+"' and asset_typeid<>401 && asset_typeid<>402")
+        @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+        @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+@webuser.username+"' and asset_typeid<>401 && asset_typeid<>402")
        @total=0
        for i in 0..@userassetsheet.size-1
          @total=@total+@userassetsheet[i].asset_value
@@ -86,6 +91,9 @@ class UsermanagementController < ApplicationController
      else
        redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
      end
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
+    end
    end
 end
 

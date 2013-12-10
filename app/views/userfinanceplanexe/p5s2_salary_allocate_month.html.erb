@@ -196,7 +196,7 @@
                             <% if @webuser.username==session[:webusername] %>
                                 <td>
                                   <a href="#login-box" role="button" data-toggle="modal" onclick="waithelp(<%= r.id %>,'<%= r.pname %>');">修改</a>
-                                  <a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= r.id %>','recorddeleteajax')">删除</a>
+                                  <a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= r.id %>')">删除</a>
                                 </td>
                             <% end %>
                           </tr>
@@ -512,7 +512,15 @@
         }
     }
     function waithelp(e,q){
+        var p=0;
+    <% @assettype.each do |a| %>
+      if("<%= a.asset_typename %>"==product){
+          p==1
+      }
+    <% end %>
+        if(p==0 && p!=a2 && p!=a4 && p!=a5){
         removeoption(document.getElementById("pname"),product);
+        }
         if(a2!=""){addoption(document.getElementById("pname"),a2,a2);}
         if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
         if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
@@ -554,13 +562,26 @@
             return false;
         }
         else{
+   if(handle==0)
+                    $.post("/personmanagement/recordaddconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
             $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
                 location.reload();
             });
+                    });
+                else{
+                    $.post("/personmanagement/recordremoveconfigajax/"+handle,function(data){
+                        $.post("/personmanagement/recordaddconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                          $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                              location.reload();
+                          });
+                        });
+                    });
+                }
         }
     });
-    function deleteajax(id,type){
-        $.get("/personmanagement/"+type+"/"+id,function(data){
+    function deleteajax(id){
+        $.post("/personmanagement/recordremoveconfigajax/"+id,function(data){
+            $.get("/personmanagement/recorddeleteajax/"+id,function(data){
             if(data=="s"){
                 alert("删除成功！");
                 location.reload();
@@ -570,6 +591,8 @@
                 location.reload();
             }
         });
+        });
+
     }
     $(document).ready(function(){
         $("#dates").attr("value",yearNow+'-'+monthNow);

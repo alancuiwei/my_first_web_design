@@ -287,18 +287,90 @@ class PersonmanagementController < ApplicationController
       end
       r.save
     end
-    render :json => "s1".to_json
    else
      @record=Record.find_by_id(params[:id])
      @record.update_attributes(:username=>params[:username],:date=>params[:date],:pname=>params[:pname],:amount=>params[:amount],:nature=>params[:nature])
      if params[:ptype]=='1'
        @record.update_attributes(:productcode=>params[:productcode],:productshare=>params[:productshare])
      end
-     render :json => "s2".to_json
    end
+
+   @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+   asset_account=0;
+   asset_fluid_account=0;
+   asset_safefy_account=0;
+   asset_risky_account=0;
+   @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+   for i in 0..@userassetsheet.size-1
+     value=0
+     if @userassetsheet[i].asset_product_value!=nil
+       value=@userassetsheet[i].asset_product_value
+     elsif @userassetsheet[i].asset_value!=nil
+       value=@userassetsheet[i].asset_value
+     end
+     asset_account=asset_account+value
+     @assettype=Admin_asset_type.find_by_asset_typeid(@userassetsheet[i].asset_typeid)
+     if @assettype!=nil
+       if @assettype.asset_type_L1==100
+         asset_fluid_account=asset_fluid_account+value
+       elsif @assettype.asset_type_L1==200
+         asset_safefy_account=asset_safefy_account+value
+       elsif @assettype.asset_type_L1==300
+         asset_risky_account=asset_risky_account+value
+       end
+     end
+   end
+
+   if @userbalancesheet!=nil
+     debt_account=0
+     if @userbalancesheet.debt_account!=nil
+       debt_account=@userbalancesheet.debt_account
+     end
+     net_account=asset_account-debt_account
+     a2=@userbalancesheet.debt_account
+     @userbalancesheet.update_attributes(:asset_account=>asset_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
+                                         :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
+   end
+   render :json => "s".to_json
   end
 
   def recorddeleteajax
+    @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+    asset_account=0;
+    asset_fluid_account=0;
+    asset_safefy_account=0;
+    asset_risky_account=0;
+    @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+    for i in 0..@userassetsheet.size-1
+      value=0
+      if @userassetsheet[i].asset_product_value!=nil
+        value=@userassetsheet[i].asset_product_value
+      elsif @userassetsheet[i].asset_value!=nil
+        value=@userassetsheet[i].asset_value
+      end
+      asset_account=asset_account+value
+      @assettype=Admin_asset_type.find_by_asset_typeid(@userassetsheet[i].asset_typeid)
+      if @assettype!=nil
+        if @assettype.asset_type_L1==100
+          asset_fluid_account=asset_fluid_account+value
+        elsif @assettype.asset_type_L1==200
+          asset_safefy_account=asset_safefy_account+value
+        elsif @assettype.asset_type_L1==300
+          asset_risky_account=asset_risky_account+value
+        end
+      end
+    end
+
+    if @userbalancesheet!=nil
+      debt_account=0
+      if @userbalancesheet.debt_account!=nil
+        debt_account=@userbalancesheet.debt_account
+      end
+      net_account=asset_account-debt_account
+      a2=@userbalancesheet.debt_account
+      @userbalancesheet.update_attributes(:asset_account=>asset_account,:net_account=>net_account,:asset_fluid_account=>asset_fluid_account,
+                                          :asset_risky_account=>asset_risky_account,:asset_safefy_account=>asset_safefy_account)
+    end
     @record=Record.find_by_id(params[:id])
     if @record!=nil
       if @record.destroy
@@ -306,6 +378,141 @@ class PersonmanagementController < ApplicationController
       else
         render :json => "f".to_json
       end
+    end
+  end
+
+  def recordaddconfigajax
+   amount=params[:amount]
+   pshare=params[:productshare]
+   @assettype=Admin_asset_type.find_by_asset_typename(params[:pname])
+   if @assettype!=nil
+     asset_value=0
+     if pshare!="" && params[:productcode]!=""
+       @fundquote1=Monetary_fund_quote.find_by_product_code(params[:productcode])
+       @fundquote2=General_fund_quote.find_by_product_code(params[:productcode])
+       if @fundquote1!=nil
+         asset_value=@fundquote1.million_income*pshare.to_f
+       elsif @fundquote2!=nil
+         asset_value=@fundquote2.today_value*pshare.to_f
+       end
+      @userassetsheet1=User_asset_sheet.find_by_username_and_asset_typeid_and_asset_product_code(params[:username],@assettype.asset_typeid,params[:productcode])
+     else
+       if @assettype.asset_typeid=="308" && pshare!=nil
+         asset_value=pshare.to_f*@assettype.asset_value
+       else
+         asset_value=amount.to_i
+       end
+      @userassetsheet2=User_asset_sheet.find_by_username_and_asset_typeid(params[:username],@assettype.asset_typeid)
+     end
+
+     productshare=0
+     if params[:nature]=="买入"
+       productshare=pshare.to_f
+     elsif params[:nature]=="赎回取现"
+       productshare=0-pshare.to_f
+       asset_value=-asset_value
+     end
+     if @userassetsheet1!=nil
+       productshare=productshare+@userassetsheet1.asset_product_share
+       asset_value=asset_value+@userassetsheet1.asset_value
+       if productshare<0
+         productshare=0
+         asset_value=0
+       end
+       @userassetsheet1.update_attributes(:asset_value=>asset_value,:asset_product_value=>asset_value,:asset_product_share=>productshare)
+       render :json => "s1".to_json
+     elsif @userassetsheet2!=nil
+       asset_value=asset_value+@userassetsheet2.asset_value
+       if @userassetsheet2.asset_product_share!=nil
+         productshare=productshare+@userassetsheet2.asset_product_share
+       end
+       if asset_value<0
+         asset_value=0
+       end
+       @userassetsheet2.update_attributes(:asset_value=>asset_value,:asset_product_share=>productshare)
+       render :json => "s2".to_json
+     else
+       if params[:nature]=="买入"
+         User_asset_sheet.new do |e|
+           e.username=params[:username]
+           e.asset_typeid=@assettype.asset_typeid
+           e.asset_value=asset_value
+           e.asset_product_value=asset_value
+           e.asset_product_code=params[:productcode]
+           e.asset_product_share=productshare
+           e.save
+         end
+       end
+       render :json => "s3".to_json
+     end
+   else
+     render :json => "f".to_json
+   end
+  end
+
+  def recordremoveconfigajax
+    @record=Record.find_by_id(params[:id])
+    if @record!=nil
+      @assettype=Admin_asset_type.find_by_asset_typename(@record.pname)
+      if @assettype!=nil
+        asset_value=0
+        if @record.productshare!=nil && @record.productcode!=nil && @record.productcode!=""
+          @ree=Record.find_by_id(4)
+          @ree.update_attributes(:productcode=>3)
+          @fundquote1=Monetary_fund_quote.find_by_product_code(@record.productcode)
+          @fundquote2=General_fund_quote.find_by_product_code(@record.productcode)
+          if @fundquote1!=nil
+            asset_value=@fundquote1.million_income*@record.productshare
+          elsif @fundquote2!=nil
+            asset_value=@fundquote2.today_value*@record.productshare
+          end
+          @userassetsheet1=User_asset_sheet.find_by_username_and_asset_typeid_and_asset_product_code(@record.username,@assettype.asset_typeid,@record.productcode)
+        else
+          if @assettype.asset_typeid=="308" && @record.productshare!=nil
+            asset_value=@record.productshare*@assettype.asset_value
+          else
+            asset_value=@record.amount
+          end
+          @ree=Record.find_by_id(4)
+          @ree.update_attributes(:productcode=>@record.username+","+@assettype.asset_typeid)
+          @userassetsheet2=User_asset_sheet.find_by_username_and_asset_typeid(@record.username,@assettype.asset_typeid)
+        end
+        productshare=0
+        if @record.nature=="买入"
+          if @record.productshare!="" && @record.productshare!=nil
+            productshare=0-@record.productshare
+          end
+          asset_value=0-asset_value
+        elsif @record.nature=="赎回取现"
+          if @record.productshare!="" && @record.productshare!=nil
+            productshare=@record.productshare
+          end
+        end
+        if @userassetsheet1!=nil
+          productshare=productshare+@userassetsheet1.asset_product_share
+          asset_value=asset_value+@userassetsheet1.asset_value
+          if productshare<0
+            productshare=0
+            asset_value=0
+          end
+          @userassetsheet1.update_attributes(:asset_value=>asset_value,:asset_product_value=>asset_value,:asset_product_share=>productshare)
+          render :json => "s1".to_json
+        elsif @userassetsheet2!=nil
+          asset_value=asset_value+@userassetsheet2.asset_value
+          productshare=productshare+@userassetsheet2.asset_product_share
+          if asset_value<0
+            asset_value=0
+          end
+          @userassetsheet2.update_attributes(:asset_value=>asset_value,:asset_product_share=>productshare)
+          render :json => "s2".to_json
+        else
+          render :json => "s3".to_json
+        end
+      else
+        render :json => "f".to_json
+      end
+    else
+      render :json => "f".to_json
     end
   end
 

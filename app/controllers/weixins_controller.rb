@@ -159,7 +159,7 @@ class WeixinsController < ApplicationController
                 elsif @userasset[i].asset_value!=nil
                   value=@userasset[i].asset_value
                 end
-                if @hash1[@userasset[i].asset_typeid][1]==100
+                if @hash1[@userasset[i].asset_typeid][1]==100 || @hash1[@userasset[i].asset_typeid][1]==200 || @hash1[@userasset[i].asset_typeid][1]==300
                   @liudong=@liudong+value
                 elsif @hash1[@userasset[i].asset_typeid][1]==400
                   @guding=@guding+value
@@ -1812,7 +1812,7 @@ class WeixinsController < ApplicationController
                   elsif @userasset[i].asset_value!=nil
                     value=@userasset[i].asset_value
                   end
-                  if @hash1[@userasset[i].asset_typeid][1]==100
+                  if @hash1[@userasset[i].asset_typeid][1]==100 || @hash1[@userasset[i].asset_typeid][1]==200 || @hash1[@userasset[i].asset_typeid][1]==300
                     @liudong=@liudong+value
                   elsif @hash1[@userasset[i].asset_typeid][1]==400
                     @guding=@guding+value
@@ -1887,7 +1887,7 @@ class WeixinsController < ApplicationController
                   elsif @userasset[i].asset_value!=nil
                     value=@userasset[i].asset_value
                   end
-                  if @hash1[@userasset[i].asset_typeid][1]==100
+                  if @hash1[@userasset[i].asset_typeid][1]==100 || @hash1[@userasset[i].asset_typeid][1]==200 || @hash1[@userasset[i].asset_typeid][1]==300
                     @liudong=@liudong+value
                   elsif @hash1[@userasset[i].asset_typeid][1]==400
                     @guding=@guding+value
@@ -1951,7 +1951,7 @@ class WeixinsController < ApplicationController
                 elsif @userasset[i].asset_value!=nil
                   value=@userasset[i].asset_value
                 end
-                if @hash1[@userasset[i].asset_typeid][1]==100
+                if @hash1[@userasset[i].asset_typeid][1]==100 || @hash1[@userasset[i].asset_typeid][1]==200 || @hash1[@userasset[i].asset_typeid][1]==300
                   @liudong=@liudong+value
                 elsif @hash1[@userasset[i].asset_typeid][1]==400
                   @guding=@guding+value
