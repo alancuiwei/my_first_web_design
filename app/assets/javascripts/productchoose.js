@@ -306,7 +306,57 @@ $.fn.dataTableExt.afnFiltering.push(
                 $("#st-term").html('成立时间:'+text);
             }
             num5=1;
-            num6=1;
+            var obj = document.getElementsByName("checkbox10"); // 获取多选框数组
+            var objLen = obj.length;
+            var objYN = false; // 是否有选择
+            for (var i = 0; i < objLen; i++) {
+                if (obj [i].checked == true) {
+                    objYN = true;
+                    break;
+                }
+            }
+            if(!objYN){
+                $("#levels0").addClass('currbg');
+                $("#s-level").addClass('hide');
+                $("[class*='colors5']").removeClass('currbg');
+                num6=1;
+            }
+            else{
+                $("#levels0").removeClass('currbg');
+                $("#s-level").removeClass('hide');
+                var text='';
+                if(obj[0].checked == true){
+                    $(".colors51").addClass('currbg');
+                    text='三星';
+                    if(aData[15]=='★★★'){
+                        num6=1;
+                    }
+                }
+                else{
+                    $(".colors51").removeClass('currbg');
+                }
+                if(obj[1].checked == true){
+                    $(".colors52").addClass('currbg');
+                    if(text!=""){text=text+",四星"}else{text="四星"}
+                    if(aData[15]=='★★★★'){
+                        num6=1;
+                    }
+                }
+                else{
+                    $(".colors52").removeClass('currbg');
+                }
+                if(obj[2].checked == true){
+                    $(".colors53").addClass('currbg');
+                    if(text!=""){text=text+",五星"}else{text="五星"}
+                    if(aData[15]=='★★★★★'){
+                        num6=1;
+                    }
+                }
+                else{
+                    $(".colors53").removeClass('currbg');
+                }
+                $("#st-level").html('晨星评级:'+text);
+            }
 
             if(num1==1 && num2==1 && num3==1&& num4==1 && num5==1 && num6==1){
                 return true;

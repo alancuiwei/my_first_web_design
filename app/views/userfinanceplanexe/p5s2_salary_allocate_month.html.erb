@@ -35,7 +35,7 @@
     .table th,.table td{
         font-family: Hiragino Sans GB W3;
     }
-    .modal.fade.in{
+    #myModal.modal.fade.in{
         width: 950px;
         left: 40%;
     }
@@ -141,8 +141,8 @@
                         <td>稳定收益资产</td>
                         <td><a href="/bankinvest/classify/<%= @hash['safe'][0] %>"><%= @hash['safe'][1] %></a></td>
                         <td class="amounts4"></td>
-                        <td class="name4">12单定存法</td>
-                        <td><% if @safeproduct!=nil %><a href="/bankinvest/productdetails/<%= @safeproduct.id %>">详情</a><% end %></td>
+                        <td class="name4"><a href="#myModal_12" role="button" data-toggle="modal">12单定存法</a></td>
+                        <td><a href="#myModal_12" role="button" data-toggle="modal">详情</a></td>
                       </tr>
                       </tbody>
                     </table>
@@ -253,6 +253,21 @@
         <% end %>
       </tr>
     </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal_12" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog!=nil %><%= @blog.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=raw @blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
@@ -519,7 +534,7 @@
       }
     <% end %>
         if(p==0 && p!=a2 && p!=a4 && p!=a5){
-        removeoption(document.getElementById("pname"),product);
+           removeoption(document.getElementById("pname"),product);
         }
         if(a2!=""){addoption(document.getElementById("pname"),a2,a2);}
         if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
@@ -564,9 +579,9 @@
         else{
    if(handle==0)
                     $.post("/personmanagement/recordaddconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
-            $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
-                location.reload();
-            });
+                        $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                            location.reload();
+                        });
                     });
                 else{
                     $.post("/personmanagement/recordremoveconfigajax/"+handle,function(data){
@@ -582,15 +597,15 @@
     function deleteajax(id){
         $.post("/personmanagement/recordremoveconfigajax/"+id,function(data){
             $.get("/personmanagement/recorddeleteajax/"+id,function(data){
-            if(data=="s"){
-                alert("删除成功！");
-                location.reload();
-            }
-            else{
-                alert("删除失败！");
-                location.reload();
-            }
-        });
+                if(data=="s"){
+                    alert("删除成功！");
+                    location.reload();
+                }
+                else{
+                    alert("删除失败！");
+                    location.reload();
+                }
+            });
         });
 
     }

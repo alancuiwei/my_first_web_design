@@ -18,6 +18,7 @@ class UserfinanceplanexeController < ApplicationController
    end
  end
  def p5s2_salary_allocate_month
+   @blog=Blog.find_by_id(519)
    @assettype=Admin_asset_type.find_by_sql("select * from admin_asset_type where asset_typeid<>'401' and asset_typeid<>'402'")
    if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])

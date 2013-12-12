@@ -65,7 +65,7 @@
             <span class="qq_banksmall">单位净值</span>
           </li>
           <li>
-            <span class="qq_bankbig red"><% if @fundquote!=nil && @fundquote.today_rate!=nil %><%= @fundquote.today_rate %><% end %></span>
+            <span class="qq_bankbig red"><% if @fundquote!=nil && @fundquote.today_rate!=nil %><%= @fundquote.today_rate %>%<% end %></span>
             <span class="qq_banksmall">日增长率</span>
           </li>
           <li>
@@ -85,25 +85,25 @@
         <td class="left">产品代码</td>
         <td class="right"><% if @fundquote!=nil && @fundquote.product_code!=nil %><%= @fundquote.product_code %><% else %>--<% end %></td>
         <td class="left">一年收益率</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_return!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_return!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">产品类型</td>
         <td class="right"><% if @hash2[@fundquote.L2_typeid][0]!=nil %><%= @hash2[@fundquote.L2_typeid][0] %><% else %>--<% end %></td>
         <td class="left">一年同类排名</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">管理机构</td>
         <td class="right" style="white-space: nowrap;"><% if @fundproduct!=nil && @fundproduct.institution!=nil %><%= @fundproduct.institution %><% else %>--<% end %></td>
         <td class="left">三年收益率</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">基金规模(<a class="introduce" href="#myModal5" role="button" data-toggle="modal">?</a>)</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.fund_size!=nil %><%= @fundproduct.fund_size %>亿元<% else %>--<% end %></td>
         <td class="left">三年同类排名</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_rank!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_rank!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">基金成立时间(<a class="introduce" href="#myModal4" role="button" data-toggle="modal">?</a>)</td>

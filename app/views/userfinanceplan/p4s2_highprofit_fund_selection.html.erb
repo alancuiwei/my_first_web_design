@@ -149,123 +149,7 @@
         </table>
         <div id="finance" class="hide">
           <div class="win">
-            <div id="optionsRadios">
-              <div class="box_sxtj">
-                <div class="box_sxtj_top">筛选</div>
-                <div class="box_sxtj_center">
-                  <dl class="fore" id="category_all">
-                    <dt>起购金额:</dt>
-                    <dd>
-                      <label class="checkbox inline all">
-                        <a id="categorys0" class="curr  btn-link currbg">不限</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox6" id="categorys1"><a class="colors11"> 0-1000元 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox6" id="categorys2"><a class="colors12"> 1000元以上 </a>
-                      </label>
-                    </dd>
-                  </dl>
-                  <dl class="fore" id="rank_all">
-                    <dt>同类排名:</dt>
-                    <dd>
-                      <label class="checkbox inline all">
-                        <a id="ranks0" class="curr btn-link currbg">不限</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox7" id="ranks1"><a class="colors21">近一年前20名</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox7" id="ranks3"><a class="colors23">近三年前20名</a>
-                      </label>
-                    </dd>
-                  </dl>
-                  <dl class="fore" id="term_all">
-                    <dt>成立时间<a class="introduce" href="#myModal4" role="button" data-toggle="modal">(?)</a>:</dt>
-                    <dd>
-                      <label class="checkbox inline all">
-                        <a id="terms0" class="curr btn-link currbg">不限</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox8" id="terms1"><a class="colors31"> 0-10年 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox8" id="terms2"><a class="colors32"> 10年以上 </a>
-                      </label>
-                    </dd>
-                  </dl>
-                  <dl class="fore" id="scale_all">
-                    <dt>规模<a class="introduce" href="#myModal5" role="button" data-toggle="modal">(?)</a>:</dt>
-                    <dd>
-                      <label class="checkbox inline all">
-                        <a id="scales0" class="curr btn-link currbg"> 不限</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox9" id="scales1"><a class="colors41"> 小型 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox9" id="scales2"><a class="colors42"> 中等 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox9" id="scales3"><a class="colors43"> 大型 </a>
-                      </label>
-                    </dd>
-                  </dl>
-                  <dl class="fore" id="level_all">
-                    <dt>晨星评级:</dt>
-                    <dd>
-                      <label class="checkbox inline all">
-                        <a id="levels0" class="curr btn-link currbg">不限</a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox10" id="levels1"><a class="colors51"> 三星 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox10" id="levels2"><a class="colors52"> 四星 </a>
-                      </label>
-                      <label class="checkbox inline">
-                        <input type="checkbox" class="curr btn-link" name="checkbox10" id="levels3"><a class="colors53"> 五星 </a>
-                      </label>
-                    </dd>
-                  </dl>
-                </div>
-
-                <div class="box_sxtj_bottom">
-                  <dl class="fore">
-                    <dt>已选择的筛选条件:&nbsp;</dt>
-                    <dd id="selected">
-
-                      <div id="s-category" class="del hide">
-                        <h6 class="text" id="st-category" condition="">起购金额:不限</h6>
-                        <a class="deletes" cid="category"></a>
-                      </div>
-
-                      <div id="s-rank" class="del hide">
-                        <h6 class="text" id="st-rank" condition="">同类排名:不限</h6>
-                        <a class="deletes" cid="rank"></a>
-                      </div>
-
-                      <div id="s-term" class="del hide">
-                        <h6 class="text" id="st-term" condition="">成立时间：不限</h6>
-                        <a class="deletes" cid="term"></a>
-                      </div>
-
-                      <div id="s-scale" class="del hide">
-                        <h6 class="text" id="st-scale" condition="">资金规模：不限</h6>
-                        <a class="deletes" cid="scale"></a>
-                      </div>
-
-                      <div id="s-level" class="del hide">
-                        <h6 class="text" id="st-level" condition="">类型：不限</h6>
-                        <a class="deletes" cid="level"></a>
-                      </div>
-                    </dd>
-                  </dl>
-                  <p><% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %></p>
-                </div>
-              </div>
-            </div>
+            <%= render "/bankinvest/highprofit" %>
             <table id="select" class="table table-striped table-bordered">
               <thead>
               <tr>
@@ -274,16 +158,17 @@
                 <th class="hide">时间差</th>
                 <th class="hide">规模</th>
                 <th>理财产品</th>
+                <th class="hide">产品代码</th>
                 <th>投资品种</th>
                 <th>净值</th>
                 <th>日增长率</th>
-                <th class="hide">晨星评级</th>
                 <th>近一年(%)</th>
                 <th class="hide">近一年排名</th>
                 <th>近一年<br>排名</th>
                 <th>近三年(%)</th>
                 <th class="hide">近三年排名</th>
                 <th>近三年<br>排名</th>
+                <th class="hide">晨星评级</th>
                 <th>选择</th>
               </tr>
               </thead>
@@ -294,16 +179,17 @@
                     <td class="hide"><% if @hash6[f.product_code][1]!=nil %><%= @hash6[f.product_code][1].to_s.split("/")[0] %><% end %></td>
                     <td class="hide"><%= @hash6[f.product_code][2] %></td>
                     <td class="leng"><%= f.productname %></td>
+                    <td class="hide"><%= f.product_code %></td>
                     <td class="leng">货币基金</td>
                     <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
                     <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
-                    <td class="hide"></td>
                     <td><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
                     <td><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+                    <td class="hide">--</td>
                     <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>')">选择</a></td>
                   </tr>
               <% end %>
@@ -314,16 +200,25 @@
                     <td class="hide"><% if @hash6[f.product_code][1]!=nil %><%= @hash6[f.product_code][1].to_s.split("/")[0] %><% end %></td>
                     <td class="hide"><%= @hash6[f.product_code][2] %></td>
                     <td class="leng"><%= f.product_name %></td>
+                    <td class="hide"><%= f.product_code %></td>
                     <td class="leng"><%= @hash2[f.L2_typeid][0] %></td>
                     <td><% if f.today_value!=0 %><%= f.today_value %><% else %>--<% end %></td>
                     <td><% if f.today_rate!=0 %><%= f.today_rate %>%<% else %>--<% end %></td>
-                    <td class="hide"></td>
                     <td><% if f.one_year_return!=nil && f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
                     <td><% if f.three_year_return!=nil && f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+                    <td class="hide">
+                      <% if f.morning_stars==5 %>★★★★★
+                      <% elsif f.morning_stars==4 %>★★★★
+                      <% elsif f.morning_stars==3 %>★★★
+                      <% elsif f.morning_stars==2 %>★★
+                      <% elsif f.morning_stars==1 %>★
+                      <% else %>--
+                      <% end %>
+                    </td>
                     <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>')">选择</a></td>
                   </tr>
               <% end %>
@@ -332,37 +227,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog3.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog3!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog3.imagepath %>"><br><br>
-        <%=raw @blog3.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-  </div>
-</div>
-<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3><%= @blog4.btitle %></h3>
-  </div>
-  <div class="modal-body">
-    <% if @blog4!=nil %>
-        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog4.imagepath %>"><br><br>
-        <%=raw @blog4.barticle %>
-    <% end %>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
 
@@ -535,6 +399,7 @@
  */
 
     $(document).ready(function(){
+        $("#update").html("<% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %>");
         var oTable2 =  $('#select').dataTable({
             "iDisplayLength": 10,
             "aaSorting": [[ 11, "asc" ]]

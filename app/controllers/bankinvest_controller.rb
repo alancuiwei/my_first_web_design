@@ -53,6 +53,36 @@ class BankinvestController < ApplicationController
     for i in 0..@typel2.size-1
       @hash2.store(@typel2[i].L2_typeid,[@typel2[i].classify])
     end
+
+    @hash6={}
+    @monetaryfundquote=Monetary_fund_quote.all
+    t = Time.new
+    date = t.strftime("%Y-%m-%d")
+    for i in 0..@monetaryfundquote.size-1
+      @product=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
+      if @product!=nil
+        if @product.create_date!=nil
+          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,DateTime.parse(date)-DateTime.parse(@product.create_date.to_s),@product.fund_size])
+        else
+          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,nil,@product.fund_size])
+        end
+      else
+        @hash6.store(@monetaryfundquote[i].product_code,[nil,nil,nil])
+      end
+    end
+    @generalfundquote=General_fund_quote.all
+    for i in 0..@generalfundquote.size-1
+      @product=General_fund_product.find_by_product_code(@generalfundquote[i].product_code)
+      if @product!=nil
+        if @product.date!=nil
+          @hash6.store(@generalfundquote[i].product_code,[1000,DateTime.parse(date)-DateTime.parse(@product.date.to_s),@product.fund_size])
+        else
+          @hash6.store(@generalfundquote[i].product_code,[1000,nil,@product.fund_size])
+        end
+      else
+        @hash6.store(@generalfundquote[i].product_code,[nil,nil,nil])
+      end
+    end
   end
 
   def buylinks

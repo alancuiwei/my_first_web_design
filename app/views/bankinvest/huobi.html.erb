@@ -84,37 +84,37 @@
         <td class="left">产品代码</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.product_code!=nil %><%= @fundproduct.product_code %><% else %>--<% end %></td>
         <td class="left">一年收益率</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_return!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_return!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">产品类型</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.L2_typename!=nil %><%= @fundproduct.L2_typename %><% else %>--<% end %></td>
         <td class="left">一年同类排名</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">管理机构</td>
         <td class="right" style="white-space: nowrap;"><% if @fundproduct!=nil && @fundproduct.institution!=nil %><%= @fundproduct.institution %><% else %>--<% end %></td>
         <td class="left">两年收益率</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.two_year_return!=nil && @fundquote.two_year_return!=0 %><%= @fundquote.two_year_return %>%<% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.two_year_return!=nil && @fundquote.two_year_return!=0 %><%= @fundquote.two_year_return %>%<% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">基金规模(<a class="introduce" href="#myModal5" role="button" data-toggle="modal">?</a>)</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.fund_size!=nil %><%= @fundproduct.fund_size %>亿元<% else %>--<% end %></td>
         <td class="left">两年同类排名</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.two_year_rank!=nil && @fundquote.two_year_rank!=0 %><%= @fundquote.two_year_rank %><% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.two_year_rank!=nil && @fundquote.two_year_rank!=0 %><%= @fundquote.two_year_rank %><% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">基金成立时间(<a class="introduce" href="#myModal4" role="button" data-toggle="modal">?</a>)</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.create_date!=nil %><%= @fundproduct.create_date %><% else %>--<% end %></td>
         <td class="left">三年收益率</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
       </tr>
       <tr>
         <td class="left">基金经理</td>
         <td class="right"><% if @fundproduct!=nil && @fundproduct.fund_manager!=nil %><%= @fundproduct.fund_manager %><% else %>--<% end %></td>
         <td class="left">三年同类排名</td>
-        <td class="right"><% if @fundquote!=nil && @fundquote.three_year_rank!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>--<% end %></td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_rank!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>--<% end %></td>
       </tr>
     </table>
     <h2>2、产品投资信息：</h2>
