@@ -71,7 +71,6 @@
             <th>近3年排名</th>
           </tr>
           </thead>
-          <!--
           <% @monetary.each do |f| %>
               <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                 <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
@@ -88,7 +87,7 @@
                 <td class="red"><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                 <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>1000<% end %></td>
               </tr>
-          <% end %> -->
+          <% end %>
         </table>
         <blockquote style="margin-top: 30px;"><small>-- 表示该产品成立时间较短，没有相应的数据 或 没有同类产品。</small></blockquote>
       </div>
