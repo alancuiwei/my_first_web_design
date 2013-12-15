@@ -346,6 +346,7 @@ class UserfinanceplanController < ApplicationController
         @hash6.store(@generalfundquote[i].product_code,[nil,nil,nil])
       end
     end
+    @financial=Financial.all
   end
 
   def saverisk

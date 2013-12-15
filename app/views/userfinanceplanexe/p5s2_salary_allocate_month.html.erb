@@ -114,7 +114,10 @@
                               <% end %>
                           <% end %>
                         </td>
-                        <td><% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>">详情</a><% end %></td>
+                        <td>
+                          <% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>">详情</a><% end %>
+                          <% if @hash['fluid'][2]==1 %><a href="<%= @hash['fluid'][4] %>" target="_blank">购买</a><% end %>
+                        </td>
                       </tr>
                       <tr>
                         <td>高收益资产</td>
@@ -132,8 +135,10 @@
                         <td>
                           <% if @hash['risk'][2]==1 %>
                               <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>">详情</a>
+                              <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
                           <% elsif @hash['risk'][2]==0 %>
                               <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>">详情</a>
+                              <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
                           <% end %>
                         </td>
                       </tr>

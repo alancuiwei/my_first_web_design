@@ -172,6 +172,37 @@
                 <th>选择</th>
               </tr>
               </thead>
+      <!--
+              <% @financial.each do |f| %>
+                  <tr id="de<%= f.id %>" class="finance<%= f.id %>">
+                    <td class="hide">203</td>
+                    <td class="hide"><%= f.startvalue %></td>
+                    <td class="hide">0</td>
+                    <td class="hide">1</td>
+                    <td class="leng"><%= f.pname %></td>
+                    <td class="hide"></td>
+                    <td class="leng">银行理财产品</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td><% if f.rate!=nil && f.rate!=0 %><%= (f.rate*100).round(2) %>%<% else %>--<% end %></td>
+                    <td><% if f.rank!=nil && f.rank!="" %><%= f.rank %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.rank!=nil && f.rank!="" %><%= f.rank.split("/")[0] %><% else %>10000<% end %></td>
+                    <td><% if f.rate1!=nil && f.rate1!=0 %><%= (f.rate1*100).round(2) %>%<% else %>--<% end %></td>
+                    <td><% if f.rank1!=nil && f.rank1!="" %><%= f.rank1 %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.rank1!=nil && f.rank1!="" %><%= f.rank1.split("/")[0] %><% else %>10000<% end %></td>
+                    <td class="hide">
+                      <% if f.level==5 %>★★★★★
+                      <% elsif f.level==4 %>★★★★
+                      <% elsif f.level==3 %>★★★
+                      <% elsif f.level==2 %>★★
+                      <% elsif f.level==1 %>★
+                      <% else %>--
+                      <% end %>
+                    </td>
+                    <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.pname %>')">选择</a></td>
+                  </tr>
+              <% end %>
+              -->
               <% @monetaryfundquote.each do |f| %>
                   <tr id="de<%= f.id %>" class="finance<%= f.id %>">
                     <td class="hide">101</td>
@@ -190,7 +221,7 @@
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
                     <td class="hide">--</td>
-                    <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>')">选择</a></td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.productname %>')">选择</a></td>
                   </tr>
               <% end %>
               <% @generalfundquote.each do |f| %>
@@ -219,7 +250,7 @@
                       <% else %>--
                       <% end %>
                     </td>
-                    <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>')">选择</a></td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.product_name %>')">选择</a></td>
                   </tr>
               <% end %>
             </table>
@@ -263,39 +294,14 @@
         $(".level1").addClass('first');
     }
 
-    function choose4(uid){
+    function choose4(uid,pname){
         $("tr").removeClass("third");
         $(".finance"+uid).addClass("third");
-    <% @monetaryfundquote.each do |f| %>
-        if(uid=='<%= f.id %>'){
-            $.post("/userfinanceplan/saverisk",{ username:"<%= session[:webusername] %>",risk_productid: '<%= f.productname %>'
-            },function(data){
+        alert(pname)
+        $.post("/userfinanceplan/saverisk",{ username:"<%= session[:webusername] %>",risk_productid: pname},function(data){
                 location.href='/userfinanceplan/p4s3_stableprofit_fund';
             });
         }
-    <% end %>
-    <% @generalfundquote.each do |f| %>
-        if(uid=='<%= f.id %>'){
-            $.post("/userfinanceplan/saverisk",{ username:"<%= session[:webusername] %>",risk_productid: '<%= f.product_name %>'
-            },function(data){
-                location.href='/userfinanceplan/p4s3_stableprofit_fund';
-            });
-        }
-    <% end %>
-        var fxian=parseInt($("#xian1").attr("value"));
-        var fwen=parseInt($("#wen1").attr("value"));
-        var ffeng=parseInt($("#feng1").attr("value"));
-        if(jixu!=0 && total!=0){
-            var asset_score=((3-(Math.abs(fxian/total-xianjin/jixu)+Math.abs(fwen/total-wenjian/jixu)+Math.abs(ffeng/total-fengxian/jixu)))*100/3).toFixed(1);
-        }
-        else{
-            var asset_score=0;
-        }
-        $.post("/usersurvey/score",{username:"<%= session[:webusername] %>",asset_score:asset_score},function(data){
-        });
-        animate(0,asset_score);
-        update();
-    }
 
 /*
  var oCache = {
