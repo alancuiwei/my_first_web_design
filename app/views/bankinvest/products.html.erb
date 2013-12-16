@@ -6,7 +6,7 @@
 <%= javascript_include_tag "bootstrap.js" %>
 <%= javascript_include_tag "productchoose.js" %>
 <style>
-    #liudong th,#liudong td,#select th,#select td{
+    #liudong th,#liudong td,#select th,#select td,#banks th,#banks td{
         text-align: center;
         font-family: Hiragino Sans GB W3;
         vertical-align: middle;
@@ -45,6 +45,7 @@
             <li><a href="#tab2" data-toggle="tab" id="303" class="profit"><h5>混合型基金</h5></a></li>
             <li><a href="#tab2" data-toggle="tab" id="304" class="profit"><h5>股票型基金</h5></a></li>
             <li><a href="#tab2" data-toggle="tab" id="305" class="profit"><h5>QDII基金</h5></a></li>
+            <li><a href="#tab3" data-toggle="tab" id="203" class="banks"><h5>银行理财产品</h5></a></li>
           </ul>
         </li>
       </ul>
@@ -58,7 +59,7 @@
           <tr>
             <th>产品名</th>
             <th>万份收益(元)<br><a class="introduce" href="#myModal" role="button" data-toggle="modal">(?)</a></th>
-            <th>7日年化收益率<br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
+            <th><span style="white-space: nowrap;">7日年化收益率</span><br><a class="introduce" href="#myModal2" role="button" data-toggle="modal">(?)</a></th>
             <th>起购金额</th>
             <th class="hide">基金规模<br>(亿元)</th>
             <th>成立时间</th>
@@ -69,9 +70,10 @@
             <th>近三年(%)</th>
             <th class="hide">近3年排名</th>
             <th>近3年排名</th>
+            <th>更多</th>
           </tr>
           </thead>
-          <% @monetary.each do |f| %>
+          <% @monetaryfundquote.each do |f| %>
               <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                 <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
                 <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
@@ -86,6 +88,7 @@
                 <td class="red"><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                 <td class="red"><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                 <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>1000<% end %></td>
+                <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank">详情</a> <a href="<%= @hash[f.product_code][4] %>" target="_blank">购买</a></td>
               </tr>
           <% end %>
         </table>
@@ -109,6 +112,7 @@
             <th colspan="2">近3年</th>
             <th colspan="2" class="hide"></th>
             <th rowspan="2">晨星评级</th>
+            <th rowspan="2">更多</th>
           </tr>
           <tr>
             <th>收益率</th>
@@ -119,12 +123,13 @@
             <th>排名</th>
           </tr>
           </thead>
-          <% @general.each do |f| %>
+
+          <% @generalfundquote.each do |f| %>
               <tr>
                 <th class="hide"><%= f.L2_typeid %></th>
-                <td class="hide"><%= @hash6[f.product_code][0] %></td>
-                <td class="hide"><% if @hash6[f.product_code][1]!=nil %><%= @hash6[f.product_code][1].to_s.split("/")[0] %><% end %></td>
-                <td class="hide"><%= @hash6[f.product_code][2] %></td>
+                <td class="hide"><%= @hash3[f.product_code][0] %></td>
+                <td class="hide"><% if @hash3[f.product_code][1]!=nil %><%= @hash3[f.product_code][1].to_s.split("/")[0] %><% end %></td>
+                <td class="hide"><%= @hash3[f.product_code][2] %></td>
                 <td class="first"><a href="/bankinvest/highprofit/<%= f.id %>" target="_blank"><%= f.product_name %></a></td>
                 <td><% if f.product_code !=nil %><%= f.product_code %><% else %>--<% end %></td>
                 <td><%= @hash2[f.L2_typeid][0] %></a></td>
@@ -145,6 +150,66 @@
                   <% else %>--
                   <% end %>
                 </td>
+                <td><a href="/bankinvest/highprofit/<%= f.id %>" target="_blank">详情</a> <a href="<%= @hash3[f.product_code][3] %>" target="_blank">购买</a></td>
+              </tr>
+          <% end %>
+        </table>
+        <blockquote style="margin-top: 0px;"><small>-- 表示该产品成立时间较短，没有相应的数据 或 没有同类产品。</small></blockquote>
+      </div>
+      <div class="tab-pane" id="tab3">
+        <%= render "bankproduct" %>
+        <table id="banks" class="table table-striped table-bordered">
+          <thead><tr>
+            <th>产品名称</th>
+            <th>发行机构</th>
+            <th>年化收益率</th>
+            <th class="hide"></th>
+            <th>类型</th>
+            <th>起售价</th>
+            <th class="hide"></th>
+            <th>投资期限</th>
+            <th class="hide"></th>
+            <th>可售</th>
+            <th class="hide">发行地区</th>
+          </tr></thead>
+
+          <% @banks.each do |b| %>
+              <tr>
+                <td style="width:20%;"><%= b.productname%></td>
+                <td><%= b.yinhang%></td>
+                <% if b.returnrate!=nil %>
+                    <td class="hide"><%= format("%0.1f",b.returnrate*100)%></td>
+                    <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+                <% else %>
+                    <td class="hide"></td><td></td>
+                <% end %>
+                <td><%= b.isbaoben%></td>
+                <% if b.min_purchase_account!=nil%>
+                    <% if b.min_purchase_account!=0 %>
+                        <% if b.min_purchase_account<10000 %>
+                            <td class="hide"><%= format("%0.4f",b.min_purchase_account/10000)%></td>
+                            <td><%= b.min_purchase_account/10000%>万</td>
+                        <% else %>
+                            <td class="hide"><%= format("%0.0f",b.min_purchase_account/10000)%></td>
+                            <td><%= format("%0.0f",b.min_purchase_account/10000)%>万</td>
+                        <% end %>
+                    <% else %>
+                        <td class="hide">0</td>
+                        <td>0</td>
+                    <% end %>
+                <% else %>
+                    <td class="hide"></td>
+                    <td>--</td>
+                <% end %>
+                <% if b.guanliqi!=nil %>
+                    <td class="hide"><%= format("%0.0f",b.guanliqi)%></td>
+                    <td><%= format("%0.0f",b.guanliqi)%>天</td>
+                <% else %>
+                    <td class="hide"></td>
+                    <td></td>
+                <% end %>
+                <td><%= b.iszaishou%></td>
+                <td class="hide"><%= b.diqu%></td>
               </tr>
           <% end %>
         </table>
@@ -266,6 +331,43 @@
                 $("#level_all :checkbox").attr("checked", !1);
             }
             oTable2.fnDraw();
+        });
+        var oTable3 =  $('#banks').dataTable({
+            "iDisplayLength": 10,
+            "aaSorting": [[ 2, "desc" ]]
+        });
+        $("[id*='rates']").click(function(){
+            if(this.id=='rates0'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            oTable3.fnDraw();
+        });
+
+        $("[id*='dates']").click(function(){
+            if(this.id=='dates0'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            oTable3.fnDraw();
+        });
+
+        $("[id*='outsets']").click(function(){
+            if(this.id=='outsets0'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable3.fnDraw();
+        });
+        $(".delete2").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='rate'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='date'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='outset'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable3.fnDraw();
         });
     });
 </script>

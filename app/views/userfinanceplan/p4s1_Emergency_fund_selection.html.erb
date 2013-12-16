@@ -35,7 +35,7 @@
             <th>选择</th>
           </tr>
           </thead>
-          <% @monetary.each do |f| %>
+          <% @monetaryfundquote.each do |f| %>
               <tr id="nan<%= f.id %>" class="finan<%= f.id %>">
                 <td><a href="/bankinvest/huobi/<%= f.id %>" target="_blank"><%= f.productname %></a></td>
                 <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
@@ -64,7 +64,7 @@
     var grey=0;
     function choose(uid){
         grey=uid;
-    <% @monetary.each do |f| %>
+    <% @monetaryfundquote.each do |f| %>
         if(uid=='<%= f.id %>'){
             $.post("/userfinanceplan/savefluid",{ username:"<%= session[:webusername] %>",fluid_productid: '<%= f.productname %>'
             },function(data){
@@ -77,7 +77,6 @@
     }
 
     $(document).ready(function(){
-        $("#update").html("<% if @monetary!=nil %>日期：<%= @monetary[0].date %><% end %>");
         var oTable =  $('#liudong').dataTable({
             "iDisplayLength": 10,
             "aaSorting": [[ 9, "asc" ]]

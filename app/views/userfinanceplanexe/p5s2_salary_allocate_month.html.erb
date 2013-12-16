@@ -129,6 +129,8 @@
                                   <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
                               <% elsif @hash['risk'][2]==0 %>
                                   <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                              <% elsif @hash['risk'][2]==2 %>
+                                  <%= @userfinancedata.risk_productid %>
                               <% end %>
                           <% end %>
                         </td>

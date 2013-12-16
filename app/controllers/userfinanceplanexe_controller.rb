@@ -55,6 +55,7 @@ class UserfinanceplanexeController < ApplicationController
        @riskproduct3=Fund_product.find_by_productname(@userfinancedata.risk_productid)
        @riskproduct2=General_fund_quote.find_by_product_name(@userfinancedata.risk_productid)
        @riskproduct4=General_fund_product.find_by_product_name(@userfinancedata.risk_productid)
+       @riskproduct5=Banks_self_products.find_by_productname(@userfinancedata.risk_productid)
        if @riskproduct1!=nil
          @category3=Admin_asset_type_l2.find_by_L2_typeid(101)
          if @riskproduct3!=nil
@@ -69,6 +70,9 @@ class UserfinanceplanexeController < ApplicationController
        else
            @hash.store('risk',[@category3.id,@category3.classify,0,@riskproduct2.id,'http://fund.fund123.cn/html/'+@riskproduct2.product_code+'/index.html'])
          end
+       elsif @riskproduct5!=nil
+         @category3=Admin_asset_type_l2.find_by_L2_typeid(@riskproduct5.L2_typeid)
+         @hash.store('risk',[@category3.id,@category3.classify,2,@riskproduct5.id,nil])
        else
          @hash.store('risk',[nil,nil,-1,nil,nil])
        end

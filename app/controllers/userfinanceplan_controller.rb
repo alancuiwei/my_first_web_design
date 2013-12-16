@@ -146,20 +146,20 @@ class UserfinanceplanController < ApplicationController
     @blog4=Blog.find_by_id(468)
     if session[:webusername]!=nil
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @monetary=Monetary_fund_quote.all
+      @monetaryfundquote=Monetary_fund_quote.all
       @hash={}
-      for i in 0..@monetary.size-1
-        @fundproduct=Fund_product.find_by_product_code(@monetary[i].product_code)
+      for i in 0..@monetaryfundquote.size-1
+        @fundproduct=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
         t = Time.new
         date = t.strftime("%Y-%m-%d")
         if @fundproduct!=nil
           if @fundproduct.create_date!=nil
-            @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)])
+            @hash.store(@monetaryfundquote[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)])
           else
-            @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil])
+            @hash.store(@monetaryfundquote[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil])
           end
         else
-          @hash.store(@monetary[i].product_code,[nil,nil,nil,nil])
+          @hash.store(@monetaryfundquote[i].product_code,[nil,nil,nil,nil])
         end
       end
     else
@@ -346,7 +346,7 @@ class UserfinanceplanController < ApplicationController
         @hash6.store(@generalfundquote[i].product_code,[nil,nil,nil])
       end
     end
-    @financial=Financial.all
+    @banks=Banks_self_products.all
   end
 
   def saverisk

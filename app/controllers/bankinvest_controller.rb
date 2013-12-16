@@ -30,59 +30,43 @@ class BankinvestController < ApplicationController
     @blog2=Blog.find_by_id(472)
     @blog3=Blog.find_by_id(467)
     @blog4=Blog.find_by_id(468)
-    @monetary=Monetary_fund_quote.all
-    @hash={}
-    for i in 0..@monetary.size-1
-      @fundproduct=Fund_product.find_by_product_code(@monetary[i].product_code)
-      t = Time.new
-      date = t.strftime("%Y-%m-%d")
-      if @fundproduct!=nil
-        if @fundproduct.create_date!=nil
-          @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s)])
-      else
-          @hash.store(@monetary[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil])
-      end
-      else
-        @hash.store(@monetary[i].product_code,[nil,nil,nil,nil])
-    end
-        end
-
-    @general=General_fund_quote.all
     @hash2={}
     @typel2=Admin_asset_type_l2.all
     for i in 0..@typel2.size-1
       @hash2.store(@typel2[i].L2_typeid,[@typel2[i].classify])
     end
 
-    @hash6={}
     @monetaryfundquote=Monetary_fund_quote.all
+    @hash={}
+    for i in 0..@monetaryfundquote.size-1
+      @fundproduct=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
     t = Time.new
     date = t.strftime("%Y-%m-%d")
-    for i in 0..@monetaryfundquote.size-1
-      @product=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
-      if @product!=nil
-        if @product.create_date!=nil
-          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,DateTime.parse(date)-DateTime.parse(@product.create_date.to_s),@product.fund_size])
+      if @fundproduct!=nil
+        if @fundproduct.create_date!=nil
+          @hash.store(@monetaryfundquote[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s),@fundproduct.buy_link])
         else
-          @hash6.store(@monetaryfundquote[i].product_code,[@product.min_purchase_account,nil,@product.fund_size])
+          @hash.store(@monetaryfundquote[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,nil,@fundproduct.buy_link])
         end
       else
-        @hash6.store(@monetaryfundquote[i].product_code,[nil,nil,nil])
+        @hash.store(@monetaryfundquote[i].product_code,[nil,nil,nil,nil,'http://fund.fund123.cn/html/'+@monetaryfundquote[i].product_code+'/index.html'])
       end
     end
+    @hash3={}
     @generalfundquote=General_fund_quote.all
     for i in 0..@generalfundquote.size-1
       @product=General_fund_product.find_by_product_code(@generalfundquote[i].product_code)
       if @product!=nil
         if @product.date!=nil
-          @hash6.store(@generalfundquote[i].product_code,[1000,DateTime.parse(date)-DateTime.parse(@product.date.to_s),@product.fund_size])
+          @hash3.store(@generalfundquote[i].product_code,[1000,DateTime.parse(date)-DateTime.parse(@product.date.to_s),@product.fund_size,@product.buy_link])
         else
-          @hash6.store(@generalfundquote[i].product_code,[1000,nil,@product.fund_size])
+          @hash3.store(@generalfundquote[i].product_code,[1000,nil,@product.fund_size,@product.buy_link])
         end
       else
-        @hash6.store(@generalfundquote[i].product_code,[nil,nil,nil])
+        @hash3.store(@generalfundquote[i].product_code,[nil,nil,nil,'http://fund.fund123.cn/html/'+@generalfundquote[i].product_code+'/index.html'])
       end
     end
+    @banks=Banks_self_products.all
   end
 
   def buylinks

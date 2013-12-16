@@ -168,41 +168,10 @@
                 <th>近三年(%)</th>
                 <th class="hide">近三年排名</th>
                 <th>近三年<br>排名</th>
-                <th class="hide">晨星评级</th>
+        <th>晨星评级</th>
                 <th>选择</th>
               </tr>
               </thead>
-      <!--
-              <% @financial.each do |f| %>
-                  <tr id="de<%= f.id %>" class="finance<%= f.id %>">
-                    <td class="hide">203</td>
-                    <td class="hide"><%= f.startvalue %></td>
-                    <td class="hide">0</td>
-                    <td class="hide">1</td>
-                    <td class="leng"><%= f.pname %></td>
-                    <td class="hide"></td>
-                    <td class="leng">银行理财产品</td>
-                    <td>--</td>
-                    <td>--</td>
-                    <td><% if f.rate!=nil && f.rate!=0 %><%= (f.rate*100).round(2) %>%<% else %>--<% end %></td>
-                    <td><% if f.rank!=nil && f.rank!="" %><%= f.rank %><% else %>--<% end %></td>
-                    <td class="hide"><% if f.rank!=nil && f.rank!="" %><%= f.rank.split("/")[0] %><% else %>10000<% end %></td>
-                    <td><% if f.rate1!=nil && f.rate1!=0 %><%= (f.rate1*100).round(2) %>%<% else %>--<% end %></td>
-                    <td><% if f.rank1!=nil && f.rank1!="" %><%= f.rank1 %><% else %>--<% end %></td>
-                    <td class="hide"><% if f.rank1!=nil && f.rank1!="" %><%= f.rank1.split("/")[0] %><% else %>10000<% end %></td>
-                    <td class="hide">
-                      <% if f.level==5 %>★★★★★
-                      <% elsif f.level==4 %>★★★★
-                      <% elsif f.level==3 %>★★★
-                      <% elsif f.level==2 %>★★
-                      <% elsif f.level==1 %>★
-                      <% else %>--
-                      <% end %>
-                    </td>
-                    <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.pname %>')">选择</a></td>
-                  </tr>
-              <% end %>
-              -->
               <% @monetaryfundquote.each do |f| %>
                   <tr id="de<%= f.id %>" class="finance<%= f.id %>">
                     <td class="hide">101</td>
@@ -220,7 +189,7 @@
                     <td><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
-                    <td class="hide">--</td>
+            <td>--</td>
             <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.productname %>')">选择</a></td>
                   </tr>
               <% end %>
@@ -241,7 +210,7 @@
                     <td><% if f.three_year_return!=nil && f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                     <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                     <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
-                    <td class="hide">
+            <td>
                       <% if f.morning_stars==5 %>★★★★★
                       <% elsif f.morning_stars==4 %>★★★★
                       <% elsif f.morning_stars==3 %>★★★
@@ -256,6 +225,68 @@
             </table>
           </div>
         </div>
+<div id="finance2" class="hide">
+  <div class="win">
+    <%= render "/bankinvest/bankproduct" %>
+    <table id="banks" class="table table-striped table-bordered">
+      <thead><tr>
+        <th>产品名称</th>
+        <th>发行机构</th>
+        <th>年化收益率</th>
+        <th class="hide"></th>
+        <th>类型</th>
+        <th>起售价</th>
+        <th class="hide"></th>
+        <th>投资期限</th>
+        <th class="hide"></th>
+        <th>可售</th>
+        <th class="hide">发行地区</th>
+        <th>选择</th>
+      </tr></thead>
+
+      <% @banks.each do |b| %>
+          <tr id="de<%= b.id %>" class="finance<%= b.id %>">
+            <td style="width:20%;"><%= b.productname%></td>
+            <td><%= b.yinhang%></td>
+            <% if b.returnrate!=nil %>
+                <td class="hide"><%= format("%0.1f",b.returnrate*100)%></td>
+                <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+            <% else %>
+                <td class="hide"></td><td></td>
+            <% end %>
+            <td><%= b.isbaoben%></td>
+            <% if b.min_purchase_account!=nil%>
+                <% if b.min_purchase_account!=0 %>
+                    <% if b.min_purchase_account<10000 %>
+                        <td class="hide"><%= format("%0.4f",b.min_purchase_account/10000)%></td>
+                        <td><%= b.min_purchase_account/10000%>万</td>
+                    <% else %>
+                        <td class="hide"><%= format("%0.0f",b.min_purchase_account/10000)%></td>
+                        <td><%= format("%0.0f",b.min_purchase_account/10000)%>万</td>
+                    <% end %>
+                <% else %>
+                    <td class="hide">0</td>
+                    <td>0</td>
+                <% end %>
+            <% else %>
+                <td class="hide"></td>
+                <td>--</td>
+            <% end %>
+            <% if b.guanliqi!=nil %>
+                <td class="hide"><%= format("%0.0f",b.guanliqi)%></td>
+                <td><%= format("%0.0f",b.guanliqi)%>天</td>
+            <% else %>
+                <td class="hide"></td>
+                <td></td>
+            <% end %>
+            <td><%= b.iszaishou%></td>
+            <td class="hide"><%= b.diqu%></td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= b.id %>','<%= b.productname %>')">选择</a></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
       </div>
     </div>
   </div>
@@ -297,7 +328,6 @@
     function choose4(uid,pname){
         $("tr").removeClass("third");
         $(".finance"+uid).addClass("third");
-        alert(pname)
         $.post("/userfinanceplan/saverisk",{ username:"<%= session[:webusername] %>",risk_productid: pname},function(data){
                 location.href='/userfinanceplan/p4s3_stableprofit_fund';
             });
@@ -405,12 +435,16 @@
  */
 
     $(document).ready(function(){
-        $("#update").html("<% if @hash5[@fundproduct[0].product_code][0]!=nil %>日期：<%= @hash5[@fundproduct[0].product_code][0] %><% end %>");
         var oTable2 =  $('#select').dataTable({
             "iDisplayLength": 10,
             "aaSorting": [[ 11, "asc" ]]
         });
+        var oTable =  $('#banks').dataTable({
+            "iDisplayLength": 10,
+            "aaSorting": [[ 2, "desc" ]]
+        });
         $("#select_wrapper .row-fluid:first").addClass("hide");
+        $("#banks_wrapper .row-fluid:first").addClass("hide");
         $("[class*='choose3']").click(function(){
             pid=this.id.split(",")[1];
             typeid=this.id.split(",")[2];
@@ -423,8 +457,37 @@
                     }
                 }
             }
+            if(typeid=="203"){
+                $("#finance").hide();
+                $("#finance2").show();
+                oTable.fnDraw();
+            }
+            else{
             $("#finance").show();
+                $("#finance2").hide();
             oTable2.fnDraw();
+            }
+        });
+
+        $("[id*='rates']").click(function(){
+            if(this.id=='rates0'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("[id*='dates']").click(function(){
+            if(this.id=='dates0'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("[id*='outsets']").click(function(){
+            if(this.id=='outsets0'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
         });
 
         $("[id*='categorys']").click(function(){
@@ -481,6 +544,20 @@
                 $("#level_all :checkbox").attr("checked", !1);
             }
             oTable2.fnDraw();
+        });
+
+        $(".delete2").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='rate'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='date'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='outset'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
         });
     });
 </script>
