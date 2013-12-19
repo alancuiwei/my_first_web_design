@@ -1,0 +1,556 @@
+<%= stylesheet_link_tag "usermanagement.css" %>
+<%= stylesheet_link_tag "p2s1.css" %>
+
+<div class="main-content">
+<div class="trow">
+<div class="main-inputs">
+  <div id="inputs" class="content">
+    <div class="padded">
+      <h3>关于您的信息</h3>
+      <p>掌握您部分的信息，我们将能给您更加准确、实际的家庭理财建议。</p>
+      <p>我们不会泄露您的个人信息，因为我们并不知道您是谁，对吧。</p>
+    </div>
+    <div id="main-inputs" style="">
+      <div class="general">
+        <div class="input-group active custom" id="inputs-income">
+          <label for="input-income-field">置换已有房产凑得资金</label>
+          <div class="controls">
+            <div class="input-prepend input-append input-intermediate">
+                    <span class="add-on">
+                      <div class="indicator-icon custom small"></div>
+                    </span>
+              <input class="span2e" id="input-income-field" size="16" type="text" value="￥300000">
+                    <span class="add-on neutral">
+                      <div class="edit-pencil"></div>
+                    </span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group active custom" id="inputs-downpayment">
+          <label for="input-downpayment-field">家庭储蓄</label>
+          <div class="controls">
+            <div class="input-prepend input-append input-intermediate">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-downpayment-field" value="￥1000000" size="0" type="text">
+              <span class="add-on neutral"><div class="edit-pencil"></div></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group active custom" id="inputs-debtpayments">
+          <label for="input-debtpayments-field">亲戚借钱</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" value="￥30000" id="input-debtpayments-field" size="16" type="text">
+                    <span class="add-on neutral" id="debtpayments-field-button">
+                      <div class="edit-pencil"></div>
+                    </span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group active custom" id="inputs-credit">
+          <label for="input-credit-field">个人住房公积金月缴纳</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-creditscore-field" size="16" type="text" value="￥3000">
+                    <span class="add-on neutral" id="locations-field-button">
+                      <div class="edit-pencil"></div>
+                    </span>
+            </div>
+          </div>
+        </div>
+        <div class="last input-group active custom" id="inputs-location">
+          <label for="input-location-field">配偶住房公积金月缴纳</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-location-field" size="16" type="text" value="￥3000">
+              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+            </div>
+          </div>
+        </div>
+        <div class="last input-group active custom" id="inputs-location">
+          <label for="input-location-field">商业贷款年数</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-location-field" size="16" type="text" value="20年">
+              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+            </div>
+          </div>
+        </div>
+        <div class="last input-group active custom" id="inputs-location">
+          <label for="input-location-field">商业贷款利率</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-location-field" size="16" type="text" value="7.48%利率1.1倍">
+              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+            </div>
+          </div>
+        </div>
+        <div class="last input-group active custom" id="inputs-location">
+          <label for="input-location-field">城市</label>
+          <div class="controls">
+            <div class="input-prepend input-intermediate input-append">
+              <span class="add-on"><div class="indicator-icon custom small"></div></span>
+              <input class="span2e" id="input-location-field" size="16" type="text" value="江苏、南京">
+              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="overlay-inputs-income" class="overlay" style="display: none; ">
+      <div class="inputs-income inputs-block" onbeforeshow="incomeBeforeShow()" onaftershow="incomeAfterShow()">
+        <h2>置换已有房产凑得资金</h2>
+        <form class="form-vertical" style="margin: none; padding: none;" onsubmit="return false;">
+          <div class="input-group">
+            <label></label> <div class="control-group" id="singlepartnered">
+          </div>
+          </div>
+
+          <div class="input-buttons">
+            <span onclick="closeOverlayTrackCancel()" class="cancel link" style="">取消</span>
+            <button class="btn btn-back btn-success" type="button" onclick="unsetInput('ud-current-location'); return false;"><i class="icon-arrow-left icon-white"></i></button>
+            &nbsp;
+            <button class="btn btn-success btn-next" onclick="submitIncome(); return false;">修改</button>
+            &nbsp;
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="main-body">
+<h1>我能承受多少价格的房子</h1>
+<div class="page-interaction">
+  <div class="interaction-content">
+    <div class="ispacer">
+      <table class="block">
+        <tbody>
+        <tr>
+          <td rowspan="3" width="280px">
+            <h4 class="spaced">房子价格</h4>
+            <input class="value editvalue homev large" id="display-hv" value="￥1000000" style="color: rgb(103, 169, 83); ">
+            <div id="hm-icon" class="home-icon hsprite-green"> </div>
+          </td>
+          <td class="bleft bbottom arrow"></td>
+          <td class="bbottom">
+            <h4 style="text-align: left; margin-bottom: 10px">首付房款</h4>
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td class="bright" align="right" width="130px">
+                  <input class="value right editvalue" linked-slider="slider-downpayment" id="display-dp" value="￥200000" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <a href='javascript:hwEdit("#display-dp")' class="tiny">修改</a>
+                  <table class="slider" style="margin-top: 0px"> <tbody><tr> <td class="indicator" id="downpayment-down">-</td> <td width="100%"> <div class="slider smart-scheme"> <div id="slider-downpayment" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%; "></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%; "></a></div> </div> </td> <td class="right indicator" id="downpayment-up">+</td> </tr> </tbody></table>
+                  <div class="subtext">
+                    <b id="display-sub-dp">4.0%</b> 首付比例</div>
+                </td>
+                <td width="40%" class="totals" style="height: 130px;">
+                  <h4>资金来源</h4>
+                  <div class="spacer s5"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>卖首套房</td>
+                      <td class="bold right" id="display-cdown" style="color: rgb(103, 169, 83); ">￥200000</td>
+                    </tr>
+                    <tr>
+                      <td>家庭储蓄</td>
+                      <td class="bold right" id="display-cother">￥30000</td>
+                    </tr>
+                    <tr>
+                      <td>亲戚借钱</td>
+                      <td class="bold right" id="display-cother">￥100000</td>
+                    </tr>
+                    <tr>
+                      <td class="total right" colspan="2"><b id="display-ctotal" style="color: rgb(103, 169, 83); ">￥330000</b></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bleft arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
+          <td class="bbottom">
+            <h4 style="text-align: left; margin-bottom: 10px">公积金贷款</h4>
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td class="bright" align="right" width="60%">
+                  <input class="value right editvalue" linked-slider="slider-mortgage" id="display-mv" value="￥100000" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <a href='javascript:hwEdit("#display-mv")' class="tiny">修改</a>
+                  <table class="slider" style="margin-top: 0px">
+                    <tbody>
+                    <tr>
+                      <td width="50%">按揭年数</td>
+                      <td><select id="years"><option value="20年">20年</option></select></td>
+                    </tr>
+                    <tr>
+                      <td width="50%">贷款利率</td>
+                      <td><select id="years"><option value="12年7月6日利率下线(1.1倍)">12年7月6日利率下线(1.1倍)</option></select></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width="40%" class="totals">
+                  <h4></h4>
+                  <div class="spacer s5"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>本人公积金月供</td>
+                      <td class="right"><b id="display-mrepay" style="color: rgb(103, 169, 83); ">￥2000</b>/月</td>
+                    </tr>
+                    <tr>
+                      <td>配偶公积金月供</td>
+                      <td class="right"><b id="display-mother">￥2000</b>/月</td>
+                    </tr>
+                    <tr>
+                      <td class="total right" colspan="2">
+                        <b id="display-mtotal" style="color: rgb(103, 169, 83); ">￥4000</b>/月
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bleft arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
+          <td class="">
+            <h4 style="text-align: left; margin-bottom: 10px">商业贷款</h4>
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td class="bright" align="right" width="60%">
+                  <input class="value right editvalue" linked-slider="slider-mortgage" id="display-mv" value="￥600000" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                </td>
+                <td width="40%" class="totals">
+                  <h4></h4>
+                  <div class="spacer s5"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>贷款总额</td>
+                      <td class="right"><b id="display-mrepay" style="color: rgb(103, 169, 83); ">￥600000</b></td>
+                    </tr>
+                    <tr>
+                      <td>支付利息额</td>
+                      <td class="right"><b id="display-mother">￥454000</b></td>
+                    </tr>
+                    <tr class="total">
+                      <td>总还款金额</td>
+                      <td class="right"><b id="display-mother">￥1054000</b></td>
+                    </tr>
+                    <tr>
+                      <td>贷款月数</td>
+                      <td class="right"><b id="display-mother">240(月)</b></td>
+                    </tr>
+                    <tr>
+                      <td>月均还款</td>
+                      <td class="right"><b id="display-mother">￥3000</b>/月</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="spacer s15"></div>
+<div class="page-details page-data">
+  <h3 class="title">家庭收入、贷款、月供信息</h3>
+  <div class="clearfix">
+    <div class="additional-content">
+      <table>
+        <tbody>
+        <tr>
+          <td>
+            <div id="debt-indicator" class="error-icon large" style="margin-bottom:14px;"></div>
+          </td>
+          <td>
+            <h2>月贷款占总工资收入比例</h2>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="debt-guage" class="graphic">
+        <svg style="overflow: hidden; position: relative; " height="100%" version="1.1" width="100%" xmlns="http://www.w3.org/2000/svg"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); ">Created with Rapha�l 2.1.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); "><filter id="debt-guage-inner-shadow"><feOffset dx="0" dy="3"></feOffset><feGaussianBlur result="offset-blur" stdDeviation="5"></feGaussianBlur><feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"></feComposite><feFlood flood-color="black" flood-opacity="0.2" result="color"></feFlood><feComposite operator="in" in="color" in2="inverse" result="shadow"></feComposite><feComposite operator="over" in="shadow" in2="SourceGraphic"></feComposite></filter></defs><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " fill="#edebeb" stroke="none" d="M50,128L20,128A80,80,0,0,1,180,128L150,128A50,50,0,0,0,50,128Z" filter="url(#debt-guage-inner-shadow)"></path><path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " fill="#bd3726" stroke="none" d="M50,128L20,128A80,80,0,0,1,112.5147572032185,48.984932752388985L107.82172325201155,78.61558297024311A50,50,0,0,0,50,128Z" filter="url(#debt-guage-inner-shadow)"></path><text style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: bold; font-size: 16px; line-height: normal; font-family: Arial; fill-opacity: 1; " x="100" y="24.615384615384617" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#999999" font-size="16px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " dy="24.615384615384617"> </tspan></text><text style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: bold; font-size: 25px; line-height: normal; font-family: Arial; fill-opacity: 1; " x="100" y="114.28571428571429" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#bd3726" font-size="25px" font-weight="bold" font-family="Arial" fill-opacity="1"><tspan style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " dy="8.785714285714292">55%</tspan></text><text style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10px; line-height: normal; font-family: Arial; fill-opacity: 1; " x="100" y="132.78571428571428" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " dy="132.78571428571428"></tspan></text><text style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10px; line-height: normal; font-family: Arial; fill-opacity: 1; " x="35" y="141.99999999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " dy="3.4999999999999716">0%</tspan></text><text style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10px; line-height: normal; font-family: Arial; fill-opacity: 1; " x="165" y="141.99999999999997" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#b3b3b3" font-size="10px" font-weight="normal" font-family="Arial" fill-opacity="1"><tspan style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); " dy="3.4999999999999716">100%</tspan></text></svg>
+      </div>
+      <div class="info">月供金额不应超过您家庭月收入的<b>36%</b></div>
+      <div class="separator"></div>
+      <table id="debt-breakdown" class="breakdown">
+        <tbody>
+        <tr>
+          <th colspan="3"> <h2>月收入分配</h2> </th>
+        </tr>
+        <tr class="graph m-value">
+          <td>
+            <span class="glossary">月还房贷</span>
+          </td>
+          <td class="value">￥2000</td>
+          <td class="last-child">
+            <div class="level error" style="width: 31.171030666123606px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph m-insurance">
+          <td>
+            <span class="glossary">生活必要支出</span>
+          </td>
+          <td class="value">￥500</td>
+          <td class="last-child">
+            <div class="level error" style="width: 8.064043681103708px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph real-estate-tax">
+          <td>
+            <span class="glossary">消费性支出</span>
+          </td>
+          <td class="value">￥500</td>
+          <td class="last-child">
+            <div class="level error" style="width: 40px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph home-insurance">
+          <td>
+            <span class="glossary">投资性支出</span>
+          </td>
+          <td class="value">￥2000</td>
+          <td class="last-child">
+            <div class="level error" style="width: 9.646503865836422px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="last-child">
+          <td colspan="2" class="home-total" style="color: rgb(189, 55, 38); ">￥5000</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b>3000</b>元每月。加上您其他的月贷款，您一共是每月还贷<b>4500</b>元。</p>
+    <p class="light">即使您可以通过其他途径借贷到更大比例金额，我们还是建议您月贷款比例小于您家庭月收入的<b>50%</b>，或者说<b>4500</b>元。</p>
+  </div>
+  <div class="spacer s15"></div>
+  <h3 class="title">存款、首付、贷款总额</h3>
+  <div class="clearfix">
+    <div class="additional-content">
+      <table>
+        <tbody>
+        <tr>
+          <td>
+            <div id="savings-indicator" class="ok-icon"></div>
+          </td>
+          <td>
+            <h2>首付后家庭积蓄</h2>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="closing-graphic" class="graphic" style="color: rgb(103, 169, 83); ">
+        <span class="cushion-left">13 </span>
+        <span class="cushion-left-text">个月家庭流动资金</span>
+        <div class="indicator">
+          <i class="icon-calendar cushion one two three four" style="display: inline; "></i>
+          <i class="icon-calendar cushion two three four" style="display: inline; "></i>
+          <i class="icon-calendar cushion three four" style="display: inline; "></i>
+          <i class="icon-plus cushion four" style="display: inline; "></i>
+        </div>
+      </div>
+    </div>
+    <p class="light">要购买<b>100</b>万的房子，基于以上假设，首付总金额将为<b>330000</b>元。这意味着您的首付房产费用将是<b>70%</b>。</p>
+    <p class="light">付清首付款后，您仍然将拥有<b>200000</b>元的储蓄，足够支付3个月月供金额，我们认为您至少应该拥有3个月的月供金额在手头上。</p>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+
+    var init_income = "15,000";
+    var init_pincome = "0";
+    var init_state = "S";
+    var init_taxfiling = "tx-s";
+    var min_income = parseInt("14000");
+
+    function validateIncomeInput()
+    {
+        var inc = getInteger($(".primaryIncome input").val());
+        var pinc = getInteger($(".partnerIncome input").val());
+        var isSingle = "S" === $("#singlepartnered input:checked").val();
+        var totalIncome = inc + (isSingle ? 0 : pinc);
+
+        if (totalIncome < min_income) {
+            $(".primaryIncome .input-note, .input-error-on-page").addClass("error").html("Please note, to use SmartAsset you must enter an income of more than $" + commatoze(min_income));
+            $(".input-error-on-page").css('visibility', 'visible');
+            $(".primaryIncome .input-block, .partnerIncome .input-block").addClass("error");
+            $(".primaryIncome input").focus();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    function submitIncome()
+    {
+        if (!validateIncomeInput()) {
+            return;
+        }
+
+        var inc = $(".primaryIncome input").val();
+        var pinc = $(".partnerIncome input").val();
+        var tfs = "tx-mfj";
+        var pstatus = $("#singlepartnered input:checked").val();
+
+        if (pstatus == "S")
+        {
+            pinc = "0";
+            tfs = "tx-s";
+        }
+
+        var callback = function(data)
+        {
+            if (data)
+            {
+                if (data.status == "ok")
+                {
+                    hideLoadingButton($(".input-buttons button.btn-next"));
+                    $("#body-inputs .input-buttons button.btn-back").show();
+                    closeOverlayOnly();
+
+                    // trigger hook
+                    smartasset.data.set("inputs-total-income", getInteger(inc)+getInteger(pinc));
+                    ajaxUpdate("", "mode=animate");
+                }
+                else
+                {
+                    showModal("An error occurred", null, data.message);
+                }
+            }
+        };
+
+        inputSubmit({
+            input: "income", // remains for legacy analytics purposes
+            state: "income",
+            income: getInteger($(".primaryIncome input").val()),
+            pincome: getInteger($(".partnerIncome input").val()),
+            taxfs: tfs,
+            pstatus: pstatus,
+            tfs:tfs
+        }, callback);
+    }
+
+    $(function() {
+        /// track partner group
+        $("#singlepartnered input").click(function() {
+            var v = $("#singlepartnered input:checked").val();
+            //track event
+            eventTrack("Select Option Change", {select:"singlepartnered", value: v}, "["+v+"] "+"singlepartnered");
+
+            if (v == "P")
+            {
+                $(".partnerIncome").css("display", "inline-block");
+            }
+            else
+            {
+                $(".partnerIncome").css("display", "none");
+            }
+
+            incomeAddUp();
+        });
+
+        var clearError = function() {
+            $(".income-totals").show();
+            $(".income-error").hide();
+            $(".input-error-on-page").css('visibility', 'hidden');
+            $(".primaryIncome .input-block, .partnerIncome .input-block").removeClass("error");
+        }
+
+        $(".primaryIncome input").keyup(function(e) {
+            incomeAddUp();
+            if (e.keyCode !== 13) {
+                clearError();
+            }
+        });
+
+        $(".partnerIncome input").keyup(function(e) {
+            incomeAddUp();
+            if (e.keyCode !== 13) {
+                clearError();
+            }
+        });
+
+        setTimeout('$(".primaryIncome input").focus()', 100);
+    });
+
+    function incomeAddUp()
+    {
+        var i = getInteger($(".primaryIncome input").val());
+        if ($("#singlepartnered input:checked").val() == "P")
+        {
+            i += getInteger($(".partnerIncome input").val());
+        }
+
+        $("span#display-income-total").html("$"+commatoze(i));
+    }
+
+    function incomeBeforeShow()
+    {
+        $(".primaryIncome input").val(init_income);
+        $(".partnerIncome input").val(init_pincome);
+
+        // reset
+        $(".primaryIncome .input-block, .partnerIncome .input-block").removeClass("error");
+        $(".primaryIncome .input-note").removeClass("error").html("What is your total 'pre-tax' income per year?");
+
+
+        if (init_state == "P")
+        {
+            $(".partnerIncome").css("display", "inline-block");
+            $("#singlepartnered input.p-partnered").attr("checked", "checked");
+        }
+        else
+        {
+            $(".partnerIncome").css("display", "none");
+            $("#singlepartnered input.p-single").attr("checked", "checked");
+        }
+
+        $("#"+init_taxfiling).attr('selected', true);
+
+        hideLoadingButton($("#overlay-inputs-income .input-buttons button.btn"));
+
+        incomeAddUp();
+    }
+
+    function incomeAfterShow()
+    {
+        $(".primaryIncome input").focus();
+    }
+</script>

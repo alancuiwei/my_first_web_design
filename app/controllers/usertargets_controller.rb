@@ -23,6 +23,10 @@ class UsertargetsController < ApplicationController
     end
   end
 
+  def p2s1_house_buying
+
+  end
+
   def p2s2_user_target_intro
     if params[:username]!=nil
       @webuser=Webuser.find_by_username(params[:username])
