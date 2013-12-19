@@ -79,7 +79,7 @@ div.indicator-icon {
 
 div.input-prepend span.add-on:first-child {
     border-right: 0px none;
-    background: none repeat scroll 0% 0% rgb(255, 255, 255);
+ /*   background: none repeat scroll 0% 0% rgb(255, 255, 255);*/
     padding-left: 2px;
     padding-right: 0px;
     font-weight: normal;
@@ -154,6 +154,11 @@ div#inputs div.input-group.last {
 .page-interaction .interaction-content table.block h4 {
     line-height: 24px;
     font-size: 24px;
+}
+
+.page-interaction .interaction-content table.block td.totals h4 {
+    font-size: 16px;
+    line-height: 16px;
 }
 
 .page-interaction .interaction-content h4.spaced {
@@ -405,4 +410,129 @@ span.glossary {
 .icon-plus {
     font-family: FontAwesome;
     background-position: -408px -96px;
+}
+
+.page-interaction .interaction-content .sub table.totals td {
+    padding: 0px;
+    line-height: 15px;
+}
+
+.page-interaction .interaction-content .sub table.totals {
+    border-spacing: 0px;
+    border-collapse: collapse;
+    font-size: 11px;
+    width: 100%;
+}
+
+.page-interaction .interaction-content .sub table.totals td.total,.page-interaction .interaction-content .sub table.totals tr.total{
+    padding-top: 3px;
+    vertical-align: bottom;
+    font-size: 12px;
+  /*  color: #999; */
+    border-top: 1px solid #000;
+}
+
+tr.last td{
+    line-height: 18px!important;
+}
+
+td.right {
+    text-align: right;
+}
+
+#display-mtotal, #display-ctotal, .display-mtotal {
+    font-size: 1.4em;
+}
+
+.page-interaction td.arrow > div.arrow {
+    position: relative;
+    height: 39px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.page-interaction td.arrow > div.arrow .arrow-content {
+    position: absolute;
+    width: 24px;
+    height: 39px;
+    top: 0px;
+    left: -23px;
+    background-image: url('bluearrow.png');
+}
+
+#advanced-settings {
+    position: relative;
+}
+
+#advanced-settings .button {
+    box-shadow: 0 2px 2px rgba(0,0,0,0.3) inset;
+    position: absolute;
+    font-size: 14px;
+    left: 50px;
+    width: 98px;
+    font-family: georgia;
+    font-style: italic;
+    padding: 3px 8px;
+    background: #666;
+    border-radius: 0 0 4px 4px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+#advanced-settings .button a{
+    color: #fff;
+    text-decoration: none;
+}
+
+#advanced-settings .button img {
+    margin-bottom: -2px;
+    margin-right: 4px;
+}
+
+#advanced-settings .button:hover{background:#f0732b;cursor:pointer}
+
+table.adv-s td.h {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+table.adv-s td.n {
+    font-size: 11px;
+    line-height: 1.25em;
+    padding-right: 15px;
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+table.adv-s td {
+    vertical-align: top;
+    padding: 5px 2px;
+}
+
+#myModal td input {
+    width: 143px;
+}
+
+#myModal td div.control-group .input-prepend input,#myModal td div.control-group .input-append input {
+    width: 120px;
+}
+
+.modal {
+    top: 50%;
+    left: 40%;
+    width: 820px;
+}
+
+.spacer {
+    display: block;
+    clear: both;
+    height: 0;
+}
+
+table.adv-s td.border {
+    border-top: 2px solid #C5E4ED;
+    height: 10px;
+}
+
+.control-group {
+    margin-bottom: 10px;
 }

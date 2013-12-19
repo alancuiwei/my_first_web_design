@@ -24,7 +24,34 @@ class UsertargetsController < ApplicationController
   end
 
   def p2s1_house_buying
+    if session[:webusername]!=nil
+      @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+    else
+      redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1house=>"1")
+    end
+  end
 
+  def house_target_save
+    @userhousetarget=User_house_buying_target.find_by_username(params[:username])
+    if @userhousetarget!=nil
+      @userhousetarget.update_attributes(:sell_house_account=>params[:sell_house_account],:family_saving_account=>params[:family_saving_account],:borrowing_account=>params[:borrowing_account],
+                                         :monthly_public_fund_house=>params[:monthly_public_fund_house],:spouse_monthly_public_fund_house=>params[:spouse_monthly_public_fund_house],:loan_commercial_years=>params[:loan_commercial_years],
+                                         :loan_commercial_rate=>params[:loan_commercial_rate],:city=>params[:city])
+    else
+      User_house_buying_target.new do |u|
+        u.username=params[:username]
+        u.sell_house_account=params[:sell_house_account]
+        u.family_saving_account=params[:family_saving_account]
+        u.borrowing_account=params[:borrowing_account]
+        u.monthly_public_fund_house=params[:monthly_public_fund_house]
+        u.spouse_monthly_public_fund_house=params[:spouse_monthly_public_fund_house]
+        u.loan_commercial_years=params[:loan_commercial_years]
+        u.loan_commercial_rate=params[:loan_commercial_rate]
+        u.city=params[:city]
+        u.save
+      end
+    end
+    render :json => "s".to_json
   end
 
   def p2s2_user_target_intro

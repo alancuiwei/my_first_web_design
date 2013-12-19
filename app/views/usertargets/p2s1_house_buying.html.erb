@@ -1,116 +1,116 @@
 <%= stylesheet_link_tag "usermanagement.css" %>
 <%= stylesheet_link_tag "p2s1.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <div class="main-content">
 <div class="trow">
 <div class="main-inputs">
   <div id="inputs" class="content">
-    <div class="padded">
-      <h3>关于您的信息</h3>
-      <p>掌握您部分的信息，我们将能给您更加准确、实际的家庭理财建议。</p>
-      <p>我们不会泄露您的个人信息，因为我们并不知道您是谁，对吧。</p>
-    </div>
-    <div id="main-inputs" style="">
-      <div class="general">
-        <div class="input-group active custom" id="inputs-income">
-          <label for="input-income-field">置换已有房产凑得资金</label>
-          <div class="controls">
-            <div class="input-prepend input-append input-intermediate">
+    <div id="inputs-container">
+      <div class="padded">
+        <h3>关于您的信息</h3>
+        <p>掌握您部分的信息，我们将能给您更加准确、实际的家庭理财建议。</p>
+        <p>我们不会泄露您的个人信息，因为我们并不知道您是谁，对吧。</p>
+      </div>
+      <div id="main-inputs" style="">
+        <div class="general">
+          <div class="input-group active custom" id="inputs-income">
+            <label for="input-income-field">置换已有房产凑得资金</label>
+            <div class="controls">
+              <div class="input-prepend input-append input-intermediate">
                     <span class="add-on">
                       <div class="indicator-icon custom small"></div>
                     </span>
-              <input class="span2e" id="input-income-field" size="16" type="text" value="￥300000">
+                <input class="span2e" size="16" type="text" value="￥300000">
                     <span class="add-on neutral">
                       <div class="edit-pencil"></div>
                     </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-group active custom" id="inputs-downpayment">
-          <label for="input-downpayment-field">家庭储蓄</label>
-          <div class="controls">
-            <div class="input-prepend input-append input-intermediate">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-downpayment-field" value="￥1000000" size="0" type="text">
-              <span class="add-on neutral"><div class="edit-pencil"></div></span>
+          <div class="input-group active custom" id="inputs-downpayment">
+            <label for="input-downpayment-field">家庭储蓄</label>
+            <div class="controls">
+              <div class="input-prepend input-append input-intermediate">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-downpayment-field" value="￥1000000" size="0" type="text">
+                <span class="add-on neutral"><div class="edit-pencil"></div></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-group active custom" id="inputs-debtpayments">
-          <label for="input-debtpayments-field">亲戚借钱</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" value="￥30000" id="input-debtpayments-field" size="16" type="text">
+          <div class="input-group active custom" id="inputs-debtpayments">
+            <label for="input-debtpayments-field">亲戚借钱</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" value="￥30000" id="input-debtpayments-field" size="16" type="text">
                     <span class="add-on neutral" id="debtpayments-field-button">
                       <div class="edit-pencil"></div>
                     </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-group active custom" id="inputs-credit">
-          <label for="input-credit-field">个人住房公积金月缴纳</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-creditscore-field" size="16" type="text" value="￥3000">
+          <div class="input-group active custom" id="inputs-credit">
+            <label for="input-credit-field">个人住房公积金月缴纳</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-creditscore-field" size="16" type="text" value="￥3000">
                     <span class="add-on neutral" id="locations-field-button">
                       <div class="edit-pencil"></div>
                     </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="last input-group active custom" id="inputs-location">
-          <label for="input-location-field">配偶住房公积金月缴纳</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-location-field" size="16" type="text" value="￥3000">
-              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+          <div class="last input-group active custom" id="inputs-location">
+            <label for="input-location-field">配偶住房公积金月缴纳</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-location-field" size="16" type="text" value="￥3000">
+                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="last input-group active custom" id="inputs-location">
-          <label for="input-location-field">商业贷款年数</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-location-field" size="16" type="text" value="20年">
-              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+          <div class="last input-group active custom" id="inputs-location">
+            <label for="input-location-field">商业贷款年数</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-location-field" size="16" type="text" value="20年">
+                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="last input-group active custom" id="inputs-location">
-          <label for="input-location-field">商业贷款利率</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-location-field" size="16" type="text" value="7.48%利率1.1倍">
-              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+          <div class="last input-group active custom" id="inputs-location">
+            <label for="input-location-field">商业贷款利率</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-location-field" size="16" type="text" value="7.48%利率1.1倍">
+                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="last input-group active custom" id="inputs-location">
-          <label for="input-location-field">城市</label>
-          <div class="controls">
-            <div class="input-prepend input-intermediate input-append">
-              <span class="add-on"><div class="indicator-icon custom small"></div></span>
-              <input class="span2e" id="input-location-field" size="16" type="text" value="江苏、南京">
-              <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+          <div class="last input-group active custom" id="inputs-location">
+            <label for="input-location-field">城市</label>
+            <div class="controls">
+              <div class="input-prepend input-intermediate input-append">
+                <span class="add-on"><div class="indicator-icon custom small"></div></span>
+                <input class="span2e" id="input-location-field" size="16" type="text" value="江苏、南京">
+                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="overlay-inputs-income" class="overlay" style="display: none; ">
-      <div class="inputs-income inputs-block" onbeforeshow="incomeBeforeShow()" onaftershow="incomeAfterShow()">
-        <h2>置换已有房产凑得资金</h2>
-        <form class="form-vertical" style="margin: none; padding: none;" onsubmit="return false;">
+      <div id="overlay-inputs-income" class="overlay" style="display: none; ">
+        <div class="inputs-income inputs-block" onbeforeshow="incomeBeforeShow()" onaftershow="incomeAfterShow()">
+          <h2>置换已有房产凑得资金</h2>
           <div class="input-group">
             <label></label> <div class="control-group" id="singlepartnered">
           </div>
           </div>
-
           <div class="input-buttons">
             <span onclick="closeOverlayTrackCancel()" class="cancel link" style="">取消</span>
             <button class="btn btn-back btn-success" type="button" onclick="unsetInput('ud-current-location'); return false;"><i class="icon-arrow-left icon-white"></i></button>
@@ -118,9 +118,12 @@
             <button class="btn btn-success btn-next" onclick="submitIncome(); return false;">修改</button>
             &nbsp;
           </div>
-
-        </form>
-
+        </div>
+      </div>
+    </div>
+    <div id="advanced-settings">
+      <div class="button">
+        <a href="#myModal" role="button" data-toggle="modal"><img src="/assets/cogs.png">高级设置</a>
       </div>
     </div>
   </div>
@@ -138,7 +141,11 @@
             <input class="value editvalue homev large" id="display-hv" value="￥1000000" style="color: rgb(103, 169, 83); ">
             <div id="hm-icon" class="home-icon hsprite-green"> </div>
           </td>
-          <td class="bleft bbottom arrow"></td>
+          <td class="bleft bbottom arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
           <td class="bbottom">
             <h4 style="text-align: left; margin-bottom: 10px">首付房款</h4>
             <table class="sub">
@@ -158,17 +165,17 @@
                     <tbody>
                     <tr>
                       <td>卖首套房</td>
-                      <td class="bold right" id="display-cdown" style="color: rgb(103, 169, 83); ">￥200000</td>
+                      <td class="bold right sell_house_account" id="display-cdown" style="color: rgb(103, 169, 83); ">￥200000</td>
                     </tr>
                     <tr>
                       <td>家庭储蓄</td>
-                      <td class="bold right" id="display-cother">￥30000</td>
+                      <td class="bold right family_saving_account" id="display-cother">￥30000</td>
                     </tr>
                     <tr>
                       <td>亲戚借钱</td>
-                      <td class="bold right" id="display-cother">￥100000</td>
+                      <td class="bold right borrowing_account" id="display-cother">￥100000</td>
                     </tr>
-                    <tr>
+                    <tr class="last">
                       <td class="total right" colspan="2"><b id="display-ctotal" style="color: rgb(103, 169, 83); ">￥330000</b></td>
                     </tr>
                     </tbody>
@@ -213,13 +220,13 @@
                     <tbody>
                     <tr>
                       <td>本人公积金月供</td>
-                      <td class="right"><b id="display-mrepay" style="color: rgb(103, 169, 83); ">￥2000</b>/月</td>
+                      <td class="right"><b class="monthly_public_fund_house" style="color: rgb(103, 169, 83); ">￥2000</b>/月</td>
                     </tr>
                     <tr>
                       <td>配偶公积金月供</td>
-                      <td class="right"><b id="display-mother">￥2000</b>/月</td>
+                      <td class="right"><b class="spouse_monthly_public_fund_house">￥2000</b>/月</td>
                     </tr>
-                    <tr>
+                    <tr class="last">
                       <td class="total right" colspan="2">
                         <b id="display-mtotal" style="color: rgb(103, 169, 83); ">￥4000</b>/月
                       </td>
@@ -259,17 +266,17 @@
                       <td>支付利息额</td>
                       <td class="right"><b id="display-mother">￥454000</b></td>
                     </tr>
-                    <tr class="total">
+                    <tr class="total last">
                       <td>总还款金额</td>
-                      <td class="right"><b id="display-mother">￥1054000</b></td>
+                      <td class="right"><b class="display-mtotal" style="color: rgb(103, 169, 83); ">￥1054000</b></td>
                     </tr>
-                    <tr>
+                    <tr class="last">
                       <td>贷款月数</td>
-                      <td class="right"><b id="display-mother">240(月)</b></td>
+                      <td class="right"><b class="display-mtotal" style="color: rgb(103, 169, 83); ">240</b>(月)</td>
                     </tr>
-                    <tr>
+                    <tr class="last">
                       <td>月均还款</td>
-                      <td class="right"><b id="display-mother">￥3000</b>/月</td>
+                      <td class="right"><b class="display-mtotal" style="color: rgb(103, 169, 83); ">￥3000</b>/月</td>
                     </tr>
                     </tbody>
                   </table>
@@ -390,6 +397,131 @@
 </div>
 </div>
 </div>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>高级设置</h3>
+  </div>
+  <div class="modal-body">
+    <table width="100%" class="adv-s" border="0">
+      <tbody>
+      <tr>
+        <td colspan="6" class="h">首付房款信息</td>
+      </tr>
+      <tr>
+        <td class="n">卖一套房</td>
+        <td>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input id="sell_house_account" size="16" type="text">
+            </div>
+          </div>
+        </td>
+        <td class="n">家庭储蓄</td>
+        <td>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input id="family_saving_account" size="16" type="text">
+            </div>
+          </div>
+        </td>
+        <td class="n">亲朋借钱</td>
+        <td>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input id="borrowing_account" size="16" type="text">
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr><td colspan="6" class="spacer"></td></tr>
+      <tr> <td colspan="6" class="border"></td> </tr>
+      <tr>
+        <td class="n">个人住房公积金月缴纳</td>
+        <td>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input id="monthly_public_fund_house" size="16" type="text">
+            </div>
+          </div>
+        </td>
+        <td class="n">配偶住房公积金月缴纳</td>
+        <td>
+          <div class="control-group">
+            <div class="input-prepend">
+              <span class="add-on">￥</span>
+              <input id="spouse_monthly_public_fund_house" size="16" type="text">
+            </div>
+          </div>
+        </td>
+        <td class="n">商业贷款年数</td>
+        <td>
+          <input id="loan_commercial_years" size="16" type="text">
+        </td>
+      </tr>
+      <tr> <td colspan="6" class="spacer"></td> </tr>
+      <tr> <td colspan="6" class="border"></td> </tr>
+      <tr>
+        <td class="n">商业贷款利率</td>
+        <td>
+          <div class="control-group">
+            <div class="input-append">
+              <input id="loan_commercial_rate" size="16" type="text">
+              <span class="add-on">%</span>
+            </div>
+          </div>
+        </td>
+        <td class="n">城市</td>
+        <td>
+          <input id="city" size="16" type="text">
+        </td>
+        <td class="n"></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" id="save">保存</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        <% if @userhousetarget!=nil %>
+        $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
+        $(".sell_house_account").html("￥<%=@userhousetarget.sell_house_account  %>")
+        $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
+        $(".family_saving_account").html("￥<%=@userhousetarget.family_saving_account  %>")
+        $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
+        $(".borrowing_account").html("￥<%=@userhousetarget.borrowing_account  %>")
+        $("#display-ctotal").html("￥<%=@userhousetarget.sell_house_account+@userhousetarget.family_saving_account+@userhousetarget.borrowing_account  %>")
+        $("#monthly_public_fund_house").attr("value","<%=@userhousetarget.monthly_public_fund_house  %>")
+        $(".monthly_public_fund_house").html("￥<%=@userhousetarget.monthly_public_fund_house  %>")
+        $("#spouse_monthly_public_fund_house").attr("value","<%=@userhousetarget.spouse_monthly_public_fund_house  %>")
+        $(".spouse_monthly_public_fund_house").html("￥<%=@userhousetarget.spouse_monthly_public_fund_house  %>")
+        $("#display-mtotal").html("￥<%=@userhousetarget.monthly_public_fund_house+@userhousetarget.spouse_monthly_public_fund_house  %>")
+        $("#loan_commercial_years").attr("value","<%=@userhousetarget.loan_commercial_years  %>")
+        $("#loan_commercial_rate").attr("value","<%=@userhousetarget.loan_commercial_rate  %>")
+        $("#city").attr("value","<%=@userhousetarget.city  %>")
+        <% end %>
+    });
+
+    $("#save").click(function(){
+        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",sell_house_account: $("#sell_house_account").attr("value"),city: $("#city").attr("value"),
+            family_saving_account: $("#family_saving_account").attr("value"),borrowing_account: $("#borrowing_account").attr("value"),monthly_public_fund_house: $("#monthly_public_fund_house").attr("value"),
+            spouse_monthly_public_fund_house: $("#spouse_monthly_public_fund_house").attr("value"),loan_commercial_years: $("#loan_commercial_years").attr("value"),loan_commercial_rate: $("#loan_commercial_rate").attr("value")
+        },function(data){
+            location.reload();
+        });
+    });
+</script>
 
 <script>
 
