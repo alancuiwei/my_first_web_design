@@ -128,7 +128,7 @@ class PersonmanagementController < ApplicationController
     end
     @financial2=Financial.all
     @hash6={}
-    @monetaryfundquote=Monetary_fund_quote.all
+    @monetaryfundquote=Monetary_fund_quote.limit(10)
     t = Time.new
     date = t.strftime("%Y-%m-%d")
     for i in 0..@monetaryfundquote.size-1
@@ -143,7 +143,7 @@ class PersonmanagementController < ApplicationController
         @hash6.store(@monetaryfundquote[i].product_code,[nil,nil,nil])
       end
     end
-    @generalfundquote=General_fund_quote.all
+    @generalfundquote=General_fund_quote.limit(10)
     for i in 0..@generalfundquote.size-1
       @product=General_fund_product.find_by_product_code(@generalfundquote[i].product_code)
       if @product!=nil

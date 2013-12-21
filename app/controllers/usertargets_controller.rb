@@ -26,6 +26,18 @@ class UsertargetsController < ApplicationController
   def p2s1_house_buying
     if session[:webusername]!=nil
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+      @downpayment=0
+      if @userhousetarget!=nil
+        if @userhousetarget.sell_house_account!=nil
+          @downpayment=@downpayment+@userhousetarget.sell_house_account
+        end
+        if @userhousetarget.family_saving_account!=nil
+          @downpayment=@downpayment+@userhousetarget.family_saving_account
+        end
+        if @userhousetarget.borrowing_account!=nil
+          @downpayment=@downpayment+@userhousetarget.borrowing_account
+        end
+      end
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1house=>"1")
     end
@@ -48,6 +60,26 @@ class UsertargetsController < ApplicationController
         u.loan_commercial_years=params[:loan_commercial_years]
         u.loan_commercial_rate=params[:loan_commercial_rate]
         u.city=params[:city]
+        u.save
+      end
+    end
+    render :json => "s".to_json
+  end
+
+  def housebuyingtarget_save
+    @userhousetarget=User_house_buying_target.find_by_username(params[:username])
+    if @userhousetarget!=nil
+      @userhousetarget.update_attributes(:buy_house_type=>params[:buy_house_type],:buy_house_area=>params[:buy_house_area],:buy_house_uint_prince=>params[:buy_house_uint_prince],
+                                         :buy_house_attribute=>params[:buy_house_attribute],:house_sell_years=>params[:house_sell_years],:is_first_house=>params[:is_first_house])
+    else
+      User_house_buying_target.new do |u|
+        u.username=params[:username]
+        u.buy_house_type=params[:buy_house_type]
+        u.buy_house_area=params[:buy_house_area]
+        u.buy_house_uint_prince=params[:buy_house_uint_prince]
+        u.buy_house_attribute=params[:buy_house_attribute]
+        u.house_sell_years=params[:house_sell_years]
+        u.is_first_house=params[:is_first_house]
         u.save
       end
     end

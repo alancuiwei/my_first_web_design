@@ -15,108 +15,48 @@
       <div id="main-inputs" style="">
         <div class="general">
           <div class="input-group active custom" id="inputs-income">
-            <label for="input-income-field">置换已有房产凑得资金</label>
-            <div class="controls">
-              <div class="input-prepend input-append input-intermediate">
-                    <span class="add-on">
-                      <div class="indicator-icon custom small"></div>
-                    </span>
-                <input class="span2e" size="16" type="text" value="￥300000">
-                    <span class="add-on neutral">
-                      <div class="edit-pencil"></div>
-                    </span>
-              </div>
-            </div>
+            <label for="input-income-field">购房类型</label>
+            <select id="buy_house_type" onChange='housetype()'>
+               <option value="0">新房</option>
+               <option value="1">二手房</option>
+            </select>
           </div>
           <div class="input-group active custom" id="inputs-downpayment">
-            <label for="input-downpayment-field">家庭储蓄</label>
-            <div class="controls">
-              <div class="input-prepend input-append input-intermediate">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-downpayment-field" value="￥1000000" size="0" type="text">
-                <span class="add-on neutral"><div class="edit-pencil"></div></span>
-              </div>
-            </div>
+            <label for="input-downpayment-field">购房面积(平方米)</label>
+            <input class="span2e" id="buy_house_area" value="" size="0" type="text" onkeyup="housearea()">
           </div>
           <div class="input-group active custom" id="inputs-debtpayments">
-            <label for="input-debtpayments-field">亲戚借钱</label>
+            <label for="input-debtpayments-field">购房单价</label>
             <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" value="￥30000" id="input-debtpayments-field" size="16" type="text">
-                    <span class="add-on neutral" id="debtpayments-field-button">
-                      <div class="edit-pencil"></div>
-                    </span>
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="buy_house_uint_prince" size="16" type="text" readonly>
               </div>
             </div>
           </div>
           <div class="input-group active custom" id="inputs-credit">
-            <label for="input-credit-field">个人住房公积金月缴纳</label>
-            <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-creditscore-field" size="16" type="text" value="￥3000">
-                    <span class="add-on neutral" id="locations-field-button">
-                      <div class="edit-pencil"></div>
-                    </span>
-              </div>
-            </div>
+            <label for="input-credit-field">购房性质</label>
+            <select id="buy_house_attribute">
+              <option value="0">家庭唯一一套住宅</option>
+              <option value="1">非家庭唯一一套住宅</option>
+            </select>
           </div>
-          <div class="last input-group active custom" id="inputs-location">
-            <label for="input-location-field">配偶住房公积金月缴纳</label>
-            <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-location-field" size="16" type="text" value="￥3000">
-                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
-              </div>
-            </div>
+          <div class="last input-group active custom inputs-location hide">
+            <label for="input-location-field">几年内转让</label>
+            <select id="house_sell_years">
+              <option value="0">5年内</option>
+              <option value="1">5年后</option>
+            </select>
           </div>
-          <div class="last input-group active custom" id="inputs-location">
-            <label for="input-location-field">商业贷款年数</label>
-            <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-location-field" size="16" type="text" value="20年">
-                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
-              </div>
-            </div>
+          <div class="last input-group active custom inputs-location hide">
+            <label for="input-location-field">是否首次购房</label>
+            <select id="is_first_house">
+              <option value="0">不是</option>
+              <option value="1">是</option>
+            </select>
           </div>
-          <div class="last input-group active custom" id="inputs-location">
-            <label for="input-location-field">商业贷款利率</label>
-            <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-location-field" size="16" type="text" value="7.48%利率1.1倍">
-                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
-              </div>
-            </div>
-          </div>
-          <div class="last input-group active custom" id="inputs-location">
-            <label for="input-location-field">城市</label>
-            <div class="controls">
-              <div class="input-prepend input-intermediate input-append">
-                <span class="add-on"><div class="indicator-icon custom small"></div></span>
-                <input class="span2e" id="input-location-field" size="16" type="text" value="江苏、南京">
-                <span class="add-on neutral" id="locations-field-button"><div class="edit-pencil"></div></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="overlay-inputs-income" class="overlay" style="display: none; ">
-        <div class="inputs-income inputs-block" onbeforeshow="incomeBeforeShow()" onaftershow="incomeAfterShow()">
-          <h2>置换已有房产凑得资金</h2>
-          <div class="input-group">
-            <label></label> <div class="control-group" id="singlepartnered">
-          </div>
-          </div>
-          <div class="input-buttons">
-            <span onclick="closeOverlayTrackCancel()" class="cancel link" style="">取消</span>
-            <button class="btn btn-back btn-success" type="button" onclick="unsetInput('ud-current-location'); return false;"><i class="icon-arrow-left icon-white"></i></button>
-            &nbsp;
-            <button class="btn btn-success btn-next" onclick="submitIncome(); return false;">修改</button>
-            &nbsp;
+          <div class="last input-group active custom">
+             <a class="btn btn-primary" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
           </div>
         </div>
       </div>
@@ -138,7 +78,7 @@
         <tr>
           <td rowspan="3" width="280px">
             <h4 class="spaced">房子价格</h4>
-            <input class="value editvalue homev large" id="display-hv" value="￥1000000" style="color: rgb(103, 169, 83); ">
+            <input class="value editvalue homev large" id="display-hv" value="￥<%= (@downpayment/0.3).to_i %>" style="color: rgb(103, 169, 83); ">
             <div id="hm-icon" class="home-icon hsprite-green"> </div>
           </td>
           <td class="bleft bbottom arrow">
@@ -152,31 +92,35 @@
               <tbody>
               <tr>
                 <td class="bright" align="right" width="130px">
-                  <input class="value right editvalue" linked-slider="slider-downpayment" id="display-dp" value="￥200000" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <input class="value right editvalue" linked-slider="slider-downpayment" id="display-dp" value="￥<%= @downpayment %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
                   <a href='javascript:hwEdit("#display-dp")' class="tiny">修改</a>
-                  <table class="slider" style="margin-top: 0px"> <tbody><tr> <td class="indicator" id="downpayment-down">-</td> <td width="100%"> <div class="slider smart-scheme"> <div id="slider-downpayment" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false"><div class="ui-slider-range ui-widget-header ui-corner-all ui-slider-range-min" style="width: 0%; "></div><a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 0%; "></a></div> </div> </td> <td class="right indicator" id="downpayment-up">+</td> </tr> </tbody></table>
+                  <div id="slider-downpayment">
+                    <button id="rate-decrease" class="light-gray" tabindex="-1">−</button>
+                    <input id="downpaymentrate" value="30" type="text" style="width: 160px;margin: 0;text-align: center;" readonly>
+                    <button id="rate-increase" class="light-gray" tabindex="-1">+</button>
+                  </div>
                   <div class="subtext">
-                    <b id="display-sub-dp">4.0%</b> 首付比例</div>
+                    <b id="display-sub-dp">30%</b> 首付比例</div>
                 </td>
                 <td width="40%" class="totals" style="height: 130px;">
-                  <h4>资金来源</h4>
+                  <h4>首付实际资金</h4>
                   <div class="spacer s5"></div>
                   <table class="totals">
                     <tbody>
                     <tr>
-                      <td>卖首套房</td>
-                      <td class="bold right sell_house_account" id="display-cdown" style="color: rgb(103, 169, 83); ">￥200000</td>
+                      <td>房款首付</td>
+                      <td class="bold right" id="display-shoufu" style="color: rgb(103, 169, 83); ">￥<%= @downpayment %></td>
                     </tr>
                     <tr>
-                      <td>家庭储蓄</td>
-                      <td class="bold right family_saving_account" id="display-cother">￥30000</td>
+                      <td>住房维修基金</td>
+                      <td class="bold right" id="display-jijin"></td>
                     </tr>
                     <tr>
-                      <td>亲戚借钱</td>
-                      <td class="bold right borrowing_account" id="display-cother">￥100000</td>
+                      <td>契税</td>
+                      <td class="bold right" id="display-qishui"></td>
                     </tr>
                     <tr class="last">
-                      <td class="total right" colspan="2"><b id="display-ctotal" style="color: rgb(103, 169, 83); ">￥330000</b></td>
+                      <td class="total right" colspan="2"><b id="display-ctotal" style="color: rgb(103, 169, 83); "></b></td>
                     </tr>
                     </tbody>
                   </table>
@@ -493,24 +437,60 @@
 </div>
 
 <script>
+
+    var calculate = {
+        '+' : function(arg1,arg2){
+            var r1,r2,m;
+            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+            m=Math.pow(10,Math.max(r1,r2));
+            return (arg1*m+arg2*m)/m;
+        },
+        '-' : function(arg1,arg2){
+            var r1,r2,m,n;
+            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+            m=Math.pow(10,Math.max(r1,r2));
+            n=(r1>=r2)?r1:r2;
+            return ((arg1*m-arg2*m)/m).toFixed(n);
+        },
+        '*' : function(arg1,arg2){
+            var m=0,s1=arg1.toString(),s2=arg2.toString();
+            try{m+=s1.split(".")[1].length}catch(e){}
+            try{m+=s2.split(".")[1].length}catch(e){}
+            return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+        },
+        '/' : function(arg1,arg2){
+            var t1=0,t2=0,r1,r2;
+            try{t1=arg1.toString().split(".")[1].length}catch(e){}
+            try{t2=arg2.toString().split(".")[1].length}catch(e){}
+            r1=Number(arg1.toString().replace(".",""))
+            r2=Number(arg2.toString().replace(".",""))
+            return (r1/r2)*Math.pow(10,t2-t1);
+        }
+    };
+
     $(document).ready(function(){
         <% if @userhousetarget!=nil %>
         $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
-        $(".sell_house_account").html("￥<%=@userhousetarget.sell_house_account  %>")
         $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
-        $(".family_saving_account").html("￥<%=@userhousetarget.family_saving_account  %>")
         $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
-        $(".borrowing_account").html("￥<%=@userhousetarget.borrowing_account  %>")
-        $("#display-ctotal").html("￥<%=@userhousetarget.sell_house_account+@userhousetarget.family_saving_account+@userhousetarget.borrowing_account  %>")
         $("#monthly_public_fund_house").attr("value","<%=@userhousetarget.monthly_public_fund_house  %>")
         $(".monthly_public_fund_house").html("￥<%=@userhousetarget.monthly_public_fund_house  %>")
         $("#spouse_monthly_public_fund_house").attr("value","<%=@userhousetarget.spouse_monthly_public_fund_house  %>")
         $(".spouse_monthly_public_fund_house").html("￥<%=@userhousetarget.spouse_monthly_public_fund_house  %>")
-        $("#display-mtotal").html("￥<%=@userhousetarget.monthly_public_fund_house+@userhousetarget.spouse_monthly_public_fund_house  %>")
         $("#loan_commercial_years").attr("value","<%=@userhousetarget.loan_commercial_years  %>")
         $("#loan_commercial_rate").attr("value","<%=@userhousetarget.loan_commercial_rate  %>")
         $("#city").attr("value","<%=@userhousetarget.city  %>")
+        $("#buy_house_type").attr("value","<%=@userhousetarget.buy_house_type  %>")
+        $("#buy_house_area").attr("value","<%=@userhousetarget.buy_house_area  %>")
+        $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
+        $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
+        $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
+        $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
         <% end %>
+        housetype();
+        submit();
     });
 
     $("#save").click(function(){
@@ -521,6 +501,95 @@
             location.reload();
         });
     });
+
+    $("#savehouse").click(function(){
+        $.post("/usertargets/housebuyingtarget_save",{ username:"<%= session[:webusername] %>",buy_house_type: $("#buy_house_type").attr("value"),buy_house_area: $("#buy_house_area").attr("value"),
+            buy_house_uint_prince: $("#buy_house_uint_prince").attr("value"),buy_house_attribute: $("#buy_house_attribute").attr("value"),house_sell_years: $("#house_sell_years").attr("value"),
+            is_first_house: $("#is_first_house").attr("value")
+        },function(data){
+        });
+        submit();
+    });
+
+
+    function submit(){
+        var leixing =1,
+                weiyi = parseInt($("#buy_house_attribute").attr("value"))+1, //1,2(0,1)
+                dianti = 1,
+                danjia = $("#buy_house_uint_prince").attr("value") != ''?parseInt($("#buy_house_uint_prince").attr("value")) :0,
+                mianji = $("#buy_house_area").attr("value") != ''?parseInt($("#buy_house_area").attr("value")) :0;
+
+        var gongshi = {
+            '1+1' : 120,
+            '1+2' : 75,
+            '2+1' : 90,
+            '2+2' : 50
+        };
+
+        var qiesui = {
+            '90+1' : 0.01,
+            '144+1' : 0.015,
+            '144-2' : 0.03
+        };
+        var total = calculate['*'](danjia, mianji);
+        var jijin=calculate['*'](gongshi[parseInt(leixing) + '+' + parseInt(dianti)], mianji);
+
+        var type = '';
+        if(mianji <= 90 && weiyi == 1){
+            type = '90+1';
+        }else if(mianji > 90 && mianji <= 144 && weiyi == 1){
+            type = '144+1';
+        }else if(mianji > 144 || weiyi == 2){
+            type = '144-2';
+        }
+        var qisui=calculate['*'](qiesui[type], total);
+
+        $("#display-jijin").html("￥"+jijin.toString())
+        $("#display-qishui").html("￥"+qisui.toString())
+        $("#display-ctotal").html("￥"+(parseInt(<%= @downpayment %>)+jijin+qisui).toString())
+    }
+
+    $("#rate-decrease").click(function(){
+        if(parseInt($("#downpaymentrate").attr("value"))>1){
+            $("#downpaymentrate").attr("value", parseInt($("#downpaymentrate").attr("value"))-1);
+        }
+        else{
+            $("#downpaymentrate").attr("value",1);
+        }
+        update();
+    });
+
+    $("#rate-increase").click(function(){
+        if(parseInt($("#downpaymentrate").attr("value"))<100){
+            $("#downpaymentrate").attr("value", parseInt($("#downpaymentrate").attr("value"))+1);
+        }
+        else{
+            $("#downpaymentrate").attr("value",100);
+        }
+        update();
+    });
+
+    function update(){
+        $("#display-sub-dp").html($("#downpaymentrate").attr("value")+"%");
+        $("#display-hv").attr("value","￥"+parseInt(parseInt($("#display-dp").attr("value").replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
+    }
+
+    function housetype(){
+        if($("#buy_house_type").attr("value")=='0'){
+            $("#inputs-credit").removeClass("hide");
+            $(".inputs-location").addClass("hide");
+        }
+        else{
+            $("#inputs-credit").addClass("hide");
+            $(".inputs-location").removeClass("hide");
+        }
+    }
+
+    function housearea(){
+       if($("#buy_house_area").attr("value")!=""){
+        $("#buy_house_uint_prince").attr("value", parseInt(parseInt(<%= @downpayment %>)*100/parseInt($("#downpaymentrate").attr("value"))/parseInt($("#buy_house_area").attr("value"))));
+       }
+    }
 </script>
 
 <script>
