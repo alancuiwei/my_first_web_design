@@ -26,6 +26,47 @@ class UsertargetsController < ApplicationController
   def p2s1_house_buying
     if session[:webusername]!=nil
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @incomemonth1=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],1000)
+      @incomemonth2=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],2000)
+      @salarymonth1=0
+      @salarymonth2=0
+      if @incomemonth1!=nil || @incomemonth2!=nil
+         if @incomemonth1!=nil && @incomemonth1.income_value!=nil
+           @salarymonth1=@incomemonth1.income_value
+         end
+         if @incomemonth2!=nil && @incomemonth2.income_value!=nil
+           @salarymonth2=@incomemonth2.income_value
+         end
+      elsif @userdatamonth!=nil && @userdatamonth.salary_month!=nil
+        @salarymonth1= @userdatamonth.salary_month
+      end
+      @gjjfee=(@salarymonth1*0.45*12*20+@salarymonth2*0.45*12*20).to_i
+      if @userhousetarget==nil || (@userhousetarget.sell_house_account==nil && @userhousetarget.family_saving_account==nil && @userhousetarget.borrowing_account==nil)
+        sell_house_account=0
+        @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
+        if @user_asset_sheet!=nil
+          sell_house_account=@user_asset_sheet.asset_value
+        end
+        family_saving_account=0
+        @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+session[:webusername]+"' and asset_typeid<>401 && asset_typeid<>402")
+        for i in 0..@userassetsheet.size-1
+          family_saving_account=family_saving_account+@userassetsheet[i].asset_value
+        end
+
+        if @userhousetarget!=nil
+          @userhousetarget.update_attributes(:sell_house_account=>sell_house_account,:family_saving_account=>family_saving_account,:borrowing_account=>0)
+        else
+          User_house_buying_target.new do |u|
+            u.username=session[:webusername]
+            u.sell_house_account=sell_house_account
+            u.family_saving_account=family_saving_account
+            u.borrowing_account=0
+            u.save
+          end
+        end
+      end
+      @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @downpayment=0
     #  @public_fund_house=0
       if @userhousetarget!=nil
@@ -53,17 +94,17 @@ class UsertargetsController < ApplicationController
   def house_target_save
     @userhousetarget=User_house_buying_target.find_by_username(params[:username])
     if @userhousetarget!=nil
-      @userhousetarget.update_attributes(:sell_house_account=>params[:sell_house_account],:family_saving_account=>params[:family_saving_account],:borrowing_account=>params[:borrowing_account])
-                                       #  ,:monthly_public_fund_house=>params[:monthly_public_fund_house],:spouse_monthly_public_fund_house=>params[:spouse_monthly_public_fund_house],:loan_commercial_years=>params[:loan_commercial_years],
-                                      #   :loan_commercial_rate=>params[:loan_commercial_rate],:city=>params[:city]
+      @userhousetarget.update_attributes(:sell_house_account=>params[:sell_house_account],:family_saving_account=>params[:family_saving_account],:borrowing_account=>params[:borrowing_account],
+                                         :mortgage_years=>params[:mortgage_years],:mortgage_rate=>params[:mortgage_rate])
+
     else
       User_house_buying_target.new do |u|
         u.username=params[:username]
         u.sell_house_account=params[:sell_house_account]
         u.family_saving_account=params[:family_saving_account]
         u.borrowing_account=params[:borrowing_account]
-     #   u.monthly_public_fund_house=params[:monthly_public_fund_house]
-     #   u.spouse_monthly_public_fund_house=params[:spouse_monthly_public_fund_house]
+        u.mortgage_years=params[:mortgage_years]
+        u.mortgage_rate=params[:mortgage_rate]
      #   u.loan_commercial_years=params[:loan_commercial_years]
      #   u.loan_commercial_rate=params[:loan_commercial_rate]
      #   u.city=params[:city]
