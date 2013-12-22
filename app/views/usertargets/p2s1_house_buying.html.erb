@@ -382,6 +382,7 @@
           </div>
         </td>
       </tr>
+      <!--
       <tr><td colspan="6" class="spacer"></td></tr>
       <tr> <td colspan="6" class="border"></td> </tr>
       <tr>
@@ -427,6 +428,7 @@
         <td class="n"></td>
         <td></td>
       </tr>
+      -->
       </tbody>
     </table>
   </div>
@@ -475,6 +477,7 @@
         $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
         $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
         $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
+        /*
         $("#monthly_public_fund_house").attr("value","<%=@userhousetarget.monthly_public_fund_house  %>")
         $(".monthly_public_fund_house").html("￥<%=@userhousetarget.monthly_public_fund_house  %>")
         $("#spouse_monthly_public_fund_house").attr("value","<%=@userhousetarget.spouse_monthly_public_fund_house  %>")
@@ -482,9 +485,12 @@
         $("#loan_commercial_years").attr("value","<%=@userhousetarget.loan_commercial_years  %>")
         $("#loan_commercial_rate").attr("value","<%=@userhousetarget.loan_commercial_rate  %>")
         $("#city").attr("value","<%=@userhousetarget.city  %>")
+        */
         $("#buy_house_type").attr("value","<%=@userhousetarget.buy_house_type  %>")
         $("#buy_house_area").attr("value","<%=@userhousetarget.buy_house_area  %>")
+        <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
         $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
+        <% end %>
         $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
         $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
         $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
@@ -494,9 +500,9 @@
     });
 
     $("#save").click(function(){
-        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",sell_house_account: $("#sell_house_account").attr("value"),city: $("#city").attr("value"),
-            family_saving_account: $("#family_saving_account").attr("value"),borrowing_account: $("#borrowing_account").attr("value"),monthly_public_fund_house: $("#monthly_public_fund_house").attr("value"),
-            spouse_monthly_public_fund_house: $("#spouse_monthly_public_fund_house").attr("value"),loan_commercial_years: $("#loan_commercial_years").attr("value"),loan_commercial_rate: $("#loan_commercial_rate").attr("value")
+        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",sell_house_account: $("#sell_house_account").attr("value"),family_saving_account: $("#family_saving_account").attr("value"),borrowing_account: $("#borrowing_account").attr("value")
+          //  ,city: $("#city").attr("value"),monthly_public_fund_house: $("#monthly_public_fund_house").attr("value"),
+          //  spouse_monthly_public_fund_house: $("#spouse_monthly_public_fund_house").attr("value"),loan_commercial_years: $("#loan_commercial_years").attr("value"),loan_commercial_rate: $("#loan_commercial_rate").attr("value")
         },function(data){
             location.reload();
         });
@@ -589,169 +595,5 @@
        if($("#buy_house_area").attr("value")!=""){
         $("#buy_house_uint_prince").attr("value", parseInt(parseInt(<%= @downpayment %>)*100/parseInt($("#downpaymentrate").attr("value"))/parseInt($("#buy_house_area").attr("value"))));
        }
-    }
-</script>
-
-<script>
-
-    var init_income = "15,000";
-    var init_pincome = "0";
-    var init_state = "S";
-    var init_taxfiling = "tx-s";
-    var min_income = parseInt("14000");
-
-    function validateIncomeInput()
-    {
-        var inc = getInteger($(".primaryIncome input").val());
-        var pinc = getInteger($(".partnerIncome input").val());
-        var isSingle = "S" === $("#singlepartnered input:checked").val();
-        var totalIncome = inc + (isSingle ? 0 : pinc);
-
-        if (totalIncome < min_income) {
-            $(".primaryIncome .input-note, .input-error-on-page").addClass("error").html("Please note, to use SmartAsset you must enter an income of more than $" + commatoze(min_income));
-            $(".input-error-on-page").css('visibility', 'visible');
-            $(".primaryIncome .input-block, .partnerIncome .input-block").addClass("error");
-            $(".primaryIncome input").focus();
-
-            return false;
-        }
-
-        return true;
-    }
-
-    function submitIncome()
-    {
-        if (!validateIncomeInput()) {
-            return;
-        }
-
-        var inc = $(".primaryIncome input").val();
-        var pinc = $(".partnerIncome input").val();
-        var tfs = "tx-mfj";
-        var pstatus = $("#singlepartnered input:checked").val();
-
-        if (pstatus == "S")
-        {
-            pinc = "0";
-            tfs = "tx-s";
-        }
-
-        var callback = function(data)
-        {
-            if (data)
-            {
-                if (data.status == "ok")
-                {
-                    hideLoadingButton($(".input-buttons button.btn-next"));
-                    $("#body-inputs .input-buttons button.btn-back").show();
-                    closeOverlayOnly();
-
-                    // trigger hook
-                    smartasset.data.set("inputs-total-income", getInteger(inc)+getInteger(pinc));
-                    ajaxUpdate("", "mode=animate");
-                }
-                else
-                {
-                    showModal("An error occurred", null, data.message);
-                }
-            }
-        };
-
-        inputSubmit({
-            input: "income", // remains for legacy analytics purposes
-            state: "income",
-            income: getInteger($(".primaryIncome input").val()),
-            pincome: getInteger($(".partnerIncome input").val()),
-            taxfs: tfs,
-            pstatus: pstatus,
-            tfs:tfs
-        }, callback);
-    }
-
-    $(function() {
-        /// track partner group
-        $("#singlepartnered input").click(function() {
-            var v = $("#singlepartnered input:checked").val();
-            //track event
-            eventTrack("Select Option Change", {select:"singlepartnered", value: v}, "["+v+"] "+"singlepartnered");
-
-            if (v == "P")
-            {
-                $(".partnerIncome").css("display", "inline-block");
-            }
-            else
-            {
-                $(".partnerIncome").css("display", "none");
-            }
-
-            incomeAddUp();
-        });
-
-        var clearError = function() {
-            $(".income-totals").show();
-            $(".income-error").hide();
-            $(".input-error-on-page").css('visibility', 'hidden');
-            $(".primaryIncome .input-block, .partnerIncome .input-block").removeClass("error");
-        }
-
-        $(".primaryIncome input").keyup(function(e) {
-            incomeAddUp();
-            if (e.keyCode !== 13) {
-                clearError();
-            }
-        });
-
-        $(".partnerIncome input").keyup(function(e) {
-            incomeAddUp();
-            if (e.keyCode !== 13) {
-                clearError();
-            }
-        });
-
-        setTimeout('$(".primaryIncome input").focus()', 100);
-    });
-
-    function incomeAddUp()
-    {
-        var i = getInteger($(".primaryIncome input").val());
-        if ($("#singlepartnered input:checked").val() == "P")
-        {
-            i += getInteger($(".partnerIncome input").val());
-        }
-
-        $("span#display-income-total").html("$"+commatoze(i));
-    }
-
-    function incomeBeforeShow()
-    {
-        $(".primaryIncome input").val(init_income);
-        $(".partnerIncome input").val(init_pincome);
-
-        // reset
-        $(".primaryIncome .input-block, .partnerIncome .input-block").removeClass("error");
-        $(".primaryIncome .input-note").removeClass("error").html("What is your total 'pre-tax' income per year?");
-
-
-        if (init_state == "P")
-        {
-            $(".partnerIncome").css("display", "inline-block");
-            $("#singlepartnered input.p-partnered").attr("checked", "checked");
-        }
-        else
-        {
-            $(".partnerIncome").css("display", "none");
-            $("#singlepartnered input.p-single").attr("checked", "checked");
-        }
-
-        $("#"+init_taxfiling).attr('selected', true);
-
-        hideLoadingButton($("#overlay-inputs-income .input-buttons button.btn"));
-
-        incomeAddUp();
-    }
-
-    function incomeAfterShow()
-    {
-        $(".primaryIncome input").focus();
     }
 </script>
