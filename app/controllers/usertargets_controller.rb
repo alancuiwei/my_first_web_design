@@ -26,7 +26,42 @@ class UsertargetsController < ApplicationController
   def p2s1_house_buying
     if session[:webusername]!=nil
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+      @debthouse=0
+      @debtall=0
+      @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+      for i in 0..@userdebtsheet.size-1
+        if @userdebtsheet[i].debt_value_monthly!=nil
+          @debtall=@debtall+@userdebtsheet[i].debt_value_monthly
+          if @userdebtsheet[i].debt_typeid==101
+            @debthouse=@debthouse+@userdebtsheet[i].debt_value_monthly
+          end
+        end
+      end
+      @xiaofei=@debthouse
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
+      @halfofsalarymonth=0
+      if @userdatamonth!=nil
+        if @userdatamonth.salary_month!=nil
+          @halfofsalarymonth=@halfofsalarymonth+@userdatamonth.salary_month/2
+        end
+        if @userdatamonth.extra_income_month!=nil
+          @halfofsalarymonth=@halfofsalarymonth+@userdatamonth.extra_income_month/2
+        end
+        if @userdatamonth.must_expense_month!=nil
+          @xiaofei=@xiaofei+@userdatamonth.must_expense_month
+        end
+        if @userdatamonth.fun_expense_month!=nil
+          @xiaofei=@xiaofei+@userdatamonth.fun_expense_month
+        end
+        if @userdatamonth.invest_expense_month!=nil
+          @xiaofei=@xiaofei+@userdatamonth.invest_expense_month
+        end
+      end
+      if @halfofsalarymonth>0
+        @rate=(@debtall*100/(@halfofsalarymonth*2)).to_i
+      else
+        @rate=0
+      end
       @incomemonth1=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],1000)
       @incomemonth2=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],2000)
       @salarymonth1=0
@@ -41,7 +76,9 @@ class UsertargetsController < ApplicationController
       elsif @userdatamonth!=nil && @userdatamonth.salary_month!=nil
         @salarymonth1= @userdatamonth.salary_month
       end
-      @gjjfee=(@salarymonth1*0.45*12*20+@salarymonth2*0.45*12*20).to_i
+      @gjjfee1=(@salarymonth1*0.45*12*20>300000?300000:@salarymonth1*0.45*12*20).to_i
+      @gjjfee2=(@salarymonth2*0.45*12*20>300000?300000:@salarymonth2*0.45*12*20).to_i
+      @gjjfee=@gjjfee1+@gjjfee2
       if @userhousetarget==nil || (@userhousetarget.sell_house_account==nil && @userhousetarget.family_saving_account==nil && @userhousetarget.borrowing_account==nil)
         sell_house_account=0
         @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
@@ -66,26 +103,33 @@ class UsertargetsController < ApplicationController
           end
         end
       end
+      @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+      @chuxu=0
+      if @userbalancesheet!=nil && @userbalancesheet.asset_account!=nil
+        @chuxu=@userbalancesheet.asset_account
+      end
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @downpayment=0
-    #  @public_fund_house=0
       if @userhousetarget!=nil
         if @userhousetarget.sell_house_account!=nil
           @downpayment=@downpayment+@userhousetarget.sell_house_account
         end
         if @userhousetarget.family_saving_account!=nil
+          @chuxu=@chuxu-@userhousetarget.family_saving_account
           @downpayment=@downpayment+@userhousetarget.family_saving_account
         end
         if @userhousetarget.borrowing_account!=nil
           @downpayment=@downpayment+@userhousetarget.borrowing_account
         end
-     #   if @userhousetarget.monthly_public_fund_house!=nil
-     #     @public_fund_house=@public_fund_house+@userhousetarget.monthly_public_fund_house
-     #   end
-     #   if @userhousetarget.spouse_monthly_public_fund_house!=nil
-     #     @public_fund_house=@public_fund_house+@userhousetarget.spouse_monthly_public_fund_house
-     #   end
       end
+      if @chuxu<0
+        @chuxu=0
+      end
+      @month=0
+     if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil
+       @month=@chuxu/@userdatamonth.must_expense_month
+     end
+      @syfee=(7*@downpayment/3-@gjjfee)>0?(7*@downpayment/3-@gjjfee):0
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1house=>"1")
     end
