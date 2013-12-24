@@ -1,0 +1,14 @@
+<%= stylesheet_link_tag "payment.css" %>
+
+<div class="main-body">
+  <a class="btn btn-primary res" href="javascript:void(0)" id="submit"> 支付宝 支付 </a>
+  <a id="goal" class="btn btn-primary btn-large pull-right" href="/usertargets/p2_usertargets">下一步：理财目标</a>
+</div>
+
+<script>
+    $("#submit").click(function(){
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:0.01},function(data){
+            location.href=data;
+        });
+    });
+</script>

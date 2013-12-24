@@ -142,9 +142,6 @@ class UsertargetsController < ApplicationController
         u.borrowing_account=params[:borrowing_account]
         u.mortgage_years=params[:mortgage_years]
         u.mortgage_rate=params[:mortgage_rate]
-     #   u.loan_commercial_years=params[:loan_commercial_years]
-     #   u.loan_commercial_rate=params[:loan_commercial_rate]
-     #   u.city=params[:city]
         u.save
       end
     end

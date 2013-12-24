@@ -84,7 +84,7 @@
         <tr>
           <td rowspan="3" width="230px">
             <h4 class="spaced">房子价格</h4>
-            <input class="value editvalue homev large" id="display-hv" value="￥<%= (@downpayment/0.3).to_i %>" style="color: rgb(103, 169, 83); ">
+            <p class="value editvalue homev large" id="display-hv" style="color: rgb(103, 169, 83); ">￥<%= (@downpayment/0.3).to_i %></p>
             <div id="hm-icon" class="home-icon hsprite-green"> </div>
           </td>
           <td class="bleft bbottom arrow">
@@ -105,7 +105,7 @@
               </tr>
               <tr>
                 <td class="bright" align="right" width="130px">
-                  <input class="value right editvalue" linked-slider="slider-downpayment" id="display-dp" value="￥<%= @downpayment %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <p class="value right editvalue"id="display-dp" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @downpayment %></p>
                   <a href="#myModal" role="button" data-toggle="modal" class="tiny">修改</a>
                   <div id="slider-downpayment">
                     <table style="width: 100%;">
@@ -173,7 +173,7 @@
               </tr>
               <tr>
                 <td class="bright" align="right" width="60%">
-                  <input class="value right editvalue" linked-slider="slider-mortgage" id="display-mv" value="￥<%= @gjjfee %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <p class="value right editvalue" id="display-mv" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @gjjfee %></p>
                   <br><br>
                   <p class="left">1、根据个人信息、配偶信息、购房还贷信息，计算出可贷额度与还款金额；</p>
                   <p class="left">2、只提供住房公积金贷款可贷额度、年限及还款额度的预测，不作为贷款依据。</p>
@@ -226,7 +226,7 @@
               </tr>
               <tr>
                 <td class="bright" align="right" width="60%">
-                  <input class="value right editvalue" linked-slider="slider-mortgage" id="display-syfee" value="￥<%= @syfee %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
+                  <p class="value right editvalue" id="display-syfee" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @syfee %></p>
                 </td>
                 <td width="40%" class="totals">
                   <div class="spacer s5" style="margin-top: -10px;"></div>
@@ -815,7 +815,7 @@
         //--  商业贷款
         var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),1,parseInt($("#mortgage_years").attr("value")));//得到利率
         //------------ 根据贷款总额计算
-        var daikuan_total = parseInt($("#display-syfee").attr("value").replace("￥",""));//贷款总额
+        var daikuan_total = parseInt($("#display-syfee").html().replace("￥",""));//贷款总额
         //2.本息还款
         //月均还款
         var month_money1 = getMonthMoney1(lilv,daikuan_total,month);//月均还款：
@@ -833,7 +833,7 @@
     }
 
     function summary(){
-        $("#fangjia").html(parseInt(parseInt($("#display-hv").attr("value").replace("￥",""))/10000))
+        $("#fangjia").html(parseInt(parseInt($("#display-hv").html().replace("￥",""))/10000))
         $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
         $("#shoufu").html($("#display-ctotal").html().replace("￥",""));
         $("#qita").html(parseInt($("#display-ctotal").html().replace("￥",""))-parseInt($("#display-shoufu").html().replace("￥","")));
@@ -861,10 +861,10 @@
     });
 
     function update(){
-        $("#display-hv").attr("value","￥"+parseInt(parseInt($("#display-dp").attr("value").replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
-        var displaysyfee=parseInt($("#display-hv").attr("value").replace("￥",""))-parseInt($("#display-dp").attr("value").replace("￥",""))-parseInt(<%= @gjjfee %>)
+        $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
+        var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt(<%= @gjjfee %>)
         if(displaysyfee<0){displaysyfee=0}
-        $("#display-syfee").attr("value","￥"+displaysyfee.toString());
+        $("#display-syfee").html("￥"+displaysyfee.toString());
         ext_total();
         housearea();
         submit();
