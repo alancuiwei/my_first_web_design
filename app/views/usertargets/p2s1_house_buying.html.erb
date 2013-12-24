@@ -44,14 +44,14 @@
               <option value="1">非家庭唯一一套住宅</option>
             </select>
           </div>
-          <div class="last input-group active custom inputs-location hide">
+          <div class="input-group active custom inputs-location hide">
             <label for="input-location-field">几年内转让</label>
             <select id="house_sell_years">
               <option value="0">5年内</option>
               <option value="1">5年后</option>
             </select>
           </div>
-          <div class="last input-group active custom inputs-location hide">
+          <div class="input-group active custom inputs-location hide">
             <label for="input-location-field">是否首次购房</label>
             <select id="is_first_house">
               <option value="0">不是</option>
@@ -59,7 +59,7 @@
             </select>
           </div>
           <div class="last input-group active custom">
-            <a class="btn btn-primary" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
+            <a class="btn btn-success" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
           </div>
         </div>
       </div>
@@ -82,7 +82,7 @@
       <table class="block">
         <tbody>
         <tr>
-          <td rowspan="3" width="280px">
+          <td rowspan="3" width="230px">
             <h4 class="spaced">房子价格</h4>
             <input class="value editvalue homev large" id="display-hv" value="￥<%= (@downpayment/0.3).to_i %>" style="color: rgb(103, 169, 83); ">
             <div id="hm-icon" class="home-icon hsprite-green"> </div>
@@ -93,9 +93,16 @@
             </div>
           </td>
           <td class="bbottom">
-            <h4 style="text-align: left; margin-bottom: 10px">首付房款</h4>
             <table class="sub">
               <tbody>
+              <tr>
+                <td>
+                  <h4 style="text-align: left; margin-bottom: 10px">首付房款</h4>
+                </td>
+                <td class="totals">
+                  <h4>首付实际资金</h4>
+                </td>
+              </tr>
               <tr>
                 <td class="bright" align="right" width="130px">
                   <input class="value right editvalue" linked-slider="slider-downpayment" id="display-dp" value="￥<%= @downpayment %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
@@ -113,8 +120,7 @@
                   <p class="left">因各地具体房产政策略有不同，结果仅供参考。</p>
                 </td>
                 <td width="40%" class="totals" style="height: 130px;">
-                  <h4>首付实际资金</h4>
-                  <div class="spacer s5"></div>
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
                   <table class="totals">
                     <tbody>
                     <tr>
@@ -126,19 +132,19 @@
                       <td class="bold right" id="display-jijin"></td>
                     </tr>
                     <tr class="ershoufang hide">
-                      <td>过户费<br><span id="intro-ghfee"></span></td>
+                      <td>过户费</td>
                       <td class="bold right" id="display-ghfee"></td>
                     </tr>
                     <tr>
-                      <td>契税<br><span id="intro-qishui"></span></td>
+                      <td>契税</td>
                       <td class="bold right" id="display-qishui"></td>
                     </tr>
                     <tr class="ershoufang hide">
-                      <td>房屋产权登记费<br><span>(80元/人)</span></td>
+                      <td class="nowap">房屋产权登记费</td>
                       <td class="bold right" id="display-djfee">￥80</td>
                     </tr>
                     <tr class="ershoufang hide">
-                      <td>土地证工本费<br><span>(20元)</span></td>
+                      <td>土地证工本费</td>
                       <td class="bold right" id="display-gbfee">￥20</td>
                     </tr>
                     <tr class="last">
@@ -159,9 +165,12 @@
             </div>
           </td>
           <td class="bbottom">
-            <h4 style="text-align: left; margin-bottom: 10px">公积金贷款</h4>
             <table class="sub">
               <tbody>
+              <tr>
+                <td><h4 style="text-align: left; margin-bottom: 10px">公积金贷款</h4></td>
+                <td class="totals"><h4>住房公积金贷款信息</h4></td>
+              </tr>
               <tr>
                 <td class="bright" align="right" width="60%">
                   <input class="value right editvalue" linked-slider="slider-mortgage" id="display-mv" value="￥<%= @gjjfee %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
@@ -170,8 +179,7 @@
                   <p class="left">2、只提供住房公积金贷款可贷额度、年限及还款额度的预测，不作为贷款依据。</p>
                 </td>
                 <td width="40%" class="totals">
-                  <h4>住房公积金贷款信息</h4>
-                  <div class="spacer s5"></div>
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
                   <table class="totals">
                     <tbody>
                     <tr>
@@ -179,7 +187,7 @@
                       <td class="right"><b id="daikuan_total" style="color: rgb(103, 169, 83); ">￥2000</b></td>
                     </tr>
                     <tr>
-                      <td>支付利息额</td>
+                      <td class="nowap">支付利息额</td>
                       <td class="right"><b id="accrual">￥2000</b></td>
                     </tr>
                     <tr class="total last">
@@ -192,7 +200,7 @@
                       <td colspan="2"><h4>月供信息</h4></td>
                     </tr>
                     <tr class="last">
-                      <td>家庭月公积金贷款</td>
+                      <td>月还款额</td>
                       <td class="right"><b id="month_money1" style="color: rgb(103, 169, 83); ">240</b></td>
                     </tr>
                     </tbody>
@@ -210,16 +218,18 @@
             </div>
           </td>
           <td class="">
-            <h4 style="text-align: left; margin-bottom: 10px">商业贷款</h4>
             <table class="sub">
               <tbody>
+              <tr>
+                <td><h4 style="text-align: left; margin-bottom: 10px">商业贷款</h4></td>
+                <td class="totals"><h4>商业贷款信息</h4></td>
+              </tr>
               <tr>
                 <td class="bright" align="right" width="60%">
                   <input class="value right editvalue" linked-slider="slider-mortgage" id="display-syfee" value="￥<%= @syfee %>" style="margin-top: -20px; color: rgb(103, 169, 83); ">
                 </td>
                 <td width="40%" class="totals">
-                  <h4>商业贷款信息</h4>
-                  <div class="spacer s5"></div>
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
                   <table class="totals">
                     <tbody>
                     <tr>
@@ -227,7 +237,7 @@
                       <td class="right"><b id="daikuan_total_sy" style="color: rgb(103, 169, 83); ">￥2000</b></td>
                     </tr>
                     <tr>
-                      <td>支付利息额</td>
+                      <td class="nowap">支付利息额</td>
                       <td class="right"><b id="accrual_sy">￥2000</b></td>
                     </tr>
                     <tr class="total last">
@@ -240,7 +250,7 @@
                       <td colspan="2"><h4>月供信息</h4></td>
                     </tr>
                     <tr class="last">
-                      <td>家庭商业贷款月供</td>
+                      <td>月还款额</td>
                       <td class="right"><b id="month_money_sy" style="color: rgb(103, 169, 83); ">240</b></td>
                     </tr>
                     </tbody>
@@ -287,7 +297,7 @@
           <td>
             <span class="glossary">月还房贷</span>
           </td>
-          <td class="value">￥<%= @debthouse %></td>
+          <td class="value" id="debthouse2"></td>
           <td class="last-child">
             <div class="level error" style="width: 31.171030666123606px; padding: 6px 1px; "></div>
           </td>
@@ -320,12 +330,12 @@
           </td>
         </tr>
         <tr class="last-child">
-          <td colspan="2" class="home-total" style="color: rgb(189, 55, 38); ">￥<%= @xiaofei %></td>
+          <td colspan="2" class="home-total" style="color: rgb(189, 55, 38); " id="xiaofei"></td>
         </tr>
         </tbody>
       </table>
     </div>
-    <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b><%= @debthouse %></b>元每月。加上您其他的月贷款，您一共是每月还贷<b><%= @debtall %></b>元。</p>
+    <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b id="debthouse"></b>元每月。加上您其他的月贷款，您一共是每月还贷<b id="debtall"></b>元。</p>
     <p class="light">即使您可以通过其他途径借贷到更大比例金额，我们还是建议您月贷款比例小于您家庭月收入的<b>50%</b>，或者说<b><%= @halfofsalarymonth %></b>元。</p>
   </div>
   <div class="spacer s15"></div>
@@ -388,17 +398,8 @@
             <div class="level ok" style="width: 0.007224334600760456px; padding: 6px 1px; "></div>
           </td>
         </tr>
-        <tr class="graph closing-tt">
-          <td>
-            <span class="glossary">其他来源</span>
-          </td>
-          <td class="value" id="qitalaiyuan"></td>
-          <td class="last-child">
-            <div class="level ok" style="width: 0.11125475285171103px; padding: 6px 1px; "></div>
-          </td>
-        </tr>
         <tr class="last-child">
-          <td colspan="2" id="closing-total" style="color: rgb(103, 169, 83); "></td>
+          <td colspan="2" style="color: rgb(103, 169, 83); "><%= @downpayment %></td>
         </tr>
         </tbody></table>
     </div>
@@ -700,7 +701,6 @@
         $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
         $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
         <% end %>
-        debtguage.refresh(<%= @rate %>);
         housetype();
         submit();
         ext_total();
@@ -752,9 +752,7 @@
             var buy_sum=parseInt(<%= @downpayment %>)+parseInt(buy_ghfee)+parseInt(buy_qfee)+100;  //合计
 
             $("#display-ghfee").html("￥"+buy_ghfee.toString())
-            $("#intro-ghfee").html(lab_b1)
             $("#display-qishui").html("￥"+buy_qfee.toString())
-            $("#intro-qishui").html(lab_b2)
             $("#display-ctotal").html("￥"+buy_sum.toString())
         }
         else{
@@ -827,15 +825,18 @@
         $("#accrual_sy").html("￥"+accrual.toFixed(0).toString())
         $("#all_total_sy").html("￥"+parseInt(daikuan_total+accrual).toString())
         $("#month_money_sy").html("￥"+month_money1.toFixed(0).toString())
+        $("#debthouse").html(month_money1.toFixed(0).toString())
+        $("#debthouse2").html("￥"+month_money1.toFixed(0).toString())
+        $("#xiaofei").html("￥"+parseInt(month_money1+parseInt(<%= @xiaofei %>)).toString())
+        $("#debtall").html(parseInt(month_money1+parseInt(<%= @debtqita %>)).toString())
+        debtguage.refresh(parseInt(month_money1*100/parseInt(<%= @xiaofei %>)));
     }
 
     function summary(){
         $("#fangjia").html(parseInt(parseInt($("#display-hv").attr("value").replace("￥",""))/10000))
         $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
         $("#shoufu").html($("#display-ctotal").html().replace("￥",""));
-        $("#closing-total").html($("#display-ctotal").html());
         $("#qita").html(parseInt($("#display-ctotal").html().replace("￥",""))-parseInt($("#display-shoufu").html().replace("￥","")));
-        $("#qitalaiyuan").html(parseInt($("#display-ctotal").html().replace("￥",""))-parseInt($("#display-shoufu").html().replace("￥","")));
         $("#bili").html($("#downpaymentrate").attr("value").toString()+"%");
     }
 
@@ -864,6 +865,7 @@
         var displaysyfee=parseInt($("#display-hv").attr("value").replace("￥",""))-parseInt($("#display-dp").attr("value").replace("￥",""))-parseInt(<%= @gjjfee %>)
         if(displaysyfee<0){displaysyfee=0}
         $("#display-syfee").attr("value","￥"+displaysyfee.toString());
+        ext_total();
         housearea();
         submit();
         summary();

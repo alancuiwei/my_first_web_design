@@ -26,18 +26,16 @@ class UsertargetsController < ApplicationController
   def p2s1_house_buying
     if session[:webusername]!=nil
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
-      @debthouse=0
-      @debtall=0
+      @debtqita=0
       @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
       for i in 0..@userdebtsheet.size-1
         if @userdebtsheet[i].debt_value_monthly!=nil
-          @debtall=@debtall+@userdebtsheet[i].debt_value_monthly
-          if @userdebtsheet[i].debt_typeid==101
-            @debthouse=@debthouse+@userdebtsheet[i].debt_value_monthly
+          if @userdebtsheet[i].debt_typeid!=101
+            @debtqita=@debtqita+@userdebtsheet[i].debt_value_monthly
           end
         end
       end
-      @xiaofei=@debthouse
+      @xiaofei=0
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @halfofsalarymonth=0
       if @userdatamonth!=nil
@@ -56,11 +54,6 @@ class UsertargetsController < ApplicationController
         if @userdatamonth.invest_expense_month!=nil
           @xiaofei=@xiaofei+@userdatamonth.invest_expense_month
         end
-      end
-      if @halfofsalarymonth>0
-        @rate=(@debtall*100/(@halfofsalarymonth*2)).to_i
-      else
-        @rate=0
       end
       @incomemonth1=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],1000)
       @incomemonth2=Userdata_detailedincome_month.find_by_username_and_income_typeid(session[:webusername],2000)
