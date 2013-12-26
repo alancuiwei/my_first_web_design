@@ -3,6 +3,7 @@
 <%= stylesheet_link_tag "font-awesome.min.css" %>
 <%= javascript_include_tag "bootstrap.js" %>
 <%= javascript_include_tag "premium_enrollments.js" %>
+<%= javascript_include_tag "swfobject.js" %>
 
 <div class="welcomes" style=" width: 1170px;">
 <%= stylesheet_link_tag "premium_main_academy.css" %>
@@ -37,6 +38,13 @@
                   <a href="/usersurvey/p1_usersurvey" class="button btn btn-warning">开 始 规 划</a><br>
                 <% end %>
               </h2>
+              <div id="s-video">
+                <a class="various fancybox.iframe" href="#myModal" role="button" data-toggle="modal" style="text-align: right; font-style:italic; float: right; text-decoration: none; color: #333;margin-right: 10px;">
+                  <img src="/assets/video-button-2.png" style="height: 64px;">
+                  <br>
+                  <span>我们是如何为您服务的?</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -370,7 +378,33 @@
   </div>
 </div>
 
-
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>我们是如何为您服务的?</h3>
+  </div>
+  <div class="modal-body">
+    <font id=player1>&nbsp;</font>
+    <script type=text/javascript>
+        var s1 = new SWFObject("assets/flvplayer.swf","","640","360","7");
+        s1.addParam("allowfullscreen","true");
+        s1.addVariable("file","xxjtzctjbg.mp4");
+        s1.addVariable("width","640");
+        s1.addVariable("height","360");
+        s1.addVariable("loop","true");
+        s1.addVariable("repeat", "flase");
+        s1.addVariable("fontcolor","0XFFFFFF");
+        s1.addVariable("autoscroll","true");
+        s1.addVariable("logo","");
+        s1.addVariable("autostart","true");
+        s1.addVariable("smoothing","true");
+        s1.write("player1");
+    </script>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
 
 <script type="text/javascript">
     //平台、设备和操作系统

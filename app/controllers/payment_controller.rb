@@ -1,13 +1,21 @@
 #encoding: utf-8
 class PaymentController < ApplicationController
    def index
-
+     if session[:webusername]!=nil
+       @webuser = Webuser.find_by_username(session[:webusername])
+     else
+       redirect_to(:controller=>"usermanagement", :action=>"login", :payment=>"1")
+     end
    end
 
    def zhifubao
      @webuser = Webuser.find_by_username(session[:webusername])
      Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
      @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.id.to_s
+     scharge=params[:scharge]
+     if session[:webusername]=='cuiweifam' || session[:webusername]=='通天顺'
+       scharge=0.01
+     end
      parameters = {
          'service' => 'create_partner_trade_by_buyer',
          'partner' => '2088801189204575',
@@ -15,8 +23,10 @@ class PaymentController < ApplicationController
          'return_url' => 'http://www.tongtianshun.com/usertargets/p2_usertargets?username='+params[:username],
          'seller_email' => 'zhongrensoft@gmail.com',
          'out_trade_no' => @subsribe_id,
-         'subject' => '梦想实现',
-         'price' => params[:scharge],
+         'subject' => '家庭理财规划服务',
+         'receive_name' => 'receive_name',
+         'receive_address' => 'receive_address',
+         'price' => scharge,
          'quantity' => '1',
          'payment_type' => '1',
          'logistics_type'=>'EMS',

@@ -3,6 +3,12 @@ require 'open-uri'
 class UsertargetsController < ApplicationController
 
   def p2_usertargets
+    if params[:username]!=nil
+      @webuser2=Webuser.find_by_username(params[:username])
+      if @webuser2!=nil
+        @webuser2.update_attributes(:ischarge=>1)
+      end
+    end
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
@@ -25,6 +31,7 @@ class UsertargetsController < ApplicationController
 
   def p2s1_house_buying
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @debtqita=0
       @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])

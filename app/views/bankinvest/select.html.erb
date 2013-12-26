@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag "common2.css" %>
 <%= javascript_include_tag "base.js" %>
 <%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <script>
     function onReady(fn){onReady.fns.push(fn)}
@@ -66,7 +67,7 @@
           <div id="q-fade-b"></div>
         </div>
         <div id="q-buttons">
-          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back"><span>直接查看</span></button>
+          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back" href="#myModal_prompt" role="button" data-toggle="modal"><span>直接查看</span></button>
           <button class="q-button orange-button big-button" id="q-next">同意</button>
           <button class="q-button orange-button big-button" id="q-submit">评估后再挑选</button>
 
@@ -80,7 +81,13 @@
   </div>
 </div>
 
+<%= render "prompt" %>
+
 <script>
+    $("#promit").click(function(e) {
+        location.href="/bankinvest/products";
+    });
+
     $(function(){
         window.onerror = function(error, url, lineNumber) {
             var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
@@ -131,7 +138,7 @@
                     $("#q-back,#q-next").click(function(e) {
                         var back = this.id == "q-back";
                         if (back) {
-                           location.href="/bankinvest/products";
+                       //    location.href="/bankinvest/products";
                         } else {
                             w.trackEvent("OFA", "questionnaire_next", qPayload());
                         }

@@ -107,23 +107,13 @@ class BankinvestController < ApplicationController
     @blog4=Blog.find_by_id(468)
     if params[:id]!=nil
       @fundquote=Monetary_fund_quote.find_by_id(params[:id])
-      @hash={}
+      @link={}
       if @fundquote!=nil
         @fundproduct=Fund_product.find_by_product_code(@fundquote.product_code)
-        @productcompany=Productcompany.find_all_by_pname(@fundquote.productname)
-        @hash={}
-        for i in 0..@productcompany.size-1
-          @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
-          if @salescompany!=nil
-            @hash.store(@productcompany[i].fundname,[@salescompany.id])
+        if @fundproduct!=nil && @fundproduct.buy_link!=nil
+          @link=@fundproduct.buy_link
           else
-            @hash.store(@productcompany[i].fundname,[nil,nil,nil])
-          end
-          if i==0
-            @min=@productcompany[i].poundage
-          elsif @min>@productcompany[i].poundage
-            @min=@productcompany[i].poundage
-          end
+          @link='http://fund.fund123.cn/html/'+@fundproduct.product_code+'/index.html'
         end
       else
         redirect_to(:controller=>"bankinvest", :action=>"products")
@@ -144,25 +134,14 @@ class BankinvestController < ApplicationController
       for i in 0..@adminassettype.size-1
         @hash2.store(@adminassettype[i].L2_typeid,[@adminassettype[i].classify])
       end
+      @link={}
       if @fundquote!=nil
         @fundproduct=General_fund_product.find_by_product_code(@fundquote.product_code)
-        @productcompany=Productcompany.find_all_by_pname(@fundquote.product_name)
-        @hash={}
-        for i in 0..@productcompany.size-1
-          @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
-          if @salescompany!=nil
-            @hash.store(@productcompany[i].fundname,[@salescompany.id])
+        if @fundproduct!=nil && @fundproduct.buy_link!=nil
+          @link=@fundproduct.buy_link
           else
-            @hash.store(@productcompany[i].fundname,[nil,nil,nil])
-          end
-          if i==0
-            @min=@productcompany[i].poundage
-          elsif @min>@productcompany[i].poundage
-            @min=@productcompany[i].poundage
-          end
+          @link='http://fund.fund123.cn/html/'+@fundproduct.product_code+'/index.html'
         end
-        @average1=Average_return_rate.find_by_typeid_and_years(@fundquote.L2_typeid,1)
-        @average3=Average_return_rate.find_by_typeid_and_years(@fundquote.L2_typeid,3)
       else
         redirect_to(:controller=>"bankinvest", :action=>"products")
       end

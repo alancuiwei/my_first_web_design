@@ -54,7 +54,7 @@
             <p class="q-text">股票型基金：如从流动性来看，股票型基金与货币性、债券型、混合型、ETF行基金无异，但从安全性的角度，股票型基金会呈现出多面性，这在于它们的投资组合是否分散在各个产业或不同区域。</p>
             <p class="q-text">QDII基金：从安全性来看，QDII的风险肯定是比混合型基金高的，多了汇率的风险，也多了海外投资的风险，流动性较高，波动性一般，在收益方面，则要重点考察QDII的投资方向，投资方向对了，收益可观，投资方向错了，则亏损。例如主投黄金的DQII,随着黄金价格大跌，今年盈利普遍为-15%以上。</p>
             <% if @link==0 %>
-                <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s2_highprofit_fund_selection">高 收 益 资 产 配 置</a>
+                <a class="btn btn-primary btn-large" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
             <% else %>
                 <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s3_stableprofit_fund">高 收 益 资 产 配 置</a>
             <% end %>
@@ -74,7 +74,7 @@
             <% end %>
           </table>
           <% if @link==0 %>
-              <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s2_highprofit_fund_selection">高 收 益 资 产 配 置</a>
+              <a class="btn btn-primary btn-large" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
           <% else %>
               <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s3_stableprofit_fund">高 收 益 资 产 配 置</a>
           <% end %>
@@ -84,7 +84,13 @@
   </div>
 </div>
 
+<%= render "/bankinvest/prompt" %>
+
 <script>
+
+    $("#promit").click(function(e) {
+        location.href="/userfinanceplan/p4s2_highprofit_fund_selection";
+    });
 
     <% for i in 0..@userplanmonth.size-2 %>
     <% if @userplanmonth[@userplanmonth.size-1-i].risky_account==0 %>

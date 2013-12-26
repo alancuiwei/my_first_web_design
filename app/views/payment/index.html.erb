@@ -1,14 +1,82 @@
 <%= stylesheet_link_tag "payment.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
 
 <div class="main-body">
-  <a class="btn btn-primary res" href="javascript:void(0)" id="submit"> 支付宝 支付 </a>
-  <a id="goal" class="btn btn-primary btn-large pull-right" href="/usertargets/p2_usertargets">下一步：理财目标</a>
+  <div id="page-content">
+    <h1>我们将给您提供的服务
+     <!-- <a id="goal" class="btn btn-primary btn-large pull-right">下一步：理财目标</a> -->
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>财务分析报告</h2>
+          <img style="width:500px;" src="/assets/cwfxbg.png"><br>
+          <h2>理财目标</h2>
+          <img style="width:500px;" src="/assets/lcmb.png"><br>
+          <h2>风险评估</h2>
+          <img style="width:500px;" src="/assets/fxpg.png"><br>
+          <h2>家庭应急基金准备</h2>
+          <img style="width:500px;" src="/assets/yjjjzb.png"><br>
+          <h2>高收益和稳健资产配置</h2>
+          <img style="width:500px;" src="/assets/gshhwjzc.png"><br>
+          <h2>每月工资投资指导</h2>
+          <img style="width:500px;" src="/assets/gztz.png"><br>
+          <h2>当前理财产品分析</h2>
+          <img style="width:500px;" src="/assets/lccpfx.png"><br>
+          <h2>微信实时查询家庭资产</h2>
+          <img style="width:500px;" src="/assets/wxsscx.png"><br>
+        </div>
+        <div class="span4 offset1">
+          <div class="pricing-tiers bs-docs-sidenav affix-top">
+            <ul class="pricing-list tiers">
+              <li class="list-heading dark">
+                <p class="plan-name">家庭财务规划服务</p>
+                <h2 class="plan-title">50元</h2>
+                <p class="plan-name">支付宝-满意后付款</p>
+              </li>
+              <li>家庭财务分析报告</li>
+              <li>确定理财目标</li>
+              <li>理财风险度评估</li>
+              <li>家庭应急基金准备</li>
+              <li>高收益、稳健收益资产配置</li>
+              <li>每月工资投资指导</li>
+              <li>当前理财产品分析</li>
+              <li>微信实时查询家庭资产</li>
+            </ul>
+            <p><a class="res" href="javascript:void(0)" id="submit"><img style="width: 150px;" src="/assets/zhifubao.jpg"></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
     $("#submit").click(function(){
-        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:0.01},function(data){
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50},function(data){
             location.href=data;
         });
     });
+    $("#goal").click(function(){
+        <% if @webuser.ischarge==1 %>
+        location.href="/usertargets/p2_usertargets";
+        <% else %>
+        //alert("请先付款！");
+        <% end %>
+    });
+
+    !function ($) {
+        $(function(){
+            var $window = $(window)
+            // side bar
+            setTimeout(function () {
+                $('.bs-docs-sidenav').affix({
+                    offset: {
+                        top: function () { return $window.width() <= 980 ? 290 : 210 }
+                        , bottom: 270
+                    }
+                })
+            }, 100)
+        })
+    }(window.jQuery)
 </script>

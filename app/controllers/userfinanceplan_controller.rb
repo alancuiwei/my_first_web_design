@@ -4,6 +4,7 @@ class UserfinanceplanController < ApplicationController
   def p4s1_Emergency_fund
     @blog=Blog.find_by_id(111)
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
@@ -145,6 +146,7 @@ class UserfinanceplanController < ApplicationController
     @blog3=Blog.find_by_id(467)
     @blog4=Blog.find_by_id(468)
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @monetaryfundquote=Monetary_fund_quote.all
       @hash={}
@@ -184,6 +186,7 @@ class UserfinanceplanController < ApplicationController
   def p4s2_highprofit_fund
     @blog=Blog.find_by_id(111)
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
@@ -366,6 +369,7 @@ class UserfinanceplanController < ApplicationController
   def p4s3_stableprofit_fund
     @blog=Blog.find_by_id(442)
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
@@ -399,6 +403,7 @@ class UserfinanceplanController < ApplicationController
 
   def p4s4_invest_estimate_plan
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
       @asset_account=0
@@ -541,6 +546,7 @@ class UserfinanceplanController < ApplicationController
 
   def p4_user_finance_plan_report
     if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])

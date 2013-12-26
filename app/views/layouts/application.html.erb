@@ -25,6 +25,11 @@
 </style>
 
 <script type="text/javascript">
+    <% if params[:controller]=="usertargets" || params[:controller]=="userrisktolerance" || params[:controller]=="userfinanceplan" || params[:controller]=="userfinanceplanexe" %>
+    <% if @webuser!=nil && @webuser.ischarge!=1 %>
+    location.href="/payment";
+    <% end %>
+    <% end %>
 
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-30084381-1']);
@@ -74,7 +79,7 @@
           <a class="pull-right rounder" href="/usermanagement/login" id="layout_login">登陆注册</a>
       <% end %>
         <a class="pull-right rounder" href="/home/methodology">理论依据</a>
-        <a class="pull-right rounder" href="/home/learn_more">服务介绍</a>
+        <a class="pull-right rounder" href="/payment">服务收费</a>
     </div>
     <!--  <% if session[:qq]!=1 %>
       <span id="qqLogin" class="pull-right" style="margin: 29px 20px 0 0;"></span>
@@ -94,7 +99,7 @@
     </div>
     <div class="span2">
       <h4 class="tcol">帮助</h4>
-      <a href='/home/learn_more' class='full' >服务介绍</a>
+      <a href='/payment' class='full' >服务收费</a>
       <a href='/home/methodology' class='full' >理论依据</a>
 <!--      <a href='/bankinvest/pace' class='full' >开发进展</a>	-->
     </div>
