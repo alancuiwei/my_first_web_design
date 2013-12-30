@@ -1,3 +1,51 @@
+@font-face{
+    font-family:'FontAwesome';
+    src:url('/assets/fontawesome-webfont.eot?v=3.0.1');
+    src:url('/assets/fontawesome-webfont.eot?#iefix&v=3.0.1') format('embedded-opentype'),
+    url('/assets/fontawesome-webfont.woff?v=3.0.1') format('woff'),
+    url('/assets/fontawesome-webfont.ttf?v=3.0.1') format('truetype');
+    font-weight:normal;
+    font-style:normal
+}
+
+.interaction-content #smarttip1,.interaction-content #smarttip2,.interaction-content #smarttip3{
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+    font-size: 24px;
+    cursor: pointer;
+    -webkit-font-smoothing: antialiased;
+}
+
+.interaction-content #smarttip1.info::before {
+    color: #589D39;
+    content: "\f05a";
+}
+
+.interaction-content #smarttip2.warning:before
+{
+    color: #C9A800;
+    content: "\f06a";
+}
+
+.interaction-content #smarttip3.error:before
+{
+    color: #A52719;
+    content: "\f071";
+}
+
+.interaction-content #smarttip1:hover:before,
+.interaction-content #smarttip2:hover:before,
+.interaction-content #smarttip3:hover:before
+{
+    color: #000 !important;
+}
+
+
 div.main-content,div.modal{
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -55,6 +103,10 @@ div#main-inputs input#buy_house_area{
     margin-bottom: 5px;
     font-size: 0px;
     white-space: nowrap;
+}
+
+div.input-group.active{
+    background-color:#DDEFF4;
 }
 
 div.input-group.active:hover{
@@ -138,6 +190,20 @@ div#inputs div.input-group.last {
     height: 183px;
 }
 
+.home-icon.hsprite-yellow
+{
+    background: url('homeicon_sprite.png') no-repeat -218px -1px;
+    width: 216px;
+    height: 183px;
+}
+
+.home-icon.hsprite-red
+{
+    background: url('homeicon_sprite.png') no-repeat -436px -1px;
+    width: 216px;
+    height: 183px;
+}
+
 .home-icon {
     text-align: center;
     margin-top: 30px;
@@ -152,6 +218,15 @@ div#inputs div.input-group.last {
 
 .page-interaction .interaction-content table.block td.bbottom {
     border-bottom: 2px solid #C3E4EC;
+}
+
+.page-interaction .interaction-content table.block td.bmiddle {
+    width: 170px;
+}
+
+.page-interaction .interaction-content table.block td.arrow2 {
+    padding: 0px;
+    height: 1px;
 }
 
 .page-interaction .interaction-content table.block td.bleft {
@@ -294,13 +369,17 @@ span.glossary {
     border-bottom: none;
 }
 
-.page-details .additional-content table.breakdown tr.last-child td:first-child {
+.page-details .additional-content table.breakdown tr.last-child td {
     text-align: right;
     border-bottom: none;
     font-size: 20px;
     padding-top: 3px;
     font-weight: 600;
     border-top: 2px solid #555;
+}
+
+.page-details .additional-content table.breakdown tr.last-child td:first-child {
+    font-size: 12px;
 }
 
 .page-details .additional-content table.breakdown tr td:first-child {
@@ -359,18 +438,48 @@ span.glossary {
 }
 */
 
+.icon-plus::before {
+    content: "\f067";
+}
+
 .icon-calendar::before {
     content:"\f073"
 }
 
 .icon-calendar {
     font-family: FontAwesome;
-    background-position: -192px -120px;
+    font-style: normal;
+    background-position: 14px 14px;
+}
+
+.icon-plus {
+    font-family: FontAwesome;
+    font-style: normal;
+    background-position: 14px 14px;
 }
 
 .icon-plus {
     font-family: FontAwesome;
     background-position: -408px -96px;
+}
+
+.page-details .additional-content #closing-graphic div.indicator {
+    padding: 5px 0px 0px 0px;
+}
+
+.page-details .additional-content #closing-graphic i {
+    margin-left: 5px;
+}
+
+.page-details .additional-content #closing-graphic i:first-of-type {
+    margin-left: 0px;
+}
+
+.page-details .additional-content #closing-graphic {
+    width: 250px;
+    margin: 0px auto;
+    font-size: 18px;
+    margin-top: 9px;
 }
 
 .page-interaction .interaction-content .sub table.totals td {
@@ -460,9 +569,10 @@ table.adv-s td.h {
 table.adv-s td.n {
     font-size: 11px;
     line-height: 1.25em;
-    padding-right: 15px;
-    padding-left: 15px;
-    vertical-align: middle;
+    padding-right: 0!important;
+    padding-left: 0!important;
+    vertical-align: middle!important;
+    white-space: nowrap;
 }
 
 table.adv-s td {
@@ -522,12 +632,8 @@ button.light-gray {
     margin: 10px 0;
 }
 
-#mortgage_years{
-    width: 160px;
-}
-
-#mortgage_rate{
-    width: 260px;
+#mortgage_years,#mortgage_rate,#trade_years,#trade_rate{
+    width: 180px;
  }
 
 p.left{

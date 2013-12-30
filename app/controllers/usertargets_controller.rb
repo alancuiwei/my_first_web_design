@@ -3,12 +3,6 @@ require 'open-uri'
 class UsertargetsController < ApplicationController
 
   def p2_usertargets
-    if params[:username]!=nil
-      @webuser2=Webuser.find_by_username(params[:username])
-      if @webuser2!=nil
-        @webuser2.update_attributes(:ischarge=>1)
-      end
-    end
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
@@ -33,6 +27,7 @@ class UsertargetsController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+      @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
       @debtqita=0
       @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
       for i in 0..@userdebtsheet.size-1
@@ -81,7 +76,6 @@ class UsertargetsController < ApplicationController
       @gjjfee=@gjjfee1+@gjjfee2
       if @userhousetarget==nil || (@userhousetarget.sell_house_account==nil && @userhousetarget.family_saving_account==nil && @userhousetarget.borrowing_account==nil)
         sell_house_account=0
-        @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
         if @user_asset_sheet!=nil
           sell_house_account=@user_asset_sheet.asset_value
         end
@@ -103,15 +97,15 @@ class UsertargetsController < ApplicationController
           end
         end
       end
-      @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
+      @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+@webuser.username+"' and asset_typeid<>401 && asset_typeid<>402")
       @chuxu=0
-      if @userbalancesheet!=nil && @userbalancesheet.asset_account!=nil
-        @chuxu=@userbalancesheet.asset_account
+      for i in 0..@userassetsheet.size-1
+        @chuxu=@chuxu+@userassetsheet[i].asset_value
       end
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @downpayment=0
       if @userhousetarget!=nil
-        if @userhousetarget.sell_house_account!=nil
+        if @user_asset_sheet!=nil && @userhousetarget.sell_house_account!=nil
           @downpayment=@downpayment+@userhousetarget.sell_house_account
         end
         if @userhousetarget.family_saving_account!=nil
@@ -129,7 +123,11 @@ class UsertargetsController < ApplicationController
      if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil
        @month=@chuxu/@userdatamonth.must_expense_month
      end
+      if @userhousetarget!=nil && ((@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0))
+        @syfee=(3*@downpayment/7-@gjjfee)>0?(3*@downpayment/7-@gjjfee):0
+      else
       @syfee=(7*@downpayment/3-@gjjfee)>0?(7*@downpayment/3-@gjjfee):0
+      end
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p2s1house=>"1")
     end
@@ -138,15 +136,10 @@ class UsertargetsController < ApplicationController
   def house_target_save
     @userhousetarget=User_house_buying_target.find_by_username(params[:username])
     if @userhousetarget!=nil
-      @userhousetarget.update_attributes(:sell_house_account=>params[:sell_house_account],:family_saving_account=>params[:family_saving_account],:borrowing_account=>params[:borrowing_account],
-                                         :mortgage_years=>params[:mortgage_years],:mortgage_rate=>params[:mortgage_rate])
-
+      @userhousetarget.update_attributes(:mortgage_years=>params[:mortgage_years],:mortgage_rate=>params[:mortgage_rate])
     else
       User_house_buying_target.new do |u|
         u.username=params[:username]
-        u.sell_house_account=params[:sell_house_account]
-        u.family_saving_account=params[:family_saving_account]
-        u.borrowing_account=params[:borrowing_account]
         u.mortgage_years=params[:mortgage_years]
         u.mortgage_rate=params[:mortgage_rate]
         u.save
@@ -158,11 +151,15 @@ class UsertargetsController < ApplicationController
   def housebuyingtarget_save
     @userhousetarget=User_house_buying_target.find_by_username(params[:username])
     if @userhousetarget!=nil
-      @userhousetarget.update_attributes(:buy_house_type=>params[:buy_house_type],:buy_house_area=>params[:buy_house_area],:buy_house_uint_prince=>params[:buy_house_uint_prince],
+      @userhousetarget.update_attributes(:sell_house_account=>params[:sell_house_account],:family_saving_account=>params[:family_saving_account],:borrowing_account=>params[:borrowing_account],
+                                         :buy_house_type=>params[:buy_house_type],:buy_house_area=>params[:buy_house_area],:buy_house_uint_prince=>params[:buy_house_uint_prince],
                                          :buy_house_attribute=>params[:buy_house_attribute],:house_sell_years=>params[:house_sell_years],:is_first_house=>params[:is_first_house])
     else
       User_house_buying_target.new do |u|
         u.username=params[:username]
+        u.sell_house_account=params[:sell_house_account]
+        u.family_saving_account=params[:family_saving_account]
+        u.borrowing_account=params[:borrowing_account]
         u.buy_house_type=params[:buy_house_type]
         u.buy_house_area=params[:buy_house_area]
         u.buy_house_uint_prince=params[:buy_house_uint_prince]

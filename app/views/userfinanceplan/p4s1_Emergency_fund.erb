@@ -22,7 +22,7 @@
           </div>
           <h2><span>2</span>金额：</h2>
           <div class="mleft">
-            <p class="q-text">经典理财观念认为，我们应该在应急基金中储备相当于3-6个月家庭生活必要开支的资金金额，因为失业后找到一份新工作可能就需要这么长的时间。对于您而言，您每个月必要开销是<%= @userdatamonth.must_expense_month %>元，所以我们建议您的应急基金应储蓄<%= @userdatamonth.must_expense_month*3 %>元左右。</p>
+            <p class="q-text">经典理财观念认为，我们应该在应急基金中储备相当于3-6个月家庭生活必要开支的资金金额，因为失业后找到一份新工作可能就需要这么长的时间。对于您而言，您每个月必要开销是<% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %>元，所以我们建议您的应急基金应储蓄<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*3 %><% end %>元左右。</p>
           </div>
           <h2><span>3</span>投资产品：</h2>
           <div class="mleft">
@@ -30,7 +30,7 @@
           </div>
           <h2><span>4</span>资金分配：</h2>
           <div class="mleft">
-            <p class="q-text">我们建议您将<%= @userdatamonth.must_expense_month %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<%= @userdatamonth.must_expense_month*2 %>元，用来购买货币基金。</p>
+            <p class="q-text">我们建议您将<% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*2 %><% end %>元，用来购买货币基金。</p>
           </div>
           <h2><span>5</span>投资计划：</h2>
           <div class="mleft">
@@ -159,7 +159,7 @@
         series: [{
             type: 'pie',
             name: 'Browser share',
-            data: [["货币基金",<%= @userdatamonth.must_expense_month*2 %>],["现金",<%= @userdatamonth.must_expense_month %>]]
+            data: [["货币基金",<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*2 %><% else %>0<% end %>],["现金",<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month %><% else %>0<% end %>]]
         }],
         legend: false,
         credits: {

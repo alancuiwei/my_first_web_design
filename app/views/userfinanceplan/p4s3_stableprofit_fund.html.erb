@@ -25,7 +25,7 @@
           <div class="mleft">
             <p class="q-text" style="text-align: center;">定期存款</p>
             <div id="container" style="width: 100%;height: 200px;"></div>
-            <% if @userbanlance.asset_safefy_account!=nil && @userplanedbalance.asset_planed_safety_account!=nil %>
+            <% if @userbanlance!=nil && @userbanlance.asset_safefy_account!=nil && @userplanedbalance!=nil && @userplanedbalance.asset_planed_safety_account!=nil %>
                 <% if @userbanlance.asset_safefy_account>@userplanedbalance.asset_planed_safety_account %>
                     <p class="q-text">您当前的稳健收益资产为<%= @userbanlance.asset_safefy_account %>元,高于理想的<%= @userplanedbalance.asset_planed_safety_account %>元，由于保本性资产特有的投资期限的问题，我们不建议您将已投入的稳定收益资产提前赎回，当然了，您也不需要再在这个类别中投资了。</p>
                 <% else %>
@@ -149,7 +149,7 @@
             }
         },
         series: [{
-            data: [<%= @userbanlance.asset_safefy_account %>,<%= @userplanedbalance.asset_planed_safety_account %>]
+            data: [<% if @userbanlance!=nil && @userbanlance.asset_safefy_account!=nil %><%= @userbanlance.asset_safefy_account %><% else %>0<% end %>,<% if @userplanedbalance!=nil && @userplanedbalance.asset_planed_safety_account!=nil %><%= @userplanedbalance.asset_planed_safety_account %><% else %>0<% end %>]
         }],
         credits: {
             enabled: false

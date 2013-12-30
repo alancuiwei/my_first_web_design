@@ -8,6 +8,15 @@ class PaymentController < ApplicationController
      end
    end
 
+   def ischarge
+     if params[:userid]!=nil
+       @webuser = Webuser.find_by_id(params[:userid])
+       if @webuser!=nil
+         @webuser.update_attributes(:ischarge=>1)
+       end
+     end
+   end
+
    def zhifubao
      @webuser = Webuser.find_by_username(session[:webusername])
      Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
@@ -20,7 +29,8 @@ class PaymentController < ApplicationController
          'service' => 'create_partner_trade_by_buyer',
          'partner' => '2088801189204575',
          '_input_charset' => 'utf-8',
-         'return_url' => 'http://www.tongtianshun.com/usertargets/p2_usertargets?username='+params[:username],
+         'return_url' => 'http://www.tongtianshun.com/usertargets/p2_usertargets',
+         'notify_url' => 'http://www.tongtianshun.com/payment/ischarge?userid='+@webuser.id.to_s,
          'seller_email' => 'zhongrensoft@gmail.com',
          'out_trade_no' => @subsribe_id,
          'subject' => '家庭理财规划服务',
@@ -31,13 +41,7 @@ class PaymentController < ApplicationController
          'payment_type' => '1',
          'logistics_type'=>'EMS',
          'logistics_fee' => '0',
-         'logistics_payment'=>'BUYER_PAY',
-         'logistics_type_1'=>'POST',
-         'logistics_fee_1' => '0',
-         'logistics_payment_1'=>'BUYER_PAY',
-         'logistics_type_2'=>'EXPRESS',
-         'logistics_fee_2' => '0',
-         'logistics_payment_2'=>'BUYER_PAY'
+         'logistics_payment'=>'BUYER_PAY'
      }
      values = {}
      # 支付宝要求传递的参数必须要按照首字母的顺序传递，所以这里要sort

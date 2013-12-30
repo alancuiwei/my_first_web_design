@@ -76,6 +76,8 @@ class UserfinanceplanexeController < ApplicationController
        else
          @hash.store('risk',[nil,nil,-1,nil,nil])
        end
+     else
+       redirect_to(:controller=>"userfinanceplan", :action=>"p4s1_Emergency_fund")
      end
    else
      redirect_to(:controller=>"usermanagement", :action=>"login", :p5s2=>"1")

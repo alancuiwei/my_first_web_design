@@ -14,7 +14,7 @@
     <div class="tablet">
       <h2>产品选择：</h2>
       <div class="mleft">
-        <p class="q-text">下面的表格是市面上的货币基金信息，您可以根据您的个人情况，进行产品筛选，<br>您将把<%= @userdatamonth.must_expense_month*2 %>元投入到您选择的货币基金产品中去。</p>
+        <p class="q-text">下面的表格是市面上的货币基金信息，您可以根据您的个人情况，进行产品筛选，<br>您将把<% if @userdatamonth!=nil && @userdatamonth.must_expense_month*2 %><%= @userdatamonth.must_expense_month*2 %><% end %>元投入到您选择的货币基金产品中去。</p>
         <%= render "/bankinvest/product" %>
         <table id="liudong" class="table table-striped table-bordered">
           <thead>

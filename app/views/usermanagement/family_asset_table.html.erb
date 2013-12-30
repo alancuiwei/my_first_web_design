@@ -48,9 +48,9 @@
           <table class="table table-striped table-bordered" style="margin-top: 100px;">
             <tr><td></td><td><%= @date %></td></tr>
             <tr><td>投资资产总值</td><td><%= @total %></td></tr>
-            <tr><td>固定资产总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account-@total %><% end %></td></tr>
-            <tr><td>负债总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.debt_account %><% end %></td></tr>
-            <tr><td>家庭资产总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account %><% end %></td></tr>
+            <tr><td>固定资产总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account-@total %><% else %>0<% end %></td></tr>
+            <tr><td>负债总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.debt_account %><% else %>0<% end %></td></tr>
+            <tr><td>家庭资产总值</td><td><% if @userbalancesheet!=nil %><%= @userbalancesheet.asset_account %><% else %>0<% end %></td></tr>
           </table>
         </div>
         <div class="span6">
@@ -64,10 +64,14 @@
 <script>
     var dataarray1=[];
     var dataarray2=[];
+    var dataarray3=[0,0];
 
     <% @userassetdaily.each do |u| %>
     dataarray1.push('<%= u.date %>')
     dataarray2.push(<%= u.total_account %>)
+    <% end %>
+    <% if @userbalancesheet!=nil %>
+    dataarray3=[<%= @userbalancesheet.asset_account %>,<%= @userbalancesheet.debt_account %>];
     <% end %>
     $(function () {
         var chart = new Highcharts.Chart({
@@ -164,7 +168,7 @@
             },
             series: [{
                 name: '家庭资产总值',
-                data: [<%= @userbalancesheet.asset_account %>,<%= @userbalancesheet.debt_account %>]
+                data: dataarray3
             }],
             credits: {
                 enabled: false

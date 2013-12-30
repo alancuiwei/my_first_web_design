@@ -135,11 +135,11 @@
 <script>
     var count=new Array();
     $(document).ready(function(){
+        <% if @targets!=nil %>
         $(".goals td:eq(4)").html(parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))+" <a href='#myModal8' role='button' data-toggle='modal' onclick='model()'>(?)</a>");
         for(var k=1;k<=parseInt(<%= @targets.user_target_period %>);k++){
             count[k]=parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,k))
         }
-
         var x=100,y=0;
         while(Math.abs(x-y)>Math.pow(0.1,7)){
             var z=parseFloat(x+y)/2
@@ -210,7 +210,7 @@
             $("#tback,#tnext").addClass("grey");
         }
         $("#calculate").html(text);
-
+        <% end %>
         var dataarray=[];
 
         <% if @targets!=nil %>

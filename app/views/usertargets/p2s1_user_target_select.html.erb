@@ -123,9 +123,9 @@
       <h3>退休计划梦想描述</h3>
     </div>
     <div class="modal-body">
-      您当前家庭月正常开销将是<%= @userdatamonth.must_expense_month %>元，您现在是<%= @webuser.age %>岁，您距离退休年纪还有<% if @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年。
-      假设80岁之前，您还希望维持当前的生活水准，则需要<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>万元。
-      所以您需要在这<% if @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年内准备将近<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>万的退休基金。
+      您当前家庭月正常开销将是<% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %>元，您现在是<%= @webuser.age %>岁，您距离退休年纪还有<% if @webuser!=nil && @webuser.age!=nil && @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年。
+      假设80岁之前，您还希望维持当前的生活水准，则需要<% if @userdatamonth!=nil %><%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %><% end %>万元。
+      所以您需要在这<% if @webuser!=nil && @webuser.age!=nil && @webuser.age<=65 %><%= 65-@webuser.age %><% else %>0<% end %>年内准备将近<% if @userdatamonth!=nil %><%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %><% end %>万的退休基金。
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target6">确认</button>
@@ -174,7 +174,7 @@
         if(e.id=="amount10" || e.id=="amount11" || e.id=="amount12" || e.id=="amount13" || e.id=="amount14"){
             var rate=0
             if($("#amount14").attr('value')!=""){rate=$("#amount14").attr('value')/100}
-           $("#target_value0").html(parseInt($("#amount10").attr('value')*rate));
+            $("#target_value0").html(parseInt($("#amount10").attr('value')*rate));
             if($("#amount10").attr('value')*rate-$("#amount11").attr('value')-$("#amount12").attr('value')-$("#amount13").attr('value')<0){
                 $("#"+e.id).addClass("invalid");
             }
@@ -250,13 +250,17 @@
         });
     })
     $("#target6").click(function(){
-        <% if @webuser.age<=65 %>
+        <% if @webuser!=nil && @webuser.age!=nil && @webuser.age<=65 %>
         var year='<%= 65-@webuser.age %>';
         <% else %>
         var year=0
         <% end %>
-
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"退休计划",target_period:year,target_value:'<%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>'},function(data){
+        <% if @userdatamonth!=nil %>
+        var target_value= <%= (@userdatamonth.must_expense_month*12*15).to_f/10000 %>
+        <% else %>
+        var target_value=0
+        <% end %>
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"退休计划",target_period:year,target_value:target_value},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })

@@ -58,9 +58,11 @@
     $(document).ready(function(){
         var dataarray=new Array();
         var dataarray1=new Array();
+        <% if @targets!=nil %>
         <% for k in 0..@targets.user_target_period-1 %>
         dataarray.push(<%= @date.to_i+k+1 %>);
         dataarray1.push(<%= @asset_account*(k+1) %>);
+        <% end %>
         <% end %>
         var chart = new Highcharts.Chart({
             chart: {

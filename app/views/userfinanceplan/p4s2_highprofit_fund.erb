@@ -24,7 +24,7 @@
           <div class="mleft">
             <p class="q-text" style="text-align: center;">高收益资产</p>
             <div id="container" style="width: 100%;height: 200px;"></div>
-            <% if @userbanlance.asset_risky_account!=nil && @userplanedbalance.asset_planed_risky_account!=nil %>
+            <% if @userbanlance!=nil && @userbanlance.asset_risky_account!=nil && @userplanedbalance.asset_planed_risky_account!=nil %>
                 <% if @userbanlance.asset_risky_account>@userplanedbalance.asset_planed_risky_account %>
                     <p class="q-text">您当前的高收益资产为<%= @userbanlance.asset_risky_account %>元,高于理想的<%= @userplanedbalance.asset_planed_risky_account %>元，高收益资产一般风险度都很高，我们建议您将这<%= @userbanlance.asset_risky_account-@userplanedbalance.asset_planed_risky_account %>元赎出来，用作其他（应急流动性资产、稳健收益资产）的投资。</p>
                 <% else %>
@@ -100,6 +100,20 @@
     <% end %>
     <% end %>
 
+    var dataarray=[];
+
+    <% if @userbanlance!=nil && @userbanlance.asset_risky_account!=nil %>
+    dataarray.push(<%= @userbanlance.asset_risky_account %>)
+    <% else %>
+    dataarray.push(0)
+    <% end %>
+
+    <% if @userplanedbalance!=nil && @userplanedbalance.asset_planed_risky_account!=nil %>
+    dataarray.push(<%= @userplanedbalance.asset_planed_risky_account %>)
+    <% else %>
+    dataarray.push(0)
+    <% end %>
+
     var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'container',
@@ -138,7 +152,7 @@
             }
         },
         series: [{
-            data: [<%= @userbanlance.asset_risky_account %>,<%= @userplanedbalance.asset_planed_risky_account %>]
+            data: dataarray
         }],
         credits: {
             enabled: false
