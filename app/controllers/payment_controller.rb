@@ -8,6 +8,12 @@ class PaymentController < ApplicationController
      end
    end
 
+   def buyhouse
+     if session[:webusername]!=nil
+       @webuser = Webuser.find_by_username(session[:webusername])
+     end
+   end
+
    def ischarge
      if params[:userid]!=nil
        @webuser = Webuser.find_by_id(params[:userid])
@@ -22,7 +28,7 @@ class PaymentController < ApplicationController
      Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S'
      @subsribe_id=Time.now.to_s(:stamp)+'-'+@webuser.id.to_s
      scharge=params[:scharge]
-     if session[:webusername]=='cuiweifam' || session[:webusername]=='通天顺'
+     if session[:webusername]=='cuiweifam' || session[:webusername]=='通天顺' || session[:webusername]=~/^Sir.*$/
        scharge=0.01
      end
      parameters = {
@@ -34,7 +40,7 @@ class PaymentController < ApplicationController
          'seller_email' => 'zhongrensoft@gmail.com',
          'out_trade_no' => @subsribe_id,
          'subject' => '家庭理财规划服务',
-         'receive_name' => 'receive_name',
+         'receive_name' => session[:webusername],
          'receive_address' => 'receive_address',
          'price' => scharge,
          'quantity' => '1',

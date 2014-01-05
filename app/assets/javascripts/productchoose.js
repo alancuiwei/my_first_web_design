@@ -169,6 +169,7 @@ $.fn.dataTableExt.afnFiltering.push(
                 }
                 $("#st-scate").html('成立时间:'+text);
             }
+            num4=1;
 
             if(num1==1 && num2==1 && num3==1 && num4==1){
                 return true;
@@ -305,6 +306,7 @@ $.fn.dataTableExt.afnFiltering.push(
                 }
                 $("#st-term").html('成立时间:'+text);
             }
+            num4=1;
             num5=1;
             var obj = document.getElementsByName("checkbox10"); // 获取多选框数组
             var objLen = obj.length;

@@ -2235,6 +2235,7 @@ class WeixinsController < ApplicationController
                     end
                   end
                 end
+                num4=1;
                 if num1==1 && num2==1 && num3==1 && num4==1
                   @hash909.store(k,[@fundproduct[i].product_code,@fundproduct[i].productname,@fundquote.one_year_rank,@fundquote.three_year_rank])
                   k=k+1
@@ -2385,6 +2386,7 @@ class WeixinsController < ApplicationController
                       end
                     end
                   end
+                  num4=1;
                   num5=1
                   if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
                     @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].productname,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])
@@ -2440,6 +2442,7 @@ class WeixinsController < ApplicationController
                       end
                     end
                   end
+                  num4=1;
                   num5=1
                   if num1==1 && num2==1 && num3==1 && num4==1 && num5==1
                     @hash916.store(k,[@fundquote[i].product_code,@fundquote[i].product_name,@fundquote[i].one_year_rank,@fundquote[i].three_year_rank])

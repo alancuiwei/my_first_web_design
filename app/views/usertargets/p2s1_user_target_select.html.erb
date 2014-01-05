@@ -112,6 +112,7 @@
         <tr><td>高中</td><td>3</td><td>31000</td><td>93000</td></tr>
         <tr><td>总和</td><td>15</td><td></td><td>221400</td></tr>
       </table>
+      我们家孩子现在<input type="text" id="amount50" onkeyup="updatenum4(this)">岁，我预计用<input type="text" id="target_period5" onkeyup="updatenum4(this)">年时间来准备<input type="text" id="target_value5" onkeyup="updatenum4(this)">万的资金。
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="target5">确认</button>
@@ -161,6 +162,10 @@
         $("#target_period4").attr("value","<%= t.user_target_period %>")
         $("#target_value4").attr("value","<%= t.user_target_value %>")
         $("#amount40").attr("value","<%= t.destination %>")
+        <% elsif t.user_target=="子女教育" %>
+        $("#target_period5").attr("value","<%= t.user_target_period %>")
+        $("#target_value5").attr("value","<%= t.user_target_value %>")
+        <% if t.transition_value1!=nil %>$("#amount50").attr("value","<%= t.transition_value1.to_i %>")<% end %>
         <% end %>
         <% end %>
         <% end %>
@@ -245,7 +250,7 @@
         });
     })
     $("#target5").click(function(){
-        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"子女教育",target_period:15,target_value:22.14},function(data){
+        $.post("/usersurvey/target1",{username:'<%= session[:webusername] %>',target:"子女教育",target_period:$("#target_period5").attr("value"),target_value:$("#target_value5").attr("value"),transition_value1:$("#amount50").attr("value")},function(data){
             location.href="/usertargets/p2s2_user_target_intro";
         });
     })

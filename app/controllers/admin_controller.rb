@@ -4,6 +4,18 @@ class AdminController < ApplicationController
   def index
     if session[:webusername]=="admin" || session[:webusername]=="blog"
       @webusers=Webuser.all
+      @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
+      @user11=Webuser.find_by_sql("select username from webuser where married is not null")
+      @user12=Userdata_month.find_by_sql("select username from userdata_month")
+      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
+      @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
+      @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")
+      @user20=Webuser.find_by_sql("select username from webuser where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
+      @user21=Webuser.find_by_sql("select username from webuser where married is not null and DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
+      @user22=Userdata_month.find_by_sql("select username from userdata_month where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
+      @user23=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
+      @user24=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
+      @user25=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
       @hash={}
       for i in 0..@webusers.size-1
         @userfinancedata=User_finance_data.find_by_username(@webusers[i].username)
@@ -1020,7 +1032,7 @@ class AdminController < ApplicationController
           if @weixin!=nil
             weixin=@weixin.weixincode.split(",")
             if weixin.size==1
-            @weixin.update_attributes(:weixincode=>nil)
+              @weixin.update_attributes(:weixincode=>nil)
             else
               code=""
               for i in 0..weixin.size-1
@@ -1031,12 +1043,12 @@ class AdminController < ApplicationController
                     code=code+","+weixin[i]
                   end
                 end
-          end
+              end
               @weixin.update_attributes(:weixincode=>code)
             end
           end
           if @webuser.weixincode==nil
-          @webuser.update_attributes(:weixincode=>params[:weixincode])
+            @webuser.update_attributes(:weixincode=>params[:weixincode])
           else
             @webuser.update_attributes(:weixincode=>@webuser.weixincode+","+params[:weixincode])
           end

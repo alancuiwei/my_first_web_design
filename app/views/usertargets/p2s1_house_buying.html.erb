@@ -102,6 +102,15 @@
               </div>
             </div>
           </div>
+          <div class="input-group active custom">
+            <label for="input-debtpayments-field">家庭年收入</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="salary_account" size="16" type="text" onkeyup="updatedownpay()">
+              </div>
+            </div>
+          </div>
           <div class="last input-group active custom">
             <a class="btn btn-success" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
           </div>
@@ -496,7 +505,7 @@
           <td>
             <span class="glossary">生活必要支出</span>
           </td>
-          <td class="value">￥<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month %><% else %>0<% end %></td>
+          <td class="value">- -</td>
           <td class="last-child">
             <div class="level error" style="width: 8.064043681103708px; padding: 6px 1px; "></div>
           </td>
@@ -505,17 +514,7 @@
           <td>
             <span class="glossary">其他</span>
           </td>
-          <td class="value">
-            ￥<% if @userdatamonth!=nil && @userdatamonth.fun_expense_month!=nil && @userdatamonth.invest_expense_month!=nil %>
-                <%= @userdatamonth.fun_expense_month+@userdatamonth.invest_expense_month %>
-            <% elsif @userdatamonth!=nil && @userdatamonth.fun_expense_month!=nil %>
-                <%= @userdatamonth.fun_expense_month %>
-            <% elsif @userdatamonth!=nil && @userdatamonth.invest_expense_month!=nil %>
-                <%= @userdatamonth.invest_expense_month %>
-            <% else %>
-                0
-            <% end %>
-          </td>
+          <td class="value">- -</td>
           <td class="last-child">
             <div class="level error" style="width: 40px; padding: 6px 1px; "></div>
           </td>
@@ -528,7 +527,7 @@
       </table>
     </div>
     <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b id="debthouse"></b>元每月。加上您其他的月贷款，您一共是每月还贷<b id="debtall"></b>元。</p>
-    <p class="light">即使您可以通过其他途径借到首付资金，承担购买更大的房子，我们还是建议您月贷款比例应小于您家庭月收入的<b>50%</b>，或者说<b><%= @halfofsalarymonth %></b>元。</p>
+    <p class="light">即使您可以通过其他途径借到首付资金，承担购买更大的房子，我们还是建议您月贷款比例应小于您家庭月收入的<b>50%</b>，或者说<b id="halfsalary"><%= (@userhousetarget.salary_account/24).to_i %></b>元。</p>
   </div>
   <div class="spacer s15"></div>
   <h3 class="title">存款、首付、贷款总额</h3>
@@ -547,7 +546,7 @@
         </tbody>
       </table>
       <div id="closing-graphic" class="graphic" style="color: rgb(103, 169, 83); ">
-        <span class="cushion-left"><%= @month %></span>
+        <span class="cushion-left" id="month2">12</span>
         <span class="cushion-left-text">个月家庭流动资金</span>
         <div class="indicator">
           <i class="icon-calendar cushion one two three four" style="display: inline; "></i>
@@ -597,8 +596,8 @@
         </tbody></table>
     </div>
     <p class="light">要购买<b id="fangjia">100</b>万的房子，基于以上假设和计算，您最终需要付出<b id="zong">132</b>万的资金。其中包括<b id="shoufu1">320000</b>元的首付款，<b id="benjin">500000</b>元的本金贷款，<b id="daikuan">500000</b>元的贷款利息。</p>
-    <p class="light">您的首付总金额将为<b id="shoufu">320000</b>元，其中包括<b id="shoufu2">30000</b>的房屋首付金额，和<b id="qita">32000</b>元的契税等其他费用。</p>
-    <p class="light">付清首付款后，您仍然将拥有<b id="chuxu"><%= @chuxu %></b>元的储蓄，足够支付<b><%= @month %></b>个月的月供金额，我们认为您至少应该拥有<b>3</b>个月的月供金额在手头上。</p>
+    <p class="light">您的首付总金额将为<b id="shoufu">320000</b>元，其中包括<b id="shoufu2">300000</b>的房屋首付金额，和<b id="qita">20000</b>元的契税等其他费用。</p>
+    <p class="light">付清首付款后，您仍然将拥有<b id="chuxu">30000</b>元的储蓄，足够支付<b id="month">12</b>个月的月供金额，我们认为您至少应该拥有<b>3</b>个月的月供金额在手头上。</p>
   </div>
 </div>
 </td>
@@ -685,24 +684,12 @@
     });
 
     $(document).ready(function(){
-        <% if @month==0 %>
-        housecolor1=2;
-        $("#closing-graphic").css('color', 'rgb(189, 55, 38)');
-        $("#close-breakdown tr:last td:last").css('color', 'rgb(189, 55, 38)');
-        <% elsif @month<3 %>
-        housecolor1=1;
-        $("#closing-graphic").css('color', 'rgb(217, 179, 11)');
-        $("#close-breakdown tr:last td:last").css('color', 'rgb(217, 179, 11)');
-        <% else %>
-        housecolor1=0;
-        $("#closing-graphic").css('color', 'rgb(103, 169, 83)');
-        $("#close-breakdown tr:last td:last").css('color', 'rgb(103, 169, 83)');
-        <% end %>
 
         <% if @userhousetarget!=nil %>
         $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
         $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
         $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
+        $("#salary_account").attr("value","<%=@userhousetarget.salary_account  %>")
         <% if @userhousetarget.mortgage_years!=nil %>
         $("#mortgage_years").attr("value","<%=@userhousetarget.mortgage_years  %>")
         <% end %>
@@ -732,9 +719,6 @@
         $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
         <% end %>
         housetype();
-        submit();
-        ext_total();
-        summary();
     });
 
     $("#gjjxx").click(function(){
@@ -744,7 +728,7 @@
 
     $("#savehouse").click(function(){
         $.post("/usertargets/housebuyingtarget_save",{ username:"<%= session[:webusername] %>",sell_house_account: $("#sell_house_account").attr("value"),family_saving_account: $("#family_saving_account").attr("value"),borrowing_account: $("#borrowing_account").attr("value"),
-            buy_house_type: $("#buy_house_type").attr("value"),buy_house_area: $("#buy_house_area").attr("value"),
+            buy_house_type: $("#buy_house_type").attr("value"),buy_house_area: $("#buy_house_area").attr("value"),salary_account: $("#salary_account").attr("value"),
             buy_house_uint_prince: $("#buy_house_uint_prince").attr("value"),buy_house_attribute: $("#buy_house_attribute").attr("value"),house_sell_years: $("#house_sell_years").attr("value"),
             is_first_house: $("#is_first_house").attr("value")
         },function(data){
@@ -858,13 +842,15 @@
         //--公积金贷款
         var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),2,parseInt($("#mortgage_years").attr("value")));//得到利率
         //------------ 根据贷款总额计算
-        var daikuan_total = <%= @gjjfee %>;//贷款总额
+        var daikuan_total = (parseInt($("#salary_account").attr("value"))*9)>600000?600000:parseInt($("#salary_account").attr("value"))*9;//贷款总额
         //2.本息还款
         //月均还款
         var month_money1 = getMonthMoney1(lilv,daikuan_total,month);//月均还款：
         var all_total1 = month_money1 * month; //还款总额
         var accrual = Math.round( (all_total1 - daikuan_total) *100)/100;//支付利息款
-        $("#daikuan_total").html("￥"+daikuan_total.toString())
+        $("#daikuan_total,#display-mv").html("￥"+daikuan_total.toString())
+        $("#xiaofei").html("￥"+parseInt(parseInt($("#salary_account").attr("value"))/12).toString())
+        $("#halfsalary").html(parseInt(parseInt($("#salary_account").attr("value"))/24).toString())
         $("#accrual").html("￥"+accrual.toFixed(0).toString())
         $("#all_total").html("￥"+parseInt(daikuan_total+accrual).toString())
         $("#month_money1").html("￥"+month_money1.toFixed(0).toString())
@@ -884,14 +870,41 @@
         $("#month_money_sy").html("￥"+parseInt(month_money1).toString())
         $("#debthouse").html(parseInt(month_money1).toString())
         $("#debthouse2").html("￥"+parseInt(month_money1).toString())
-        $("#xiaofei").html("￥"+parseInt(month_money1+parseInt(<%= @xiaofei %>)).toString())
-        $("#debtall").html(parseInt(month_money1+parseInt(<%= @debtqita %>)).toString())
-        debtguage.refresh(parseInt(month_money1*100/parseInt(<%= @xiaofei %>)));
-        if(parseInt(month_money1*100/parseInt(<%= @xiaofei %>))<36){
+        $("#debtall").html(parseInt(month_money1).toString())
+    }
+
+    function summary(){
+        $("#fangjia").html(parseInt(parseInt($("#display-hv").html().replace("￥",""))/10000))
+        $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
+        $("#zong2").html("￥"+(parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥",""))).toString())
+        $("#shoufu,#shoufu1").html($("#display-ctotal").html().replace("￥",""));
+        var chuxu=parseInt(<%= @downpayment %>)-parseInt($("#display-ctotal").html().replace("￥",""))
+        if(chuxu<0){chuxu=0;}
+        var month=0
+    <% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil && @userdatamonth.must_expense_month!=0 %>
+       month=parseInt(chuxu/parseInt(<%= @userdatamonth.must_expense_month %>));
+    <% end %>
+        if(month==0){
+            housecolor1=2;
+            $("#closing-graphic").css('color', 'rgb(189, 55, 38)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(189, 55, 38)');}
+        else if(month<3){
+            housecolor1=1;
+            $("#closing-graphic").css('color', 'rgb(217, 179, 11)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(217, 179, 11)');}
+        else{
+            housecolor1=0;
+            $("#closing-graphic").css('color', 'rgb(103, 169, 83)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(103, 169, 83)');
+        }
+        $("#chuxu").html(chuxu);
+        $("#month,#month2").html(month);
+        debtguage.refresh(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value"))));
+        if(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value")))<36){
             var housecolor2=0
             $("#xiaofei").css('color', 'rgb(103, 169, 83)');
         }
-        else if(parseInt(month_money1*100/parseInt(<%= @xiaofei %>))<50){
+        else if(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value")))<50){
             var housecolor2=1
             $("#xiaofei").css('color', 'rgb(217, 179, 11)');
         }
@@ -919,13 +932,6 @@
             $(".housecolor").css('color', 'rgb(103, 169, 83)');
             $("#smarttip1").removeClass('hide');
         }
-    }
-
-    function summary(){
-        $("#fangjia").html(parseInt(parseInt($("#display-hv").html().replace("￥",""))/10000))
-        $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
-        $("#zong2").html("￥"+(parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥",""))).toString())
-        $("#shoufu,#shoufu1").html($("#display-ctotal").html().replace("￥",""));
         $("#shoufu3").html($("#display-ctotal").html());
         $("#benjin").html(parseInt($("#daikuan_total").html().replace("￥",""))+parseInt($("#daikuan_total_sy").html().replace("￥","")));
         $("#benjin2").html("￥"+(parseInt($("#daikuan_total").html().replace("￥",""))+parseInt($("#daikuan_total_sy").html().replace("￥",""))).toString());
@@ -1001,7 +1007,7 @@
 
     function update(){
         $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
-        var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt(<%= @gjjfee %>)
+        var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt($("#salary_account").attr("value"))*9
         if(displaysyfee<0){displaysyfee=0}
         $("#display-syfee").html("￥"+displaysyfee.toString());
         ext_total();

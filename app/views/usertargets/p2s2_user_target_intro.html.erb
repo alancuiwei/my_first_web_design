@@ -143,7 +143,7 @@
         var x=100,y=0;
         while(Math.abs(x-y)>Math.pow(0.1,7)){
             var z=parseFloat(x+y)/2
-            if(parseInt(<%= @annual %>)*(1+z)*(Math.pow(1+z,<%= @targets.user_target_period %>)-1)/z+parseInt(<%= @income %>)*Math.pow(1+z,<%= @targets.user_target_period %>)>parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))){
+            if(parseInt(<%= @annual %>)*(Math.pow(1+z,<%= @targets.user_target_period %>)-1)/z+parseInt(<%= @income %>)*Math.pow(1+z,<%= @targets.user_target_period %>)>parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))){
                 x=z
             }
             else{
@@ -151,7 +151,7 @@
             }
         }
 
-        $("#intro").html("您的目标是<%= @targets.user_target %>，您将需要在<%= @targets.user_target_period %>年后准备"+parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,parseInt(<%= @targets.user_target_period %>)))+"元，您现在的已有的资金为<%= @targets.user_target_value %>万，之后，您每年将投入资金<%= @annual %>元，如果您能找到年收益率为"+(x*100).toFixed(2)+"%左右的投资渠道，您将能在<%= @targets.user_target_period %>年后实现您的目标。")
+        $("#intro").html("您的目标是<%= @targets.user_target %>，您将需要在<%= @targets.user_target_period %>年后准备"+parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,parseInt(<%= @targets.user_target_period %>)))+"元，您现在的已有的资金为<%= @income %>元，之后，您每年将投入资金<%= @annual %>元，如果您能找到年收益率为"+(x*100).toFixed(2)+"%左右的投资渠道，您将能在<%= @targets.user_target_period %>年后实现您的目标。")
         var array=new Array();
         var today=new Date();
         var year=today.getFullYear();
@@ -166,7 +166,7 @@
         array[0][parseInt(<%= @targets.user_target_period %>)+2]="总计";
         for(m=0;m<parseInt(<%= @targets.user_target_period %>)+3;m++){
             if(m>=2 && m<parseInt(<%= @targets.user_target_period %>)+2){
-                array[0][m]="第"+(m-1).toString()+"年";
+                array[0][m]=m-1;
             }
             if(m>=1 && m<=parseInt(<%= @targets.user_target_period %>)+2){
                 for(var k=1;k<parseInt(<%= @targets.user_target_period %>)+2;k++){
@@ -183,9 +183,9 @@
                             array[k][m]=parseInt(<%= @income %>)*Math.pow(1+z,k-m)
                         }
                         else{
-                            if(k<m-1){array[k][m]="-"}
+                            if(k<=m-1){array[k][m]="-"}
                             else{
-                                array[k][m]=parseInt(<%= @annual %>)*Math.pow(1+z,k-m+1)
+                               array[k][m]=parseInt(<%= @annual %>)*Math.pow(1+z,k-m)
                             }
                         }
                     }
@@ -193,17 +193,17 @@
             }
         }
 
-        var text="<thead><tr><th></th><th>投入本金</th><th>"+array[parseInt(<%= @targets.user_target_period %>)+1][0]+"年的回报金额</th></thead>"
-        text=text+'<tr><td>总计</td><td>'+(parseInt(<%= @income %>)+parseInt(<%= @annual %>)*parseInt(<%= @targets.user_target_period %>)).toString()+"</td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][parseInt(<%= @targets.user_target_period %>)+2])+"</td></tr>"
+        var text="<thead><tr><th></th><th>您的资产</th><th>投资收益率</th></thead>"
+      // text=text+'<tr><td>总计</td><td>'+(parseInt(<%= @income %>)+parseInt(<%= @annual %>)*parseInt(<%= @targets.user_target_period %>)).toString()+"</td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][parseInt(<%= @targets.user_target_period %>)+2])+"</td></tr>"
         for(m=1;m<parseInt(<%= @targets.user_target_period %>)+2;m++){
             if(m==1){
-                text=text+"<tr><td>"+array[0][m]+"</td><td><%= @income %></td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][m])+"</td></tr>"
+              //  text=text+"<tr><td>"+array[m][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
             }
             else if(m>7){
-                text=text+"<tr class='hide'><td>"+array[0][m]+"</td><td><%= @annual %></td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][m])+"</td></tr>"
+                text=text+"<tr class='hide'><td>"+array[m-1][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
             }
             else{
-                text=text+"<tr><td>"+array[0][m]+"</td><td><%= @annual %></td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][m])+"</td></tr>"
+                text=text+"<tr><td>"+array[m-1][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
             }
         }
         if(parseInt(<%= @targets.user_target_period %>)<=6){

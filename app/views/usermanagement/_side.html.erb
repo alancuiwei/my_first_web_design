@@ -1,32 +1,51 @@
 <style>
-  .nav-pills li{padding: 0 0 10px 20px;}
+  .nav-pills li.active,.nav-pills li.dropdown{padding: 0 0 10px 20px;}
 </style>
 <ul class="nav nav-pills">
   <li class="active">&nbsp;<a href="/usermanagement/personalinfo">个人信息设置</a></li>
   <li class="active"><a href="/usermanagement/family_asset_table">家庭资产总值</a></li>
   <li class="dropdown">
-    <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">理财规划制定 <b class="caret"></b></a>
+    <a class="dropdown-toggle" id="drop4" role="button" data-toggle="dropdown" href="#">我的理财规划 <b class="caret"></b></a>
     <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
       <li role="presentation">
-<% if @userfinancedata!=nil && @userfinancedata.asset_score!=nil %>
-            <a href="/usersurvey/p1_user_survey_report">财务分析</a>
-<% else %>
-            <a href="/usersurvey/p1_usersurvey">财务分析</a>
-<% end %>
+        <% if @userfinancedata!=nil && @userfinancedata.asset_score!=nil %>
+            <a href="/usersurvey/p1_user_survey_report">家庭财务分析报告</a>
+        <% else %>
+            <a href="/usersurvey/p1_usersurvey">家庭财务分析报告</a>
+        <% end %>
       </li>
       <li role="presentation">
-<% if @targets!=nil %>
-            <a href="/usertargets/p2s2_user_target_intro">理财目标</a>
-<% else %>
-            <a href="/usertargets/p2_usertargets">理财目标</a>
-<% end %>
+         <a href="/usertargets/p2s1_house_buying">买房目标报告</a>
       </li>
       <li role="presentation">
-<% if @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
-            <a href="/userrisktolerance/p3_risktolerence_report">投资风险度评估</a>
-<% else %>
-            <a href="/userrisktolerance/p3_userrisktolerance">投资风险度评估</a>
-<% end %>
+        <% if @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
+            <a href="/userrisktolerance/p3_risktolerence_report">投资风险度报告</a>
+        <% else %>
+            <a href="/userrisktolerance/p3_userrisktolerance">投资风险度报告</a>
+        <% end %>
+      </li>
+    </ul>
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle" id="drop" role="button" data-toggle="dropdown" href="#">理财规划服务 <b class="caret"></b></a>
+    <ul id="menu" class="dropdown-menu" role="menu" aria-labelledby="drop">
+      <li role="presentation">
+         <a href="/usersurvey/p1_usersurvey">家庭财务分析服务</a>
+      </li>
+      <li role="presentation">
+         <a href="/usertargets/p2_usertargets">理财目标服务</a>
+      </li>
+      <li role="presentation">
+         <a href="/userrisktolerance/p3_userrisktolerance">投资风险度评估服务</a>
+      </li>
+      <li role="presentation">
+         <a href="/userfinanceplan/p4s1_Emergency_fund">应急基金准备服务</a>
+      </li>
+      <li role="presentation">
+         <a href="/userfinanceplan/p4s2_highprofit_fund">高收益资产配置服务</a>
+      </li>
+      <li role="presentation">
+         <a href="/userfinanceplan/p4s3_stableprofit_fund">稳健型资产配置服务</a>
       </li>
     </ul>
   </li>

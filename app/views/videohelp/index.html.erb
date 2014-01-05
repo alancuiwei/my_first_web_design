@@ -1,0 +1,85 @@
+<%= stylesheet_link_tag "payment.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<div class="main-body">
+  <div id="page-content">
+    <h1>录像帮助</h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>注册</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=m0123kpffo3&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>财务分析报告</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=p0123j9rodt&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>支付过程</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=v0123z5sild&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>买房目标</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123m2o8hm&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>风险度评估</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123cgdo07&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>应急基金准备</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0123c4l1gi&auto=0&tiny=0" allowfullscreen></iframe>
+          <h2>通天顺家庭理财服务</h2>
+          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0124r7uycd&auto=0&tiny=0" allowfullscreen></iframe>
+        </div>
+        <div class="span4 offset1">
+          <% if (session[:webusername]!=nil && @webuser!=nil && @webuser.ischarge!=1) || session[:webusername]==nil %>
+              <div class="pricing-tiers bs-docs-sidenav affix-top">
+                <ul class="pricing-list tiers">
+                  <li class="list-heading dark">
+                    <h2 class="plan-title">家庭理财规划服务</h2>
+                    <p class="plan-name">50元</p>
+                  </li>
+                  <li>家庭财务分析报告</li>
+                  <li>确定理财目标</li>
+                  <li>理财风险度评估</li>
+                  <li>家庭应急基金准备</li>
+                  <li>高收益、稳健收益资产配置</li>
+                  <li>每月工资投资指导</li>
+                  <li>当前理财产品分析</li>
+                  <li>微信实时查询家庭资产</li>
+                </ul>
+                <table id="payment">
+                  <tr>
+                    <td rolspan="2">
+                      <a class="res" href="javascript:void(0)" id="submit"><img style="width: 150px;" src="/assets/zhifubao.jpg"></a>
+                    </td>
+                    <td>满意后付款</td>
+                  </tr>
+                </table>
+                <br>
+                <p style="text-align: center;"><a id="buy" class="btn btn-primary btn-large" href="javascript:void(0)">购 买 理 财 规 划</a></p>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $("#submit,#buy").click(function(){
+       <% if session[:webusername]!=nil %>
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50},function(data){
+            location.href=data;
+        });
+       <% else %>
+        location.href="/usermanagement/login?videohelp=1";
+       <% end %>
+    });
+
+    !function ($) {
+        $(function(){
+            var $window = $(window)
+            // side bar
+            setTimeout(function () {
+                $('.bs-docs-sidenav').affix({
+                    offset: {
+                        top: function () { return $window.width() <= 980 ? 290 : 210 }
+                        , bottom: 270
+                    }
+                })
+            }, 100)
+        })
+    }(window.jQuery)
+</script>
