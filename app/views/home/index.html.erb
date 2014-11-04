@@ -1,25 +1,3 @@
-<<<<<<< HEAD
-﻿<%= stylesheet_link_tag "jquery.noty.css" %>
-<%= stylesheet_link_tag "noty_theme_growl.css" %>
-<%= javascript_include_tag "jquery.noty.js" %>
-<%= javascript_include_tag "highcharts.js" %>
-<%= javascript_include_tag "Hashtable.js" %>
-
-<body>
-  <div class="slider_set">
-
-        <img id="homepage_slice_left_decoration" src="/assets/banner_di_left.gif" alt="homepage_slice_left_decoration">
-
-    <div class="slice_background">
-      <div id="slider">
-        <ul>
-          <li>
-			  <div id="banner3">
-
-                <a href="/S010001/shownorisk"><p>500毫秒刷新行情，<br />
-			  超过200多组合约对，<br />
-			  捕捉所有盈利机会。</p></a>
-=======
 <%= stylesheet_link_tag "home.css" %>
 <%= stylesheet_link_tag "common.css" %>
 <%= stylesheet_link_tag "font-awesome.min.css" %>
@@ -67,7 +45,6 @@
                   <span>我们是如何为您服务的?</span>
                 </a>
               </div>
->>>>>>> develop
             </div>
           </div>
         </div>
@@ -272,13 +249,7 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-
-    <img id="homepage_slice_right_decoration" src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
-
-=======
     </div>
->>>>>>> develop
   </div>
 </div>
 <div class="welcomes2">
@@ -376,18 +347,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-
-    </div>
-
-    <div class="quicklink_instance" style="margin-bottom: 20px;">
-      <img class="qs_image" src="/assets/tongtianshundashi.jpg" alt="quicklink_tongtianshun_master">
-
-      <div class="qs_content">
-        <h2>通天顺大师</h2>
-        <p>通天顺大师帮助您了解您的个性特征，从而分析交易习惯，得出比较适合您的交易策略。</p>
-
-=======
       <div class="tour-row hero-message row first">
         <div class="container">
           <h2 class="no-border">智能、易用，个性化</h2>
@@ -401,7 +360,6 @@
           <h4>只为您一个人设计</h4>
           <div class="explanation">根据您的家庭收入、开销，已有资产分析，我们的互联网金融专家团队给您，也只为您提供规划服务。</div>
         </div>
->>>>>>> develop
       </div>
       <div class="tour-row hero-message" style="background: #ffffff;">
       <div class="container centered">
@@ -452,93 +410,6 @@
 </div>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-   $(document).ready(function(){
-       $('.quicklink_instance>a').css("float","left");
-       $('.quicklink_instance>img').css("float","left");
-   });
-  function show_version(){
-    $(document).ready(function(){
-      var title = '<table><tr><th>current_version_id</th><th>current_comments</th><th>update_date</th></tr>'+
-              ' <% @versions_all.each do |version| %><tr><td><%= version.current_version_id %></td><td><%= version.current_comments %></td>'+
-              '<td><%= version.update_date.to_s(:db) %></td></tr><% end %></table>';
-     noty({layout : 'topLeft', theme : 'noty_theme_growl', type : 'information',text: title,timeout : false });
-    });
-  }
-
-    var profitchart_data_hash=new Hashtable();
-    var profitchart_day_hash=new Hashtable();
-    <% @strategywebs.each do |strategyweb| %>
-    highcharts("<%= strategyweb.id%>","<%= strategyweb.name%>");
-    <% if @profitchart_hash[strategyweb.id]!=nil%>
-    var profitchart_arr_day=new Array();
-    var profitchart_arr_data=new Array();
-    <% for i in 0..@profitchart_hash[strategyweb.id][1].size-1 %>
-      profitchart_arr_day[<%= i%>] ='<%= @profitchart_hash[strategyweb.id][1][i] %>'
-    profitchart_arr_data[<%= i%>] =<%= @profitchart_hash[strategyweb.id][0][i] %>
-    <% end %>
-    profitchart_day_hash.add('<%= strategyweb.id%>',profitchart_arr_day)
-    profitchart_data_hash.add('<%= strategyweb.id%>',profitchart_arr_data)
-    <% end %>
-    <% end %>
-    function highcharts(id,stgname) {
-
-        var chart;
-        $(document).ready(function() {
-            chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: id,
-                    type: 'line',
-                    width: 100,
-                    height: 100
-                },
-                title: {
-                    enabled: false
-                },
-                subtitle: {
-                    enabled: false
-                },
-                xAxis: {
-                    categories: profitchart_day_hash.items(id),
-                    title:{
-                        enabled: false
-                    } ,
-                    labels: {
-                        enabled: false
-                    }
-                },
-                yAxis: {
-                    title:{
-                        enabled: false
-                    } ,
-                    labels: {
-                        enabled: false
-                    }
-                },
-                plotOptions: {
-                    line: {
-                        //pointStart: 1940,
-                        marker: {
-                            enabled: false,
-                            symbol: 'circle',
-                            radius: 2,
-                            states: {
-                                hover: {
-                                    enabled: false
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    name: '收益',
-                    data:profitchart_data_hash.items(id)
-                }]
-            });
-
-            $(".highcharts-legend").remove()
-        });
-=======
     //平台、设备和操作系统
     var system ={
         win : false,
@@ -555,7 +426,6 @@
         $(".welcomes2").remove();
     }else{
         $(".welcomes").remove();
->>>>>>> develop
     }
 
         function add(e){
