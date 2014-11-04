@@ -1,0 +1,12 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[请输入您新添加的基金种类：
+102：货币基金
+203：债券基金
+301：股票基金
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

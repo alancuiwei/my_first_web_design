@@ -1,0 +1,10 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[下面我们将根据您的个人情况，进行产品筛选，选择最适合您的货币基金产品，您将把<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*2 %><% end %>元投入到您选择的货币基金产品中去。
+您觉得您第一次购买将购买多少金额的货币基金？A.1-1000元  B.1000元以上。回复AB：表示1-1000元或1000元以上的基金都选择。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+</xml>

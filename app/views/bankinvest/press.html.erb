@@ -1,0 +1,96 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+<style>
+    @media screen and (max-width: 767px){
+        .beta .span6.right{ display: none; }
+    }
+</style>
+<div class="main-content press">
+  <div class="contents">
+  <a class="home" href="/">首页</a><br>
+  <h1>媒体报道</h1>
+  <table class="press-table" border="0">
+    <tbody>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <td style="width: 30%;">
+        <h1>报道联系</h1>
+        如果您想采访报道我们，<br>或是想要了解更多，请发信到<br>
+        <a href="mailto:cuiwei@tongtianshun.com">cuiwei@tongtianshun.com</a><br>
+        或者添加微信 cuiwei6496
+      </td>
+      <td align="right">
+        <table class="win">
+          <% @press.each do |p|  %>
+              <tr>
+                <td style="width: 276px;">
+                  <a class="img" href="<%= p.plink %>" target="_blank" style="float: right;">
+                    <div class="img-container">
+                      <img src="/assets/<%= p.pimg %>">
+                    </div>
+                  </a>
+                </td>
+                <td class="middle">
+                  <div  class='title'>
+                  <a href="<%= p.plink %>" target="_blank">
+                   <%= p.pname %>
+                  </a>
+                  <div class="date"> <%= p.pdate %> </div>
+                  </div>
+                </td>
+              </tr>
+              <tr><td colspan="2" style="height: 30px;"></td></tr>
+          <% end %>
+        </table>
+        <table class="mobile">
+          <% @press.each do |p|  %>
+              <tr>
+                <td class="middle">
+                  <div  class='title'>
+                    <a href="<%= p.plink %>" target="_blank">
+                      <%= p.pname %>
+                    </a>
+                    <div class="date"> <%= p.pdate %> </div>
+                  </div>
+                </td>
+                <td style="width: 276px;">
+                  <a class="img" href="<%= p.plink %>" target="_blank" style="float: right;">
+                    <div class="img-container">
+                      <img src="/assets/<%= p.pimg %>">
+                    </div>
+                  </a>
+                </td>
+              </tr>
+              <tr><td colspan="2" style="height: 30px;"></td></tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+    <div id="get-started-partial">
+      <a href="/usersurvey/p1_usersurvey" class="get-started-button">免 费 规 划</a>
+      <div id="free-text">花2分钟，获得详细家庭理财规划报告。</div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>

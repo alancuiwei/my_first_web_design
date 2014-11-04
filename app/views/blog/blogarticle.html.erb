@@ -1,0 +1,209 @@
+<%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<style>
+  .img{width: 100%;}
+</style>
+<div  class='main-content'>
+  <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
+  <a class="crumbs" href="/blog/index" >博客</a><br><br>
+
+  <table class="body-container" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="left-cell">
+        <div class="sociable">
+          </br>
+          <div class="sociable_tagline">分享</div>
+          <ul class="clearfix"></ul>
+        </div>
+        <!-- Baidu Button BEGIN -->
+        <div class="baidu_btn">
+          <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;">
+            <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+            <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+            <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+            <span class="bds_more" style="padding:0 15px 10px 0; clear: both; float: left"></span>
+          </div>
+        </div>
+
+        <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455"></script>
+        <script type="text/javascript" id="bdshell_js"></script>
+        <script type="text/javascript">
+            var bds_config = {'bdText':'我在 @通天顺家庭理财 里读到这篇文章，“<%=raw @bloginfo[0]%>”，很棒！'} ;
+            document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+        </script>
+        <!-- Baidu Button END -->
+      </td>
+      <td class="post-cell" style="padding-right:5%;">
+        <p class="entry-title post"><%=raw @bloginfo[0]%></p>
+        <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
+        <div class="news_tag"></div>
+        <br>
+        <div><img class="alignleft size-medium " id="img" src="/assets/<%= @bloginfo[5]%>"></div>
+        <div class="article">
+          <p><%=raw @bloginfo[3]%></p>
+        </div>
+        <br>
+        <div class="forie">
+        <% if @comments.length>0 %>
+            <strong>评论</strong>
+            <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+              <% @comments.each do |b| %>
+                  <tr>
+                    <td>
+                      <p><%= b.username%> 说：</p>
+                    </td>
+                    <td class="pull-right">
+                      <p> <%= b.time%> </p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <%= b.comments%>
+                      <hr>
+                    </td>
+                  </tr>
+              <% end %>
+            </table>
+        <% end %>
+        <strong>发表评论</strong>
+        <br><br>
+        <form id="commentform">
+          <p class="comment-form-author"><label for="author">姓名 <span class="required">*</span></label>
+            <input id="author" name="author" value="" size="30" aria-required="true" type="text" title="姓名"></p>
+          <p class="comment-form-email"><label for="email">邮件 <span class="required">*</span></label>
+            <input id="email" name="email" value="" size="30" aria-required="true" type="text" title="邮件"></p>
+          <p class="comment-form-comment"><label for="comment">评论</label>
+            <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>
+          <input name="submit" id="submit" value="发表" type="button">
+          </p>
+        </form>
+            </div>
+        <div id="get-started-partial">
+          <a href="/usersurvey/p1_usersurvey" class="get-started-button">免 费 规 划</a>
+          <div id="free-text">花2分钟，获得详细家庭理财规划报告。</div>
+        </div>
+      </td>
+      <!--[if IE]> <td style="width: 5%;"></td> <![endif]-->
+      <td style="width:20% ; padding-top: 135px;">
+        <h3 class="widget-title">最受欢迎的文章：</h3>
+        <table class="popular">
+          <% @popular.each do |b| %>
+              <tr>
+                <td style="width: 50%;"><a href="/blog/blogarticle/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a></td>
+                <td style="padding-left: 10px;">
+                  <a href="/blog/blogarticle/<%= b.id%>"><h1 style="font-size: 16px;line-height: 26px;"><%= b.btitle %></h1></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"> <hr> </td>
+              </tr>
+          <% end %>
+        </table>
+        <div style="height: 60px;"></div>
+        <h3 class="widget-title">你可能会感兴趣的文章：</h3>
+        <table class="popular">
+          <% @interest.each do |b| %>
+              <tr>
+                <td style="width: 50%;"><a href="/blog/blogarticle/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a></td>
+                <td style="padding-left: 10px;">
+                  <a href="/blog/blogarticle/<%= b.id%>"><h1 style="font-size: 16px;line-height: 26px;"><%= b.btitle %></h1></a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"> <hr></td>
+              </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var di = document.getElementById('img');
+        var diw = di.width;
+        if(diw>640){
+           $("#img").addClass("img");
+        }
+      <% if @bloginfo[7]!=nil %>
+        var value = '<%= @bloginfo[7] %>';
+        var tags = value.split(/,\s*|，\s*/);
+        var tag='';
+        for(var i=0;i<tags.length;i++){
+            tag=tag+'<a href="/blog/index?tag='+tags[i]+'" target="_blank">'+tags[i]+'</a>';
+        }
+        $(".news_tag").html(tag);
+      <% end %>
+        <% if @blog.count==nil %>
+          var count=1;
+        <% else %>
+          var count=parseInt('<%= @blog.count %>')+1;
+        <% end %>
+        $.post("/blog/countconfigajax",{count:count,bid:"<%= params[:id] %>"},function(data){
+        });
+    });
+
+    $("#submit").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        var dateTime=new Date();
+        var hh=dateTime.getHours();
+        var mm=dateTime.getMinutes();
+        var ss=dateTime.getSeconds();
+
+        var yy=dateTime.getFullYear();
+        var MM=dateTime.getMonth()+1;  //因为1月这个方法返回为0，所以加1
+        var dd=dateTime.getDate();
+
+        var week=dateTime.getDay();
+        var days=[ "日 ", "一 ", "二 ", "三 ", "四 ", "五 ", "六 "]
+
+        //  var time=yy+"年"+MM+"月"+dd+"日 "+"星期"+days[week]+hh+"时"+mm+"分"+ss+"秒";
+        var time=yy+"-"+MM+"-"+dd+" "+hh+":"+mm+":"+ss;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/blog/commentconfigajax",{ username: $("#author").attr("value"),email: $("#email").attr("value"),
+                comments: $("#comment").attr("value"),blogid: <%= @bloginfo[6]%>,time:time
+            },function(data){
+                if(data=="s1"){
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+//平台、设备和操作系统
+var system ={
+win : false,
+mac : false,
+xll : false
+};
+//检测平台
+var p = navigator.platform;
+system.win = p.indexOf('Win') == 0;
+system.mac = p.indexOf('Mac') == 0;
+system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+//跳转语句
+if(!(system.win||system.mac||system.xll)){
+    window.location.href='/blog/article/'+<%= params[:id] %>;
+}
+</script>

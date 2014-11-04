@@ -1,0 +1,9 @@
+<xml>
+  <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+  <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+  <CreateTime><%= Time.now.to_i %></CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+  <Content><![CDATA[请先进行风险度评估。
+    ]]></Content>
+  <FuncFlag>0</FuncFlag>
+</xml>

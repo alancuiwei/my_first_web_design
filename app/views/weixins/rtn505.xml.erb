@@ -1,0 +1,10 @@
+<xml>
+  <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+  <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+  <CreateTime><%= Time.now.to_i %></CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+  <Content><![CDATA[您预估这次旅游的开销将在多少万元左右？
+    例子：40000,表示您这次旅游开销在4万元左右。
+    ]]></Content>
+  <FuncFlag>0</FuncFlag>
+</xml>

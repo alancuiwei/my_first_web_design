@@ -1,0 +1,76 @@
+<%= stylesheet_link_tag "sales.css" %>
+
+<div class="main-content password">
+  <a href="/">首页</a><br>密码设置
+  <% if session[:webusername]!=nil %>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">用户名*:</label>
+      <div class="controls">
+        <input type="text" id="username" title="用户名" placeholder="用户名" value="<%= session[:webusername]%>" readonly>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">原密码*:</label>
+      <div class="controls">
+        <input type="password" id="password" title="原密码" placeholder="原密码">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">新密码*:</label>
+      <div class="controls">
+        <input type="password" id="password2" title="新密码" placeholder="新密码">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="inputPassword">确认新密码*:</label>
+      <div class="controls">
+        <input type="password" id="password3" title="确认新密码" placeholder="确认新密码">
+      </div>
+    </div>
+    <br>
+    <div class="controls">
+      <a type="submit" class="btn btn-primary" id="personconfig" href="javascript:void(0)">确认</a>
+    </div>
+  </form>
+  <% end %>
+</div>
+
+<script>
+    $("#personconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if($("#password").attr("value")==$("#password2").attr("value") && nom_flag==0){
+            alert('新密码不能与原密码相同！')
+            nom_flag=1;
+        }
+      else if($("#password2").attr("value")!=$("#password3").attr("value") && nom_flag==0){
+           alert('两次密码不一致！')
+            nom_flag=1;
+        }
+       if(nom_flag==0){
+        $.get("/sales/getpassword",{ username:$("#username").attr("value"),password:$("#password").attr("value"),password2:$("#password2").attr("value")
+        },function(data){
+            if(data=="s"){
+                alert('用户不存在！')
+                location.href='/sales/login?logintype=creat';
+            }
+            else if(data=="s1"){
+                alert('原密码输入错误！')
+            }
+            else{
+                alert('修改成功！')
+                location.href='/sales/login';
+            }
+        });
+       }
+    });
+</script>

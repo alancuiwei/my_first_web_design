@@ -1,0 +1,12 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您拥有一些货币基金，请问您购买的货币基金的详细情况：
+例子：您拥有余额宝基金产品，该产品基金代码000198，当时购买了10000元
+则输入如下：
+000198，10000
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

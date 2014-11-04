@@ -1,0 +1,9 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您的年度开销如下：<% @expenseannual430.each do |e| %><%= @hash430[e.expense_type][0] %><%= e.expense_value %>元，<% end %>确认请回复1，返回修改请回复0。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

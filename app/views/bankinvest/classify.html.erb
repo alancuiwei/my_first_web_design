@@ -1,0 +1,113 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<style>
+    .details td.right{
+        font-family: "Open Sans",Helvetica,Arial,sans-serif;
+        margin: 0;
+        font-style: italic;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(68, 68, 68);
+    }
+    .details td.left{
+        width:15%;
+        vertical-align: middle;
+        background-color: #fbfbfb;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 17px;
+        text-align: left;
+        padding-left: 10px;
+        font-family: "helvetica neue",helvetica,arial,sans-serif;
+        font-weight: 600;
+        color: rgb(51, 51, 51);
+    }
+
+    .box_left_title1 {
+        font-size: 20px;
+        padding-bottom: 10px;
+    }
+
+    .center{
+        text-align: center!important;
+    }
+
+    .cell{
+        display: table-cell;
+    }
+</style>
+
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+    <a href="/">首页</a>
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;"><%= @category.category %> ： <%= @category.classify %></span><br>
+      <blockquote style="margin: 10px 0;"><small style="font-size: 12px;"><%= @category.ptype %></small></blockquote>
+    </div>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left" style="width: 100%;">
+        <ul>
+          <li>
+          <span class="qq_bankbig red">
+            <% if @category.risklevel==1 %>无风险
+            <% elsif  @category.risklevel==2 %>低风险
+            <% elsif  @category.risklevel==3 %>中级风险
+            <% elsif  @category.risklevel==4 %>高风险
+            <% elsif  @category.risklevel==5 %>极高风险
+            <% end %>
+          </span>
+            <span class="qq_banksmall">风险级别</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red">&nbsp;<% if @average2!=nil %><%= @average2.average_return_rate %>%<% end %></span>
+            <span class="qq_banksmall">近一年平均收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red">&nbsp;<%= @category.startvalue %></span>
+            <span class="qq_banksmall">最低投资金额</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="display: table;">
+    <blockquote style="margin: 10px 0;"><small style="font-size: 12px;"><%= @category.prisk %></small></blockquote>
+    </div>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td class="left">类型名称</td>
+        <td class="right center"><%= @category.classify %></td>
+      </tr>
+      <tr>
+        <td class="left">流动性</td>
+        <td class="right center"><%= @category.fluidvalue %></td>
+      </tr>
+      <tr>
+        <td class="left">波动性</td>
+        <td class="right center"><%= @category.volatilityvalue %></td>
+      </tr>
+       <% @probability.each do |p| %>
+      <tr>
+        <td class="left">近 <%= p.years %> 年亏损概率</td>
+        <td class="right center"><% if p.probability!=nil %><%= p.probability %>%<% end %></td>
+      </tr>
+      <% end %>
+      <% @max.each do |p| %>
+      <tr>
+        <td class="left">近 <%= p.years %> 年最高收益率</td>
+        <td class="right center"><% if p.returnrate!=nil %><%= p.returnrate %>%<% end %></td>
+      </tr>
+      <% end %>
+      <% @average.each do |p| %>
+      <tr>
+        <td class="left"><%= p.years %>年平均收益率</td>
+        <td class="right center"><% if p.average_return_rate!=nil %><%= p.average_return_rate %>%<% end %></td>
+      </tr>
+      <% end %>
+    </table>
+    <a class="pull-right" href="/blog/index?tag=<%= @category.classify %>" target="_blank">相关知识介绍</a>
+  </div>
+  <div class="cell">
+    &nbsp;
+  </div>
+</div>

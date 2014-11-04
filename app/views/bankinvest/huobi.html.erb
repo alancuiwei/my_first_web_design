@@ -1,0 +1,186 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+<%= javascript_include_tag "bootstrap.js" %>
+ <style>
+     .details td.right{
+         width:25%;
+         font-family: "Open Sans",Helvetica,Arial,sans-serif;
+         margin: 0;
+         font-style: italic;
+         font-size: 14px;
+         line-height: 24px;
+         color: rgb(68, 68, 68);
+         text-align: center;
+     }
+     .details #intro td.right{
+         width:75%;
+         text-align: left;
+     }
+     .details td.left{
+         width:25%;
+         vertical-align: middle;
+         background-color: #fbfbfb;
+         font-weight: normal;
+         font-size: 17px;
+         line-height: 17px;
+         text-align: left;
+         padding-left: 10px;
+         font-family: Hiragino Sans GB W3;
+         font-weight: normal;
+         color: rgb(51, 51, 51);
+     }
+
+     .details .box_left_title1 {
+         font-size: 20px;
+         padding-bottom: 10px;
+     }
+
+     .details .cell{
+         display: table-cell;
+     }
+     .details h2 {
+         font-size: 18px;
+         border-bottom: 0;
+         padding: 0;
+         margin-top: 0px;
+         position: relative;
+         font-weight: normal;
+         font-family: "helvetica neue",helvetica,arial,sans-serif;
+     }
+
+ </style>
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+    <a href="/">首页</a>
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;">产品名称：<% if @fundproduct!=nil && @fundproduct.productname!=nil %><%= @fundproduct.productname %><% end %></span><br>
+      <span style="font-size: 12px;">我们为您提供公正、透明的理财产品信息，供你做参考。</span>
+    </div>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left" style="width: 100%;">
+        <ul>
+          <li>
+          <span class="qq_bankbig red"><% if @fundquote!=nil && @fundquote.million_income!=nil %><%= @fundquote.million_income %>元<% end %></span>
+            <span class="qq_banksmall">万份年收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundquote!=nil && @fundquote.sevenD_years_return!=nil %><%= @fundquote.sevenD_years_return %>%<% end %></span>
+            <span class="qq_banksmall">七日年收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil %><%= @fundquote.one_year_rank %><% else %>--<% end %></span>
+            <span class="qq_banksmall">排名</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><% if @fundproduct!=nil && @fundproduct.min_purchase_account!=nil %><%= @fundproduct.min_purchase_account %>元<% else %>--<% end %></span>
+            <span class="qq_banksmall">最低金额</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <h2>1、产品概况：</h2>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td class="left">产品代码</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.product_code!=nil %><%= @fundproduct.product_code %><% else %>--<% end %></td>
+        <td class="left">一年收益率</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_return!=nil && @fundquote.one_year_return!=0 %><%= @fundquote.one_year_return %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">产品类型</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.L2_typename!=nil %><%= @fundproduct.L2_typename %><% else %>--<% end %></td>
+        <td class="left">一年同类排名</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.one_year_rank!=nil && @fundquote.one_year_rank!=0 %><%= @fundquote.one_year_rank %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">管理机构</td>
+        <td class="right" style="white-space: nowrap;"><% if @fundproduct!=nil && @fundproduct.institution!=nil %><%= @fundproduct.institution %><% else %>--<% end %></td>
+        <td class="left">两年收益率</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.two_year_return!=nil && @fundquote.two_year_return!=0 %><%= @fundquote.two_year_return %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">基金规模(<a class="introduce" href="#myModal5" role="button" data-toggle="modal">?</a>)</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.fund_size!=nil %><%= @fundproduct.fund_size %>亿元<% else %>--<% end %></td>
+        <td class="left">两年同类排名</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.two_year_rank!=nil && @fundquote.two_year_rank!=0 %><%= @fundquote.two_year_rank %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">基金成立时间(<a class="introduce" href="#myModal4" role="button" data-toggle="modal">?</a>)</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.create_date!=nil %><%= @fundproduct.create_date %><% else %>--<% end %></td>
+        <td class="left">三年收益率</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_return!=nil && @fundquote.three_year_return!=0 %><%= @fundquote.three_year_return %>%<% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">基金经理</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.fund_manager!=nil %><%= @fundproduct.fund_manager %><% else %>--<% end %></td>
+        <td class="left">三年同类排名</td>
+        <td class="right red"><% if @fundquote!=nil && @fundquote.three_year_rank!=nil && @fundquote.three_year_rank!=0 %><%= @fundquote.three_year_rank %><% else %>--<% end %></td>
+      </tr>
+    </table>
+    <h2>2、产品投资信息：</h2>
+    <table id="intro" class="table table-striped table-bordered">
+      <tr>
+        <td class="left">投资目标</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.invest_objective!=nil %><%= @fundproduct.invest_objective %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">投资范围</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.invest_range!=nil %><%= @fundproduct.invest_range %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">投资策略</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.invest_strategy!=nil %><%= @fundproduct.invest_strategy %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">收益分配</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.profit_arrange!=nil %><%= @fundproduct.profit_arrange %><% else %>--<% end %></td>
+      </tr>
+      <tr>
+        <td class="left">风险收益</td>
+        <td class="right"><% if @fundproduct!=nil && @fundproduct.risk_intro!=nil %><%= @fundproduct.risk_intro %><% else %>--<% end %></td>
+      </tr>
+    </table>
+  </div>
+  <div class="cell">
+    <div style="height: 100px;">&nbsp;</div>
+    <div class="gray_ad" id="buyinfo">
+      <div id="buyinfo-printed">
+        <h2 class="">
+          在哪儿买这个理财产品?
+        </h2>
+        <a href="<%= @link %>" target="_blank">查看该基金购买详情</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal5" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog3.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog3!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog3.imagepath %>"><br><br>
+        <%=raw @blog3.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal4" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><%= @blog4.btitle %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog4!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%= @blog4.imagepath %>"><br><br>
+        <%=raw @blog4.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>

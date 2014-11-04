@@ -1,0 +1,1042 @@
+<%= stylesheet_link_tag "usermanagement.css" %>
+<%= stylesheet_link_tag "p2s1.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "cal.js" %>
+<%= javascript_include_tag "raphael-min.js" %>
+<%= javascript_include_tag "justgage.js" %>
+
+<div class="main-content">
+<div class="trow">
+<div class="main-inputs">
+  <div id="inputs" class="content">
+    <div id="inputs-container">
+      <div class="padded">
+        <h3>房屋信息</h3>
+      </div>
+      <div id="main-inputs" style="">
+        <div class="general">
+          <div class="input-group active custom" id="inputs-income">
+            <label for="input-income-field">购房类型</label>
+            <select id="buy_house_type" onChange='housetype()'>
+              <option value="0">新房</option>
+              <option value="1">二手房</option>
+            </select>
+          </div>
+          <div class="input-group active custom" id="inputs-downpayment">
+            <label for="input-downpayment-field">购房面积(平方米)</label>
+            <input class="span2e" id="buy_house_area" value="" size="0" type="text" onkeyup="update()">
+          </div>
+          <div class="input-group active custom" id="inputs-debtpayments">
+            <label for="input-debtpayments-field">购房单价</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="buy_house_uint_prince" size="16" type="text" readonly>
+              </div>
+            </div>
+          </div>
+          <div class="input-group active custom" id="inputs-credit">
+            <label for="input-credit-field">购房性质</label>
+            <select id="buy_house_attribute" onChange='houseweiyi(0)'>
+              <option value="0">家庭唯一一套住宅</option>
+              <option value="1">非家庭唯一一套住宅</option>
+            </select>
+          </div>
+          <div class="input-group active custom inputs-location hide">
+            <label for="input-location-field">几年内转让</label>
+            <select id="house_sell_years"onChange="update()">
+              <option value="0">5年内</option>
+              <option value="1">5年后</option>
+            </select>
+          </div>
+          <div class="input-group active custom inputs-location hide">
+            <label for="input-location-field">是否首次购房</label>
+            <select id="is_first_house" onChange='houseweiyi(1)'>
+              <option value="0">不是</option>
+              <option value="1">是</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="padded">
+        <h3>已有资金来源</h3>
+      </div>
+      <div id="main-inputs" style="">
+        <div class="general">
+          <% if @user_asset_sheet!=nil %>
+          <div class="input-group active custom">
+            <label for="input-debtpayments-field">卖一套房</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
+              </div>
+            </div>
+          </div>
+          <% else %>
+              <div class="input-group active custom hide">
+                <label for="input-debtpayments-field">卖一套房</label>
+                <div class="controls">
+                  <div class="input-prepend">
+                    <span class="add-on">￥</span>
+                    <input class="span2e" value="" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
+                  </div>
+                </div>
+              </div>
+          <% end %>
+          <div class="input-group active custom">
+            <label for="input-debtpayments-field">家庭储蓄</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="family_saving_account" size="16" type="text" onkeyup="updatedownpay()">
+              </div>
+            </div>
+          </div>
+          <div class="input-group active custom">
+            <label for="input-debtpayments-field">亲朋借钱</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="borrowing_account" size="16" type="text" onkeyup="updatedownpay()">
+              </div>
+            </div>
+          </div>
+          <div class="input-group active custom">
+            <label for="input-debtpayments-field">家庭年收入</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="salary_account" size="16" type="text" onkeyup="updatedownpay()">
+              </div>
+            </div>
+          </div>
+          <div class="last input-group active custom">
+            <a class="btn btn-success" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div id="advanced-settings">
+      <div class="button">
+        <a href="#myModal" role="button" data-toggle="modal"><img src="/assets/cogs.png">高级设置</a>
+      </div>
+    </div>  -->
+  </div>
+</div>
+<div class="main-body">
+<h1>我能承受多少价格的房子
+  <a class="btn btn-primary btn-large pull-right reporthide win" href="/userrisktolerance/p3_userrisktolerance">下一步：风险评估</a>
+</h1>
+<table>
+<tr>
+<td>
+<div class="page-interaction">
+  <div class="interaction-content">
+  <div id="smarttip1" class="info" onmouseover="$('#smarttip1').popover('show')" onmouseout="$('#smarttip1').popover('hide')" data-placement="left" data-original-title="帮助" data-content="首付房款是您从左侧已有资金来源中募集到的资金，用来做房子的首期付款。记得，您需要预留一些剩余积蓄，用来做房屋装修或家庭大额支出备用。"></div>
+  <div id="smarttip2" class="warning hide" onmouseover="$('#smarttip2').popover('show')" onmouseout="$('#smarttip2').popover('hide')" data-placement="left" data-original-title="提示" data-content="我们不建议您把几乎所有资金都用来做房子首付，我们建议您至少保留3到6个月的生活费资金，以备家庭紧急事情。同样，我们也建议您最好不要月供房贷压力过大，我们认为最多月供不能超过您家庭月收入的50%"></div>
+  <div id="smarttip3" class="error hide" onmouseover="smarttip3show()" onmouseout="$('#smarttip3').popover('hide')" data-placement="left" data-original-title="警告" data-content="基于您左侧的已有资金来源，您没有能力来承担价格*元的房子。"></div>
+    <div class="ispacer">
+      <table class="block">
+        <tbody>
+        <tr>
+          <td rowspan="4" width="230px">
+            <h4 class="spaced">房子价格</h4>
+            <p class="value editvalue homev large housecolor" id="display-hv" style="color: rgb(103, 169, 83); "></p>
+            <div id="hm-icon" class="home-icon hsprite-green"> </div>
+          </td>
+          <td class="bleft bbottom arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
+          <td class="bbottom" colspan="2">
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td>
+                  <h4 style="text-align: left; margin-bottom: 10px">首付房款</h4>
+                </td>
+                <td class="totals">
+                  <h4>首付实际资金</h4>
+                </td>
+              </tr>
+              <tr>
+                <td class="bright" align="right" width="130px">
+                  <p class="value right editvalue housecolor"id="display-dp" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @downpayment %></p>
+                  <div id="slider-downpayment">
+                    <table style="width: 100%;">
+                      <tr><td class="left" style="padding: 0;vertical-align: middle;">首付房款</td>
+                        <td style="padding: 0;text-align: right;">
+                          <div class="controls">
+                            <div class="input-prepend">
+                              <button id="payment-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
+                              <span class="add-on" style="border-radius: 4px 0 0 4px;">￥</span>
+                              <input id="downpayment" value="<%= @downpayment %>" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
+                              <button id="payment-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr><td class="left" style="padding: 0;vertical-align: middle;">首付比例</td>
+                        <td style="padding: 0;text-align: right;">
+                          <div class="controls">
+                            <div class="input-append">
+                              <button id="rate-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
+                              <input id="downpaymentrate" value="30" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
+                              <span class="add-on" style="border-radius: 0 4px 4px 0;">%</span>
+                              <button id="rate-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr><td class="left" style="padding: 0;vertical-align: middle;">剩余积蓄</td>
+                        <td style="padding: 0;text-align: right;">
+                          <div class="controls">
+                            <div class="input-prepend">
+                              <button id="savings-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
+                              <span class="add-on" style="border-radius: 4px 0 0 4px;">￥</span>
+                              <input id="surplussavings" value="0" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
+                              <button id="savings-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <br>
+                  <p class="left">剩余积蓄可以用来做房屋装修、国外旅游等额外大额支出备用。</p>
+                </td>
+                <td width="40%" class="totals" style="height: 130px;">
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>房款首付</td>
+                      <td class="bold right housecolor" id="display-shoufu" style="color: rgb(103, 169, 83); ">￥<%= @downpayment %></td>
+                    </tr>
+                    <tr class="xinfang">
+                      <td>住房维修基金</td>
+                      <td class="bold right" id="display-jijin"></td>
+                    </tr>
+                    <tr class="ershoufang hide">
+                      <td>过户费</td>
+                      <td class="bold right" id="display-ghfee"></td>
+                    </tr>
+                    <tr>
+                      <td>契税</td>
+                      <td class="bold right" id="display-qishui"></td>
+                    </tr>
+                    <tr class="ershoufang hide">
+                      <td class="nowap">房屋产权登记费</td>
+                      <td class="bold right" id="display-djfee">￥80</td>
+                    </tr>
+                    <tr class="ershoufang hide">
+                      <td>土地证工本费</td>
+                      <td class="bold right" id="display-gbfee">￥20</td>
+                    </tr>
+                    <tr class="last">
+                      <td class="total right" colspan="2"><b id="display-ctotal" class="housecolor" style="color: rgb(103, 169, 83); "></b></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bleft arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
+          <td class="" colspan="2">
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td><h4 style="text-align: left; margin-bottom: 10px">公积金贷款</h4></td>
+                <td class="totals"><h4>住房公积金贷款信息</h4></td>
+              </tr>
+              <tr>
+                <td class="bright" align="right" width="60%">
+                  <p class="value right editvalue" id="display-mv" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @gjjfee %></p>
+                  <br><br>
+                  <table width="100%" class="adv-s" border="0">
+                    <tbody>
+                    <tr>
+                      <td class="n">按揭年数</td>
+                      <td>
+                        <select id="mortgage_years" onChange="ext_total()">
+                          <option value="1">1年（12期）</option>
+                          <option value="2">2年（24期）</option>
+                          <option value="3">3年（36期）</option>
+                          <option value="4">4年（48期）</option>
+                          <option value="5">5年（60期）</option>
+                          <option value="6">6年（72期）</option>
+                          <option value="7">7年（84期）</option>
+                          <option value="8">8年（96期）</option>
+                          <option value="9">9年（108期）</option>
+                          <option value="10">10年（120期）</option>
+                          <option value="11">11年（132期）</option>
+                          <option value="12">12年（144期）</option>
+                          <option value="13">13年（156期）</option>
+                          <option value="14">14年（168期）</option>
+                          <option value="15">15年（180期）</option>
+                          <option value="16">16年（192期）</option>
+                          <option value="17">17年（204期）</option>
+                          <option value="18">18年（216期）</option>
+                          <option value="19">19年（228期）</option>
+                          <option selected="" value="20">20年（240期）</option>
+                          <option value="25">25年（300期）</option>
+                          <option value="30">30年（360期）</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="n">利率</td>
+                      <td>
+                        <select id="mortgage_rate" onChange="ext_total()">
+                          <option value="69">2012年7月6日后利率下浮30%</option>
+                          <option value="68">2012年7月6日后利率下浮20%</option>
+                          <option value="67">2012年7月6日后利率下浮15%</option>
+                          <option value="66">2012年7月6日后利率上浮10%</option>
+                          <option value="65" selected="">2012年7月6日后基准利率</option>
+                          <option value="64">2012年6月8日后利率下浮30%</option>
+                          <option value="63">2012年6月8日后利率下浮20%</option>
+                          <option value="62">2012年6月8日后利率下浮15%</option>
+                          <option value="61">2012年6月8日后利率上浮10%</option>
+                          <option value="60">2012年6月8日后基准利率</option>
+                          <option value="55">2011年7月7日后利率上浮10%</option>
+                          <option value="57">2011年7月7日后利率下浮15%</option>
+                          <option value="56">2011年7月7日后利率下浮30%</option>
+                          <option value="54">2011年7月7日后基准利率</option>
+                          <option value="51">2011年4月6日后利率上浮10%</option>
+                          <option value="52">2011年4月6日后利率下浮15%</option>
+                          <option value="53">2011年4月6日后利率下浮30%</option>
+                          <option value="50">2011年4月6日后基准利率</option>
+                          <option value="47">2011年2月9日后利率上浮10%</option>
+                          <option value="48">2011年2月9日后利率下浮15%</option>
+                          <option value="49">2011年2月9日后利率下浮30%</option>
+                          <option value="46">2011年2月9日后基准利率</option>
+                          <option value="43">2010年12月26日后利率上浮10%</option>
+                          <option value="44">2010年12月26日后利率下浮15%</option>
+                          <option value="45">2010年12月26日后利率下浮30%</option>
+                          <option value="42">2010年12月26日后基准利率</option>
+                          <option value="40">2010年10月20日后利率上浮10%</option>
+                          <option value="39">2010年10月20日后利率下浮15%</option>
+                          <option value="41">2010年10月20日后利率下浮30%</option>
+                          <option value="38">2010年10月20日后基准利率</option>
+                          <option value="37">08年12月23日后利率上浮10%</option>
+                          <option value="36">08年12月23日后利率下浮15%</option>
+                          <option value="35">08年12月23日后利率下浮30%</option>
+                          <option value="34">08年12月23日后基准利率</option>
+                          <option value="33">08年11月27日后利率下浮15%</option>
+                          <option value="32">08年11月27日后利率下浮30%</option>
+                          <option value="31">08年11月27日后基准利率</option>
+                          <option value="30">08年10月30日后利率下浮15%</option>
+                          <option value="29">08年10月30日后利率下浮30%</option>
+                          <option value="28">08年10月30日后基准利率</option>
+                          <option value="27">08年10月27日后利率下浮30%</option>
+                          <option value="26">08年10月27日后基准利率</option>
+                          <option value="25">08年10月9日后利率上浮10%</option>
+                          <option value="24">08年10月9日后利率下浮15%</option>
+                          <option value="23">08年10月9日后基准利率</option>
+                          <option value="22">08年9月16日后利率上浮10%</option>
+                          <option value="21">08年9月16日后利率下浮15%</option>
+                          <option value="20">08年9月16日后基准利率</option>
+                          <option value="19">07年12月21日后利率上浮10%</option>
+                          <option value="18">07年12月21日后利率下浮15%</option>
+                          <option value="17">07年12月21日后基准利率</option>
+                          <option value="16">07年9月15日后利率下限</option>
+                          <option value="15">07年9月15日后基准利率</option>
+                          <option value="14">07年8月22日后利率下限</option>
+                          <option value="13">07年8月22日后基准利率</option>
+                          <option value="12">07年7月21日后利率下限</option>
+                          <option value="11">07年7月21日后基准利率</option>
+                          <option value="10">07年5月19日后基准利率</option>
+                          <option value="9">07年5月19日后利率下限</option>
+                          <option value="8">07年3月18日后基准利率</option>
+                          <option value="7">07年3月18日后利率下限</option>
+                          <option value="6">06年8月19日后利率上限</option>
+                          <option value="5">06年4月28日后利率上限</option>
+                          <option value="4">05年3月17日后利率上限</option>
+                          <option value="3">05年3月17日后利率下限</option>
+                          <option value="2">05年1月1日-3月17日利率</option>
+                          <option value="1">05年1月1日前利率</option>
+                        </select>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <a href="javascript:void(0)" id="gjjxx">保存</a>
+                </td>
+                <td width="40%" class="totals">
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>贷款总额</td>
+                      <td class="right"><b id="daikuan_total" style="color: rgb(103, 169, 83); ">￥2000</b></td>
+                    </tr>
+                    <tr>
+                      <td class="nowap">支付利息额</td>
+                      <td class="right"><b id="accrual">￥2000</b></td>
+                    </tr>
+                    <tr class="total last">
+                      <td>总还款金额</td>
+                      <td class="right">
+                        <b id="all_total" style="color: rgb(103, 169, 83); ">￥4000</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2"><h4>月供信息</h4></td>
+                    </tr>
+                    <tr class="last">
+                      <td>月还款额</td>
+                      <td class="right"><b id="month_money1" style="color: rgb(103, 169, 83); ">240</b></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bleft arrow"></td>
+          <td class="arrow2"></td>
+          <td class="bbottom arrow2 bmiddle"></td>
+        </tr>
+        <tr>
+          <td class="bleft arrow">
+            <div class="arrow">
+              <div class="arrow-content"> </div>
+            </div>
+          </td>
+          <td class="" colspan="2">
+            <table class="sub">
+              <tbody>
+              <tr>
+                <td><h4 style="text-align: left; margin-bottom: 10px">商业贷款</h4></td>
+                <td class="totals"><h4>商业贷款信息</h4></td>
+              </tr>
+              <tr>
+                <td class="bright" align="right" width="60%">
+                  <p class="value right editvalue" id="display-syfee" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @syfee %></p>
+                </td>
+                <td width="40%" class="totals">
+                  <div class="spacer s5" style="margin-top: -10px;"></div>
+                  <table class="totals">
+                    <tbody>
+                    <tr>
+                      <td>贷款总额</td>
+                      <td class="right"><b id="daikuan_total_sy" style="color: rgb(103, 169, 83); ">￥2000</b></td>
+                    </tr>
+                    <tr>
+                      <td class="nowap">支付利息额</td>
+                      <td class="right"><b id="accrual_sy">￥2000</b></td>
+                    </tr>
+                    <tr class="total last">
+                      <td>总还款金额</td>
+                      <td class="right">
+                        <b id="all_total_sy" style="color: rgb(103, 169, 83); ">￥4000</b>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2"><h4>月供信息</h4></td>
+                    </tr>
+                    <tr class="last">
+                      <td>月还款额</td>
+                      <td class="right"><b id="month_money_sy" style="color: rgb(103, 169, 83); ">240</b></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="spacer s15"></div>
+<div class="page-details page-data">
+  <h3 class="title">家庭收入、贷款、月供信息</h3>
+  <div class="clearfix">
+    <div class="additional-content">
+      <table>
+        <tbody>
+        <tr>
+          <td>
+            <div id="debt-indicator" class="error-icon large" style="margin-bottom:14px;"></div>
+          </td>
+          <td>
+            <h2>月贷款占总工资收入比例</h2>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="debt-guage" class="graphic">
+
+      </div>
+      <div class="info">月供金额不应超过您家庭月收入的<b>50%</b></div>
+      <div class="separator"></div>
+      <table id="debt-breakdown" class="breakdown">
+        <tbody>
+        <tr>
+          <th colspan="3"> <h2>月收入分配</h2> </th>
+        </tr>
+        <tr class="graph m-value">
+          <td>
+            <span class="glossary">月还房贷</span>
+          </td>
+          <td class="value" id="debthouse2"></td>
+          <td class="last-child">
+            <div class="level error" style="width: 31.171030666123606px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph m-insurance">
+          <td>
+            <span class="glossary">生活必要支出</span>
+          </td>
+          <td class="value">- -</td>
+          <td class="last-child">
+            <div class="level error" style="width: 8.064043681103708px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph real-estate-tax">
+          <td>
+            <span class="glossary">其他</span>
+          </td>
+          <td class="value">- -</td>
+          <td class="last-child">
+            <div class="level error" style="width: 40px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="last-child">
+          <td><span class="glossary">家庭月收入</span></td>
+          <td class="home-total" style="color: rgb(189, 55, 38); " id="xiaofei"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b id="debthouse"></b>元每月。加上您其他的月贷款，您一共是每月还贷<b id="debtall"></b>元。</p>
+    <p class="light">即使您可以通过其他途径借到首付资金，承担购买更大的房子，我们还是建议您月贷款比例应小于您家庭月收入的<b>50%</b>，或者说<b id="halfsalary"><%= (@userhousetarget.salary_account/24).to_i %></b>元。</p>
+  </div>
+  <div class="spacer s15"></div>
+  <h3 class="title">存款、首付、贷款总额</h3>
+  <div class="clearfix">
+    <div class="additional-content">
+      <table>
+        <tbody>
+        <tr>
+          <td>
+            <div id="savings-indicator" class="ok-icon"></div>
+          </td>
+          <td>
+            <h2>首付后家庭积蓄</h2>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="closing-graphic" class="graphic" style="color: rgb(103, 169, 83); ">
+        <span class="cushion-left" id="month2">12</span>
+        <span class="cushion-left-text">个月家庭流动资金</span>
+        <div class="indicator">
+          <i class="icon-calendar cushion one two three four" style="display: inline; "></i>
+          <i class="icon-calendar cushion two three four" style="display: inline; "></i>
+          <i class="icon-calendar cushion three four" style="display: inline; "></i>
+          <i class="icon-plus cushion four" style="display: inline; "></i>
+        </div>
+      </div>
+      <div class="separator"></div>
+      <table id="close-breakdown" class="breakdown">
+        <tbody><tr>
+          <th colspan="3">
+            <h2>买房总费用</h2>
+          </th>
+        </tr>
+        <tr class="graph closing-dp">
+          <td>
+            <span class="glossary">首付款</span>
+          </td>
+          <td class="value" id="shoufu3"></td>
+          <td class="last-child">
+            <div class="level ok" style="width: 40px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph closing-mfees">
+          <td>
+            <span class="glossary">贷款本金</span>
+          </td>
+          <td class="value" id="benjin2"></td>
+          <td class="last-child">
+            <div class="level ok" style="width: 0.1279087452471483px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="graph closing-points">
+          <td>
+            <span class="glossary">贷款利息</span>
+          </td>
+          <td class="value" id="daikuan2"></td>
+          <td class="last-child">
+            <div class="level ok" style="width: 0.007224334600760456px; padding: 6px 1px; "></div>
+          </td>
+        </tr>
+        <tr class="last-child">
+          <td></td>
+          <td style="color: rgb(103, 169, 83); " id="zong2"></td>
+        </tr>
+        </tbody></table>
+    </div>
+    <p class="light">要购买<b id="fangjia">100</b>万的房子，基于以上假设和计算，您最终需要付出<b id="zong">132</b>万的资金。其中包括<b id="shoufu1">320000</b>元的首付款，<b id="benjin">500000</b>元的本金贷款，<b id="daikuan">500000</b>元的贷款利息。</p>
+    <p class="light">您的首付总金额将为<b id="shoufu">320000</b>元，其中包括<b id="shoufu2">300000</b>的房屋首付金额，和<b id="qita">20000</b>元的契税等其他费用。</p>
+    <p class="light">付清首付款后，您仍然将拥有<b id="chuxu">30000</b>元的储蓄，足够支付<b id="month">12</b>个月的月供金额，我们认为您至少应该拥有<b>3</b>个月的月供金额在手头上。</p>
+  </div>
+</div>
+</td>
+<td class="body-tips" style="min-width: 180px; width: 180px; vertical-align: top;">
+  <div id="tip" style="display: block; ">
+    <div class="tip-box">
+      <div class="contents" style="display: block; ">
+        <h3>相关疑问</h3>
+        <b>首付房款</b>
+        <ul style="padding-left:10px; margin-left:7px;">
+          <li>
+            <a name="bottom-link-1" href="http://zhishi.soufun.com/liutong/1478/1481/" class="mixpanel_track" target="_blank">各地首套房首付相关规定</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="http://zhishi.soufun.com/liutong/1478/1482/" class="mixpanel_track" target="_blank">各地二套房首付相关规定</a>
+          </li>
+        </ul>
+        <b>住房公积金</b>
+        <ul style="padding-left:10px; margin-left:7px;">
+          <li>
+            <a name="bottom-link-1" href="http://www.tongtianshun.com/blog/blogarticle/522" class="mixpanel_track" target="_blank">住房公积金贷款简介</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="http://www.tongtianshun.com/blog/blogarticle/523" class="mixpanel_track" target="_blank">申请住房公积金贷款条件</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="http://www.tongtianshun.com/blog/blogarticle/524" class="mixpanel_track" target="_blank">申请住房公积金贷款材料</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="http://www.tongtianshun.com/blog/blogarticle/521" class="mixpanel_track" target="_blank">各市公积金贷款查询网址</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="#" class="mixpanel_track" target="_blank">公积金贷款还款方式介绍</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="#" class="mixpanel_track" target="_blank">贷款发放后须注意事项</a>
+          </li>
+        </ul>
+        <b>商业贷款</b>
+        <ul style="padding-left:10px; margin-left:7px;">
+          <li>
+            <a name="bottom-link-1" href="#" class="mixpanel_track" target="_blank">个人商业贷款简介</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="#" class="mixpanel_track" target="_blank">购房商业贷款申办流程</a>
+          </li>
+          <li>
+            <a name="bottom-link-1" href="#" class="mixpanel_track" target="_blank">最新按揭货款利率查询</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+<script>
+    var housecolor1=0;
+    var debtguage = new JustGage({
+        id: "debt-guage",
+        value : 72,
+        symbol: '%',
+        min: 0,
+        max: 100,
+        gaugeWidthScale: 1,
+        customSectors: [{
+            color : "#67A953",
+            lo : 0,
+            hi : 36
+        },{
+            color : "#D9B30B",
+            lo : 36,
+            hi : 50
+        }, {
+            color : "#BD3726",
+            lo : 50,
+            hi : 100
+        }],
+        counter: true
+    });
+
+    $(document).ready(function(){
+
+        <% if @userhousetarget!=nil %>
+        $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
+        $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
+        $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
+        $("#salary_account").attr("value","<%=@userhousetarget.salary_account  %>")
+        <% if @userhousetarget.mortgage_years!=nil %>
+        $("#mortgage_years").attr("value","<%=@userhousetarget.mortgage_years  %>")
+        <% end %>
+        <% if @userhousetarget.mortgage_rate!=nil %>
+        $("#mortgage_rate").attr("value","<%=@userhousetarget.mortgage_rate %>")
+        <% end %>
+        $("#buy_house_type").attr("value","<%=@userhousetarget.buy_house_type  %>")
+        $("#buy_house_area").attr("value","<%=@userhousetarget.buy_house_area  %>")
+        <% if (@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0)  %>
+        $("#downpaymentrate").attr("value",70)
+        $("#display-hv").html("￥<%= (@downpayment/0.7).to_i %>")
+        <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
+        $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.7/@userhousetarget.buy_house_area).to_i  %>")
+        <% end %>
+        <% else %>
+        $("#downpaymentrate").attr("value",30)
+        $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
+        <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
+        $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
+        <% end %>
+        <% end %>
+        $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
+        $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
+        $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
+        <% else %>
+        $("#downpaymentrate").attr("value",30)
+        $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
+        <% end %>
+        housetype();
+    });
+
+    $("#gjjxx").click(function(){
+        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",mortgage_years: $("#mortgage_years").attr("value"),mortgage_rate: $("#mortgage_rate").attr("value")},function(data){
+        });
+    });
+
+    $("#savehouse").click(function(){
+        $.post("/usertargets/housebuyingtarget_save",{ username:"<%= session[:webusername] %>",sell_house_account: $("#sell_house_account").attr("value"),family_saving_account: $("#family_saving_account").attr("value"),borrowing_account: $("#borrowing_account").attr("value"),
+            buy_house_type: $("#buy_house_type").attr("value"),buy_house_area: $("#buy_house_area").attr("value"),salary_account: $("#salary_account").attr("value"),
+            buy_house_uint_prince: $("#buy_house_uint_prince").attr("value"),buy_house_attribute: $("#buy_house_attribute").attr("value"),house_sell_years: $("#house_sell_years").attr("value"),
+            is_first_house: $("#is_first_house").attr("value")
+        },function(data){
+        });
+        var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
+        var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
+        var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
+        <% if @user_asset_sheet!=nil %>
+        $("#display-dp,#display-shoufu").html("￥"+(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
+        $("#downpayment").attr("value",parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account));
+        $("#surplussavings").attr("value",0);
+        <% else %>
+        $("#display-dp,#display-shoufu").html("￥"+(parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
+        $("#downpayment").attr("value",parseInt(family_saving_account)+parseInt(borrowing_account));
+        $("#surplussavings").attr("value",0);
+        <% end %>
+        update();
+    });
+
+    function updatedownpay(){
+        var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
+        var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
+        var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
+    <% if @user_asset_sheet!=nil %>
+        $("#display-dp,#display-shoufu").html("￥"+(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
+        $("#downpayment").attr("value",parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account));
+        $("#surplussavings").attr("value",0);
+    <% else %>
+        $("#display-dp,#display-shoufu").html("￥"+(parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
+        $("#downpayment").attr("value",parseInt(family_saving_account)+parseInt(borrowing_account));
+        $("#surplussavings").attr("value",0);
+    <% end %>
+        update();
+    }
+
+
+    function submit(){
+        if($("#buy_house_type").attr("value")=='1'){
+            $(".xinfang").addClass("hide");
+            $(".ershoufang").removeClass("hide");
+            var averprice = $("#buy_house_uint_prince").attr("value") != ''?parseInt($("#buy_house_uint_prince").attr("value")) :0;
+            var buildarea = $("#buy_house_area").attr("value") != ''?parseInt($("#buy_house_area").attr("value")) :0;
+            var firstbuy = parseInt($("#is_first_house").attr("value"))+1;
+            var qfee_rate=0.03; //契税
+            var lab_b1="(3元/平方米)";
+            var lab_b2;
+
+            if(buildarea>=144) {
+                lab_b2="(成交价3%)";
+            }
+            else{
+                if(firstbuy==1 && buildarea<=90) qfee_rate=0.01;
+                if(firstbuy==1 && buildarea>90 && buildarea<144) qfee_rate=0.015;
+                qf = qfee_rate*100;
+                lab_b2="(成交价" + qf + "%)";
+            }
+
+            var buy_ghfee=(3*buildarea).toFixed(0);    //过户费
+            var buy_qfee=((averprice*buildarea)*qfee_rate).toFixed(0); //契税
+            var buy_sum=parseInt($("#display-dp").html().replace("￥",""))+parseInt(buy_ghfee)+parseInt(buy_qfee)+100;  //合计
+
+            $("#display-ghfee").html("￥"+buy_ghfee.toString())
+            $("#display-qishui").html("￥"+buy_qfee.toString())
+            $("#display-ctotal").html("￥"+buy_sum.toString())
+        }
+        else{
+            $(".xinfang").removeClass("hide");
+            $(".ershoufang").addClass("hide");
+            var leixing =1,
+                    weiyi = parseInt($("#buy_house_attribute").attr("value"))+1, //1,2(0,1)
+                    dianti = 1,
+                    danjia = $("#buy_house_uint_prince").attr("value") != ''?parseInt($("#buy_house_uint_prince").attr("value")) :0,
+                    mianji = $("#buy_house_area").attr("value") != ''?parseInt($("#buy_house_area").attr("value")) :0;
+
+            var gongshi = {
+                '1+1' : 120,
+                '1+2' : 75,
+                '2+1' : 90,
+                '2+2' : 50
+            };
+
+            var qiesui = {
+                '' : 0,
+                '90+1' : 0.01,
+                '144+1' : 0.015,
+                '144-2' : 0.03
+            };
+            var total = parseInt(danjia*mianji);
+            var jijin=parseInt(gongshi[parseInt(leixing) + '+' + parseInt(dianti)]*mianji);
+
+            var type = '';
+            if(mianji <= 90 && weiyi == 1){
+                type = '90+1';
+            }else if(mianji > 90 && mianji <= 144 && weiyi == 1){
+                type = '144+1';
+            }else if(mianji > 144 || weiyi == 2){
+                type = '144-2';
+            }
+
+            var qisui=parseInt(qiesui[type]*total);
+
+            $("#display-jijin").html("￥"+jijin.toString())
+            $("#display-qishui").html("￥"+qisui.toString())
+            $("#display-ctotal").html("￥"+(parseInt($("#display-dp").html().replace("￥",""))+jijin+qisui).toString())
+        }
+    }
+
+    function ext_total(){
+        var years = parseInt($("#mortgage_years").attr("value"));
+        var month = parseInt($("#mortgage_years").attr("value"))*12;
+        //--公积金贷款
+        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),2,parseInt($("#mortgage_years").attr("value")));//得到利率
+        //------------ 根据贷款总额计算
+        var daikuan_total = (parseInt($("#salary_account").attr("value"))*9)>600000?600000:parseInt($("#salary_account").attr("value"))*9;//贷款总额
+        //2.本息还款
+        //月均还款
+        var month_money1 = getMonthMoney1(lilv,daikuan_total,month);//月均还款：
+        var all_total1 = month_money1 * month; //还款总额
+        var accrual = Math.round( (all_total1 - daikuan_total) *100)/100;//支付利息款
+        $("#daikuan_total,#display-mv").html("￥"+daikuan_total.toString())
+        $("#xiaofei").html("￥"+parseInt(parseInt($("#salary_account").attr("value"))/12).toString())
+        $("#halfsalary").html(parseInt(parseInt($("#salary_account").attr("value"))/24).toString())
+        $("#accrual").html("￥"+accrual.toFixed(0).toString())
+        $("#all_total").html("￥"+parseInt(daikuan_total+accrual).toString())
+        $("#month_money1").html("￥"+month_money1.toFixed(0).toString())
+
+        //--  商业贷款
+        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),1,parseInt($("#mortgage_years").attr("value")));//得到利率
+        //------------ 根据贷款总额计算
+        var daikuan_total = parseInt($("#display-syfee").html().replace("￥",""));//贷款总额
+        //2.本息还款
+        //月均还款
+        var month_money1 = getMonthMoney1(lilv,daikuan_total,month);//月均还款：
+        var all_total1 = month_money1 * month;//还款总额
+        var accrual = Math.round( (all_total1 - daikuan_total) *100)/100; //支付利息款
+        $("#daikuan_total_sy").html("￥"+daikuan_total.toString())
+        $("#accrual_sy").html("￥"+parseInt(accrual).toString())
+        $("#all_total_sy").html("￥"+parseInt(daikuan_total+accrual).toString())
+        $("#month_money_sy").html("￥"+parseInt(month_money1).toString())
+        $("#debthouse").html(parseInt(month_money1).toString())
+        $("#debthouse2").html("￥"+parseInt(month_money1).toString())
+        $("#debtall").html(parseInt(month_money1).toString())
+    }
+
+    function summary(){
+        $("#fangjia").html(parseInt(parseInt($("#display-hv").html().replace("￥",""))/10000))
+        $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
+        $("#zong2").html("￥"+(parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥",""))).toString())
+        $("#shoufu,#shoufu1").html($("#display-ctotal").html().replace("￥",""));
+        var chuxu=parseInt(<%= @downpayment %>)-parseInt($("#display-ctotal").html().replace("￥",""))
+        if(chuxu<0){chuxu=0;}
+        var month=0
+    <% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil && @userdatamonth.must_expense_month!=0 %>
+       month=parseInt(chuxu/parseInt(<%= @userdatamonth.must_expense_month %>));
+    <% end %>
+        if(month==0){
+            housecolor1=2;
+            $("#closing-graphic").css('color', 'rgb(189, 55, 38)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(189, 55, 38)');}
+        else if(month<3){
+            housecolor1=1;
+            $("#closing-graphic").css('color', 'rgb(217, 179, 11)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(217, 179, 11)');}
+        else{
+            housecolor1=0;
+            $("#closing-graphic").css('color', 'rgb(103, 169, 83)');
+            $("#close-breakdown tr:last td:last").css('color', 'rgb(103, 169, 83)');
+        }
+        $("#chuxu").html(chuxu);
+        $("#month,#month2").html(month);
+        debtguage.refresh(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value"))));
+        if(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value")))<36){
+            var housecolor2=0
+            $("#xiaofei").css('color', 'rgb(103, 169, 83)');
+        }
+        else if(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value")))<50){
+            var housecolor2=1
+            $("#xiaofei").css('color', 'rgb(217, 179, 11)');
+        }
+        else{
+            var housecolor2=2
+            $("#xiaofei").css('color', 'rgb(189, 55, 38)');
+        }
+        var housecolor=Math.max(housecolor1,housecolor2)
+        $("#hm-icon").removeClass('hsprite-green');
+        $("#hm-icon").removeClass('hsprite-yellow');
+        $("#hm-icon").removeClass('hsprite-red');
+        $("#smarttip1,#smarttip2,#smarttip3").addClass('hide');
+        if(housecolor==2){
+            $("#hm-icon").addClass('hsprite-red');
+            $(".housecolor").css('color', 'rgb(189, 55, 38)');
+            $("#smarttip3").removeClass('hide');
+        }
+        else if(housecolor==1){
+            $("#hm-icon").addClass('hsprite-yellow');
+            $(".housecolor").css('color', 'rgb(217, 179, 11)');
+            $("#smarttip2").removeClass('hide');
+        }
+        else{
+            $("#hm-icon").addClass('hsprite-green');
+            $(".housecolor").css('color', 'rgb(103, 169, 83)');
+            $("#smarttip1").removeClass('hide');
+        }
+        $("#shoufu3").html($("#display-ctotal").html());
+        $("#benjin").html(parseInt($("#daikuan_total").html().replace("￥",""))+parseInt($("#daikuan_total_sy").html().replace("￥","")));
+        $("#benjin2").html("￥"+(parseInt($("#daikuan_total").html().replace("￥",""))+parseInt($("#daikuan_total_sy").html().replace("￥",""))).toString());
+        $("#daikuan").html(parseInt($("#accrual").html().replace("￥",""))+parseInt($("#accrual_sy").html().replace("￥","")));
+        $("#daikuan2").html("￥"+(parseInt($("#accrual").html().replace("￥",""))+parseInt($("#accrual_sy").html().replace("￥",""))).toString());
+        $("#shoufu2").html(parseInt($("#display-shoufu").html().replace("￥","")));
+        $("#qita").html(parseInt($("#display-ctotal").html().replace("￥",""))-parseInt($("#display-shoufu").html().replace("￥","")));
+    }
+
+    $("#payment-decrease,#savings-increase").click(function(){
+        if(parseInt($("#downpayment").attr("value"))>=10000){
+            $("#display-dp,#display-shoufu").html("￥"+(parseInt($("#downpayment").attr("value"))-10000).toString())
+            $("#downpayment").attr("value", parseInt($("#downpayment").attr("value"))-10000);
+            $("#surplussavings").attr("value", parseInt($("#surplussavings").attr("value"))+10000);
+            update();
+        }
+    });
+
+    $("#payment-increase,#savings-decrease").click(function(){
+        if(parseInt($("#surplussavings").attr("value"))>=10000){
+            $("#display-dp,#display-shoufu").html("￥"+(parseInt($("#downpayment").attr("value"))+10000).toString())
+            $("#downpayment").attr("value", parseInt($("#downpayment").attr("value"))+10000);
+            $("#surplussavings").attr("value", parseInt($("#surplussavings").attr("value"))-10000);
+            update();
+        }
+    });
+
+    $("#rate-decrease").click(function(){
+        if(parseInt($("#downpaymentrate").attr("value"))>=10){
+            $("#downpaymentrate").attr("value", parseInt($("#downpaymentrate").attr("value"))-5);
+        }
+        else{
+            $("#downpaymentrate").attr("value",5);
+        }
+        update();
+    });
+
+    $("#rate-increase").click(function(){
+        if(parseInt($("#downpaymentrate").attr("value"))<=95){
+            $("#downpaymentrate").attr("value", parseInt($("#downpaymentrate").attr("value"))+5);
+        }
+        else{
+            $("#downpaymentrate").attr("value",100);
+        }
+        update();
+    });
+
+    function houseweiyi(i){
+        if(i==0){
+            if($("#buy_house_attribute").attr("value")=='1'){
+                $("#downpaymentrate").attr("value",70);
+            }
+            else{
+                $("#downpaymentrate").attr("value",30);
+            }
+        }
+        else{
+            if($("#is_first_house").attr("value")=='0'){
+                $("#downpaymentrate").attr("value",70);
+            }
+            else{
+                $("#downpaymentrate").attr("value",30);
+            }
+        }
+        update();
+    }
+
+    function smarttip3show(){
+        $("#smarttip3").attr("data-content","基于您左侧的已有资金来源，您没有能力来承担价格"+$("#display-hv").html().replace("￥","")+"元的房子。")
+        $('#smarttip3').popover('show');
+        $(".popover-content").html("基于您左侧的已有资金来源，您没有能力来承担价格"+$("#display-hv").html().replace("￥","")+"元的房子。")
+    }
+
+    function update(){
+        $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
+        var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt($("#salary_account").attr("value"))*9
+        if(displaysyfee<0){displaysyfee=0}
+        $("#display-syfee").html("￥"+displaysyfee.toString());
+        ext_total();
+        housearea();
+        submit();
+        summary();
+    }
+
+    function housetype(){
+        if($("#buy_house_type").attr("value")=='1'){
+            $("#inputs-credit").addClass("hide");
+            $(".inputs-location").removeClass("hide");
+        }
+        else{
+            $("#inputs-credit").removeClass("hide");
+            $(".inputs-location").addClass("hide");
+        }
+        if(($("#buy_house_type").attr("value")=='0' && $("#buy_house_attribute").attr("value")=='1') || ($("#buy_house_type").attr("value")=='1' && $("#is_first_house").attr("value")=='0')){
+            $("#downpaymentrate").attr("value",70);
+        }
+        else{
+            $("#downpaymentrate").attr("value",30);
+        }
+        update();
+    }
+
+    function housearea(){
+        if($("#buy_house_area").attr("value")!=""){
+            $("#buy_house_uint_prince").attr("value", parseInt(parseInt($("#downpayment").attr("value"))*100/parseInt($("#downpaymentrate").attr("value"))/parseInt($("#buy_house_area").attr("value"))));
+        }
+    }
+</script>

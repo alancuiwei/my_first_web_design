@@ -1,0 +1,563 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "jquery.dataTables.columnFilter.js" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
+<%= stylesheet_link_tag "demo_table_jui.css" %>
+<%= javascript_include_tag "productchoose.js" %>
+
+<div class="welcomes summary">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>高收益产品选择</h1>
+    <div class="tablet">
+      <h2>产品选择：</h2>
+      <div class="mleft">
+        <p class="q-text" id="risk2"></p>
+        <table id="category" class="table table-striped table-bordered" style="width: 100%;">
+          <thead>
+          <tr>
+            <th rowspan="2">风险类型</th>
+            <th rowspan="2">投资品种</th>
+            <th rowspan="2">流动性</th>
+            <th rowspan="2">最低购买金额</th>
+            <th colspan="2">亏损概率</th>
+            <th colspan="2">最高收益率</th>
+            <th colspan="2">平均收益率</th>
+            <th rowspan="2">选择</th>
+          </tr>
+          <tr>
+            <th>1年</th>
+            <th>3年</th>
+            <th>1年</th>
+            <th>3年</th>
+            <th>1年</th>
+            <th>3年</th>
+          </tr>
+          </thead>
+          <% for i in 0..@category1.size-1 %>
+              <tr id="<%= @category1[i].id %>" class="level1">
+                <td class="leng">安逸型</td>
+                <td class="leng"><%= @category1[i].classify %></td>
+                <td>
+                  <% if @category1[i].fluidvalue==1 %>最差
+                  <% elsif @category1[i].fluidvalue==2 %>差
+                  <% elsif @category1[i].fluidvalue==3 %>中等
+                  <% elsif @category1[i].fluidvalue==4 %>强
+                  <% elsif @category1[i].fluidvalue==5 %>最强
+                  <% end %>
+                </td>
+                <td><%= @category1[i].startvalue %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][1]!="--" %><%= @hash2[@category1[i].L2_typeid][1] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][2]!="--" %><%= @hash2[@category1[i].L2_typeid][2] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][3]!="--" %><%= @hash2[@category1[i].L2_typeid][3] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][4]!="--" %><%= @hash2[@category1[i].L2_typeid][4] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][5]!="--" %><%= @hash2[@category1[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category1[i].L2_typeid][6]!="--" %><%= @hash2[@category1[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+                <td class="leng"><a class="btn btn-primary choose3" id="<%= @category1[i].id %>,<%= @category1[i].classify %>,<%= @category1[i].L2_typeid %>">选择</a></td>
+              </tr>
+          <% end %>
+          <% for i in 0..@category2.size-1 %>
+              <tr id="<%= @category2[i].id %>" class="level2">
+                <td class="leng">保守型</td>
+                <td class="leng"><%= @category2[i].classify %></td>
+                <td>
+                  <% if @category2[i].fluidvalue==1 %>最差
+                  <% elsif @category2[i].fluidvalue==2 %>差
+                  <% elsif @category2[i].fluidvalue==3 %>中等
+                  <% elsif @category2[i].fluidvalue==4 %>强
+                  <% elsif @category2[i].fluidvalue==5 %>最强
+                  <% end %>
+                </td>
+                <td><%= @category2[i].startvalue %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][1]!="--" %><%= @hash2[@category2[i].L2_typeid][1] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][2]!="--" %><%= @hash2[@category2[i].L2_typeid][2] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][3]!="--" %><%= @hash2[@category2[i].L2_typeid][3] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][4]!="--" %><%= @hash2[@category2[i].L2_typeid][4] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][5]!="--" %><%= @hash2[@category2[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category2[i].L2_typeid][6]!="--" %><%= @hash2[@category2[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+                <td class="leng"><a class="btn btn-primary choose3" id="<%= @category2[i].id %>,<%= @category2[i].classify %>,<%= @category2[i].L2_typeid %>">选择</a></td>
+              </tr>
+          <% end %>
+          <% for i in 0..@category3.size-1 %>
+              <tr id="<%= @category3[i].id %>" class="level3">
+                <td class="leng">稳健型</td>
+                <td class="leng"><%= @category3[i].classify %></td>
+                <td>
+                  <% if @category3[i].fluidvalue==1 %>最差
+                  <% elsif @category3[i].fluidvalue==2 %>差
+                  <% elsif @category3[i].fluidvalue==3 %>中等
+                  <% elsif @category3[i].fluidvalue==4 %>强
+                  <% elsif @category3[i].fluidvalue==5 %>最强
+                  <% end %>
+                </td>
+                <td><%= @category3[i].startvalue %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][1]!="--" %><%= @hash2[@category3[i].L2_typeid][1] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][2]!="--" %><%= @hash2[@category3[i].L2_typeid][2] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][3]!="--" %><%= @hash2[@category3[i].L2_typeid][3] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][4]!="--" %><%= @hash2[@category3[i].L2_typeid][4] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][5]!="--" %><%= @hash2[@category3[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category3[i].L2_typeid][6]!="--" %><%= @hash2[@category3[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+                <td class="leng"><a class="btn btn-primary choose3" id="<%= @category3[i].id %>,<%= @category3[i].classify %>,<%= @category3[i].L2_typeid %>">选择</a></td>
+              </tr>
+          <% end %>
+          <% for i in 0..@category4.size-1 %>
+              <tr id="<%= @category4[i].id %>" class="level4">
+                <td class="leng">积极型</td>
+                <td class="leng"><%= @category4[i].classify %></td>
+                <td>
+                  <% if @category4[i].fluidvalue==1 %>最差
+                  <% elsif @category4[i].fluidvalue==2 %>差
+                  <% elsif @category4[i].fluidvalue==3 %>中等
+                  <% elsif @category4[i].fluidvalue==4 %>强
+                  <% elsif @category4[i].fluidvalue==5 %>最强
+                  <% end %>
+                </td>
+                <td><%= @category4[i].startvalue %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][1]!="--" %><%= @hash2[@category4[i].L2_typeid][1] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][2]!="--" %><%= @hash2[@category4[i].L2_typeid][2] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][3]!="--" %><%= @hash2[@category4[i].L2_typeid][3] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][4]!="--" %><%= @hash2[@category4[i].L2_typeid][4] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][5]!="--" %><%= @hash2[@category4[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category4[i].L2_typeid][6]!="--" %><%= @hash2[@category4[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+                <td class="leng"><a class="btn btn-primary choose3" id="<%= @category4[i].id %>,<%= @category4[i].classify %>,<%= @category4[i].L2_typeid %>">选择</a></td>
+              </tr>
+          <% end %>
+          <% for i in 0..@category5.size-1 %>
+              <tr id="<%= @category5[i].id %>" class="level5">
+                <td class="leng">激进型</td>
+                <td class="leng"><%= @category5[i].classify %></td>
+                <td>
+                  <% if @category5[i].fluidvalue==1 %>最差
+                  <% elsif @category5[i].fluidvalue==2 %>差
+                  <% elsif @category5[i].fluidvalue==3 %>中等
+                  <% elsif @category5[i].fluidvalue==4 %>强
+                  <% elsif @category5[i].fluidvalue==5 %>最强
+                  <% end %>
+                </td>
+                <td><%= @category5[i].startvalue %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][1]!="--" %><%= @hash2[@category5[i].L2_typeid][1] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][2]!="--" %><%= @hash2[@category5[i].L2_typeid][2] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][3]!="--" %><%= @hash2[@category5[i].L2_typeid][3] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][4]!="--" %><%= @hash2[@category5[i].L2_typeid][4] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][5]!="--" %><%= @hash2[@category5[i].L2_typeid][5] %>%<% else %>--<% end %></td>
+                <td><% if @hash2[@category5[i].L2_typeid][6]!="--" %><%= @hash2[@category5[i].L2_typeid][6] %>%<% else %>--<% end %></td>
+                <td class="leng"><a class="btn btn-primary choose3" id="<%= @category5[i].id %>,<%= @category5[i].classify %>,<%= @category5[i].L2_typeid %>">选择</a></td>
+              </tr>
+          <% end %>
+        </table>
+        <div id="finance" class="hide">
+          <div class="win">
+            <%= render "/bankinvest/highprofit" %>
+            <table id="select" class="table table-striped table-bordered">
+              <thead>
+              <tr>
+                <th class="hide">L2_typeid</th>
+                <th class="hide">起购金额</th>
+                <th class="hide">时间差</th>
+                <th class="hide">规模</th>
+                <th>理财产品</th>
+                <th class="hide">产品代码</th>
+                <th>投资品种</th>
+                <th>净值</th>
+                <th>日增长率</th>
+                <th>近一年(%)</th>
+                <th class="hide">近一年排名</th>
+                <th>近一年<br>排名</th>
+                <th>近三年(%)</th>
+                <th class="hide">近三年排名</th>
+                <th>近三年<br>排名</th>
+        <th>晨星评级</th>
+                <th>选择</th>
+              </tr>
+              </thead>
+              <% @monetaryfundquote.each do |f| %>
+                  <tr id="de<%= f.id %>" class="finance<%= f.id %>">
+                    <td class="hide">101</td>
+                    <td class="hide"><%= @hash6[f.product_code][0] %></td>
+                    <td class="hide"><% if @hash6[f.product_code][1]!=nil %><%= @hash6[f.product_code][1].to_s.split("/")[0] %><% end %></td>
+                    <td class="hide"><%= @hash6[f.product_code][2] %></td>
+                    <td class="leng"><%= f.productname %></td>
+                    <td class="hide"><%= f.product_code %></td>
+                    <td class="leng">货币基金</td>
+                    <td><% if f.million_income!=0 %><%= f.million_income %><% else %>--<% end %></td>
+                    <td><% if f.sevenD_years_return!=0 %><%= f.sevenD_years_return %>%<% else %>--<% end %></td>
+                    <td><% if f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+                    <td><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+            <td>--</td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.productname %>')">选择</a></td>
+                  </tr>
+              <% end %>
+              <% @generalfundquote.each do |f| %>
+                  <tr id="de<%= f.id %>" class="finance<%= f.id %>">
+                    <td class="hide"><%= f.L2_typeid %></td>
+                    <td class="hide"><%= @hash6[f.product_code][0] %></td>
+                    <td class="hide"><% if @hash6[f.product_code][1]!=nil %><%= @hash6[f.product_code][1].to_s.split("/")[0] %><% end %></td>
+                    <td class="hide"><%= @hash6[f.product_code][2] %></td>
+                    <td class="leng"><%= f.product_name %></td>
+                    <td class="hide"><%= f.product_code %></td>
+                    <td class="leng"><%= @hash2[f.L2_typeid][0] %></td>
+                    <td><% if f.today_value!=0 %><%= f.today_value %><% else %>--<% end %></td>
+                    <td><% if f.today_rate!=0 %><%= f.today_rate %>%<% else %>--<% end %></td>
+                    <td><% if f.one_year_return!=nil && f.one_year_return!=0 %><%= f.one_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.one_year_rank!=nil %><%= f.one_year_rank %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.one_year_rank!=nil %><%= f.one_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+                    <td><% if f.three_year_return!=nil && f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
+                    <td><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
+                    <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>10000<% end %></td>
+            <td>
+                      <% if f.morning_stars==5 %>★★★★★
+                      <% elsif f.morning_stars==4 %>★★★★
+                      <% elsif f.morning_stars==3 %>★★★
+                      <% elsif f.morning_stars==2 %>★★
+                      <% elsif f.morning_stars==1 %>★
+                      <% else %>--
+                      <% end %>
+                    </td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= f.id %>','<%= f.product_name %>')">选择</a></td>
+                  </tr>
+              <% end %>
+            </table>
+          </div>
+        </div>
+<div id="finance2" class="hide">
+  <div class="win">
+    <%= render "/bankinvest/bankproduct" %>
+    <table id="banks" class="table table-striped table-bordered">
+      <thead><tr>
+        <th>产品名称</th>
+        <th>发行机构</th>
+        <th>年化收益率</th>
+        <th class="hide"></th>
+        <th>类型</th>
+        <th>起售价</th>
+        <th class="hide"></th>
+        <th>投资期限</th>
+        <th class="hide"></th>
+        <th>可售</th>
+        <th class="hide">发行地区</th>
+        <th>选择</th>
+      </tr></thead>
+
+      <% @banks.each do |b| %>
+          <tr id="de<%= b.id %>" class="finance<%= b.id %>">
+            <td style="width:20%;"><%= b.productname%></td>
+            <td><%= b.yinhang%></td>
+            <% if b.returnrate!=nil %>
+                <td class="hide"><%= format("%0.1f",b.returnrate*100)%></td>
+                <td><%= format("%0.1f",b.returnrate*100)%>%</td>
+            <% else %>
+                <td class="hide"></td><td></td>
+            <% end %>
+            <td><%= b.isbaoben%></td>
+            <% if b.min_purchase_account!=nil%>
+                <% if b.min_purchase_account!=0 %>
+                    <% if b.min_purchase_account<10000 %>
+                        <td class="hide"><%= format("%0.4f",b.min_purchase_account/10000)%></td>
+                        <td><%= b.min_purchase_account/10000%>万</td>
+                    <% else %>
+                        <td class="hide"><%= format("%0.0f",b.min_purchase_account/10000)%></td>
+                        <td><%= format("%0.0f",b.min_purchase_account/10000)%>万</td>
+                    <% end %>
+                <% else %>
+                    <td class="hide">0</td>
+                    <td>0</td>
+                <% end %>
+            <% else %>
+                <td class="hide"></td>
+                <td>--</td>
+            <% end %>
+            <% if b.guanliqi!=nil %>
+                <td class="hide"><%= format("%0.0f",b.guanliqi)%></td>
+                <td><%= format("%0.0f",b.guanliqi)%>天</td>
+            <% else %>
+                <td class="hide"></td>
+                <td></td>
+            <% end %>
+            <td><%= b.iszaishou%></td>
+            <td class="hide"><%= b.diqu%></td>
+            <td class="leng"><a class="btn btn-primary" onclick="choose4('<%= b.id %>','<%= b.productname %>')">选择</a></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    var risk=0;
+    var typeid='';
+    <% if @userfinancedata!=nil %>
+    risk='<%= @userfinancedata.risk_score %>'
+    <% end %>
+
+    if(risk>8 && risk<=10){
+        $("#risk2").html("您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+        $(".level1").hide();$(".level2").hide();$(".level3").hide();
+        $(".level5").addClass('first');
+    }
+    else if(risk>6 && risk<=8){
+        $("#risk2").html("您是积极型的投资者，但我们将和您类似的稳健型、激进型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+        $(".level1").hide();$(".level2").hide();
+        $(".level4").addClass('first');
+    }
+    else if(risk>4 && risk<=6){
+        $("#risk2").html("您是稳健型的投资者，但我们将和您类似的保守型、积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+        $(".level1").hide();$(".level5").hide();
+        $(".level3").addClass('first');
+    }
+    else if(risk>2 && risk<=4){
+        $("#risk2").html("您是保守型的投资者，但我们将和您类似的安益型、稳健型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+        $(".level4").hide();$(".level5").hide();
+        $(".level2").addClass('first');
+    }
+    else if(risk>=0 && risk<=2){
+        $("#risk2").html("您是安益型的投资者，但我们将和您类似的保守型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。");
+        $(".level3").hide();$(".level4").hide();$(".level5").hide();
+        $(".level1").addClass('first');
+    }
+
+    function choose4(uid,pname){
+        $("tr").removeClass("third");
+        $(".finance"+uid).addClass("third");
+        $.post("/userfinanceplan/saverisk",{ username:"<%= session[:webusername] %>",risk_productid: pname},function(data){
+                location.href='/userfinanceplan/p4s3_stableprofit_fund';
+            });
+        }
+
+/*
+ var oCache = {
+ iCacheLower: -1
+ };
+
+ function fnSetKey( aoData, sKey, mValue )
+ {
+ for ( var i=0, iLen=aoData.length ; i<iLen ; i++ )
+ {
+ if ( aoData[i].name == sKey )
+ {
+ aoData[i].value = mValue;
+ }
+ }
+ }
+
+ function fnGetKey( aoData, sKey )
+ {
+ for ( var i=0, iLen=aoData.length ; i<iLen ; i++ )
+ {
+ if ( aoData[i].name == sKey )
+ {
+ return aoData[i].value;
+ }
+ }
+ return null;
+ }
+
+ function fnDataTablesPipeline ( sSource, aoData, fnCallback ) {
+ var iPipe = 5;
+
+    var bNeedServer = false;
+    var sEcho = fnGetKey(aoData, "sEcho");
+    var iRequestStart = fnGetKey(aoData, "iDisplayStart");
+    var iRequestLength = fnGetKey(aoData, "iDisplayLength");
+    var iRequestEnd = iRequestStart + iRequestLength;
+    oCache.iDisplayStart = iRequestStart;
+
+    if ( oCache.iCacheLower < 0 || iRequestStart < oCache.iCacheLower || iRequestEnd > oCache.iCacheUpper )
+    {
+        bNeedServer = true;
+    }
+
+    if ( oCache.lastRequest && !bNeedServer )
+    {
+        for( var i=0, iLen=aoData.length ; i<iLen ; i++ )
+        {
+            if ( aoData[i].name != "iDisplayStart" && aoData[i].name != "iDisplayLength" && aoData[i].name != "sEcho" )
+            {
+                if ( aoData[i].value != oCache.lastRequest[i].value )
+                {
+                    bNeedServer = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    oCache.lastRequest = aoData.slice();
+
+    if ( bNeedServer )
+    {
+        if ( iRequestStart < oCache.iCacheLower )
+        {
+            iRequestStart = iRequestStart - (iRequestLength*(iPipe-1));
+            if ( iRequestStart < 0 )
+            {
+                iRequestStart = 0;
+            }
+        }
+
+        oCache.iCacheLower = iRequestStart;
+        oCache.iCacheUpper = iRequestStart + (iRequestLength * iPipe);
+        oCache.iDisplayLength = fnGetKey( aoData, "iDisplayLength" );
+        fnSetKey( aoData, "iDisplayStart", iRequestStart );
+        fnSetKey( aoData, "iDisplayLength", iRequestLength*iPipe );
+
+        $.getJSON( sSource, aoData, function (json) {
+            oCache.lastJson = jQuery.extend(true, {}, json);
+
+            if ( oCache.iCacheLower != oCache.iDisplayStart )
+            {
+                json.aaData.splice( 0, oCache.iDisplayStart-oCache.iCacheLower );
+            }
+            json.aaData.splice( oCache.iDisplayLength, json.aaData.length );
+
+            fnCallback(json)
+        } );
+    }
+    else
+    {
+        json = jQuery.extend(true, {}, oCache.lastJson);
+        json.sEcho = sEcho;
+        json.aaData.splice( 0, iRequestStart-oCache.iCacheLower );
+        json.aaData.splice( iRequestLength, json.aaData.length );
+        fnCallback(json);
+        return;
+    }
+    }
+ */
+
+    $(document).ready(function(){
+        var oTable2 =  $('#select').dataTable({
+            "iDisplayLength": 10,
+            "aaSorting": [[ 11, "asc" ]]
+        });
+        var oTable =  $('#banks').dataTable({
+            "iDisplayLength": 10,
+            "aaSorting": [[ 2, "desc" ]]
+        });
+        $("#select_wrapper .row-fluid:first").addClass("hide");
+        $("#banks_wrapper .row-fluid:first").addClass("hide");
+        $("[class*='choose3']").click(function(){
+            pid=this.id.split(",")[1];
+            typeid=this.id.split(",")[2];
+            $("#category td").removeClass("second");
+            var length=$("#category").find("tr").size();
+            for(i=0;i<length;i++){
+                if($("#category tr:eq("+i+") td:eq(1)").html()==pid){
+                    for(j=0;j<14;j++){
+                        $("#category tr:eq("+i+") td:eq("+j+")").addClass("second")
+                    }
+                }
+            }
+            if(typeid=="203"){
+                $("#finance").hide();
+                $("#finance2").show();
+                oTable.fnDraw();
+            }
+            else{
+            $("#finance").show();
+                $("#finance2").hide();
+            oTable2.fnDraw();
+            }
+        });
+
+        $("[id*='rates']").click(function(){
+            if(this.id=='rates0'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("[id*='dates']").click(function(){
+            if(this.id=='dates0'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("[id*='outsets']").click(function(){
+            if(this.id=='outsets0'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+
+        $("[id*='categorys']").click(function(){
+            if(this.id=='categorys0'){
+                $("#category_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+        $("[id*='ranks']").click(function(){
+            if(this.id=='ranks0'){
+                $("#rank_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+
+        $("[id*='terms']").click(function(){
+            if(this.id=='terms0'){
+                $("#term_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+        $("[id*='scales']").click(function(){
+            if(this.id=='scales0'){
+                $("#scale_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+        $("[id*='levels']").click(function(){
+            if(this.id=='levels0'){
+                $("#level_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+        $(".deletes").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='category'){
+                $("#category_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='rank'){
+                $("#rank_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='term'){
+                $("#term_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='scale'){
+                $("#scale_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='level'){
+                $("#level_all :checkbox").attr("checked", !1);
+            }
+            oTable2.fnDraw();
+        });
+
+        $(".delete2").click(function(){
+            $('#s-'+$(this).attr("cid")).addClass('hide');
+            if($(this).attr("cid")=='rate'){
+                $("#rate_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='date'){
+                $("#date_all :checkbox").attr("checked", !1);
+            }
+            if($(this).attr("cid")=='outset'){
+                $("#outset_all :checkbox").attr("checked", !1);
+            }
+            oTable.fnDraw();
+        });
+    });
+</script>

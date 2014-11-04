@@ -1,8 +1,709 @@
-<%= render "side" %>
+﻿<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= javascript_include_tag "bootstrap.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+<%= stylesheet_link_tag "admin.css" %>
 
-<div class="centerrightframe">
-    <p>欢迎您，管理员<%= @webuser.name %>！</p>
-	<h2><%= link_to "管理员密码修改",:controller=>"webusers" ,:action=>"edit", :id=>@webuser.id  %></h2>
+<div class="main-content">
+<div class="main-body">
+
+<a href="/">首页</a>&nbsp; >&nbsp;
+<a href="/admin/" >admin管理页面</a>
+
+<div class="tabbable">
+<h1 class="deploy" style="padding-bottom: 0;border-bottom: 0;">
+  <ul class="nav nav-pills" style="margin-bottom: 0;">
+    <li class="active"><a href="#tab1" data-toggle="tab"><h4>网站内容管理</h4></a></li>
+    <li><a href="#tab2" data-toggle="tab"><h4>用户管理</h4></a></li>
+    <li><a href="#tab3" data-toggle="tab"><h4>产品管理</h4></a></li>
+    <li><a href="#tab4" data-toggle="tab"><h4>资产体检管理</h4></a></li>
+    <li><a href="#tab5" data-toggle="tab"><h4>网站运营</h4></a></li>
+  </ul>
+</h1>
+<div class="tab-content" style="overflow: visible;">
+<div class="tab-pane active" id="tab1">
+
+  <h1>博客</h1>
+  <a href="/admin/blogconfig/0">添加</a>
+  <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="blog">
+    <thead><tr>
+      <th>博客标题</th><th>发表人</th><th>发表时间</th>
+      <th>栏目</th><th>图片</th><th class="hide">ID</th><th>修改</th><th>删除</th><th>查看</th>
+    </tr></thead>
+
+    <% @blogs.each do |b| %>
+        <tr>
+          <td><%=raw b.btitle%></td>
+          <td><%= b.blname%></td>
+          <td style="white-space:nowrap;"><%= b.publishdate%></td>
+          <td style="white-space:nowrap;"><%= b.bcolumn%></td>
+          <td><%= b.imagepath%></td>
+          <td class="hide"><%= b.id%></td>
+          <td><a href="/admin/blogconfig/<%= b.id %>">修改</a></td>
+          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','blogdeleteajax')">删除</a></td>
+          <td><a href="/blog/blogarticle/<%= b.id%>">查看</a></td>
+        </tr>
+    <% end %>
+  </table>
+  <% if session[:webusername]=='admin' %>
+
+      <h1>服务开发进展</h1>
+      <a href="/admin/paceconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="pace">
+        <thead><tr>
+          <th class="hide">ID</th><th>功能名称</th><th>功能介绍</th><th>开发时间</th><th>上线日期</th><th>开发人</th><th>审核人</th><th>详情</th>
+          <th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @pace.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.functionname%></td>
+              <td><%= b.introduce%></td>
+              <td><%= b.developtime%></td>
+              <td><%= b.ontime%></td>
+              <td><%= b.develop%></td>
+              <td><%= b.auditor%></td>
+              <td><a target='_blank' href="<%= b.details%>">查看</a></td>
+              <td><a href="/admin/paceconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','pacedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>媒体报道</h1>
+      <a href="/admin/pressconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="press">
+        <thead><tr>
+          <th class="hide">ID</th><th>文字</th><th>日期</th><th>图片</th><th>链接</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @press.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.pname%></td>
+              <td><%= b.pdate%></td>
+              <td><img style="height: 50px;" src='/assets/<%= b.pimg%>'></td>
+              <td><a target='_blank' href="<%= b.plink %>">查看</a></td>
+              <td><a href="/admin/pressconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','pressdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>理论依据</h1>
+      <a href="/admin/methodconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="method">
+        <thead><tr>
+          <th class="hide">ID</th><th>标题</th><th>图片名</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @methodology.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.mname %></td>
+              <td><%= b.picture %></td>
+              <td><a href="/admin/methodconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','methoddeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>活动管理</h1>
+      <a href="/admin/activityconfig/0?organ=1">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
+        <thead><tr>
+          <th class="hide">ID</th><th>活动名称</th><th>活动性质</th><th>活动主办方</th>
+          <th>活动开始</th><th>活动结束</th><th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @activity.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.name%></td>
+              <td><%= b.naturef + '-' + b.natures%></td>
+              <td><%= b.organizer%></td>
+              <td><%= b.begintime%></td>
+              <td><%= b.endtime%></td>
+              <td><a href="/personmanagement/activity/<%= b.id %>">查看</a></td>
+              <td><a href="/admin/activityconfig/<%= b.id %>?optype=edit">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','activitydeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+</div>
+<div class="tab-pane" id="tab2">
+  <% if session[:webusername]=='admin' %>
+      <h1>投资人管理</h1><br>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="users">
+        <thead><tr>
+          <th style="width: 50px;">ID</th>
+          <th style="width: 20%;">用户名</th>
+          <th class="hide">密码</th>
+          <th style="width: 12%;">电子邮件</th>
+          <th style="width: 12%;">联系电话</th>
+          <th style="width: 12%;">资产体检</th>
+          <th style="width: 8%;">风险级别</th>
+          <th style="width: 12%;">风险性产品选择</th>
+          <th style="width: 8%;">修改</th>
+          <th style="width: 8%;">删除</th>
+          <th style="width: 8%;">投资信息</th>
+        </tr></thead>
+        <tbody>
+        <% @webusers.each do |w|  %>
+            <tr>
+              <td><%= w.id%></td>
+              <td><%= w.username%></td>
+              <td class="hide"><%= @hash_password[w.id] %></td>
+              <td><% if w.email!="1" %><%= w.email %><% end %></td>
+              <td><% if w.tel!="1" %><%= w.tel%><% end %></td>
+              <td><%= @hash[w.username][1] %></td>
+              <% if @hash[w.username][1]!=nil %>
+                  <% if @hash[w.username][1]>=0 && @hash[w.username][1]<=2 %>
+                      <td>安逸型</td>
+                  <% elsif @hash[w.username][1]>2 && @hash[w.username][1]<=4 %>
+                      <td>保守型</td>
+                  <% elsif @hash[w.username][1]>4 && @hash[w.username][1]<=6 %>
+                      <td>稳健型</td>
+                  <% elsif @hash[w.username][1]>6 && @hash[w.username][1]<=8 %>
+                      <td>积极型</td>
+                  <% elsif @hash[w.username][1]>8 && @hash[w.username][1]<=10 %>
+                      <td>激进型</td>
+                  <% end %>
+              <% else %>
+                  <td></td>
+              <% end %>
+              <td><%= @hash[w.username][0] %></td>
+              <td><a href="/admin/userconfig/<%= w.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= w.id %>','userdeleteajax')">删除</a></td>
+              <td><a href="/personmanagement/personfinance/<%= w.id %>">查看</a></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+  <% end %>
+</div>
+<div class="tab-pane" id="tab3">
+  <% if session[:webusername]=='admin' %>
+
+      <h1>理财产品大类管理</h1>
+      <a href="/admin/category1config/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category1">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品大类ID</th><th>产品大类</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @category1.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.L1_typeid%></td>
+              <td><%= b.category%></td>
+              <td></td>
+              <td><a href="/admin/category1config/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category1deleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>理财产品小类管理</h1>
+      <a href="/admin/category2config/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="category2">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品小类ID</th><th>产品小类</th><th>风险级别</th><th>产品大类</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @category2.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.L2_typeid%></td>
+              <td><%= b.classify%></td>
+              <td><%= b.risklevel%></td>
+              <td><%= b.category%></td>
+              <td><a href="/bankinvest/classify/<%= b.id %>">查看</a></td>
+              <td><a href="/admin/category2config/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','category2deleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>平均投资回报率管理</h1>
+      <a href="/admin/averageconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="average">
+        <thead><tr>
+          <th class="hide">ID</th><th>类型ID</th><th>投资回报率</th><th>年数</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @average.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.typeid%></td>
+              <td><% if b.average_return_rate!=nil %><%= b.average_return_rate %>%<% end %></td>
+              <td><%= b.years %></td>
+              <td><a href="/admin/averageconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','averagedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>理财产品管理</h1>
+      <a href="/admin/financialconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="financial">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品名称</th><th>产品小类</th><th>产品大类</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @financial.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.pname%></td>
+              <td><%= b.classify%></td>
+              <td><%= b.category%></td>
+              <td><a href="/bankinvest/productdetails/<%= b.id %>">查看</a></td>
+              <td><a href="/admin/financialconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','financialdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>货币基金产品管理</h1>
+      <a href="/admin/fundproductconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="fundproduct">
+        <thead><tr>
+          <th class="hide">ID</th><th>产品代码</th><th>产品名称</th><th>管理机构</th>
+          <th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @fundproduct.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.productid%></td>
+              <td><%= b.productname%></td>
+              <td><%= b.institution%></td>
+              <td><a href="/admin/fundproductconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','fundproductdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>排名管理</h1>
+      <a href="/admin/rankconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="rank">
+        <thead><tr>
+          <th class="hide">ID</th><th>类型ID</th><th>日期</th><th>排名数</th><th>总数</th><th>最近几年</th>
+          <th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @rank.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.productid%></td>
+              <td><%= b.date%></td>
+              <td><%= b.rank_num%></td>
+              <td><%= b.total_num%></td>
+              <td><%= b.years%></td>
+              <td><a href="/admin/rankconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','rankdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>理财产品销售公司</h1>
+      <a href="/admin/companyconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="company">
+        <thead><tr>
+          <th class="hide">ID</th><th>基金网站名称</th><th>公司名称</th><th>注册资本</th>
+          <th>查看</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @salescompany.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.fundname%></td>
+              <td><%= b.company%></td>
+              <td><%= b.capital%></td>
+              <td><a href="/bankinvest/salescompany/<%= b.id %>">查看</a></td>
+              <td><a href="/admin/companyconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','companydeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+</div>
+<div class="tab-pane" id="tab4">
+  <% if session[:webusername]=='admin' %>
+      <h1>风险类型</h1>
+      <a href="/admin/risktypeconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="risktype">
+        <thead><tr>
+          <th class="hide">ID</th><th>风险级别ID</th><th>风险类型</th><th>一句话点评</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @risktype.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.risk_typeid %></td>
+              <td><%= b.risk_typename %></td>
+              <td><%= b.risk_brief_intro %></td>
+              <td><a href="/admin/risktypeconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','risktypedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>家庭财务指数管理</h1>
+      <a href="/admin/indicatorsconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="indicators">
+        <thead><tr>
+          <th class="hide">ID</th><th>代码</th><th>名称</th><th>类型</th><th>计算</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @indicators.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.indicators_id %></td>
+              <td><%= b.indicators_names %></td>
+              <td><%= b.indicators_types %></td>
+              <td><%= b.indicators_defination %></td>
+              <td><a href="/admin/indicatorsconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','indicatorsdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>月光族类型介绍</h1>
+      <a href="/admin/moonliteconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="moonlite">
+        <thead><tr>
+          <th class="hide">ID</th><th>代码</th><th>月光族类型</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @moonlite.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.typeid %></td>
+              <td><%= b.typename %></td>
+              <td><a href="/admin/moonliteconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','moonlitedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>用户已有资产类型</h1>
+      <a href="/admin/assetconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="asset">
+        <thead><tr>
+          <th class="hide">ID</th><th>资产代码</th><th>资产名称</th><th>父类资产代码</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @assettype.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.asset_typeid %></td>
+              <td><%= b.asset_typename %></td>
+              <td><%= b.asset_type_L1 %></td>
+              <td><a href="/admin/assetconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','assetdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>用户负债类型</h1>
+      <a href="/admin/debtconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="debt">
+        <thead><tr>
+          <th class="hide">ID</th><th>负债代码</th><th>负债名称</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @debttype.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.debt_typeid %></td>
+              <td><%= b.debt_typename %></td>
+              <td><a href="/admin/debtconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','debtdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>月开销类型</h1>
+      <a href="/admin/expenseconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="expense">
+        <thead><tr>
+          <th class="hide">ID</th><th>expense_id</th><th>支出明细</th><th>比例</th><th>类别</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @expensetype.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.expense_id %></td>
+              <td><%= b.expense_name %></td>
+              <td><%= b.expense_expect %></td>
+              <td><% if b.expense_type=='must_expense' %>衣食住行<% elsif b.expense_type=='fun_expense' %>零花钱<% end %></td>
+              <td><a href="/admin/expenseconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','expensedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>月收入类型</h1>
+      <a href="/admin/incomeconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="income">
+        <thead><tr>
+          <th class="hide">ID</th><th>income_id</th><th>收入明细</th><th>说明</th><th>比例</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @incometype.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.income_id %></td>
+              <td><%= b.income_name %></td>
+              <td><%= b.income_intro %></td>
+              <td><%= b.income_expect %></td>
+              <td><a href="/admin/incomeconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','incomedeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>年开销类型</h1>
+      <a href="/admin/expenseannualconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="expenseannual">
+        <thead><tr>
+          <th class="hide">ID</th><th>id</th><th>开销名称</th><th>最佳占年收入比率</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @expenseannual.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.expense_id %></td>
+              <td><%= b.expense_name %></td>
+              <td><%= b.expense_expect %></td>
+              <td><a href="/admin/expenseannualconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','expenseannualdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+      <h1>年收入类型</h1>
+      <a href="/admin/incomeannualconfig/0">添加</a>
+      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="incomeannual">
+        <thead><tr>
+          <th class="hide">ID</th><th>id</th><th>收入名称</th><th>最佳比例</th><th>修改</th><th>删除</th>
+        </tr></thead>
+
+        <% @incomeannual.each do |b| %>
+            <tr>
+              <td class="hide"><%= b.id%></td>
+              <td><%= b.income_id %></td>
+              <td><%= b.income_name %></td>
+              <td><%= b.income_expect %></td>
+              <td><a href="/admin/incomeannualconfig/<%= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','incomeannualdeleteajax')">删除</a></td>
+            </tr>
+        <% end %>
+      </table>
+  <% end %>
+</div>
+<div class="tab-pane" id="tab5">
+  <% if session[:webusername]=='admin' %>
+      <h1>当日注册人数</h1>
+      <div id="container" style="width: 1100px;height: 300px;"></div>
+      <h1>数据FILTER图(全部)</h1>
+      <div id="container2" style="width: 1100px;height: 300px;"></div>
+      <h1>数据FILTER图(近15日数据)</h1>
+      <div id="container3" style="width: 1100px;height: 300px;"></div>
+  <% end %>
+</div>
+</div>
+</div>
+</div>
 </div>
 
+<script>
+    $(document).ready(function(){
+        $('#category1,#category2,#financial,#company,#pace,#press,#method,#expense,#income,#asset,#debt,#moonlite,#indicators,#incomeannual,#expenseannual,#risktype,#fundproduct,#average').dataTable();
+        $('#rank').dataTable();
+        /* Initialise datatables */
+        var oTable = $('#blog').dataTable({
+            "aaSorting": [[ 5, "desc" ]]
+        });
+        var oTable = $('#users').dataTable({
+            "iDisplayLength": 100,
+            "aaSorting": [[ 0, "desc" ]]
+        });
+        var oTable = $('#activity').dataTable({
+            "aaSorting": [[ 0, "desc" ]]
+        });
+    });
+    function deleteajax(id,type){
+        $.get("/admin/"+type+"/"+id,function(data){
+            if(data=="s"){
+                alert("删除成功！");
+                location.reload();
+            }
+            else{
+                alert("删除失败！");
+                location.reload();
+            }
+        });
+    }
+    var dataarray1=[];
+    var dataarray2=[];
 
+    <% @webusernum.each do |u| %>
+    dataarray1.push(['<%= u.a %>',<%= u.b %>])
+    dataarray2.push(<%= u.b %>)
+    <% end %>
+    $(function () {
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                zoomType: 'x',
+                spacingRight: 20
+            },
+            title: {
+                text: false
+            },
+            xAxis: {
+                type: 'datetime',
+                maxZoom: 14 * 24 * 3600000, // fourteen days
+                title: {
+                    text: null
+                },
+                labels: {
+                    formatter: function() {
+                        return '';
+                    }
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '人数'
+                },
+                showFirstLabel: false
+            },
+            tooltip: {
+                shared: true
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, 'rgba(2,0,0,0)']
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: '新关注人数',
+                pointInterval: 24 * 3600 * 1000,
+                //pointStart: Date.UTC(2006, 0, 01),
+                data: dataarray1
+            }]
+        });
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container2',
+                type: 'column'
+            },
+            title: {
+                text: false
+            },
+            subtitle: {
+                text: false
+            },
+            xAxis: {
+                categories: ["总注册人数","基本信息","现金流量表(月)","现金流量表(年)","资产净值表(资产)","现金流量表(负债)"]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '人数'
+                },
+                labels:{
+                    formatter: function() {
+                        return this.value
+                    }
+                }
+            },
+            legend: {
+                verticalAlign: 'top'
+            },
+            tooltip: {
+                pointFormat: '{point.y} '
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '数据FILTER图(全部)',
+                data: [<%= @webusers.size %>,<%= @user11.size %>,<%= @user12.size %>,<%= @user13.size %>,<%= @user14.size %>,<%= @user15.size %>]
+            }],
+            credits: {
+                enabled: false
+            }
+        });
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container3',
+                type: 'column'
+            },
+            title: {
+                text: false
+            },
+            subtitle: {
+                text: false
+            },
+            xAxis: {
+                categories: ["总注册人数","基本信息","现金流量表(月)","现金流量表(年)","资产净值表(资产)","现金流量表(负债)"]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '人数'
+                },
+                labels:{
+                    formatter: function() {
+                        return this.value
+                    }
+                }
+            },
+            legend: {
+                verticalAlign: 'top'
+            },
+            tooltip: {
+                pointFormat: '{point.y} '
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '数据FILTER图(近15日数据)',
+                data: [<%= @user20.size %>,<%= @user21.size %>,<%= @user22.size %>,<%= @user23.size %>,<%= @user24.size %>,<%= @user25.size %>]
+            }],
+            credits: {
+                enabled: false
+            }
+        });
+    });
+</script>

@@ -1,0 +1,75 @@
+<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  代码：<input type="text" name="typeid" id="typeid"><br>
+  月光族类型：<input type="text" name="typename" id="typename" title="月光族类型"><br>
+  <% if params[:id]!="0" %>
+      说明：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="type_intro" id="type_intro"><%= @moonlite.type_intro %></textarea><br>
+  <% else %>
+      说明：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="type_intro" id="type_intro"></textarea><br>
+  <% end %>
+  <script type="text/javascript">
+    CKEDITOR.replace('type_intro', {
+        toolbar : 'Full',
+        uiColor : '#c6e4ee'
+    });
+</script><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    function CKupdate() {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        CKupdate();
+        if(nom_flag==0){
+            $.post("/admin/moonliteconfigajax/<%= params[:id] %>",{ typeid: $("#typeid").attr("value"),typename:$("#typename").attr("value"),type_intro:$("#type_intro").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#typeid").attr("value",'<%= @moonlite.typeid%>');
+        $("#typename").attr("value",'<%= @moonlite.typename%>');
+        <% end %>
+    });
+
+</script>

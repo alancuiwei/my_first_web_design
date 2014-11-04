@@ -1,0 +1,121 @@
+<%= stylesheet_link_tag "learn.css" %>
+
+<div class="welcomes learn">
+ <div class="contain">
+   <a class="home" href="/">首页</a>
+  <h1>服务介绍</h1>
+<!--  <h3>通天顺家庭理财是独立的第三方理财规划服务机构，我们不代表任何银行、证券、保险等金融机构，所以我们能够独立地分析客户的财务状况和理财需求，判断所需投资工具，提供综合性的理财规划服务。</h3> -->
+  <h3 class="intro">我们的服务对象不是那些所谓的"大客户"，我们是要帮助“没有办法存下钱，但是最需要存钱”的月光族们。</h3>
+   <table>
+     <tr>
+       <td style="width: 304px;">
+         <h3>个人家庭资产体检</h3>
+         <p>结合您的已有资产、月收入及开支，进行家庭财务报表分析。</p>
+       </td>
+       <td style="width: 76px;"></td>
+       <td style="width: 76px;"></td>
+       <td colspan="2"><img alt="Personalized asset allocation" src="/assets/121044.jpg"></td>
+     </tr>
+     <tr>
+       <td id="left1" colspan="2"><img alt="Fees Comparison" src="/assets/121043.jpg"></td>
+       <td></td>
+       <td style="width: 76px;"></td>
+       <td id="right1" style="width: 304px;">
+         <h3>风险承受力评估</h3>
+ <!--        <p>将通过对资金亏损的承受度、为了获取较高收益率所愿意承受的波动幅度、对于最大利润的关注度、参与高风险产品投资主动性、工作年限、可用资金（包括亲戚借款）、投资期限偏好、感兴趣理财产品的风险度、工作收入稳定性，来帮助您了解您的风险承受力。</p> -->
+       <p>通过高盛公司开源资产管理模型设计的10个问题，分析您的风险评估喜好。</p>
+       </td>
+     </tr>
+     <tr>
+       <td>
+         <h3>理财产品库</h3>
+         <p>从中长期历史业绩、基金波动性、收益回报率筛选基金。</p>
+       </td>
+       <td></td>
+       <td></td>
+       <td colspan="2"><img alt="Re-balance your portfolio" src="/assets/121042.jpg"></td>
+     </tr>
+     <tr>
+       <td id="left2" colspan="2"><img alt="How to invest" src="/assets/121040.jpg"></td>
+       <td></td>
+       <td></td>
+       <td id="right2">
+         <h3>个性理财产品推荐</h3>
+         <p>根据您个人情况，罗列产品历史净值业绩、排名，亏损概率等，推荐合适产品。</p>
+       </td>
+     </tr>
+     <tr>
+       <td>
+         <h3>个性化理财规划</h3>
+         <p>细化到每月薪水的分配，在保障生活质量时，进行财富积累、增值。</p>
+       </td>
+       <td></td>
+       <td></td>
+       <td colspan="2"><img alt="Re-balance your portfolio" src="/assets/121041.jpg"></td>
+     </tr>
+     <tr>
+       <td id="left3" colspan="2"><img alt="How to invest" src="/assets/121039.jpg"></td>
+       <td></td>
+       <td></td>
+       <td id="right3">
+         <h3>产品比价、最低成本购买</h3>
+         <p>购买产品时，帮你选择最方便、最低成本的购买渠道。</p>
+       </td>
+     </tr>
+     <tr>
+       <td>
+         <h3>产品购买指导</h3>
+         <p>通过文字、图片、录像，手把手教您购买理财产品。</p>
+       </td>
+       <td></td>
+       <td></td>
+       <td colspan="2"><img alt="Re-balance your portfolio" src="/assets/121038.jpg"></td>
+     </tr>
+   </table>
+  <div id="get-started-partial">
+    <a href="/usersurvey/p1_usersurvey" class="get-started-button">免 费 规 划</a>
+    <div id="free-text">花2分钟，获得详细家庭理财规划报告。</div>
+  </div>
+ </div>
+</div>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+
+    }else{
+        $(".home").hide();
+        swap("left1","right1")
+        swap("left2","right2")
+        swap("left3","right3")
+    }
+
+    function swapNode(node1,node2)
+    {
+        var _parent=node1.parentNode;
+        var _t1=node1.nextSibling;
+        var _t2=node2.nextSibling;
+        if(_t1)
+            _parent.insertBefore(node2,_t1);
+        else
+            _parent.appendChild(node2);
+        if(_t2)
+            _parent.insertBefore(node1,_t2);
+        else
+            _parent.appendChild(node1);
+    }
+
+    function swap(a,b){
+        swapNode(document.getElementById(a),document.getElementById(b));
+    }
+</script>

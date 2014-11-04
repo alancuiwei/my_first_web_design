@@ -1,0 +1,9 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[我们建议您将<% if @userdatamonth!=nil %><%= @userdatamonth.must_expense_month %><% end %>元作为现金、银行活期存款放在身边，增加您的安全感，另外的<% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil %><%= @userdatamonth.must_expense_month*2 %><% end %>元，用来购买货币基金。请回复Y表示确认。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+</xml>

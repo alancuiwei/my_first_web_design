@@ -1,0 +1,16 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您的投资资产信息如下：
+<% @userasset.each do |u| %>
+<% if u.asset_product_code!=nil %>
+<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %>(<%= @hash[u.asset_product_code][1] %>):<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %><% end %>元
+<% end %>
+<% end %>
+对已有的资产种类修改请回复：M
+添加资产请回复：A
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

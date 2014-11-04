@@ -1,0 +1,157 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
+<style>
+    #current_tags_panel span {
+        display: inline-block;
+        margin: 0 5px 5px 0;
+        padding: 0px 10px;
+        background-color: #5d7a9b;
+        color: #FFF;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -o-border-radius: 30px;
+        border-radius: 30px;
+    }
+</style>
+<div style="width: 700px;">
+  <div>
+    <% if params[:id]!="0" %>
+        博客标题：<input type="text" name="btitle" id="btitle" title="博客标题" value="<%=raw @bloginfo[0]%>"> <br>
+    <% else %>
+        博客标题：<input type="text" name="btitle" id="btitle" title="博客标题"> <br>
+    <% end %>
+    发表人：<input type="text" name="blname" id="blname" title="发表人"> <br>
+    发表时间：<input type="text" name="publishdate" id="publishdate" title="发表时间" onclick="WdatePicker()" class="Wdate"> <br>
+    <% if params[:id]!="0" %>
+        正文：<br><textarea class="ckeditor" cols="80" rows="15" name="barticle" id="barticle" title="正文"><%= @bloginfo[3]%></textarea>
+      <% else %>
+        正文：<br><textarea class="ckeditor" cols="80" rows="15" name="barticle" id="barticle" title="正文"></textarea>
+    <% end %>
+		<script type="text/javascript">
+			CKEDITOR.replace('barticle', {
+				toolbar : 'Full',
+				uiColor : '#c6e4ee'
+			});
+		</script><br>
+
+    栏目：<select  name="bcolumn" id="bcolumn" title="栏目">
+    <option value="儿童理财">儿童理财</option>
+    <option value="女人理财">女人理财</option>
+    <option value="屌丝理财">屌丝理财</option>
+    <option value="通天顺的服务">通天顺的服务</option>
+    <option value="创业人生">创业人生</option>
+    <option value="理财产品">理财产品</option>
+    <option value="理财技巧">理财技巧</option>
+          </select><br>
+     标签：<input id="blog_tag_list" name="blog[tag_list]" style="width:290px;" type="text" value=""  title="标签">&nbsp;&nbsp;用逗号分开，不超过五个<br>
+    <div id="current_tags_panel"></div><br>
+    <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+      选择图片: <input id="file_file" name="file[file]" type="file"><br><br>
+      <input name="commit" id="create" value="上传图片" type="submit">
+    </form>
+    图片名称：<input type="text" name="imagepath" id="imagepath" title="图片"> <br>
+    <a href="javascript:void(0)" id="blogconfig">确认</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    function getFileName(path){
+        var pos1 = path.lastIndexOf('/');
+        var pos2 = path.lastIndexOf('\\');
+        var pos  = Math.max(pos1, pos2)
+        if( pos<0 )
+            return path;
+        else
+            return path.substring(pos+1);
+    }
+    $("#create").click(function(e){
+        if(document.getElementById('file_file').value==''){
+           alert('请选择您所要上传的图片');
+            return false;
+        }
+        var name=getFileName(document.getElementById("file_file").value);
+        $("#imagepath").attr("value",name);
+    });
+    <% if params[:id]!="0" %>
+    $("#blname").attr("value",'<%= @bloginfo[1]%>');
+    $("#publishdate").attr("value",'<%= @bloginfo[2]%>');
+    $("#bcolumn").attr("value",'<%= @bloginfo[4]%>');
+    $("#imagepath").attr("value",'<%= @bloginfo[5]%>');
+    $("#blog_tag_list").attr("value",'<%= @bloginfo[6]%>');
+    <% end %>
+	function CKupdate() {
+		for (instance in CKEDITOR.instances) {
+			CKEDITOR.instances[instance].updateElement();
+		}
+	}
+    $("#blogconfig").click(function(e){
+        var value = $("#blog_tag_list").attr("value");
+        var tags = value.split(/,\s*|，\s*/);
+        var tag=tags[0];
+        for(i=1;i<tags.length;i++)
+        {
+            if(i!=(tags.length-1) || tags[tags.length-1]!=""){
+                tag=tag+','+tags[i];
+            }
+        }
+        $("#blog_tag_list").val(tag);
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+		CKupdate();
+
+        if(nom_flag==0){
+            $.post("/admin/blogconfigajax/<%= params[:id] %>",{ btitle: $("#btitle").attr("value"),blname: $("#blname").attr("value"),
+                publishdate: $("#publishdate").attr("value"),barticle: $("#barticle").attr("value"),bcolumn: $("#bcolumn").attr("value"),
+                imagepath: $("#imagepath").attr("value"),tag:$("#blog_tag_list").attr("value")
+            },function(data){
+                if(data=="s1"){
+                    alert("博客创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+
+    try{
+        $(function() {
+            var $amt = $("#blog_tag_list")
+                    .on("update", function () {
+                        var value = $("#blog_tag_list").attr("value");
+                        var tags = value.split(/,\s*|，\s*/);
+                        var tag="当前标签：";
+                        if(tags.length>=6){
+                            alert("标签个数不超过五个！");
+                            $("#blog_tag_list").val(tags[0]+','+tags[1]+','+tags[2]+','+tags[3]+','+tags[4]);
+                            for(var i=0;i<5;i++){
+                                tag=tag+'<span>'+tags[i]+'</span>';
+                            }
+                        }
+                        else{
+                            for(var i=0;i<tags.length;i++){
+                                tag=tag+'<span>'+tags[i]+'</span>';
+                            }
+                        }
+                        if($("#blog_tag_list").attr("value")==''){tag='';}
+                        $("#current_tags_panel").html(tag);
+                    })
+                    .bind("keypress keyup", function() {
+                        $(this).trigger("update");
+                    })
+        });
+    } catch(e) {w.trackJsError(e); throw e;}
+</script>

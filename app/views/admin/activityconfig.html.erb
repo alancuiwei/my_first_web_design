@@ -1,0 +1,199 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= javascript_include_tag "ckeditor/ckeditor.js" %>
+<%= javascript_include_tag "jquery.min.js" %>
+
+<div style="width: 700px;">
+  活动名称：<input type="text" name="name" id="name" title="活动名称"> <br>
+  <form method="post" name="creator" enctype="multipart/form-data">
+  活动性质：<select name="naturef" id="naturef" onChange = "select()"></select>
+  <select style="margin-left: 60px;" name="natures" id="natures" onChange = "select()"></select>
+  <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
+  </form>
+  <div id="online" class="hide">
+    收费标准：<input type="text" name="charge" id="charge" value="50"> <br>
+    地址：<input type="text" name="address" id="address"> <br>
+  </div>
+  活动主办方：<input type="text" name="organizer" id="organizer" title="活动主办方"> <br>
+  活动开始时间：<input type="text" name="begintime" id="begintime" title="活动开始时间" onclick="WdatePicker()" class="Wdate"> <br>
+  活动结束时间：<input type="text" name="endtime" id="endtime" title="活动结束时间" onclick="WdatePicker()" class="Wdate"> <br>
+  活动链接：<input type="text" name="link" id="link"> <br>
+  活动视频：<input type="text" name="video" id="video"> <br>
+  <form accept-charset="UTF-8" action="/admin/create" enctype="multipart/form-data" method="post" target="actionframe">
+    活动展示: <input id="file" name="file[file]" type="file"><br>
+    <input name="commit" id="create" value="上传图片" type="submit"><br><br>
+    <input type="text" name="show" id="show" placeholder="活动展示">
+  </form>
+  <% if params[:id]!="0" %>
+      活动介绍：<br><textarea class="ckeditor" cols="80" rows="15" name="introduce" id="introduce" title="活动介绍"><%= @activity.introduce %></textarea><br>
+      活动结果：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="result" id="result" title="活动结果"><%= @activity.result %></textarea> <br>
+      奖励方式：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="reward" id="reward" title="奖励方式"><%= @activity.reward %></textarea> <br>
+  <% else %>
+      活动介绍：<br><textarea class="ckeditor" cols="80" rows="15" name="introduce" id="introduce" title="活动介绍"></textarea><br>
+      活动结果：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="result" id="result" title="活动结果"></textarea> <br>
+      奖励方式：<br><textarea class="" style="width: 100%;padding:0;" rows="10" name="reward" id="reward" title="奖励方式"></textarea> <br>
+  <% end %>
+  <script type="text/javascript">
+      CKEDITOR.replace('introduce', {
+          toolbar : 'Full',
+          uiColor : '#c6e4ee'
+      });
+  </script><br>
+  <a href="javascript:void(0)" class="btn btn-primary" id="activityconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    function getFileName(path){
+        var pos1 = path.lastIndexOf('/');
+        var pos2 = path.lastIndexOf('\\');
+        var pos  = Math.max(pos1, pos2)
+        if( pos<0 )
+            return path;
+        else
+            return path.substring(pos+1);
+    }
+    $("#create").click(function(e){
+        if(document.getElementById('file').value==''){
+            alert('请选择活动展示图片');
+            return false;
+        }
+        var show=getFileName(document.getElementById("file").value);
+        if($("#show").attr("value")==""){
+            $("#show").attr("value",show)
+        }
+        else{
+            $("#show").attr("value",$("#show").attr("value")+','+show)
+        }
+    });
+    function CKupdate() {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+    }
+    $("#activityconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        CKupdate();
+        if(($("#naturef").attr("value")=='请选择'||$("#natures").attr("value")=='') && nom_flag==0){
+            alert("请选择活动性质！");
+            nom_flag=1;
+        }
+        if($("#natures").attr("value")=='网络教学' && nom_flag==0){
+           if($("#charge").attr("value")==""){
+            alert("收费标准为空");
+            nom_flag=1;
+           }
+            else if($("#address").attr("value")==""){
+             alert("地址为空");
+             nom_flag=1;
+           }
+        }
+
+            var arr=$("#begintime").attr("value").split("-");
+            var starttime=new Date(arr[0],arr[1],arr[2]);
+            var starttimes=starttime.getTime();
+
+            var arrs=$("#endtime").attr("value").split("-");
+            var lktime=new Date(arrs[0],arrs[1],arrs[2]);
+            var lktimes=lktime.getTime();
+
+            if(starttimes>lktimes && nom_flag==0)
+            {
+                alert("开始时间大于结束时间")
+                nom_flag=1;
+            }
+
+            if($("#introduce").attr("value")=="" && nom_flag==0)
+            {
+                alert("活动介绍为空！")
+                nom_flag=1;
+            }
+
+            var video=$("#video").attr("value").replace('width=510','style="width: 100%;max-width: 511px;"')
+        if(nom_flag==0){
+            $.post("/admin/activityconfigajax/<%= params[:id] %>",{ name: $("#name").attr("value"),naturef: $("#naturef").attr("value"),
+                natures: $("#natures").attr("value"),organizer: $("#organizer").attr("value"),begintime: $("#begintime").attr("value"),
+                endtime: $("#endtime").attr("value"),introduce:$("#introduce").attr("value"),result:$("#result").attr("value"),
+                charge:$("#charge").attr("value"),address:$("#address").attr("value"),link:$("#link").attr("value"),show:$("#show").attr("value"),reward:$("#reward").attr("value"),video:video
+            },function(data){
+                if(data=="s1"){
+                    alert("活动创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+
+
+<script language="javascript">
+    var where = new Array(2);
+
+    function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
+    where[0]= new comefrom("请选择","请选择");
+    where[1] = new comefrom("线上活动","|微信活动|网络教学");
+
+    function select() {
+        with(document.creator.naturef) { var loca2 = options[selectedIndex].value; }
+        for(i = 0;i < where.length;i ++) {
+            if (where[i].loca == loca2) {
+                loca3 = (where[i].locacity).split("|");
+                for(j = 0;j < loca3.length;j++) { with(document.creator.natures) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
+                break;
+            }}
+        if(loca4=="网络教学"){
+            $("#charge").attr("value",50);
+            $("#online").show();
+        }
+        else{
+            $("#charge").attr("value",0);
+            $("#online").hide();
+        }
+        document.creator.newlocation.value=loca2+" "+loca4;
+    }
+
+    function init() {
+        with(document.creator.naturef) {
+            length = where.length;
+            for(k=0;k<where.length;k++) { options[k].text = where[k].loca; options[k].value = where[k].loca; }
+            options[selectedIndex].text = where[0].loca; options[selectedIndex].value = where[0].loca;
+        }
+        with(document.creator.natures) {
+            loca3 = (where[0].locacity).split("|");
+            length = loca3.length;
+            for(l=0;l<length;l++) { options[l].text = loca3[l]; options[l].value = loca3[l]; }
+            options[selectedIndex].text = loca3[0]; options[selectedIndex].value = loca3[0];
+        }}
+
+    $(document).ready(function(){
+        init();
+        <% if params[:id]!="0" %>
+        $("#name").attr("value",'<%= @activity.name %>');
+        $("#naturef").attr("value",'<%= @activity.naturef %>');
+        $("#natures").attr("value",'<%= @activity.natures %>');
+        $("#address").attr("value",'<%= @activity.address %>');
+        $("#organizer").attr("value",'<%= @activity.organizer %>');
+        $("#begintime").attr("value",'<%= @activity.begintime %>');
+        $("#endtime").attr("value",'<%= @activity.endtime %>');
+        $("#link").attr("value",'<%= @activity.link %>');
+        $("#show").attr("value",'<%= @activity.show %>');
+        $("#video").attr("value",'<%=raw @activity.video %>');
+        $("#naturef").attr("value",'<%= @activity.naturef %>');
+        select();
+        $("#natures").attr("value",'<%= @activity.natures %>');
+        select();
+        <% end %>
+    });
+</script>

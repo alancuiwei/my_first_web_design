@@ -1,0 +1,136 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+
+<style>
+  .details td.right{
+      font-family: "Open Sans",Helvetica,Arial,sans-serif;
+      margin: 0;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(68, 68, 68);
+      text-align: center;
+  }
+  .details td.left{
+      width:15%;
+      vertical-align: middle;
+      background-color: #fbfbfb;
+      font-weight: normal;
+      font-size: 17px;
+      line-height: 17px;
+      text-align: left;
+      padding-left: 10px;
+      font-family: Hiragino Sans GB W3;
+      font-weight: normal;
+      color: rgb(51, 51, 51);
+  }
+
+ .details .box_left_title1 {
+      font-size: 20px;
+      padding-bottom: 10px;
+  }
+
+   .details .cell{
+        display: table-cell;
+    }
+</style>
+
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+  <a href="/">首页</a>&nbsp;>&nbsp;<a href="/bankinvest/products">理财产品</a>
+  <br><br>
+  <div class="box_left_title1">
+    <span style="line-height: 35px;">产品名称：<%= @financial.pname %></span><br>
+    <span style="font-size: 12px;">我们为您提供最及时的理财产品信息，供你做选择。</span>
+  </div>
+  <div class="box_left_title2">
+    <div class="box_left_title2_left" style="width: 100%;">
+      <ul>
+        <li>
+          <span class="qq_bankbig red">
+            <% if @financial.risklevel==1 %>无风险
+            <% elsif  @financial.risklevel==2 %>低风险
+            <% elsif  @financial.risklevel==3 %>中级风险
+            <% elsif  @financial.risklevel==4 %>高风险
+            <% elsif  @financial.risklevel==5 %>极高风险
+            <% end %>
+          </span>
+          <span class="qq_banksmall">风险级别</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %>&nbsp;<% end %></span>
+          <span class="qq_banksmall">一年收益率</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><% if @financial.level==1 %>★<% elsif @financial.level==2 %>★★<% elsif @financial.level==3 %>★★★<% elsif @financial.level==4 %>★★★★<% elsif @financial.level==5 %>★★★★★<% else %>&nbsp;<% end %></span>
+          <span class="qq_banksmall">晨星评级</span>
+        </li>
+        <li>
+          <span class="qq_bankbig red"><%= @financial.classify %></span>
+          <span class="qq_banksmall">产品小类</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered">
+    <tr>
+      <td class="left">管理机构</td>
+      <td class="right"><%= @financial.trusts %></td>
+    </tr>
+    <tr>
+      <td class="left">产品代码</td>
+      <td class="right"><%= @financial.productcode %></td>
+    </tr>
+    <tr>
+      <td class="left">产品类型</td>
+      <td class="right"><%= @financial.classify %></td>
+    </tr>
+    <tr>
+      <td class="left">近一年收益率</td>
+      <td class="right"><% if @financial.rate !=nil %><%= format("%0.2f",@financial.rate.to_f*100) %>%<% else %>--<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近三年收益率</td>
+      <td class="right"><% if @financial.rate1 !=nil %><%= format("%0.2f",@financial.rate1.to_f*100) %>%<% else %>--<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近五年收益率</td>
+      <td class="right"><% if @financial.rate2 !=nil %><%= format("%0.2f",@financial.rate2.to_f*100) %>%<% else %>--<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近一年同类产品亏损概率</td>
+      <td class="right"><% if @category!=nil && @category.risk1!=nil %><%= @category.risk1 %>%<% else %>--<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">近一年同类产品最高收益率</td>
+      <td class="right"><% if @category!=nil && @category.return1!=nil %><%= @category.return1 %>%<% else %>--<% end %></td>
+    </tr>
+    <tr>
+      <td class="left">风险提示</td>
+      <td class="right pull"><% if @financial.risktip!=nil %><%= @financial.risktip %><% elsif @category!=nil %><%= @category.prisk %><% end %></td>
+    </tr>
+    <tr>
+      <td class="left">产品描述</td>
+      <td class="right pull"><%= @financial.pintroduction %></td>
+    </tr>
+    <tr>
+      <td class="left">官网介绍</td>
+      <td class="right pull"><% if @financial.link!=nil %><a href="<%= @financial.link %>">点击查看</a><% end %></td>
+    </tr>
+  </table>
+    </div>
+  <div class="cell">
+    <div style="height: 100px;">&nbsp;</div>
+    <div class="gray_ad" id="buyinfo">
+      <div id="buyinfo-printed">
+        <h2 class="">
+          在哪儿买这个理财产品?
+        </h2>
+        <% @productcompany.each do |b| %>
+          <a href="/bankinvest/salescompany/<%= @hash[b.fundname][0] %>?pid=<%= params[:id] %>" class=""><%= b.fundname %> ( 手续费 <%= b.poundage %>% )</a><br>
+        <% end %>
+        <a href="/bankinvest/buylinks/<%= params[:id] %>">查看<%= @productcompany.length %>家购买详情 ( 手续费 <%= @min %>% 起 )</a>
+      </div>
+    </div>
+  </div>
+</div>

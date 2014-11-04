@@ -1,0 +1,69 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  产品名称：<select name="pname" id="pname" title="产品名称">
+    <% @financial.each do |b| %>
+     <option value="<%= b.pname %>"><%= b.pname %></option>
+    <% end %>
+  </select><br>
+  基金公司：<select name="fundname" id="fundname" title="基金公司">
+  <% @salescompany.each do |s| %>
+      <option value="<%= s.fundname %>"><%= s.fundname %></option>
+  <% end %>
+</select><br>
+  手续费：<input type="text" name="poundage" id="poundage" title="手续费">%<br>
+  产品链接：<input type="text" name="link" id="link" title="产品链接"><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="poundageconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+
+    $("#poundageconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/admin/poundageconfigajax/<%= params[:id] %>",{ pname: $("#pname").attr("value"),fundname: $("#fundname").attr("value"),poundage: $("#poundage").attr("value"),
+                link: $("#link").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("添加成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#pname").attr("value",'<%= @productcompany.pname%>');
+        $("#fundname").attr("value",'<%= @productcompany.fundname %>');
+        $("#poundage").attr("value",'<%= @productcompany.poundage%>');
+        $("#link").attr("value",'<%= @productcompany.link%>');
+        <% end %>
+    });
+</script>

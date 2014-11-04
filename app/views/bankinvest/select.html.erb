@@ -1,0 +1,219 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<script>
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
+
+<div class="welcomes">
+  <div class="ofa-funnel-pages">
+    <div id="page-wrapper">
+      <div id="page-content">
+        <div class="clearfix"></div>
+        <div style="height: 40px;padding-top: 15px;"><a href="/">首页</a></div>
+        <h1>
+          <span id="title">最适合自己的 = 最好的</span>
+          <div id="q-numbers" style="right: 205px;"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b></div>
+        </h1>
+
+        <div id="questionnaire-view">
+          <div id="questionnaire">
+            <div class="question first">
+              <table class="center">
+                <tr>
+                  <td class="top">
+                    <p class="q-text">最好的理财产品并非是收益率最高的产品，也不是最保本的产品，而是最适合自己情况的产品。</p>
+                    <p class="q-text">只有购买最适合的，才能获得稳健的收益，从而实现保值增值的目的。</p>
+                  </td>
+                  <td>
+                    <div style="width: 300px;float: right;"><img src="/assets/121055.png"></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="question">
+              <table class="center">
+                <tr>
+                  <td class="top">
+                    <p class="q-text">俗话说，不要把所有鸡蛋放在一个篮子里。投资产品的多元化，投向保本型产品，投向风险型产品，部分储存现金。</p>
+                    <p class="q-text">这样的理财产品组合，才算是最适合您自己的理财产品。</p>
+                  </td>
+                  <td>
+                    <div style="width: 300px;float: right;"><img src="/assets/121054.jpg"></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="question">
+              <table class="center">
+                <tr>
+                  <td class="top">
+                    <p class="q-text">结合自身情况挑选产品不是件容易事，您需要考虑到自己的实际收入情况，结合买房、买车、子女教育、退休计划。</p>
+                    <p class="q-text">还是先看看自己风险评估、资产体检，再挑选产品吧。</p>
+                  </td>
+                  <td>
+                    <div style="width: 300px;float: right;"><img src="/assets/121053.png"></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <input type="hidden" name="rec" value="0.1" tabindex="-1">
+          </div>
+          <div id="q-fade-t"></div>
+          <div id="q-fade-b"></div>
+        </div>
+        <div id="q-buttons">
+          <button class="q-button light-gray big-button" style="line-height: 16px;" id="q-back" href="#myModal_prompt" role="button" data-toggle="modal"><span>直接查看</span></button>
+          <button class="q-button orange-button big-button" id="q-next">同意</button>
+          <button class="q-button orange-button big-button" id="q-submit">评估后再挑选</button>
+
+          <p class="q-privacy">
+            <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
+            <span class="win">我们不会问你的身份识别信息，除非阁下主动联系我们。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "prompt" %>
+
+<script>
+    $("#promit").click(function(e) {
+        location.href="/bankinvest/products";
+    });
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
+    $(function() {
+
+        var $qv = $("#questionnaire-view");
+        var $qr = $("#questionnaire");
+        var accountMin = 0;
+
+        $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+            w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+        });
+
+        $("#q-numbers").delegate(".q-num.past", "click", function() {
+            var $i = $qr.find(".invalid");
+            if ($i.length) {
+                $i.focus().select();
+            } else {
+                showQn($(this).index());
+            }
+        });
+
+        $qr.data("vals", 0)
+                .data("init", function(doCalc) {
+
+                    $("#q-back,#q-next").click(function(e) {
+                        var back = this.id == "q-back";
+                        if (back) {
+                       //    location.href="/bankinvest/products";
+                        } else {
+                            w.trackEvent("OFA", "questionnaire_next", qPayload());
+                        }
+                        var new_q_num = $qr.data("q") + (back ? 0 : 1);
+                        showQn(new_q_num);
+                    });
+                    $("#q-submit").click(function(e) {
+                       <% if session[:webusername]!=nil %>
+						location.href="/usersurvey/p1_usersurvey";
+                       <% else %>
+                         location.href="/home/learn_more";
+                        <% end %>
+                    });
+                    function qPayload() {
+                        var $n = $qr.find("input[tabindex=0]").filter(":checked");
+                        if (!$n.length) {
+                            $n = $n.end();
+                        }
+                        return $n.attr("name") + ":" + $n.val();
+                    }
+                    showQn(0);
+                });
+
+        function showQn(i, immediately) {
+            var $qns = $qr.children(".question");
+            var $qn = $qns.eq(i);
+            if(i==1){
+                $("#title").html("最适合的是产品组合，而不是一个");
+            }
+            if(i==2){
+                $("#title").html("必须要结合个人情况，综合考虑");
+            }
+            if (i >= 0 && $qn.length) {
+                $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
+                $("#q-back span").text(i === 2 ? "直接挑选产品" : "直接挑选产品");
+                $qr.data({q: i, transition: true});
+                var newTop = -i * $qn.height() + "px";
+                //  alert(newTop)
+                if (immediately) {
+                    $qr.css("top", newTop);
+                }
+                if (immediately || $qr.css("top") === newTop) {
+                    setTimeout(onAtQn, 5);
+                } else {
+                    $qr.animate({"top": newTop}, onAtQn);
+                }
+
+                var isLastQn = i == $qns.length - 1;
+                $("#q-buttons").toggleClass("q-submit", isLastQn);
+
+                var $i = $qn.find("input");
+                var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
+                done=true;   //下
+                $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
+                $qr.trigger("qr:nav", i);
+
+                w.trackEvent("OFA", "question_display", (i+1) + "." + $i.attr("name"));
+            }
+
+            function onAtQn() {
+                $qr.removeData("transition");
+                $qn.find("input").attr("tabindex", "0")
+                        .filter("[checked=true],input:first").focus().select();
+            }
+        }
+    });
+</script>
+<script>
+    $(function() {
+        var $n = $("#q-numbers"), $qr = $("#questionnaire");
+        $qr.bind("qr:nav", function(e, i) {
+            var $n = $("#q-numbers");
+            $n.children(".q-num.curr").removeClass("curr").addClass("past");
+            $n.children().eq(i).removeClass("past").addClass("curr");
+        })
+                .data("init")(true);
+    });
+</script>

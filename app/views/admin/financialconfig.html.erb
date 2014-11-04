@@ -1,0 +1,516 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: FontAwesome;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline;
+        width: auto;
+        height: auto;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: url("/assets/glyphicons-halflings.png");
+        background-repeat: repeat;
+        margin-top: 0;
+    }
+    span{
+        color: #999;
+        font-size: 12px;
+    }
+        table td{padding: 0 10px 10px 0;}
+</style>
+
+<div class="main-body">
+  <form method="post" name="creator" enctype="multipart/form-data">
+    产品大类：<select name="category" id="category" onChange = "select()"></select><br>
+    产品小类：<select name="classify" id="classify" onChange = "select()"></select>
+    <input type=text name="newlocation" id="newlocation" maxlength=12 size=12 style="font-weight: bold;display: none;">
+  </form>
+  <div class="huobi hide">产品属性：<select  name="property" id="property" class="property" onchange="pro()">
+    <option value="传统产品">传统产品</option>
+    <option value="互联网产品">互联网产品</option>
+  </select></div>
+  产品名称：<input type="text" name="pname" id="pname" title="产品名称"><br>
+  管理机构：<input type="text" name="trusts" id="trusts" title="管理机构"><br>
+  产品代码：<input type="text" name="productcode" id="productcode"><br>
+  最低投资金额：<input type="text" name="startvalue" id="startvalue" title="最低投资金额"><br>
+  手续费：<input type="text" name="poundage" id="poundage" title="手续费">%<br>
+  <% if params[:id]!="0" %>
+      风险提示：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risktip" id="risktip" title="风险提示"><%= @financial.risktip %></textarea><br>
+      产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"><%= @financial.pintroduction %></textarea> <br>
+  <% else %>
+      风险提示：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="risktip" id="risktip" title="风险提示"></textarea><br>
+      产品简述：<br><textarea class="" style="width: 50%;padding:0;" rows="10" name="pintroduction" id="pintroduction" title="产品简述"></textarea> <br>
+  <% end %>
+  官网介绍：<input type="text" name="link" id="link" title="官网介绍"><br>
+  <div id="web">
+    绑定基金数目：<select  name="bound" id="bound" class="bound">
+       <option value="1">1</option>
+       <option value="2">2</option>
+       <option value="3">3</option>
+       <option value="4">4</option>
+       <option value="5">5</option>
+       <option value="6">6</option>
+       <option value="7">7</option>
+       <option value="8">8</option>
+       <option value="9">9</option>
+       <option value="10">10</option>
+    </select><br>
+           <table>
+             <tr><td>购买途径：</td><td><input type="checkbox" id="iphone" class="way"></td><td>iphone</td></tr>
+             <tr><td></td><td><input type="checkbox" id="android" class="way"></td><td>android</td></tr>
+             <tr><td></td><td><input type="checkbox" id="weixin" class="way"></td><td>微信</td></tr>
+            </table>
+  </div>
+  <div id="tradition">
+    投资期限：<input type="text" name="investperiod" id="investperiod" title="投资期限"><br>
+    晨星评级： <select name="level" id="level" class="level">
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select><br>
+  近1年收益率：<input type="text" name="rate" id="rate" title="近1年收益率">%<br>
+  近1年排名：<input type="text" name="rank" id="rank" title="近1年排名"><br>
+  近3年收益率：<input type="text" name="rate1" id="rate1" title="近3年收益率">%<br>
+  近3年排名：<input type="text" name="rank1" id="rank1" title="近3年排名"><br>
+  近5年收益率：<input type="text" name="rate2" id="rate2" title="近5年收益率">%<br>
+  近5年排名：<input type="text" name="rank2" id="rank2" title="近5年排名"><br>
+  <h1 style="font-size: 20px;">理财产品-公司 销售管理:</h1><br>
+
+  <div class="founder-inputs">
+
+    <div class="op-input first" fid="founder">
+      <div class="seperator bottom"></div>
+
+      <div class="row">
+        <div class="span1 control-group">
+          <div>ID</div>
+          <input id="id0" class="idd" style='width: 30px;' value="0" readonly="true">
+        </div>
+        <div class="span3 control-group">
+          <div class="mobile">基金公司</div>
+          <select  name="fundname" id="fundname0" class="founder-name" title="基金公司">
+            <% @salescompany.each do |s| %>
+                <option value="<%= s.fundname %>"><%= s.fundname %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="span3 control-group" style="text-align: left;">
+          <div class="mobile">手续费</div>
+          <input class="init-share" id="poundage0" style="width: 180px;" type="text">%
+        </div>
+        <div class="span3">
+          <div class="mobile">产品链接</div>
+          <input class="links" id="link0" style="width: 206px;" type="text" placeholder="产品链接">
+        </div>
+        <div class="span1" style="margin-top: 20px;margin-left: 70px\9;height: 20px;overflow: hidden;"><a class="icon-remove-sign" id="remove0" style="margin-left: 20px;font-size: 24px;" onclick="removeFounder(this);">&nbsp;&nbsp;</a></div>
+      </div>
+    </div>
+  </div>
+  <a data-original-title="Click here to add another company founder" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addFounder(null, false);"> + 添加 </a>
+  </div>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    var eCalcShareHolders = new Object();
+    // use to add founders
+    function addFounder(founder, isFirst)
+    {
+        var aaa = genId(eCalcShareHolders);
+        var f = founder;
+        if(f == null) // create a new share holder
+        {
+            f = new ShareHolder();
+            f.setupShareHolder(true, false, false);
+            f.id= "founder-" + aaa;
+            f.name = "Founder " + getNewNameNumber(eCalcShareHolders, "founder");
+            eCalcShareHolders[f.id] = f;
+        }
+
+        if(!isFirst)
+        {
+            var fi = $("div.founder-inputs div.op-input").last().clone().removeClass("first");
+            $(fi).find(".icon-remove-sign").show();
+            var fid = f.id;
+            $(fi).attr("fid", fid);
+            // put values in
+            $(fi).find(".founder-name").attr("id",'fundname'+aaa);
+            $(fi).find(".init-share").attr("id",'poundage'+aaa);
+            $(fi).find(".init-share").val('');
+            $(fi).find(".links").attr("id",'link'+aaa);
+            $(fi).find(".links").val('');
+            $(fi).find(".idd").attr("id",'id'+aaa);
+            $(fi).find(".idd").val('0');
+            $(fi).find(".icon-remove-sign").attr("id",'remove'+aaa);
+            $("div.founder-inputs").append(fi);
+        }
+    }
+    var ShareHolder = function()
+    {
+        this.isFounder = true;
+        this.isEmployee = false;
+        this.isSeries = false;
+        this.percentStake = 0;
+        this.exitValue = 0;
+        this.totalShares = 0;
+        this.name = "name";
+        this.id = null;
+
+        this.setFounder = function()
+        {
+            this.isFounder = true;
+            this.isEmployee = false;
+            this.isSeries = false;
+        }
+
+        this.setSeries = function()
+        {
+            this.isFounder = false;
+            this.isEmployee = false;
+            this.isSeries = true;
+        }
+
+        this.setEmployee = function()
+        {
+            this.isFounder = false;
+            this.isEmployee = true;
+            this.isSeries = false;
+        }
+
+        this.setupShareHolder = function(isFounder, isEmployee, isSeries)
+        {
+            if(isFounder)
+            {
+                this.isFounder = true;
+                this.isEmployee = false;
+                this.isSeries = false;
+            }
+            else if(isEmployee)
+            {
+                this.isFounder = false;
+                this.isEmployee = true;
+                this.isSeries = false;
+            }
+            else if(isSeries)
+            {
+                this.isFounder = false;
+                this.isEmployee = false;
+                this.isSeries = true;
+            }
+        }
+
+        // Use to create a JSON object from the Founder
+        this.renderJson = function()
+        {
+            return {
+                isFounder: this.isFounder, isEmployee: this.isEmployee,
+                isSeries: this.isSeries, percentStake: this.percentStake,
+                totalShares: this.totalShares, id: this.id, name:this.name
+            };
+        }
+    }
+
+    function getNewNameNumber(shareHolders, type)
+    {
+        var fRegex = /founder\s\d/i;
+        if(type == "employee")
+        {
+            fRegex = /employee\s\d/i;
+        }
+        var latestId = 1;
+        for(var id in shareHolders)
+        {
+            if(type != "employee" && shareHolders[id].isFounder && fRegex.test(shareHolders[id].name))
+            {
+                var curNum = getInteger(fRegex.exec(shareHolders[id].name)[0].split(" ")[1]);
+                if(curNum >= latestId)
+                {
+                    latestId  = curNum + 1;
+                }
+            }
+            else if(type == "employee" && shareHolders[id].isEmployee && fRegex.test(shareHolders[id].name))
+            {
+                var curNum = getInteger(fRegex.exec(shareHolders[id].name)[0].split(" ")[1]);
+                if(curNum >= latestId)
+                {
+                    latestId  = curNum + 1;
+                }
+            }
+        }
+        return latestId;
+    }
+    function genId(map)
+    {
+        //cslog("Generating id for object.");
+        var tId = 0;
+        for(var id in map)
+        {
+            var count = id.split("-")[1];
+            if(getInteger(count) > tId)
+            {
+                tId = count;
+            }
+        }
+        return getInteger(tId) + 1;
+    }
+
+    function getInteger(v)
+    {
+        if (v != null && typeof(v) == 'string' & v != "")
+        {
+            v = v.replace(/\$/, "");
+            v = v.replace(/,/g, "");
+            v = v.replace(/\..*/g, "");
+            var r = parseInt(v, 10);
+            if (!isNaN(r))
+                return r;
+        }
+        if (typeof(v) == "number")
+        {
+            return parseInt(v, 10);
+        }
+
+        return 0;
+    }
+
+    // use to remove founders
+    function removeFounder(e)
+    {
+        if($("#id"+e.id.replace("remove",'')).attr("value")!='0'){
+          $.post("/admin/poundagedeleteajax/"+$("#id"+e.id.replace("remove",'')).attr("value"),{},function(data){
+          });
+        }
+        var fi = $(e).closest("div.op-input");
+        var fid = $(fi).attr("fid");
+        delete eCalcShareHolders[fid];
+        $(fi).detach();
+    }
+
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        if($("#category").attr("value")=='请选择'){
+            alert("请选择产品大类！");
+            nom_flag=1;
+        }
+        else if($("#classify").attr("value")==''){
+            alert("请选择产品小类！");
+            nom_flag=1;
+        }
+       if($("#classify").attr("value")!='货币基金' || $("#property").attr("value")!='互联网产品'){
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+       }
+        if(nom_flag==0){
+            if($("#classify").attr("value")!='货币基金' || $("#property").attr("value")!='互联网产品'){
+            if(numfor.test($("#rate").attr("value"))==false){
+                alert("近1年收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#rate1").attr("value"))==false){
+                alert("近3年收益率必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#rate2").attr("value"))==false){
+                alert("近5年收益率必须为数字！");
+                nom_flag=1;
+            }
+            }
+            if(numfor.test($("#startvalue").attr("value"))==false){
+                alert("最低投资金额必须为数字！");
+                nom_flag=1;
+            }
+            else if(numfor.test($("#poundage").attr("value"))==false){
+                alert("手续费必须为数字！");
+                nom_flag=1;
+            }
+            else if($("#productcode").attr("value")!=""){
+              if(numfor.test($("#productcode").attr("value"))==false){
+                alert("产品代码必须为数字！");
+                nom_flag=1;
+              }
+            }
+        }
+
+        if(nom_flag==0){
+            var rate= ($("#rate").attr("value")/100).toFixed(5);
+            var rate1= ($("#rate1").attr("value")/100).toFixed(5);
+            var rate2= ($("#rate2").attr("value")/100).toFixed(5);
+            var averrate=(rate/3+rate1/9+rate/15).toFixed(5);
+            var a=document.getElementsByClassName("idd");
+            for(var i=0;i<a.length;i++){
+                var a0=$("#id"+i).attr("value");
+                var a1=$("#fundname"+i).attr("value");
+                var a2=$("#poundage"+i).attr("value");
+                var a3=$("#link"+i).attr("value");
+               if(a2!='' || a3!=''){
+                $.post("/admin/poundageconfigajax/"+a0,{ pname: $("#pname").attr("value"),fundname: a1,poundage: a2,link: a3},function(data){
+                });
+            }
+            }
+            var way=''
+            if(document.getElementById("iphone").checked){
+               way='iphone';
+            }
+            if(document.getElementById("android").checked){
+               if(way==''){
+                   way='android'
+               }
+                else{
+                   way=way+',android'
+               }
+            }
+            if(document.getElementById("weixin").checked){
+               if(way==''){
+                   way='weixin'
+               }
+                else{
+                   way=way+',weixin'
+               }
+            }
+
+            $.post("/admin/financialconfigajax/<%= params[:id] %>",{ category: $("#category").attr("value"),classify: $("#classify").attr("value"),pname: $("#pname").attr("value"),level: $("#level").attr("value"),averrate:averrate,
+                trusts: $("#trusts").attr("value"),rank: $("#rank").attr("value"),rank1: $("#rank1").attr("value"),rank2: $("#rank2").attr("value"),rate: rate,rate1: rate1,rate2: rate2,startvalue: $("#startvalue").attr("value"),link: $("#link").attr("value"),productcode: $("#productcode").attr("value"),
+                risktip: $("#risktip").attr("value"),pintroduction: $("#pintroduction").attr("value"),investperiod: $("#investperiod").attr("value"),poundage: $("#poundage").attr("value"),property:$("#property").attr("value"),bound:$("#bound").attr("value"),way:way},function(data){
+                if(data=="s1"){
+                    alert("理财产品创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+    var where = new Array(2);
+
+    function comefrom(loca,locacity) { this.loca = loca; this.locacity = locacity; }
+    where[0]= new comefrom("请选择","请选择");
+    <% for i in 0..@category.size-1 %>
+    where["<%= @hash[@category[i].category][0] %>"] = new comefrom("<%= @category[i].category %>","<%= @hash[@category[i].category][1] %>");
+    <% end %>
+
+    function select() {
+        with(document.creator.category) { var loca2 = options[selectedIndex].value; }
+        for(i = 0;i < where.length;i ++) {
+            if (where[i].loca == loca2) {
+                loca3 = (where[i].locacity).split("|");
+                for(j = 0;j < loca3.length;j++) { with(document.creator.classify) { length = loca3.length; options[j].text = loca3[j]; options[j].value = loca3[j]; var loca4=options[selectedIndex].value;}}
+                break;
+            }}
+        if(loca4=='货币基金'){
+            $(".huobi").show();
+            pro();
+        }
+        else{
+            $(".huobi").hide();
+            $("#web").hide();
+            $("#tradition").show();
+        }
+        document.creator.newlocation.value=loca2+" "+loca4;
+    }
+
+    function init() {
+        with(document.creator.category) {
+            length = where.length;
+            for(k=0;k<where.length;k++) { options[k].text = where[k].loca; options[k].value = where[k].loca; }
+            options[selectedIndex].text = where[0].loca; options[selectedIndex].value = where[0].loca;
+        }
+        with(document.creator.classify) {
+            loca3 = (where[0].locacity).split("|");
+            length = loca3.length;
+            for(l=0;l<length;l++) { options[l].text = loca3[l]; options[l].value = loca3[l]; }
+            options[selectedIndex].text = loca3[0]; options[selectedIndex].value = loca3[0];
+        }}
+
+    $(document).ready(function(){
+        init();
+        <% if params[:id]!="0" %>
+        $("#pname").attr("value",'<%= @financial.pname%>');
+        $("#level").attr("value",'<%= @financial.level%>');
+        $("#trusts").attr("value",'<%= @financial.trusts %>');
+        $("#rank").attr("value",'<%= @financial.rank %>');
+        $("#rank1").attr("value",'<%= @financial.rank1 %>');
+        $("#rank2").attr("value",'<%= @financial.rank2 %>');
+        <% if @financial.rate!=nil %>
+        $("#rate").attr("value",'<%= format("%0.3f",@financial.rate.to_f*100) %>');
+        <% end %>
+        <% if @financial.rate1!=nil %>
+        $("#rate1").attr("value",'<%= format("%0.3f",@financial.rate1.to_f*100) %>');
+        <% end %>
+        <% if @financial.rate2!=nil %>
+        $("#rate2").attr("value",'<%= format("%0.3f",@financial.rate2.to_f*100) %>');
+        <% end %>
+        $("#startvalue").attr("value",'<%= @financial.startvalue%>');
+        $("#link").attr("value",'<%= @financial.link%>');
+        $("#investperiod").attr("value",'<%= @financial.investperiod%>');
+        $("#poundage").attr("value",'<%= @financial.poundage%>');
+        $("#productcode").attr("value",'<%= @financial.productcode%>');
+        $("#category").attr("value",'<%= @financial.category%>');
+        select()
+        $("#classify").attr("value",'<%= @financial.classify%>');
+        select()
+        <% if @financial.classify=='货币基金'%>
+         $("#property").attr("value",'<%= @financial.property %>');
+         $("#bound").attr("value",'<%= @financial.bound %>');
+         pro();
+         if('<%= @financial.way %>'.indexOf("iphone")>=0) {
+            document.getElementById("iphone").checked = true;
+         }
+         if('<%= @financial.way %>'.indexOf("android")>=0) {
+            document.getElementById("android").checked = true;
+         }
+         if('<%= @financial.way %>'.indexOf("weixin")>=0) {
+            document.getElementById("weixin").checked = true;
+         }
+        <% end %>
+        <% for i in 0..@productcompany.size-1 %>
+          <% if i!=0 %>
+             addFounder(null, false);
+          <% end %>
+        $("#fundname<%= i %>").attr("value",'<%= @productcompany[i].fundname %>');
+        $("#poundage<%= i %>").attr("value",'<%= @productcompany[i].poundage %>');
+        $("#link<%= i %>").attr("value",'<%= @productcompany[i].link %>');
+        $("#id<%= i %>").attr("value",'<%= @productcompany[i].id %>');
+        <% end %>
+        <% end %>
+    });
+
+
+        function pro(){
+            var property=$("#property").attr("value");
+            if(property=='互联网产品'){
+                $("#web").show();
+                $("#tradition").hide();
+            }
+            else{
+                $("#web").hide();
+                $("#tradition").show();
+            }
+        }
+</script>

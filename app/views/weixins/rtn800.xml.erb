@@ -1,0 +1,13 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[您的资产信息如下所示：
+<% @userasset.each do |u| %>
+<%= @hash1[u.asset_typeid][0] %>:<%= u.asset_value %>元
+<% end %>
+你需要对您的基金信息进行实时更新，反馈资产总额吗？ 需要的话请输入:Y
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

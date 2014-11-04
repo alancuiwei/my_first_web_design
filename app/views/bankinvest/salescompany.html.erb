@@ -1,0 +1,216 @@
+<%= stylesheet_link_tag "bankinvest.css" %>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<style>
+     td.right{
+        font-family: "Open Sans",Helvetica,Arial,sans-serif;
+        margin: 0;
+        font-style: italic;
+        font-size: 14px;
+        line-height: 24px;
+        color: rgb(68, 68, 68);
+    }
+     td.left{
+        width:15%;
+        vertical-align: middle;
+        background-color: #fbfbfb;
+        font-weight: normal;
+        font-size: 17px;
+        line-height: 17px;
+        text-align: left;
+        padding-left: 10px;
+        font-family: "helvetica neue",helvetica,arial,sans-serif;
+        font-weight: 600;
+        color: rgb(51, 51, 51);
+    }
+
+    .box_left_title1 {
+        font-size: 20px;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+    body {
+        background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
+    }
+   .main-content a:hover {
+         background-color: #37a;
+         color: white;
+         text-decoration: none;
+     }
+    .main-content a{color: #37a;}
+     h2{font-weight: normal;}
+
+    .login-popup{
+        display:none;
+        padding: 10px;
+        border: 0px solid white;
+        float: left;
+        font-size: 1.2em;
+        position: fixed;
+        top: 50%; left: 40%;
+        z-index: 99999;
+        width:600px
+    }
+
+    #mask {
+        display: none;
+        background: #000;
+        position: fixed; left: 0; top: 0;
+        width: 100%; height: 100%;
+        opacity: 0.3;
+        z-index: 999;
+    }
+</style>
+
+<div class="main-content">
+  <table>
+    <tr>
+      <td style="width: 60%;min-width: 692px;">
+    <a href="/">首页</a>
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;"><%= @salescompany.fundname %> 介绍</span><br>
+      <span style="font-size: 12px;">2012年四月 国家颁发 基金销售业务资格证书</span>
+    </div>
+    <br>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td class="left">公司名称</td>
+        <td class="right"><%= @salescompany.company %></td>
+      </tr>
+      <tr>
+        <td class="left">注册资本</td>
+        <td class="right"><%= @salescompany.capital %></td>
+      </tr>
+      <tr>
+            <td class="left">基金销售业务资格证书</td>
+            <td class="right"><% if @salescompany.license!=nil && @salescompany.license!='' %><a class="img" href="#"><img style="width: 100px;" src="/assets/<%= @salescompany.license %>"></a><% end %></td>
+          </tr>
+          <tr>
+        <td class="left">公司简介</td>
+        <td class="right"><%= @salescompany.profile %></td>
+      </tr>
+      <tr>
+        <td class="left">官网介绍</td>
+        <td class="right"><% if @salescompany.introduced!=nil %><a href="<%= @salescompany.introduced %>" target="_blank">点击查看</a><% end %></td>
+      </tr>
+    </table>
+        <% if @salescompany.imglink!=nil && @salescompany.imglink!='' %>
+            <h1 class="box_left_title1"><%= @salescompany.fundname %> 图文购买指导</h1>
+            <a href="<%= @salescompany.imglink %>" target="_blank">点击查看图文说明。</a>
+        <% end %>
+        <% if @salescompany.videolink!=nil && @salescompany.videolink!='' %>
+            <h1 class="box_left_title1"><%= @salescompany.fundname %> 视频购买指导</h1>
+            <div><%=raw @salescompany.videolink %></div>
+        <% end %>
+      <!--
+        <% if @salescompany.assist!=nil && @salescompany.assist!='' %>
+      <div style="height: 30px;"></div>
+            <h1 style="font-weight: normal;">基金购买流程</h1>
+            <h2 style="font-size: 20px;">1.开户</h2>
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+          <li data-target="#myCarousel" data-slide-to="4" class=""></li>
+        </ol>
+        <div class="carousel-inner">
+                <div class="item active" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/<%= @saleshelp[0] %>" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+          </div>
+                <% for i in 1..@saleshelp.size-1 %>
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                       <img src="/assets/<%= @saleshelp[i] %>" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+          </div>
+                <% end %>
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+      </div>
+        <% end %>
+        <% if @salescompany.fundname=="数米基金网" %>
+            <h2 style="font-size: 20px;">2.基金交易</h2>
+            <div id="Carousel" class="carousel slide">
+              <ol class="carousel-indicators">
+                <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#Carousel" data-slide-to="1" class=""></li>
+                <li data-target="#Carousel" data-slide-to="2" class=""></li>
+                <li data-target="#Carousel" data-slide-to="3" class=""></li>
+                <li data-target="#Carousel" data-slide-to="4" class=""></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="item active" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou01.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou02.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height: 370px;">
+                  <img src="/assets/dingtou03.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+                <div class="item" style="padding: 0 85px;height:370px;">
+                  <img src="/assets/dingtou04.jpg" alt="" style="margin: 0 auto;max-height: 370px;width: 522px;">
+                </div>
+              </div>
+              <a class="left carousel-control" href="#Carousel" data-slide="prev">‹</a>
+              <a class="right carousel-control" href="#Carousel" data-slide="next">›</a>
+            </div>
+  <% end %>
+  -->
+      </td>
+      <td>
+        <% if params[:pid]!=nil %>
+        <div style="height: 100px;"></div>
+        <div class="gray_ad" id="buyinfo">
+          <div id="buyinfo-printed">
+            <h2 class="">
+              <%= @financial.productname %> 在 <%= @salescompany.fundname %> :
+            </h2>
+            <a href="<%= @productcompany.link %>" target="_blank">点击进行基金购买</a>
+          </div>
+        </div>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div id='login-box' class='login-popup modal' style="display: none;">
+  <div class="image">
+    <img style="width: 100%;" src="/assets/<%= @salescompany.license %>">
+  </div>
+</div>
+
+<script>
+    function waithelp(){
+        $("#login-box").show();
+        var loginBox = $(this).attr('href');
+        //Fade in the Popup and add close button
+        //Set the center alignment padding + border
+        var popMargTop = ($(loginBox).height() + 24) / 2;
+        var popMargLeft = ($(loginBox).width() + 24) / 2;
+
+        $(loginBox).css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+
+        // Add the mask to body
+        $('body').append('<div id="mask"></div>');
+        $('#mask').fadeIn(300);
+    }
+
+    $(' #mask,.image').live('click', function() {
+        $('#mask , .login-popup').fadeOut(300 , function() {
+            $('#mask').remove();
+        });
+        return false;
+    });
+
+    $(".img").click(function(){
+        waithelp();
+    });
+</script>
+

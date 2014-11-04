@@ -1,0 +1,58 @@
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<div class="welcomes">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>财务分析 介绍</h1>
+
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span7">
+          <h2>财务分析 您的起点：</h2>
+          <div class="mleft">
+          <p class="q-text">每个旅行都有起点。您必须知道自己的起点，才能启程。<br><span class="red">家庭财务分析报表会告诉您理财启程的起点。</span></p>
+            <p class="plink"><a class="introduce pull-left" href="#myModal" role="button" data-toggle="modal">财务分析 详细介绍</a></p>
+          <p class="q-text">在本环节结束后，您将得到您的财务分析简报、资产负债表和现金流量表、家庭财务指标状况等。这些信息向您提供您当前财务状况的信息。<span class="red">您可以点击右侧图片查看详细。</span></p>
+            <a class="btn btn-primary btn-large" href="/usersurvey/p1s1_user_basic_info">开 始 财 务 分 析</a>
+          </div>
+        </div>
+        <div class="span4 offset1">
+          <a href="#myModal_pic" role="button" data-toggle="modal"><img src="/assets/usersurvey-1.png"></a>
+          <p><blockquote><small>点击图片 查看分析报表明细</small></blockquote></p>
+          <a class="btn btn-primary btn-large" href="/usersurvey/p1s1_user_basic_info">开 始 财 务 分 析</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>资产体检原理介绍</h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=@blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id="myModal_pic" class="modal hide fade p1_usersurvey" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>&nbsp;</h3>
+  </div>
+  <div class="modal-body">
+     <img src="/assets/usersurvey-2.jpg">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+
+</div>

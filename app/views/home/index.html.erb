@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿<%= stylesheet_link_tag "jquery.noty.css" %>
 <%= stylesheet_link_tag "noty_theme_growl.css" %>
 <%= javascript_include_tag "jquery.noty.js" %>
@@ -18,101 +19,364 @@
                 <a href="/S010001/shownorisk"><p>500毫秒刷新行情，<br />
 			  超过200多组合约对，<br />
 			  捕捉所有盈利机会。</p></a>
-            </div>
-			  <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller => "S010001",:action => "shownorisk") %></p>
-          </li>
+=======
+<%= stylesheet_link_tag "home.css" %>
+<%= stylesheet_link_tag "common.css" %>
+<%= stylesheet_link_tag "font-awesome.min.css" %>
+<%= javascript_include_tag "bootstrap.js" %>
+<%= javascript_include_tag "premium_enrollments.js" %>
+<!--<%= javascript_include_tag "swfobject.js" %>-->
 
-          <li>
-			 <div id="banner2">
-               <a href="/strategywebs"><p>单边：趋势策略，震荡策略；<br>套利：跨期，跨产品，跨市场策略</p> </a>
-            </div>
-              <p class="homepage_slide_img"><%= link_to(image_tag("img02.jpg"),:controller =>"strategywebs",:action =>"index") %></p>
-              
-              
-          </li>
+<div class="welcomes" style=" width: 1170px;">
+<%= stylesheet_link_tag "premium_main_academy.css" %>
+  <%= stylesheet_link_tag "home_index.css" %>
+  <table class="body-container" cellspacing="0" cellpadding="0" border="0">
+    <tbody><tr>
+      <td class="body-content">
+        <div class="body-content-wrapper">
+          <!--LayerSlider begin-->
+          <div id="slider-container">
 
-          <li>
-			 <div id="banner1">
-               <a href="/strategys_combine/individual"><p>简单上手，<br />
-			  定制您自己的交易策略，<br />
-			  免费帮您测试。</p>   </a>
+            <div id="slider" class="ls-container ls-skinsa" style="position: relative;">
+            <a href="/usersurvey/p1_usersurvey" style="color: #000000;">
+              <div class="ls-inner" style="background-color: transparent; width: 1170px; height: 500px;">
+                <div class="ls-layer ls-active" rel="slidedelay: 6000" style="width: 1170px; height: 500px;">
+                  <div class="ls-bg" id="s-bg" style="margin-left: -585px; margin-top: -250px;"></div>
+                  <img class="ls-s2" id="s-glow" src="/assets/glow.png" alt="sublayer">
+                  <img class="ls-s2" id="s3-hill" src="/assets/hill(2).png" rel="slidedirection: bottom">
+                  <img class="ls-s2" id="s3-boy" src="/assets/boy.png" rel="slidedirection: right">
+                  <img class="ls-s2" id="s3-girl" src="/assets/girl.png" rel="slidedirection: right">
+                  <img class="ls-s4" id="s3-speech" src="/assets/121016.png" rel="slidedirection: right">
+                  <div class="ls-s3" id="s-caption" rel="slidedirection: right"></div>
+                  </div>
+                </div>
+              </a>
+              <h1 id="s-title"><br>国内第一家<br>专业自动化<br>家庭理财规划</h1>
+
+              <h2 id="s-subtitle">
+               <% if session[:webusername]==nil %>
+                    <a href="/usermanagement/login?p1_usersurvey=1" class="button btn btn-warning">开 始 规 划</a><br>
+                <% else %>
+                  <a href="/usersurvey/p1_usersurvey" class="button btn btn-warning">开 始 规 划</a><br>
+                <% end %>
+              </h2>
+              <div id="s-video">
+                <a class="various fancybox.iframe" href="#myModal" role="button" data-toggle="modal" style="text-align: right; font-style:italic; float: right; text-decoration: none; color: #333;margin-right: 10px;">
+                  <img src="/assets/video-button-2.png" style="height: 64px;">
+                  <br>
+                  <span>我们是如何为您服务的?</span>
+                </a>
+              </div>
+>>>>>>> develop
             </div>
-              <p class="homepage_slide_img"><%= link_to(image_tag("img03.jpg"),:controller =>"strategys_combine",:action =>"individual") %></p>
-              
-          </li>
-        </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="welcme-content img">
+    <div class="containers">
+        <table style="width: 85%;margin: 0 auto;">
+          <tr>
+            <td colspan="9">
+              <h3 id='h31'>“我们的工作，就是帮助没有办法存下钱，但是又最需要存钱的人”</h3>
+            </td>
+          </tr>
+          <tr>
+        <td class="hero-message hero-message-small active" style="vertical-align: middle;">
+          <a href="http://finance.21cn.com/stock/express/a/2013/0802/17/23204106.shtml" target="_blank"><img src="/assets/121035.png" style="width: 200px;"></a>
+        </td>
+        <td class="hero-message hero-message-small" style="vertical-align: middle;">
+              <a href="http://stock.chinadaily.com.cn/2013/0725/28818.shtml" target="_blank"><img src="/assets/121052.png" style="width: 200px;"></a>
+            </td>
+            <td class="hero-message hero-message-small">
+              <a href="http://www.kuailiyu.com/article/3914.html" target="_blank"><img src="/assets/121067.png" style="width: 120px;"></a>
+            </td>
+            <td class="hero-message hero-message-small">
+              <a href="http://stock.jrj.com.cn/2013/04/19110215242255.shtml" target="_blank"><img src="/assets/121066.jpg" style="width: 120px;"></a>
+            </td>
+            <td class="hero-message hero-message-small">
+              <a href="http://life.eastmoney.com/news/11002,2013091014291677.html" target="_blank"><img src="/assets/121065.jpg" style="width: 120px;"></a>
+            </td>
+          </tr>
+        </table>
+      <div style="height: 40px;"></div>
+      <div class="row first">
+        <table class="contain" style="margin: 0 auto;">
+            <tr>
+            <td colspan="7" style="text-align: center;">
+                 <div class="span10 offset1 heading">
+                 <h2>理财规划</h2>
+                 <h3 class="h32">采用六步骤程序，帮助您进行家庭理财规划：确定当前财务状况，确定理财目标，进行风险评估，制定、执行、跟踪理财规划。</h3>
+                </div>
+               </td>
+            </tr>
+          <tr>
+            <td colspan="7" class="tab-content">
+              <div class="tab-content" id="hiw-tab-content">
+                <img src="/assets/laptop.png">
+                <div class="tab-pane fade active in demo-screen" id="step1">
+                  <img alt="Ideal_portfolio" src="/assets/121063.jpg">
+                </div>
+                <div class="tab-pane fade demo-screen" id="step2">
+                  <img alt="Action_plan" src="/assets/121064.jpg">
+                </div>
+                <div class="tab-pane fade demo-screen" id="step3">
+                  <img alt="Premium_dashboard" src="/assets/121062.jpg">
+                </div>
+              </div>
+            </td>
+          </tr>
+            <tr class="subtle-tabs" id="hiw-tabs">
+            <td class="center"></td>
+            <td class="hero-message active">
+              <a class="subtle1 under" onclick="add('subtle1')" href="#step1" data-toggle="tab"><h4>免费财务分析</h4>
+                <div class="explanation">根据您年收入，日常开销，结合当前资产分配情况，给出详尽家庭财务报表分析。</div></a>
+              </td>
+              <td class="center"></td>
+            <td class="hero-message">
+              <a class="subtle2" onclick="add('subtle2')" href="#step2" data-toggle="tab"><h4>风险评估</h4>
+                <div class="explanation">引用美国高盛公司的开源资产风险度管理模型，评估您个性化的风险承受度，并以此进行相应的理财产品推荐。</div> </a>
+              </td>
+              <td class="center"></td>
+            <td class="hero-message">
+              <a class="subtle3" onclick="add('subtle3')" href="#step3" data-toggle="tab"><h4>理财规划</h4>
+                <div class="explanation">提出理财建议，购买哪些理财产品，如何购买，并每日监控推荐产品的业绩走势，一旦出现异常及时通知，走向家庭财务自由。</div></a>
+                        </td>
+            <td class="center"></td>
+          </tr>
+          </table>
+        </div>
+      <div class='tour-row white' id='intro'>
+         <div class="contain" style="margin: 0 auto;">
+          <div class='user_nav_carousel slide' data-interval='20000' id='intro_carousel'>
+            <div class='row'>
+              <div class='span10 offset1 centered'>
+                <h2>家门不出，动动手指，轻松理财</h2>
+                <h3 class="h32">根据您的收入状况、风险偏好，个性化推荐理财产品组合，指导您足不出户的购买。接下来，我们将7*24小时的监控您投资的产品，一旦出现异常及时通知您调整。</h3>
+              </div>
+              <div class='centered'style="width: 610px;margin: 0 auto;">
+                <div class='carousel-indicators'>
+                  <div class='step-tab first active' data-slide-to='0' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-user'></i>
+                    <br />
+                    个性化服务
+                  </div>
+                  <div class='step-tab' data-slide-to='1' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-tag'></i>
+                    <br />
+                    在线购买
+                  </div>
+                  <div class='step-tab last' data-slide-to='2' data-target='#intro_carousel'>
+                    <i class='icon-2x icon-dashboard'></i>
+                    <br />
+                    产品业绩跟踪
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class='row'>
+              <div class='span12 slider-container'>
+                <div class='carousel-inner'>
+                  <div class='item active'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>私人理财顾问</h4>
+                        <div class='explanation'>
+                          <p>真正意义上做到站在您的立场，根据您的情况，帮你做理财规划，帮您推荐、跟踪最适合您的理财产品，成为您的私人理财规划顾问。</p>
+                          <p>第三方理财服务机构，绝对不从产品销售中盈利。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 centered headroom'>
+                        <img alt="Portfolio_pie_accounts" src="/assets/121051.png" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class='item'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>指导哪里购买最合算</h4>
+                        <div class='explanation'>
+                          <p>罗列基金销售各个渠道的手续费对比，供您挑选最便宜的购买渠道。</p>
+                          <p>图片、视频示范指导，方便您轻轻动动手指，即可买到合适的理财产品。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 headroom'>
+                          <img alt="Fee_comparison" src="/assets/121050.png" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class='item'>
+                    <div class='row'>
+                      <div class='span5 hero-message more-headroom'>
+                        <h4>产品异常、及时通知</h4>
+                        <div class='explanation'>
+                           <p>根据理财产品近1年、3年、5年的历史业绩进行筛选推荐。</p>
+                           <p>每日跟踪净值有无异常波动，跟踪基金经理有无重大变动等，一旦出现异常，及时通知投资人。</p>
+                        </div>
+                      </div>
+                      <div class='span5 offset1 more-headroom'>
+                        <img alt="Fee_comparison" src="/assets/121049.png" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      <div class="tour-row" id="automatic-details">
+        <div class="container">
+          <div class="row">
+            <div class="span10 offset1 heading">
+              <h2 class="no-border">智能、易用，个性化</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Automatic-flexible" src="/assets/121048.png">
+                <h4>智能理财规划</h4>
+                <div class="explanation">利用国外理财规划专家系统(MorningStar、WealthFront、高盛公司)，结合国内市场理财产品分析，给您提供智能专家理财服务。</div>
+              </div>
+            </div>
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Access-flexible" src="/assets/121047.png">
+                <h4>卡片式设计，简单易用</h4>
+                <div class="explanation">现代主义风格的卡片式设计使用，白色正方形方框里只有最关键的文字或者图片，即使是初学者也一目了然。</div>
+              </div>
+            </div>
+            <div class="span4 hero-message hero-message-small centered">
+              <div class="side-room">
+                <img alt="Personal-flexible" src="/assets/121046.png">
+                <h4>只为您一个人设计</h4>
+                <div class="explanation">根据您的家庭收入、开销，已有资产分析，我们的互联网金融专家团队给您，也只为您提供规划服务。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="tour-row" style="background: #ffffff;">
+        <div class="container centered">
+          <div class="hero-message message">
+            <h4>开始您的免费家庭财务分析，摆脱月光</h4>
+          </div>
+          <div class="version1">
+          <div id="get-started-partial">
+            <a href="/usersurvey/p1_usersurvey" class="get-started-button" id="footer-get-started">免 费 分 析</a>
+          </div>
+            <p class="headroom below-signup-button">花2分钟，获得详细家庭理财规划报告。</p>
+          </div>
+        </div>
       </div>
-      </div>
+<<<<<<< HEAD
 
     <img id="homepage_slice_right_decoration" src="/assets/banner_di_right.gif" alt="homepage_slice_right_decoration">
 
+=======
+    </div>
+>>>>>>> develop
   </div>
-  <div class="quicklink_strategyshow">
-  <div class="quicklink_set">
-
-    <div class="quicklink_instance">
-      <a href="/S010001/shownorisk">
-        <img class="qs_image" src="/assets/kuaisutongdao.jpg" alt="quicklink_norisk_strategy">
-      </a>
-
-      <div class="qs_content">
-        <a href="/S010001/shownorisk"><h2>无风险套利</h2></a>
-        <a href="/S010001/shownorisk">
-          <p>商品期货市场的无风险套利是当前市场中最稳健的获利策略，他真正意义上实现了保本无风险投资。</p>
-        </a>
-
+</div>
+<div class="welcomes2">
+  <style>
+      .beta{padding: 14px 0;}
+     .welcomes2 img{max-width: 200px;}
+      p{max-width: 320px;}
+  </style>
+  <div class="hero-unit"> <!--主角单元-->
+    <div class="slide">
+      <div id="stitle">
+        <img class="ls-s2" id="s3hill" src="/assets/hill(2).png" rel="slidedirection: bottom">
+        <img class="ls-s2" id="s3boy" src="/assets/boy.png" rel="slidedirection: right">
+        <img class="ls-s2" id="s3girl" src="/assets/girl.png" rel="slidedirection: right">
+        <img class="ls-s4" id="s3speech" src="/assets/121016.png" rel="slidedirection: right">
       </div>
-
+      <h1>国内第一家<br>专业自动化<br>家庭理财规划</h1>
+      <p><a class="btn btn-warning"  href='/usersurvey/p1_usersurvey'><em>开 始 规 划</em></a></p>
     </div>
-
-  <div class="quicklink_instance">
-    <a href="/strategys_combine/strategy_s1">
-      <img class="qs_image" src="/assets/celuezuhe.jpg" alt="quicklink_trend_strategy_config">
-    </a>
-    <div class="qs_content">
-      <a href="/strategys_combine/strategy_s1"><h2>策略组合</h2></a>
-      <a href="/strategys_combine/strategy_s1">
-        <p>主要针对单边策略，根据顺大势确定方向，逆小势确定入场的思想而实现，可以自行配置元策略参数，直观快捷的查看策略性能指标。</p>
-      </a>
-    </div>
-
   </div>
-    <div class="quicklink_instance">
-      <a href="/strategys_combine/individual">
-        <img class="qs_image" src="/assets/celuepeizhi.jpg" alt="quicklink_arbitrage_strategy_config">
-      </a>
-      <div class="qs_content">
-        <a href="/strategys_combine/individual"><h2>策略配置</h2></a>
-        <a href="/strategys_combine/individual">
-          <p>主要针对套利策略，引用日本羽根英树先生的策略思想而实现，具体策略详细介绍可参考《价差交易入门》一书。</p>
-        </a>
-
+  <br>
+  <div class="welcme-content img">
+    <div class="containers">
+      <div class="white">
+        <h3 id='h3'>“我们的工作，就是帮助没有办法存下钱，但是又最需要存钱的人。”</h3>
+        <a href="http://finance.21cn.com/stock/express/a/2013/0802/17/23204106.shtml" target="_blank"><img src="/assets/121035.png" style=""></a><br>
+        <a href="http://stock.chinadaily.com.cn/2013/0725/28818.shtml" target="_blank"><img src="/assets/121052.png" style=""></a><br>
+        <a href="http://www.kuailiyu.com/article/3914.html" target="_blank"><img src="/assets/121067.png" style="width: 120px;"></a><br>
+        <a href="http://stock.jrj.com.cn/2013/04/19110215242255.shtml" target="_blank"><img src="/assets/121066.jpg" style="width: 120px;"></a><br>
+        <a href="http://www.it-times.com.cn/wangzhidaohang/21500.jhtml" target="_blank"><img src="/assets/121065.jpg" style="width: 120px;"></a>
       </div>
-
+      <div class="row first hero-message">
+        <h2>服务内容</h2>
+        <h3 class="h32">采用六步骤程序，帮助您进行家庭理财规划：确定当前财务状况，确定理财目标，进行风险评估，制定、执行、跟踪理财规划。</h3>
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab"><h4>免费财<br>务分析</h4></a></li>
+            <li><a href="#tab2" data-toggle="tab"><h4>风<br>险评估</h4>
+            </a></li>
+            <li><a href="#tab3" data-toggle="tab"><h4>理<br>财规划</h4>
+            </a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+              <img alt="Ideal_portfolio" src="/assets/121063.jpg"><br><br>
+        <div class="explanation">根据您年收入，日常开销，结合当前资产分配情况，给出详尽家庭财务报表分析。</div>
+            </div>
+            <div class="tab-pane" id="tab2">
+              <img alt="Action_plan" src="/assets/121064.jpg"><br><br>
+        <div class="explanation">引用美国高盛公司的开源资产风险度管理模型，评估您个性化的风险承受度，并以此进行相应的理财产品推荐。</div>
+            </div>
+            <div class="tab-pane" id="tab3">
+              <img alt="Premium_dashboard" src="/assets/121062.jpg"><br><br>
+        <div class="explanation">提出理财建议，购买哪些理财产品，如何购买，并每日监控推荐产品的业绩走势，一旦出现异常及时通知，彻底摆脱月光族。</div>
     </div>
-
-
-    <div class="quicklink_instance">
-      <img class="qs_image" src="/assets/celueyouhua.jpg" alt="quicklink_strategy_optimization">
-
-      <div class="qs_content">
-        <h2>策略优化</h2>
-        <p>通过登山，模拟退火，路径优先，遗传等优化算法，让您快速的获得符合您策略的最佳参数，从而获得最高的回报率。</p>
-
-      </div>
-
     </div>
-
-    <div class="quicklink_instance">
-      <a href="/autotrade/aboutautotrade">
-        <img class="qs_image" src="/assets/zidonghuajiaoyi.jpg" alt="quicklink_autotrade">
-      </a>
-      <div class="qs_content">
-        <a href="/autotrade/aboutautotrade"><h2>自动化交易</h2></a>
-        <a href="/autotrade/aboutautotrade">
-          <p>自动化交易就是您设置好交易品种范围，交易规模，系统根据您的策略自动完成开仓，平仓的交易。当前仅支持无风险套利策略。</p>
-        </a>
+  </div>
+</div>
+      <div class='tour-row white hero-message'>
+        <h2>家门不出，动动手指，轻松理财</h2>
+        <h3 class="h32">根据您的收入状况、风险偏好，个性化推荐理财产品组合，指导您足不出户的购买。接下来，我们将7*24小时的监控您投资的产品，一旦出现异常及时通知您调整。</h3>
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab4" data-toggle="tab"><h4>个性化<br>服务</h4></a></li>
+            <li><a href="#tab5" data-toggle="tab"><h4>在线<br>购买</h4>
+            </a></li>
+            <li><a href="#tab6" data-toggle="tab"><h4>产品业<br>绩跟踪</h4>
+            </a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab4">
+              <img alt="Portfolio_pie_accounts" src="/assets/121051.png" /><br><br>
+              <h4>私人理财顾问</h4>
+              <div class='explanation'>
+                <p>真正意义上做到站在您的立场，根据您的情况，帮你做理财规划，帮您推荐、跟踪最适合您的理财产品，成为您的私人理财规划顾问。</p>
+                <p>第三方理财服务机构，绝对不从产品销售中盈利。</p>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab5">
+              <img alt="Fee_comparison" src="/assets/121050.png" /><br><br>
+              <h4>指导哪里购买最合算</h4>
+              <div class='explanation'>
+                <p>罗列基金销售各个渠道的手续费对比，供您挑选最便宜的购买渠道。</p>
+                <p>图片、视频示范指导，方便您轻轻动动手指，即可买到合适的理财产品。</p>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab6">
+              <img alt="Fee_comparison" src="/assets/121049.png" /><br><br>
+              <h4>产品异常、及时通知</h4>
+              <div class='explanation'>
+                <p>根据理财产品近1年、3年、5年的历史业绩进行筛选推荐。</p>
+                <p>每日跟踪净值有无异常波动，跟踪基金经理有无重大变动等，一旦出现异常，及时通知投资人。</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+<<<<<<< HEAD
 
     </div>
 
@@ -123,72 +387,72 @@
         <h2>通天顺大师</h2>
         <p>通天顺大师帮助您了解您的个性特征，从而分析交易习惯，得出比较适合您的交易策略。</p>
 
+=======
+      <div class="tour-row hero-message row first">
+        <div class="container">
+          <h2 class="no-border">智能、易用，个性化</h2>
+          <div class="img"><img alt="Automatic-flexible" src="/assets/121048.png"></div>
+          <h4>智能理财规划</h4>
+          <div class="explanation">利用国外理财规划专家系统(MorningStar、WealthFront、高盛公司)，结合国内市场理财产品分析，给您提供智能专家理财服务。</div>
+          <div class="img"><img alt="Access-flexible" src="/assets/121047.png"></div>
+          <h4>卡片式设计，简单易用</h4>
+          <div class="explanation">现代主义风格的卡片式设计使用，白色正方形方框里只有最关键的文字或者图片，即使是初学者也一目了然。</div>
+          <div class="img"><img alt="Personal-flexible" src="/assets/121046.png"></div>
+          <h4>只为您一个人设计</h4>
+          <div class="explanation">根据您的家庭收入、开销，已有资产分析，我们的互联网金融专家团队给您，也只为您提供规划服务。</div>
+        </div>
+>>>>>>> develop
       </div>
-
-    </div>
-
-    <div class="quicklink_instance">
-      <a href="/contactus/hire">
-        <img class="qs_image" src="/assets/chengpingyingcai.jpg" alt="quicklink_hire_information">
-      </a>
-      <div class="qs_content">
-        <a href="/contactus/hire"><h2>诚聘人才</h2></a>
-        <a href="/contactus/hire">
-        <p>招聘Javascript, Matlab软件程序员。</p>
-        </a>
+      <div class="tour-row hero-message" style="background: #ffffff;">
+      <div class="container centered">
+        <div class="hero-message message">
+          <h4>开始您的免费财务规划，摆脱月光</h4>
+        </div>
+        <div class="version1">
+          <div id="get-started">
+            <a href="/usersurvey/p1_usersurvey" class="get-started-button" id="footer-get">免 费 分 析</a>
+          </div>
+          <p class="headroom below-signup-button">花2分钟，获得详细家庭财务分析报告。</p>
+        </div>
       </div>
-
     </div>
-
-  </div>
-
-  <div class="strategy_status_set">
-    <img class="strategy_set_left_decoration" src="/assets/strategy_set_left_decoration.gif" alt="strategy_set_left_decoration">
-    <img class="strategy_set_right_decoration" src="/assets/strategy_set_right_decoration.gif" alt="strategy_set_right_decoration">
-    <div class="strategy_set_title_module">
-    <h2>策略动态</h2>
-    </div>
-    <p>图表皆基于历史数据的评测。</p>
-    <h3>新增策略</h3>
-    <div class="strategy_status_module">
-    <% @strategywebs.each do |strategyweb| %>
-    <div class="strategy_status_instance">
-    <div class="strategy_graph_display" id="<%= strategyweb.id%>">
-    </div>
-    <div class="strategy_text_display">
-        <a href="/<%=strategyweb.control%>/<%=strategyweb.action%>/<%=strategyweb.id%>"><h4><%= strategyweb.name %></h4></a>
-        <% if @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0]==nil || @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]==nil ||@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]==nil%>
-            <p>年收益率：稍候刷新</p>
-<!--            <p>最大回退金额：稍候刷新</p>
-            <p>胜率：稍候刷新 </p>     -->
-
-            <% else %>
-
-            <p>年收益率：<%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][2]*100) %>% </p>
-<!--            <p>最大回退金额：</p><p><%=  @hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][0] %> </p>
-            <p>胜率：</p><p><%=  format("%.3f",@hash_reference[strategyweb.strategyid.to_s+strategyweb.userid.to_s+strategyweb.ordernum.to_s][1]) %></p>  -->
-            <% end %>
-
-            <p>更新时间：</p><p><%=  strategyweb.updated_at.to_s(:stamp) %></p>
-    </div>
-    </div>
-    <%end%>
     </div>
   </div>
-
-  </div>
-
-</body>
-
-<!-- <img class="homepage_bottom_decoration" src="/assets/dibu_dise.gif" alt="homepage_bottom_decoration"> -->
-
-<div class="footer">
-    <p> 苏JCP备12035521 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;南京重人软件有限公司 版权所有<br/>
-      </p>
 </div>
-</html>
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>我们是如何为您服务的?</h3>
+  </div>
+  <div class="modal-body">
+    <iframe frameborder=0 height=360 width=640 src="http://v.qq.com/iframe/player.html?vid=i0124r7uycd&auto=0&tiny=0" allowfullscreen></iframe>
+    <!--<iframe height=498 width=510 src="http://player.youku.com/embed/XNjU0NDg0ODc2" frameborder=0 allowfullscreen></iframe>
+    <font id=player1>&nbsp;</font>
+    <script type=text/javascript>
+        var s1 = new SWFObject("assets/flvplayer.swf","","640","360","7");
+        s1.addParam("allowfullscreen","true");
+        s1.addVariable("file","xxjtzctjbg.mp4");
+        s1.addVariable("width","640");
+        s1.addVariable("height","360");
+        s1.addVariable("loop","true");
+        s1.addVariable("repeat", "flase");
+        s1.addVariable("fontcolor","0XFFFFFF");
+        s1.addVariable("autoscroll","true");
+        s1.addVariable("logo","");
+        s1.addVariable("autostart","false");
+        s1.addVariable("smoothing","true");
+        s1.write("player1");
+    </script>
+    -->
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
 
 <script type="text/javascript">
+<<<<<<< HEAD
    $(document).ready(function(){
        $('.quicklink_instance>a').css("float","left");
        $('.quicklink_instance>img').css("float","left");
@@ -274,5 +538,28 @@
 
             $(".highcharts-legend").remove()
         });
+=======
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".welcomes2").remove();
+    }else{
+        $(".welcomes").remove();
+>>>>>>> develop
     }
+
+        function add(e){
+            $("[class*='subtle']").removeClass('under');
+            $("."+e).addClass('under');
+        }
 </script>

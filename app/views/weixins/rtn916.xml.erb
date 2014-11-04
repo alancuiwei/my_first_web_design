@@ -1,0 +1,12 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[根据您的个人情况，我们推荐的基金如下，请回复基金代码表示您选中该基金:
+<% for i in 0..@hash916.size-1 %>
+基金名称：<%= @hash916[i][1] %>(<%= @hash916[i][0] %>),近1年排名：<%= @hash916[i][2] %>,近3年排名：<%= @hash916[i][3] %>；
+<% end %>
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+</xml>

@@ -1,0 +1,781 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<%= stylesheet_link_tag "personmanagement.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "bootstrap-datetimepicker.js" %>
+<%= stylesheet_link_tag "datetimepicker.css" %>
+<%= javascript_include_tag "jquery.dataTables.min.js" %>
+<%= stylesheet_link_tag "datatables.css" %>
+<%= javascript_include_tag "dataTables.bootstrap.js" %>
+<style>
+    #target td,#target th{
+        font-family: Hiragino Sans GB W3;
+    }
+    .dream{font-family:"Source Sans Pro",Tahoma,sans-serif;}
+    h1,h2{font-weight: 600;}
+
+    .table th {
+        font-family: Georgia;
+        text-transform: uppercase;
+        height: 10px;
+        font-size: 14px;
+    }
+    .close {
+        float: right;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #000000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        position: static;
+    }
+    .table th,.table td{
+        font-family: Hiragino Sans GB W3;
+    }
+    #myModal.modal.fade.in{
+        width: 950px;
+        left: 40%;
+    }
+    #records_length,#records_filter,#records_wrapper .row-fluid:first-child{
+        display: none;
+    }
+</style>
+
+<div class="main-content dream">
+  <%= render "side" %>
+  <h1><%= @webuser.username %>的个人首页</h1>
+  <div style="height: 30px;"></div>
+  <table id="person" style="width: 100%;color: #555;">
+    <tr>
+      <td id="center">
+        <table id="table" style="width: 100%;">
+          <tr>
+            <td id="pad" style="padding-left: 68px;">
+              <div class="account-types">
+                <form method="post" style="margin-bottom: 0;" name="creator" enctype="multipart/form-data">
+                  <table clas="left" style="width: 100%;">
+                    <tr>
+                      <td class="left" style="width: 26%;">
+                        <div class="account-type-tab active taxable-account-type">
+                          <p><span class="product" style="line-height: 20px;">本月投资活动</span></p>
+                        </div>
+                      </td>
+                      <td class="left" style="width: 255px;">
+                        <div class="controls input-append date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                          <input size="16" id="dates" type="text" readonly>
+                          <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                        <input type="hidden" id="dtp_input2" value="" />
+                      </td>
+                      <td class="left" style="vertical-align: middle;">
+                        <!-- Button to trigger modal -->
+                        <a href="#myModal" role="button" data-toggle="modal">显示全年计划</a>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="border-bottom: 1px solid #E2E2E2;" >
+              <div class="plan-details">
+
+                <table style="width: 100%;float: left;">
+                  <tr><td class="cation high left" style="width: 30%;height: 180px;padding-bottom: 50px;">
+                    <div class="allocation-chart-container">
+                      <div id="container3" style="width: 280px;height: 180px;"></div>
+                    </div>
+                  </td><td class="cation left">
+                    <table id="top" class="table table-striped table-bordered">
+                      <thead>
+                      <tr>
+                        <th style="width: 20%;">投资种类</th>
+                        <th style="width: 20%;">产品类型</th>
+                        <th style="width: 20%;">本月目标</th>
+                        <th style="width: 20%;">推荐产品</th>
+                        <th style="width: 20%;">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td>应急基金</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['fluid'][0] %>"><%= @hash['fluid'][1] %></a></td>
+                        <td class="amounts2"></td>
+                        <td class="name2">
+                          <% if @userfinancedata!=nil %>
+                              <% if @hash['fluid'][2]==1 %>
+                                  <a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>"><%= @userfinancedata.fluid_productid %></a>
+                              <% else %>
+                                  <%= @userfinancedata.fluid_productid %>
+                              <% end %>
+                          <% end %>
+                        </td>
+                        <td>
+                          <% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>">详情</a><% end %>
+                          <% if @hash['fluid'][2]==1 %><a href="<%= @hash['fluid'][4] %>" target="_blank">购买</a><% end %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>高收益资产</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['risk'][0] %>"><%= @hash['risk'][1] %></a></td>
+                        <td class="amounts5"></td>
+                        <td class="name5">
+                          <% if @userfinancedata!=nil %>
+                              <% if @hash['risk'][2]==1 %>
+                                  <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                              <% elsif @hash['risk'][2]==0 %>
+                                  <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                              <% elsif @hash['risk'][2]==2 %>
+                                  <%= @userfinancedata.risk_productid %>
+                              <% end %>
+                          <% end %>
+                        </td>
+                        <td>
+                          <% if @hash['risk'][2]==1 %>
+                              <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>">详情</a>
+                              <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
+                          <% elsif @hash['risk'][2]==0 %>
+                              <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>">详情</a>
+                              <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>稳定收益资产</td>
+                        <td><a href="/bankinvest/classify/<%= @hash['safe'][0] %>"><%= @hash['safe'][1] %></a></td>
+                        <td class="amounts4"></td>
+                        <td class="name4"><a href="#myModal_12" role="button" data-toggle="modal">12单定存法</a></td>
+                        <td><a href="#myModal_12" role="button" data-toggle="modal">详情</a></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                    <blockquote style="text-align: left;">
+                      <small>产品是完全根据您的风险评估结果来推荐的。重新进行<a href="/userrisktolerance/p3_userrisktolerance">风险评估</a></small>
+                    </blockquote>
+                  </td></tr></table>
+              </div>
+            </td>
+          </tr>
+          <tr><td>
+            <div class="plan-details" style="border-bottom: 1px solid #E2E2E2;padding-bottom: 40px;">
+              <div class="account-type-tab active" id="taxable-account-type" style="padding-left: 68px;margin-bottom: 20px;">
+                <p style="padding-top: 20px;">
+                  <span class="product" style="line-height: 20px;">投资记录</span>
+                  <% if @webuser.username==session[:webusername] %>
+                      <a href="#login-box" role="button" data-toggle="modal" style="margin-left: 187px;" class="btn btn-success" onclick="waithelp(0,'');">新增投资记录</a>
+                  <% end %>
+                </p>
+              </div>
+              <table style="width: 100%;">
+                <tr>
+                  <td class="left" style="width: 30%;">
+                    <div id="container4" style="width: 280px;height: 180px;"></div>
+                  </td>
+                  <td class="left">
+                    <table class="table table-striped table-bordered footable" id="records">
+                      <thead>
+                      <tr>
+                        <% if @webuser.username==session[:webusername] %>
+                            <th data-sort-initial="descending" data-class="expand" style="width: 20%;">日期</th>
+                            <th data-hide="phone" style="width: 20%;">属性</th>
+                            <th data-sort-ignore="true" style="width: 20%;">投资产品</th>
+                            <th data-hide="phone" style="width: 20%;">金额(元)</th>
+                            <th data-hide="phone" style="width: 20%;">操作</th>
+                        <% else %>
+                            <th data-sort-initial="descending" data-class="expand" style="width: 25%;">日期</th>
+                            <th data-hide="phone" style="width: 25%;">属性</th>
+                            <th data-sort-ignore="true" style="width: 25%;">投资产品</th>
+                            <th data-hide="phone" style="width: 25%;">金额(元)</th>
+                        <% end %>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% @record.each do |r| %>
+                          <tr>
+                            <td><%= r.date %></td>
+                            <td><%= r.nature %></td>
+                            <td><%= r.pname %></td>
+                            <td><%= r.amount %></td>
+                            <% if @webuser.username==session[:webusername] %>
+                                <td>
+                                  <a href="#login-box" role="button" data-toggle="modal" onclick="waithelp(<%= r.id %>,'<%= r.pname %>');">修改</a>
+                                  <a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= r.id %>')">删除</a>
+                                </td>
+                            <% end %>
+                          </tr>
+                      <% end %>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">全年目标</h3>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped table-bordered" id="target">
+      <tr>
+        <td></td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.date %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>流动</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.fluid_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>稳定</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.safety_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>风险</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.risky_account %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td>总</td>
+        <% @userplanmonth.each do |u| %>
+            <td><%= u.fluid_account+u.safety_account+u.risky_account %></td>
+        <% end %>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+<div id="myModal_12" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3><% if @blog!=nil %><%= @blog.btitle %><% end %></h3>
+  </div>
+  <div class="modal-body">
+    <% if @blog!=nil %>
+        <img class="alignleft size-medium " id="img" src="http://www.tongtianshun.com/assets/<%=raw @blog.imagepath %>"><br><br>
+        <%=raw @blog.barticle %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
+<div id='login-box' class="modal hide fade" style="width: 430px;left:50%;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>投资记录</h3>
+  </div>
+  <div class="modal-body">
+    <table>
+      <tr>
+        <td>日期：</td><td><input type="text" name="date" id="date" title="日期" onclick="WdatePicker()" class="Wdate"> </td>
+      </tr>
+      <tr>
+        <td>属性：</td>
+        <td>
+          <select name="nature" id="nature">
+            <option style="" value="买入">买入</option>
+            <option value="赎回取现">赎回取现</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>投资产品：</td>
+        <td>
+          <select name="pname" id="pname" onChange='nature()'>
+            <% if @userfinancedata!=nil %>
+                <option value="<%= @userfinancedata.fluid_productid %>"><%= @userfinancedata.fluid_productid %></option>
+                <% if @userfinancedata.safe_productid !=nil %>
+                    <option value="<%= @userfinancedata.safe_productid %>"><%= @userfinancedata.safe_productid %></option>
+                <% end %>
+                <option value="<%= @userfinancedata.risk_productid %>"><%= @userfinancedata.risk_productid %></option>
+            <% end %>
+            <% @assettype.each do |a| %>
+                <option value="<%= a.asset_typename %>"><%= a.asset_typename %></option>
+            <% end %>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>投资金额：</td>
+        <td>
+          <input type="text" name="amount" id="amount" title="投资金额" >
+        </td>
+      </tr>
+      <tr class="ptype hide">
+        <td>产品代码：</td>
+        <td>
+          <input type="text" name="amount" id="productcode" title="产品代码" >
+        </td>
+      </tr>
+      <tr class="ptype hide">
+        <td>产品份额：</td>
+        <td>
+          <input type="text" name="amount" id="productshare" title="产品份额" >
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button id="record" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
+  </div>
+</div>
+
+<script language="javascript">
+    var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+    var product;
+    var a2='',a4='',a5='';
+    <% if @userfinancedata!=nil %>
+    a2="<%= @userfinancedata.fluid_productid %>";
+    a4="<%= @userfinancedata.safe_productid %>";
+    a5="<%= @userfinancedata.risk_productid %>";
+    <% end %>
+    var amounts1=0;
+    var amounts0=0;
+    <% if @userdatamonth!=nil %>
+    amounts1=parseFloat('<%= @userdatamonth.must_expense_month %>');
+    amounts0=parseFloat('<%= @userdatamonth.fun_expense_month %>');
+    <% end %>
+
+    var dateNow = new Date();
+    var yearNow = dateNow.getFullYear();
+    var monthNow = dateNow.getMonth()+1;
+    var ptype=0;
+    function nature(){
+        ptype=0;
+    <% @assettype.each do |a| %>
+        if($("#pname").attr("value")=='<%= a.asset_typename %>'){
+            ptype=1;
+        }
+    <% end %>
+        if(ptype==0){
+            $(".ptype").addClass("hide");
+        }
+        else{
+            $(".ptype").removeClass("hide");
+        }
+    }
+
+    function select() {
+        if($("#dates").attr("value").split("-")[1]=="08"){
+            var thismonth=8;
+        }
+        else if($("#dates").attr("value").split("-")[1]=="09"){
+            var thismonth=9;
+        }
+        else{
+            var thismonth=parseInt($("#dates").attr("value").split("-")[1]);
+        }
+        var date=$("#dates").attr("value").split("-")[0]+'.'+thismonth.toString();
+    <% for i in 0..@userplanmonth.size-1 %>
+        if('<%= @userplanmonth[i].date %>'==date){
+            $(".amounts2").html("<%= @userplanmonth[i].fluid_account %>")
+            $(".amounts4").html("<%= @userplanmonth[i].safety_account %>")
+            $(".amounts5").html("<%= @userplanmonth[i].risky_account %>")
+        }
+    <% end %>
+        if(thismonth==1){
+            var lastmonth=(parseInt($("#dates").attr("value").split("-")[0])-1).toString()+'.12';
+        }
+        else{
+            var lastmonth=$("#dates").attr("value").split("-")[0]+'.'+(thismonth-1).toString();
+        }
+        var yingji1=0,yingji2=0,yingji3=0;
+        var wenjian1= 0,wenjian2= 0,wenjian3=0;
+        var gaoshou1= 0,gaoshou2= 0,gaoshou3=0;
+    <% for i in 0..@userplanmonth.size-1 %>
+        if('<%= @userplanmonth[i].date %>'==lastmonth){
+            yingji1=<%= @userplanmonth[i].fluid_account %>;
+            wenjian1=<%= @userplanmonth[i].safety_account %>
+                    gaoshou1=<%= @userplanmonth[i].risky_account %>
+        }
+        else if('<%= @userplanmonth[i].date %>'==date){
+            yingji2=<%= @userplanmonth[i].fluid_account %>;
+            wenjian2=<%= @userplanmonth[i].safety_account %>
+                    gaoshou2=<%= @userplanmonth[i].risky_account %>
+        }
+    <% end %>
+    <% @record.each do |r| %>
+        if('<%= r.date %>'.split('-')[1]=="08"){
+            var a=8;
+        }
+        else if('<%= r.date %>'.split('-')[1]=="09"){
+            var a=9;
+        }
+        else{
+            var a=parseInt('<%= r.date %>'.split('-')[1]);
+        }
+        if(parseInt('<%= r.date %>'.split('-')[0])==parseInt($("#dates").attr("value").split("-")[0]) && a==thismonth){
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a2 || '<%= @hash2[r.id][0] %>'=="100")){
+                yingji3=yingji3+parseInt('<%= r.amount %>')
+            }
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a2 || '<%= @hash2[r.id][0] %>'=="100")){
+                yingji3=yingji3-parseInt('<%= r.amount %>')
+            }
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a4 || '<%= @hash2[r.id][0] %>'=="200")){
+                wenjian3=wenjian3+parseInt('<%= r.amount %>')
+            }
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a4 || '<%= @hash2[r.id][0] %>'=="200")){
+                wenjian3=wenjian3-parseInt('<%= r.amount %>')
+            }
+            if('<%= r.nature %>'=='买入' && ('<%= r.pname %>'==a5 || '<%= @hash2[r.id][0] %>'=="300")){
+                gaoshou3=gaoshou3+parseInt('<%= r.amount %>')
+            }
+            else if('<%= r.nature %>'=='赎回取现' && ('<%= r.pname %>'==a5 || '<%= @hash2[r.id][0] %>'=="300")){
+                gaoshou3=gaoshou3-parseInt('<%= r.amount %>')
+            }
+        }
+    <% end %>
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container3',
+                type: 'column'
+            },
+            title: {
+                text:false
+            },
+            subtitle: {
+                text: false
+            },
+            xAxis: {
+                categories: ["上月","本月","当前"]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '金额'
+                },
+                labels:{
+                    formatter: function() {
+                        return this.value
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '应急资金',
+                data: [yingji1,yingji2,yingji3]
+
+            }, {
+                name: '稳定收益资产',
+                data: [wenjian1,wenjian2,wenjian3]
+
+            }, {
+                name: '高收益资产',
+                data: [gaoshou1,gaoshou2,gaoshou3]
+
+            }],
+            credits: {
+                enabled: false
+            }
+        });
+    }
+    function jsSelectIsExitItem(objSelect, objItemValue) {
+        var isExit = false;
+        for (var i = 0; i < objSelect.options.length; i++) {
+            if (objSelect.options[i].value == objItemValue) {
+                isExit = true;
+                break;
+            }
+        }
+        return isExit;
+    }
+    function addoption(objSelect, objItemText, objItemValue) {
+        //判断是否存在
+        if (jsSelectIsExitItem(objSelect, objItemValue)) {
+        } else {
+            var varItem = new Option(objItemText, objItemValue);
+            objSelect.options.add(varItem);
+        }
+    }
+    function removeoption(objSelect, objItemValue) {
+        //判断是否存在
+        if (jsSelectIsExitItem(objSelect, objItemValue)) {
+            for (var i = 0; i < objSelect.options.length; i++) {
+                if (objSelect.options[i].value == objItemValue) {
+                    objSelect.options.remove(i);
+                    break;
+                }
+            }
+        }
+    }
+    function waithelp(e,q){
+        var p=0;
+    <% @assettype.each do |a| %>
+      if("<%= a.asset_typename %>"==product){
+          p==1
+      }
+    <% end %>
+        if(p==0 && p!=a2 && p!=a4 && p!=a5){
+           removeoption(document.getElementById("pname"),product);
+        }
+        if(a2!=""){addoption(document.getElementById("pname"),a2,a2);}
+        if(a4!=""){addoption(document.getElementById("pname"),a4,a4);}
+        if(a5!=""){addoption(document.getElementById("pname"),a5,a5);}
+        handle=e;
+        if(e==0){
+            $("#date").attr("value",'')
+            $("#amount").attr("value",'')
+            $("#productcode").attr("value",'')
+            $("#productshare").attr("value",'')
+        }
+        else{
+            product=q;
+            addoption(document.getElementById("pname"),q,q);
+        <% @record.each do |r| %>
+            if('<%= r.id %>'==e){
+                $("#date").attr("value",'<%= r.date %>')
+                $("#nature").attr("value",'<%= r.nature %>')
+                $("#pname").attr("value",'<%= r.pname %>')
+                $("#amount").attr("value",'<%= r.amount %>')
+            <% if r.productcode!=nil %>
+                $("#productcode").attr("value",'<%= r.productcode %>')
+            <% end %>
+            <% if r.productshare!=nil %>
+                $("#productshare").attr("value",'<%= r.productshare %>')
+            <% end %>
+            }
+        <% end %>
+        }
+        nature();
+    }
+
+    $("#record").click(function(){
+        if($("#date").attr("value")==""){
+            alert("请选择日期！");
+            return false;
+        }
+        else if(numfor.test($("#amount").attr("value"))==false){
+            alert("投资金额必须为数字！");
+            return false;
+        }
+        else{
+   if(handle==0)
+                    $.post("/personmanagement/recordaddconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                        $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                            location.reload();
+                        });
+                    });
+                else{
+                    $.post("/personmanagement/recordremoveconfigajax/"+handle,function(data){
+                        $.post("/personmanagement/recordaddconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                          $.post("/personmanagement/recordconfigajax/"+handle,{ username: '<%= session[:webusername] %>',date: $("#date").attr("value"),nature: $("#nature").attr("value"),pname: $("#pname").attr("value"),amount: $("#amount").attr("value"),ptype:ptype,productcode: $("#productcode").attr("value"),productshare: $("#productshare").attr("value")},function(data){
+                              location.reload();
+                          });
+                        });
+                    });
+                }
+        }
+    });
+    function deleteajax(id){
+        $.post("/personmanagement/recordremoveconfigajax/"+id,function(data){
+            $.get("/personmanagement/recorddeleteajax/"+id,function(data){
+                if(data=="s"){
+                    alert("删除成功！");
+                    location.reload();
+                }
+                else{
+                    alert("删除失败！");
+                    location.reload();
+                }
+            });
+        });
+
+    }
+    $(document).ready(function(){
+        $("#dates").attr("value",yearNow+'-'+monthNow);
+        select();
+        $('#records').dataTable({
+            "iDisplayLength": 10
+        });
+    });
+</script>
+
+<script>
+    $(function () {
+        var chart;
+        $(document).ready(function() {
+
+            var date=yearNow+'-'+monthNow+'-1',date1;
+            <% @record.each do |r| %>
+            date1='<%= r.date %>'
+            var arr = date.split("-");
+            var starttime = new Date(arr[0], arr[1], arr[2]);
+            var starttimes = starttime.getTime();
+
+            var arrs = date1.split("-");
+            var lktime = new Date(arrs[0], arrs[1], arrs[2]);
+            var lktimes = lktime.getTime();
+            if (starttimes >= lktimes) {
+                date=date1;
+            }
+            <% end %>
+            if(date.split("-")[1]=="08"){
+                var min_month=8;
+            }
+            else if(date.split("-")[1]=="09"){
+                var min_month=9;
+            }
+            else{
+                var min_month=parseInt(date.split("-")[1]);
+            }
+            var length = (yearNow-parseInt(date.split("-")[0]))*12+monthNow-min_month;
+
+            var dates= new Array(); var data1= new Array(); var data2= new Array();nian=parseInt(date.split("-")[0]),yue=min_month;
+            for(var i=0;i<=length;i++){
+                if(yue>12){
+                    yue=yue-12;
+                    nian=nian+1;
+                }
+                var jin1=0,jin2=0;
+            <% @record.each do |r| %>
+                if('<%= r.date %>'.split('-')[1]=="08"){
+                    var thismonth=8;
+                }
+                else if('<%= r.date %>'.split('-')[1]=="09"){
+                    var thismonth=9;
+                }
+                else{
+                    var thismonth=parseInt('<%= r.date %>'.split('-')[1]);
+                }
+                if(parseInt('<%= r.date %>'.split('-')[0])==nian && thismonth==yue){
+
+                    if('<%= r.nature %>'=='买入'){
+                        jin1=jin1+parseInt('<%= r.amount %>')
+                    }
+                    else if('<%= r.nature %>'=='赎回取现'){
+                        jin2=jin2+parseInt('<%= r.amount %>')
+                    }
+                }
+            <% end %>
+                dates[i]=nian.toString()+'-'+yue.toString();
+                data1[i]=jin1;
+                data2[i]=jin2;
+                yue=yue+1;
+            }
+
+            $(function () {
+                var chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container4',
+                        type: 'column'
+                    },
+                    title: {
+                        text: '每月买入赎回对比图',
+                        style:{
+                            margin:'0 0 0 30px'
+                        }
+                    },
+                    subtitle: {
+                        text: false
+                    },
+                    xAxis: {
+                        categories: dates
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: '金额'
+                        },
+                        labels:{
+                            formatter: function() {
+                                return this.value
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: '买入',
+                        data: data1
+
+                    }, {
+                        name: '赎回',
+                        data: data2
+
+                    }],
+                    credits: {
+                        enabled: false
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    ;(function($){
+        $.fn.datetimepicker.dates['fr'] = {
+            days: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"],
+            daysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+            daysMin: ["D", "L", "Ma", "Me", "J", "V", "S", "D"],
+            months: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+            monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+            today: "本月",
+            meridiem: ["am", "pm"]
+        };
+    }(jQuery));
+    var start=yearNow+'-'+monthNow
+    $('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 3,
+        forceParse: 0,
+        startDate: yearNow+'-'+monthNow,
+        endDate: (parseInt(yearNow)+1).toString()+'-'+(parseInt(monthNow)-1).toString(),
+        format: 'yyyy-mm',
+        pickerPosition: "bottom-left"
+    }).on('changeDate', function(ev){
+                select();
+            });
+</script>

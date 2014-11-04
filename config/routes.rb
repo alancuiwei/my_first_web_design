@@ -1,53 +1,4 @@
 Ver01::Application.routes.draw do
-  get "tradeinfo/todayinfo"
-
-   resources :usercommodity_ts
-
-  resources :noriskmessages
-
-  resources :webuserstrategies
-
-  get "strategy/index"
-
-  get "strategy/performance"
-
-  get "strategy/show"
-
-  get "strategy/customization"
-
-  get "contactus/intro"
-
-  get "contactus/hire"
-
-  get "admin" =>'admin#index'
-  
-  get "usermanagement" =>'usermanagement#index'
-  
-  controller :sessions do
-	get 'login' => :new
-	post 'login' => :create
-	get 'logout' => :destroy
-	delete 'logout' => :destroy
-  end
-
-  get "sessions/new"
-
-  get "sessions/create"
-
-  get "sessions/destroy"
-
-#  get "strategy/rtprice" =>'strategy#rtprice'
-#  get "strategywebs/strategyindex" =>'strategywebs#strategyindex'
-#  get "strategywebs/strategyperformance" =>'strategywebs#strategyperformance'
-#  get "strategywebs/strategyshow/:id" =>'strategywebs#strategyshow#:id'
-
-  resources :webusers
-
-  get "strconfig/index"
-
-  resources :strategywebs
-  get "home/index"
-  
 #  match 'strategywebs/rtprice' => 'strategywebs#_rtprice' 
 
   # The priority is based upon order of creation:
@@ -98,7 +49,7 @@ Ver01::Application.routes.draw do
   #   end
 
   # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
+  # just remember to delete public/index.html.erb.
    root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
@@ -106,5 +57,7 @@ Ver01::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
    match ':controller(/:action(/:id))(.:format)'
+   resource :weixin
+   match '*a', :to => 'errors#handle'
 end
 

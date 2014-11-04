@@ -1,0 +1,76 @@
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  expense_id：<input type="text" name="expense_id" id="expense_id" title="expense_id"><br>
+  支出明细：<input type="text" name="expense_name" id="expense_name" title="支出明细"><br>
+  <% if params[:id]!="0" %>
+      说明：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="expense_intro" id="expense_intro" title="说明"><%= @expensetype.expense_intro %></textarea><br>
+  <% else %>
+      说明：<br><textarea class="ckeditor" style="width: 50%;padding:0;" rows="10" name="expense_intro" id="expense_intro" title="说明"></textarea><br>
+  <% end %>
+  比例：<input type="text" name="expense_expect" id="expense_expect" title="比例">%<br>
+  类别：<select type="text" name="expense_type" id="expense_type" title="类别">
+        <option value="must_expense">衣食住行</option>
+        <option value="fun_expense">零花钱</option>
+  </select><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    $("#categoryconfig").click(function(e){
+        var numfor=/^[-+]?[0-9]+(\.[0-9]+)?$/;
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!="" && nom_flag==0){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            if(numfor.test($("#expense_expect").attr("value"))==false){
+                alert("比例必须为数字！");
+                nom_flag=1;
+            }
+        }
+
+        if(nom_flag==0){
+            $.post("/admin/expenseconfigajax/<%= params[:id] %>",{ expense_id: $("#expense_id").attr("value"),expense_name:$("#expense_name").attr("value"),expense_intro:$("#expense_intro").attr("value"),expense_expect:$("#expense_expect").attr("value"),expense_type:$("#expense_type").attr("value")},function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>
+
+<script language="javascript">
+
+    $(document).ready(function(){
+        <% if params[:id]!="0" %>
+        $("#expense_id").attr("value",'<%= @expensetype.expense_id%>');
+        $("#expense_name").attr("value",'<%= @expensetype.expense_name%>');
+        $("#expense_expect").attr("value",'<%= @expensetype.expense_expect %>');
+        $("#expense_type").attr("value",'<%= @expensetype.expense_type %>');
+        <% end %>
+    });
+
+</script>

@@ -1,0 +1,35 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+     <CreateTime><%= Time.now.to_i %></CreateTime>
+     <MsgType><![CDATA[text]]></MsgType>
+     <Content><![CDATA[<% if @userfinancedata!=nil %><% if @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2 %>
+您是安益型的投资者，但我们将和您类似的保守型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
+<% elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4 %>
+您是保守型的投资者，但我们将和您类似的安益型、稳健型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
+<% elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6 %>
+您是稳健型的投资者，但我们将和您类似的保守型、积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
+<% elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8 %>
+您是积极型的投资者，但我们将和您类似的稳健型、激进型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
+<% elsif @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>
+您是激进型的投资者，但我们将和您类似的积极型也一起罗列出来，供您选择。另外的类型和您风险评估相差太大，我们将不加以罗列了。
+<% end %><% end %>
+<% @category.each do |c| %>
+<% if c.risklevel>=@min && c.risklevel<=@max %>
+<% if c.risklevel==1 %>
+安益型：<%= c.classify %>(<%= c.L2_typeid %>)
+<% elsif c.risklevel==2 %>
+保守型：<%= c.classify %>(<%= c.L2_typeid %>)
+<% elsif c.risklevel==3 %>
+稳健型：<%= c.classify %>(<%= c.L2_typeid %>)
+<% elsif c.risklevel==4 %>
+积极型：<%= c.classify %>(<%= c.L2_typeid %>)
+<% elsif c.risklevel==5 %>
+激进型：<%= c.classify %>(<%= c.L2_typeid %>)
+<% end %>
+<% end %>
+<% end %>
+请输入括号中的数字选择投资品种。
+]]></Content>
+     <FuncFlag>0</FuncFlag>
+ </xml>

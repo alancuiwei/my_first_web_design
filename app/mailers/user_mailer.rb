@@ -1,22 +1,29 @@
 #encoding: utf-8
 class UserMailer < ActionMailer::Base
-  default :from => "my@email.here"
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.user_mailer.forgetpassword.subject
-  #
-  def forgetpassword(myemail,reseturl,username,id)
-    @username=username
-    @reseturl=reseturl
+  default from: "info@tongtianshun.com"
 
-    mail(:to => myemail,:subject=>"通天顺用户："+username+"的密码重置邮件("+id+")")
+  def welcome(usename,email,title)
+    @usename = usename
+    mail(:to => email,:subject=>title)
   end
 
-  def regeditconfirm(myemail,username,reseturl)
-    @username=username
-    @reseturl=reseturl
+  def forgetpassword(email,title)
+    mail(:to => email,:subject=>title)
+  end
 
-    mail(:to => myemail,:subject=>"通天顺用户："+username+"的注册确认邮件")
+  def report(username,email,title)
+    @username=username
+    mail(:to => email,:subject=>title)
+  end
+
+  def targetreport(username,email,title)
+    @username=username
+    mail(:to => email,:subject=>title)
+  end
+
+  def sendimage(usename,email,title)
+    @usename = usename
+  #  attachments.inline['tongtianshun.png'] = File.read('/assets/tongtianshun.png')
+    mail(:to => email,:subject=>title)
   end
 end

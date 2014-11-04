@@ -1,0 +1,841 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "founder.css" %>
+<%= javascript_include_tag "base.js" %>
+<%= javascript_include_tag "d3.js" %>
+<%= javascript_include_tag "plan.js" %>
+<%= javascript_include_tag "risk.js" %>
+<%= javascript_include_tag "jquery.effects.core.js" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "highcharts-more.js" %>
+<%= javascript_include_tag "jquery.poshytip.js" %>
+<%= stylesheet_link_tag "tip-yellowsimple.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<style>
+    th, td {font-family: Hiragino Sans GB W3;}
+    tr.first td{background-color: #f9f9f9!important;}
+    #category td.second,#category th.second,tr.third td{
+        background-color: #CCCCCC!important;
+    }
+    .question{padding:0 168px 0 56px!important;}
+</style>
+<script>
+    t0=new Date
+    function onReady(fn){onReady.fns.push(fn)}
+    onReady.fns=[]
+</script>
+
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
+<!--[if !IE]><!--><style>#questionnaire-view .angel label{padding-bottom: 7px;}</style><!--<![endif]-->
+<div class="welcomes questions">
+<div class="ofa-funnel-pages">
+<div id="page-wrapper">
+  <%= render "side" %>
+
+<div id="page-content">
+  <div class="clearfix"></div>
+  <h1>
+    看看您的风险承受度是多少？
+    <div id="q-numbers"><b class="q-num curr"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b><b class="q-num"></b></div>
+  </h1>
+
+  <div id="pict" style="float:right;width: 280px;margin:40px 0 0 0;position:relative">
+    <div id="container"></div>
+  </div>
+
+  <div id="questionnaire-view">
+    <form id="questionnaire" action="" method="post">
+      <div class="question first">
+        <p class="q-text">当前的股票市场波动是非常剧烈的，如果你在该市场的投入资金在一个月内达到10%的跌幅，你会选择怎么做呢?</p>
+        <label class="stacked"><input type="radio" name="response" value="sellAll" tabindex="0"><span>卖掉所有股票</span></label>
+        <label class="stacked"><input type="radio" name="response" value="sellSome" tabindex="0"><span>卖掉一部分股票</span></label>
+        <label class="stacked"><input type="radio" name="response" value="keepAll" tabindex="0"><span>继续持有</span></label>
+        <label class="stacked"><input type="radio" name="response" value="buyMore" tabindex="0"><span>购买更多的股票</span></label>
+        <div style="clear:both"></div><div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-response"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您对资金损失的承受度。您的承受度越强，您能承受的风险就越高。您是否愿意承受风险和能够多少风险将计入您最终的风险度得分。 " target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">下列的3个假设投资计划，哪个会更符合您当前的投资需求?</p>
+        <div id="q-portfolio-chart">
+          <div class="q-portfolio-key">
+            <div class="q-portfolio-key-i">
+              <div class="q-portfolio-key-h">Key</div>
+              <div class="q-portfolio-key-m">预期年化收益率</div>
+              <div class="q-portfolio-key-r">在当年可能出现<br>的资产变动幅度</div>
+            </div>
+          </div>
+          <div class="q-portfolio-grid"><img src="/assets/120225.jpg" style="width: 198px;height: 128px;padding-left: 10px;"></div>
+        </div>
+        <br>
+        <div class="q-portfolio-choices">
+          <b class="q-portfolio-choice"><input type="radio" name="portfolio" value="A" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="B" tabindex="-1"></b><b class="q-portfolio-choice"><input type="radio" name="portfolio" value="C" tabindex="-1"></b>
+        </div><div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-portfolio"><a class="ktip-a demo-tip-yellowsimple" title=" 这个问题是评估您为了获取较高收益率所愿意承受的波动幅度。正常情况而言，您能接受的波动幅度越大，您的风险度得分将越高。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text"> 当您准备资金进行投资时，您最在意的是哪一项指标?</p>
+        <label class="stacked"><input type="radio" name="concern" value="gain" tabindex="-1"><span>最大利润</span></label>
+        <label class="stacked"><input type="radio" name="concern" value="loss" tabindex="-1"><span>最小损失</span></label>
+        <label class="stacked"><input type="radio" name="concern" value="both" tabindex="-1"><span>两者都很重要</span></label>
+        <div style="clear:both"></div><div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-concern"><a class="ktip-a demo-tip-yellowsimple" title=" 更关注最大利润意味着愿意承担更大的风险。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">你是否自己参与购买过股票、基金或期货等高风险投资品种?</p>
+        <label class="stacked"><input type="radio" name="options" value="true" tabindex="-1"><span>是</span></label> &nbsp;
+        <label class="stacked"><input type="radio" name="options" value="false" tabindex="-1"><span>否</span></label>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-options"><a class="ktip-a demo-tip-yellowsimple" title="主动参与高风险产品投资意味着您愿意承担更大的风险" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">您参加工作有多少时间了?</p>
+        <input type="text" name="age" id="age" style="width:42px;margin-right:7px;" pattern="[0-9]{1,2}" class="kform-input-text" value="" tabindex="-1">年
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-age"><a class="ktip-a demo-tip-yellowsimple" title="您越接近退休年纪，您能承担的风险将越小。正常而言，您的平时的投资都将最终影响您的退休收入。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">假设您6个月后需要买房子，但您首期资金不够，您将能向父母亲戚借到多少钱？
+          <span class="subtext">(例如：银行活期存款，股票，基金，期货等)</span>
+        </p>
+        <p>
+          <span class="kform-money"><span class="kform-money-sign">￥</span><input type="text" autocomplete="off" name="lnw" id="lnw" class="kform-input-text kform-money" pattern="[0-9,]*" style="width:100px" value="" tabindex="-1"></span>
+        </p>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-lnw"><a class="ktip-a demo-tip-yellowsimple" title="我们将用这个资产值来均衡您的未来几年的收入和消费是否吻合，如何相差过大的话，我们将建议您承担更多的风险以获得更大的利润回报。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">假设您有15万元的现金，根据您家庭情况，您觉得这笔资金投资多少时间比较合适?
+        </p>
+        <label class="stacked"><input type="radio" name="income" value="90" tabindex="-1"><span>三个月</span></label>
+        <label class="stacked"><input type="radio" name="income" value="180" tabindex="-1"><span>六个月</span></label>
+        <label class="stacked"><input type="radio" name="income" value="365" tabindex="-1"><span>一年</span></label>
+        <label class="stacked"><input type="radio" name="income" value="730" tabindex="-1"><span>二年</span></label>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-income"><a class="ktip-a demo-tip-yellowsimple" title="你投资的时间越长，收益率会相对越高,能承受的风险度越高。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">您当前的工作薪水收入稳定吗?</p>
+        <label class="stacked"><input type="radio" name="stability" value="A" tabindex="-1"><span>非常稳定</span></label>
+        <label class="stacked"><input type="radio" name="stability" value="B" tabindex="-1"><span>比较稳定</span></label>
+        <label class="stacked"><input type="radio" name="stability" value="C" tabindex="-1"><span>比较不稳定</span></label>
+        <label class="stacked"><input type="radio" name="stability" value="D" tabindex="-1"><span>非常不稳定</span></label>
+        <div style="clear:both"></div>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-stability"><a class="ktip-a demo-tip-yellowsimple" title="一个稳定的收入，意味着您能承担较高的风险。 " target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question angel">
+        <p class="q-text">您对如下哪些产品比较感兴趣?</p>
+        <label class="stacked"><input type="radio" name="angel" value="true" tabindex="-1"><span>定期存款</span></label>
+        <label class="stacked"><input type="radio" name="angel" value="A" tabindex="-1"><span>股票</span></label>
+        <label class="stacked"><input type="radio" name="angel" value="B" tabindex="-1"><span>余额宝等货币基金</span></label>
+        <label class="stacked"><input type="radio" name="angel" value="C" tabindex="-1"><span>P2P理财产品</span></label>
+        <div style="clear:both"></div>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-angel"><a class="ktip-a demo-tip-yellowsimple" title="我们将根据你感兴趣的产品的风险度来判断您的承受力，一般来说，选择P2P的话风险承受力会高，选择定期存款，风险承受力会较低。" target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+      <div class="question">
+        <p class="q-text">您短期内（1-2年）有买房或买车等大额消费目标吗?</p>
+        <label><input type="radio" name="goal" value="false" tabindex="-1"><span>是</span></label>
+        <label><input type="radio" name="goal" value="true" tabindex="-1"><span>否</span></label>
+        <div class="mobile"><br></div>
+        <p class="why-do-we-ask">
+          <span class="ktip-link bottomleft" id="why-ask-goal"><a class="ktip-a demo-tip-yellowsimple" title=" 短期内有大额消费目标的话，说明资金的安全性对您来说很重要，相应您的风险承受力则会降低。 " target="_top">为什么我们问这个问题?</a></span>
+        </p>
+      </div>
+    </form>
+    <div id="q-fade-t"></div>
+    <div id="q-fade-b"></div>
+  </div>
+  <div id="q-buttons">
+    <button class="q-button light-gray big-button" id="q-back" disabled="disabled">◄&nbsp; <span>上一题</span>&nbsp;</button>
+    <button class="q-button orange-button big-button" id="q-next" disabled="disabled">&nbsp;下一题 &nbsp;►</button>
+    <button class="q-button orange-button big-button" id="q-submit">风险评估报告</button>
+
+    <p class="q-privacy">
+      <span class="q-privacy-1">这是匿名的，所以你可以如实回答<span class="win">，</span></span>
+      <span class="win">我们不会问你的身份识别信息，除非阁下在决定投资我们。</span>
+    </p>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $("#container").remove();
+        $(".win").remove();
+    }
+</script>
+
+<script>
+
+    <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
+    var risk=<%= @userfinancedata.risk_score %>;
+    <% else %>
+    var risk=0;
+    <% end %>
+    var tol;
+
+    _gaq = [["_setAccount","UA-1329988-4"],["_trackPageview"]];
+    w.requestId = "1092152607";
+
+    $(function(){
+        window.onerror = function(error, url, lineNumber) {
+            var payload = {"rev": "80126", "error": error, "agent": navigator.userAgent, "stack": []};
+
+            // begin ie9 only stack trace grabbing
+            var value = arguments.callee;
+            for(i=0; i!=10; ++i) {
+                if(value.caller) {
+                    payload.stack.push(value.caller.toString());
+                    value = value.caller;
+                }
+            }
+
+            if (!w.jsErrors[payload]) {
+                w.jsErrors[payload] = true;
+                w.trackESP("ClientSideError", location.href, JSON.stringify(payload));
+            }
+
+            return false;
+        }
+        $.each(onReady.fns, function(i,f) {f()});
+    });
+</script>
+
+<script>
+    var s_age= 0,s_amount= 0,s_salary=0;
+    <% if  session[:webusername]!=nil %>
+    s_age='<%= @webuser.age %>';
+    <% if @assetsheet!=nil %>
+    s_amount=parseInt('<%= @userbalancesheet.asset_account %>');
+    <% end %>
+    <% if @userdatamonth!=nil %>
+    <% if @userdatamonth.salary_month!=nil %>
+    s_salary=parseInt('<%= @userdatamonth.salary_month %>');
+    <% end %>
+    <% if @userdatamonth.extra_income_month!=nil %>
+    s_salary=s_salary+parseInt('<%= @userdatamonth.extra_income_month %>');
+    <% end %>
+    <% end %>
+    <% end %>
+
+    $(function() {
+        var $qv = $("#questionnaire-view");
+        var $qr = $("#questionnaire");
+        var accountMin = 0;
+
+        $("#questionnaire-view .ktip-link").bind("tip.show", function() {
+            w.trackEvent("OFA", "questionnaire_faq_show", this.id);
+        });
+
+        $("#q-numbers").delegate(".q-num.past", "click", function() {
+            var $i = $qr.find(".invalid");
+            if ($i.length) {
+                $i.focus().select();
+            } else {
+                showQn($(this).index());
+            }
+        });
+
+        $qr.data("vals", valsFromDom($qr.find("input")))
+                .data("init", function(doCalc) {
+                    $qr.data("init", function() { showQn(0, true); })
+                            .keydown(function(e) {
+                                if ($qr.data("transition")) {
+                                    return false;
+                                }
+                                if (e.keyCode == 9 || e.keyCode == 13 && !e.shiftKey) {
+                                    var $b = $(e.shiftKey ? "#q-back" :
+                                            ("#q-next:visible" + (e.keyCode == 13 ? ",#q-submit:visible" : "")));
+                                    if ($b.is(":enabled")) {
+                                        e.preventDefault();
+                                        $b.triggerHandler("click");
+                                    }
+                                }
+                            })
+                            .find("a[href]").attr("tabindex", "-1").end()
+                            .find("input").attr("tabindex", "-1")
+                            .filter("[type=radio]").click(function(e) {
+                                this.focus();
+                                updateButtons(e, this, true);
+                                if (this.value !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+
+                            }).end()
+                            .filter("[type=checkbox]").click(function(e) {
+                                this.focus();
+                                updateButtons(e, this, true);
+                                if (this.value !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=age]").each(function(){
+                                // jquery does not yet support on input
+                                this.oninput = function(e) {
+                                    $(this).keypress();
+                                }
+                            }).bind("keypress keyup", function(e) {
+                                var raw = this.value, val = ageFromDom(this), done = val != null;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                            }).end()
+                            .filter("[name=lnw]").bind("keypress keyup", function(e) {
+                                var raw = this.value, val = amountFromDom(this), done = val != null && val >= accountMin;
+                                $(this).toggleClass("invalid", !!raw && !done);
+                                updateButtons(e, this, done);
+                                if (val !== $qr.data("vals")[this.name]) {
+                                    calculateRiskTol();
+                                }
+                                if (done && this.selectionStart === raw.length) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            }).blur(function() {
+                                var val = amountFromDom(this);
+                                if (val != null) {
+                                    this.value = w.formatNum(val, 0);
+                                }
+                            });
+
+                    $("#q-back,#q-next").click(function(e) {
+                        $("html,body").animate({"scrollTop":"0"},"slow")
+                        var back = this.id == "q-back";
+                        if (back) {
+                            w.trackEvent("OFA", "questionnaire_back");
+                        } else {
+                            w.trackEvent("OFA", "questionnaire_next", qPayload());
+                        }
+                        var new_q_num = $qr.data("q") + (back ? -1 : 1);
+                        showQn(new_q_num);
+                    });
+                    $("#q-submit").click(function(e) {
+                        <% if session[:webusername]!=nil %>
+                        var svaue=0;
+                        var rate=document.getElementsByName("goal");
+                        for(j=0;j<rate.length;j++){
+                            if(rate[j].checked){
+                                svalue=rate[j].value;
+                            }
+                        }
+                        $.post("/home/riskconfig",{ username:"<%= session[:webusername] %>",num:10,svalue: svalue},function(data){
+                        });
+                        var risk_score=tol;
+                        $.post("/personmanagement/personconfigajax/0",{ username:"<%= session[:webusername] %>",risk_score:risk_score
+                        },function(data){
+                            location.href='/userrisktolerance/p3_risktolerence_report';
+                        });
+                        <% end %>
+                        return false
+                        //  document.getElementById('questionnaire').action ="/personmanagement/personfinance";
+                        w.trackEvent("OFA", "submit_questionnaire", qPayload());
+                        $qr.submit();
+                    });
+                    function qPayload() {
+                        var $n = $qr.find("input[tabindex=0]").filter(":checked");
+                        if (!$n.length) {
+                            $n = $n.end();
+                        }
+                        return $n.attr("name") + ":" + $n.val();
+                    }
+
+                    showQn(0);
+                    if (doCalc) {
+                        calculateRiskTol();
+                    }
+                });
+        var num= -1,svalue=0;
+        function showQn(i, immediately) {
+            if(num>=0 && num<10){
+                if(num==0){
+                    var fluct=document.getElementsByName("response");
+                    for(j=0;j<fluct.length;j++){
+                        if(fluct[j].checked){
+                            svalue=fluct[j].value;
+                        }
+                    }
+                }
+                else if(num==1){
+                    var rate=document.getElementsByName("portfolio");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                else if(num==2){
+                    var rate=document.getElementsByName("concern");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                else if(num==3){
+                    var rate=document.getElementsByName("options");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                else if(num==4){
+                    svalue=$("#age").attr("value");
+                }
+                else if(num==5){
+                    svalue=$("#lnw").attr("value").replace(/,/g,'');
+                }
+                else if(num==6){
+                    var rate=document.getElementsByName("income");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                else if(num==7){
+                    var rate=document.getElementsByName("stability");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                else if(num==8){
+                    var rate=document.getElementsByName("angel");
+                    for(j=0;j<rate.length;j++){
+                        if(rate[j].checked){
+                            svalue=rate[j].value;
+                        }
+                    }
+                }
+                $.post("/home/riskconfig",{ username:"<%= session[:webusername] %>",num:num+1,svalue: svalue},function(data){
+                });
+            }
+            num=i;
+            var test_div=document.getElementById("questionnaire-view");
+            test_div.style.height="326px";
+            if(system.win||system.mac||system.xll){
+                $("#pict").show();
+                test_div.style.width="642px";
+            }
+            else{
+                $("#pict").hide();
+            }
+
+            var $qns = $qr.children(".question");
+            var $qn = $qns.eq(i);
+            if (i >= 0 && $qn.length) {
+                $qns.eq($qr.data("q")).find("input").attr("tabindex", "-1");
+
+                $qr.data({q: i, transition: true});
+                var newTop = -i * $qn.height() + "px";
+                //  alert(newTop)
+                if (immediately) {
+                    $qr.css("top", newTop);
+                }
+                if (immediately || $qr.css("top") === newTop) {
+                    setTimeout(onAtQn, 5);
+                } else {
+                    $qr.animate({"top": newTop}, onAtQn);
+                }
+                $("#q-back span").text(i === 0 ? "上一题" : "上一题");
+                $("#q-back").attr("disabled", i == 0);
+
+                var isLastQn = i == $qns.length - 1;
+                $("#q-buttons").toggleClass("q-submit", isLastQn);
+
+                var $i = $qn.find("input");
+                var done = $i.is(":radio") ? $i.is(":checked") : !!$i.val();
+                $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !done);
+
+                $qr.trigger("qr:nav", i);
+
+                w.trackEvent("OFA", "question_display", (i+1) + "." + $i.attr("name"));
+            }
+
+            function onAtQn() {
+                $qr.removeData("transition");
+                $qn.find("input").attr("tabindex", "0")
+                        .filter("[checked=true],input:first").focus().select();
+            }
+        }
+
+        function updateButtons(e, inputEl, isDone) {
+            if (e.keyCode == 9 || e.keyCode == 13) {
+                return;
+            }
+            var $i = $(inputEl), $q = $i.closest(".question");
+            var isLastQn = $q.nextAll(".question:first").length == 0;
+            $(isLastQn ? "#q-submit" : "#q-next").attr("disabled", !isDone);
+            $("#q-back").attr("disabled", $i.hasClass("invalid") || $q.is(".first"));
+        }
+
+        function calculateRiskTol() {
+            var min = 0.1;
+            var max = 10;
+            var granularity = 10.0;
+            var $i = $qr.find("input");
+            var vals = valsFromDom($i);
+            tol = recommendRiskTolerance2(vals, min, max, granularity,s_age,s_amount,s_salary);
+            var rec = tol.toFixed(1);
+            $i.filter("[name=rec]").val(rec);
+            vals.rec = +rec;
+            $qr.data("vals", vals);
+            $qr.triggerHandler("qr:change", +rec);
+            if(tol!=0.1){
+                risk=tol;
+            }
+        }
+    });
+</script>
+<script>
+    $(function() {
+        var currentModelNumber = "4"; //SAA201210
+        var moveMeter = attachRiskMeter("#risk-meter");
+
+        var $n = $("#q-numbers"), $qr = $("#questionnaire"), $qs = $qr.find(".question");
+        $n.find(".q-num").each(function(i) {
+            if ($qs.eq(i).find("input").filter(function() {return this.type == "radio" ? this.checked : !!this.value}).length) {
+                $(this).addClass("past");
+            } else {
+                return false;
+            }
+        });
+        $qr.bind("qr:nav", function(e, i) {
+            var $n = $("#q-numbers");
+            $n.children(".q-num.curr").removeClass("curr").addClass("past");
+            $n.children().eq(i).removeClass("past").addClass("curr");
+        })
+                .bind("qr:change", function(e, tol) {
+                    moveMeter(tol / 10);
+                })
+                .submit(function(e) {
+                    e.preventDefault();
+                    var $qr = $(this);
+                    if (!$qr.data("submitted")) {
+                        $qr.data("submitted", true);
+                        var cookieName = "asset_allocation";
+                        var o = deserializePlan(w.cookie(cookieName)) || {};
+                        $.each($qr.serializeArray(), function(i,v) {
+                            o[v.name] = v.value.replace(/[$,]/g, "");
+                        });
+                        o.tol = o.rec;
+                        o.amount = o.amount || o.lnw;
+                        var check=document.getElementsByName("stability");
+                        o.stability="";
+                        for(var i=0;i<check.length;i++){
+                            if(check[i].checked==true){
+                                if(o.stability==""){
+                                    o.stability=check[i].value;
+                                }
+                                else{
+                                    o.stability=o.stability+check[i].value;
+                                }
+                            }
+                        }
+                        w.cookie(cookieName, serializePlan(o, currentModelNumber), 14);
+                        location = $qr.attr("action");
+                    }
+                })
+                .data("init")(true);
+    });
+</script>
+
+<script>
+    $(function(){
+        $('.demo-tip-yellowsimple').poshytip({
+            className: 'tip-yellowsimple',
+            showTimeout: 1,
+            alignTo: 'target',
+            alignX: 'center',
+            alignY: 'bottom',
+            offsetY: 5,
+            allowTipHover: false
+        });
+        var flickrFeedsCache = {};
+        $('#demo-async-flickr > a').poshytip({
+            className: 'tip-darkgray',
+            bgImageFrameSize: 11,
+            alignY: 'bottom',
+            content: function(updateCallback) {
+                var rel = $(this).attr('rel');
+                if (flickrFeedsCache[rel] && flickrFeedsCache[rel].container)
+                    return flickrFeedsCache[rel].container;
+                if (!flickrFeedsCache[rel]) {
+                    flickrFeedsCache[rel] = { container: null };
+                    var tagsComma = rel.substring(4).replace('-', ',');
+                    $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?tags=' + tagsComma + '&tagmode=all&format=json&jsoncallback=?',
+                            function(data) {
+                                var container = $('<div/>').addClass('flickr-thumbs');
+                                $.each(data.items, function(i, item) {
+                                    $('<a/>')
+                                            .attr('href', item.link)
+                                            .append($('<img/>').attr('src', item.media.m))
+                                            .appendTo(container)
+                                            .data('tip', '<strong>' + (item.title || '(no title)') + '</strong><br />by: ' + item.author.match(/\((.*)\)/)[1]);
+                                    if (i == 4)
+                                        return false;
+                                });
+                                // add tips for the images inside the main tip
+                                container.find('a').poshytip({
+                                    content: function(){return $(this).data('tip');},
+                                    className: 'tip-yellowsimple',
+                                    showTimeout: 100,
+                                    alignTo: 'target',
+                                    alignX: 'center',
+                                    alignY: 'bottom',
+                                    offsetY: 5,
+                                    allowTipHover: false,
+                                    hideAniDuration: 0
+                                });
+                                // call the updateCallback function to update the content in the main tooltip
+                                // and also store the content in the cache
+                                updateCallback(flickrFeedsCache[rel].container = container);
+                            }
+                    );
+                }
+                return 'Loading images...';
+            }
+        });
+    });
+
+    $(document).ready(function(){
+        <% if session[:webusername]==nil %>
+        location.href="/usermanagement/login?questions=1";
+        <% else %>
+        <% if @risk!=nil %>
+        <% @risk.each do |r| %>
+        <% if r.question_id==1 %>
+        var fluct=document.getElementsByName("response");
+        var fvalue='<%= r.question_answer %>';
+        for(i=0;i<fluct.length;i++){
+            if(fluct[i].value==fvalue){
+                fluct[i].checked=true;
+                document.getElementById("q-next").disabled=false;
+            }
+        }
+        <% elsif r.question_id==2 %>
+        var rate=document.getElementsByName("portfolio");
+        var rvalue='<%= r.question_answer %>'
+        for(i=0;i<rate.length;i++){
+            if(rate[i].value==rvalue){
+                rate[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==3 %>
+        var con=document.getElementsByName("concern");
+        var cvalue='<%= r.question_answer %>'
+        for(i=0;i<con.length;i++){
+            if(con[i].value==cvalue){
+                con[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==4 %>
+        var opt=document.getElementsByName("options");
+        var ovalue='<%= r.question_answer %>'
+        for(i=0;i<opt.length;i++){
+            if(opt[i].value==ovalue){
+                opt[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==5 %>
+        $("#age").attr("value",'<%= r.question_answer %>');
+        <% elsif r.question_id==6 %>
+        $("#lnw").attr("value",'<%= r.question_answer %>');
+        <% elsif r.question_id==7 %>
+        var inc=document.getElementsByName("income");
+        var ivalue='<%= r.question_answer %>';
+        for(i=0;i<inc.length;i++){
+            if(inc[i].value==ivalue){
+                inc[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==8 %>
+        var sta=document.getElementsByName("stability");
+        var svalue='<%= r.question_answer %>'
+        for(i=0;i<sta.length;i++){
+            if(sta[i].value==svalue){
+                sta[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==9 %>
+        var ang=document.getElementsByName("angel");
+        var avalue='<%= r.question_answer %>';
+        for(i=0;i<ang.length;i++){
+            if(ang[i].value==avalue){
+                ang[i].checked=true;
+            }
+        }
+        <% elsif r.question_id==10 %>
+        var goa=document.getElementsByName("goal");
+        var gvalue='<%= r.question_answer %>';
+        for(i=0;i<goa.length;i++){
+            if(goa[i].value==gvalue){
+                goa[i].checked=true;
+            }
+        }
+
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+    });
+
+    $(function () {
+        if(system.win||system.mac||system.xll){
+            var chart = new Highcharts.Chart({
+
+                        chart: {
+                            renderTo: 'container',
+                            type: 'gauge',
+                            plotBorderWidth: 1,
+                            plotBackgroundColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                stops: [
+                                    [0, '#FFF4C6'],
+                                    [0.3, '#FFFFFF'],
+                                    [1, '#FFF4C6']
+                                ]
+                            },
+                            plotBackgroundImage: null,
+                            height: 200,
+                            width: 280
+                        },
+
+                        title: {
+                            text: '您的风险承受度'
+                        },
+
+                        pane: [{
+                            startAngle: -45,
+                            endAngle: 45,
+                            background: null,
+                            center: ['50%', '145%'],
+                            size: 280
+                        }],
+
+                        yAxis: [{
+                            min: 0,
+                            max: 10,
+                            tickInterval: 2,
+                            minorTickPosition: 'outside',
+                            tickPosition: 'outside',
+                            labels: {
+                                rotation: 'auto',
+                                distance: 20
+                            },
+                            plotBands: [{
+                                from: 0,
+                                to: 2,
+                                color: '#09a509',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 2,
+                                to: 4,
+                                color: '#69c908',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 4,
+                                to: 6,
+                                color: '#eded07',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 6,
+                                to: 8,
+                                color: '#fa8c1e',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            },{
+                                from: 8,
+                                to: 10,
+                                color: '#C02316',
+                                innerRadius: '100%',
+                                outerRadius: '105%'
+                            }],
+                            pane: 0,
+                            title: false
+                        }],
+
+                        plotOptions: {
+                            gauge: {
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                dial: {
+                                    radius: '90%'
+                                }
+                            }
+                        },
+                        series: [{
+                            data: [0],
+                            yAxis: 0
+                        }],
+                        credits: {
+                            enabled: false
+                        }
+                    },
+
+                    // Let the music play
+                    function(chart) {
+                        setInterval(function() {
+                            var left = chart.series[0].points[0],
+                                    leftVal;
+                            <% if session[:webusername]!=nil && @userfinancedata!=nil && @userfinancedata.risk_score!=nil %>
+                            if(tol==0.1){
+                                tol=<%= @userfinancedata.risk_score %>;
+                            }
+                            <% end %>
+                            leftVal = tol;
+                            left.update(leftVal, false);
+                            chart.redraw();
+
+                        }, 500);
+
+                    });
+        }
+    });
+</script>

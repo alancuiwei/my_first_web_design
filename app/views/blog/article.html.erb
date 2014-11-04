@@ -1,0 +1,187 @@
+<%= stylesheet_link_tag "blog.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<!--[if IE]>
+<style>
+    .side-tip{
+        width: 20%;
+    }
+    .side-tip div.comput {
+        position: fixed;
+        top:80px;
+    }
+    .side-tip div.tip {
+        top: 95px;
+        overflow: hidden;
+        position: absolute;
+        width: 220px;
+        max-width: 220px;
+        min-height: 200px;
+        height: auto;
+        left: 40px\9;
+        background: none repeat scroll 0% 0% rgb(248, 248, 248);
+        box-shadow: 0px 0px 3px rgb(170, 170, 170);
+        cursor: default;
+    }
+</style>
+<![endif]-->
+<style>
+    #commentform #author, #commentform #email, textarea {width: 95%;}
+</style>
+
+<div  class='main-content blog' style="width: 100%!important;padding: 10px 0 30px;">
+  <div style="margin: 0 20px;">
+   <div class="home">
+  <a class="crumbs" href="/">首页</a>&nbsp; >&nbsp;
+  <a class="crumbs" href="/blog/all" >博客</a><br><br>
+  </div>
+  <table class="body-container" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>
+        <p class="entry-title post"><%=raw @bloginfo[0]%></p>
+        <div class="entry-meta"><a href="" class="a"><%= @bloginfo[1]%></a>&nbsp;发表于&nbsp; <%= @bloginfo[2]%></div>
+        <div class="news_tag"></div>
+        <br>
+        <div style="text-align: center;"><img style="width: 100%;" src="/assets/<%= @bloginfo[5]%>"></div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="article">
+        <p><%=raw @bloginfo[3]%></p>
+        </div>
+        <br>
+        <div class="forie">
+          <% if @comments.length>0 %>
+              <strong>评论</strong>
+              <table cellpadding="0" cellspacing="0" border="0" class="display" id="comments">
+                <% @comments.each do |b| %>
+                    <tr>
+                      <td>
+                        <p><%= b.username%> 说：</p>
+                      </td>
+                      <td class="pull-right">
+                        <p> <%= b.time%> </p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <%= b.comments%>
+                        <hr>
+                      </td>
+                    </tr>
+                <% end %>
+              </table>
+          <% end %>
+          <h3 class="widget-title" style="font-size: 20px;color: #ff0000;">最受欢迎的文章：</h3>
+          <table class="popular">
+            <% @popular.each do |b| %>
+                <tr>
+                  <td>
+                    <a href="/blog/article/<%= b.id%>"><h1 style="font-size: 16px;"><%= b.btitle %></h1></a>
+                    <a href="/blog/article/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"> <hr> </td>
+                </tr>
+            <% end %>
+          </table>
+          <div style="height: 20px;"></div>
+          <h3 class="widget-title" style="font-size: 20px;color: #ff0000;">你可能会感兴趣的文章：</h3>
+          <table class="popular">
+            <% @interest.each do |b| %>
+                <tr>
+                  <td>
+                    <a href="/blog/article/<%= b.id%>"><h1 style="font-size: 16px;"><%= b.btitle %></h1></a>
+                    <a href="/blog/article/<%= b.id%>"><img style="width: 100%;" src="/assets/<%= b.imagepath%>"></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"> <hr> </td>
+                </tr>
+            <% end %>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr><td>
+      <div class="sociable">
+        </br>
+        <div class="sociable_tagline">分享</div>
+        <ul class="clearfix"></ul>
+      </div>
+      <!-- Baidu Button BEGIN -->
+      <div class="baidu_btn" style="width: 100%;">
+        <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare addthis_toolbox" style="padding:10px 0 5 5px;">
+          <a class="bds_tsina" style="padding:0px 15px 8px 0px; float: left"></a>
+          <a class="bds_tqq" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_renren" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_hi" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_qzone" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_douban" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_kaixin001" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_mail" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_print" style="padding:0 15px 8px 0; float: left"></a>
+          <a class="bds_copy" style="padding:0 15px 5px 0; float: left"></a>
+          <span class="bds_more" style="padding:0 15px 10px 0; float: left"></span>
+        </div>
+      </div>
+
+      <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=2419455"></script>
+      <script type="text/javascript" id="bdshell_js"></script>
+      <script type="text/javascript">
+          var bds_config = {'bdText':'我在 @通天顺家庭理财 里读到这篇文章，“<%=raw @bloginfo[0]%>”，很棒！'} ;
+          document.getElementById("bdshell_js").src="http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+      </script>
+      <!-- Baidu Button END -->
+    </td>
+    </tr>
+  </table>
+    <div id="get-started-partial">
+      <a href="/usersurvey/p1_usersurvey" class="get-started-button">免 费 规 划</a>
+      <div id="free-text">花2分钟，获得详细家庭理财规划报告。</div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        <% if @bloginfo[7]!=nil %>
+        var value = '<%= @bloginfo[7] %>';
+        var tags = value.split(/,\s*|，\s*/);
+        var tag='';
+        for(var i=0;i<tags.length;i++){
+            tag=tag+'<a href="/blog/all?tag='+tags[i]+'" target="_blank">'+tags[i]+'</a>';
+        }
+        $(".news_tag").html(tag);
+        <% end %>
+
+        <% if @blog.count==nil %>
+        var count=1;
+        <% else %>
+        var count=parseInt('<%= @blog.count %>')+1;
+        <% end %>
+        $.post("/blog/countconfigajax",{count:count,bid:"<%= params[:id] %>"},function(data){
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+       window.location.href='/blog/blogarticle/'+<%= params[:id] %>;
+    }
+</script>

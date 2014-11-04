@@ -1,0 +1,43 @@
+<xml>
+     <ToUserName><![CDATA[<%= params[:xml][:FromUserName] %>]]></ToUserName>
+     <FromUserName><![CDATA[<%= params[:xml][:ToUserName] %>]]></FromUserName>
+ <CreateTime>1<%= Time.now.to_i %></CreateTime>
+ <MsgType><![CDATA[news]]></MsgType>
+ <ArticleCount>1</ArticleCount>
+ <Articles>
+
+ <item>
+ <Title><![CDATA[您的家庭资产]]></Title>
+ <Description><![CDATA[您的资产信息如下：
+<% @userasset.each do |u| %>
+<% if @hash1[u.asset_typeid][1]==100 || @hash1[u.asset_typeid][1]==200 || @hash1[u.asset_typeid][1]==300 %>
+<% if u.asset_product_code!=nil %>
+<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %>(<%= @hash[u.asset_product_code][1] %>)<% else %><%= @hash1[u.asset_typeid][0] %><% end %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
+<% else %>
+<%= @hash1[u.asset_typeid][0] %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
+<% end %>
+<% end %>
+<% end %>
+投资资产<%= @liudong %>元。
+
+<% @userasset.each do |u| %>
+<% if @hash1[u.asset_typeid][1]==400 %>
+<% if u.asset_product_code!=nil %>
+<% if @hash[u.asset_product_code][0]!=nil %><%= @hash[u.asset_product_code][0] %>(<%= @hash[u.asset_product_code][1] %>)<% else %><%= @hash1[u.asset_typeid][0] %><% end %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
+<% else %>
+<%= @hash1[u.asset_typeid][0] %>:<% if u.asset_product_value!=nil %><%= u.asset_product_value %><% else %><%= u.asset_value %><% end %>元
+<% end %>
+<% end %>
+<% end %>
+固定资产<%= @guding %>元。
+
+总资产<%= @zong %>元。
+全部修改请回复100，
+投资资产修改请回复200。]]></Description>
+ <PicUrl><![CDATA[]]></PicUrl>
+ <Url><![CDATA[http://www.tongtianshun.com/usermanagement/family_asset_table?username=<%= @webuser.username %>]]></Url>
+ </item>
+
+ </Articles>
+ <FuncFlag>1</FuncFlag>
+ </xml>

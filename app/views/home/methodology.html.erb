@@ -1,0 +1,31 @@
+<%= stylesheet_link_tag "learn.css" %>
+
+<div class="welcomes method">
+  <div class="contain">
+    <a class="home" href="/">首页</a>
+    <h1>理论依据</h1>
+    <h3 class="intro">我们的家庭理财规划是基于如下的学术论文及书籍，并与国内外著名金融研究机构进行交流，最终通过计算机程序模型化为您提供服务。</h3>
+<!--    <h3>通天顺家庭理财更加注重于将成功案例经验成果通过程序，应用于您的实际情况中。</h3>  -->
+<!--    <h3>通天顺家庭理财资产配置模型、产品推荐等理论依据都是基于如下的实践、学术研究报告。</h3>  -->
+    <table>
+     <% @methodology.each do |m| %>
+      <tr>
+        <td rowspan="2">
+          <h3><%= m.mname %></h3>
+          <%=raw m.article %>
+        </td>
+        <td class='right'><% if m.picture!=nil && m.picture!='' %><img src="/assets/<%= m.picture.split(',')[0] %>"><% end %></td>
+        <td class='right'><% if m.picture!=nil && m.picture.split(',').length>=2 %><img src="/assets/<%= m.picture.split(',')[1] %>"><% end %></td>
+      </tr>
+      <tr>
+        <td class='right'><% if m.picture!=nil && m.picture.split(',').length>=3 %><img src="/assets/<%= m.picture.split(',')[2] %>"><% end %></td>
+        <td class='right'><% if m.picture!=nil && m.picture.split(',').length>=4 %><img src="/assets/<%= m.picture.split(',')[3] %>"><% end %></td>
+      </tr>
+     <% end %>
+    </table>
+    <div id="get-started-partial">
+      <a href="/usersurvey/p1_usersurvey" class="get-started-button">免 费 规 划</a>
+      <div id="free-text">花2分钟，获得详细家庭理财规划报告。</div>
+    </div>
+  </div>
+</div>

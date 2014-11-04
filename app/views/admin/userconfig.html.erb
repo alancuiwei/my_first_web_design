@@ -1,0 +1,60 @@
+<style>
+  form{margin-bottom: 0;}
+  td{vertical-align: top;}
+</style>
+
+<div style="width: 700px;">
+  <div>
+    <table>
+      <tr><td>用户名：</td><td><input type="text" name="username" id="username" title="用户名"></td></tr>
+      <tr><td>电子邮箱：</td><td><input type="text" name="email" id="email" title="电子邮箱地址"></td></tr>
+      <tr><td>联系电话：</td><td><input type="text" name="tel" id="tel" title="电话号码"></td></tr>
+      <tr><td colspan="2">
+        <a href="javascript:void(0)" id="userconfig" class="btn btn-primary pull-right">确认</a>
+      </td></tr>
+    </table>
+  </div>
+</div>
+
+  <script type="text/javascript">
+      $(document).ready(function(){
+          <% if params[:id]!="0" %>
+          $("#username").attr("value",'<%= @webuser.username %>');
+          $("#username").attr("disabled",true);
+          $("#email").attr("value",'<%= @webuser.email %>');
+          $("#tel").attr("value",'<%= @webuser.tel %>');
+          <% end %>
+      });
+
+
+      $("#userconfig").click(function(e){
+         var o=document.getElementsByTagName("input");
+          var nom_flag=0;
+          for(var i=0;i<o.length;i++)
+          {
+              if(o[i].value=="" && o[i].title!=""){
+                  alert(o[i].title+"为空！");
+                  nom_flag=1;
+                  break;
+              }
+          }
+
+          if(nom_flag==0){
+                  $.get("/admin/userconfigajax/<%= params[:id] %>",{ username: $("#username").attr("value"),email: $("#email").attr("value"),
+                      tel: $("#tel").attr("value")
+                  },function(data){
+                      if(data=="f"){
+                          alert("用户名已注册！");
+                      }
+                      else if(data=="s"){
+                          alert("用户注册成功！");
+                          location.href='/admin';
+                      }
+                      else{
+                          alert("修改成功！");
+                          location.href='/admin';
+                      }
+                  });
+          }
+      });
+  </script>

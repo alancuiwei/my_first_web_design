@@ -1,9 +1,0 @@
-
-    <p id="notice"><%= notice %></p>
-
-    <p>
-      <b>贷款利率修改为：</b>
-      <%= @usercommodity[0].lendrate.to_d*100 %>%
-    </p>
-    <%= link_to '修改',:controller=>"usercommodity_ts" ,:action=>"editlr",:id=>@usercommodity[0].id%>
-    <td><%= link_to '返回', :controller=>"usermanagement" ,:action=>"userlendrate", :id=>@webuser.id %></td>

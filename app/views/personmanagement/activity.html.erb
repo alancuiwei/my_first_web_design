@@ -1,0 +1,185 @@
+<%= stylesheet_link_tag "personmanagement.css" %>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<%= stylesheet_link_tag "bootstrap.min.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+
+<style>
+    body {
+        background: none repeat scroll 0% 0% rgb(243, 243, 233)!important;
+    }
+  .btn{
+      padding: 8px 24px;
+      font-size: 18px;
+  }
+  .table td{text-align: left;vertical-align: middle;}
+  .press td{padding: 15px 10px;}
+  .press p.q-text {
+      font-family: "Open Sans",Helvetica,Arial,sans-serif;
+      margin: 0;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(68, 68, 68);
+    /*  letter-spacing:2px;*/
+  }
+</style>
+
+<div class="main-content">
+  <h1 id="h1"><%= @activity.name %></h1>
+  <table class="table table-striped table-bordered press" style="width: 800px;">
+    <% if @activity.natures!="网络教学" %>
+    <tr id="ing">
+      <td class="left"><h1>要报名，扫一扫</h1></td>
+      <td>
+        <img src="/assets/1.jpg" style="width: 100%;max-width: 100px;">
+      </td>
+    </tr>
+    <tr id="before">
+      <td class="left"><h1>活动结果：</h1></td>
+      <td><p class="q-text"><%= @activity.result %></p></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="left" style="width: 200px;"><h1>活动性质：</h1></td>
+      <td><p class="q-text"><%= @activity.naturef %>/<%= @activity.natures %></p></td>
+    </tr>
+    <% if @activity.natures=="网络教学" %>
+        <% if @activity.charge!=nil && @activity.charge!='' %>
+        <tr>
+          <td class="left"><h1>收费标准：</h1></td>
+          <td><p class="q-text"><%= format("%0.0f",@activity.charge) %>元</p></td>
+        </tr>
+    <% end %>
+    <% end %>
+    <tr>
+      <td class="left"><h1>活动主办方：</h1></td>
+      <td><p class="q-text"><%= @activity.organizer %></p></td>
+    </tr>
+    <tr>
+      <td class="left"><h1>活动时间：</h1></td>
+      <td><p class="q-text"><%= @activity.begintime.to_s.split("-")[0] %>年<%= @activity.begintime.to_s.split("-")[1] %>月<%= @activity.begintime.to_s.split("-")[2] %>日 -
+              <%= @activity.endtime.to_s.split("-")[0] %>年<%= @activity.endtime.to_s.split("-")[1] %>月<%= @activity.endtime.to_s.split("-")[2] %>日</p></td>
+    </tr>
+    <% if @activity.natures=="网络教学" %>
+        <% if @activity.address!=nil && @activity.address!='' %>
+        <tr>
+          <td class="left"><h1>地址：</h1></td>
+          <td><p class="q-text"><%= @activity.address %></p></td>
+        </tr>
+    <% end %>
+    <% end %>
+    <% if @activity.introduce!=nil && @activity.introduce!='' %>
+    <tr>
+      <td class="left"><h1>活动介绍：</h1></td>
+      <td><p class="q-text"><%=raw @activity.introduce %></p></td>
+    </tr>
+    <% end %>
+    <% if @activity.show!=nil && @activity.show!='' %>
+    <tr>
+      <td class="left"><h1>图片展示：</h1></td>
+      <td>
+        <div id="myCarousel" class="carousel slide">
+          <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="2" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="3" class=""></li>
+            <li data-target="#myCarousel" data-slide-to="4" class=""></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active" style="padding: 0 85px;height: 300px;">
+              <img src="/assets/<%= @activity.show.split(",")[0] %>" alt="" style="margin: 0 auto;max-height: 300px;width: 390px;">
+            </div>
+            <% for i in 1..@activity.show.split(",").size-1 %>
+                <div class="item" style="padding: 0 85px;height: 300px;">
+                  <img src="/assets/<%= @activity.show.split(",")[i] %>" alt="" style="margin: 0 auto;max-height: 300px;width: 390px;">
+                </div>
+            <% end %>
+          </div>
+          <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+          <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+    <% if @activity.link!=nil && @activity.link!='' %>
+    <tr>
+      <td class="left"><h1>活动链接：</h1></td>
+      <td><p class="q-text"><a href="<%= @activity.link %>" style="table-layout:fixed; word-break: break-all; overflow:hidden;"><%= @activity.link %></a></p></td>
+    </tr>
+    <% end %>
+    <% if @activity.reward!=nil && @activity.reward!='' %>
+    <tr>
+      <td class="left"><h1>奖励方式：</h1></td>
+      <td><p class="q-text"><%=raw @activity.reward %></p></td>
+    </tr>
+    <% end %>
+    <% if @activity.video!=nil && @activity.video!='' %>
+    <tr>
+      <td class="left"><h1>活动视频介绍：</h1></td>
+      <td><%=raw @activity.video %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="left" style="vertical-align: top;"><h1>历史中奖纪录：</h1></td>
+      <td>
+        <div class="win">
+          <wb:topic column="n" border="n" width="560" height="890" tags="通天顺家庭理财-手机充值活动" language="zh_cn" version="base" refer="n" appkey="5Y299a" footbar="y" filter="n" ></wb:topic>
+        </div>
+        <div id="mobile">
+          <a style="font-family: arial;" href="http://huati.weibo.com/238912?from=510&order=time">点击查看</a>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        var arr='<%= @activity.begintime %>'.split("-");
+        var starttime=new Date(arr[0],arr[1],arr[2]);
+        var starttimes=starttime.getTime();
+
+        var arrs='<%= @activity.endtime %>'.split("-");
+        var lktime=new Date(arrs[0],arrs[1],arrs[2]);
+        var lktimes=lktime.getTime();
+
+        var myDate = new Date();
+        var todaydate= new Date(myDate.getFullYear(),myDate.getMonth()+1,myDate.getDate());
+        var todaydates=todaydate.getTime();
+
+        if(todaydates>lktimes)
+        {
+           // $("#state").html("活动已结束");
+            $("#ing").remove();
+        }
+        else if(todaydates<starttimes){
+           // $("#state").html("活动未开始");
+            $("#before").remove();
+        }
+        else{
+           // $("#state").html("活动进行中");
+            $("#before").remove();
+        }
+     });
+</script>
+
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $("#mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>

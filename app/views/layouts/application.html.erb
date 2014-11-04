@@ -1,13 +1,23 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:wb="http://open.weibo.com/wb">
 <head>
-<title>通天顺金融策略网 --<%=@pagetitle%></title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<%= stylesheet_link_tag "reset.css" %>
-<%= stylesheet_link_tag "style.css" %>
-<%= javascript_include_tag "jquery.js" %>
-<%= javascript_include_tag "easySlider1.5.js" %>
+  <title>通天顺 家庭理财</title>
+  <link href="/assets/123.png" rel="Shortcut Icon">
+  <meta name="keywords" content="家庭理财服务" />
+  <meta name="description" content="通天顺家庭理财--家庭理财规划方案设计、金融产品介绍、理财知识普及。" />
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <meta property="wb:webmaster" content="7b427579f6099f50" />
+  <meta property="qc:admins" content="256222163764767411630566375" />
+  <!-- <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3700511820" type="text/javascript" charset="utf-8"></script> -->
+  <%= javascript_include_tag "jquery.min.js" %>
+  <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
+      <%= stylesheet_link_tag "bootstrap.css" %>
+      <%= stylesheet_link_tag "bootstrap-responsive.min.css" %>
+      <%= stylesheet_link_tag "styles.css" %>
+  <% end %>
+</head>
 
+<<<<<<< HEAD
   <!-- IE 6 don't support postion:fixed, following codes is used to fix this problem-->
   <!--[if IE 6]>
   <style type="text/css">
@@ -29,369 +39,206 @@
     setInterval(session_ajax,10000) //毫秒
     function session_ajax(){
         $.get("/webusers/session_ajax/none")
+=======
+<style>
+    body {
+        background: none repeat scroll 0% 0% rgb(243, 243, 233);
+>>>>>>> develop
     }
-  var redirect;
-    var clickflag ;
-  // document ready
-  function box(id){
-      if (id=="#login-box"){
-                clickflag="login" ;
-            }
-            else{
-                clickflag="regedit";
-            }
-      var loginBox = id;
-            //Fade in the Popup and add close button
-            $(loginBox).fadeIn(300);
+    .main-body{padding: 20px;}
+</style>
 
-            //Set the center alignment padding + border
-       		var popMargTop = ($(loginBox).height() + 24) / 2;
-       		var popMargLeft = ($(loginBox).width() + 24) / 2;
+<script type="text/javascript">
+    <% if params[:controller]=="usertargets" || params[:controller]=="userrisktolerance" || params[:controller]=="userfinanceplan" || params[:controller]=="userfinanceplanexe" %>
+    <% if @webuser!=nil && @webuser.ischarge!=1 %>
+    location.href="/payment";
+    <% end %>
+    <% end %>
 
-       		$(loginBox).css({
-       			'margin-top' : -popMargTop,
-       			'margin-left' : -popMargLeft
-      });
-
-      // Add the mask to body
-       		$('body').append('<div id="mask"></div>');
-       		$('#mask').fadeIn(300);
-  }
-    $(document).ready(function() {
-    //box
-    $('a.login-window,a.regedit-window,a.autotrade-window').click(function () {
-        // Getting the variable's value from a link
-        box($(this).attr('value'));
-        redirect=($(this).attr("name"))
-       	});
-       	// When clicking on the button close or the mask layer the popup closed
-       	$('a.close, #mask').live('click', function() {
-       	  $('#mask , .login-popup').fadeOut(300 , function() {
-       		$('#mask').remove();
-       	});
-       	return false;
-       	});
-        //easySlider
-        $("#slider").easySlider({
-       		controlsBefore:	'<p id="controls">',
-       		controlsAfter:	'</p>',
-       		auto: true,
-       		continuous: true
-       	});
-        //menu
-        $('.menu > li').bind('mouseover', openSubMenu);
-        $('.menu > li').bind('mouseout', closeSubMenu);
-        function openSubMenu() {
-            $(this).find('ul').css('visibility', 'visible');
-            $(this).find('ul').css('z-index', '99');
-        };
-        function closeSubMenu() {
-            $(this).find('ul').css('visibility', 'hidden');
-        };
-  });
-   //google-analytics
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-30084381-1']);
     _gaq.push(['_trackPageview']);
+
     (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
+
 </script>
-</head>
-<!-- ruby code -->
-<% @webuser = Webuser.find_by_name(session[:webuser_name]) %>
-<% Time::DATE_FORMATS[:stamp] = '%Y%m%d%H%M%S' %>
-<!-- body -->
-<body onkeydown="enterkey()">
-    <div class="logo_welcome_nav">
-        <div class="pagedingbu">
+<body>
+<div id='main' class='welcome' style="width: 100%;">
+  <!--
+          <div id="xoverlay" style="display: block;">
+            <b>您需要付费后才能享受理财师的规划服务。 </b> <a class="btns"  href="javascript:void(0)" id="submit" target="_blank">支付服务费</a>
+            <a class="closes pull-right" style="padding-right: 15px;" href="javascript:">×</a>
+          </div>
+          <div id="lay2" style="height: 50px;"></div>
+   -->
+  <% if !(params[:controller]=="childfinance" && params[:action]=="finance") && !(params[:controller]=="blog" && (params[:action]=="index" || params[:action]=="all") ) %>
+      <div class='row-fluid beta'>
+        <div class="span6">
+          <a href="/"><img style="height: 54px;" src="/assets/logo.png"></a>
+          <!--      <span id="erweima"><img style="height: 54px;margin-left: 10px;" src="/assets/1.jpg"></span>  -->
         </div>
-        <div class="block_header">
-            <div class="logoimage">
-            <%= link_to(image_tag("logo.jpg"),:controller=>"home",:action=>"index") %>
-            </div>
-
-            <div class="welcomeuser">
-        <!-- user hasn't login yet -->  
-            <% if session[:webuser_name]==nil%>
-            <div class="register">
-                  <a value="#regedit-box" href="javascript:void(0)"  class="regedit-window">注册</a>
-            </div>
-
-            <img src="/assets/logreg.gif">
-            
-            <div class="login">
-                  <a value="#login-box" href="javascript:void(0)" class="login-window">登录</a>
-            </div>
-
-            <!-- user had logined in -->
-            <% else %>
-            <div class="register">  
-                <a href="javascript:void(0)" onclick="logout()">退出</a>
-            </div>
-            <div class="login">
-                <p>用户：<%= session[:webuser_name] %></p>
-            </div>
-            <img src="/assets/yonghutouxiang.gif">
-            <% end %>
-
-            <div class="weiboblock">
-                <%= link_to(image_tag("weibo.gif"),"http://weibo.com/u/2858671002") %>
-            </div>
-            
-        </div>  <!-- end of welcomeuser -->
-
-            <div class="clr"></div>
-
-            <div class="menuMain" >
-              <ul>
-                <% if params[:controller]=="home"  %><li class="active"><% else %><li><% end %><a href="/home/index"><span><span><span>首页</span></span></span></a></li>
-
-                <% if @webuser==nil %>
-                    <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>策略库</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a href="/strategywebs">策略集</a></li>
-                        <li><a href="/S010001/shownorisk">无风险套利</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebdata/data">历史数据下载</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategywebs/stgwebtable/table">策略库表格</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                <% else %>
-                <% if params[:controller]=="strategywebs"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>策略库</span></span></span></a>
-                <div class="level">
-                  <ul>
-                    <li><a href="/strategywebs">策略集</a></li>
-                    <li><a href="/S010001/shownorisk">无风险套利</a></li>
-                    <li><a href="/strategywebs/stgwebdata/data">历史数据下载</a></li>
-                    <li><a href="/strategywebs/stgwebtable/table">策略库表格</a></li>
-                  </ul>
-                </div>
-                </li>
-                <% end %>
-
-                <% if @webuser==nil %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)" ><span><span><span>个性化策略</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/individual">策略配置</a></li>
-                        <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/strategys_combine/strategy_s1">策略组合</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                <% else %>
-                    <% if params[:controller]=="strategys_combine"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>个性化策略</span></span></span></a>
-                    <div class="level">
-                      <ul>
-                        <li><a href="/strategys_combine/individual">策略配置</a></li>
-                        <li><a href="/strategys_combine/strategy_s1">策略组合</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                <% end %>
-                <% if params[:controller]=="autotrade"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>自动化交易</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <% if @webuser==nil %>
-                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" id="redirect_autotrade" name="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="/autotrade/personaltrading">自动化执行</a></li>
-                      <% elsif @webuser.ctp_account==nil|| @webuser.ctp_account=="" %>
-                          <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a value="#autotrade-box" href="javascript:void(0)"  class="autotrade-window">自动化执行</a></li>
-                      <% else %>
-                          <li class="begin"><a href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>" >自动化设置</a></li>
-                          <li><a href="/autotrade/personaltrading">自动化执行</a></li>
-                      <% end %>
-                      <li><a href="/autotrade/aboutautotrade">关于自动化交易</a></li>
-                    </ul>
-                  </div>
-                </li>
-                <% if params[:controller]=="webusers"||params[:controller]=="admin"||params[:controller]=="usermanagement"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>我的账号</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <% if @webuser!=nil %>
-                          <% if @webuser.name=="administrator" %>
-                              <li class="begin"><a href="/admin" >个人信息管理</a></li>
-                          <% else %>
-                              <li class="begin"><a href="/webusers/edit/<%=@webuser.id%>" >个人信息管理</a></li>
-                          <% end %>
-                          <li><%= link_to("订阅的策略",:controller=>"usermanagement" ,:action=>"my_subscribe") %></li>
-                          <li><%= link_to("收藏的策略",:controller=>"usermanagement" ,:action=>"collection") %></li>
-                      <% else %>
-                          <li class="begin"><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_1">个人信息管理</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_2">订阅的策略</a></li>
-                          <li><a value="#login-box" href="javascript:void(0)" class="login-window" name="account_3">收藏的策略</a></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                </li>
-                <% if params[:controller]=="contactus"  %><li class="active"><% else %><li><% end %><a href="javascript:void(0)"><span><span><span>关于我们</span></span></span></a>
-                  <div class="level">
-                    <ul>
-                      <li><a href="/contactus/companyintro">公司介绍</a></li>
-                      <li><a href="/contactus/personintro">公司员工</a></li>
-                      <li><a href="/contactus/productintro">公司产品</a></li>
-                      <li><a href="/contactus/hire">招聘信息</a></li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
-
-        </div>    <!-- end of menumain -->
-
-            <script type="text/javascript">
-              //login
-              function login(){
-                  $.get("/webusers/user_lr/1", { name:$("#name").attr("value"),password:$("#password").attr("value")}, function (data,status){
-                      data=data.split("|");
-                      if(data[0]==$("#name").attr("value")) {
-                          if(redirect=="account_1"){
-                               if(data[0]=="administrator")
-                                   location.href="/admin";
-                              else
-                                   location.href="/webusers/edit/"+data[1];
-                          }
-                          else if(redirect=="account_2"){
-                              location.href="/usermanagement/my_subscribe/"+data[1];
-                          }
-                          else if(redirect=="account_3"){
-                              location.href="/usermanagement/collection/"+data[1];
-                          }
-                          else if(redirect==null){
-                              location.reload()
-                          }
-                          else
-                          location.href=redirect;
-                      }
-                      else{
-/*                         $("#errormsg_position").css({"padding": "89px 0 0 30px"})    */
-                          $("#login_errormsg").hide();
-                         $("#login_errormsg").html(data.toString());
-                          $("#login_errormsg").fadeIn(300);
-
-                      }
-                  });
-              }
-              //logout
-              function logout(){
-                  $.get("/webusers/user_lr/1", { logout:"logout"}, function (data,status){
-                      if(data=="logout") {
-                          location.reload();
-                      }
-                  });
-              }
-            //regedit
-              function regedit(){
-                  $.get("/webusers/user_lr/1", { regedit_name:$("#regedit_name").attr("value"),regedit_email:$("#regedit_email").attr("value"),
-                      regedit_password:$("#regedit_password").attr("value"),regedit_password_confirmation:$("#regedit_password_confirmation").attr("value")}, function (data,status){
-                      if(data==$("#regedit_name").attr("value")) {
-                          location.href="/webusers/regeditconfirm/1?"+("regedit_name="+$("#regedit_name").attr("value")+"&regedit_email="+encodeURIComponent($("#regedit_email").attr("value"))+"&regedit_password="+($("#regedit_password").attr("value")));
-                      }
-                      else{
-                          $("#regeditmsg_position").css({"padding": "93px 0 0 30px"});
-                          $("#regedit_errormsg").html(data.toString());
-                      }
-                  });
-              }
-            //enterkey
-              function enterkey(){
-                  if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="login" )
-                       $(".clicksubmit_login").click();
-                  if ( event.keyCode=='13'&&$("#mask").length>0&&clickflag=="regedit" )
-                       $(".clicksubmit_regedit").click();
-              }
-        </script>
-
-              <!--login-box -->
-              <div id="login-box" class="login-popup">
-                <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btn_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <form class="signin">
-                      <div id="login_errormsg"></div>
-
-                        <div class="login_username">
-                          <label id="label_login">用户名:</label>
-                          <%= text_field_tag :name, params[:name],:class =>"name-input" %>
-                        </div>
-                        <div class="login_password">
-                          <label id="label_login">密码:</label>
-                          <%= password_field_tag :password, params[:password],:class =>"passwd-input" %>
-                          <a  href="/webusers/forgetpassword/<%= Time.now.to_s(:stamp)%>" id="forgetpassword">忘记密码？</a>
-                        </div>
-
-                        <div class="login_comment">
-                            <input type="checkbox" />
-                          <p>记住我</p>
-                          <p>您没有账号？</p>
-                            <a value="#regedit-box" href="javascript:void(0)" class="regedit-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;" >注册</a>
-
-                        </div>
-                        <div class="login_submit">
-                          <a class="clicksubmit_login" href="javascript:void(0)" onclick="login()" style="text-decoration:none;color: white;font-size:16px;font-family:Microsoft YaHei">登入</a>
-                        </div>
-
-                </form>
+        <!--
+        <div class="span6">
+          <h4>家庭理财规划方案服务</h4>
+        </div>
+        <div class="span3">
+          <h4 class="phone">客服电话：025-83428345</h4>
+        </div>
+        -->
+        <div class="span6 right">
+          <div id="log">
+            <div id="all-topics" class="button rounder" onmouseover="loginPageDismiss('show');" onmouseout="loginPageDismiss('hide');">
+              <a class="mixpanel_track" href="#" style="font-size: 14px">我们的服务</a>
+              <div class="topics-hover"></div>
+              <div id="all-topics-hover">
+                <a href="/home/methodology">
+                  <img src="/assets/04_startup.png"><b>理论依据</b>
+                </a>
+                <a href="/payment/buyhouse">
+                  <img src="/assets/01_home.png"><b>买房规划</b>
+                </a>
+                <a href="/usersurvey/p1_usersurvey">
+                  <img src="/assets/05_infographics.png"><b>家庭理财规划</b>
+                </a>
+                <a href="/videohelp">
+                  <img src="/assets/02_refinance.png"><b>视频帮助</b>
+                </a>
               </div>
+            </div>
+            <div id="link-box">
+              <% if session[:webusername]!=nil %>
+                  <a class="pull-right rounder" onclick="logout()" href="javascript:void(0)">注销</a>
+                  <% if session[:webusername]=='admin' %>
+                      <a class="pull-right rounder" href="/admin"><%=session[:webusername]%>管理页面</a>
+                  <% else %>
+                      <a class="pull-right rounder" href="/usermanagement/family_asset_table"><%=session[:webusername]%> 的投资</a>
+                  <% end %>
+              <% else %>
+                  <a class="pull-right rounder" href="/usermanagement/login" id="layout_login">注册登陆</a>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+  <% end %>
+  <%= yield %>
+  <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
+      <div class="row-fluid main-footer">
+        <div class="span2 offset4">
+          <h4 class="tcol">我们的服务</h4>
+          <!--      <a href='/home/questions' class='full' target="_blank">风险承受度评估</a>   -->
+          <a href='/usersurvey/p1_usersurvey' class='full' ><strong>理财规划</strong></a>
+          <a href='/bankinvest/select' class='full' ><strong>理财产品</strong></a>
+          <!--<a href='/personmanagement/movablewall' class='full' >有奖活动</a> -->
+        </div>
+        <div class="span2">
+          <h4 class="tcol">帮助</h4>
+          <a href='/payment' class='full' >收费服务</a>
+          <a href='/home/methodology' class='full' >理论依据</a>
+          <!--      <a href='/bankinvest/pace' class='full' >开发进展</a>	-->
+        </div>
+        <div class="span2">
+          <h4 class="tcol">联系我们</h4>
+          <a class='full blog btn-link'>博客</a>
+          <a href="http://e.weibo.com/tongtianshun/profile" class='full' target="_blank">新浪微博</a>
+          <a href="http://t.qq.com/tongtian1232008" class='full' target="_blank">腾讯微博</a>
+          <a href='/contactus/aboutus#联系我们' class='full' >微信</a>
+          <!--      <img style="width: 100px;" src="/assets/1.jpg"> -->
+          <form action="http://tongtianshun.us6.list-manage2.com/subscribe/post?u=3f74fc5da7a10c7c684617798&amp;id=9b8f1ce444" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <label for="mce-EMAIL">邮件订阅</label>
+            <input type="email" value="" name="EMAIL" style="width:100%;padding: 3px 0;float: left;max-width: 200px;" class="email" id="mce-EMAIL" placeholder="输入电子邮箱地址" required>
+            <div class="clear"><input type="submit" value="订阅" name="subscribe" id="mc-embedded-subscribe" style="font-size: 14px;padding: 4px 10px;" class="btn btn-primary"></div>
+          </form>
+          <!-- <a href="http://eepurl.com/tonoL" target="_blank" class='full'>邮件订阅</a> -->
+        </div>
+        <div class="span2">
+          <h4 class="tcol">关于通天顺</h4>
+          <a href='/contactus/aboutus' class='full' >关于我们</a>
+          <a href='/bankinvest/press' class='full' >媒体介绍</a>
+          <!--      <a href="javascript:void(0)" class="full" onclick="question('habla_oplink_a')">在线客服</a>
+      <a href='/contactus/serviceterm' class='full' >服务条款</a>
+      <a href='/contactus/privacypolicy' class='full' >隐私政策</a> -->
+          <p> <a style="border-bottom: 0;margin: 0;" href="http://www.miibeian.gov.cn" target="_blank">苏ICP备12035521</a> @2013南京重人软件科技有限公司。<br></p>
+          <!--<a style="border-bottom: 0;" href="http://webscan.360.cn/index/checkwebsite/url/www.tongtianshun.com"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/121b197dfbc4257819d11914a3ebdbb4"/></a>-->
+          <div style="height: 100px;"></div>
+        </div>
+      </div>
+  <% end %>
+</div>
 
-              <!--regedit-box -->
-              <div id="regedit-box" class="login-popup">
-                <a href="#" class="close"><%= image_tag ("close_pop.png"), :class=>"btnrg_close" ,:title=>"Close Window" ,:alt=>"Close"%></a>
-                <form class="registerin">
+<!-- <script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/
+window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){f[z]=function(){(a.s=a.s||[]).push(arguments)};var a=f[z]._={},q=c.methods.length;while(q--){(function(n){f[z][n]=function(){f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={0:+new Date};a.P=function(u){a.p[u]=new Date-a.p[0]};function s(){a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{b.contentWindow[g].open()}catch(w){c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{var t=b.contentWindow[g];t.write(p());t.close()}catch(x){b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
+/* custom configuration goes here (www.olark.com/documentation) */
+olark.identify('5644-792-10-3841');/*]]>{/literal}*/</script><noscript><a href="https://www.olark.com/site/5644-792-10-3841/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript> -->
 
-                      <div id="regedit_errormsg"></div>
+<script type="text/javascript">
 
-                        <div class="regedit_username">
-                          <label id="label_register">用户名:</label>
-                          <%= text_field_tag :regedit_name, params[:regedit_name] %>
-                        </div>
+    function loginPageDismiss(e){
+        if(e=='show'){
+            $("#all-topics-hover").show();
+            $(".topics-hover").show();
+        }
+        else{
+            $("#all-topics-hover").hide();
+            $(".topics-hover").hide();
+        }
+    }
 
+    $(".closes").click(function(){
+        $("#xoverlay").hide();
+        $("#lay2").hide();
+    });
+    function question(name)
+    {
+        if(document.all)
+        {
+            document.getElementById(name).click();
+        }
+        else
+        {
+            var evt = document.createEvent("MouseEvents");
+            evt.initEvent("click", true, true);
+            document.getElementById(name).dispatchEvent(evt);
+        }
+    }
 
-                        <div class="regedit_email">
-                          <label id="label_register">电子邮件:</label>
-                          <%= email_field_tag :regedit_email, params[:regedit_email] %>
-                        </div>
+    function logout(){
+        $.get('/admin/userlogout',function(data){
+            if(data=="s"){
+                //   alert("退出成功！");
+                location.reload();
+            }
+        })
+    }
+</script>
 
-
-                        <div class="regedit_password">
-                          <label id="label_register">设置密码:</label>
-                          <%= password_field_tag :regedit_password, params[:regedit_password] %>
-                        </div>
-
-
-                        <div class="regedit_confirm_password">
-                          <label id="label_register">密码确认:</label>
-                          <%= password_field_tag :regedit_password_confirmation, params[:regedit_password_confirmation]  %>
-                        </div>
-
-                      <div class="regedit_comment">
-                        <p>
-                        您已有账号？
-                        </p>
-                        <a value="#login-box" href="javascript:void(0)" class="login-window" onclick="$('.login-popup').fadeOut(300 , function() {});return false;">登入</a>
-                      </div>
-                      <div class="regedit_submit">
-                        <a class="clicksubmit_regedit" href="javascript:void(0)" onclick="regedit()">注册</a>
-                      </div>
-                </form>
-              </div>
-
-              <!--autotrade-box -->
-              <div id="autotrade-box" class="login-popup">
-                <h3>请先设置参数！</h3>
-                <div class="login-popupop_sub_a">
-                  <a id="popupop_sub_config" href="/autotrade/autotrade_s1/<%= Strategyweb.find_by_name("无风险套利").id %>">设置</a>
-                  <a id="popupop_sub_cancell" class="close" href="javascript:void(0)" style="text-decoration:none;">取消</a>
-                </div>
-              </div>
-
-        </div>    <!-- block_header end -->
-
-    </div>   <!-- end of logo_welcome_nav-->
-<!-- main end -->
-    <div class="framework">
-        <%= yield %>
-    </div>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".blog").click(function(){
+            location.href="/blog/index";
+        })
+    }else{
+        $("#erweima").remove();
+        $(".blog").click(function(){
+            location.href="/blog/all";
+        })
+    }
+</script>
 </body>
 </html>

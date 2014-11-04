@@ -1,0 +1,58 @@
+<%= javascript_include_tag "My97DatePicker/WdatePicker.js" %>
+<style>
+    .main-body {
+        width: 100%;
+        border-left: 1px solid rgb(204, 204, 204);
+        border-right: 1px solid rgb(204, 204, 204);
+        background-color: rgb(255, 255, 255);
+        border-width: 2px 1px;
+        border-style: solid;
+        border-color: rgb(85, 85, 85) rgb(204, 204, 204);
+    }
+</style>
+
+<div class="main-body">
+  类型ID：<input type="text" name="productid" id="productid" title="类型ID"> <br><br>
+  日期：<input type="text" name="date" id="date" onclick="WdatePicker()" class="Wdate">  <br>
+  排名数：<input type="text" name="rank_num" id="rank_num"> <br><br>
+  总数：<input type="text" name="total_num" id="total_num"> <br><br>
+  最近几年：<input type="text" name="years" id="years"> <br><br>
+  <a class="btn btn-primary" href="javascript:void(0)" id="categoryconfig">确认</a>
+</div>
+
+<script type="text/javascript">
+    <% if params[:id]!="0" %>
+    $("#productid").attr("value",'<%= @rank.productid%>');
+    $("#date").attr("value",'<%= @rank.date%>');
+    $("#rank_num").attr("value",'<%= @rank.rank_num%>');
+    $("#total_num").attr("value",'<%= @rank.total_num%>');
+    $("#years").attr("value",'<%= @rank.years %>');
+    <% end %>
+
+    $("#categoryconfig").click(function(e){
+        var o=document.getElementsByTagName("input");
+        var nom_flag=0;
+        for(var i=0;i<o.length;i++)
+        {
+            if(o[i].value=="" && o[i].title!=""){
+                alert(o[i].title+"为空！");
+                nom_flag=1;
+                break;
+            }
+        }
+        if(nom_flag==0){
+            $.post("/admin/rankconfigajax/<%= params[:id] %>",{ productid: $("#productid").attr("value"),date: $("#date").attr("value"),rank_num: $("#rank_num").attr("value"),
+                total_num: $("#total_num").attr("value"),years: $("#years").attr("value")
+            },function(data){
+                if(data=="s1"){
+                    alert("创建成功！");
+                    location.href='/admin';
+                }
+                else{
+                    alert("修改成功！");
+                    location.href='/admin';
+                }
+            });
+        }
+    });
+</script>

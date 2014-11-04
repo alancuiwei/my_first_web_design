@@ -1,0 +1,332 @@
+<%= stylesheet_link_tag "common2.css" %>
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "footable-0.1.js" %>
+<script type="text/javascript">
+    $(function() {
+        $('table').footable();
+    });
+</script>
+
+<style type="text/css">
+     .table th, .table td {
+        text-align: center;
+        vertical-align: middle!important;
+    }
+</style>
+
+<div class="welcomes start goal">
+  <%= render "side" %>
+  <div id="page-content">
+    <h1>您的理财目标
+      <a class="btn btn-primary btn-large pull-right reporthide win" href="/userrisktolerance/p3_userrisktolerance">下一步：风险评估</a>
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span1">
+          <span>1</span>
+        </div>
+        <div class="span11">
+          <h2>您的目标概述：</h2>
+          <div class="mleft">
+            <div class="left">
+              <table id="target" class="table table-striped table-bordered footable">
+                <thead>
+                <tr>
+                  <th data-sort-initial="descending" data-class="expand">目标描述</th>
+                  <th data-sort-ignore="true">现需资金</th>
+                  <th data-hide="phone">实现所需年限</th>
+                  <th data-hide="phone">属性</th>
+                  <th data-hide="phone">到期所需资金</th>
+                </tr>
+                </thead>
+                <% if @targets!=nil %>
+                    <tr class="goals">
+                      <td><%= @targets.user_target %></td>
+                      <td><%= @targets.user_target_value %>万</td>
+                      <td><%= @targets.user_target_period %>年</td>
+                      <td>
+                        <% if @targets.user_target_period<=2 %>
+                            短期
+                        <% elsif @targets.user_target_period<=5 %>
+                            中期
+                        <% else %>
+                            长期
+                        <% end %>
+                      </td>
+                      <td></td>
+                    </tr>
+                <% end %>
+                <tr></tr>
+              </table>
+              <blockquote><small class="intro">上表基于如下假设：<span>通货膨胀率 6%</span><span>投资回报率 4%-10%</span><span>退休后净报酬率 2%</span><span>学费增长率 6%</span><span>薪资成长率 5%</span><span>退休金增长率 3%</span><span>社会平均寿命： 80岁</span></small></blockquote>
+            </div>
+            <div style="display: table;width: 100%;"><a class="introduce pull-right win" href="/usertargets/p2s1_user_target_select">修改理财目标</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span1">
+          <span>2</span>
+        </div>
+        <div class="span11">
+          <h2>目标实现准备：</h2>
+          <div class="mleft">
+            <p class="q-text" id="intro"></p>
+            <div class="left">
+              <table style="width: 100%;">
+                <tr>
+                  <td class="highcharts">
+                    <div id="container" style="width: 200px;height: 300px;"></div>
+                  </td>
+                  <td class="highcharts">
+                    <table id="calculate" class="table table-striped table-bordered"></table>
+                    <a id="tnext" class="pull-right">下一页</a><a id="tback" class="pull-right grey" name="0">上一页</a>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="q-buttons" class="win">
+      <a class="btn btn-primary btn-large pull-right" href="/userrisktolerance/p3_userrisktolerance">下一步：风险评估</a>
+    </div>
+  </div>
+
+  <div id="myModal8" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>计算过程</h3>
+    </div>
+    <div class="modal-body">
+      <table id="compute" class="table table-striped table-bordered">
+        <thead><tr><th>年数</th><th>通货膨胀下实际所需资金量</th></tr></thead>
+        <tbody id="newbody"></tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+    //平台、设备和操作系统
+    var system ={
+        win : false,
+        mac : false,
+        xll : false
+    };
+    //检测平台
+    var p = navigator.platform;
+    system.win = p.indexOf('Win') == 0;
+    system.mac = p.indexOf('Mac') == 0;
+    system.x11 = (p == 'X11') || (p.indexOf('Linux') == 0);
+    //跳转语句
+    if(system.win||system.mac||system.xll){
+        $(".mobile").remove();
+    }else{
+        $(".win").remove();
+    }
+</script>
+<script>
+    var count=new Array();
+    $(document).ready(function(){
+        <% if @targets!=nil %>
+        $(".goals td:eq(4)").html(parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))+" <a href='#myModal8' role='button' data-toggle='modal' onclick='model()'>(?)</a>");
+        for(var k=1;k<=parseInt(<%= @targets.user_target_period %>);k++){
+            count[k]=parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,k))
+        }
+        var x=100,y=0;
+        while(Math.abs(x-y)>Math.pow(0.1,7)){
+            var z=parseFloat(x+y)/2
+            if(parseInt(<%= @annual %>)*(Math.pow(1+z,<%= @targets.user_target_period %>)-1)/z+parseInt(<%= @income %>)*Math.pow(1+z,<%= @targets.user_target_period %>)>parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,<%= @targets.user_target_period %>))){
+                x=z
+            }
+            else{
+                y=z
+            }
+        }
+
+        $("#intro").html("您的目标是<%= @targets.user_target %>，您将需要在<%= @targets.user_target_period %>年后准备"+parseInt(parseInt(<%= @targets.user_target_value %>)*10000*Math.pow(1.06,parseInt(<%= @targets.user_target_period %>)))+"元，您现在的已有的资金为<%= @income %>元，之后，您每年将投入资金<%= @annual %>元，如果您能找到年收益率为"+(x*100).toFixed(2)+"%左右的投资渠道，您将能在<%= @targets.user_target_period %>年后实现您的目标。")
+        var array=new Array();
+        var today=new Date();
+        var year=today.getFullYear();
+        for(var k=0;k<parseInt(<%= @targets.user_target_period %>)+2;k++){
+            array[k]=new Array();
+            if(k>0){
+                array[k][0]=parseInt(year)+k-1
+            }
+        }
+        array[0][0]="";
+        array[0][1]="已有资金";
+        array[0][parseInt(<%= @targets.user_target_period %>)+2]="总计";
+        for(m=0;m<parseInt(<%= @targets.user_target_period %>)+3;m++){
+            if(m>=2 && m<parseInt(<%= @targets.user_target_period %>)+2){
+                array[0][m]=m-1;
+            }
+            if(m>=1 && m<=parseInt(<%= @targets.user_target_period %>)+2){
+                for(var k=1;k<parseInt(<%= @targets.user_target_period %>)+2;k++){
+                    if(m==parseInt(<%= @targets.user_target_period %>)+2){
+                        array[k][m]=0;
+                        for(n=1;n<parseInt(<%= @targets.user_target_period %>)+2;n++){
+                            if(array[k][n]!="-"){
+                                array[k][m]=array[k][m]+array[k][n]
+                            }
+                        }
+                    }
+                    else{
+                        if(m==1){
+                            array[k][m]=parseInt(<%= @income %>)*Math.pow(1+z,k-m)
+                        }
+                        else{
+                            if(k<=m-1){array[k][m]="-"}
+                            else{
+                               array[k][m]=parseInt(<%= @annual %>)*Math.pow(1+z,k-m)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        var text="<thead><tr><th></th><th>您的资产</th><th>投资收益率</th></thead>"
+      // text=text+'<tr><td>总计</td><td>'+(parseInt(<%= @income %>)+parseInt(<%= @annual %>)*parseInt(<%= @targets.user_target_period %>)).toString()+"</td><td>"+parseInt(array[parseInt(<%= @targets.user_target_period %>)+1][parseInt(<%= @targets.user_target_period %>)+2])+"</td></tr>"
+        for(m=1;m<parseInt(<%= @targets.user_target_period %>)+2;m++){
+            if(m==1){
+              //  text=text+"<tr><td>"+array[m][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
+            }
+            else if(m>7){
+                text=text+"<tr class='hide'><td>"+array[m-1][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
+            }
+            else{
+                text=text+"<tr><td>"+array[m-1][0]+"年</td><td>"+parseInt(array[m][parseInt(<%= @targets.user_target_period %>)+2])+"</td><td>"+(z*100).toFixed(2).toString()+"%</td></tr>"
+            }
+        }
+        if(parseInt(<%= @targets.user_target_period %>)<=6){
+            $("#tback,#tnext").addClass("grey");
+        }
+        $("#calculate").html(text);
+        <% end %>
+        var dataarray=[];
+
+        <% if @targets!=nil %>
+          <% if @targets.user_target=="买房" %>
+            dataarray.push(['父母亲戚',parseInt('<%= @targets.transition_value3 %>')])
+            dataarray.push(['银行贷款',parseInt('<%= @targets.transition_value4 %>')])
+            dataarray.push(['公积金贷款',parseInt('<%= @targets.transition_value5 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="买车" %>
+            dataarray.push(['父母、银行',parseInt('<%= @targets.transition_value2 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="结婚" %>
+            dataarray.push(['父母',parseInt('<%= @targets.transition_value2 %>')])
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% elsif @targets.user_target=="子女教育" %>
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% else %>
+            dataarray.push(['每月储蓄',parseInt('<%= @targets.user_target_value*10000 %>')])
+          <% end %>
+        <% end %>
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: false
+            },
+            tooltip: {
+                pointFormat: '{point.y} '
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: false,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        distance: -50,
+                        connectorColor: '#000000',
+                        formatter:function(index) {
+                            if(this.point.percentage>0){
+                                var str=this.point.name,str1,aa='';
+                                for(var i=0,len=str.length/4;i<len;i++) {
+                                    str1 = str.substr(0,4);
+                                    str = str.replace(str1,'');
+                                    if(i==0){aa=str1}
+                                    else{aa=aa+"<br>"+str1}
+                                }
+                                return  '<span>'+aa + ':<br>'+this.point.percentage.toFixed(1)+'%</span>';
+                            }
+                        }
+                    },
+                    showInLegend: true,
+                    size: 190,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                data: dataarray
+            }],
+            legend: false,
+            credits: {
+                enabled: false
+            }
+        });
+    });
+    function model(){
+        var text="<tr><td></td><td>6%</td></tr>"
+        for(var i=1;i<count.length;i++){
+            text=text+"<tr><td>"+i+"</td>"+"<td>"+count[i]+"</td></tr>"
+        }
+        $("#newbody").html(text);
+    }
+</script>
+
+<script>
+
+    $("#tback,#tnext").click(function(){
+        var length=$("#calculate tbody").find("tr").size();
+        var total= Math.ceil(length/8);
+        var page=parseInt($("#tback").attr("name"));
+        if(this.id=="tnext"){
+            if(page<total-1){
+                page=page+1
+            }
+        }
+        else if(this.id=="tback"){
+            if(page>0){
+                page=page-1;
+            }
+        }
+        if(total<=1){
+            $("#tback,#tnext").addClass("grey");
+        }
+        else if(page==0){
+            $("#tback").addClass("grey");
+            $("#tnext").removeClass("grey");
+        }
+        else if(page==total-1){
+            $("#tback").removeClass("grey");
+            $("#tnext").addClass("grey");
+        }
+        else{
+            $("#tback,#tnext").removeClass("grey");
+        }
+        $("#tback").attr("name",page);
+        $("#calculate tbody tr").addClass("hide");
+        for(i=page*8;i<(page+1)*8;i++){
+            $("#calculate tbody tr:eq("+i+")").removeClass("hide");
+        }
+    });
+
+</script>

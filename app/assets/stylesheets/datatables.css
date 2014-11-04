@@ -30,15 +30,10 @@
  * DataTables features
  */
 
-.body h2 { font:normal 15px Microsoft Yahei, "Times New Roman", Times, serif; color:#b04747; padding:4px; 
-margin-top:2px;clear:both;
+.body h2 { font:normal 16px Hiragino Sans GB W3, "Times New Roman", Times, serif; color:rgb(78,108,163); padding:4px; margin-top:2px;border-bottom:1px solid rgb(176,190,217);clear:both;}
 
-}
- 
 .dataTables_wrapper {
-width:600px;
-	margin-top: 0px;
-	float:left;
+	margin-top: 5px;
 /*	position: relative;
 	clear: both;
 	zoom: 1; *//* Feeling sorry for IE */
@@ -61,38 +56,30 @@ width:600px;
 }
 
 .dataTables_length {
-	font:  12px Microsoft Yahei;
-	width: 150px;
-	margin:10px 5px 0 15px;
+	font: 80% Hiragino Sans GB W3;
+	width: 40%;
+	margin:5px;
 	float: left;
-	padding-left:50px;
-	color:#6e6f6f;
 }
 
 .dataTables_filter {
-	font:  12px Microsoft Yahei;
-	width: 200px;
-	margin:10px 25px 0 5px;
+	font: 80% Hiragino Sans GB W3;
+	width: 50%;
+	margin:5px;
 	float: right;
 	text-align: right;
-	color:#6e6f6f;
 }
 
 .dataTables_info {
-	font:normal 10px Microsoft Yahei  ;
-	width: 220px;
-	float: right;
-	color:#959595;
-	margin-top:10px;
-	font-style:italic;
+	font: 80% Hiragino Sans GB W3;
+	width: 60%;
+	float: left;
 }
 
 .dataTables_paginate {
-	font: 80% Microsoft Yahei;
-	float: left;
-	margin-top:10px;
+	font: 80% Hiragino Sans GB W3;
+	float: right;
 	text-align: right;
-	padding-left:60px;
 }
 
 /* Pagination nested */
@@ -102,10 +89,7 @@ width:600px;
 	float: left;
 	cursor: pointer;
 	*cursor: hand;
-	color: #959595 !important;
-	margin-right:14px;
-	text-decoration:underline;
-	font:bold 12px;
+	color: #111 !important;
 }
 .paginate_disabled_previous:hover, .paginate_enabled_previous:hover,
 .paginate_disabled_next:hover, .paginate_enabled_next:hover {
@@ -118,33 +102,26 @@ width:600px;
 
 .paginate_disabled_previous,
 .paginate_disabled_next {
-	color: #959595 !important;
-	margin-right:14px;
-	font:bold 12px ;
-	text-decoration:underline;
-
+	color: #666 !important;
 }
-
-
-
-
-
-
-
-
-
-
+.paginate_disabled_previous, .paginate_enabled_previous {
+	padding-left: 23px;
+}
+.paginate_disabled_next, .paginate_enabled_next {
+	padding-right: 23px;
+	margin-left: 10px;
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables display
  */
 table.display {
-	margin: 0;
+	margin: 0 auto;
 	clear: both;
-	width: 535px;
-	font: 80% Microsoft Yahei;
-	
+	width: 100%;
+	font: 105% Hiragino Sans GB W3;
+
 	/* Note Firefox 3.5 and before have a bug with border-collapse
-	 * ( https://bugzilla.mozilla.org/show%5Fbug.cgi?id=155955 ) 
+	 * ( https://bugzilla.mozilla.org/show%5Fbug.cgi?id=155955 )
 	 * border-spacing: 0; is one possible option. Conditional-css.com is
 	 * useful for this kind of thing
 	 *
@@ -152,23 +129,19 @@ table.display {
 	 * It subtracts one px relative to the other browsers from the first column, and
 	 * adds one to the end...
 	 *
-	 * If you want that effect I'd suggest setting a border-top/left on th/td's and 
+	 * If you want that effect I'd suggest setting a border-top/left on th/td's and
 	 * then filling in the gaps with other borders.
 	 */
 }
 
 table.display thead th {
-
+	padding: 3px 18px 3px 10px;
 	border: none;
-	border-bottom: 2px solid #b04747;
-text-align:center;
-	font-size: 14px;
-color:#757475;
-font-family:Microsoft Yahei, Helvetica, sans-serif;
-
+	border-bottom: 1px solid black;
+	font-weight: bold;
+    white-space:nowrap;
 	cursor: pointer;
 	* cursor: hand;
-	margin-top:10px;
 }
 
 table.display tfoot th {
@@ -183,93 +156,37 @@ table.display tr.heading2 td {
 }
 
 table.display td {
-	padding: 3px 5px;
-	color:#454545;
-	font:normal 12px Microsoft Yahei;
+	padding: 3px 10px;
 }
 
 table.display td.center {
 	text-align: center;
-	color:#454545;
 }
 
-table.displayzd {
-	margin: 0  0px;
-	clear: both;
-	width: 600px;
-	font: 80% Microsoft Yahei;}
-table.displayzd thead th {
 
-	border: none;
-	border-bottom: 2px solid #b04747;
-text-align:center;
-	font-size: 14px;
-color:#757475;
-font-family:Microsoft Yahei, Helvetica, sans-serif;
 
-	cursor: pointer;
-	* cursor: hand;
-	margin-top:10px;
-}
-
-table.displayzd tfoot th {
-	padding: 3px 18px 3px 10px;
-	border: none;
-	border-top: 1px solid black;
-	font-weight: bold;
-}
-
-table.displayzd tr.heading2 td {
-	border-bottom: 1px solid #aaa;
-}
-
-table.displayzd td {
-	padding: 3px 5px;
-	color:454545;
-	font:normal 12px Microsoft Yahei;
-}
-
-table.displayzd td.center {
-	text-align: center;
-	color:#454545;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * DataTables sorting
- */
-
-.sorting_asc {
-	background: url(sort_asc.png) no-repeat center right;
-}
-
-.sorting_desc {
-	background:  no-repeat center right;
-}
-
-.sorting {
-	background: no-repeat center right;
-}
-
-.sorting_asc_disabled {
-	background: url(sort_asc_disabled.png) no-repeat center right;
-}
-
-.sorting_desc_disabled {
-	background: url(sort_desc_disabled.png) no-repeat center right;
-}
- 
 th:active {
 	outline: none;
 }
 
 
+.sorting_asc {
+    background: url(/assets/sort_asc.png) no-repeat center right;
+}
 
+.sorting_desc {
+    background: url(/assets/sort_desc.png) no-repeat center right;
+}
+
+.sorting {
+    background: url(/assets/sort_both.png) no-repeat center right;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
  */
 
-/* 
+/*
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
 }
@@ -304,18 +221,12 @@ table.display tr.even.gradeU {
 */
 
 tr.odd {
-	background-color: #ececec;
+	background-color: #E2E4FF;
 }
 
 tr.even {
 	background-color: white;
-	color:454545;
-	font:normal 12px Microsoft Yahei;
-	
 }
-
-
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -427,7 +338,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #e1c2c0;
+	background-color: #D3D6FF;
 }
 
 tr.odd td.sorting_2 {
@@ -439,7 +350,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #f1e3e3;
+	background-color: #EAEBFF;
 }
 
 tr.even td.sorting_2 {
@@ -557,7 +468,6 @@ tr.even.gradeU td.sorting_3 {
 	background-color: #e2e2e2;
 }
 
-
 /*
  * Row highlighting example
  */
@@ -600,7 +510,6 @@ tr.even.gradeU td.sorting_3 {
 .ex_highlight_row #example tr.odd:hover td.sorting_3 {
 	background-color: #DBFF70;
 }
-
 
 /*
  * KeyTable
