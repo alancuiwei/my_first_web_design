@@ -56,8 +56,11 @@ Ver01::Application.routes.draw do
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-   match ':controller(/:action(/:id))(.:format)'
+#   match ':controller(/:action(/:id))(.:format)'
+   get ':controller(/:action(/:id))(.:format)'
+
    resource :weixin
-   match '*a', :to => 'errors#handle'
+#   match '*a', :to => 'errors#handle'
+   get '*a', :to => 'errors#handle'
 end
 
