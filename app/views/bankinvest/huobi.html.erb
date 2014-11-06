@@ -50,7 +50,7 @@
  </style>
 <div class="main-content details">
   <div class="cell" style="width: 60%;min-width: 692px;">
-    <a href="/">首页</a>
+    <a class="home" href="/">首页</a>
     <br><br>
     <div class="box_left_title1">
       <span style="line-height: 35px;">产品名称：<% if @fundproduct!=nil && @fundproduct.productname!=nil %><%= @fundproduct.productname %><% end %></span><br>
@@ -184,3 +184,13 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        <% if params[:email]=='1' %>
+        $(".beta,.main-footer,#buyinfo,.home").hide();
+        $("#main").css('padding', '0');
+        $("#main").css('max-width', 'auto');
+        <% end %>
+    });
+</script>

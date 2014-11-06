@@ -9,12 +9,12 @@
     </h1>
     <div class="tablet">
       <div class="row-fluid">
-      <div class="span1">
-        <span>1</span>
-      </div>
-      <div class="span6">
-        <div class="mleft">
-          <p class="q-text">您的年纪、性别将直接影响到您的资产配置比例。</p>
+        <div class="span1">
+          <span>1</span>
+        </div>
+        <div class="span6">
+          <div class="mleft">
+            <p class="q-text">您的年纪、性别将直接影响到您的资产配置比例。</p>
             <form class="form-horizontal">
               <div class="control-group">
                 <label class="q-text control-label">年龄</label>
@@ -55,13 +55,13 @@
                 </div>
               </div>
             </form>
-  </div>
+          </div>
         </div>
         <div class="span4 offset1">
-        <div class="image"><img src="/assets/121079.png"></div>
+          <div class="image"><img src="/assets/121079.png"></div>
+        </div>
       </div>
     </div>
-   </div>
     <div id="q-buttons" class="">
       <button class="q-button light-gray big-button" id="q-back" disabled>◄&nbsp; <span>上一题</span>&nbsp;</button>
       <button class="q-button orange-button big-button" id="q-next">&nbsp;下一题 &nbsp;►</button>
@@ -137,64 +137,64 @@
     $(document).ready(function(){
         <% if session[:webusername]!=nil %>
 
-            <% if @webuser.age!=nil %>
-                $("#age").attr("value",<%= @webuser.age %>);
-            <% end %>
-
-            <% if @webuser.sex!=nil %>
-                $("#sex").attr("value","<%= @webuser.sex %>")
-            <% end %>
-
-            <% if @webuser.married!=nil %>
-            $("#married").attr("value","<%= @webuser.married %>")
-            <% end %>
-
-            <% if @webuser.kids!=nil %>
-                <% if @webuser.kids!=0 %>
-                    $("#kids").attr("value",1);
-                    $("#kidage").attr("value","<%= @webuser.kids %>");
-                <% else %>
-                    $("#kids").attr("value",0);
-                <% end %>
-            <% end %>
-            next();
+        <% if @webuser.age!=nil %>
+        $("#age").attr("value",<%= @webuser.age %>);
         <% end %>
-        });
 
-        function next(){
+        <% if @webuser.sex!=nil %>
+        $("#sex").attr("value","<%= @webuser.sex %>")
+        <% end %>
+
+        <% if @webuser.married!=nil %>
+        $("#married").attr("value","<%= @webuser.married %>")
+        <% end %>
+
+        <% if @webuser.kids!=nil %>
+        <% if @webuser.kids!=0 %>
+        $("#kids").attr("value",1);
+        $("#kidage").attr("value","<%= @webuser.kids %>");
+        <% else %>
+        $("#kids").attr("value",0);
+        <% end %>
+        <% end %>
+        next();
+        <% end %>
+    });
+
+    function next(){
         var age=0,kidage=0;
-            if($("#age").attr("value")!=""){
+        if($("#age").attr("value")!=""){
             age=1;
-            }
-            if($("#kids").attr("value")=="1"){
-                $(".kidage").show();
-                if($("#kidage").attr("value")!=""){
+        }
+        if($("#kids").attr("value")=="1"){
+            $(".kidage").show();
+            if($("#kidage").attr("value")!=""){
                 kidage=1;
-                }
-                }
-                else{
-            kidage=1;
-                $(".kidage").hide();
-                }
-
-        if(age==1 && kidage==1){
-                document.getElementById("q-next").disabled=false;
-                }
-            else{
-                document.getElementById("q-next").disabled=true;
             }
         }
+        else{
+            kidage=1;
+            $(".kidage").hide();
+        }
 
-        $("#q-next").click(function(){
+        if(age==1 && kidage==1){
+            document.getElementById("q-next").disabled=false;
+        }
+        else{
+            document.getElementById("q-next").disabled=true;
+        }
+    }
+
+    $("#q-next").click(function(){
         var age_input_value=$("#age").attr("value");
         var sex_input_value=$("#sex").attr("value");
         var married_input_value=$("#married").attr("value");
         var kids_input_value=$("#kids").attr("value");
-            if(kids_input_value==1){
-                kids_input_value=$("#kidage").attr("value")
+        if(kids_input_value==1){
+            kids_input_value=$("#kidage").attr("value")
         }
         $.post("/usersurvey/p1s1_user_basic_info_save",{username:'<%= session[:webusername] %>',age:age_input_value,sex:sex_input_value,married:married_input_value,kids:kids_input_value},function(data){
             location.href="/usersurvey/p1s2_cash_flow_statement_month";
-            });
         });
+    });
 </script>

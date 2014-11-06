@@ -3,9 +3,7 @@
 
 <div class="main-body">
   <div id="page-content">
-    <h1>我们将给您提供的服务
-     <!-- <a id="goal" class="btn btn-primary btn-large pull-right">下一步：理财目标</a> -->
-    </h1>
+    <h1>我们将给您提供的服务</h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">
@@ -27,7 +25,7 @@
           <img style="width:500px;" src="/assets/wxsscx.png"><br>
         </div>
         <div class="span4 offset1">
-          <% if @webuser.ischarge!=1 %>
+          <% if (session[:webusername]!=nil && @webuser!=nil && @webuser.ischarge!=1) || session[:webusername]==nil %>
           <div class="pricing-tiers bs-docs-sidenav affix-top">
             <ul class="pricing-list tiers">
               <li class="list-heading dark">
@@ -76,15 +74,12 @@
 
 <script>
     $("#submit,#buy").click(function(){
-        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50},function(data){
+        <% if session[:webusername]!=nil %>
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50,payfor:'service'},function(data){
             location.href=data;
         });
-    });
-    $("#goal").click(function(){
-        <% if @webuser.ischarge==1 %>
-        location.href="/usertargets/p2_usertargets";
         <% else %>
-        //alert("请先付款！");
+        location.href="/usermanagement/login?payment=1";
         <% end %>
     });
 

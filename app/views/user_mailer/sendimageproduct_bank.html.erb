@@ -1,0 +1,145 @@
+<style>
+    .table th, .table td {
+        padding: 8px;
+        line-height: 20px;
+        text-align: left;
+        vertical-align: top;
+        border-top: 1px solid #dddddd;
+        border-left: 1px solid #dddddd;
+    }
+
+    .table-bordered {
+        border: 1px solid #dddddd;
+        border-collapse: separate;
+        border-left: 0;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .box_left_title2_left {
+        width: 410px;
+        height: auto;
+        float: left;
+    }
+    .box_left_title2_left ul {
+        list-style: none!important;
+        margin: 0;
+    }
+    .box_left_title2_left ul li{
+        list-style: none!important;
+        margin: 0;
+    }
+
+    .box_left_title2_left ul li {
+        float: left;
+        font-size: 18px;
+        color: #333333;
+        border: 1px solid #dddddd;
+        margin: 10px;
+    }
+    .box_left_title2_left span {
+        display: block;
+        font-family: "微软雅黑";
+        padding: 3px 8px;
+    }
+    .qq_banksmall {
+        background: #006fae;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+    .qq_bankbig {
+        background: #FFF;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .box_left_title1 {
+        width: 100%;
+        height: auto;
+        float: left;
+        font-size: 17px;
+        font-weight: normal;
+        padding-bottom: 5px;
+        border-bottom: 4px solid #006fae;
+    }
+    .details h2 {
+        font-size: 18px;
+        border-bottom: 0;
+        padding: 0;
+        margin-top: 0px;
+        position: relative;
+        font-weight: normal;
+        font-family: "helvetica neue",helvetica,arial,sans-serif;
+    }
+    #h2 {
+        font-size: 20px;
+        line-height: 40px;
+        font-family: Helvetica, Arial, sans-serif;
+        color: #5d5d5d;
+        margin: 10px 0;
+    }
+    #h2 span {
+        padding-right: 20px;
+        font: bold 28pt Helvetica, Arial, sans-serif;
+        color: #ccc;
+    }
+</style>
+
+<img src="http://www.tongtianshun.com/assets/<%= @usename %>.png"><br>
+<h2 id="h2"><span>6</span>产品选择：</h2>
+<div class="main-content details">
+  <div class="cell" style="width: 60%;min-width: 692px;">
+    <br><br>
+    <div class="box_left_title1">
+      <span style="line-height: 35px;">产品名称：<%= @array[0] %></span><br>
+      <span style="font-size: 12px;">我们为您提供公正、透明的理财产品信息，供你做参考。</span>
+    </div>
+    <div class="box_left_title2">
+      <div class="box_left_title2_left" style="width: 100%;">
+        <ul>
+          <li>
+            <span class="qq_bankbig red"><% if @array[8]!=nil && @array[8]!="" %><%= (@array[8]*100).round(2) %>%<% end %></span>
+            <span class="qq_banksmall">预期年收益率</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><%= @array[4] %></span>
+            <span class="qq_banksmall">是否保本</span>
+          </li>
+          <li>
+            <span class="qq_bankbig red"><%= @array[2] %>元</span>
+            <span class="qq_banksmall">起始金额</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <h2>1、产品概况：</h2>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <td>产品类型</td>
+        <td><%= @array[1] %></td>
+        <td>委托币种</td>
+        <td><%= @array[3] %></td>
+      </tr>
+      <tr>
+        <td>销售起始</td>
+        <td><%= @array[5] %></td>
+        <td>销售结束</td>
+        <td><%= @array[6] %></td>
+      </tr>
+      <tr>
+        <td>管理期</td>
+        <td style="white-space: nowrap;"><%= @array[7] %>天</td>
+        <td>发行银行</td>
+        <td><%= @array[9] %></td>
+      </tr>
+      <tr>
+        <td>是否在售</td>
+        <td><%= @array[10] %></td>
+        <td>发行地区</td>
+        <td><%= @array[11] %></td>
+      </tr>
+    </table>
+  </div>
+</div>

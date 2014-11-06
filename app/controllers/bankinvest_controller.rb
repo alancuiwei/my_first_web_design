@@ -2,7 +2,6 @@
 require 'date'
 class BankinvestController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
-
   def pace
     @pace=Pace.all
   end
@@ -40,8 +39,8 @@ class BankinvestController < ApplicationController
     @hash={}
     for i in 0..@monetaryfundquote.size-1
       @fundproduct=Fund_product.find_by_product_code(@monetaryfundquote[i].product_code)
-    t = Time.new
-    date = t.strftime("%Y-%m-%d")
+      t = Time.new
+      date = t.strftime("%Y-%m-%d")
       if @fundproduct!=nil
         if @fundproduct.create_date!=nil
           @hash.store(@monetaryfundquote[i].product_code,[@fundproduct.min_purchase_account,@fundproduct.fund_size,@fundproduct.create_date,DateTime.parse(date)-DateTime.parse(@fundproduct.create_date.to_s),@fundproduct.buy_link])
@@ -112,7 +111,7 @@ class BankinvestController < ApplicationController
         @fundproduct=Fund_product.find_by_product_code(@fundquote.product_code)
         if @fundproduct!=nil && @fundproduct.buy_link!=nil
           @link=@fundproduct.buy_link
-          else
+        else
           @link='http://fund.fund123.cn/html/'+@fundproduct.product_code+'/index.html'
         end
       else
@@ -139,7 +138,7 @@ class BankinvestController < ApplicationController
         @fundproduct=General_fund_product.find_by_product_code(@fundquote.product_code)
         if @fundproduct!=nil && @fundproduct.buy_link!=nil
           @link=@fundproduct.buy_link
-          else
+        else
           @link='http://fund.fund123.cn/html/'+@fundproduct.product_code+'/index.html'
         end
       else

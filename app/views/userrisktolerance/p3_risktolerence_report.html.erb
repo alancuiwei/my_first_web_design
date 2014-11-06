@@ -3,6 +3,9 @@
 <%= javascript_include_tag "highcharts-more.js" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
 <%= javascript_include_tag "footable-0.1.js" %>
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "html2canvas.js" %>
+
 <script type="text/javascript">
     $(function() {
         $('table').footable();
@@ -10,58 +13,96 @@
 </script>
 
 <div id="image" class="welcomes start report">
-<%= render "side" %>
-<div id="page-content">
-<h1>风险评估报告
-  <a class="btn btn-primary btn-large pull-right reporthide win" href="/userfinanceplan/p4s1_Emergency_fund">下一步：制定理财规划</a>
-</h1>
-<div class="tablet">
-<div class="row-fluid">
-  <div class="span12">
-   <div class="mleft">
-    <p class="q-text" id="risk">
-      <% if @userfinancedata!=nil %>
-      您的风险评估得分是<%= @userfinancedata.risk_score %>分,
-      <% if @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>  您属于激进型投资人。
-          <% elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8 %>您属于积极型投资人。
-          <% elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6 %>您属于稳健型投资人。
-          <% elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4 %>您属于保守型投资人。
-          <% elsif @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2 %>您属于安益型投资人。
-          <% end %>
-      <% end %>
-    </p>
-    <div class="left">
-      <div id="container2" style="width: 280px;height: 170px;"></div>
-      <table id="type" class="table table-bordered footable">
-        <thead>
-        <tr>
-          <th data-sort-initial="descending" data-class="expand" style="width: 80px;">风险类型</th>
-          <th data-sort-ignore="true">分值范围</th>
-          <th data-hide="phone">年收益率</th>
-          <th data-hide="phone" style="width: 120px;">适合产品</th>
-          <th data-hide="phone">说明</th>
-        </tr>
-        </thead>
-        <% @risktype.each do |r| %>
-            <tr>
-              <td><%= r.risk_typename %></td>
-              <td><%= r.risk_score_arrange %></td>
-              <td><% if r.risk_type_returnrate!=nil %><%= r.risk_type_returnrate %>%<% end %></td>
-              <td><%= r.risk_type_products %></td>
-              <td><%= r.risk_spec_intro %></td>
-            </tr>
-        <% end %>
-      </table>
-      <a class="introduce pull-right" href="#myModal" role="button" data-toggle="modal" tabindex="-1">为何我的风险评估结果和我想象中的不是很一致？</a>
+  <%= render "side" %>
+  <div id="page-content">
+    <div class="convas_image hide"><img style="height: 54px;" src="/assets/logo.jpg"></div>
+    <h1>风险评估报告
+      <a class="btn btn-primary btn-large pull-right reporthide win" id="goaltop" href="/userfinanceplan/p4s1_Emergency_fund">下一步：制定理财规划</a>
+      <a id="downloadtop" class="btn btn-success btn-large pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
+    </h1>
+    <div class="tablet">
+      <div class="row-fluid">
+        <div class="span1">
+          <span>1</span>
+        </div>
+        <div class="span11">
+          <h2>风险评估报告回顾</h2>
+          <%= render "questions" %>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span1">
+          <span>2</span>
+        </div>
+        <div class="span11">
+          <h2>风险评估得分</h2>
+          <div class="mleft">
+            <p class="q-text" id="risk">
+              <% if @userfinancedata!=nil %>
+                  您的风险评估得分是<%= @userfinancedata.risk_score %>分,
+                  <% if @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>  您属于激进型投资人。
+                  <% elsif @userfinancedata.risk_score>6 && @userfinancedata.risk_score<=8 %>您属于积极型投资人。
+                  <% elsif @userfinancedata.risk_score>4 && @userfinancedata.risk_score<=6 %>您属于稳健型投资人。
+                  <% elsif @userfinancedata.risk_score>2 && @userfinancedata.risk_score<=4 %>您属于保守型投资人。
+                  <% elsif @userfinancedata.risk_score>=0 && @userfinancedata.risk_score<=2 %>您属于安益型投资人。
+                  <% end %>
+              <% end %>
+            </p>
+            <div id="container2" style="width: 280px;height: 170px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="span1">
+          <span>3</span>
+        </div>
+        <div class="span11">
+          <h2>风险评估解释</h2>
+          <div class="mleft">
+            <table id="type" class="table table-bordered footable">
+              <thead>
+              <tr>
+                <th data-sort-initial="descending" data-class="expand" style="width: 80px;">风险类型</th>
+                <th data-sort-ignore="true">分值范围</th>
+                <th data-hide="phone">年收益率</th>
+                <th data-hide="phone" style="width: 120px;">适合产品</th>
+                <th data-hide="phone">说明</th>
+              </tr>
+              </thead>
+              <% @risktype.each do |r| %>
+                  <tr>
+                    <td><%= r.risk_typename %></td>
+                    <td><%= r.risk_score_arrange %></td>
+                    <td><% if r.risk_type_returnrate!=nil %><%= r.risk_type_returnrate %>%<% end %></td>
+                    <td><%= r.risk_type_products %></td>
+                    <td><%= r.risk_spec_intro %></td>
+                  </tr>
+              <% end %>
+            </table>
+            <a class="introduce pull-right" href="#myModal" role="button" data-toggle="modal" tabindex="-1">为何我的风险评估结果和我想象中的不是很一致？</a>
+          </div>
+        </div>
+      </div>
     </div>
+    <div id="q-buttons" class="">
+      <a class="btn btn-primary btn-large pull-right" id="goal" href="/userfinanceplan/p4s1_Emergency_fund">下一步：制定理财规划</a>
+      <a id="download" class="btn btn-success btn-large pull-right" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
     </div>
   </div>
 </div>
-</div>
-<div id="q-buttons" class="">
-  <a class="btn btn-primary btn-large pull-right" href="/userfinanceplan/p4s1_Emergency_fund">下一步：制定理财规划</a>
-</div>
-</div>
+
+<div id="myModal_image" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>风险评估报告 下载发送</h3>
+  </div>
+  <div class="modal-body">
+    <p>由于文件较大，为了不影响您下面的制定理财规划，我们将把您的风险评估报告发送到您的注册邮箱。</p>
+    <input type="text" id="email" value="<%= @webuser.email %>">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">发送</button>
+  </div>
 </div>
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,6 +121,56 @@
   </div>
 </div>
 <script>
+    var number=0;
+    $("#download,#downloadtop").click(function(){
+        $("[id*='container']").hide();
+        $(".btn-success").hide();
+        $(".reporthide").hide();
+        $(".convas_image").show();
+        html2canvas(document.getElementById("page-content"), {
+            onrendered: function(canvas) {
+                if(number==0){
+                    document.body.appendChild(canvas);
+                    number=number+1;
+                }
+                $("[id*='container']").show();
+                $(".btn-success").show();
+                $(".reporthide").show();
+                $(".convas_image").hide();
+                var canvas = document.getElementsByTagName("canvas");
+                canvas[0].className="hide";
+                canvas[0].id='myCanvas';
+                var canvas=document.getElementById("myCanvas");
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                <% if params[:username]!=nil %>
+                var username='<%= params[:username] %>'
+                <% else %>
+                var username='<%= session[:webusername] %>'
+                <% end %>
+                $.post("/usersurvey/save_image",{username:username+'-p3risk',image:imgData},function(data){
+
+                });
+            }
+        });
+
+    });
+
+    $("#confirm").click(function(){
+        if($("#email").attr("value")!=""){
+        <% if params[:username]!=nil %>
+            username='<%= params[:username] %>'
+        <% else %>
+            username='<%= session[:webusername] %>'
+        <% end %>
+            $.post("/usersurvey/send_image",{username:username,imagename:username+'-p3risk',reportname:"风险评估报告",email:$("#email").attr("value")},function(data){
+            });
+        }
+        else{
+            alert("请输入邮箱！")
+        }
+    });
+
     $(document).ready(function(){
         <% if @userfinancedata!=nil %>
         <% if @userfinancedata.risk_score>8 && @userfinancedata.risk_score<=10 %>
@@ -189,12 +280,12 @@
 
             // Let the music play
             function(chart) {
-                    var left = chart.series[0].points[0],
-                            leftVal;
+                var left = chart.series[0].points[0],
+                        leftVal;
                 <% if @userfinancedata!=nil %>
                 leftVal = <%= @userfinancedata.risk_score %>;
                 <% end %>
-                    left.update(leftVal, false);
-                    chart.redraw();
+                left.update(leftVal, false);
+                chart.redraw();
             });
 </script>

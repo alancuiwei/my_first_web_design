@@ -40,6 +40,11 @@ class UserrisktoleranceController < ApplicationController
    if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(session[:webusername])
+     @userrisktoleranceqa=User_risktolerance_qa.find_all_by_username(session[:webusername])
+     @array=[0,0,0,0,0,0,0,0,0,0]
+     for i in 0..@userrisktoleranceqa.size-1
+       @array[@userrisktoleranceqa[i].question_id-1]=@userrisktoleranceqa[i].question_answer
+     end
    else
      redirect_to(:controller=>"usermanagement", :action=>"login", :p3report=>"1")
    end

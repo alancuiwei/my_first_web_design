@@ -4,6 +4,12 @@ class HomeController < ApplicationController
     @methodology=Methodology.all
   end
 
+  def index
+    if session[:webusername]!=nil
+      @webuser=Webuser.find_by_username(session[:webusername])
+    end
+  end
+
   def questions
     @blog=Blog.find_by_id(461)
     if session[:webusername]!=nil

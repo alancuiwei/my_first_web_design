@@ -404,10 +404,57 @@ class UserfinanceplanController < ApplicationController
   def p4s4_invest_estimate_plan
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+      @targets=User_targets.find_by_username(session[:webusername])
       @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
+      @userassetdaily=User_assets_daily.find_all_by_username(@webuser.username)
+      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
+      @hash={}
+      if @userfinancedata!=nil
+        @fluidproduct=Monetary_fund_quote.find_by_productname(@userfinancedata.fluid_productid)
+        @fluidproduct2=Fund_product.find_by_productname(@userfinancedata.fluid_productid)
+        @category1=Admin_asset_type_l2.find_by_L2_typeid(101)
+        if @fluidproduct!=nil
+          if @fluidproduct2!=nil
+            @hash.store('fluid',[@category1.id,@category1.classify,1,@fluidproduct.id,@fluidproduct2.buy_link])
+          else
+            @hash.store('fluid',[@category1.id,@category1.classify,1,@fluidproduct.id,'http://fund.fund123.cn/html/'+@fluidproduct.product_code+'/index.html'])
+          end
+        else
+          @hash.store('fluid',[@category1.id,@category1.classify,0,nil,nil])
+        end
+        @category2=Admin_asset_type_l2.find_by_L2_typeid(201)
+        @hash.store('safe',[@category2.id,@category2.classify])
+        @riskproduct1=Monetary_fund_quote.find_by_productname(@userfinancedata.risk_productid)
+        @riskproduct3=Fund_product.find_by_productname(@userfinancedata.risk_productid)
+        @riskproduct2=General_fund_quote.find_by_product_name(@userfinancedata.risk_productid)
+        @riskproduct4=General_fund_product.find_by_product_name(@userfinancedata.risk_productid)
+        @riskproduct5=Banks_self_products.find_by_productname(@userfinancedata.risk_productid)
+        if @riskproduct1!=nil
+          @category3=Admin_asset_type_l2.find_by_L2_typeid(101)
+          if @riskproduct3!=nil
+            @hash.store('risk',[@category3.id,@category3.classify,1,@riskproduct1.id,@riskproduct3.buy_link])
+          else
+            @hash.store('risk',[@category3.id,@category3.classify,1,@riskproduct1.id,'http://fund.fund123.cn/html/'+@riskproduct1.product_code+'/index.html'])
+          end
+        elsif @riskproduct2!=nil
+          @category3=Admin_asset_type_l2.find_by_L2_typeid(@riskproduct2.L2_typeid)
+          if @riskproduct4!=nil
+            @hash.store('risk',[@category3.id,@category3.classify,0,@riskproduct2.id,@riskproduct4.buy_link])
+          else
+            @hash.store('risk',[@category3.id,@category3.classify,0,@riskproduct2.id,'http://fund.fund123.cn/html/'+@riskproduct2.product_code+'/index.html'])
+          end
+        elsif @riskproduct5!=nil
+          @category3=Admin_asset_type_l2.find_by_L2_typeid(@riskproduct5.L2_typeid)
+          @hash.store('risk',[@category3.id,@category3.classify,2,@riskproduct5.id,nil])
+        else
+          @hash.store('risk',[nil,nil,-1,nil,nil])
+        end
+      else
+        redirect_to(:controller=>"userfinanceplan", :action=>"p4s1_Emergency_fund")
+      end
       @asset_account=0
-      @asset_fixed_account=0
+      @asset_fixed_account=0     #固定资产总值
       if @userbanlance!=nil
         @asset_account=@userbanlance.asset_fluid_account+@userbanlance.asset_risky_account+@userbanlance.asset_safefy_account
         @asset_fixed_account=@userbanlance.asset_account-@asset_account
@@ -434,14 +481,7 @@ class UserfinanceplanController < ApplicationController
           @array[2]=@array[2]+@userassetsheet[i].asset_value
         end
       end
-      @hash={}
-      if @userplanedbalance!=nil && @userplanedbalance.asset_planed_fluid_account!=nil
-        @array[1]=@userplanedbalance.asset_planed_fluid_account/3
-        @array[3]=@userplanedbalance.asset_planed_fluid_account*2/3
-        @hash.store(0,[@userplanedbalance.asset_planed_fluid_account])
-      else
-        @hash.store(0,[0])
-      end
+
       @hash1={}
       @hash2={}
       if @array[0]>=@array[1] && @array[2]>=@array[3]

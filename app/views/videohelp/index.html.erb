@@ -8,20 +8,34 @@
       <div class="row-fluid">
         <div class="span7">
           <h2>注册</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=m0123kpffo3&auto=0&tiny=0" allowfullscreen></iframe>
-          <h2>财务分析报告</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=p0123j9rodt&auto=0&tiny=0" allowfullscreen></iframe>
+          <a class="various" onclick="showvideo('注册','#zhuce')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
+         <h2>财务分析报告</h2>
+          <a class="various" onclick="showvideo('财务分析报告','#caiwu')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
           <h2>支付过程</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=v0123z5sild&auto=0&tiny=0" allowfullscreen></iframe>
+          <a class="various" onclick="showvideo('支付过程','#zhifu')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
           <h2>买房目标</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123m2o8hm&auto=0&tiny=0" allowfullscreen></iframe>
+          <a class="various" onclick="showvideo('买房目标','#maifang')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
           <h2>风险度评估</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123cgdo07&auto=0&tiny=0" allowfullscreen></iframe>
+          <a class="various" onclick="showvideo('风险度评估','#fengxian')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
           <h2>应急基金准备</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0123c4l1gi&auto=0&tiny=0" allowfullscreen></iframe>
-          <h2>通天顺家庭理财服务</h2>
-          <iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0124r7uycd&auto=0&tiny=0" allowfullscreen></iframe>
-        </div>
+          <a class="various" onclick="showvideo('应急基金准备','#yingji')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
+           <h2>通天顺家庭理财服务</h2>
+          <a class="various" onclick="showvideo('通天顺家庭理财服务','#fuwu')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
+       </div>
         <div class="span4 offset1">
           <% if (session[:webusername]!=nil && @webuser!=nil && @webuser.ischarge!=1) || session[:webusername]==nil %>
               <div class="pricing-tiers bs-docs-sidenav affix-top">
@@ -57,10 +71,35 @@
   </div>
 </div>
 
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="title">注册</h3>
+  </div>
+  <div class="modal-body">
+    <iframe id="zhuce" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=m0123kpffo3&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="caiwu" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=p0123j9rodt&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="zhifu" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=v0123z5sild&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="maifang" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123m2o8hm&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="fengxian" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123cgdo07&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="yingji" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0123c4l1gi&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="fuwu" class="video hide" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0124r7uycd&auto=0&tiny=0" allowfullscreen></iframe>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+
 <script>
+    function showvideo(title,vid){
+        $("#title").html(title);
+        $(".video").hide();
+        $(vid).show();
+    }
+
     $("#submit,#buy").click(function(){
        <% if session[:webusername]!=nil %>
-        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50},function(data){
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50,payfor:'service'},function(data){
             location.href=data;
         });
        <% else %>

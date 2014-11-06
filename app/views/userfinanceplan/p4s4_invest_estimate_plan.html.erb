@@ -1,18 +1,136 @@
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
+<%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "bootstrap.min.js" %>
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "html2canvas.js" %>
 
 <style>
     #result td,#result th{width: 20%;}
     #assetaccount td,#assetaccount th{width: 25%;}
 </style>
 
-<div class="welcomes">
+<div class="welcomes report">
   <%= render "side" %>
   <div id="page-content">
-    <h1>投资结果预测
-      <a class="btn btn-primary btn-large pull-right" style="margin-bottom: 10px;" href="/userfinanceplan/p4_user_finance_plan_report">下一步：理财目标实现</a>
+    <div class="convas_image hide"><img style="height: 54px;" src="/assets/logo.jpg"></div>
+    <h1>理财规划预估
+      <a class="btn btn-primary btn-large pull-right reporthide" id="goaltop" style="margin-bottom: 10px;" href="/userfinanceplanexe/p5s2_salary_allocate_month">下一步：执行理财规划</a>
+      <a id="downloadtop" class="btn btn-success btn-large pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
     </h1>
     <div class="tablet">
-      <h2><span>1</span>近一年月投资计划：</h2>
+      <h2><span>1</span>15年家庭资产增值预估：</h2>
+      <table style="width: 100%;">
+       <tr>
+        <td style="width: 40%;">
+      <table id="assetaccount" class="table table-striped table-bordered" style="width: 100%;">
+        <thead>
+        <tr>
+          <th>日期</th>
+          <th>投资资产总值</th>
+        </tr>
+        </thead>
+        <% for i in 0..15 %>
+            <tr>
+              <td><%= @date[i] %></td>
+              <td><%= @asset_account*(i+1) %></td>
+            </tr>
+        <% end %>
+      </table>
+          </td>
+        <td style="vertical-align: top;">
+          <div id="container" style="width: 100%;height: 300px;"></div>
+        </td>
+        </tr>
+        </table>
+      <h2><span>2</span>理财目标实现：</h2>
+      <% if @targets!=nil %>
+          <p class="q-text">您的理财目标是在<%= @targets.user_target_period %>年内，积蓄<%= (@targets.user_target_value*10000).to_i %>元，用来实现您的<%= @targets.user_target %>计划。</p>
+      <% end %>
+      <% if @targets!=nil && @asset_account*@targets.user_target_period>=@targets.user_target_value*10000 %>
+          <p class="q-text">恭喜您，按照您现在的资产配置，您应该可以在这个时间段内实现您的理财目标。</p>
+      <% else %>
+          <p class="q-text">很遗憾，根据您现在的资产配置，您很难在这个时间段内实现您的理财目标。<br>您有如下选择：</p>
+          <div class="row-fluid">
+            <div class="span4"><p class="q-text">1、延期理财目标的实现。</p></div>
+            <div class="span3"><a class="pull-right" href="/usertargets/p2s1_user_target_select">开始</a></div>
+          </div>
+          <div class="row-fluid">
+            <div class="span4"><p class="q-text">2、理财目标的价值可以稍微调整些。</p></div>
+            <div class="span3"><a class="pull-right" href="/usertargets/p2s1_user_target_select">开始</a></div>
+          </div>
+          <div class="row-fluid">
+            <div class="span4"><p class="q-text">3、每月应该可以再多节省点钱。</p></div>
+            <div class="span3"><a class="pull-right" href="/usersurvey/p1s2_cash_flow_statement_month">开始</a></div>
+          </div>
+          <div class="row-fluid">
+            <div class="span4"><p class="q-text">4、投资风格可以更加激进点。</p></div>
+            <div class="span3"><a class="pull-right" href="/userfinanceplan/p4s2_highprofit_fund">开始</a></div>
+          </div>
+      <% end %>
+      <h2><span>3</span>近一年月投资计划：</h2>
+      <table id="top" class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th style="width: 20%;">投资种类</th>
+          <th style="width: 20%;">产品类型</th>
+          <th style="width: 20%;">本月目标</th>
+          <th style="width: 20%;">推荐产品</th>
+          <th style="width: 20%;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>应急基金</td>
+          <td><a href="/bankinvest/classify/<%= @hash['fluid'][0] %>"><%= @hash['fluid'][1] %></a></td>
+          <td class="amounts2"></td>
+          <td class="name2">
+            <% if @userfinancedata!=nil %>
+                <% if @hash['fluid'][2]==1 %>
+                    <a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>"><%= @userfinancedata.fluid_productid %></a>
+                <% else %>
+                    <%= @userfinancedata.fluid_productid %>
+                <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if @hash['fluid'][2]==1 %><a href="/bankinvest/huobi/<%= @hash['fluid'][3] %>">详情</a><% end %>
+            <% if @hash['fluid'][2]==1 %><a href="<%= @hash['fluid'][4] %>" target="_blank">购买</a><% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>高收益资产</td>
+          <td><a href="/bankinvest/classify/<%= @hash['risk'][0] %>"><%= @hash['risk'][1] %></a></td>
+          <td class="amounts5"></td>
+          <td class="name5">
+            <% if @userfinancedata!=nil %>
+                <% if @hash['risk'][2]==1 %>
+                    <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                <% elsif @hash['risk'][2]==0 %>
+                    <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>"><%= @userfinancedata.risk_productid %></a>
+                <% elsif @hash['risk'][2]==2 %>
+                    <%= @userfinancedata.risk_productid %>
+                <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if @hash['risk'][2]==1 %>
+                <a href="/bankinvest/huobi/<%= @hash['risk'][3] %>">详情</a>
+                <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
+            <% elsif @hash['risk'][2]==0 %>
+                <a href="/bankinvest/highprofit/<%= @hash['risk'][3] %>">详情</a>
+                <a href="<%= @hash['risk'][4] %>" target="_blank">购买</a>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>稳定收益资产</td>
+          <td><a href="/bankinvest/classify/<%= @hash['safe'][0] %>"><%= @hash['safe'][1] %></a></td>
+          <td class="amounts4"></td>
+          <td class="name4"><a href="#myModal_12" role="button" data-toggle="modal">12单定存法</a></td>
+          <td><a href="#myModal_12" role="button" data-toggle="modal">详情</a></td>
+        </tr>
+        </tbody>
+      </table>
       <table id="result" class="table table-striped table-bordered">
         <thead>
         <tr>
@@ -40,27 +158,152 @@
           <td><% if @total>=0 %> 买入<%= @total %>元<% else %>赎回<%= -@total %>元<% end %></td>
         </tr>
       </table>
-      <h2><span>2</span>15年家庭资产增值预估：</h2>
-      <table id="assetaccount" class="table table-striped table-bordered" style="width: 80%;">
-        <thead>
-        <tr>
-          <th>日期</th>
-          <th>投资资产总值</th>
-          <th>固定资产总值</th>
-          <th>家庭资产总值</th>
-        </tr>
-        </thead>
-        <% for i in 0..15 %>
-            <tr>
-              <td><%= @date[i] %></td>
-              <td><%= @asset_account*(i+1) %></td>
-              <td><%= @asset_fixed_account %></td>
-              <td><%= @asset_account*(i+1)+@asset_fixed_account %></td>
-            </tr>
-        <% end %>
-      </table>
     </div>
     <h1></h1>
-    <a class="btn btn-primary btn-large pull-right" style="margin-right: 20px;" href="/userfinanceplan/p4_user_finance_plan_report">下一步：理财目标实现</a>
+    <a class="btn btn-primary btn-large pull-right reporthide" id="goal" style="margin-right: 20px;" href="/userfinanceplanexe/p5s2_salary_allocate_month">下一步：执行理财规划</a>
+    <a id="downloadtop" class="btn btn-success btn-large pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
   </div>
 </div>
+
+<div id="myModal_image" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>理财规划预估 下载发送</h3>
+  </div>
+  <div class="modal-body">
+    <p>由于文件较大，为了不影响您下面的执行理财规划，我们将把您的理财规划预估报告发送到您的注册邮箱。</p>
+    <input type="text" id="email" value="<%= @webuser.email %>">
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">发送</button>
+  </div>
+</div>
+
+<script>
+    var number=0;
+    $("#download,#downloadtop").click(function(){
+        $("[id*='container']").hide();
+        $(".btn-success").hide();
+        $(".reporthide").hide();
+        $(".convas_image").show();
+        html2canvas(document.getElementById("page-content"), {
+            onrendered: function(canvas) {
+                if(number==0){
+                    document.body.appendChild(canvas);
+                    number=number+1;
+                }
+                $("[id*='container']").show();
+                $(".btn-success").show();
+                $(".reporthide").show();
+                $(".convas_image").hide();
+                var canvas = document.getElementsByTagName("canvas");
+                canvas[0].className="hide";
+                canvas[0].id='myCanvas';
+                var canvas=document.getElementById("myCanvas");
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                <% if params[:username]!=nil %>
+                var username='<%= params[:username] %>'
+                <% else %>
+                var username='<%= session[:webusername] %>'
+                <% end %>
+                $.post("/usersurvey/save_image",{username:username+'-p4s4',image:imgData},function(data){
+
+                });
+            }
+        });
+
+    });
+
+    $("#confirm").click(function(){
+        if($("#email").attr("value")!=""){
+        <% if params[:username]!=nil %>
+            username='<%= params[:username] %>'
+        <% else %>
+            username='<%= session[:webusername] %>'
+        <% end %>
+            $.post("/usersurvey/send_image",{username:username,imagename:username+'-p4s4',reportname:"理财规划预估报告",email:$("#email").attr("value")},function(data){
+            });
+        }
+        else{
+            alert("请输入邮箱！")
+        }
+    });
+
+    var dateNow = new Date();
+    var yearNow = dateNow.getFullYear();
+    var monthNow = dateNow.getMonth()+1;
+    var date=yearNow.toString()+'.'+monthNow.toString();
+    <% for i in 0..@userplanmonth.size-1 %>
+    if('<%= @userplanmonth[i].date %>'==date){
+        $(".amounts2").html("<%= @userplanmonth[i].fluid_account %>")
+        $(".amounts4").html("<%= @userplanmonth[i].safety_account %>")
+        $(".amounts5").html("<%= @userplanmonth[i].risky_account %>")
+    }
+    <% end %>
+
+    var dataarray1=[];
+    var dataarray2=[];
+    <% for i in 0..15 %>
+    dataarray1.push('<%= @date[i] %>')
+    dataarray2.push(<%= @asset_account*(i+1) %>)
+    <% end %>
+
+    $(function () {
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                type: 'line'
+            },
+            title: {
+                text:false
+            },
+            xAxis: {
+                categories: dataarray1,
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '金额'
+                },
+                labels : {
+                    formatter : function ( ) {
+                        return this . value ;
+                    }
+                }
+            },
+            tooltip: {
+                enabled: true,
+                formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y +'°C';
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [{
+                name: '投资资产总值',
+                data: dataarray2
+            }],
+            legend: {
+                verticalAlign: 'top'
+            },
+            credits: {
+                enabled: false
+            }
+        });
+    });
+</script>

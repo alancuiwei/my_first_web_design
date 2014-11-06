@@ -43,14 +43,14 @@ class UserfinanceplanexeController < ApplicationController
        if @fluidproduct!=nil
          if @fluidproduct2!=nil
            @hash.store('fluid',[@category1.id,@category1.classify,1,@fluidproduct.id,@fluidproduct2.buy_link])
-       else
+         else
            @hash.store('fluid',[@category1.id,@category1.classify,1,@fluidproduct.id,'http://fund.fund123.cn/html/'+@fluidproduct.product_code+'/index.html'])
          end
        else
          @hash.store('fluid',[@category1.id,@category1.classify,0,nil,nil])
        end
        @category2=Admin_asset_type_l2.find_by_L2_typeid(201)
-         @hash.store('safe',[@category2.id,@category2.classify])
+       @hash.store('safe',[@category2.id,@category2.classify])
        @riskproduct1=Monetary_fund_quote.find_by_productname(@userfinancedata.risk_productid)
        @riskproduct3=Fund_product.find_by_productname(@userfinancedata.risk_productid)
        @riskproduct2=General_fund_quote.find_by_product_name(@userfinancedata.risk_productid)
@@ -67,7 +67,7 @@ class UserfinanceplanexeController < ApplicationController
          @category3=Admin_asset_type_l2.find_by_L2_typeid(@riskproduct2.L2_typeid)
          if @riskproduct4!=nil
            @hash.store('risk',[@category3.id,@category3.classify,0,@riskproduct2.id,@riskproduct4.buy_link])
-       else
+         else
            @hash.store('risk',[@category3.id,@category3.classify,0,@riskproduct2.id,'http://fund.fund123.cn/html/'+@riskproduct2.product_code+'/index.html'])
          end
        elsif @riskproduct5!=nil

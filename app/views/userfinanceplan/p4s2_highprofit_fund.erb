@@ -1,6 +1,8 @@
 <%= stylesheet_link_tag "p1_usersurvey.css" %>
 <%= javascript_include_tag "bootstrap.min.js" %>
 <%= javascript_include_tag "highcharts.js" %>
+<%= javascript_include_tag "excanvas.js" %>
+<%= javascript_include_tag "html2canvas.js" %>
 
 <style>
     #page-content .mleft {
@@ -11,14 +13,15 @@
 <div class="welcomes">
   <%= render "side" %>
   <div id="page-content">
+    <div class="convas_image hide"><img style="height: 54px;" src="/assets/logo.jpg"></div>
     <h1>高收益资产配置</h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">
           <h2><span>1</span>原因：</h2>
           <div class="mleft">
-            <p class="q-text">通货膨胀，反映了货币购买力被侵蚀。通胀的负面影响主要表现在：由于对未来通胀的不确定性，人们会减少稳定的投资和储蓄；当高通胀发生时，将导致商品短缺，价格快速上涨。</p>
-            <p class="q-text">为了收住辛勤劳作换来的钱，我们应该将家庭资产中一部分资金投入高收益高风险资产中，如股市、贵金属市场来抵御通胀。</p>
+            <p class="q-text">通货膨胀，反映了货币购买力被侵蚀。通胀的负面影响主要表现在：<br class="convas_image hide">由于对未来通胀的不确定性，人们会减少稳定的投资和储蓄；当高通<br class="convas_image hide">胀发生时，将导致商品短缺，价格快速上涨。</p>
+            <p class="q-text">为了收住辛勤劳作换来的钱，我们应该将家庭资产中一部分资金投入<br class="convas_image hide">高收益高风险资产中，如股市、贵金属市场来抵御通胀。</p>
            </div>
           <h2><span>2</span>金额：</h2>
           <div class="mleft">
@@ -26,9 +29,9 @@
             <div id="container" style="width: 100%;height: 200px;"></div>
             <% if @userbanlance!=nil && @userbanlance.asset_risky_account!=nil && @userplanedbalance.asset_planed_risky_account!=nil %>
                 <% if @userbanlance.asset_risky_account>@userplanedbalance.asset_planed_risky_account %>
-                    <p class="q-text">您当前的高收益资产为<%= @userbanlance.asset_risky_account %>元,高于理想的<%= @userplanedbalance.asset_planed_risky_account %>元，高收益资产一般风险度都很高，我们建议您将这<%= @userbanlance.asset_risky_account-@userplanedbalance.asset_planed_risky_account %>元赎出来，用作其他（应急流动性资产、稳健收益资产）的投资。</p>
+                    <p class="q-text">您当前的高收益资产为<%= @userbanlance.asset_risky_account %>元,高于理想的<%= @userplanedbalance.asset_planed_risky_account %>元，高收益资产一般<br class="convas_image hide">风险度都很高，我们建议您将这<%= @userbanlance.asset_risky_account-@userplanedbalance.asset_planed_risky_account %>元赎出来，用作其他<br class="convas_image hide">（应急流动性资产、稳健收益资产）的投资。</p>
                 <% else %>
-                    <p class="q-text">您当前的高收益资产为<%= @userbanlance.asset_risky_account %>元,低于理想的<%= @userplanedbalance.asset_planed_risky_account %>元，由于高收益资产对于家庭的重要性，我们建议您将其他（应急流动性资产、稳健收益资产）投资中拨款到高收益资产中。如果拨款不够的话，您将每月从工资中抽取一部分资金进来。</p>
+                    <p class="q-text">您当前的高收益资产为<%= @userbanlance.asset_risky_account %>元,低于理想的<%= @userplanedbalance.asset_planed_risky_account %>元，由于高收益资产<br class="convas_image hide">对于家庭的重要性，我们建议您将其他（应急流动性资产、稳健收<br class="convas_image hide">益资产）投资中拨款到高收益资产中。如果拨款不够的话，您将每月<br class="convas_image hide">从工资中抽取一部分资金进来。</p>
                 <% end %>
             <% end %>
             <table id="oneyear" class="table table-striped table-bordered">
@@ -47,16 +50,16 @@
           </div>
           <h2><span>3</span>投资产品：</h2>
           <div class="mleft">
-            <p class="q-text">下面将简单对高收益高风险的投资产品进行介绍，值得注意的是，您需要将您的投资风险度评估和具体的理财产品联系起来，这样才能找到适合您自己的高风险产品。</p>
-            <p class="q-text">债券基金：安全性较高、波动性低，流动性比银行定存高，可随时变现。平均4~8%的收益，债券型基金很适合在基金组合里扮演积极后卫的角色。该类基金很难从静止的状态中快速反应，当面临升息等金融环境，债券型基金的收益很受影响。</p>
-            <p class="q-text">混合型基金：混合型基金的流动性甚佳，但波动性会比债券型基金大得多。这类新基金的预期获利率和该基金的投资组合有很大关系。如果投资组合以债券为主，平均收益率仅比债券型基金高一些，如果投资组合以股票为主，平均收益率则会大幅高于债券型基金，当然，风险也会随之增加。从安全性来看，混合型基金的表现会经常出人意料，大跌眼镜的业绩表现也时有发生，因此它并不适合投资偏向非常保守的投资人。而对于激进型的投资者，混合型基金只适合标准配置而不是最大比例的配置。</p>
-            <p class="q-text">ETF基金：当市场上涨趋势一旦确立，代表指数趋势走向的ETF很容易一骑绝尘，让投资者获得极高的收益，甚至远远高于股市的平均丈夫，但当股市长期下跌或崩盘，ETF基金的表现也会让人崩溃，业绩没有很差，只有更差。</p>
-            <p class="q-text">股票型基金：如从流动性来看，股票型基金与货币性、债券型、混合型、ETF行基金无异，但从安全性的角度，股票型基金会呈现出多面性，这在于它们的投资组合是否分散在各个产业或不同区域。</p>
-            <p class="q-text">QDII基金：从安全性来看，QDII的风险肯定是比混合型基金高的，多了汇率的风险，也多了海外投资的风险，流动性较高，波动性一般，在收益方面，则要重点考察QDII的投资方向，投资方向对了，收益可观，投资方向错了，则亏损。例如主投黄金的DQII,随着黄金价格大跌，今年盈利普遍为-15%以上。</p>
+            <p class="q-text">下面将简单对高收益高风险的投资产品进行介绍，值得注意的是，您<br class="convas_image hide">需要将您的投资风险度评估和具体的理财产品联系起来，这样才能找<br class="convas_image hide">到适合您自己的高风险产品。</p>
+            <p class="q-text">债券基金：安全性较高、波动性低，流动性比银行定存高，可随时变<br class="convas_image hide">现。平均4~8%的收益，债券型基金很适合在基金组合里扮演积极后卫<br class="convas_image hide">的角色。该类基金很难从静止的状态中快速反应，当面临升息等金融<br class="convas_image hide">环境，债券型基金的收益很受影响。</p>
+            <p class="q-text">混合型基金：混合型基金的流动性甚佳，但波动性会比债券型基金大<br class="convas_image hide">得多。这类新基金的预期获利率和该基金的投资组合有很大关系。如<br class="convas_image hide">果投资组合以债券为主，平均收益率仅比债券型基金高一些，如果投<br class="convas_image hide">资组合以股票为主，平均收益率则会大幅高于债券型基金，当然，风<br class="convas_image hide">险也会随之增加。从安全性来看，混合型基金的表现会经常出人意料，<br class="convas_image hide">大跌眼镜的业绩表现也时有发生，因此它并不适合投资偏向非常<br class="convas_image hide">保守的投资人。而对于激进型的投资者，混合型基金只适合标准配置<br class="convas_image hide">而不是最大比例的配置。</p>
+            <p class="q-text">ETF基金：当市场上涨趋势一旦确立，代表指数趋势走向的ETF很容易<br class="convas_image hide">一骑绝尘，让投资者获得极高的收益，甚至远远高于股市的平均丈夫<br class="convas_image hide">，但当股市长期下跌或崩盘，ETF基金的表现也会让人崩溃，业绩没有<br class="convas_image hide">很差，只有更差。</p>
+            <p class="q-text">股票型基金：如从流动性来看，股票型基金与货币性、债券型、混合<br class="convas_image hide">型、ETF行基金无异，但从安全性的角度，股票型基金会呈现出多面性<br class="convas_image hide">，这在于它们的投资组合是否分散在各个产业或不同区域。</p>
+            <p class="q-text">QDII基金：从安全性来看，QDII的风险肯定是比混合型基金高的，多<br class="convas_image hide">了汇率的风险，也多了海外投资的风险，流动性较高，波动性一般，<br class="convas_image hide">在收益方面，则要重点考察QDII的投资方向，投资方向对了，收益可<br class="convas_image hide">观，投资方向错了，则亏损。例如主投黄金的DQII,随着黄金价格大<br class="convas_image hide">跌，今年盈利普遍为-15%以上。</p>
             <% if @link==0 %>
-                <a class="btn btn-primary btn-large" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
+                <a class="btn btn-primary btn-large next" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
             <% else %>
-                <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s3_stableprofit_fund">高 收 益 资 产 配 置</a>
+                <a class="btn btn-primary btn-large next" href="#">高 收 益 资 产 配 置</a>
             <% end %>
           </div>
         </div>
@@ -74,9 +77,9 @@
             <% end %>
           </table>
           <% if @link==0 %>
-              <a class="btn btn-primary btn-large" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
+              <a class="btn btn-primary btn-large next" href="#myModal_prompt" role="button" data-toggle="modal">高 收 益 资 产 配 置</a>
           <% else %>
-              <a class="btn btn-primary btn-large" href="/userfinanceplan/p4s3_stableprofit_fund">高 收 益 资 产 配 置</a>
+              <a class="btn btn-primary btn-large next" href="#">高 收 益 资 产 配 置</a>
           <% end %>
         </div>
       </div>
@@ -87,6 +90,35 @@
 <%= render "/bankinvest/prompt" %>
 
 <script>
+    var number=0;
+    $(".next").click(function(){
+        $("[id*='container']").hide();
+        $(".btn-primary").hide();
+        $(".convas_image").show();
+        html2canvas(document.getElementById("page-content"), {
+            onrendered: function(canvas) {
+                if(number==0){
+                    document.body.appendChild(canvas);
+                    number=number+1;
+                }
+                $("[id*='container']").show();
+                $(".btn-primary").show();
+                $(".convas_image").hide();
+                var canvas = document.getElementsByTagName("canvas");
+                canvas[0].className="hide";
+                canvas[0].id='myCanvas';
+                var canvas=document.getElementById("myCanvas");
+                var type = 'png';
+                var imgData = canvas.toDataURL(type);
+                var username='<%= session[:webusername] %>'
+                $.post("/usersurvey/save_image",{username:username+'-p4s2',image:imgData},function(data){
+                    <% if @link!=0 %>
+                    location.href="/userfinanceplan/p4s3_stableprofit_fund"
+                    <% end %>
+                });
+            }
+        });
+    });
 
     $("#promit").click(function(e) {
         location.href="/userfinanceplan/p4s2_highprofit_fund_selection";

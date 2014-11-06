@@ -3,8 +3,6 @@ class PaymentController < ApplicationController
    def index
      if session[:webusername]!=nil
        @webuser = Webuser.find_by_username(session[:webusername])
-     else
-       redirect_to(:controller=>"usermanagement", :action=>"login", :payment=>"1")
      end
    end
 
@@ -18,7 +16,11 @@ class PaymentController < ApplicationController
      if params[:userid]!=nil
        @webuser = Webuser.find_by_id(params[:userid])
        if @webuser!=nil
-         @webuser.update_attributes(:ischarge=>1)
+        if params[:payfor]=="buyhouse"
+          @webuser.update_attributes(:payforhouse=>1)
+        else
+          @webuser.update_attributes(:ischarge=>1)
+        end
        end
      end
    end
@@ -31,12 +33,19 @@ class PaymentController < ApplicationController
      if session[:webusername]=='cuiweifam' || session[:webusername]=='通天顺' || session[:webusername]=~/^Sir.*$/
        scharge=0.01
      end
+     if params[:payfor]=="buyhouse"
+       @return_url = 'http://www.tongtianshun.com/usertargets/p2s1_house_buying'
+       @notify_url = 'http://www.tongtianshun.com/payment/ischarge?userid='+@webuser.id.to_s+'&payfor='+params[:payfor]
+     else
+      @return_url = 'http://www.tongtianshun.com/usertargets/p2_usertargets'
+      @notify_url = 'http://www.tongtianshun.com/payment/ischarge?userid='+@webuser.id.to_s+'&payfor='+params[:payfor]
+     end
      parameters = {
          'service' => 'create_partner_trade_by_buyer',
          'partner' => '2088801189204575',
          '_input_charset' => 'utf-8',
-         'return_url' => 'http://www.tongtianshun.com/usertargets/p2_usertargets',
-         'notify_url' => 'http://www.tongtianshun.com/payment/ischarge?userid='+@webuser.id.to_s,
+         'return_url' => @return_url,
+         'notify_url' => @notify_url,
          'seller_email' => 'zhongrensoft@gmail.com',
          'out_trade_no' => @subsribe_id,
          'subject' => '家庭理财规划服务',

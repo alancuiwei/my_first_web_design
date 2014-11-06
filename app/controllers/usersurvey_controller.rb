@@ -424,8 +424,90 @@ class UsersurveyController < ApplicationController
       end
     end
     Thread.new{
-        UserMailer.sendimage(params[:username],params[:email],"家庭财务诊断报告").deliver
+        UserMailer.sendimage(params[:imagename],params[:email],params[:reportname]).deliver
     }
+    render :json => 's'.to_json
+  end
+
+  def send_image_product
+    @webuser=Webuser.find_by_username(params[:username])
+    if @webuser!=nil
+      if params[:email]!=@webuser.email
+        @webuser.update_attributes(:email=>params[:email])
+      end
+    end
+    @monetaryfundquote=Monetary_fund_quote.find_by_id(params[:uid])
+    @generalfundquote=General_fund_quote.find_by_id(params[:uid])
+    @banksselfproducts=Banks_self_products.find_by_id(params[:uid])
+    @array=Array.new
+    if @monetaryfundquote!=nil
+      @fundproduct=Fund_product.find_by_product_code(@monetaryfundquote.product_code)
+      @array[0]=@monetaryfundquote.productname
+      @array[1]=@monetaryfundquote.million_income
+      @array[2]=@monetaryfundquote.sevenD_years_return
+      @array[3]=@monetaryfundquote.one_year_rank
+      if @fundproduct!=nil
+      @array[4]=@fundproduct.min_purchase_account
+      @array[5]=@fundproduct.L2_typename
+      @array[6]=@fundproduct.institution
+      @array[7]=@fundproduct.fund_size
+      @array[8]=@fundproduct.create_date
+      @array[9]=@fundproduct.fund_manager
+      end
+      @array[10]=@monetaryfundquote.product_code
+      @array[11]=@monetaryfundquote.one_year_return
+      @array[12]=@monetaryfundquote.one_year_rank
+      @array[13]=@monetaryfundquote.two_year_return
+      @array[14]=@monetaryfundquote.two_year_rank
+      @array[15]=@monetaryfundquote.three_year_return
+      @array[16]=@monetaryfundquote.three_year_rank
+      Thread.new{
+        UserMailer.sendimageproduct(params[:imagename],params[:email],params[:reportname],@array,'fluid').deliver
+      }
+    elsif @generalfundquote!=nil
+      @fundproduct=General_fund_product.find_by_product_code(@generalfundquote.product_code)
+      @array[0]=@generalfundquote.product_name
+      @array[1]=@generalfundquote.today_value
+      @array[2]=@generalfundquote.today_rate
+      @array[3]=@generalfundquote.one_year_rank
+      @adminassettype=Admin_asset_type_l2.find_by_L2_typeid(@generalfundquote.L2_typeid)
+      if @adminassettype!=nil
+      @array[5]=@adminassettype.classify
+      end
+      if @fundproduct!=nil
+        @array[4]=@fundproduct.min_purchase_account
+        @array[6]=@fundproduct.institution
+        @array[7]=@fundproduct.fund_size
+        @array[8]=@fundproduct.date
+        @array[9]=@fundproduct.fund_manager
+      end
+      @array[10]=@generalfundquote.product_code
+      @array[11]=@generalfundquote.one_year_return
+      @array[12]=@generalfundquote.one_year_rank
+      @array[13]=''
+      @array[14]=''
+      @array[15]=@generalfundquote.three_year_return
+      @array[16]=@generalfundquote.three_year_rank
+      Thread.new{
+        UserMailer.sendimageproduct(params[:imagename],params[:email],params[:reportname],@array,'high').deliver
+      }
+    elsif @banksselfproducts!=nil
+      @array[0]=@banksselfproducts.productname
+      @array[1]=@banksselfproducts.L2_typename
+      @array[2]=@banksselfproducts.min_purchase_account
+      @array[3]=@banksselfproducts.bizhong
+      @array[4]=@banksselfproducts.isbaoben
+      @array[5]=@banksselfproducts.sailsstart
+      @array[6]=@banksselfproducts.sailsend
+      @array[7]=@banksselfproducts.guanliqi
+      @array[8]=@banksselfproducts.returnrate
+      @array[9]=@banksselfproducts.yinhang
+      @array[10]=@banksselfproducts.iszaishou
+      @array[11]=@banksselfproducts.diqu
+      Thread.new{
+        UserMailer.sendimageproduct_bank(params[:imagename],params[:email],params[:reportname],@array).deliver
+      }
+    end
     render :json => 's'.to_json
   end
 

@@ -15,9 +15,10 @@
 <div id="image" class="welcomes start report">
 <%= render "side" %>
 <div id="page-content">
+<div class="convas_image hide"><img style="height: 54px;" src="/assets/logo.jpg"></div>
 <h1 id="financialreport">家庭财务诊断报告
   <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide win" href="#">下一步：理财目标</a>
-  <a id="downloadtop" class="pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
+  <a id="downloadtop" class="btn btn-success btn-large pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
 </h1>
 <!--<a href="javascript:demoFromHTML()" class="button">生成pdf</a>-->
 <div class="tablet">
@@ -279,7 +280,7 @@
 </div>
 <div id="q-buttons" class="win">
   <a id="goal" class="btn btn-primary btn-large pull-right" href="#">下一步：理财目标</a>
-  <a id="download" class="pull-right" href="#myModal_image" role="button" data-toggle="modal">下载财务分析报告</a>
+  <a id="download" class="btn btn-success btn-large pull-right" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
 </div>
 </div>
 </div>
@@ -326,7 +327,7 @@
     <input type="text" id="email" value="<%= @webuser.email %>">
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">发送 并 理财目标设置</button>
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" id="confirm">发送</button>
   </div>
 </div>
 
@@ -768,7 +769,7 @@
                 <% else %>
                 username='<%= session[:webusername] %>'
                 <% end %>
-                $.post("/usersurvey/save_image",{username:username,image:imgData},function(data){
+                $.post("/usersurvey/save_image",{username:username+'-p1usersurvey',image:imgData},function(data){
 
                 });
                 /*
@@ -805,7 +806,7 @@
         <% else %>
             username='<%= session[:webusername] %>'
         <% end %>
-            $.post("/usersurvey/send_image",{username:username,email:$("#email").attr("value")},function(data){
+            $.post("/usersurvey/send_image",{username:username,imagename:username+'-p1usersurvey',reportname:"家庭财务诊断报告",email:$("#email").attr("value")},function(data){
                 //   location.href="/usersurvey/goal";
             });
         }
@@ -814,7 +815,7 @@
         }
     });
     $("#goal,#goaltop").click(function(){
-        <% if @webuser.ischarge==1 %>
+        <% if @webuser.ischarge==1 || @webuser.payforhouse==1 %>
         location.href="/usertargets/p2_usertargets";
         <% else %>
         location.href="/payment";

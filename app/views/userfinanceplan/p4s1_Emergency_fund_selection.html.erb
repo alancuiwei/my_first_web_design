@@ -50,7 +50,7 @@
                 <td class="red"><% if f.three_year_return!=0 %><%= f.three_year_return %>%<% else %>--<% end %></td>
                 <td class="red"><% if f.three_year_rank!=nil %><%= f.three_year_rank %><% else %>--<% end %></td>
                 <td class="hide"><% if f.three_year_rank!=nil %><%= f.three_year_rank.split("/")[0] %><% else %>1000<% end %></td>
-                <td><a class="btn btn-primary" onclick="choose(<%= f.id %>)" name="<%= f.id %>" style="white-space: nowrap;">选择</a></td>
+                <td><a class="btn btn-primary" onclick="choose('<%= f.id %>','<%= f.productname %>')" name="<%= f.id %>" style="white-space: nowrap;">选择</a></td>
               </tr>
           <% end %>
         </table>
@@ -62,16 +62,15 @@
 <script>
 
     var grey=0;
-    function choose(uid){
+    function choose(uid,pname){
+        var username='<%= session[:webusername] %>';
+        $.post("/usersurvey/send_image_product",{username:username,imagename:username+'-p4s1',reportname:"应急基金准备报告",email:'<%= @webuser.email %>',uid:uid},function(data){
+                $.post("/userfinanceplan/savefluid",{ username:"<%= session[:webusername] %>",fluid_productid: pname
+                },function(data){
+                       location.href='/userfinanceplan/p4s2_highprofit_fund';
+                });
+        });
         grey=uid;
-    <% @monetaryfundquote.each do |f| %>
-        if(uid=='<%= f.id %>'){
-            $.post("/userfinanceplan/savefluid",{ username:"<%= session[:webusername] %>",fluid_productid: '<%= f.productname %>'
-            },function(data){
-                location.href='/userfinanceplan/p4s2_highprofit_fund';
-            });
-        }
-    <% end %>
         $("tr").removeClass("four");
         $(".finan"+uid).addClass("four");
     }

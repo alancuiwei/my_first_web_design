@@ -3,36 +3,36 @@
 
 <div class="main-body">
   <div id="page-content">
-    <h1>录像帮助</h1>
+    <h1>买房规划服务</h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">
           <h2>服务视频介绍</h2>
-          <div id="shipin"><iframe frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=i0124r7uycd&auto=0&tiny=0" allowfullscreen></iframe></div>
+          <a class="various" onclick="showvideo('服务视频介绍','#fuwu')" href="#myModal" role="button" data-toggle="modal">
+            <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
+          </a>
         </div>
         <div class="span4 offset1">
-          <% if (session[:webusername]!=nil && @webuser!=nil && @webuser.ischarge!=1) || session[:webusername]==nil %>
+          <% if (session[:webusername]!=nil && @webuser!=nil && @webuser.ischarge!=1 && @webuser.payforhouse!=1) || session[:webusername]==nil %>
               <div class="pricing-tiers bs-docs-sidenav affix-top">
                 <ul class="pricing-list tiers">
                   <li class="list-heading dark">
-                    <h2 class="plan-title">家庭理财规划服务</h2>
-                    <p class="plan-name">50元</p>
+                    <h2 class="plan-title">买房规划服务</h2>
+                    <p class="plan-name">20元</p>
                   </li>
-                  <li>家庭财务分析报告</li>
-                  <li>确定理财目标</li>
-                  <li>理财风险度评估</li>
-                  <li>家庭应急基金准备</li>
-                  <li>高收益、稳健收益资产配置</li>
-                  <li>每月工资投资指导</li>
-                  <li>当前理财产品分析</li>
-                  <li>微信实时查询家庭资产</li>
+                  <li>新房、二手房税率计算</li>
+                  <li>您该买多少价位的房子？</li>
+                  <li>您可以贷款多少公积金？</li>
+                  <li>您能承受多少商业贷款？</li>
+                  <li>您的月供房贷对您的影响？</li>
+                  <li>买房后，您的家庭储蓄该如何处理？</li>
                 </ul>
                 <table id="payment">
                   <tr>
                     <td rolspan="2">
                       <a class="res" href="javascript:void(0)" id="submit"><img style="width: 150px;" src="/assets/zhifubao.jpg"></a>
                     </td>
-                    <td>满意后付款<br><a class="various fancybox.iframe" href="#myModal" role="button" data-toggle="modal">付款流程视频</a></td>
+                    <td>满意后付款<br><a class="various fancybox.iframe" onclick="showvideo('付款流程视频','#fukuan')" href="#myModal" role="button" data-toggle="modal">付款流程视频</a></td>
                   </tr>
                 </table>
                 <br>
@@ -48,10 +48,11 @@
 <div id="myModal" class="modal hide fade" z-index=2 tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3>付款流程视频</h3>
+    <h3 id="title">付款流程视频</h3>
   </div>
   <div class="modal-body">
-    <iframe frameborder=0 height=360 width=640 src="http://v.qq.com/iframe/player.html?vid=v0123z5sild&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="fuwu" class="video" frameborder=0 height=360 width=600 src="http://v.qq.com/iframe/player.html?vid=f0123m2o8hm&auto=0&tiny=0" allowfullscreen></iframe>
+    <iframe id="fukuan" class="video" frameborder=0 height=360 width=640 src="http://v.qq.com/iframe/player.html?vid=v0123z5sild&auto=0&tiny=0" allowfullscreen></iframe>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true" id="backdrop">关闭</button>
@@ -59,34 +60,19 @@
 </div>
 
 <script>
-    $("#backdrop,.modal-backdrop,.close").click(function(){
-        $("#shipin").removeClass("hide");
-    });
-    $(".various").click(function(){
-        $("#shipin").addClass("hide");
-    });
+    function showvideo(title,vid){
+        $("#title").html(title);
+        $(".video").hide();
+        $(vid).show();
+    }
+
     $("#submit,#buy").click(function(){
         <% if session[:webusername]!=nil %>
-        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50},function(data){
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:20,payfor:'buyhouse'},function(data){
             location.href=data;
         });
         <% else %>
         location.href="/usermanagement/login?buyhouse=1";
         <% end %>
     });
-
-    !function ($) {
-        $(function(){
-            var $window = $(window)
-            // side bar
-            setTimeout(function () {
-                $('.bs-docs-sidenav').affix({
-                    offset: {
-                        top: function () { return $window.width() <= 980 ? 290 : 210 }
-                        , bottom: 270
-                    }
-                })
-            }, 100)
-        })
-    }(window.jQuery)
 </script>

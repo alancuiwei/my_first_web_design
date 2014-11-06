@@ -235,7 +235,7 @@
        var debt_value=document.getElementsByClassName("debt_value")  //总负债
        var debt_value_monthly=document.getElementsByClassName("debt_value_monthly")  //每月还贷
        var debt_years=document.getElementsByClassName("debt_years")  //贷款年限
-        var debtid='',debtvalue='',debtvaluemonth='',debtyear='';
+       var debtid='',debtvalue='',debtvaluemonth='',debtyear='';
         for(k=0;k<debt_typeid.length;k++){
             var c1=debt_value[k].value.replace(/,/g, "");
             var c2=debt_value_monthly[k].value.replace(/,/g, "");
@@ -256,8 +256,8 @@
         }
         $.post("/usersurvey/p1s5_debt_table_save",{username:'<%= session[:webusername] %>',debt_typeid:debtid,debt_value:debtvalue,debt_value_monthly:debtvaluemonth,debt_years:debtyear},function(data){
             $.post("/weixins/create",{username:'<%= session[:webusername] %>'},function(data){
-            location.href=e;
-        });
+                location.href=e;
+            });
         });
     }
 </script>

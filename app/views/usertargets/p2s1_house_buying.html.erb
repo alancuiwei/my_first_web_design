@@ -69,7 +69,7 @@
             <div class="controls">
               <div class="input-prepend">
                 <span class="add-on">￥</span>
-                <input class="span2e" value="" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
+                <input class="span2e" value="0" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
               </div>
             </div>
           </div>
@@ -79,7 +79,7 @@
                 <div class="controls">
                   <div class="input-prepend">
                     <span class="add-on">￥</span>
-                    <input class="span2e" value="" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
+                    <input class="span2e" value="0" id="sell_house_account" size="16" type="text" onkeyup="updatedownpay()">
                   </div>
                 </div>
               </div>
@@ -196,7 +196,7 @@
                             <div class="input-prepend">
                               <button id="savings-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
                               <span class="add-on" style="border-radius: 4px 0 0 4px;">￥</span>
-                              <input id="surplussavings" value="0" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
+                              <input id="surplussavings" value="<%= (3*@downpayment/7).to_i %>" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
                               <button id="savings-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
                             </div>
                           </div>
@@ -736,14 +736,15 @@
         var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
         var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
         var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
+
         <% if @user_asset_sheet!=nil %>
-        $("#display-dp,#display-shoufu").html("￥"+(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
-        $("#downpayment").attr("value",parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account));
-        $("#surplussavings").attr("value",0);
+        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+        $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
         <% else %>
-        $("#display-dp,#display-shoufu").html("￥"+(parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
-        $("#downpayment").attr("value",parseInt(family_saving_account)+parseInt(borrowing_account));
-        $("#surplussavings").attr("value",0);
+        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
         <% end %>
         update();
     });
@@ -753,13 +754,13 @@
         var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
         var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
     <% if @user_asset_sheet!=nil %>
-        $("#display-dp,#display-shoufu").html("￥"+(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
-        $("#downpayment").attr("value",parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account));
-        $("#surplussavings").attr("value",0);
+        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+        $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% else %>
-        $("#display-dp,#display-shoufu").html("￥"+(parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
-        $("#downpayment").attr("value",parseInt(family_saving_account)+parseInt(borrowing_account));
-        $("#surplussavings").attr("value",0);
+        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% end %>
         update();
     }
@@ -878,7 +879,14 @@
         $("#zong").html(parseInt((parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥","")))/10000))
         $("#zong2").html("￥"+(parseInt($("#display-ctotal").html().replace("￥",""))+parseInt($("#all_total").html().replace("￥",""))+parseInt($("#all_total_sy").html().replace("￥",""))).toString())
         $("#shoufu,#shoufu1").html($("#display-ctotal").html().replace("￥",""));
-        var chuxu=parseInt(<%= @downpayment %>)-parseInt($("#display-ctotal").html().replace("￥",""))
+        var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
+        var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
+        var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
+    <% if @user_asset_sheet!=nil %>
+        var chuxu=parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)-parseInt($("#display-ctotal").html().replace("￥",""))
+    <% else %>
+        var chuxu=parseInt(family_saving_account)+parseInt(borrowing_account)-parseInt($("#display-ctotal").html().replace("￥",""))
+    <% end %>
         if(chuxu<0){chuxu=0;}
         var month=0
     <% if @userdatamonth!=nil && @userdatamonth.must_expense_month!=nil && @userdatamonth.must_expense_month!=0 %>

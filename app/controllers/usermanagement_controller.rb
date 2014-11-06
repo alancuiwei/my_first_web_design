@@ -52,18 +52,18 @@ class UsermanagementController < ApplicationController
       if params[:username]!=nil
         @webuser=Webuser.find_by_username(params[:username])
       else
-       @webuser=Webuser.find_by_username(session[:webusername])
+        @webuser=Webuser.find_by_username(session[:webusername])
       end
       if @webuser!=nil
         @userassetdaily=User_assets_daily.find_all_by_username(@webuser.username)
-       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
-       @targets=User_targets.find_by_username(@webuser.username)
+        @userfinancedata=User_finance_data.find_by_username(@webuser.username)
+        @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
+        @targets=User_targets.find_by_username(@webuser.username)
         @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
         @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+@webuser.username+"' and asset_typeid<>401 && asset_typeid<>402")
-       @total=0
-       for i in 0..@userassetsheet.size-1
-         @total=@total+@userassetsheet[i].asset_value
+        @total=0
+        for i in 0..@userassetsheet.size-1
+          @total=@total+@userassetsheet[i].asset_value
           if @userassetsheet[i].asset_product_code!=nil && @userassetsheet[i].asset_product_code!=''
             a=0
             @fundquote=Monetary_fund_quote.find_by_product_code(@userassetsheet[i].asset_product_code)       #million_income
@@ -87,10 +87,10 @@ class UsermanagementController < ApplicationController
               @hash.store(@userassetsheet[i].id,[@hash1[@userassetsheet[i].asset_typeid][0],"-"])
             end
           end
-       end
-     else
-       redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
-     end
+        end
+      else
+        redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
+      end
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :familyassettable=>"1")
     end

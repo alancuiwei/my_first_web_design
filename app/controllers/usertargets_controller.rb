@@ -90,6 +90,7 @@ class UsertargetsController < ApplicationController
           @downpayment=@downpayment+@userhousetarget.borrowing_account
         end
       end
+      @downpayment=(@downpayment*0.7).to_i
       @month=0
       if @userhousetarget!=nil && ((@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0))
         @syfee=(3*@downpayment/7-@gjjfee)>0?(3*@downpayment/7-@gjjfee):0
