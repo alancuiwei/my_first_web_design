@@ -41,7 +41,7 @@ class PaymentController < ApplicationController
       @notify_url = 'http://www.tongtianshun.com/payment/ischarge?userid='+@webuser.id.to_s+'&payfor='+params[:payfor]
      end
      parameters = {
-         'service' => 'create_partner_trade_by_buyer',
+         'service' => 'create_direct_pay_by_user',
          'partner' => '2088801189204575',
          '_input_charset' => 'utf-8',
          'return_url' => @return_url,
@@ -51,8 +51,10 @@ class PaymentController < ApplicationController
          'subject' => '家庭理财规划服务',
          'receive_name' => session[:webusername],
          'receive_address' => 'receive_address',
-         'price' => scharge,
-         'quantity' => '1',
+ #        'price' => scharge,
+ #        'quantity' => '1',
+         'total_fee' => scharge,
+         'seller_id' => '2088801189204575',
          'payment_type' => '1',
          'logistics_type'=>'EMS',
          'logistics_fee' => '0',
