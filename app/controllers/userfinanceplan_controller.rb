@@ -6,8 +6,8 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
-      @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.where(username:session[:webusername])
+      @userassetsheet=User_asset_sheet.where(username:session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @averagereturnrate=Average_return_rate.find_by_typeid_and_years(101,1)
@@ -188,7 +188,7 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.where(username:session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
       @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
@@ -245,11 +245,11 @@ class UserfinanceplanController < ApplicationController
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p4s2selection=>"1")
     end
-    @category1=Admin_asset_type_l2.find_all_by_risklevel(1)
-    @category2=Admin_asset_type_l2.find_all_by_risklevel(2)
-    @category3=Admin_asset_type_l2.find_all_by_risklevel(3)
-    @category4=Admin_asset_type_l2.find_all_by_risklevel(4)
-    @category5=Admin_asset_type_l2.find_all_by_risklevel(5)
+    @category1=Admin_asset_type_l2.where(risklevel:1)
+    @category2=Admin_asset_type_l2.where(risklevel:2)
+    @category3=Admin_asset_type_l2.where(risklevel:3)
+    @category4=Admin_asset_type_l2.where(risklevel:4)
+    @category5=Admin_asset_type_l2.where(risklevel:5)
     @hash={}
     @hash2={}
     @category=Admin_asset_type_l2.all
@@ -371,7 +371,7 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.where(username:session[:webusername])
       @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
@@ -405,9 +405,9 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
-      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.where(username:session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
-      @userassetdaily=User_assets_daily.find_all_by_username(@webuser.username)
+      @userassetdaily=User_assets_daily.where(username:@webuser.username)
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @hash={}
       if @userfinancedata!=nil
@@ -470,7 +470,7 @@ class UserfinanceplanController < ApplicationController
       end
      # @total=@totalfluid+@totalrisky+@totalsafety
       @date =["当前","一年后","两年后","三年后","四年后","五年后","六年后","七年后","八年后","九年后","十年后","十一年后","十二年后","十三年后","十四年后","十五年后"]
-      @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+      @userassetsheet=User_asset_sheet.where(username:session[:webusername])
       @userplanedbalance=User_planed_balance_sheets.find_by_username(session[:webusername])
       @array=[0,0,0,0]
       for i in 0..@userassetsheet.size-1
@@ -588,7 +588,7 @@ class UserfinanceplanController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
-      @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+      @userplanmonth=User_plan_month.where(username:session[:webusername])
       @userbanlance=User_balance_sheet.find_by_username(session[:webusername])
       @asset_account=0
       if @userbanlance!=nil

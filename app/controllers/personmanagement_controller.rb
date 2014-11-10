@@ -38,14 +38,14 @@ class PersonmanagementController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-      @assetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+      @assetsheet=User_asset_sheet.where(username:session[:webusername])
       @assettype=Admin_asset_type.all
       @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
       @hash4={}
       for i in 0..@assettype.size-1
         @hash4.store(@assettype[i].asset_typeid.to_i,[@assettype[i].asset_typename,@assettype[i].asset_type_L1])
       end
-      @record=Record.find_all_by_username(session[:webusername])
+      @record=Record.where(username:session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :summary=>"1")
@@ -88,12 +88,12 @@ class PersonmanagementController < ApplicationController
       @hash3.store(@fundproduct[i].productid,[f1,f2,f3])
     end
 
-    @financial4=Financial.find_all_by_category('保本性资产')
-    @category1=Admin_asset_type_l2.find_all_by_risklevel(1)
-    @category2=Admin_asset_type_l2.find_all_by_risklevel(2)
-    @category3=Admin_asset_type_l2.find_all_by_risklevel(3)
-    @category4=Admin_asset_type_l2.find_all_by_risklevel(4)
-    @category5=Admin_asset_type_l2.find_all_by_risklevel(5)
+    @financial4=Financial.where(category:'保本性资产')
+    @category1=Admin_asset_type_l2.where(risklevel:1)
+    @category2=Admin_asset_type_l2.where(risklevel:2)
+    @category3=Admin_asset_type_l2.where(risklevel:3)
+    @category4=Admin_asset_type_l2.where(risklevel:4)
+    @category5=Admin_asset_type_l2.where(risklevel:5)
     @hash={}
     @hash2={}
     @category=Admin_asset_type_l2.all
@@ -204,15 +204,15 @@ class PersonmanagementController < ApplicationController
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
     end
-      @category1=Admin_asset_type_l2.find_all_by_risklevel(1)
-      @category2=Admin_asset_type_l2.find_all_by_risklevel(2)
-      @category3=Admin_asset_type_l2.find_all_by_risklevel(3)
-      @category4=Admin_asset_type_l2.find_all_by_risklevel(4)
-      @category5=Admin_asset_type_l2.find_all_by_risklevel(5)
+      @category1=Admin_asset_type_l2.where(risklevel:1)
+      @category2=Admin_asset_type_l2.where(risklevel:2)
+      @category3=Admin_asset_type_l2.where(risklevel:3)
+      @category4=Admin_asset_type_l2.where(risklevel:4)
+      @category5=Admin_asset_type_l2.where(risklevel:5)
       @hash={}
       @category=Admin_asset_type_l2.all
       for i in 0..@category.size-1
-        @financial=Financial.find_all_by_classify(@category[i].classify)
+        @financial=Financial.where(classify:@category[i].classify)
         a=''
         for j in 0..@financial.size-1
           if j==0
@@ -265,9 +265,9 @@ class PersonmanagementController < ApplicationController
   def record
       if params[:id]!=nil
         @webuser=Webuser.find_by_id(params[:id])
-        @record=Record.find_all_by_username(@webuser.username)
+        @record=Record.where(username:@webuser.username)
       elsif session[:webusername]!=nil
-        @record=Record.find_all_by_username(session[:webusername])
+        @record=Record.where(username:session[:webusername])
       else
          redirect_to(:controller=>"home")
       end
@@ -300,7 +300,7 @@ class PersonmanagementController < ApplicationController
    asset_fluid_account=0;
    asset_safefy_account=0;
    asset_risky_account=0;
-   @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+   @userassetsheet=User_asset_sheet.where(username:session[:webusername])
    for i in 0..@userassetsheet.size-1
      value=0
      if @userassetsheet[i].asset_product_value!=nil
@@ -340,7 +340,7 @@ class PersonmanagementController < ApplicationController
     asset_fluid_account=0;
     asset_safefy_account=0;
     asset_risky_account=0;
-    @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+    @userassetsheet=User_asset_sheet.where(username:session[:webusername])
     for i in 0..@userassetsheet.size-1
       value=0
       if @userassetsheet[i].asset_product_value!=nil
@@ -586,7 +586,7 @@ class PersonmanagementController < ApplicationController
       @webuser=Webuser.find_by_id(params[:id])
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
-      @record=Record.find_all_by_username(@webuser.username)
+      @record=Record.where(username:@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
       if @userfinancedata!=nil
         @finance1=Fund_product.find_by_productname(@userfinancedata.fluid_productid)
@@ -603,12 +603,12 @@ class PersonmanagementController < ApplicationController
         end
       end
       @examination=Examination.find_by_username(@webuser.username)
-      @comments=Comments.find_all_by_pid(params[:id])
+      @comments=Comments.where(pid:params[:id])
     elsif session[:webusername]!=nil
         @webuser=Webuser.find_by_username(session[:webusername])
         @userfinancedata=User_finance_data.find_by_username(@webuser.username)
         @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
-        @record=Record.find_all_by_username(session[:webusername])
+        @record=Record.where(username:session[:webusername])
         @userdatamonth=Userdata_month.find_by_username(session[:webusername])
         if @userfinancedata!=nil
           @finance1=Fund_product.find_by_productname(@userfinancedata.fluid_productid)
@@ -625,7 +625,7 @@ class PersonmanagementController < ApplicationController
           end
         end
         @examination=Examination.find_by_username(@webuser.username)
-        @comments=Comments.find_all_by_pid(@webuser.id)
+        @comments=Comments.where(pid:@webuser.id)
     else
       redirect_to(:controller=>"home")
     end

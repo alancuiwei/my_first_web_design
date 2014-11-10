@@ -2,6 +2,9 @@
 class AdminController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
+#    puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+#    puts decode("mqOoHq6DnU4=")
+
     if session[:webusername]=="admin" || session[:webusername]=="blog"
       @webusers=Webuser.all
       @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
@@ -626,8 +629,10 @@ class AdminController < ApplicationController
       @category1=Admin_asset_type_l1.all
       if params[:id]!="0"
         @category2=Admin_asset_type_l2.find_by_id(params[:id])
-        @probability=Loss_probability.find_all_by_typeid(@category2.L2_typeid)
-        @max=Max_return_rate.find_all_by_typeid(@category2.L2_typeid)
+        @probability=Loss_probability.where(typeid:@category2.L2_typeid)
+
+        @max=Max_return_rate.where(typeid:@category2.L2_typeid)
+
       else
         @category2=Admin_asset_type_l2.limit(1)
         @probability=Loss_probability.limit(1)
@@ -654,7 +659,8 @@ class AdminController < ApplicationController
       render :json => "s1".to_json
     else
       @category2=Admin_asset_type_l2.find_by_id(params[:id])
-      @financial=Financial.find_all_by_category_and_classify(params[:category],params[:classify])
+#      @financial=Financial.find_all_by_category_and_classify(params[:category],params[:classify])
+      @financial=Financial.where(category:params[:category],classify:params[:classify])
       for i in 0..@financial.size-1
         @financial[i].update_attributes(:risklevel=>params[:risklevel]);
       end
@@ -678,7 +684,8 @@ class AdminController < ApplicationController
   def financialconfig
       if params[:id]!="0"
         @financial=Financial.find_by_id(params[:id])
-        @productcompany=Productcompany.find_all_by_pname(@financial.pname)
+        @productcompany=Productcompany.where(pname:@financial.pname)
+
       else
         @financial=Financial.limit(1)
         @productcompany=Productcompany.limit(1)
@@ -687,7 +694,7 @@ class AdminController < ApplicationController
       @hash={}
       @category=Admin_asset_type_l2.find_by_sql("select distinct category from admin_asset_type_L2")
       for i in 0..@category.size-1
-         @category2=Admin_asset_type_l2.find_all_by_category(@category[i].category)
+         @category2=Admin_asset_type_l2.where(category:@category[i].category)
          for j in 0..@category2.size-1
            if j==0
              @cate='|'+@category2[j].classify

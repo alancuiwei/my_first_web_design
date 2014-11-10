@@ -12,7 +12,7 @@ class WeixinsController < ApplicationController
     if params[:username]==nil && params[:xml][:FromUserName]!=nil
       @webuser=Webuser.find_by_sql("select * from webuser where weixincode like '%"+params[:xml][:FromUserName]+"%'")
       if @webuser.size>0
-        @webuser=Webuser.find_by_username(@webuser[0].username)
+        @webuser=Webuser.where(username:@webuser[0].username)
       else
         @webuser=nil
       end
@@ -23,7 +23,7 @@ class WeixinsController < ApplicationController
     if @webuser!=nil
       @userfinancedata=User_finance_data.find_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-      @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+      @userasset=User_asset_sheet.where(username:@webuser.username)
       @assettype=Admin_asset_type.all
       @hash1={}
       for i in 0..@assettype.size-1
@@ -148,7 +148,7 @@ class WeixinsController < ApplicationController
             end
           when "V800"
             if @webuser!=nil && @webuser.property!=nil && @webuser.property>=805 && @webuser.property<=811
-              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userasset=User_asset_sheet.where(username:@webuser.username)
               @liudong=0
               @guding=0
               @zong=0
@@ -415,7 +415,7 @@ class WeixinsController < ApplicationController
         end
         income=0
         extra=0
-        @incomemonth=Userdata_detailedincome_month.find_all_by_username(@webuser.username)
+        @incomemonth=Userdata_detailedincome_month.where(username:@webuser.username)
         for i in 0..@incomemonth.size-1
           if @incomemonth[i].income_typeid==1000 || @incomemonth[i].income_typeid==2000
             income=income+@incomemonth[i].income_value
@@ -549,7 +549,7 @@ class WeixinsController < ApplicationController
         end
         must_expense=0
         fun_expense=0
-        @expensemonth=Userdata_detailedexpense_month.find_all_by_username(@webuser.username)
+        @expensemonth=Userdata_detailedexpense_month.where(username:@webuser.username)
         for i in 0..@expensemonth.size-1
           @expensetype=Admin_expense_type_month.find_by_expense_id(@expensemonth[i].expense_typeid)
           if @expensetype.expense_type=='must_expense'
@@ -563,13 +563,13 @@ class WeixinsController < ApplicationController
         if @userdatamonth!=nil
           invest_expense_month=@userdatamonth.salary_month+@userdatamonth.extra_income_month-must_expense-fun_expense
         end
-        @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
+        @userdebtsheet=User_debt_sheet.where(username:@webuser.username)
         debt_month=0
         for i in 0..@userdebtsheet.size-1
           debt_month=debt_month+@userdebtsheet[i].debt_value_monthly
         end
-        @incomemonth=Userdata_detailedincome_month.find_all_by_username(@webuser.username)
-        @expensemonth=Userdata_detailedexpense_month.find_all_by_username(@webuser.username)
+        @incomemonth=Userdata_detailedincome_month.where(username:@webuser.username)
+        @expensemonth=Userdata_detailedexpense_month.where(username:@webuser.username)
         if @incomemonth!=nil && @expensemonth!=nil
           invest_expense_month=invest_expense_month-debt_month
         end
@@ -693,7 +693,7 @@ class WeixinsController < ApplicationController
         else
           @expenseannual.update_attributes(:expense_value=>content)
         end
-        @expenseannual430=Userdata_detailedexpense_annual.find_all_by_username(@webuser.username)
+        @expenseannual430=Userdata_detailedexpense_annual.where(username:@webuser.username)
         @expensetype430=Admin_expense_type_annual.all
         @hash430={}
         for i in 0..@expensetype430.size-1
@@ -859,7 +859,7 @@ class WeixinsController < ApplicationController
             e.asset_value=content
             e.save
           end
-          @userassetsheet441=User_asset_sheet.find_all_by_username(@webuser.username)
+          @userassetsheet441=User_asset_sheet.where(username:@webuser.username)
           @assettype441=Admin_asset_type.all
           @hash441={}
           for i in 0..@assettype441.size-1
@@ -976,7 +976,7 @@ class WeixinsController < ApplicationController
         if @userdebtsheet!=nil
           @userdebtsheet.update_attributes(:debt_value_monthly=>content)
         end
-        @userdebtsheet452=User_debt_sheet.find_all_by_username(@webuser.username)
+        @userdebtsheet452=User_debt_sheet.where(username:@webuser.username)
         @debttype452=Admin_debt_type.all
         @hash452={}
         for i in 0..@debttype452.size-1
@@ -995,7 +995,8 @@ class WeixinsController < ApplicationController
         end
       end
       if count==1 || session[:webusername]!=nil
-        @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
+#        @userdebtsheet=User_debt_sheet.where(username:@webuser.username)
+        @userdebtsheet=User_debt_sheet.where(username:@webuser.username)
         debt_month=0
         debt_account=0
         for i in 0..@userdebtsheet.size-1
@@ -1010,7 +1011,7 @@ class WeixinsController < ApplicationController
         salary_annual=@userdatamonth.salary_month*12
         bonus_annual=0;
         other_income_annual=@userdatamonth.extra_income_month*12;
-        @incomeannual=Userdata_detailedincome_annual.find_all_by_username(@webuser.username)
+        @incomeannual=Userdata_detailedincome_annual.where(username:@webuser.username)
         for i in 0..@incomeannual.size-1
           if @incomeannual[i].income_type==2001 || @incomeannual[i].income_type==2002
             bonus_annual=bonus_annual+@incomeannual[i].income_value
@@ -1022,7 +1023,7 @@ class WeixinsController < ApplicationController
         fun_expense_annual=@userdatamonth.fun_expense_month*12;
         debt_annual=@userdatamonth.debt_month*12;
         income_annual=salary_annual+bonus_annual+other_income_annual
-        @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(@webuser.username)
+        @expenseannual=Userdata_detailedexpense_annual.where(username:@webuser.username)
         expense_annual=must_expense_annual+fun_expense_annual+debt_annual;
         for i in 0..@expenseannual.size-1
           expense_annual=expense_annual+@expenseannual[i].expense_value
@@ -1052,7 +1053,7 @@ class WeixinsController < ApplicationController
         asset_fluid_account=0;
         asset_safefy_account=0;
         asset_risky_account=0;
-        @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+        @userassetsheet=User_asset_sheet.where(username:@webuser.username)
         for i in 0..@userassetsheet.size-1
           value=0
           if @userassetsheet[i].asset_product_value!=nil
@@ -1727,7 +1728,7 @@ class WeixinsController < ApplicationController
             content=params[:xml][:Content]
             if content=="Y" || content=="y"
               huobi=0,zhaiquan=0,gupiao=0;
-              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userassetsheet=User_asset_sheet.where(username:@webuser.username)
               for i in 0..@userassetsheet.size-1
                 if @userassetsheet[i].asset_typeid==102
                   huobi=1;
@@ -1784,7 +1785,7 @@ class WeixinsController < ApplicationController
               end
               render "rtn8011", :formats => :xml
             else
-              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userassetsheet=User_asset_sheet.where(username:@webuser.username)
               zhaiquan=0,gupiao=0;
               for i in 0..@userassetsheet.size-1
                 if @userassetsheet[i].asset_typeid==203
@@ -1801,7 +1802,7 @@ class WeixinsController < ApplicationController
                 @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
                 render "rtn803", :formats => :xml
               else
-                @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+                @userasset=User_asset_sheet.where(username:@webuser.username)
                 @liudong=0
                 @guding=0
                 @zong=0
@@ -1865,7 +1866,7 @@ class WeixinsController < ApplicationController
               end
               render "rtn8021", :formats => :xml
             else
-              @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userassetsheet=User_asset_sheet.where(username:@webuser.username)
               gupiao=0;
               for i in 0..@userassetsheet.size-1
                 if @userassetsheet[i].asset_typeid==301
@@ -1876,7 +1877,7 @@ class WeixinsController < ApplicationController
                 @webuser.update_attributes(:segment=>0,:targets=>0,:property=>803)
                 render "rtn803", :formats => :xml
               else
-                @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+                @userasset=User_asset_sheet.where(username:@webuser.username)
                 @liudong=0
                 @guding=0
                 @zong=0
@@ -1940,7 +1941,7 @@ class WeixinsController < ApplicationController
               end
               render "rtn8031", :formats => :xml
             else
-              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userasset=User_asset_sheet.where(username:@webuser.username)
               @liudong=0
               @guding=0
               @zong=0
@@ -1967,14 +1968,14 @@ class WeixinsController < ApplicationController
               @webuser.update_attributes(:segment=>0,:targets=>0,:property=>800)
               render "rtn800", :formats => :xml
             elsif content=="200"
-              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userasset=User_asset_sheet.where(username:@webuser.username)
               @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
               render "rtn806", :formats => :xml
             end
           elsif @webuser!=nil && @webuser.property==806
             content=params[:xml][:Content]
             if content.upcase=="M"
-              @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+              @userasset=User_asset_sheet.where(username:@webuser.username)
               @webuser.update_attributes(:segment=>0,:targets=>0,:property=>807)
               render "rtn807", :formats => :xml
             elsif content.upcase=="A"
@@ -2046,7 +2047,7 @@ class WeixinsController < ApplicationController
                 end
               end
             end
-            @userasset=User_asset_sheet.find_all_by_username(@webuser.username)
+            @userasset=User_asset_sheet.where(username:@webuser.username)
             @webuser.update_attributes(:segment=>0,:targets=>0,:property=>806)
             render "rtn806", :formats => :xml
           elsif @webuser!=nil && @webuser.property==808
@@ -2401,7 +2402,7 @@ class WeixinsController < ApplicationController
                   render "rtn910", :formats => :xml
                 end
               else
-                @fundquote=General_fund_quote.find_all_by_L2_typeid(@webuser.riskselect1)
+                @fundquote=General_fund_quote.where(L2_typeid:@webuser.riskselect1)
                 for i in 0..@fundquote.size-1
                   num1=0
                   num2=1

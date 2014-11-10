@@ -4,7 +4,7 @@ class UserfinanceplanexeController < ApplicationController
    if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-     @assetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+     @assetsheet=User_asset_sheet.where(username:session[:webusername])
      @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
      @userplanedsheet=User_planed_balance_sheets.find_by_username(session[:webusername])
      @userfirstmove=User_firstmove_balance_sheets.find_by_username(session[:webusername])
@@ -22,9 +22,9 @@ class UserfinanceplanexeController < ApplicationController
    @assettype=Admin_asset_type.find_by_sql("select * from admin_asset_type where asset_typeid<>'401' and asset_typeid<>'402'")
    if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
-     @userplanmonth=User_plan_month.find_all_by_username(session[:webusername])
+     @userplanmonth=User_plan_month.where(username:session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(@webuser.username)
-     @record=Record.find_all_by_username(session[:webusername])
+     @record=Record.where(username:session[:webusername])
      @hash2={}
      for i in 0..@record.size-1
        @asset=Admin_asset_type.find_by_asset_typename(@record[i].pname)

@@ -14,7 +14,7 @@ class UsertargetsController < ApplicationController
 
   def p2s1_user_target_select
     if session[:webusername]!=nil
-      @targets=User_targets.find_all_by_username(session[:webusername])
+      @targets=User_targets.where(username:session[:webusername])
       @webuser=Webuser.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
@@ -177,8 +177,8 @@ class UsertargetsController < ApplicationController
     @month=0
     @userdatamonth=Userdata_month.find_by_username(@webuser.username)
 
-    @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
-    @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
+    @incomemonth=Userdata_detailedincome_month.where(username:session[:webusername])
+    @expensemonth=Userdata_detailedexpense_month.where(username:session[:webusername])
     if @userdatamonth!=nil
       if @incomemonth!=nil && @expensemonth!=nil
         @month=@userdatamonth.invest_expense_month

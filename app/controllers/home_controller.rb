@@ -17,18 +17,18 @@ class HomeController < ApplicationController
       @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
       @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @risk=User_risktolerance_qa.find_all_by_username(session[:webusername])
+      @risk=User_risktolerance_qa.where(username:session[:webusername])
     end
     @risktype=Admin_risktolerance_type.all
-    @category1=Admin_asset_type_l2.find_all_by_risklevel(1)
-    @category2=Admin_asset_type_l2.find_all_by_risklevel(2)
-    @category3=Admin_asset_type_l2.find_all_by_risklevel(3)
-    @category4=Admin_asset_type_l2.find_all_by_risklevel(4)
-    @category5=Admin_asset_type_l2.find_all_by_risklevel(5)
+    @category1=Admin_asset_type_l2.where(risklevel:1)
+    @category2=Admin_asset_type_l2.where(risklevel:2)
+    @category3=Admin_asset_type_l2.where(risklevel:3)
+    @category4=Admin_asset_type_l2.where(risklevel:4)
+    @category5=Admin_asset_type_l2.where(risklevel:5)
     @hash={}
     @category=Admin_asset_type_l2.all
     for i in 0..@category.size-1
-      @financial=Financial.find_all_by_classify(@category[i].classify)
+      @financial=Financial.where(classify:@category[i].classify)
       a=''
       for j in 0..@financial.size-1
         if j==0

@@ -5,6 +5,7 @@ class UsersurveyController < ApplicationController
   def p1_usersurvey
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+#      @webuser=Webuser.where(username:session[:webusername])
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
       @blog=Blog.find_by_id(401)
@@ -42,9 +43,13 @@ class UsersurveyController < ApplicationController
       @targets=User_targets.find_by_username(session[:webusername])
       @incometype=Admin_income_type_month.all
       @expensetype=Admin_expense_type_month.order("expense_id ASC").all
-      @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
-      @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
+      @userdatamonth=Userdata_month.find_by_username(session[:webusername])  
+#      @incomemonth=Userdata_detailedincome_month.where(username:session[:webusername])
+      @incomemonth=Userdata_detailedincome_month.where(username:session[:webusername])
+
+#      @expensemonth=Userdata_detailedexpense_month.where(username:session[:webusername])
+      @expensemonth=Userdata_detailedexpense_month.where(username:session[:webusername])
+
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -120,7 +125,7 @@ class UsersurveyController < ApplicationController
       end
     end
     invest_expense_month=income+extra-must_expense-fun_expense
-    @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+    @userdebtsheet=User_debt_sheet.where(username:session[:webusername])
     debt_month=0
     for i in 0..@userdebtsheet.size-1
       debt_month=debt_month+@userdebtsheet[i].debt_value_monthly
@@ -153,8 +158,9 @@ class UsersurveyController < ApplicationController
       @targets=User_targets.find_by_username(session[:webusername])
       @incometypeannual=Admin_income_type_annual.all
       @expensetypeannual=Admin_expense_type_annual.all
-      @incomeannual=Userdata_detailedincome_annual.find_all_by_username(session[:webusername])
-      #@expenseannual=Userdata_detailedexpense_annual.find_all_by_username(session[:webusername])
+      @incomeannual=Userdata_detailedincome_annual.where(username:session[:webusername])
+
+      #@expenseannual=Userdata_detailedexpense_annual.where(username:session[:webusername])
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -205,7 +211,9 @@ class UsersurveyController < ApplicationController
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
       @assettype=Admin_asset_type.all
-      @userassetsheet=User_asset_sheet.find_all_by_username(session[:webusername])
+#      @userassetsheet=User_asset_sheet.where(username:session[:webusername])
+      @userassetsheet=User_asset_sheet.where(username:session[:webusername])
+
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -259,7 +267,9 @@ class UsersurveyController < ApplicationController
       @userfinancedata=User_finance_data.find_by_username(session[:webusername])
       @targets=User_targets.find_by_username(session[:webusername])
       @debttype=Admin_debt_type.all
-      @userdebtsheet=User_debt_sheet.find_all_by_username(session[:webusername])
+#      @userdebtsheet=User_debt_sheet.where(username:session[:webusername])
+      @userdebtsheet=User_debt_sheet.where(username:session[:webusername])
+
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey=>"1")
     end
@@ -308,10 +318,10 @@ class UsersurveyController < ApplicationController
       @moonlite=Admin_moonlite_type.all
       @blog=Blog.find_by_id(401)
       @blog2=Blog.find_by_id(403)
-      @assettype1=Admin_asset_type.find_all_by_asset_type_L1(100);
-      @assettype2=Admin_asset_type.find_all_by_asset_type_L1(200);
-      @assettype3=Admin_asset_type.find_all_by_asset_type_L1(300);
-      @assettype4=Admin_asset_type.find_all_by_asset_type_L1(400);
+      @assettype1=Admin_asset_type.where(asset_type_L1:100);
+      @assettype2=Admin_asset_type.where(asset_type_L1:200);
+      @assettype3=Admin_asset_type.where(asset_type_L1:300);
+      @assettype4=Admin_asset_type.where(asset_type_L1:400);
       @assettype=Admin_asset_type.all
       @hash1={}
       for i in 0..@assettype.size-1
@@ -330,7 +340,7 @@ class UsersurveyController < ApplicationController
       end
       @hash.store('must_expense',[must_expense])
       @hash.store('fun_expense',[fun_expense])
-      @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+      @userassetsheet=User_asset_sheet.where(username:@webuser.username)
       t = Time.new
       @date = t.strftime("%Y-%m-%d")
       for i in 0..@userassetsheet.size-1
@@ -351,7 +361,7 @@ class UsersurveyController < ApplicationController
           asset_fluid_account=0;
           asset_safefy_account=0;
           asset_risky_account=0;
-          @userassetsheet=User_asset_sheet.find_all_by_username(@webuser.username)
+          @userassetsheet=User_asset_sheet.where(username:@webuser.username)
           for i in 0..@userassetsheet.size-1
             value=0
             if @userassetsheet[i].asset_product_value!=nil
@@ -393,15 +403,15 @@ class UsersurveyController < ApplicationController
       end
       @debttype=Admin_debt_type.all
       @expensetypeannual=Admin_expense_type_annual.all
-      @userdebtsheet=User_debt_sheet.find_all_by_username(@webuser.username)
+      @userdebtsheet=User_debt_sheet.where(username:@webuser.username)
       @userbalancesheet=User_balance_sheet.find_by_username(@webuser.username)
       @userdatamonth=Userdata_month.find_by_username(@webuser.username)
-      @expensemonth=Userdata_detailedexpense_month.find_all_by_username(@webuser.username)
+      @expensemonth=Userdata_detailedexpense_month.where(username:@webuser.username)
       @userdataannyal=Userdata_annual.find_by_username(@webuser.username)
-      @expenseannual=Userdata_detailedexpense_annual.find_all_by_username(@webuser.username)
-      @incomemonth=Userdata_detailedincome_month.find_all_by_username(@webuser.username)
+      @expenseannual=Userdata_detailedexpense_annual.where(username:@webuser.username)
+      @incomemonth=Userdata_detailedincome_month.where(username:@webuser.username)
       @indicators=Admin_finacialindicators.all
-      @financialindicators=User_financial_indicators.find_all_by_username(@webuser.username)
+      @financialindicators=User_financial_indicators.where(username:@webuser.username)
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p1_usersurvey_report=>"1")
     end
@@ -538,7 +548,7 @@ class UsersurveyController < ApplicationController
   end
 
   def targets
-    @targets=User_targets.find_all_by_username(params[:username])
+    @targets=User_targets.where(username:params[:username])
     @hash={}
     for i in 0..@targets.size-1
       if @targets[i].user_target_period<=2
@@ -571,8 +581,8 @@ class UsersurveyController < ApplicationController
 
     month=0
     @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-    @incomemonth=Userdata_detailedincome_month.find_all_by_username(session[:webusername])
-    @expensemonth=Userdata_detailedexpense_month.find_all_by_username(session[:webusername])
+    @incomemonth=Userdata_detailedincome_month.where(username:session[:webusername])
+    @expensemonth=Userdata_detailedexpense_month.where(username:session[:webusername])
     if @userdatamonth!=nil
       if @incomemonth!=nil && @expensemonth!=nil
         month=@userdatamonth.invest_expense_month

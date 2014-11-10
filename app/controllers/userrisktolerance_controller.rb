@@ -29,7 +29,7 @@ class UserrisktoleranceController < ApplicationController
       @assetsheet=User_asset_sheet.find_by_username(session[:webusername])
       @userbalancesheet=User_balance_sheet.find_by_username(session[:webusername])
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
-      @risk=User_risktolerance_qa.find_all_by_username(session[:webusername])
+      @risk=User_risktolerance_qa.where(username:session[:webusername])
     else
       redirect_to(:controller=>"usermanagement", :action=>"login", :p3steps=>"1")
     end
@@ -40,7 +40,7 @@ class UserrisktoleranceController < ApplicationController
    if session[:webusername]!=nil
      @webuser=Webuser.find_by_username(session[:webusername])
      @userfinancedata=User_finance_data.find_by_username(session[:webusername])
-     @userrisktoleranceqa=User_risktolerance_qa.find_all_by_username(session[:webusername])
+     @userrisktoleranceqa=User_risktolerance_qa.where(username:session[:webusername])
      @array=[0,0,0,0,0,0,0,0,0,0]
      for i in 0..@userrisktoleranceqa.size-1
        @array[@userrisktoleranceqa[i].question_id-1]=@userrisktoleranceqa[i].question_answer

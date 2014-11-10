@@ -9,9 +9,9 @@ class BankinvestController < ApplicationController
   def classify
    if params[:id]!=nil
     @category=Admin_asset_type_l2.find_by_id(params[:id])
-    @probability=Loss_probability.find_all_by_typeid(@category.L2_typeid)
-    @max=Max_return_rate.find_all_by_typeid(@category.L2_typeid)
-    @average=Average_return_rate.find_all_by_typeid(@category.L2_typeid)
+    @probability=Loss_probability.where(typeid:@category.L2_typeid)
+    @max=Max_return_rate.where(typeid:@category.L2_typeid)
+    @average=Average_return_rate.where(typeid:@category.L2_typeid)
     t = Time.new
     year = t.strftime("%Y")
     @average2=Average_return_rate.find_by_typeid_and_years(@category.L2_typeid,year.to_i-1)
@@ -71,7 +71,7 @@ class BankinvestController < ApplicationController
   def buylinks
     if params[:id]!=nil
       @financial=Monetary_fund_quote.find_by_id(params[:id])
-      @productcompany=Productcompany.find_all_by_pname(@financial.productname)
+      @productcompany=Productcompany.where(pname:@financial.productname)
       @hash={}
       for i in 0..@productcompany.size-1
         @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
@@ -153,7 +153,7 @@ class BankinvestController < ApplicationController
     if params[:id]!=nil
       @financial=Financial.find_by_id(params[:id])
       @category=Admin_asset_type_l2.find_by_classify(@financial.classify)
-      @productcompany=Productcompany.find_all_by_pname(@financial.pname)
+      @productcompany=Productcompany.where(pname:@financial.pname)
       @hash={}
       for i in 0..@productcompany.size-1
         @salescompany=Salescompany.find_by_fundname(@productcompany[i].fundname)
