@@ -26,15 +26,20 @@ class UsertargetsController < ApplicationController
   def p2s1_house_buying
     if session[:webusername]!=nil
       @webuser=Webuser.find_by_username(session[:webusername])
+# =>  所买房的属性，包括总价、贷款时间等      
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
+
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
 
+# =>  
       if @userhousetarget==nil || (@userhousetarget.sell_house_account==nil && @userhousetarget.family_saving_account==nil && @userhousetarget.borrowing_account==nil)
-        sell_house_account=0
+
+        sell_house_account=0   
         if @user_asset_sheet!=nil
           sell_house_account=@user_asset_sheet.asset_value
         end
+
         family_saving_account=0
         @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+session[:webusername]+"' and asset_typeid<>401 && asset_typeid<>402")
         for i in 0..@userassetsheet.size-1
@@ -50,7 +55,7 @@ class UsertargetsController < ApplicationController
             u.family_saving_account=family_saving_account
             u.borrowing_account=0
             u.save
-          end
+            end
         end
       end
 
