@@ -23,6 +23,7 @@
 <div class="tab-content" style="overflow: visible;">
 <div class="tab-pane active" id="tab1">
 
+<!--
   <h1>博客</h1>
   <a href="/admin/blogconfig/0">添加</a>
   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="blog">
@@ -31,22 +32,24 @@
       <th>栏目</th><th>图片</th><th class="hide">ID</th><th>修改</th><th>删除</th><th>查看</th>
     </tr></thead>
 
-    <% @blogs.each do |b| %>
+    <%# @blogs.each do |b| %>
         <tr>
-          <td><%=raw b.btitle%></td>
-          <td><%= b.blname%></td>
-          <td style="white-space:nowrap;"><%= b.publishdate%></td>
-          <td style="white-space:nowrap;"><%= b.bcolumn%></td>
-          <td><%= b.imagepath%></td>
-          <td class="hide"><%= b.id%></td>
-          <td><a href="/admin/blogconfig/<%= b.id %>">修改</a></td>
-          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','blogdeleteajax')">删除</a></td>
-          <td><a href="/blog/blogarticle/<%= b.id%>">查看</a></td>
+          <td><%#=raw b.btitle%></td>
+          <td><%#= b.blname%></td>
+          <td style="white-space:nowrap;"><%#= b.publishdate%></td>
+          <td style="white-space:nowrap;"><%#= b.bcolumn%></td>
+          <td><%#= b.imagepath%></td>
+          <td class="hide"><%#= b.id%></td>
+          <td><a href="/admin/blogconfig/<%#= b.id %>">修改</a></td>
+          <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%#= b.id %>','blogdeleteajax')">删除</a></td>
+          <td><a href="/blog/blogarticle/<%#= b.id%>">查看</a></td>
         </tr>
-    <% end %>
+    <%# end %>
   </table>
+-->
   <% if session[:webusername]=='admin' %>
 
+<!--
       <h1>服务开发进展</h1>
       <a href="/admin/paceconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="pace">
@@ -55,21 +58,23 @@
           <th>修改</th><th>删除</th>
         </tr></thead>
 
-        <% @pace.each do |b| %>
+        <%# @pace.each do |b| %>
             <tr>
-              <td class="hide"><%= b.id%></td>
-              <td><%= b.functionname%></td>
-              <td><%= b.introduce%></td>
-              <td><%= b.developtime%></td>
-              <td><%= b.ontime%></td>
-              <td><%= b.develop%></td>
-              <td><%= b.auditor%></td>
-              <td><a target='_blank' href="<%= b.details%>">查看</a></td>
-              <td><a href="/admin/paceconfig/<%= b.id %>">修改</a></td>
-              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','pacedeleteajax')">删除</a></td>
+              <td class="hide"><%#= b.id%></td>
+              <td><%#= b.functionname%></td>
+              <td><%#= b.introduce%></td>
+              <td><%#= b.developtime%></td>
+              <td><%#= b.ontime%></td>
+              <td><%#= b.develop%></td>
+              <td><%#= b.auditor%></td>
+              <td><a target='_blank' href="<%#= b.details%>">查看</a></td>
+              <td><a href="/admin/paceconfig/<%#= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%#= b.id %>','pacedeleteajax')">删除</a></td>
             </tr>
-        <% end %>
+        <%# end %>
       </table>
+-->
+
       <h1>媒体报道</h1>
       <a href="/admin/pressconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="press">
@@ -106,6 +111,7 @@
             </tr>
         <% end %>
       </table>
+<!--
       <h1>活动管理</h1>
       <a href="/admin/activityconfig/0?organ=1">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
@@ -114,25 +120,26 @@
           <th>活动开始</th><th>活动结束</th><th>查看</th><th>修改</th><th>删除</th>
         </tr></thead>
 
-        <% @activity.each do |b| %>
+        <%# @activity.each do |b| %>
             <tr>
-              <td class="hide"><%= b.id%></td>
-              <td><%= b.name%></td>
-              <td><%= b.naturef + '-' + b.natures%></td>
-              <td><%= b.organizer%></td>
-              <td><%= b.begintime%></td>
-              <td><%= b.endtime%></td>
-              <td><a href="/personmanagement/activity/<%= b.id %>">查看</a></td>
-              <td><a href="/admin/activityconfig/<%= b.id %>?optype=edit">修改</a></td>
-              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','activitydeleteajax')">删除</a></td>
+              <td class="hide"><%#= b.id%></td>
+              <td><%#= b.name%></td>
+              <td><%#= b.naturef + '-' + b.natures%></td>
+              <td><%#= b.organizer%></td>
+              <td><%#= b.begintime%></td>
+              <td><%#= b.endtime%></td>
+              <td><a href="/personmanagement/activity/<%#= b.id %>">查看</a></td>
+              <td><a href="/admin/activityconfig/<%#= b.id %>?optype=edit">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%#= b.id %>','activitydeleteajax')">删除</a></td>
             </tr>
-        <% end %>
+        <%# end %>
       </table>
+-->
   <% end %>
 </div>
 <div class="tab-pane" id="tab2">
   <% if session[:webusername]=='admin' %>
-      <h1>投资人管理</h1><br>
+      <h1>用户管理</h1><br>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="users">
         <thead><tr>
           <th style="width: 50px;">ID</th>

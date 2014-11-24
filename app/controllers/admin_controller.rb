@@ -6,7 +6,7 @@ class AdminController < ApplicationController
 #    puts decode("mqOoHq6DnU4=")
 
     if session[:webusername]=="admin" || session[:webusername]=="blog"
-      @webusers=Webuser.all
+      @webusers=Webuser.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
       @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
       @user11=Webuser.find_by_sql("select username from webuser where married is not null")
       @user12=Userdata_month.find_by_sql("select username from userdata_month")
@@ -28,9 +28,9 @@ class AdminController < ApplicationController
           @hash.store(@webusers[i].username,[nil,nil])
         end
       end
-      @blogs=Blog.all
-      @activity=Activity.all
-      @pace=Pace.all
+#      @blogs=Blog.all
+#      @activity=Activity.all
+#      @pace=Pace.all
       @press=Press.all
       @methodology=Methodology.all
       @productcompany=Productcompany.all
