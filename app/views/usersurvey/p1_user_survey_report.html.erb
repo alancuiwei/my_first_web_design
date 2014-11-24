@@ -239,9 +239,9 @@
         <thead>
         <tr>
           <th data-sort-initial="descending" data-class="expand">家庭财务比率</th>
-          <th data-hide="phone">定义</th>
           <th data-hide="phone">合理范围</th>
           <th data-sort-ignore="true">实际比率</th>
+          <th data-hide="phone">定义</th>
         </tr>
         </thead>
         <% @indicators.each do |i| %>
@@ -249,8 +249,6 @@
               <!-- 家庭财务比率  -->
               <td><%= i.indicators_names %>(<a onclick="intro('<%= i.indicators_names %>','<%=raw i.indicators_intro %>')" href="#myModal_intro" role="button" data-toggle="modal">?</a>)</td>
 
-              <!-- 定义 -->
-              <td><%= i.indicators_defination %></td>
               <!-- 合理范围 -->
               <% if i.indicators_recomn_max!=nil && i.indicators_recomn_min!=nil %>
                   <td><%= i.indicators_recomn_min %>-<%= i.indicators_recomn_max %></td>
@@ -263,13 +261,15 @@
               <% end %>
 
               <!-- 实际比率 -->
-              <td class="right">
+              <td class="center">
                 <% @financialindicators.each do |f| %>
                     <% if i.indicators_id==f.indicatortypeid %>
                         <%= f.indicators_value %>
                     <% end %>
                 <% end %>
               </td>
+              <!-- 定义 -->
+              <td><%= i.indicators_defination %></td>
 
 
             </tr>
