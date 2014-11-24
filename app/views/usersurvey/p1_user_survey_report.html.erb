@@ -53,7 +53,7 @@
     <div class="mleft">
       <h1 class="h1"><span>1</span>家庭资产负债表：</h1>
       <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
-      <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的进资产增长，这说明您的经济状况一直在改善。</p>
+      <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的净资产增长，这说明您的经济状况一直在改善。</p>
       <table id="asset" class="table table-striped table-bordered">
         <thead>
         <tr><th class="grey">资产项目</th><th>金额(元)</th><th class="grey">负债项目</th><th>金额(元)</th></tr>
@@ -246,8 +246,12 @@
         </thead>
         <% @indicators.each do |i| %>
             <tr>
+              <!-- 家庭财务比率  -->
               <td><%= i.indicators_names %>(<a onclick="intro('<%= i.indicators_names %>','<%=raw i.indicators_intro %>')" href="#myModal_intro" role="button" data-toggle="modal">?</a>)</td>
+
+              <!-- 定义 -->
               <td><%= i.indicators_defination %></td>
+              <!-- 合理范围 -->
               <% if i.indicators_recomn_max!=nil && i.indicators_recomn_min!=nil %>
                   <td><%= i.indicators_recomn_min %>-<%= i.indicators_recomn_max %></td>
               <% elsif i.indicators_recomn_max==nil && i.indicators_recomn_min!=nil %>
@@ -257,6 +261,8 @@
               <% else %>
                   <td></td>
               <% end %>
+
+              <!-- 实际比率 -->
               <td class="right">
                 <% @financialindicators.each do |f| %>
                     <% if i.indicators_id==f.indicatortypeid %>
@@ -264,6 +270,8 @@
                     <% end %>
                 <% end %>
               </td>
+
+
             </tr>
         <% end %>
       </table>

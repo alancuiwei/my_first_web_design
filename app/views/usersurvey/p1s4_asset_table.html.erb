@@ -14,13 +14,15 @@
         </div>
         <div class="span11">
           <div class="mleft">
-            <p class="q-text">总结至今为止您所有的资产，这个简明的资产表仅仅是您在某个时期的阶段性总结，实际上资产净值每天都根据资产价值张张落落，但这个资产表可以在很长时间里帮助你及时发现财务危机，计划理财方式，并确保您直达目标。<br>
-            切记，填写的应该是资产的当期市值，而不是购买价格。</p>
+            <p class="q-text">您家庭的所有资产，（包括活期、定期、股票、基金、房产、汽车等）。<br>
+                这个简明的资产表可以在很长时间里帮助你及时发现财务危机，计划理财方式，并确保您直达目标。</p>
             <div class="row-fluid op-label">
-              <div class="span2 q-text">资产品种</div>
-              <div class="span2 q-text" style="text-align: left;">资产金额</div>
+              <div class="span2 q-text">资产</div>
+              <div class="span2 q-text" style="text-align: left;">总额</div>
+<!--
               <div class="span2 q-text" style="text-align: left;">产品代码</div>
               <div class="span2 q-text" style="text-align: left;">产品份额</div>
+          -->
               <div class="span1"></div>
             </div>
             <div class="seperator thick"></div>
@@ -41,18 +43,22 @@
                       <input class="asset_value" name="lnw" id="amount" style="width: 120px;" onMouseOver="if(this.value==0){this.value='';}"value="0" type="text">
                     </div>
                   </div>
-                  <div class="span2">
-                    <input class="asset_product_code" name="lnw" id="productcode" style="width: 140px;" value="" type="text" placeholder="选填">
-                  </div>
-                  <div class="span2">
-                    <input class="asset_product_share" name="lnw" id="productshare" style="width: 140px;" value="" type="text" placeholder="选填">
-                  </div>
+                  
                   <div class="span1 top5" style="margin-top: 10px;height: 20px;overflow: hidden;"><i class="icon-remove-sign" style="display: none;margin-left: 20px;font-size: 30px;" onclick="removeline(this);">&nbsp;&nbsp;</i></div>
+
+                  <div class="span2">
+                    <input class="asset_product_code" name="lnw" id="productcode" style="width: 140px;" value="" type="hidden" placeholder="选填">
+                  </div>
+                  <div class="span2">
+                    <input class="asset_product_share" name="lnw" id="productshare" style="width: 140px;" value="" type="hidden" placeholder="选填">
+                  </div>
+              
+
                 </div>
               </div>
             </div>
             <div class="seperator bottom thick"></div>
-            <a data-original-title="Click here to add another company line" class="xtip pull-right"style="padding: 0 20px 10px 0;" onclick="addline();"> + 添加资产 </a>
+            <a data-original-title="Click here to add another company line" class="xtip pull-left"style="padding: 0 20px 10px 0;" onclick="addline();"> + 添加资产 </a>
           </div>
         </div>
       </div>
