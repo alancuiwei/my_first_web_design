@@ -31,8 +31,8 @@ class AdminController < ApplicationController
 #      @blogs=Blog.all
 #      @activity=Activity.all
 #      @pace=Pace.all
-      @press=Press.all
-      @methodology=Methodology.all
+#      @press=Press.all
+#      @methodology=Methodology.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Admin_asset_type_l1.all

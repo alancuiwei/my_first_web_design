@@ -13,17 +13,19 @@
 <div class="tabbable">
 <h1 class="deploy" style="padding-bottom: 0;border-bottom: 0;">
   <ul class="nav nav-pills" style="margin-bottom: 0;">
-    <li class="active"><a href="#tab1" data-toggle="tab"><h4>网站内容管理</h4></a></li>
-    <li><a href="#tab2" data-toggle="tab"><h4>用户管理</h4></a></li>
+<!--    <li class="active"><a href="#tab1" data-toggle="tab"><h4>网站内容管理</h4></a></li> -->
+    <li class="active"><a href="#tab2" data-toggle="tab"><h4>用户管理</h4></a></li>
     <li><a href="#tab3" data-toggle="tab"><h4>产品管理</h4></a></li>
     <li><a href="#tab4" data-toggle="tab"><h4>资产体检管理</h4></a></li>
     <li><a href="#tab5" data-toggle="tab"><h4>网站运营</h4></a></li>
   </ul>
 </h1>
 <div class="tab-content" style="overflow: visible;">
-<div class="tab-pane active" id="tab1">
 
 <!--
+<div class="tab-pane active" id="tab1">
+
+
   <h1>博客</h1>
   <a href="/admin/blogconfig/0">添加</a>
   <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="blog">
@@ -46,10 +48,10 @@
         </tr>
     <%# end %>
   </table>
--->
-  <% if session[:webusername]=='admin' %>
 
-<!--
+  <%# if session[:webusername]=='admin' %>
+
+
       <h1>服务开发进展</h1>
       <a href="/admin/paceconfig/0">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="pace">
@@ -73,7 +75,7 @@
             </tr>
         <%# end %>
       </table>
--->
+
 
       <h1>媒体报道</h1>
       <a href="/admin/pressconfig/0">添加</a>
@@ -82,17 +84,17 @@
           <th class="hide">ID</th><th>文字</th><th>日期</th><th>图片</th><th>链接</th><th>修改</th><th>删除</th>
         </tr></thead>
 
-        <% @press.each do |b| %>
+        <%# @press.each do |b| %>
             <tr>
-              <td class="hide"><%= b.id%></td>
-              <td><%= b.pname%></td>
-              <td><%= b.pdate%></td>
-              <td><img style="height: 50px;" src='/assets/<%= b.pimg%>'></td>
-              <td><a target='_blank' href="<%= b.plink %>">查看</a></td>
-              <td><a href="/admin/pressconfig/<%= b.id %>">修改</a></td>
-              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','pressdeleteajax')">删除</a></td>
+              <td class="hide"><%#= b.id%></td>
+              <td><%#= b.pname%></td>
+              <td><%#= b.pdate%></td>
+              <td><img style="height: 50px;" src='/assets/<%#= b.pimg%>'></td>
+              <td><a target='_blank' href="<%#= b.plink %>">查看</a></td>
+              <td><a href="/admin/pressconfig/<%#= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%#= b.id %>','pressdeleteajax')">删除</a></td>
             </tr>
-        <% end %>
+        <%# end %>
       </table>
       <h1>理论依据</h1>
       <a href="/admin/methodconfig/0">添加</a>
@@ -101,17 +103,17 @@
           <th class="hide">ID</th><th>标题</th><th>图片名</th><th>修改</th><th>删除</th>
         </tr></thead>
 
-        <% @methodology.each do |b| %>
+        <%# @methodology.each do |b| %>
             <tr>
-              <td class="hide"><%= b.id%></td>
-              <td><%= b.mname %></td>
-              <td><%= b.picture %></td>
-              <td><a href="/admin/methodconfig/<%= b.id %>">修改</a></td>
-              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%= b.id %>','methoddeleteajax')">删除</a></td>
+              <td class="hide"><%#= b.id%></td>
+              <td><%#= b.mname %></td>
+              <td><%#= b.picture %></td>
+              <td><a href="/admin/methodconfig/<%#= b.id %>">修改</a></td>
+              <td><a href="javascript:void(0)" onclick="if(confirm('确认要删除？'))deleteajax('<%#= b.id %>','methoddeleteajax')">删除</a></td>
             </tr>
-        <% end %>
+        <%# end %>
       </table>
-<!--
+
       <h1>活动管理</h1>
       <a href="/admin/activityconfig/0?organ=1">添加</a>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="activity">
@@ -134,10 +136,12 @@
             </tr>
         <%# end %>
       </table>
--->
-  <% end %>
+
+  <%# end %>
 </div>
-<div class="tab-pane" id="tab2">
+-->
+
+<div class="tab-pane active" id="tab2">
   <% if session[:webusername]=='admin' %>
       <h1>用户管理</h1><br>
       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered display" id="users">
