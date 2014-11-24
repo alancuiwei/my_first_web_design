@@ -185,7 +185,8 @@
         <tr><td class="grey">&nbsp;</td><td></td><td class="grey right">贷款支出</td>
           <td class="right"><% if @userdatamonth!=nil %><%= @userdatamonth.debt_month %><% end %></td>
           <td class="right">
-            <% if @userdatamonth!=nil %><%= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)/2).to_i %><% end %>
+            <%# if @userdatamonth!=nil %><%#= ((@userdatamonth.salary_month+@userdatamonth.extra_income_month)/2).to_i %><%# end %>
+            --
           </td>
         </tr>
         <tr><td class="grey">&nbsp;</td><td></td> <td class="grey"></td><td></td><td></td></tr>
@@ -241,7 +242,7 @@
           <th data-sort-initial="descending" data-class="expand">家庭财务比率</th>
           <th data-hide="phone">合理范围</th>
           <th data-sort-ignore="true">实际比率</th>
-          <th data-hide="phone">定义</th>
+          <th data-hide="phone">建议</th>
         </tr>
         </thead>
         <% @indicators.each do |i| %>
