@@ -14,9 +14,12 @@ class AdminController < ApplicationController
 
       webuser12 = Userdata_month.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
       @webuser12num = webuser12.count
-
 #      @user12=Userdata_month.find_by_sql("select username from userdata_month")
-      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
+
+      webuser13 = Userdata_detailedincome_annual.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight).distinct
+      @webuser13num = webuser13.count
+#      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
+
       @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
       @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")
       @user20=Webuser.find_by_sql("select username from webuser where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
