@@ -9,7 +9,7 @@ class AdminController < ApplicationController
       @webusernum = @webusers.count
 
 #      @user11=Webuser.find_by_sql("select username from webuser where married is not null")
-      webuser11 = @webusers.where.not(age:'Null',sex:'Null',married:'Null')
+      webuser11 = @webusers.where("age!='Null'","sex!='Null'","married!='Null'")
       @webuser11num = webuser11.count
 
       webuser12 = Userdata_month.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
