@@ -16,8 +16,8 @@ class AdminController < ApplicationController
       @webuser12num = webuser12.count
 #      @user12=Userdata_month.find_by_sql("select username from userdata_month")
 
-      webuser13 = Userdata_detailedincome_annual.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight).distinct
-      @webuser13num = webuser13.count
+      webuser13 = Userdata_detailedincome_annual.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      @webuser13num = webuser13.select(:username).distinct.count
 #      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
 
       @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
