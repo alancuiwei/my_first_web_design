@@ -20,8 +20,14 @@ class AdminController < ApplicationController
       @webuser13num = webuser13.select(:username).distinct.count
 #      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
 
-      @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
-      @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")
+      webuser14 = User_asset_sheet.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      @webuser14num = webuser14.select(:username).distinct.count
+#      @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
+
+      webuser15 = User_debt_sheet.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      @webuser15num = webuser15.select(:username).distinct.count
+#      @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")
+
       @user20=Webuser.find_by_sql("select username from webuser where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
       @user21=Webuser.find_by_sql("select username from webuser where married is not null and DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
       @user22=Userdata_month.find_by_sql("select username from userdata_month where DATE_FORMAT(created_at,'%Y-%m-%d') between date_sub(curdate(),interval 15 day) and curdate();")
