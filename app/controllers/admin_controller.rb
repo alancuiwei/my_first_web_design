@@ -2,14 +2,20 @@
 class AdminController < ApplicationController
   Time::DATE_FORMATS[:stamp] = '%Y-%m-%d'
   def index
-#    puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-#    puts decode("mqOoHq6DnU4=")
 
     if session[:webusername]=="admin" || session[:webusername]=="blog"
-      @webusers=Webuser.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
-      @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
-      @user11=Webuser.find_by_sql("select username from webuser where married is not null")
-      @user12=Userdata_month.find_by_sql("select username from userdata_month")
+      @webusers=Webuser.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+#      @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
+      @webusernum = @webusers.count
+
+#      @user11=Webuser.find_by_sql("select username from webuser where married is not null")
+      webuser11 = @webusers.where.not(age:'Null',sex:'Null',married:'Null')
+      @webuser11num = webuser11.count
+
+      webuser12 = Userdata_month.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      @webuser12num = webuser12.count
+
+#      @user12=Userdata_month.find_by_sql("select username from userdata_month")
       @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
       @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
       @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")

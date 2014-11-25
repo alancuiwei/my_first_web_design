@@ -504,12 +504,19 @@
 </div>
 <div class="tab-pane" id="tab5">
   <% if session[:webusername]=='admin' %>
-      <h1>当日注册人数</h1>
-      <div id="container" style="width: 1100px;height: 300px;"></div>
+      <h1>昨日User Circle 流</h1>
+      <p>注册数 <%= @webusernum %> </p>
+      <p>1/5 基本信息 <%= @webuser11num %> </p>
+      <p>2/5 现金流量表（月）<%= @webuser12num %> </p>
+
+
+<!--      <div id="container" style="width: 1100px;height: 300px;"></div> 
+
       <h1>数据FILTER图(全部)</h1>
       <div id="container2" style="width: 1100px;height: 300px;"></div>
       <h1>数据FILTER图(近15日数据)</h1>
       <div id="container3" style="width: 1100px;height: 300px;"></div>
+-->      
   <% end %>
 </div>
 </div>
@@ -545,14 +552,14 @@
             }
         });
     }
+
+    
     var dataarray1=[];
     var dataarray2=[];
 
-    <% @webusernum.each do |u| %>
-    dataarray1.push(['<%= u.a %>',<%= u.b %>])
-    dataarray2.push(<%= u.b %>)
-    <% end %>
+
     $(function () {
+/*
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container',
@@ -626,6 +633,8 @@
                 data: dataarray1
             }]
         });
+*/
+/*
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container2',
@@ -665,12 +674,12 @@
             },
             series: [{
                 name: '数据FILTER图(全部)',
-                data: [<%= @webusers.size %>,<%= @user11.size %>,<%= @user12.size %>,<%= @user13.size %>,<%= @user14.size %>,<%= @user15.size %>]
             }],
             credits: {
                 enabled: false
             }
         });
+
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container3',
@@ -710,11 +719,11 @@
             },
             series: [{
                 name: '数据FILTER图(近15日数据)',
-                data: [<%= @user20.size %>,<%= @user21.size %>,<%= @user22.size %>,<%= @user23.size %>,<%= @user24.size %>,<%= @user25.size %>]
             }],
             credits: {
                 enabled: false
             }
         });
+*/
     });
 </script>
