@@ -18,7 +18,7 @@
 <div class="convas_image hide"><img style="height: 54px;" src="/assets/logo.jpg"></div>
 <h1 id="financialreport">家庭财务诊断报告
   <a id="goaltop" class="btn btn-primary btn-large pull-right reporthide win" href="#">下一步：理财目标</a>
-  <a id="downloadtop" class="btn btn-success btn-large pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
+  <a id="downloadtop" class="pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal" style="display: block;margin-top: 15px;">下载报告</a>
 </h1>
 <!--<a href="javascript:demoFromHTML()" class="button">生成pdf</a>-->
 <div class="tablet">
@@ -34,7 +34,7 @@
     </div>
   </div>
   <div class="span4 offset1">
-    <div id="percent" style="width: 300px;text-align: center;">
+    <div id="percent" style="width: 300px;margin-top:50px;text-align: center;">
       <div class="percentage" style="margin: 0 auto;" data-percent="0"><span  style="font-size: 20px;font-family: Microsoft YaHei;">0</span>分</div>
       <br>
       <blockquote><small>
@@ -48,12 +48,17 @@
     </div>
   </div>
 </div>
+
 <div class="row-fluid">
   <div class="span7">
     <div class="mleft">
       <h1 class="h1"><span>1</span>家庭资产负债表：</h1>
       <p class="q-text">家庭当前经济状况是进行理财规划的常用起始点。家庭资产负债表，又叫净资产表或经济状况表，报告了您的资产和负债情况。</p>
       <p class="q-text">该表可以衡量您向家庭财富积累的进展。每当您发现您的净资产增长，这说明您的经济状况一直在改善。</p>
+
+      <a href="#myModal_calc" role="button" class="btn btn-mini btn-info" data-toggle="modal">计算器</a>
+      <a href="/usersurvey/p1s4_asset_table" class="btn btn-mini btn-info"> 更新</a>
+
       <table id="asset" class="table table-striped table-bordered">
         <thead>
         <tr><th class="grey">资产项目</th><th>金额(元)</th><th class="grey">负债项目</th><th>金额(元)</th></tr>
@@ -96,22 +101,25 @@
         通俗的概括，这张表将告诉您，您的钱到什么地方去了？</p>
     </div>
   </div>
+
   <div class="span4 offset1">
-    <p class="q-text tips">资产分布图</p>
-    <div id="container3" class="win" style="width: 300px;height: 200px;"></div>
+<!--    <p class="q-text tips">资产分布图</p>  -->
+    <div id="container3" class="win" style="width: 300px;height: 200px;margin-top:300px"></div>
     <div id="container3" class="mobile" style="width: 100%;height: 200px;"></div>
     <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
-    <p class="q-text tips">资产负债对比</p>
-    <div id="container4" class="win" style="width: 300px;height: 200px;"></div>
+<!--    <p class="q-text tips">资产负债对比</p> -->
+    <div id="container4" class="win" style="width: 300px;height: 200px;margin-top:150px"></div>
     <div id="container4" class="mobile" style="width: 100%;height: 200px;"></div>
     <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
-    <a class="btn btn-success win" href="/usersurvey/p1s4_asset_table"> 更新 资产负债表 数据 </a>
+    <a href="/usersurvey/p1s4_asset_table"> 更新</a>
   </div>
 </div>
 <div class="row-fluid">
   <div class="span7">
     <div class="mleft">
       <p class="q-text">月收入开销表</p>
+      <a href="#myModal_calc" role="button" class="btn btn-mini btn-info" data-toggle="modal">计算器</a>
+      <a class="btn btn-mini btn-info" href="/usersurvey/p1s2_cash_flow_statement_month"> 更新</a>
       <table id="detailed" class="table table-striped table-bordered">
         <thead>
         <tr><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th><th>理想状况(<a class="xtip update" href="#myModal_ideal" role="button" data-toggle="modal">?</a>)</th></tr>
@@ -204,21 +212,25 @@
     </div>
   </div>
   <div class="span4 offset1">
-    <p class="q-text tips">月收入开销图</p>
-    <div id="container" class="win" style="width: 300px;height: 200px;"></div>
+<!--    <p class="q-text tips">月收入开销图</p> -->
+    <div id="container" class="win" style="width: 300px;height: 200px;margin-top:100px"></div>
     <div id="container" class="mobile" style="width: 100%;height: 200px;"></div>
     <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
-    <blockquote><small class="intro"></small></blockquote>
-    <p class="q-text tips">月收入、支出对比图</p>
-    <div id="container5" class="win" style="width: 300px;height: 200px;"></div>
+<!--    <blockquote><small class="intro"></small></blockquote>    -->
+
+<!--    <p class="q-text tips">月收入、支出对比图</p>  -->
+    <div id="container5" class="win" style="width: 300px;height: 200px;margin-top:100px;"></div>
     <div id="container5" class="mobile" style="width: 100%;height: 200px;"></div>
-    <a class="btn btn-success win" href="/usersurvey/p1s2_cash_flow_statement_month"> 更新 月收入开销 明细 </a>
+
   </div>
 </div>
 <div class="row-fluid">
   <div class="span7">
     <div class="mleft">
       <p class="q-text">年收入开销表</p>
+      <a href="#myModal_calc" role="button" class="btn btn-mini btn-info" data-toggle="modal">计算器</a>
+      <a class="btn btn-mini btn-info" href="/usersurvey/p1s3_cash_flow_statement_year"> 更新</a>      
+
       <table id="detailannual" class="table table-striped table-bordered">
         <thead>
         <tr><th class="grey">家庭收入项目</th><th>金额(元)</th><th class="grey">家庭支出项目</th><th>金额(元)</th></tr>
@@ -279,17 +291,17 @@
     </div>
   </div>
   <div class="span4 offset1">
-    <p class="q-text tips">年收入开销图</p>
-    <div id="container2" class="win" style="width: 300px;height: 200px;"></div>
+<!--    <p class="q-text tips">年收入开销图</p> -->
+    <div id="container2" class="win" style="width: 300px;height: 200px;margin-top:80px;"></div>
     <div id="container2" class="mobile" style="width: 100%;height: 200px;"></div>
     <div class="convas_image red hide" style="width: 300px;height: 200px;"><p>请登录通天顺家庭理财<br>(www.tongtianshun.com)<br>个人首页进行浏览</p></div>
-    <a class="btn btn-success win" href="/usersurvey/p1s3_cash_flow_statement_year"> 更新 年收入开销 数据 </a>
+<!--    <a class="btn btn-success win" href="/usersurvey/p1s3_cash_flow_statement_year"> 更新 年收入开销 数据 </a> -->
   </div>
 </div>
 </div>
 <div id="q-buttons" class="win">
   <a id="goal" class="btn btn-primary btn-large pull-right" href="#">下一步：理财目标</a>
-  <a id="download" class="btn btn-success btn-large pull-right" href="#myModal_image" role="button" data-toggle="modal">下载报告</a>
+  <a id="downloadtop" class="pull-right reporthide win" href="#myModal_image" role="button" data-toggle="modal" style="display: block;margin-top: 15px;">下载报告</a>
 </div>
 </div>
 </div>
@@ -353,6 +365,47 @@
   </div>
 </div>
 
+<div id="myModal_calc" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>计算器</h3>
+  </div>
+
+  <div class="modal-body">
+      <div id="calculator">
+    <!-- Screen and clear key -->
+    <div class="top">
+      <span class="clear">C</span>
+      <div class="screen"></div>
+    </div>
+    <div class="keys">
+      <!-- operators and other keys -->
+      <span>7</span>
+      <span>8</span>
+      <span>9</span>
+      <span class="operator">+</span>
+      <span>4</span>
+      <span>5</span>
+      <span>6</span>
+      <span class="operator">-</span>
+      <span>1</span>
+      <span>2</span>
+      <span>3</span>
+      <span class="operator">÷</span>
+      <span>0</span>
+      <span>.</span>
+      <span class="eval">=</span>
+      <span class="operator">x</span>
+    </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">确认</button>
+  </div>
+</div>
+
+
 <script type="text/javascript">
     //平台、设备和操作系统
     var system ={
@@ -372,6 +425,96 @@
         $(".win").remove();
     }
 </script>
+
+
+<script type="text/javascript">
+// Get all the keys from document 计算器实现
+var keys = document.querySelectorAll('#calculator span');
+var operators = ['+', '-', 'x', '÷'];
+var decimalAdded = false;
+
+// Add onclick event to all the keys and perform operations
+for(var i = 0; i < keys.length; i++) {
+  keys[i].onclick = function(e) {
+    // Get the input and button values
+    var input = document.querySelector('.screen');
+    var inputVal = input.innerHTML;
+    var btnVal = this.innerHTML;
+    
+    // Now, just append the key values (btnValue) to the input string and finally use javascript's eval function to get the result
+    // If clear key is pressed, erase everything
+    if(btnVal == 'C') {
+      input.innerHTML = '';
+      decimalAdded = false;
+    }
+    
+    // If eval key is pressed, calculate and display the result
+    else if(btnVal == '=') {
+      var equation = inputVal;
+      var lastChar = equation[equation.length - 1];
+      
+      // Replace all instances of x and ÷ with * and / respectively. This can be done easily using regex and the 'g' tag which will replace all instances of the matched character/substring
+      equation = equation.replace(/x/g, '*').replace(/÷/g, '/');
+      
+      // Final thing left to do is checking the last character of the equation. If it's an operator or a decimal, remove it
+      if(operators.indexOf(lastChar) > -1 || lastChar == '.')
+        equation = equation.replace(/.$/, '');
+      
+      if(equation)
+        input.innerHTML = eval(equation);
+        
+      decimalAdded = false;
+    }
+    
+    // Basic functionality of the calculator is complete. But there are some problems like 
+    // 1. No two operators should be added consecutively.
+    // 2. The equation shouldn't start from an operator except minus
+    // 3. not more than 1 decimal should be there in a number
+    
+    // We'll fix these issues using some simple checks
+    
+    // indexOf works only in IE9+
+    else if(operators.indexOf(btnVal) > -1) {
+      // Operator is clicked
+      // Get the last character from the equation
+      var lastChar = inputVal[inputVal.length - 1];
+      
+      // Only add operator if input is not empty and there is no operator at the last
+      if(inputVal != '' && operators.indexOf(lastChar) == -1) 
+        input.innerHTML += btnVal;
+      
+      // Allow minus if the string is empty
+      else if(inputVal == '' && btnVal == '-') 
+        input.innerHTML += btnVal;
+      
+      // Replace the last operator (if exists) with the newly pressed operator
+      if(operators.indexOf(lastChar) > -1 && inputVal.length > 1) {
+        // Here, '.' matches any character while $ denotes the end of string, so anything (will be an operator in this case) at the end of string will get replaced by new operator
+        input.innerHTML = inputVal.replace(/.$/, btnVal);
+      }
+      
+      decimalAdded =false;
+    }
+    
+    // Now only the decimal problem is left. We can solve it easily using a flag 'decimalAdded' which we'll set once the decimal is added and prevent more decimals to be added once it's set. It will be reset when an operator, eval or clear key is pressed.
+    else if(btnVal == '.') {
+      if(!decimalAdded) {
+        input.innerHTML += btnVal;
+        decimalAdded = true;
+      }
+    }
+    
+    // if any other key is pressed, just append it
+    else {
+      input.innerHTML += btnVal;
+    }
+    
+    // prevent page jumps
+    e.preventDefault();
+  } 
+}
+</script>
+
 
 <script>
     function intro(u,p){
