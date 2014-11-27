@@ -55,6 +55,11 @@ gem 'mail'
 gem 'bootstrap_form'
 
 gem 'will_paginate'
+
+gem 'pdfkit'
+
+gem 'wkhtmltopdf-binary'
+
 #gem 'bootstrap-will_paginate'
 
 # Use unicorn as the app server

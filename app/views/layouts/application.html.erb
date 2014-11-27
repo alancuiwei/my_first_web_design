@@ -10,11 +10,12 @@
   <meta property="qc:admins" content="256222163764767411630566375" />
   <!-- <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3700511820" type="text/javascript" charset="utf-8"></script> -->
   <%= javascript_include_tag "jquery.min.js" %>
-  <% if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
-      <%= stylesheet_link_tag "bootstrap.css" %>
-      <%= stylesheet_link_tag "bootstrap-responsive.min.css" %>
-      <%= stylesheet_link_tag "styles.css" %>
-  <% end %>
+  <%# if !(params[:controller]=="childfinance" && params[:action]=="finance") %>
+  <%= stylesheet_link_tag "bootstrap.css", media: "all" %>
+  <%= stylesheet_link_tag "bootstrap-responsive.min.css", media: "all" %>
+  <%= stylesheet_link_tag "styles.css", media: "all" %>
+  
+  <%# end %>
 </head>
 
 <style>

@@ -57,5 +57,8 @@ module Ver01
     config.assets.version = '1.0'
 
     config.weixin_token = "echotest"
+
+    config.middleware.use "PDFKit::Middleware", :print_media_type => true
+    
   end
 end
