@@ -7,6 +7,7 @@
     body{
         padding-right: 0!important;
         padding-left: 0!important;
+
     }
     .beta {
         padding: 14px 0!important;
@@ -54,6 +55,10 @@
     }
 }
 
+body{
+    background: none repeat scroll 0% 0% rgb(243, 243, 233);
+}
+
 .welcomes {
     background-color: rgb(255, 255, 255);
     border-width: 2px 1px;
@@ -90,12 +95,19 @@
     font-family: "helvetica neue",helvetica,arial,sans-serif;
 }
 
+#downloadtop{
+    font-size: 13px;
+}
 #page-content h2 {
     font-size: 20px;
     line-height: 40px;
     font-family: Helvetica, Arial, sans-serif;
     color: #5d5d5d;
     margin: 10px 0;
+}
+
+#reporth3{
+    font-size:16px;
 }
 
 .tablet{
@@ -696,4 +708,40 @@ a.choose3{
     top:40%;
     left:80%;
     width:400px;
+}
+
+@media print {
+
+    .page-break { 
+        display: block; 
+        page-break-before: always; 
+    }
+
+    #top-tabs,#goaltop,#percent,#removeinpdf,.main-footer,#goal,#q-buttons,#downloadtop{
+        display:none;
+    }
+
+    img{
+        display:block;
+    }
+    #container3{
+        margin-top:0px;
+    }
+
+    body{
+        background-color: white;
+    }
+
+    #page-content h1,#page-content h2,.q-text,blockquote small,#reporth3{
+        font-family:georgia,serif;
+    }
+
+    .welcomes{
+        border-color:white;
+    }
+
+    .rounder{
+        font-family:arial,serif;
+    }
+
 }

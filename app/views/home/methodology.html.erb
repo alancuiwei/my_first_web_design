@@ -1,4 +1,7 @@
-<%= stylesheet_link_tag "learn.css" %>
+<%#= stylesheet_link_tag "learn.css", media: "all", "data-turbolinks-track" => true %>
+<style type="text/css">
+  <%= Rails.application.assets.find_asset('learn.css').to_s.html_safe %>
+</style>
 
 <div class="welcomes method">
   <div class="contain">
