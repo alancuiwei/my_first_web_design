@@ -39,6 +39,8 @@ Ver01::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
+#  config.action_controller.asset_host = "http://localhost"
+
   config.action_mailer.smtp_settings = {
       :address => "smtp.ym.163.com",
       :port => "25",
