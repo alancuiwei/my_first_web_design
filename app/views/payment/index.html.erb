@@ -60,7 +60,7 @@
               </tr>
             </table>
             <br>
-            <p style="text-align: center;"><a id="buy" class="btn btn-primary btn-large" href="javascript:void(0)">财富自由门票--></a></p>
+            <p style="text-align: center;"><a id="buy" class="btn btn-primary btn-large" href="javascript:void(0)">购 买 理 财 服 务</a></p>
           </div>
           <% end %>
         </div>
@@ -81,6 +81,25 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
   </div>
 </div>
+
+<script type="text/javascript">
+
+var preventUnloadPrompt;
+var messageBeforeUnload = "告诉我们，您不愿意付费的原因，发送消息到微信公众账号 tongtianshun，采纳后将给予20元现金奖励！！！";
+$('a').live('click', function() { preventUnloadPrompt = true; });
+$('form').live('submit', function() { preventUnloadPrompt = true; });
+$(window).bind("beforeunload", function(e) { 
+    var rval;
+    if(preventUnloadPrompt) {
+        return;
+    } else {
+        //location.replace(redirectAfterPrompt);
+        return messageBeforeUnload;
+    }
+//    return rval;
+})
+
+</script>
 
 <script>
     $("#submit,#buy").click(function(){
