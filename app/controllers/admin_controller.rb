@@ -4,7 +4,7 @@ class AdminController < ApplicationController
   def index
 
     if session[:webusername]=="admin" || session[:webusername]=="blog"
-      @webusers=Webuser.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      @webusers=Webuser.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
 #      @webusernum=Webuser.find_by_sql("select DATE_FORMAT(created_at,'%Y-%m-%d') as a,count(*) as b from webuser where created_at is not null group by DATE_FORMAT(created_at,'%Y-%m-%d')")
       @webusernum = @webusers.count
 
@@ -12,19 +12,19 @@ class AdminController < ApplicationController
       webuser11 = @webusers.where("age!='Null'","sex!='Null'","married!='Null'")
       @webuser11num = webuser11.count
 
-      webuser12 = Userdata_month.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      webuser12 = Userdata_month.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
       @webuser12num = webuser12.count
 #      @user12=Userdata_month.find_by_sql("select username from userdata_month")
 
-      webuser13 = Userdata_detailedincome_annual.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      webuser13 = Userdata_detailedincome_annual.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
       @webuser13num = webuser13.select(:username).distinct.count
 #      @user13=Userdata_detailedincome_annual.find_by_sql("select distinct username from userdata_detailedincome_annual")
 
-      webuser14 = User_asset_sheet.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      webuser14 = User_asset_sheet.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
       @webuser14num = webuser14.select(:username).distinct.count
 #      @user14=User_asset_sheet.find_by_sql("select distinct username from user_asset_sheet")
 
-      webuser15 = User_debt_sheet.where(created_at:(Time.now.midnight-1.day)..Time.now.midnight)
+      webuser15 = User_debt_sheet.where(created_at:(Time.now.midnight-15.day)..Time.now.midnight)
       @webuser15num = webuser15.select(:username).distinct.count
 #      @user15=User_debt_sheet.find_by_sql("select distinct username from user_debt_sheet")
 
@@ -43,11 +43,11 @@ class AdminController < ApplicationController
           @hash.store(@webusers[i].username,[nil,nil])
         end
       end
-#      @blogs=Blog.all
-#      @activity=Activity.all
-#      @pace=Pace.all
-#      @press=Press.all
-#      @methodology=Methodology.all
+      @blogs=Blog.all
+      @activity=Activity.all
+      @pace=Pace.all
+      @press=Press.all
+      @methodology=Methodology.all
       @productcompany=Productcompany.all
       @salescompany=Salescompany.all
       @category1=Admin_asset_type_l1.all
