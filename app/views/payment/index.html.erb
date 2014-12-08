@@ -3,15 +3,34 @@
 
 <div class="main-body">
   <div id="page-content">
-    <h1>我们将给您提供的服务</h1>
+    <h1>月光族，百元五分钟，买房不是梦！</h1>
     <div class="tablet">
       <div class="row-fluid">
         <div class="span7">
-          
+
+          <table id="payment">
+              <tr>
+                <td rolspan="2">
+                  <a class="res" href="javascript:void(0)" id="submit"><img style="width: 150px;margin-left:140px;" src="/assets/zhifubao.jpg"></a>
+                </td>
+                <td>不满意，无条件退款！</td>
+
+              </tr>
+            </table>
+          <p style="text-align: center;margin-top:20px;"><a id="buy" class="btn btn-danger btn-large" href="javascript:void(0)">指 导 买 房 规 划</a></p>
+
+          <a href="#myModal-zhekou" role="button" data-toggle="modal" style="margin-left:220px;" ><small>能打个折扣吗？</small></a>
+
+<!--          
           <h2>购房服务介绍</h2>
           <a class="various" onclick="showvideo('服务视频介绍','#fuwu')" href="#myModal" role="button" data-toggle="modal">
             <img src="/assets/video-button-2.png" style="height: 64px;background-color: #C3E4EC;">
           </a>
+-->
+
+
+
+
 <!--
           <h2>财务分析报告</h2>
           <img style="width:500px;" src="/assets/cwfxbg.png"><br>
@@ -37,14 +56,22 @@
           <div class="pricing-tiers bs-docs-sidenav affix-top">
             <ul class="pricing-list tiers">
               <li class="list-heading dark">
-                <h2 class="plan-title">月光族买房服务</h2>
-                <p class="plan-name">50元</p>
+                <h2 class="plan-title">百元 100%服务</h2>
+<!--                <p class="plan-name">月光族买房</p>  -->
               </li>
+              <li>你该买多少钱的房子？</li>
+              <li>你月供商贷、公积金贷多少钱？</li>
+              <li>每月工资投资指导</li>
+              <li>设计适合您的投资组合</li>
+              <li>推荐适合您的理财产品</li>
+              <li>当前理财产品分析</li>
+
+<!--
+
               <li>针对您家庭的财务指导</li>
               <li>推荐适合您的理财产品</li>
               <li>设计适合您的投资组合</li>
               <li>重大市场风险给您通知</li>
-<!--
               <li>理财产品分析</li>
 
               <li>每月工资投资指导</li>
@@ -52,21 +79,21 @@
               <li>微信实时查询家庭资产</li> 
 -->
             </ul>
+<!--
            
             <table id="payment">
               <tr>
                 <td rolspan="2">
                   <a class="res" href="javascript:void(0)" id="submit"><img style="width: 150px;" src="/assets/zhifubao.jpg"></a>
                 </td>
-<!--
                 <td>满意后付款<br><a class="various fancybox.iframe" href="#myModal" role="button" data-toggle="modal">付款流程视频</a></td>
-              -->
-                <td>从此不再月光族</td>
+                <td>不满意，无条件退款！</td>
 
               </tr>
             </table>
+              -->
             <br>
-            <p style="text-align: center;"><a id="buy" class="btn btn-primary btn-large" href="javascript:void(0)">购 买 理 财 服 务</a></p>
+            <p style="text-align: center;"><a id="buy" class="btn btn-danger btn-large" href="javascript:void(0)">指 导 买 房 规 划</a></p>
           </div>
           <% end %>
         </div>
@@ -75,6 +102,7 @@
   </div>
 </div>
 
+<!--
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -82,6 +110,22 @@
   </div>
   <div class="modal-body">
     <iframe frameborder=0 height=360 width=640 src="http://v.qq.com/iframe/player.html?vid=f0123m2o8hm&auto=0&tiny=0" allowfullscreen></iframe>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+  </div>
+</div>
+-->
+<div id="myModal-zhekou" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3>朋友圈分享，5折！</h3>
+  </div>
+  <div class="modal-body">
+    <p>您不需要刻意：<br><br>
+      1. 朋友圈分享您使用通天顺《月光族买房》的真实感受，<br><br>
+      2. 截屏后发送到公众账号 tongtianshun。<br><br>
+      一日内将返还您50元。</p>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
@@ -110,7 +154,7 @@ $(window).bind("beforeunload", function(e) {
 <script>
     $("#submit,#buy").click(function(){
         <% if session[:webusername]!=nil %>
-        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:50,payfor:'service'},function(data){
+        $.get("/payment/zhifubao",{username:'<%= session[:webusername] %>',scharge:100,payfor:'service'},function(data){
             location.href=data;
         });
         <% else %>
