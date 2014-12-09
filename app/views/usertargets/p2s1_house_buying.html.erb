@@ -112,11 +112,28 @@
               </div>
             </div>
           </div>
+          <div class="padded">
+          <h3>公积金信息</h3>
+          </div>
+
+           <div class="input-group active custom">
+            <label for="input-debtpayments-field">可贷金额</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">￥</span>
+                <input class="span2e" value="" id="family_gjj_value" size="16" type="text" onkeyup="updategjj()">
+              </div>
+            </div>
+          </div>
+
           <div class="last input-group active custom">
             <a class="btn btn-success" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
           </div>
         </div>
       </div>
+
+
+
     </div>
     <!--<div id="advanced-settings">
       <div class="button">
@@ -267,8 +284,12 @@
               </tr>
               <tr>
                 <td class="bright" align="right" width="60%">
+
                   <p class="value right editvalue" id="display-mv" style="margin-top: -20px; color: rgb(103, 169, 83); ">￥<%= @gjjfee %></p>
+
                   <br><br>
+
+                  
                   <table width="100%" class="adv-s" border="0">
                     <tbody>
                     <tr>
@@ -777,6 +798,13 @@
         <% end %>
         update();
     });
+
+    function updategjj(){
+        var gjj_account=$("#family_gjj_value").attr("value")==""?0:$("#family_gjj_value").attr("value")
+
+        $("#display-mv").html("￥"+gjj_account.toString())
+
+    }
 
     function updatedownpay(){
         var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
