@@ -22,6 +22,14 @@
               <option value="1">二手房</option>
             </select>
           </div>
+          <div class="input-group active custom" id="inputs-credit">
+            <label for="input-credit-field">购房性质</label>
+            <select id="buy_house_attribute" onChange='houseweiyi(0)'>
+              <option value="0">家庭唯一一套住宅</option>
+              <option value="1">非家庭唯一一套住宅</option>
+            </select>
+          </div>
+
           <div class="input-group active custom" id="inputs-downpayment">
             <label for="input-downpayment-field">购房面积(平方米)</label>
             <input class="span2e" id="buy_house_area" value="" size="0" type="text" onkeyup="update()">
@@ -31,16 +39,9 @@
             <div class="controls">
               <div class="input-prepend">
                 <span class="add-on">￥</span>
-                <input class="span2e" value="" id="buy_house_uint_prince" size="16" type="text" readonly>
+                <input class="span2e" value="" id="buy_house_uint_prince" size="16" type="text" onkeyup="update()">
               </div>
             </div>
-          </div>
-          <div class="input-group active custom" id="inputs-credit">
-            <label for="input-credit-field">购房性质</label>
-            <select id="buy_house_attribute" onChange='houseweiyi(0)'>
-              <option value="0">家庭唯一一套住宅</option>
-              <option value="1">非家庭唯一一套住宅</option>
-            </select>
           </div>
           <div class="input-group active custom inputs-location hide">
             <label for="input-location-field">几年内转让</label>
@@ -686,37 +687,60 @@
     $(document).ready(function(){
 
         <% if @userhousetarget!=nil %>
-        $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
-        $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
-        $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
-        $("#salary_account").attr("value","<%=@userhousetarget.salary_account  %>")
-        <% if @userhousetarget.mortgage_years!=nil %>
-        $("#mortgage_years").attr("value","<%=@userhousetarget.mortgage_years  %>")
-        <% end %>
-        <% if @userhousetarget.mortgage_rate!=nil %>
-        $("#mortgage_rate").attr("value","<%=@userhousetarget.mortgage_rate %>")
-        <% end %>
-        $("#buy_house_type").attr("value","<%=@userhousetarget.buy_house_type  %>")
-        $("#buy_house_area").attr("value","<%=@userhousetarget.buy_house_area  %>")
-        <% if (@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0)  %>
-        $("#downpaymentrate").attr("value",70)
-        $("#display-hv").html("￥<%= (@downpayment/0.7).to_i %>")
-        <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
-        $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.7/@userhousetarget.buy_house_area).to_i  %>")
-        <% end %>
+          //读取卖房收入
+          $("#sell_house_account").attr("value","<%=@userhousetarget.sell_house_account  %>")
+          //读取家庭积蓄
+          $("#family_saving_account").attr("value","<%=@userhousetarget.family_saving_account  %>")
+
+          $("#borrowing_account").attr("value","<%=@userhousetarget.borrowing_account  %>")
+          
+          $("#salary_account").attr("value","<%=@userhousetarget.salary_account  %>")
+          
+          <% if @userhousetarget.mortgage_years!=nil %>
+            $("#mortgage_years").attr("value","<%=@userhousetarget.mortgage_years  %>")
+          <% end %>
+
+          <% if @userhousetarget.mortgage_rate!=nil %>
+            $("#mortgage_rate").attr("value","<%=@userhousetarget.mortgage_rate %>")
+          <% end %>
+
+          $("#buy_house_type").attr("value","<%=@userhousetarget.buy_house_type  %>")
+
+          $("#buy_house_area").attr("value","<%=@userhousetarget.buy_house_area  %>")
+
+          $("#buy_house_uint_prince").attr("value","<%=@userhousetarget.buy_house_uint_prince %>")
+
+
+          //新房 && 非唯一 或 二手房 && 非首套
+          <% if (@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0)  %>
+
+              $("#downpaymentrate").attr("value",70)
+
+//              $("#display-hv").html("￥<%= (@downpayment/0.7).to_i %>")
+
+              // 购房面积有输入
+//              <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
+
+//                $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.7/@userhousetarget.buy_house_area).to_i  %>")
+//              <% end %>
+
+          <% else %>
+              $("#downpaymentrate").attr("value",30)
+
+//              $("#display-hv").html("¥<%= (@downpayment/0.3).to_i %>")
+
+//              <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
+//              $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
+
+//              <% end %>
+          <% end %>
+
+          $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
+          $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
+          $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
         <% else %>
-        $("#downpaymentrate").attr("value",30)
-        $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
-        <% if @userhousetarget.buy_house_area!=nil && @userhousetarget.buy_house_area!=0 %>
-        $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
-        <% end %>
-        <% end %>
-        $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
-        $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
-        $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
-        <% else %>
-        $("#downpaymentrate").attr("value",30)
-        $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
+          $("#downpaymentrate").attr("value",30)
+//          $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
         <% end %>
         housetype();
     });
@@ -753,13 +777,18 @@
         var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
         var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
         var borrowing_account=$("#borrowing_account").attr("value")==""?0:$("#borrowing_account").attr("value")
+
     <% if @user_asset_sheet!=nil %>
-        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
-        $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+//        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+        $("#display-dp,#display-shoufu").html("￥"+parseInt(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
+//        $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#downpayment").attr("value",parseInt(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)));
         $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% else %>
-        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
-        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+//        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
+//        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
+        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))).toString())
+        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))));
         $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% end %>
         update();
@@ -1014,8 +1043,16 @@
     }
 
     function update(){
-        $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
+
+    //断绝 首付款 和 首付比例 的关系
+//        $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
+
+        
+        $("#display-hv").html("￥"+ (parseInt($("#buy_house_area").attr("value"))*parseInt($("#buy_house_uint_prince").attr("value"))).toString());
+        
+    
         var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt($("#salary_account").attr("value"))*9
+
         if(displaysyfee<0){displaysyfee=0}
         $("#display-syfee").html("￥"+displaysyfee.toString());
         ext_total();
@@ -1043,8 +1080,8 @@
     }
 
     function housearea(){
-        if($("#buy_house_area").attr("value")!=""){
-            $("#buy_house_uint_prince").attr("value", parseInt(parseInt($("#downpayment").attr("value"))*100/parseInt($("#downpaymentrate").attr("value"))/parseInt($("#buy_house_area").attr("value"))));
-        }
+//        if($("#buy_house_area").attr("value")!=""){
+//            $("#buy_house_uint_prince").attr("value", parseInt(parseInt($("#downpayment").attr("value"))*100/parseInt($("#downpaymentrate").attr("value"))/parseInt($("#buy_house_area").attr("value"))));
+//        }
     }
 </script>

@@ -32,7 +32,7 @@
     <% if params[:controller]=="usertargets" || params[:controller]=="userrisktolerance" || params[:controller]=="userfinanceplan" || params[:controller]=="userfinanceplanexe" %>
     <% if params[:controller]=="usertargets" && params[:action]!="p2s2_user_target_intro" %>
     <% if @webuser!=nil && @webuser.payforhouse!=1 && @webuser.ischarge!=1 %>
-    location.href="/payment/buyhouse";
+    location.href="/payment";
     <% end %>
     <% elsif @webuser!=nil && @webuser.ischarge!=1 %>
     location.href="/payment";

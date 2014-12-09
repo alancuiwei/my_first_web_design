@@ -28,24 +28,29 @@ class UsertargetsController < ApplicationController
       @webuser=Webuser.find_by_username(session[:webusername])
 # =>  所买房的属性，包括总价、贷款时间等      
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
+
+# =>  @user_asset_sheet = 用户已有房产（401）数据库字段      
       @user_asset_sheet=User_asset_sheet.find_by_username_and_asset_typeid(session[:webusername],401)
 
+# =>  @userdatamonth = 用户每月收入及开销
       @userdatamonth=Userdata_month.find_by_username(session[:webusername])
 
-# =>  
+# =>  如果该用户之前没有 房产购买数据信息,则现在开始初始化赋值。
       if @userhousetarget==nil || (@userhousetarget.sell_house_account==nil && @userhousetarget.family_saving_account==nil && @userhousetarget.borrowing_account==nil)
 
+# =>  将已有房产转化为实际可用的资金，可用来购第二套房。        
         sell_house_account=0   
         if @user_asset_sheet!=nil
           sell_house_account=@user_asset_sheet.asset_value
         end
-
+# =>  家庭储蓄，用来购第二套房子。
         family_saving_account=0
         @userassetsheet=User_asset_sheet.find_by_sql("select * from user_asset_sheet where username='"+session[:webusername]+"' and asset_typeid<>401 && asset_typeid<>402")
         for i in 0..@userassetsheet.size-1
           family_saving_account=family_saving_account+@userassetsheet[i].asset_value
         end
 
+# => 更新userhousetarget 数据库，以方便下次更新。
         if @userhousetarget!=nil
           @userhousetarget.update_attributes(:sell_house_account=>sell_house_account,:family_saving_account=>family_saving_account,:borrowing_account=>0)
         else
@@ -95,7 +100,7 @@ class UsertargetsController < ApplicationController
           @downpayment=@downpayment+@userhousetarget.borrowing_account
         end
       end
-      @downpayment=(@downpayment*0.7).to_i
+#      @downpayment=(@downpayment*0.7).to_i
       @month=0
       if @userhousetarget!=nil && ((@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0))
         @syfee=(3*@downpayment/7-@gjjfee)>0?(3*@downpayment/7-@gjjfee):0
