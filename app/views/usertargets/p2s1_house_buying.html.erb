@@ -182,11 +182,16 @@
                       <tr><td class="left" style="padding: 0;vertical-align: middle;">首付比例</td>
                         <td style="padding: 0;text-align: right;">
                           <div class="controls">
-                            <div class="input-append">
-                              <button id="rate-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
-                              <input id="downpaymentrate" value="30" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
-                              <span class="add-on" style="border-radius: 0 4px 4px 0;">%</span>
+                            <div class="input-prepend">
+                            <!--                        
+                            <button id="rate-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button> -->
+                              <span class="add-on" style="border-radius: 4px 0 0 4px;">%</span>
+
+                              <input id="downpaymentrate" value="30" type="text" style="width: 70px;margin-right:33px;text-align: center;" readonly>
+
+                            <!--  
                               <button id="rate-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
+                            -->
                             </div>
                           </div>
                         </td>
@@ -197,7 +202,7 @@
                             <div class="input-prepend">
                               <button id="savings-decrease" class="light-gray" tabindex="-1" style="margin-right: 3px;">−</button>
                               <span class="add-on" style="border-radius: 4px 0 0 4px;">￥</span>
-                              <input id="surplussavings" value="<%= (3*@downpayment/7).to_i %>" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
+                              <input id="surplussavings" value="0" type="text" style="width: 70px;margin: 0;text-align: center;" readonly>
                               <button id="savings-increase" class="light-gray" tabindex="-1" style="margin-left: 3px;">+</button>
                             </div>
                           </div>
@@ -712,9 +717,9 @@
 
 
           //新房 && 非唯一 或 二手房 && 非首套
-          <% if (@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0)  %>
+//          <% if (@userhousetarget.buy_house_type==0 && @userhousetarget.buy_house_attribute==1) || (@userhousetarget.buy_house_type==1 && @userhousetarget.is_first_house==0)  %>
 
-              $("#downpaymentrate").attr("value",70)
+//              $("#downpaymentrate").attr("value",70)
 
 //              $("#display-hv").html("￥<%= (@downpayment/0.7).to_i %>")
 
@@ -724,8 +729,8 @@
 //                $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.7/@userhousetarget.buy_house_area).to_i  %>")
 //              <% end %>
 
-          <% else %>
-              $("#downpaymentrate").attr("value",30)
+//          <% else %>
+//              $("#downpaymentrate").attr("value",30)
 
 //              $("#display-hv").html("¥<%= (@downpayment/0.3).to_i %>")
 
@@ -733,15 +738,15 @@
 //              $("#buy_house_uint_prince").attr("value","<%= (@downpayment/0.3/@userhousetarget.buy_house_area).to_i  %>")
 
 //              <% end %>
-          <% end %>
+//          <% end %>
 
           $("#buy_house_attribute").attr("value","<%=@userhousetarget.buy_house_attribute  %>")
           $("#house_sell_years").attr("value","<%=@userhousetarget.house_sell_years  %>")
           $("#is_first_house").attr("value","<%=@userhousetarget.is_first_house  %>")
-        <% else %>
-          $("#downpaymentrate").attr("value",30)
+//        <% else %>
+//          $("#downpaymentrate").attr("value",30)
 //          $("#display-hv").html("￥<%= (@downpayment/0.3).to_i %>")
-        <% end %>
+//        <% end %>
         housetype();
     });
 
@@ -764,11 +769,11 @@
         <% if @user_asset_sheet!=nil %>
         $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
         $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
-        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
+//        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
         <% else %>
         $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
         $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
-        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
+//        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
         <% end %>
         update();
     });
@@ -783,13 +788,13 @@
         $("#display-dp,#display-shoufu").html("￥"+parseInt(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)).toString())
 //        $("#downpayment").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
         $("#downpayment").attr("value",parseInt(parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account)));
-        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
+//        $("#surplussavings").attr("value",parseInt((parseInt(sell_house_account)+parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% else %>
 //        $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7).toString())
 //        $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.7));
         $("#display-dp,#display-shoufu").html("￥"+parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))).toString())
         $("#downpayment").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))));
-        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
+//        $("#surplussavings").attr("value",parseInt((parseInt(family_saving_account)+parseInt(borrowing_account))*0.3));
     <% end %>
         update();
     }
@@ -982,6 +987,9 @@
         if(parseInt($("#downpayment").attr("value"))>=10000){
             $("#display-dp,#display-shoufu").html("￥"+(parseInt($("#downpayment").attr("value"))-10000).toString())
             $("#downpayment").attr("value", parseInt($("#downpayment").attr("value"))-10000);
+            $("#downpaymentrate").attr("value",parseInt(parseInt($("#downpayment").attr("value"))/parseInt(parseInt($("#display-hv").html().replace("￥","")))*100));
+
+            
             $("#surplussavings").attr("value", parseInt($("#surplussavings").attr("value"))+10000);
             update();
         }
@@ -991,6 +999,8 @@
         if(parseInt($("#surplussavings").attr("value"))>=10000){
             $("#display-dp,#display-shoufu").html("￥"+(parseInt($("#downpayment").attr("value"))+10000).toString())
             $("#downpayment").attr("value", parseInt($("#downpayment").attr("value"))+10000);
+            $("#downpaymentrate").attr("value",parseInt(parseInt($("#downpayment").attr("value"))/parseInt(parseInt($("#display-hv").html().replace("￥","")))*100));
+
             $("#surplussavings").attr("value", parseInt($("#surplussavings").attr("value"))-10000);
             update();
         }
@@ -1047,9 +1057,9 @@
     //断绝 首付款 和 首付比例 的关系
 //        $("#display-hv").html("￥"+parseInt(parseInt($("#display-dp").html().replace("￥",""))*100/parseInt($("#downpaymentrate").attr("value"))).toString());
 
-        
         $("#display-hv").html("￥"+ (parseInt($("#buy_house_area").attr("value"))*parseInt($("#buy_house_uint_prince").attr("value"))).toString());
-        
+
+      $("#downpaymentrate").attr("value",parseInt(parseInt($("#downpayment").attr("value"))/parseInt(parseInt($("#display-hv").html().replace("￥","")))*100));        
     
         var displaysyfee=parseInt($("#display-hv").html().replace("￥",""))-parseInt($("#display-dp").html().replace("￥",""))-parseInt($("#salary_account").attr("value"))*9
 
