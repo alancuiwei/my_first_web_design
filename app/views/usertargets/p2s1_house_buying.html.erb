@@ -736,6 +736,7 @@
         <tr>
           <th colspan="3"> <h2>月收入分配</h2> </th>
         </tr>
+
         <tr class="graph m-value">
           <td>
             <span class="glossary">月还房贷</span>
@@ -745,15 +746,17 @@
             <div class="level error" style="width: 31.171030666123606px; padding: 6px 1px; "></div>
           </td>
         </tr>
+
         <tr class="graph m-insurance">
           <td>
-            <span class="glossary">生活必要支出</span>
+            <span class="glossary">其他生活开销</span>
           </td>
-          <td class="value">- -</td>
+          <td class="value" id="otherexpense"></td>
           <td class="last-child">
             <div class="level error" style="width: 8.064043681103708px; padding: 6px 1px; "></div>
           </td>
         </tr>
+<!--        
         <tr class="graph real-estate-tax">
           <td>
             <span class="glossary">其他</span>
@@ -763,6 +766,7 @@
             <div class="level error" style="width: 40px; padding: 6px 1px; "></div>
           </td>
         </tr>
+-->        
         <tr class="last-child">
           <td><span class="glossary">家庭月收入</span></td>
           <td class="home-total" style="color: rgb(189, 55, 38); " id="xiaofei"></td>
@@ -770,8 +774,8 @@
         </tbody>
       </table>
     </div>
-    <p class="light" id="hmv-s2">基于上述信息，您的购房月供是<b id="debthouse"></b>元每月。加上您其他的月贷款，您一共是每月还贷<b id="debtall"></b>元。</p>
-    <p class="light">即使您可以通过其他途径借到首付资金，承担购买更大的房子，我们还是建议您月贷款比例应小于您家庭月收入的<b>50%</b>，或者说<b id="halfsalary"><%= (@userhousetarget.salary_account/24).to_i %></b>元。</p>
+    <p class="light" id="hmv-s2">您的购房月供是<b id="debthouse"></b>元。</p>
+    <p class="light">建议您月贷款比例应小于月收入的<b>50%</b></p>
   </div>
   <div class="spacer s15"></div>
   <h3 class="title">存款、首付、贷款总额</h3>
@@ -839,9 +843,12 @@
         </tr>
         </tbody></table>
     </div>
-    <p class="light">要购买<b id="fangjia">100</b>万的房子，基于以上假设和计算，您最终需要付出<b id="zong">132</b>万的资金。其中包括<b id="shoufu1">320000</b>元的首付款，<b id="benjin">500000</b>元的本金贷款，<b id="daikuan">500000</b>元的贷款利息。</p>
-    <p class="light">您的首付总金额将为<b id="shoufu">320000</b>元，其中包括<b id="shoufu2">300000</b>的房屋首付金额，和<b id="qita">20000</b>元的契税等其他费用。</p>
-    <p class="light">付清首付款后，您仍然将拥有<b id="chuxu">30000</b>元的储蓄，足够支付<b id="month">12</b>个月的月供金额，我们认为您至少应该拥有<b>3</b>个月的月供金额在手头上。</p>
+    <p class="light">购买<b id="fangjia">100</b>万的房子，您最终需要付出<b id="zong">132</b>万的资金:<br>（<b id="shoufu1">320000</b>元首付＋<b id="benjin">500000</b>元本金＋<b id="daikuan">500000</b>元贷款利息。）</p>
+    
+    <p class="light">首付总金额是<b id="shoufu">320000</b>元:<br>(<b id="shoufu2">300000</b>首付+<b id="qita">20000</b>元的契税等其他费用。)</p>
+
+    <p class="light">付清首付款后，您仍然将拥有<b id="chuxu">30000</b>元的储蓄。<br>
+      最好手头上有些余钱。</p>
   </div>
 </div>
 </td>
@@ -1025,6 +1032,9 @@
 
         ext_total();
 
+        debtguage.refresh(parseInt(parseInt($("#debthouse").html())*100*12/parseInt($("#salary_account").attr("value"))));
+
+
     }
 /*
     function updategjj-years(){
@@ -1169,6 +1179,9 @@
         $("#month_money_sy").html("￥"+parseInt(month_money1).toString())
         $("#debthouse").html(parseInt(month_money1).toString())
         $("#debthouse2").html("￥"+parseInt(month_money1).toString())
+
+        $("#otherexpense").html("￥"+(parseInt($("#salary_account").attr("value"))/12-parseInt(month_money1)).toString())
+
         $("#debtall").html(parseInt(month_money1).toString())
     }
 
