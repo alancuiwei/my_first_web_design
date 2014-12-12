@@ -88,6 +88,8 @@ class UsertargetsController < ApplicationController
 
       @userhousetarget=User_house_buying_target.find_by_username(session[:webusername])
       @gjjfee=(@userhousetarget.salary_account/24*0.45*12*20>300000?600000:@userhousetarget.salary_account/24*0.45*12*20*2).to_i
+      
+
       @downpayment=0
       if @userhousetarget!=nil
         if @user_asset_sheet!=nil && @userhousetarget.sell_house_account!=nil

@@ -126,6 +126,219 @@
             </div>
           </div>
 <!--
+           <div class="input-group active custom">
+            <label for="input-debtpayments-field">贷款年数</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">年</span>
+                <input class="span2e" value="" id="family_gjj_years" size="16" type="text" onkeyup="updategjj-years()">
+              </div>
+            </div>
+          </div>
+
+           <div class="input-group active custom">
+            <label for="input-debtpayments-field">贷款利息</label>
+            <div class="controls">
+              <div class="input-prepend">
+                <span class="add-on">％</span>
+                <input class="span2e" value="" id="family_gjj_rate" size="16" type="text" onkeyup="updategjj-rate()">
+              </div>
+            </div>
+          </div>    
+-->      
+           <div class="input-group active custom">
+            <label for="input-debtpayments-field">贷款年数</label>
+                        <select id="mortgage_years" onChange="ext_total()">
+                          <option value="1">1年（12期）</option>
+                          <option value="2">2年（24期）</option>
+                          <option value="3">3年（36期）</option>
+                          <option value="4">4年（48期）</option>
+                          <option value="5">5年（60期）</option>
+                          <option value="6">6年（72期）</option>
+                          <option value="7">7年（84期）</option>
+                          <option value="8">8年（96期）</option>
+                          <option value="9">9年（108期）</option>
+                          <option value="10">10年（120期）</option>
+                          <option value="11">11年（132期）</option>
+                          <option value="12">12年（144期）</option>
+                          <option value="13">13年（156期）</option>
+                          <option value="14">14年（168期）</option>
+                          <option value="15">15年（180期）</option>
+                          <option value="16">16年（192期）</option>
+                          <option value="17">17年（204期）</option>
+                          <option value="18">18年（216期）</option>
+                          <option value="19">19年（228期）</option>
+                          <option selected="" value="20">20年（240期）</option>
+                          <option value="25">25年（300期）</option>
+                          <option value="30">30年（360期）</option>
+                        </select>
+
+          </div>
+
+           <div class="input-group active custom">
+            <label for="input-debtpayments-field">贷款利率</label>
+                        <select id="mortgage_rate" onChange="ext_total()">
+                          <option value="65" selected="">最新基准利率</option>
+<!--
+                          <option value="69">2012年7月6日后利率下浮30%</option>
+                          <option value="68">2012年7月6日后利率下浮20%</option>
+                          <option value="67">2012年7月6日后利率下浮15%</option>
+                          <option value="66">2012年7月6日后利率上浮10%</option>
+                          <option value="64">2012年6月8日后利率下浮30%</option>
+                          <option value="63">2012年6月8日后利率下浮20%</option>
+                          <option value="62">2012年6月8日后利率下浮15%</option>
+                          <option value="61">2012年6月8日后利率上浮10%</option>
+                          <option value="60">2012年6月8日后基准利率</option>
+                          <option value="55">2011年7月7日后利率上浮10%</option>
+                          <option value="57">2011年7月7日后利率下浮15%</option>
+                          <option value="56">2011年7月7日后利率下浮30%</option>
+                          <option value="54">2011年7月7日后基准利率</option>
+                          <option value="51">2011年4月6日后利率上浮10%</option>
+                          <option value="52">2011年4月6日后利率下浮15%</option>
+                          <option value="53">2011年4月6日后利率下浮30%</option>
+                          <option value="50">2011年4月6日后基准利率</option>
+                          <option value="47">2011年2月9日后利率上浮10%</option>
+                          <option value="48">2011年2月9日后利率下浮15%</option>
+                          <option value="49">2011年2月9日后利率下浮30%</option>
+                          <option value="46">2011年2月9日后基准利率</option>
+                          <option value="43">2010年12月26日后利率上浮10%</option>
+                          <option value="44">2010年12月26日后利率下浮15%</option>
+                          <option value="45">2010年12月26日后利率下浮30%</option>
+                          <option value="42">2010年12月26日后基准利率</option>
+                          <option value="40">2010年10月20日后利率上浮10%</option>
+                          <option value="39">2010年10月20日后利率下浮15%</option>
+                          <option value="41">2010年10月20日后利率下浮30%</option>
+                          <option value="38">2010年10月20日后基准利率</option>
+                          <option value="37">08年12月23日后利率上浮10%</option>
+                          <option value="36">08年12月23日后利率下浮15%</option>
+                          <option value="35">08年12月23日后利率下浮30%</option>
+                          <option value="34">08年12月23日后基准利率</option>
+                          <option value="33">08年11月27日后利率下浮15%</option>
+                          <option value="32">08年11月27日后利率下浮30%</option>
+                          <option value="31">08年11月27日后基准利率</option>
+                          <option value="30">08年10月30日后利率下浮15%</option>
+                          <option value="29">08年10月30日后利率下浮30%</option>
+                          <option value="28">08年10月30日后基准利率</option>
+                          <option value="27">08年10月27日后利率下浮30%</option>
+                          <option value="26">08年10月27日后基准利率</option>
+                          <option value="25">08年10月9日后利率上浮10%</option>
+                          <option value="24">08年10月9日后利率下浮15%</option>
+                          <option value="23">08年10月9日后基准利率</option>
+                          <option value="22">08年9月16日后利率上浮10%</option>
+                          <option value="21">08年9月16日后利率下浮15%</option>
+                          <option value="20">08年9月16日后基准利率</option>
+                          <option value="19">07年12月21日后利率上浮10%</option>
+                          <option value="18">07年12月21日后利率下浮15%</option>
+                          <option value="17">07年12月21日后基准利率</option>
+                          <option value="16">07年9月15日后利率下限</option>
+                          <option value="15">07年9月15日后基准利率</option>
+                          <option value="14">07年8月22日后利率下限</option>
+                          <option value="13">07年8月22日后基准利率</option>
+                          <option value="12">07年7月21日后利率下限</option>
+                          <option value="11">07年7月21日后基准利率</option>
+                          <option value="10">07年5月19日后基准利率</option>
+                          <option value="9">07年5月19日后利率下限</option>
+                          <option value="8">07年3月18日后基准利率</option>
+                          <option value="7">07年3月18日后利率下限</option>
+                          <option value="6">06年8月19日后利率上限</option>
+                          <option value="5">06年4月28日后利率上限</option>
+                          <option value="4">05年3月17日后利率上限</option>
+                          <option value="3">05年3月17日后利率下限</option>
+                          <option value="2">05年1月1日-3月17日利率</option>
+                          <option value="1">05年1月1日前利率</option>
+-->                          
+                        </select>
+                        <br>
+                        <small>公积金贷款利率 4.25%</small>
+                        <br>
+                        <small>商业贷款 利率 6.15% </small>
+
+
+          </div>
+<!--
+                  <table width="100%" class="adv-s" border="0">
+                    <tbody>
+                  
+                    <tr>
+                      <td class="n">利率</td>
+                      <td>
+                        <select id="mortgage_rate" onChange="ext_total()">
+                          <option value="69">2012年7月6日后利率下浮30%</option>
+                          <option value="68">2012年7月6日后利率下浮20%</option>
+                          <option value="67">2012年7月6日后利率下浮15%</option>
+                          <option value="66">2012年7月6日后利率上浮10%</option>
+                          <option value="65" selected="">2012年7月6日后基准利率</option>
+                          <option value="64">2012年6月8日后利率下浮30%</option>
+                          <option value="63">2012年6月8日后利率下浮20%</option>
+                          <option value="62">2012年6月8日后利率下浮15%</option>
+                          <option value="61">2012年6月8日后利率上浮10%</option>
+                          <option value="60">2012年6月8日后基准利率</option>
+                          <option value="55">2011年7月7日后利率上浮10%</option>
+                          <option value="57">2011年7月7日后利率下浮15%</option>
+                          <option value="56">2011年7月7日后利率下浮30%</option>
+                          <option value="54">2011年7月7日后基准利率</option>
+                          <option value="51">2011年4月6日后利率上浮10%</option>
+                          <option value="52">2011年4月6日后利率下浮15%</option>
+                          <option value="53">2011年4月6日后利率下浮30%</option>
+                          <option value="50">2011年4月6日后基准利率</option>
+                          <option value="47">2011年2月9日后利率上浮10%</option>
+                          <option value="48">2011年2月9日后利率下浮15%</option>
+                          <option value="49">2011年2月9日后利率下浮30%</option>
+                          <option value="46">2011年2月9日后基准利率</option>
+                          <option value="43">2010年12月26日后利率上浮10%</option>
+                          <option value="44">2010年12月26日后利率下浮15%</option>
+                          <option value="45">2010年12月26日后利率下浮30%</option>
+                          <option value="42">2010年12月26日后基准利率</option>
+                          <option value="40">2010年10月20日后利率上浮10%</option>
+                          <option value="39">2010年10月20日后利率下浮15%</option>
+                          <option value="41">2010年10月20日后利率下浮30%</option>
+                          <option value="38">2010年10月20日后基准利率</option>
+                          <option value="37">08年12月23日后利率上浮10%</option>
+                          <option value="36">08年12月23日后利率下浮15%</option>
+                          <option value="35">08年12月23日后利率下浮30%</option>
+                          <option value="34">08年12月23日后基准利率</option>
+                          <option value="33">08年11月27日后利率下浮15%</option>
+                          <option value="32">08年11月27日后利率下浮30%</option>
+                          <option value="31">08年11月27日后基准利率</option>
+                          <option value="30">08年10月30日后利率下浮15%</option>
+                          <option value="29">08年10月30日后利率下浮30%</option>
+                          <option value="28">08年10月30日后基准利率</option>
+                          <option value="27">08年10月27日后利率下浮30%</option>
+                          <option value="26">08年10月27日后基准利率</option>
+                          <option value="25">08年10月9日后利率上浮10%</option>
+                          <option value="24">08年10月9日后利率下浮15%</option>
+                          <option value="23">08年10月9日后基准利率</option>
+                          <option value="22">08年9月16日后利率上浮10%</option>
+                          <option value="21">08年9月16日后利率下浮15%</option>
+                          <option value="20">08年9月16日后基准利率</option>
+                          <option value="19">07年12月21日后利率上浮10%</option>
+                          <option value="18">07年12月21日后利率下浮15%</option>
+                          <option value="17">07年12月21日后基准利率</option>
+                          <option value="16">07年9月15日后利率下限</option>
+                          <option value="15">07年9月15日后基准利率</option>
+                          <option value="14">07年8月22日后利率下限</option>
+                          <option value="13">07年8月22日后基准利率</option>
+                          <option value="12">07年7月21日后利率下限</option>
+                          <option value="11">07年7月21日后基准利率</option>
+                          <option value="10">07年5月19日后基准利率</option>
+                          <option value="9">07年5月19日后利率下限</option>
+                          <option value="8">07年3月18日后基准利率</option>
+                          <option value="7">07年3月18日后利率下限</option>
+                          <option value="6">06年8月19日后利率上限</option>
+                          <option value="5">06年4月28日后利率上限</option>
+                          <option value="4">05年3月17日后利率上限</option>
+                          <option value="3">05年3月17日后利率下限</option>
+                          <option value="2">05年1月1日-3月17日利率</option>
+                          <option value="1">05年1月1日前利率</option>
+                        </select>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                -->
+<!--                  <a href="javascript:void(0)" id="gjjxx">保存</a>  -->
+
+<!--
           <div class="last input-group active custom">
             <a class="btn btn-success" style="margin: 5px 0 5px 110px;" id="savehouse">保存</a>
           </div>
@@ -290,9 +503,10 @@
 
                   <br><br>
 
-                  
+<!--                  
                   <table width="100%" class="adv-s" border="0">
                     <tbody>
+                
                     <tr>
                       <td class="n">按揭年数</td>
                       <td>
@@ -322,6 +536,7 @@
                         </select>
                       </td>
                     </tr>
+                  
                     <tr>
                       <td class="n">利率</td>
                       <td>
@@ -399,7 +614,7 @@
                     </tbody>
                   </table>
                   <a href="javascript:void(0)" id="gjjxx">保存</a>
-                  
+-->                  
                 </td>
                 <td width="40%" class="totals">
                   <div class="spacer s5" style="margin-top: -10px;"></div>
@@ -806,8 +1021,23 @@
 
         $("#display-mv").html("￥"+gjj_account.toString())
 
+        $("#display-syfee").html("￥"+(parseInt(parseInt($("#display-hv").html().replace("￥","")))-gjj_account-parseInt($("#display-dp").html().replace("￥",""))).toString())
+
+        ext_total();
+
+    }
+/*
+    function updategjj-years(){
+      mortgage_years = 20;
+        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",mortgage_years: $("#family_gjj_years").attr("value")},function(data){
+        alert("test")
     }
 
+    function updategjj-rate(){
+        $.post("/usertargets/house_target_save",{ username:"<%= session[:webusername] %>",mortgage_rate: $("#family_gjj_rate").attr("value")},function(data){
+        });
+    }
+*/
     function updatedownpay(){
         var sell_house_account=$("#sell_house_account").attr("value")==""?0:$("#sell_house_account").attr("value")
         var family_saving_account=$("#family_saving_account").attr("value")==""?0:$("#family_saving_account").attr("value")
@@ -905,9 +1135,12 @@
         var years = parseInt($("#mortgage_years").attr("value"));
         var month = parseInt($("#mortgage_years").attr("value"))*12;
         //--公积金贷款
-        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),2,parseInt($("#mortgage_years").attr("value")));//得到利率
+//        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),2,parseInt($("#mortgage_years").attr("value")));//得到利率
+        var lilv = 0.0425
         //------------ 根据贷款总额计算
-        var daikuan_total = (parseInt($("#salary_account").attr("value"))*9)>600000?600000:parseInt($("#salary_account").attr("value"))*9;//贷款总额
+//        var daikuan_total = (parseInt($("#salary_account").attr("value"))*9)>600000?600000:parseInt($("#salary_account").attr("value"))*9;//贷款总额
+        var daikuan_total = parseInt(parseInt($("#display-mv").html().replace("￥","")))
+
         //2.本息还款
         //月均还款
         var month_money1 = getMonthMoney1(lilv,daikuan_total,month);//月均还款：
@@ -921,7 +1154,8 @@
         $("#month_money1").html("￥"+month_money1.toFixed(0).toString())
 
         //--  商业贷款
-        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),1,parseInt($("#mortgage_years").attr("value")));//得到利率
+//        var lilv = getlilv(parseInt($("#mortgage_rate").attr("value")),1,parseInt($("#mortgage_years").attr("value")));//得到利率
+        var lilv = 0.0615
         //------------ 根据贷款总额计算
         var daikuan_total = parseInt($("#display-syfee").html().replace("￥",""));//贷款总额
         //2.本息还款
