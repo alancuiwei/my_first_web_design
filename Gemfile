@@ -60,6 +60,8 @@ gem 'pdfkit'
 
 gem 'wkhtmltopdf-binary'
 
+gem 'actionpack-xml_parser'
+
 #gem 'bootstrap-will_paginate'
 
 # Use unicorn as the app server
