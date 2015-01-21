@@ -52,6 +52,9 @@ Ver01::Application.routes.draw do
   # just remember to delete public/index.html.erb.
    root :to => 'home#index'
 
+  get 'weixin' => 'weixins#show'
+  post 'weixin' => 'weixins#create'
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
@@ -61,7 +64,7 @@ Ver01::Application.routes.draw do
    get ':controller(/:action(/:id))(.:format)'
    post ':controller(/:action(/:id))(.:format)'
 
-   resource :weixin
+   resource :weixins
 #   match '*a', :to => 'errors#handle'
    get '*a', :to => 'errors#handle'
    post '*a', :to => 'errors#handle'
